@@ -1,5 +1,5 @@
 module.exports = {
-  extends: ['airbnb', '@mate-academy/eslint-config'],
+  extends: ['airbnb', '@mate-academy/eslint-config-react'],
   env: {
     commonjs: true,
     node: true,
