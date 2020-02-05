@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import './App.scss';
 import { MoviesList } from './components/MoviesList';
 import { NewMovie } from './components/NewMovie';
-import data from './data.json';
+import moviesFromServer from './api/movies.json';
 
 export class App extends Component {
   state = {
-    movies: data,
+    movies: moviesFromServer,
   };
 
   addMovie = (movie) => {
