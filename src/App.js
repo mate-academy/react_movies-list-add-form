@@ -10,7 +10,7 @@ export class App extends Component {
   };
 
   addMovie = (movie) => {
-    this.setState(({ movies }) => ({ movies: [...movies, movie] }));
+    // put your code here
   };
 
   render() {

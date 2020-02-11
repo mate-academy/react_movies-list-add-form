@@ -17,7 +17,7 @@
 1. (\*) Add validation
     - validate controls values on blur
     - `title`, `imgUrl`, `imdbUrl`, `imdbId` should be required
-    - `imgUrl`, `imdbUrl` - should be valid urls (can use this regex `/((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)/`)
+    - `imgUrl`, `imdbUrl` - should be valid urls (can use this regex `/^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/`)
     - invalid control should have red border and error message below
     - if form is invalid submit(and submit button) should be disabled
     - (\*\*) show control as invalid only if control has been touched
