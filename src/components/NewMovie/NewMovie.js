@@ -22,6 +22,14 @@ export class NewMovie extends Component {
       imdbUrl,
       imdbId: imdbId.trim(),
     });
+
+    this.setState({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
   }
 
   handleTitle = (event) => {
@@ -55,6 +63,14 @@ export class NewMovie extends Component {
   }
 
   render() {
+    const {
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    } = this.state;
+
     return (
       <form
         onSubmit={this.handleMovieSubmit}
@@ -68,6 +84,7 @@ export class NewMovie extends Component {
         </label>
         <input
           id="title"
+          value={title}
           onChange={this.handleTitle}
           className="movie-adder__input"
         />
@@ -79,6 +96,7 @@ export class NewMovie extends Component {
         </label>
         <textarea
           rows="10"
+          value={description}
           id="description"
           onChange={this.handleDescription}
           className="movie-adder__input movie-adder__textarea"
@@ -91,6 +109,7 @@ export class NewMovie extends Component {
         </label>
         <input
           id="imgUrl"
+          value={imgUrl}
           onChange={this.handleImgUrl}
           className="movie-adder__input"
         />
@@ -102,6 +121,7 @@ export class NewMovie extends Component {
         </label>
         <input
           id="imdbUrl"
+          value={imdbUrl}
           onChange={this.handleImdbUrl}
           className="movie-adder__input"
         />
@@ -113,6 +133,7 @@ export class NewMovie extends Component {
         </label>
         <input
           id="imdbId"
+          value={imdbId}
           onChange={this.handleImdbId}
           className="movie-adder__input"
         />
