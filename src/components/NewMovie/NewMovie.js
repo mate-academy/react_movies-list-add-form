@@ -31,6 +31,7 @@ export class NewMovie extends Component {
       imgUrl: '',
       imdbId: '',
       imdbUrl: '',
+      isEmpty: false,
     },
 
   };
@@ -63,6 +64,13 @@ export class NewMovie extends Component {
         imdbUrl: '',
         imdbId: '',
       });
+    } else {
+      this.setState(prevState => ({
+        formErrors: {
+          ...prevState.formErrors,
+          isEmpty: true,
+        },
+      }));
     }
   }
 
@@ -70,44 +78,50 @@ export class NewMovie extends Component {
     const { name } = e.target;
     const { formErrors } = this.state;
 
+    this.setState(prevState => ({
+      formErrors: {
+        ...prevState.formErrors,
+        isEmpty: false,
+      },
+    }));
+
     if (formErrors[name].length > 0) {
-      formErrors[name] = ';';
-      this.setState({
-        formErrors,
-      });
+      this.setState(prevState => ({
+        formErrors: {
+          ...prevState.formErrors,
+          [name]: '',
+        },
+      }));
     }
   }
 
   handleBlur = (e) => {
     const { value, name } = e.target;
-    const { formErrors } = this.state;
 
-    switch (name) {
-      case 'title':
-        formErrors.title
-          = value.length < 3 ? 'minimum 3 characaters required' : '';
-        break;
-      case 'imdbUrl':
-        formErrors.imdbUrl
-          = value.length < 3 ? 'minimum 3 characaters required' : '';
-        break;
-      case 'imdbId':
-        formErrors.imdbId
-          = value.length < 3 ? 'minimum 3 characaters required' : '';
-        break;
-      case 'imgUrl':
-        formErrors.imgUrl
-        /* eslint-disable-next-line */
-          = !value.match(/^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/)
-            ? 'not valid URL' : '';
-        break;
-      default:
-        break;
+    if (name === 'title'
+      || name === 'imdbUrl'
+      || name === 'imdbId') {
+      if (value.length < 3) {
+        this.setState(prevState => ({
+          formErrors: {
+            ...prevState.formErrors,
+            [name]: 'minimum 3 characaters required',
+          },
+        }));
+      }
     }
 
-    this.setState({
-      formErrors,
-    });
+    if (name === 'imgUrl') {
+      /* eslint-disable-next-line */
+      if (!value.match(/^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/)) {
+        this.setState(prevState => ({
+          formErrors: {
+            ...prevState.formErrors,
+            [name]: 'not valid URL',
+          },
+        }));
+      }
+    }
   }
 
   render() {
@@ -123,6 +137,8 @@ export class NewMovie extends Component {
         className="form"
         onSubmit={this.handleSubmit}
       >
+        {formErrors.isEmpty
+        && (<span className="errorText">Some required fields are empty</span>)}
         <label>
           Title:
           <input
