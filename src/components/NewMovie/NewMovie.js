@@ -13,33 +13,11 @@ export class NewMovie extends Component {
     invalidImdbUrl: false,
   }
 
-  addTitle = ({ target: { value } }) => {
-    this.setState({
-      title: value,
-    });
-  }
+  handleChange = ({ target }) => {
+    const { name, value } = target;
 
-  addDescription = ({ target: { value } }) => {
     this.setState({
-      description: value,
-    });
-  }
-
-  addImgUrl = ({ target: { value } }) => {
-    this.setState({
-      imgUrl: value,
-    });
-  }
-
-  addImdbUrl = ({ target: { value } }) => {
-    this.setState({
-      imdbUrl: value,
-    });
-  }
-
-  addImdbId = ({ target: { value } }) => {
-    this.setState({
-      imdbId: value,
+      [name]: value,
     });
   }
 
@@ -78,8 +56,8 @@ export class NewMovie extends Component {
         title,
         description,
         imgUrl,
-        imdbId,
         imdbUrl,
+        imdbId,
       });
 
       this.setState({
@@ -112,8 +90,9 @@ export class NewMovie extends Component {
           Title:
           <input
             type="text"
+            name="title"
             className="movie__title element"
-            onChange={this.addTitle}
+            onChange={this.handleChange}
             value={title}
             placeholder="Enter title"
             required
@@ -123,7 +102,8 @@ export class NewMovie extends Component {
           Description:
           <textarea
             className="movie__description element"
-            onChange={this.addDescription}
+            name="description"
+            onChange={this.handleChange}
             value={description}
             placeholder="Enter description"
           />
@@ -132,8 +112,9 @@ export class NewMovie extends Component {
           Image URL:
           <input
             type="text"
+            name="imgUrl"
             className={invalidImgUrl ? 'invalid-field element' : 'element'}
-            onChange={this.addImgUrl}
+            onChange={this.handleChange}
             value={imgUrl}
             placeholder="Enter poster link"
             required
@@ -147,8 +128,9 @@ export class NewMovie extends Component {
           IMDb URL:
           <input
             type="text"
+            name="imdbUrl"
             className={invalidImdbUrl ? 'invalid-field element' : 'element'}
-            onChange={this.addImdbUrl}
+            onChange={this.handleChange}
             value={imdbUrl}
             placeholder="Enter movie link on IMDBb"
             required
@@ -162,8 +144,9 @@ export class NewMovie extends Component {
           IMDb Id:
           <input
             type="text"
+            name="imdbId"
             className="movie__imdbId element"
-            onChange={this.addImdbId}
+            onChange={this.handleChange}
             value={imdbId}
             placeholder="Enter movie IMDbId"
             required
