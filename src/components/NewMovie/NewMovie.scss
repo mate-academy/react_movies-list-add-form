@@ -1,0 +1,71 @@
+.form {
+  position: relative;
+
+  &__input {
+    width: 80%;
+    height: 30px;
+    font-size: 14px;
+    margin-right: 7px;
+    padding: 2px;
+    border: 1px solid #3d4e61;
+    border-radius: 4px;
+  }
+
+  &__textarea {
+    width: 80%;
+    height: 70px;
+    font-size: 14px;
+    margin-right: 7px;
+    padding: 2px;
+    border: 1px solid #3d4e61;
+    border-radius: 4px;
+  }
+
+  &__label {
+    display: block;
+    margin-bottom: 25px;
+
+    &:nth-child(2)::after {
+      content: "";
+    }
+  }
+
+  &__not-valid &__input {
+    border: 1px solid red;
+  }
+
+  &__not-valid::after {
+    position: absolute;
+    content: "* field is required";
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    color: red;
+  }
+
+  &__url-not-valid::after {
+    position: absolute;
+    content: "URL not valid";
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    color: red;
+  }
+
+  &__button {
+    width: 100px;
+    height: 30px;
+    margin-top: 20px;
+    font-weight: 600;
+    font-size: 15px;
+    color: #fff;
+    background-color: #07613b;
+    border-radius: 8px;
+    cursor: pointer;
+    outline: none;
+
+    &:disabled {
+      opacity: 0.4;
+    }
+  }
+}
