@@ -24,6 +24,8 @@
 
   &__button {
     padding: 7px 30px;
+    margin-top: 15px;
+    outline: none;
     width: 100px;
     border: 1px solid rgb(201, 201, 201);
     border-radius: 10px;
@@ -37,4 +39,8 @@
     }
   }
 
+  &__error {
+    color: red;
+    margin-top: -15px;
+  }
 }

@@ -9,57 +9,55 @@ export class NewMovie extends Component {
     imgUrl: '',
     imdbUrl: '',
     imdbId: '',
+    error: false,
   };
 
-  addTitle = ({ target }) => {
-    this.setState({
-      title: target.value,
-    });
-  }
+  handleChange = ({ target }) => {
+    const { name, value } = target;
 
-  addDescription = ({ target }) => {
     this.setState({
-      description: target.value,
-    });
-  }
-
-  addImgUrl = ({ target }) => {
-    this.setState({
-      imgUrl: target.value,
-    });
-  }
-
-  addImdbUrl = ({ target }) => {
-    this.setState({
-      imdbUrl: target.value,
-    });
-  }
-
-  addImdbId = ({ target }) => {
-    this.setState({
-      imdbId: target.value,
+      [name]: value,
     });
   }
 
   handleSubmit = (event) => {
     event.preventDefault();
-    const { title, description, imgUrl, imdbUrl, imdbId } = this.state;
-
-    this.props.addMovie({
+    let isError = false;
+    const {
       title,
       description,
       imgUrl,
       imdbUrl,
       imdbId,
-    });
+    } = this.state;
 
-    this.setState({
-      title: '',
-      description: '',
-      imgUrl: '',
-      imdbUrl: '',
-      imdbId: '',
-    });
+    if (title.trim() === ''
+        || imgUrl.trim() === ''
+        || imdbUrl.trim() === ''
+        || imdbId.trim() === '') {
+      isError = true;
+      this.setState({
+        error: true,
+      });
+    }
+
+    if (!isError) {
+      this.props.addMovie({
+        title,
+        description,
+        imgUrl,
+        imdbUrl,
+        imdbId,
+      });
+      this.setState({
+        title: '',
+        description: '',
+        imgUrl: '',
+        imdbUrl: '',
+        imdbId: '',
+        error: false,
+      });
+    }
   }
 
   render() {
@@ -69,6 +67,7 @@ export class NewMovie extends Component {
       imgUrl,
       imdbUrl,
       imdbId,
+      error,
     } = this.state;
 
     return (
@@ -82,10 +81,14 @@ export class NewMovie extends Component {
         <input
           className="new-movie__input"
           id="title"
+          name="title"
           placeholder="Enter the movie title"
           value={title}
-          onChange={this.addTitle}
+          onChange={this.handleChange}
         />
+        {error
+          && title.trim() === ''
+          && <div className="new-movie__error">Enter title</div>}
         <label
           htmlFor="description"
           className="new-movie__caption"
@@ -96,9 +99,10 @@ export class NewMovie extends Component {
           className="new-movie__input new-movie__textarea"
           placeholder="Enter the movie description"
           id="description"
+          name="description"
           rows="8"
           value={description}
-          onChange={this.addDescription}
+          onChange={this.handleChange}
         />
         <label
           htmlFor="imgUrl"
@@ -108,11 +112,15 @@ export class NewMovie extends Component {
         </label>
         <input
           id="imgUrl"
+          name="imgUrl"
           placeholder="Enter the image URL"
           className="new-movie__input"
           value={imgUrl}
-          onChange={this.addImgUrl}
+          onChange={this.handleChange}
         />
+        {error
+          && imgUrl.trim() === ''
+          && <div className="new-movie__error">Enter the imgURL</div>}
         <label
           htmlFor="imdbUrl"
           className="new-movie__caption"
@@ -121,11 +129,15 @@ export class NewMovie extends Component {
         </label>
         <input
           id="imdbUrl"
+          name="imdbUrl"
           placeholder="Enter the imdb URL"
           className="new-movie__input"
           value={imdbUrl}
-          onChange={this.addImdbUrl}
+          onChange={this.handleChange}
         />
+        {error
+          && imdbUrl.trim() === ''
+          && <div className="new-movie__error">Enter the imdbUrl</div>}
         <label
           htmlFor="imdbId"
           className="new-movie__caption"
@@ -134,11 +146,15 @@ export class NewMovie extends Component {
         </label>
         <input
           id="imdbId"
+          name="imdbId"
           className="new-movie__input"
           placeholder="Enter the imdb ID"
           value={imdbId}
-          onChange={this.addImdbId}
+          onChange={this.handleChange}
         />
+        {error
+          && imdbId.trim() === ''
+          && <div className="new-movie__error">Enter the imdbId</div>}
         <button
           type="submit"
           className="new-movie__button"
