@@ -16,40 +16,41 @@ export class NewMovie extends Component {
   handleMovieSubmit = (event) => {
     event.preventDefault();
 
-    // eslint-disable-next-line max-len
-    const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
-
     const {
       title,
       description,
       imgUrl,
       imdbUrl,
       imdbId,
-      imgUrlError,
-      imdbUrlError,
     } = this.state;
 
+    // eslint-disable-next-line max-len
+    const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
+    let isValid = true;
+
     if (!pattern.test(imgUrl)) {
+      isValid = false;
+
       this.setState({
         imgUrlError: true,
       });
     }
 
     if (!pattern.test(imdbUrl)) {
+      isValid = false;
+
       this.setState({
         imdbUrlError: true,
       });
     }
 
-    if (!imdbUrlError && !imgUrlError) {
+    if (isValid) {
       this.props.addMovie({
         title,
         description,
         imgUrl,
         imdbUrl,
         imdbId,
-        imgUrlError,
-        imdbUrlError,
       });
 
       this.setState({
@@ -95,6 +96,7 @@ export class NewMovie extends Component {
           Movie title:
         </label>
         <input
+          required
           id="title"
           name="title"
           value={title}
@@ -119,9 +121,13 @@ export class NewMovie extends Component {
           htmlFor="imgUrl"
           className="movie-adder__label"
         >
-          Movie imgUrl:
+          {!imdbUrlError
+            ? 'Movie imgUrl:'
+            : 'Please, enter the correct imgUrl'
+          }
         </label>
         <input
+          required
           id="imgUrl"
           name="imgUrl"
           value={imgUrl}
@@ -135,9 +141,13 @@ export class NewMovie extends Component {
           htmlFor="imdbUrl"
           className="movie-adder__label"
         >
-          Movie imdbUrl:
+          {!imdbUrlError
+            ? 'Movie imdbUrl:'
+            : 'Please, enter the correct imdbUrl'
+          }
         </label>
         <input
+          required
           id="imdbUrl"
           name="imdbUrl"
           value={imdbUrl}
@@ -154,6 +164,7 @@ export class NewMovie extends Component {
           Movie imdbId:
         </label>
         <input
+          required
           id="imdbId"
           name="imdbId"
           value={imdbId}
