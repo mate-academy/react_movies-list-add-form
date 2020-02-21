@@ -26,7 +26,7 @@ export class App extends Component {
           <MoviesList movies={movies} />
         </div>
         <div className="sidebar">
-          <h3 className="new-movie__title">Add new movie</h3>
+          <h3 style={{ textAlign: 'center' }}>Add new movie</h3>
           <NewMovie addMovie={this.addMovie} />
         </div>
       </div>
