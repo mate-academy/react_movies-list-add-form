@@ -10,7 +10,11 @@ export class App extends Component {
   };
 
   addMovie = (movie) => {
-    // put your code here
+    this.setState((prevState) => {
+      return {
+        movies: [...prevState.movies, movie],
+      };
+    });
   };
 
   render() {
@@ -22,7 +26,8 @@ export class App extends Component {
           <MoviesList movies={movies} />
         </div>
         <div className="sidebar">
-          <NewMovie />
+          <h3 className="new-movie__title">Add new movie</h3>
+          <NewMovie addMovie={this.addMovie} />
         </div>
       </div>
     );
