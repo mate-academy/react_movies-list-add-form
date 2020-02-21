@@ -41,9 +41,10 @@ export class NewMovie extends Component {
 
   handleChange = (e, name) => {
     const { value } = e.target;
+    const { newMovie } = this.state;
 
     const movie = {
-      ...this.state.newMovie,
+      ...newMovie,
       [name]: value,
     };
 
@@ -59,8 +60,9 @@ export class NewMovie extends Component {
   handleValidation = (name) => {
     // eslint-disable-next-line max-len
     const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
+    const { newMovie } = this.state;
 
-    if (this.state.newMovie[name] === '') {
+    if (newMovie[name] === '') {
       this.setState(prev => ({
         errorMassage: {
           ...prev.errorMassage,
@@ -69,7 +71,7 @@ export class NewMovie extends Component {
       }));
     }
 
-    if (!pattern.test(this.state.newMovie.imgUrl)) {
+    if (!pattern.test(newMovie.imgUrl)) {
       this.setState(prev => ({
         errorMassage: {
           ...prev.errorMassage,
@@ -78,7 +80,7 @@ export class NewMovie extends Component {
       }));
     }
 
-    if (!pattern.test(this.state.newMovie.imdbUrl)) {
+    if (!pattern.test(newMovie.imdbUrl)) {
       this.setState(prev => ({
         errorMassage: {
           ...prev.errorMassage,
@@ -100,15 +102,21 @@ export class NewMovie extends Component {
     });
   };
 
-  render() {
+  handleSubmit = (event) => {
+    event.preventDefault();
     const { onAdd } = this.props;
-    const { newMovie, errorMassage } = this.state;
+    const { newMovie } = this.state;
+
+    onAdd(newMovie);
+    this.reset();
+  }
+
+  render() {
+    const { errorMassage, newMovie } = this.state;
 
     return (
       <form
-        onSubmit={(e,
-          movie,
-          func) => onAdd(e, newMovie, this.reset)}
+        onSubmit={this.handleSubmit}
       >
         {inputs.map(item => (
           <div key={item.id} className="form-group">
@@ -120,20 +128,18 @@ export class NewMovie extends Component {
             </label>
             <input
               onBlur={name => this.handleValidation(item.label)}
-              onChange={(e, name) => this.handleChange(e, item.label)}
+              onChange={(event, name) => this.handleChange(event, item.label)}
               name={item.label}
               type="text"
               className="form-control"
               id={item.label}
-              value={this.state.newMovie[item.label]}
+              value={newMovie[item.label]}
             />
-            {errorMassage[item.label]
-            && (
+            {errorMassage[item.label] && (
               <span className="badge badge-pill badge-danger">
-              not valid value
+                  not valid value
               </span>
-            )
-            }
+            )}
           </div>
         ))
         }

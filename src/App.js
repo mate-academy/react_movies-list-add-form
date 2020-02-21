@@ -9,15 +9,13 @@ export class App extends Component {
     movies: moviesFromServer,
   };
 
-  addMovie = (e, movie, func) => {
-    e.preventDefault();
+  addMovie = (movie) => {
     this.setState(prev => ({
       movies: [
         ...prev.movies,
         movie,
       ],
     }));
-    func();
   };
 
   render() {
@@ -30,7 +28,7 @@ export class App extends Component {
         </div>
         <div className="sidebar">
           <h2 className="subtitle">Add movie form</h2>
-          <NewMovie onAdd={(e, movie, func) => this.addMovie(e, movie, func)} />
+          <NewMovie onAdd={movie => this.addMovie(movie)} />
         </div>
       </div>
     );
