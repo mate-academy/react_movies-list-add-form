@@ -14,51 +14,26 @@ export class NewMovie extends Component {
     isErrorImdbUrl: false,
   };
 
-  titleHandler = ({ target }) => {
-    const { value } = target;
+  changeHandler = ({ target }) => {
+    const { name, value } = target;
 
     this.setState({
-      title: value,
-    });
-  };
-
-  textareaHandler = ({ target }) => {
-    const { value } = target;
-
-    this.setState({
-      description: value,
-    });
-  };
-
-  imageUrlHandler = ({ target }) => {
-    const { value } = target;
-
-    this.setState({
-      imgUrl: value,
+      [name]: value,
       isErrorImgUrl: false,
-    });
-  };
-
-  imdbUrlHandler = ({ target }) => {
-    const { value } = target;
-
-    this.setState({
-      imdbUrl: value,
       isErrorImdbUrl: false,
     });
-  };
-
-  imdbIdHandler = ({ target }) => {
-    const { value } = target;
-
-    this.setState({
-      imdbId: value,
-    });
-  };
+  }
 
   submitHandler = (e) => {
     e.preventDefault();
-    const { title, description, imgUrl, imdbUrl, imdbId } = this.state;
+    const {
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    } = this.state;
+
     // eslint-disable-next-line max-len
     const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
     let isError = false;
@@ -116,7 +91,8 @@ export class NewMovie extends Component {
           <label htmlFor="title">
             Title:
             <input
-              onChange={this.titleHandler}
+              name="title"
+              onChange={this.changeHandler}
               value={title}
               className="form__input"
               id="title"
@@ -128,7 +104,8 @@ export class NewMovie extends Component {
           <label htmlFor="description">
             Description:
             <textarea
-              onChange={this.textareaHandler}
+              name="description"
+              onChange={this.changeHandler}
               value={description}
               rows="5"
               cols="40"
@@ -141,7 +118,8 @@ export class NewMovie extends Component {
           <label htmlFor="imgUrl">
             Image Url:
             <input
-              onChange={this.imageUrlHandler}
+              name="imgUrl"
+              onChange={this.changeHandler}
               value={imgUrl}
               className="form__input form__input--url"
               id="imgUrl"
@@ -159,7 +137,8 @@ export class NewMovie extends Component {
           <label htmlFor="imdbUrl">
             IMDB Url:
             <input
-              onChange={this.imdbUrlHandler}
+              name="imdbUrl"
+              onChange={this.changeHandler}
               value={imdbUrl}
               className="form__input form__input--url"
               id="imdbUrl"
@@ -177,7 +156,8 @@ export class NewMovie extends Component {
           <label htmlFor="imdbId">
             IMDB Id:
             <input
-              onChange={this.imdbIdHandler}
+              name="imdbId"
+              onChange={this.changeHandler}
               value={imdbId}
               className="form__input"
               id="imdbId"
