@@ -1,0 +1,65 @@
+.element {
+  width: 100%;
+  height: 35px;
+  margin-bottom: 20px;
+  padding-left: 10px;
+  border-radius: 6px;
+  outline: none;
+  border: 1px solid grey;
+  cursor: pointer;
+
+  &:hover {
+    box-shadow: 0 0 5px rgba(54,90,189,0.85);
+  }
+
+  &:focus {
+    border: 1.5px solid #007dc0;
+  }
+}
+
+.movie__description {
+  height: 120px;
+  padding-top: 5px;
+}
+
+.movie__button {
+  display: block;
+  width: 130px;
+  height: 40px;
+  margin: auto;
+  border-radius: 6px;
+  outline: none;
+  border: none;
+  color: black;
+  text-transform: uppercase;
+  font-weight: bold;
+  background-color: #e4b622;
+  transition: background-color 1s linear;
+
+  &:hover {
+    background: #B68E00;
+    box-shadow: 0 0 5px rgba(54,90,189,0.9);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+label {
+  font-weight: 500;
+  padding-left: 5px;
+  cursor: pointer;
+  position: relative;
+}
+
+.invalid-field {
+  border: 1.5px solid #ce0037;
+}
+
+.invalid-message {
+  color: #ce0037;
+  position: absolute;
+  right: 10px;
+  top: 25px;
+}
