@@ -17,7 +17,7 @@ export class NewMovie extends Component {
     const { name, value } = target;
 
     this.setState({
-      [name]: value,
+      [name]: value.replace(/^\s/, ''),
     });
   }
 
