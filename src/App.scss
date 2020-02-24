@@ -27,10 +27,11 @@
 .input {
   margin: 10px 0;
 }
-.errorText {
-  color: red;
-}
 
 .error {
   border: red solid 1px;
+
+  &__text {
+    color: red;
+  }
 }

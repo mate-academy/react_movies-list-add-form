@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import cx from 'classnames';
 
-const formValid = ({ formErrors, ...rest }) => {
+const validateForm = ({ formErrors, ...rest }) => {
   let valid = true;
 
   Object.values(formErrors).forEach((val) => {
@@ -46,9 +47,15 @@ export class NewMovie extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    const { title, description, imgUrl, imdbUrl, imdbId } = this.state;
+    const {
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    } = this.state;
 
-    if (formValid(this.state)) {
+    if (validateForm(this.state)) {
       this.props.addMovie({
         title,
         description,
@@ -125,24 +132,49 @@ export class NewMovie extends Component {
   }
 
   render() {
-    const { title,
+    const {
+      title,
       description,
       imgUrl,
       imdbUrl,
       imdbId,
-      formErrors } = this.state;
+      formErrors,
+    } = this.state;
+
+    const errorTitle = cx({
+      input: true,
+      error: formErrors.title,
+    });
+
+    const errorImdbId = cx({
+      input: true,
+      error: formErrors.imdbId,
+    });
+
+    const errorImdbUrl = cx({
+      input: true,
+      error: formErrors.imdbUrl,
+    });
+
+    const errorImgUrl = cx({
+      input: true,
+      error: formErrors.imgUrl,
+    });
 
     return (
       <form
         className="form"
         onSubmit={this.handleSubmit}
       >
-        {formErrors.isEmpty
-        && (<span className="errorText">Some required fields are empty</span>)}
+        {formErrors.isEmpty && (
+          <span className="error__text">
+            Some required fields are not valid
+          </span>
+        )}
         <label>
           Title:
           <input
-            className={formErrors.title.length > 0 ? 'input error' : 'input'}
+            className={errorTitle}
             type="text"
             name="title"
             value={title}
@@ -151,7 +183,7 @@ export class NewMovie extends Component {
             onFocus={this.handleFocus}
           />
           {formErrors.title.length > 0 && (
-            <span className="errorText">{formErrors.title}</span>
+            <span className="error__text">{formErrors.title}</span>
           )}
         </label>
         <label>
@@ -167,7 +199,7 @@ export class NewMovie extends Component {
         <label>
           Image URL:
           <input
-            className={formErrors.imgUrl.length > 0 ? 'input error' : 'input'}
+            className={errorImgUrl}
             type="text"
             name="imgUrl"
             value={imgUrl}
@@ -176,13 +208,13 @@ export class NewMovie extends Component {
             onFocus={this.handleFocus}
           />
           {formErrors.imgUrl.length > 0 && (
-            <span className="errorText">{formErrors.imgUrl}</span>
+            <span className="error__text">{formErrors.imgUrl}</span>
           )}
         </label>
         <label>
           Imdb URL:
           <input
-            className={formErrors.imdbUrl.length > 0 ? 'input error' : 'input'}
+            className={errorImdbUrl}
             type="text"
             name="imdbUrl"
             value={imdbUrl}
@@ -191,13 +223,13 @@ export class NewMovie extends Component {
             onFocus={this.handleFocus}
           />
           {formErrors.imdbUrl.length > 0 && (
-            <span className="errorText">{formErrors.imdbUrl}</span>
+            <span className="error__text">{formErrors.imdbUrl}</span>
           )}
         </label>
         <label>
           Imdb Id:
           <input
-            className={formErrors.imdbId.length > 0 ? 'input error' : 'input'}
+            className={errorImdbId}
             type="text"
             name="imdbId"
             value={imdbId}
@@ -206,7 +238,7 @@ export class NewMovie extends Component {
             onFocus={this.handleFocus}
           />
           {formErrors.imdbId.length > 0 && (
-            <span className="errorText">{formErrors.imdbId}</span>
+            <span className="error__text">{formErrors.imdbId}</span>
           )}
         </label>
         <button className="button" type="submit">Add Movie</button>
