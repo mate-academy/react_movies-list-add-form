@@ -36,9 +36,6 @@ export class NewMovie extends Component {
         || imdbUrl.trim() === ''
         || imdbId.trim() === '') {
       isError = true;
-      this.setState({
-        error: true,
-      });
     }
 
     if (!isError) {
@@ -49,15 +46,19 @@ export class NewMovie extends Component {
         imdbUrl,
         imdbId,
       });
-      this.setState({
-        title: '',
-        description: '',
-        imgUrl: '',
-        imdbUrl: '',
-        imdbId: '',
-        error: false,
-      });
     }
+
+    this.setState({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+      error: (title.trim() === ''
+      || imgUrl.trim() === ''
+      || imdbUrl.trim() === ''
+      || imdbId.trim() === ''),
+    });
   }
 
   render() {
