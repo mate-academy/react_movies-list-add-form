@@ -1,0 +1,40 @@
+.form {
+  margin: 20px auto;
+  text-align: center;
+
+  &__item {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+  }
+
+  &__input {
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid lightgray;
+  }
+
+  &__error {
+    position: absolute;
+    top: 50px;
+    opacity: 0;
+    &--visible {
+      color: red;
+      opacity: 1;
+    }
+  }
+
+  &__button {
+    // background-color: lightgrey;
+    border: 1px solid grey;
+    border-radius: 5px;
+    padding: 10px;
+    transition: background-color 0.5s ease-in-out;
+    cursor: pointer;
+
+    &:hover {
+      background-color: lightgrey;
+    }
+  }
+}
