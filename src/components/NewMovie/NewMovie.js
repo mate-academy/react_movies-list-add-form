@@ -12,14 +12,13 @@ export class NewMovie extends Component {
   };
 
   handleUserInput = (evt) => {
-    const { name } = evt.target;
-    const { value } = evt.target;
+    const { name, value } = evt.target;
 
     this.setState({ [name]: value });
   };
 
-  handleFormSubmit = (evt) => {
-    evt.preventDefault();
+  handleFormSubmit = (event) => {
+    event.preventDefault();
 
     const { onMovieAdded } = this.props;
 
