@@ -68,13 +68,15 @@ export class NewMovie extends Component {
   }
 
   render() {
-    const { title,
+    const {
+      title,
       description,
       imgUrl,
       imdbUrl,
       imdbId,
       isInvalidImgUrl,
-      isInvalidImdbUrl } = this.state;
+      isInvalidImdbUrl,
+    } = this.state;
 
     return (
       <form onSubmit={this.handleSubmit}>
