@@ -4,7 +4,7 @@ import cx from 'classnames';
 import './NewMovie.scss';
 
 function isValid(obj) {
-  return Object.values(obj).every(value => value === true);
+  return Object.values(obj).every(value => value);
 }
 
 export class NewMovie extends Component {
@@ -49,19 +49,21 @@ export class NewMovie extends Component {
     // eslint-disable-next-line max-len
     const patternUrl = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/g;
 
-    if (name === 'title' || name === 'imdbId') {
-      this.setState(prevState => ({
-        error: {
-          ...prevState.error,
-          [nameError]: !patternString.test(value),
-        },
-        validation: {
-          ...prevState.validation,
-          [nameValidation]: true,
-        },
-      }));
-    } else {
-      this.setState(prevState => ({
+    this.setState((prevState) => {
+      if (name === 'title' || name === 'imdbId') {
+        return {
+          error: {
+            ...prevState.error,
+            [nameError]: !patternString.test(value),
+          },
+          validation: {
+            ...prevState.validation,
+            [nameValidation]: true,
+          },
+        };
+      }
+
+      return {
         error: {
           ...prevState.error,
           [nameError]: Boolean(patternUrl.test(value)),
@@ -70,8 +72,8 @@ export class NewMovie extends Component {
           ...prevState.validation,
           [nameValidation]: true,
         },
-      }));
-    }
+      };
+    });
   };
 
   handleSubmit = (event) => {
@@ -102,7 +104,7 @@ export class NewMovie extends Component {
       imdbUrl,
       imdbId,
     } = this.state;
-    const valid = { ...this.state.validation };
+    const valid = this.state.validation;
     const error = { ...this.state.error };
 
     return (
