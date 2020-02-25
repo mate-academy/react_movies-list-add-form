@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import cx from 'classnames';
+import * as cx from 'classnames';
 
 const validateForm = ({ formErrors, ...rest }) => {
   let valid = true;
@@ -15,6 +15,8 @@ const validateForm = ({ formErrors, ...rest }) => {
 
   return valid;
 };
+/* eslint-disable-next-line */
+const patternUrl = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
 
 export class NewMovie extends Component {
   static propTypes = {
@@ -53,9 +55,12 @@ export class NewMovie extends Component {
       imgUrl,
       imdbUrl,
       imdbId,
+      formErrors,
     } = this.state;
 
-    if (validateForm(this.state)) {
+    if (validateForm({
+      formErrors, title, imgUrl, imdbId, imdbUrl,
+    })) {
       this.props.addMovie({
         title,
         description,
@@ -72,6 +77,42 @@ export class NewMovie extends Component {
         imdbId: '',
       });
     } else {
+      if (title.length < 3) {
+        this.setState(prevState => ({
+          formErrors: {
+            ...prevState.formErrors,
+            title: 'minimum 3 characaters required',
+          },
+        }));
+      }
+
+      if (imdbUrl.length < 3) {
+        this.setState(prevState => ({
+          formErrors: {
+            ...prevState.formErrors,
+            imdbUrl: 'minimum 3 characaters required',
+          },
+        }));
+      }
+
+      if (imdbId.length < 3) {
+        this.setState(prevState => ({
+          formErrors: {
+            ...prevState.formErrors,
+            imdbId: 'minimum 3 characaters required',
+          },
+        }));
+      }
+
+      if (!imgUrl.match(patternUrl)) {
+        this.setState(prevState => ({
+          formErrors: {
+            ...prevState.formErrors,
+            imgUrl: 'not valid Url',
+          },
+        }));
+      }
+
       this.setState(prevState => ({
         formErrors: {
           ...prevState.formErrors,
@@ -119,8 +160,7 @@ export class NewMovie extends Component {
     }
 
     if (name === 'imgUrl') {
-      /* eslint-disable-next-line */
-      if (!value.match(/^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/)) {
+      if (!value.match(patternUrl)) {
         this.setState(prevState => ({
           formErrors: {
             ...prevState.formErrors,
@@ -141,26 +181,6 @@ export class NewMovie extends Component {
       formErrors,
     } = this.state;
 
-    const errorTitle = cx({
-      input: true,
-      error: formErrors.title,
-    });
-
-    const errorImdbId = cx({
-      input: true,
-      error: formErrors.imdbId,
-    });
-
-    const errorImdbUrl = cx({
-      input: true,
-      error: formErrors.imdbUrl,
-    });
-
-    const errorImgUrl = cx({
-      input: true,
-      error: formErrors.imgUrl,
-    });
-
     return (
       <form
         className="form"
@@ -174,7 +194,7 @@ export class NewMovie extends Component {
         <label>
           Title:
           <input
-            className={errorTitle}
+            className={cx('input', { error: formErrors.title })}
             type="text"
             name="title"
             value={title}
@@ -199,7 +219,7 @@ export class NewMovie extends Component {
         <label>
           Image URL:
           <input
-            className={errorImgUrl}
+            className={cx('input', { error: formErrors.imgUrl })}
             type="text"
             name="imgUrl"
             value={imgUrl}
@@ -214,7 +234,7 @@ export class NewMovie extends Component {
         <label>
           Imdb URL:
           <input
-            className={errorImdbUrl}
+            className={cx('input', { error: formErrors.imdbUrl })}
             type="text"
             name="imdbUrl"
             value={imdbUrl}
@@ -229,7 +249,7 @@ export class NewMovie extends Component {
         <label>
           Imdb Id:
           <input
-            className={errorImdbId}
+            className={cx('input', { error: formErrors.imdbId })}
             type="text"
             name="imdbId"
             value={imdbId}
