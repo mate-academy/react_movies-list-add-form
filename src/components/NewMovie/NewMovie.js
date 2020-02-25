@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import './NewMovie.scss';
-import { Inputs } from './Inputs';
-import { inputsFromServer } from './inputArray';
+import { TextField } from '../TextField/TextField';
+import { UrlRegExp } from '../Constants/UrlRegExp';
+import { InputsFromServer } from './InputsFromServer';
 
 export class NewMovie extends Component {
   state = {
@@ -11,14 +11,66 @@ export class NewMovie extends Component {
     imgUrl: '',
     imdbUrl: '',
     imdbId: '',
+    titleError: '',
+    imgUrlError: '',
+    imdbUrlError: '',
   };
 
   handleChange = (event) => {
-    const { name, value } = event.target;
+    const { target: { name, value } } = event;
 
     this.setState({
-      [name]: value,
+      [name]: value.trimStart(),
+      titleError: '',
+      imgUrlError: '',
+      imdbUrlError: '',
     });
+  }
+
+  handleSubmit = (event) => {
+    event.preventDefault();
+
+    const {
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    } = this.state;
+
+    if (title === '') {
+      this.setState({
+        titleError: 'Title is required',
+      });
+
+      return;
+    }
+
+    if (!UrlRegExp.test(imgUrl)) {
+      this.setState({
+        imgUrlError: 'Enter valid imgUrl',
+      });
+
+      return;
+    }
+
+    if (!UrlRegExp.test(imdbUrl)) {
+      this.setState({
+        imdbUrlError: 'Enter valid imdbgUrl',
+      });
+
+      return;
+    }
+
+    this.props.onAdd({
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    });
+
+    this.resetState();
   }
 
   resetState = () => {
@@ -28,31 +80,82 @@ export class NewMovie extends Component {
       imgUrl: '',
       imdbUrl: '',
       imdbId: '',
+      titleError: '',
+      imgUrlError: '',
+      imdbUrlError: '',
     });
   }
 
-  handleSubmit = (event) => {
-    event.preventDefault();
-    this.props.addMovie(this.state);
-    this.resetState();
-  };
+  checkOnBlur = ({ target: { name } }) => {
+    if (name === 'title') {
+      if (this.state.title === '') {
+        this.setState({
+          titleError: 'enter valid title',
+        });
+      }
+    }
+
+    if (name === 'imgUrl') {
+      if (!UrlRegExp.test(this.state.imgUrl)) {
+        this.setState({
+          imgUrlError: 'Enter valid imgUrl',
+        });
+      }
+    }
+
+    if (name === 'imdbUrl') {
+      if (!UrlRegExp.test(this.state.imdbUrl)) {
+        this.setState({
+          imdbUrlError: 'Enter valid imdbUrl',
+        });
+      }
+    }
+  }
+
+  checkAllValidation = () => {
+    const {
+      title,
+      imgUrl,
+      imdbUrl,
+    } = this.state;
+
+    if (title !== ''
+      && UrlRegExp.test(imgUrl)
+      && UrlRegExp.test(imdbUrl)) {
+      return false;
+    }
+
+    return true;
+  }
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
+      <form name="newMovie" onSubmit={this.handleSubmit}>
+        {InputsFromServer.map(input => (
+          <TextField
+            key={input.name}
+            onBlur={this.checkOnBlur}
+            name={input.name}
+            label={input.label}
+            placeholder={input.placeholder}
+            value={this.state[input.name]}
+            onChange={this.handleChange}
+            error={this.state[input.error]}
+          />
+        ))}
 
-        <Inputs
-          inputsFromServer={inputsFromServer}
-          handleChange={this.handleChange}
-          state={this.state}
-        />
-
-        <button type="submit">Submit</button>
+        <button
+          type="submit"
+          className="button is-link"
+          disabled={this.checkAllValidation()}
+        >
+          Add movie
+        </button>
       </form>
     );
   }
 }
 
 NewMovie.propTypes = {
-  addMovie: PropTypes.func.isRequired,
+  onAdd: PropTypes.func.isRequired,
 };

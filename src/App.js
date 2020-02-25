@@ -9,25 +9,27 @@ export class App extends Component {
     movies: moviesFromServer,
   };
 
-  addMovie = (movie) => {
-    this.setState(prevState => ({
-      movies: [
-        ...prevState.movies,
-        movie,
-      ],
-    }));
+  addMovie = (newMovie) => {
+    this.setState(({ movies }) => {
+      return {
+        movies: [...movies, newMovie],
+      };
+    });
   };
 
   render() {
-    const { movies } = this.state;
+    const {
+      movies,
+    } = this.state;
 
     return (
       <div className="page">
         <div className="page-content">
           <MoviesList movies={movies} />
         </div>
+
         <div className="sidebar">
-          <NewMovie addMovie={this.addMovie} />
+          <NewMovie onAdd={this.addMovie} />
         </div>
       </div>
     );
