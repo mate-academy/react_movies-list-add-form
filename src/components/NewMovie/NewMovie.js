@@ -3,12 +3,18 @@ import PropTypes from 'prop-types';
 
 import './NewMovie.scss';
 
+const pattern = new RegExp(`^((([A-Za-z]{3,9}:(?:\\/\\/)?)(?:[-;:&=+$,\\w]+@)?`
+    + `[A-Za-z0-9.-]+|(?:www\\.|[-;:&=+$,\\w]+@)[A-Za-z0-9.-]+)((?:\\/`
+    + `[+~%/.\\w-_]*)?\\??(?:[-+=&;%@.\\w_]*)#?(?:[.!/\\\\\\w]*))?)$`, 'gim');
+
 export class NewMovie extends Component {
   state = {
-    isTitleValid: false,
-    isImgUrlValid: false,
-    isImdbUrlValid: false,
-    isImdbIdValid: false,
+    validation: {
+      isTitleValid: false,
+      isImgUrlValid: false,
+      isImdbUrlValid: false,
+      isImdbIdValid: false,
+    },
     title: '',
     description: '',
     imgUrl: '',
@@ -16,21 +22,15 @@ export class NewMovie extends Component {
     imdbId: '',
   };
 
-  focused = {
-    isTitleFocused: false,
-    isImgUrlFocused: false,
-    isImdbUrlFocused: false,
-    isImdbIdFocused: false,
-  }
-
-  pattern2 = new RegExp(`^((([A-Za-z]{3,9}:(?:\\/\\/)?)(?:[-;:&=+$,\\w]+@)?`
-    + `[A-Za-z0-9.-]+|(?:www\\.|[-;:&=+$,\\w]+@)[A-Za-z0-9.-]+)((?:\\/`
-    + `[+~%/.\\w-_]*)?\\??(?:[-+=&;%@.\\w_]*)#?(?:[.!/\\\\\\w]*))?)$`, 'gim');
-
   onSubmit = (event) => {
-    const { title, description, imgUrl, imdbUrl, imdbId } = this.state;
-
     event.preventDefault();
+
+    const { title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId } = this.state;
+
     this.props.onAdd({
       title: title.trim(),
       description: description.trim(),
@@ -39,18 +39,13 @@ export class NewMovie extends Component {
       imdbId: imdbId.trim(),
     });
 
-    this.focused = {
-      isTitleFocused: false,
-      isImgUrlFocused: false,
-      isImdbUrlFocused: false,
-      isImdbIdFocused: false,
-    };
-
     this.setState({
-      isTitleValid: false,
-      isImgUrlValid: false,
-      isImdbUrlValid: false,
-      isImdbIdValid: false,
+      validation: {
+        isTitleValid: false,
+        isImgUrlValid: false,
+        isImdbUrlValid: false,
+        isImdbIdValid: false,
+      },
       title: '',
       description: '',
       imgUrl: '',
@@ -62,10 +57,12 @@ export class NewMovie extends Component {
   titleChange = (event) => {
     const { value } = event.target;
 
-    this.setState({
+    this.setState(prevState => ({
       title: value,
-      isTitleValid: value.trim(),
-    });
+      validation: {
+        ...prevState.validation, isTitleValid: value.trim(),
+      },
+    }));
   }
 
   descriptionChange = (event) => {
@@ -77,34 +74,43 @@ export class NewMovie extends Component {
   imgUrlChange= (event) => {
     const { value } = event.target;
 
-    this.setState({
+    this.setState(prevState => ({
       imgUrl: value,
-      isImgUrlValid: value.trim().match(this.pattern2),
-    });
+      validation: {
+        ...prevState.validation,
+        isImgUrlValid: value.trim().match(pattern),
+      },
+    }));
   }
 
   imdbUrlChange= (event) => {
     const { value } = event.target;
 
-    this.setState({
+    this.setState(prevState => ({
       imdbUrl: value,
-      isImdbUrlValid: value.trim().match(this.pattern2),
-    });
+      validation: {
+        ...prevState.validation,
+        isImdbUrlValid: value.trim().match(pattern),
+      },
+    }));
   }
 
   imdbIdChange= (event) => {
     const { value } = event.target;
 
-    this.setState({
+    this.setState(prevState => ({
       imdbId: value,
-      isImdbIdValid: value.trim(),
-    });
+      validation: {
+        ...prevState.validation,
+        isImdbIdValid: value.trim(),
+      },
+    }));
   }
 
   onBlurHandlerTitle = (event) => {
     const { target, currentTarget } = event;
 
-    if (this.state.isTitleValid) {
+    if (this.state.validation.isTitleValid) {
       target.classList.remove('error-border');
       currentTarget.classList.remove('error');
     } else {
@@ -116,7 +122,7 @@ export class NewMovie extends Component {
   onBlurHandlerImgUrl = (event) => {
     const { target, currentTarget } = event;
 
-    if (this.state.isImgUrlValid) {
+    if (this.state.validation.isImgUrlValid) {
       target.classList.remove('error-border');
       currentTarget.classList.remove('error');
     } else {
@@ -128,7 +134,7 @@ export class NewMovie extends Component {
   onBlurHandlerImdbUrl = (event) => {
     const { target, currentTarget } = event;
 
-    if (this.state.isImdbUrlValid) {
+    if (this.state.validation.isImdbUrlValid) {
       target.classList.remove('error-border');
       currentTarget.classList.remove('error');
     } else {
@@ -140,7 +146,7 @@ export class NewMovie extends Component {
   onBlurHandlerImdbId = (event) => {
     const { target, currentTarget } = event;
 
-    if (this.state.isImdbIdValid) {
+    if (this.state.validation.isImdbIdValid) {
       target.classList.remove('error-border');
       currentTarget.classList.remove('error');
     } else {
@@ -150,7 +156,11 @@ export class NewMovie extends Component {
   }
 
   render() {
-    const { title, description, imgUrl, imdbUrl, imdbId } = this.state;
+    const { title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId } = this.state;
 
     return (
       <form onSubmit={this.onSubmit}>
@@ -163,7 +173,6 @@ export class NewMovie extends Component {
               value={title}
               size="40"
               onChange={this.titleChange}
-              onFocus={(this.focused.isTitleFocused = true)}
             />
           </label>
         </div>
@@ -188,7 +197,6 @@ export class NewMovie extends Component {
               cols="40"
               onChange={this.imgUrlChange}
               value={imgUrl}
-              onFocus={(this.focused.isImgUrlFocused = true)}
             />
           </label>
         </div>
@@ -201,7 +209,6 @@ export class NewMovie extends Component {
               cols="40"
               onChange={this.imdbUrlChange}
               value={imdbUrl}
-              onFocus={(this.focused.isImdbUrlFocused = true)}
             />
           </label>
         </div>
@@ -214,16 +221,15 @@ export class NewMovie extends Component {
               value={imdbId}
               size="40"
               onChange={this.imdbIdChange}
-              onFocus={(this.focused.isImdbIdFocused = true)}
             />
           </label>
         </div>
         <button
           type="submit"
-          disabled={!(this.state.isTitleValid
-            && this.state.isImgUrlValid
-            && this.state.isImdbUrlValid
-            && this.state.isImdbIdValid)}
+          disabled={!(this.state.validation.isTitleValid
+            && this.state.validation.isImgUrlValid
+            && this.state.validation.isImdbUrlValid
+            && this.state.validation.isImdbIdValid)}
         >
           Add new movie
         </button>
