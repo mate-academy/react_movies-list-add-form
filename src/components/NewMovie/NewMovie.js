@@ -143,7 +143,9 @@ export class NewMovie extends Component {
           onChange={this.handleChange}
           type="text"
           id="movie-imgUrl"
-          className="form__input"
+          className={
+            `form__input ${validImgUrl ? 'form__input-red' : ''}`
+          }
           value={imgUrl}
           name="imgUrl"
           placeholder="Type imgUrl"
@@ -163,7 +165,9 @@ export class NewMovie extends Component {
           onBlur={this.onblur}
           type="text"
           id="movie-title"
-          className="form__input"
+          className={
+            `form__input ${validImdbUrl ? 'form__input-red' : ''}`
+          }
           value={imdbUrl}
           name="imdbUrl"
           placeholder="Type imdbUrl"
