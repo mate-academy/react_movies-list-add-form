@@ -1,0 +1,53 @@
+.movie-adder {
+  text-align: center;
+
+  &__input {
+    margin-bottom: 20px;
+    padding: 10px 20px;
+    width: 100%;
+
+    border-radius: 20px;
+    border: 1px solid #ccc;
+
+    cursor: pointer;
+    transition: border 0.3s;
+
+    &:focus,
+    &:hover {
+      background-color: rgb(245, 250, 250);
+    }
+
+    &::placeholder {
+      color: transparent;
+    }
+
+    &--error {
+      border: 1px solid rgba(255, 0, 0, 0.5);
+      box-shadow: 0 0 10px 0 rgba(255, 0, 0, 0.5);
+    }
+  }
+
+  &__label {
+    float: left;
+    margin-bottom: 10px;
+  }
+
+  &__textarea {
+    resize: none;
+    padding: 20px;
+  }
+
+  &__submit {
+    padding: 10px 30px;
+
+    background-color: transparent;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    transition: background-color 0.3s;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #ccc;
+    }
+  }
+}
