@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './NewMovie.scss';
 import PropTypes from 'prop-types';
+import { NewField } from '../NewField';
 
 export class NewMovie extends Component {
   state = {
@@ -9,14 +10,12 @@ export class NewMovie extends Component {
     imgUrl: '',
     imdbUrl: '',
     imdbId: '',
-    titleClassName: 'input is-primary is-small',
-    imgUrlClassName: 'input is-primary is-small',
-    imdbUrlClassName: 'input is-primary is-small',
-    imdbIdClassName: 'input is-primary is-small',
-    isTitle: false,
-    isImgUrl: false,
-    isImdbUrl: false,
-    isImdbId: false,
+    isValid: {
+      title: false,
+      imgUrl: false,
+      imdbUrl: false,
+      imdbId: false,
+    },
   };
 
   handleSubmit = (event) => {
@@ -31,88 +30,61 @@ export class NewMovie extends Component {
     // eslint-disable-next-line max-len
     const pattern = new RegExp(`^((([A-Za-z]{3,9}:(?:\\/\\/)?)(?:[-;:&=+$,\\w]+@)?[A-Za-z0-9.-]+|(?:www\\.|[-;:&=+$,\\w]+@)[A-Za-z0-9.-]+)((?:\\/[+~%/.\\w-_]*)?\\??(?:[-+=&;%@.\\w_]*)#?(?:[.!/\\\\\\w]*))?)$`);
 
-    if (!(title === ''
-      || imgUrl === '' || imdbUrl === ''
-      || imdbId === '')) {
+    if (
+      !(title === ''
+      || (imgUrl === '' || !pattern.test(imgUrl))
+        || (imdbUrl === '' || !pattern.test(imdbUrl))
+      || imdbId === '')
+    ) {
       addMovie(movie);
       this.clearInputs();
     }
 
-    if (title === '') {
-      this.setState({
-        titleClassName: 'input is-primary is-small is-danger',
-        isTitle: true,
-      });
-    }
+    this.setState((prevState) => {
+      const obj = {
+        title: false,
+        imgUrl: false,
+        imdbUrl: false,
+        imdbId: false,
+      };
 
-    if (imgUrl === '' || !pattern.test(imgUrl)) {
-      this.setState({
-        imgUrlClassName: 'input is-primary is-small is-danger',
-        isImgUrl: true,
-      });
-    }
+      if (title === '') {
+        obj.title = true;
+      }
 
-    if (imdbUrl === '' || !pattern.test(imdbUrl)) {
-      this.setState({
-        imdbUrlClassName: 'input is-primary is-small is-danger',
-        isImdbUrl: true,
-      });
-    }
+      if (imgUrl === '' || !pattern.test(imgUrl)) {
+        obj.imgUrl = true;
+      }
 
-    if (imdbId === '') {
-      this.setState({
-        imdbIdClassName: 'input is-primary is-small is-danger',
-        isImdbId: true,
-      });
-    }
-  };
+      if (imdbUrl === '' || !pattern.test(imdbUrl)) {
+        obj.imdbUrl = true;
+      }
 
-  handleTitleInput = ({ target }) => {
-    const { name, value } = target;
+      if (imdbId === '') {
+        obj.imdbId = true;
+      }
 
-    this.setState({
-      [name]: value,
-      titleClassName: 'input is-primary is-small',
-      isTitle: false,
+      return {
+        isValid: {
+          title: obj.title,
+          imgUrl: obj.imgUrl,
+          imdbUrl: obj.imdbUrl,
+          imdbId: obj.imdbId,
+        },
+      };
     });
   };
 
-  handleDescriptionInput = ({ target }) => {
+  handleInput = ({ target }) => {
     const { name, value } = target;
 
-    this.setState({
+    this.setState(prevState => ({
       [name]: value,
-    });
-  };
-
-  handleImgUrlInput = ({ target }) => {
-    const { name, value } = target;
-
-    this.setState({
-      [name]: value,
-      imgUrlClassName: 'input is-primary is-small',
-      isImgUrl: false,
-    });
-  };
-
-  handleImdbUrlInput = ({ target }) => {
-    const { name, value } = target;
-
-    this.setState({
-      [name]: value,
-      imdbUrlClassName: 'input is-primary is-small',
-      isImdbUrl: false,
-    });
-  };
-
-  handleImdbId = ({ target }) => {
-    const { name, value } = target;
-
-    this.setState({
-      [name]: value,
-      imdbIdClassName: 'input is-primary is-small',
-      isImdbId: false,
-    });
+      isValid: {
+        ...prevState.isValid,
+        [name]: false,
+      },
+    }));
   };
 
   clearInputs = () => {
@@ -132,79 +104,45 @@ export class NewMovie extends Component {
       imgUrl,
       imdbUrl,
       imdbId,
-      titleClassName,
-      imgUrlClassName,
-      imdbUrlClassName,
-      imdbIdClassName,
-      isTitle,
-      isImgUrl,
-      isImdbUrl,
-      isImdbId,
+      isValid,
     } = this.state;
 
     return (
       <form onSubmit={this.handleSubmit}>
-        <label htmlFor="title">Name Film:</label>
-        { isTitle
-          ? <p className="text-error">Enter title!</p>
-          : <p className="text-error"> </p>}
-        <input
+        <NewField
           name="title"
-          id="title"
           value={title}
-          className={titleClassName}
-          type="text"
-          onChange={this.handleTitleInput}
+          onChange={this.handleInput}
+          isValid={isValid.title}
         />
 
-        <label htmlFor="description">Description:</label>
-        <input
+        <NewField
           name="description"
-          id="description"
           value={description}
-          className="input is-primary is-small description"
-          type="textarea"
-          onChange={this.handleDescriptionInput}
+          onChange={this.handleInput}
         />
-        <label htmlFor="imgUrl">imgUrl:</label>
-        { isImgUrl
-          ? <p className="text-error">Invalid value!</p>
-          : <p className="text-error"> </p>}
-        <input
+
+        <NewField
           name="imgUrl"
-          id="imgUrl"
           value={imgUrl}
-          className={imgUrlClassName}
-          type="text"
-          onChange={this.handleImgUrlInput}
-
+          onChange={this.handleInput}
+          isValid={isValid.imgUrl}
         />
-        <label htmlFor="imdbUrl">imdbUrl:</label>
-        { isImdbUrl
-          ? <p className="text-error">Invalid value!</p>
-          : <p className="text-error"> </p>}
-        <input
+
+        <NewField
           name="imdbUrl"
-          id="imdbUrl"
           value={imdbUrl}
-          className={imdbUrlClassName}
-          type="text"
-          onChange={this.handleImdbUrlInput}
-
+          onChange={this.handleInput}
+          isValid={isValid.imdbUrl}
         />
-        <label htmlFor="imdbId">imdbId:</label>
-        { isImdbId
-          ? <p className="text-error">Enter imdbId</p>
-          : <p className="text-error"> </p>}
-        <input
+
+        <NewField
           name="imdbId"
-          id="imdbId"
           value={imdbId}
-          className={imdbIdClassName}
-          type="text"
-          onChange={this.handleImdbId}
-
+          onChange={this.handleInput}
+          isValid={isValid.imdbId}
         />
+
         <button type="submit" className="button is-primary">Add</button>
       </form>
     );
