@@ -12,8 +12,10 @@ export class NewMovie extends Component {
   };
 
   handleChange = (event) => {
+    const { target: { name, value } } = event;
+
     this.setState({
-      [event.target.name]: event.target.value.trim(),
+      [name]: value.trim(),
     });
   }
 
