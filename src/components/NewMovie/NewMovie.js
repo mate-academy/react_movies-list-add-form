@@ -9,8 +9,10 @@ export class NewMovie extends Component {
     imgUrl: '',
     imdbUrl: '',
     imdbId: '',
+    isInvalidTitle: false,
     isInvalidImgUrl: false,
     isInvalidImdbUrl: false,
+    isInvalidImdbId: false,
   };
 
   handleChange = ({ target }) => {
@@ -18,8 +20,10 @@ export class NewMovie extends Component {
 
     this.setState({
       [name]: value,
+      isInvalidTitle: false,
       isInvalidImgUrl: false,
       isInvalidImdbUrl: false,
+      isInvalidImdbId: false,
     });
   }
 
@@ -38,15 +42,31 @@ export class NewMovie extends Component {
     const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
     let newMovie = {};
 
-    if (!pattern.test(imgUrl)) {
-      this.setState({
-        isInvalidImgUrl: true,
-      });
-    } else if (!pattern.test(imdbUrl)) {
-      this.setState({
-        isInvalidImdbUrl: true,
-      });
-    } else {
+    this.setState((prevState) => {
+      if (!prevState.title.trim()) {
+        return {
+          isInvalidTitle: true,
+        };
+      }
+
+      if (!pattern.test(prevState.imgUrl)) {
+        return {
+          isInvalidImgUrl: true,
+        };
+      }
+
+      if (!pattern.test(prevState.imdbUrl)) {
+        return {
+          isInvalidImdbUrl: true,
+        };
+      }
+
+      if (!prevState.imdbId.trim()) {
+        return {
+          isInvalidImdbId: true,
+        };
+      }
+
       newMovie = {
         title,
         description,
@@ -57,14 +77,14 @@ export class NewMovie extends Component {
 
       this.props.onAdd(newMovie);
 
-      this.setState({
+      return {
         title: '',
         description: '',
         imgUrl: '',
         imdbUrl: '',
         imdbId: '',
-      });
-    }
+      };
+    });
   }
 
   render() {
@@ -74,8 +94,10 @@ export class NewMovie extends Component {
       imgUrl,
       imdbUrl,
       imdbId,
+      isInvalidTitle,
       isInvalidImgUrl,
       isInvalidImdbUrl,
+      isInvalidImdbId,
     } = this.state;
 
     return (
@@ -92,8 +114,13 @@ export class NewMovie extends Component {
           id="title"
           name="title"
           value={title}
-          required
         />
+        {isInvalidTitle
+          && (
+            <p className="newmovie__error-url">
+              Please, enter a valid title
+            </p>
+          )}
         <label
           className="newmovie__label"
           htmlFor="description"
@@ -119,7 +146,6 @@ export class NewMovie extends Component {
           id="imgUrl"
           name="imgUrl"
           value={imgUrl}
-          required
         />
         {isInvalidImgUrl
           && (
@@ -139,7 +165,6 @@ export class NewMovie extends Component {
           id="imdbUrl"
           name="imdbUrl"
           value={imdbUrl}
-          required
         />
         {isInvalidImdbUrl
           && (
@@ -159,8 +184,13 @@ export class NewMovie extends Component {
           id="imdbId"
           name="imdbId"
           value={imdbId}
-          required
         />
+        {isInvalidImdbId
+          && (
+            <p className="newmovie__error-url">
+              Please, enter a valid ID
+            </p>
+          )}
         <button
           className="button newmovie__button"
           type="submit"
