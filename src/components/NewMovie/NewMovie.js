@@ -195,13 +195,7 @@ export class NewMovie extends Component {
             />
           </label>
         </div>
-        <button
-          type="submit"
-          /*          disabled={!(this.state.validation.titleIsValid
-            && this.state.validation.imgUrlIsValid
-            && this.state.validation.imdbUrlIsValid
-            && this.state.validation.imdbIdIsValid)} */
-        >
+        <button type="submit">
           Add new movie
         </button>
       </form>
