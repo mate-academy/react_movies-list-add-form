@@ -1,6 +1,6 @@
 .form {
   &__heading {
-    margin-bottom: 10px;
+    margin-bottom: 20px;
   }
   &__title,
   &__description,
@@ -8,11 +8,15 @@
   &__imdbUrl,
   &__imdbId {
     display: block;
-    margin-bottom: 20px;
+    margin-top: 20px;
   }
 
   &__description {
     width: 50%;
     height: 100px;
+  }
+
+  &__button {
+    margin-top: 20px;
   }
 }

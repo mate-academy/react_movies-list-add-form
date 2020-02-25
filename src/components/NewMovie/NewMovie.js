@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './NewMovie.scss';
 import PropTypes from 'prop-types';
+import { TextField } from '../TextField/TextField';
 
 export class NewMovie extends Component {
   state = {
@@ -9,6 +10,11 @@ export class NewMovie extends Component {
     imgUrl: '',
     imdbUrl: '',
     imdbId: '',
+    titleError: '',
+    descriptionError: '',
+    imgUrlError: '',
+    imdbUrlError: '',
+    imdbIdError: '',
   };
 
   handleInputChange = ({ target }) => {
@@ -22,7 +28,53 @@ export class NewMovie extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
 
-    const { title, description, imgUrl, imdbUrl, imdbId } = this.state;
+    const {
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    } = this.state;
+
+    if (title.trim() === '') {
+      this.setState({
+        titleError: 'Title is required',
+      });
+
+      return;
+    }
+
+    if (description.trim() === '') {
+      this.setState({
+        descriptionError: 'Description is required',
+      });
+
+      return;
+    }
+
+    if (imgUrl.trim() === '') {
+      this.setState({
+        imgUrlError: 'imgUrl is required',
+      });
+
+      return;
+    }
+
+    if (imdbUrl.trim() === '') {
+      this.setState({
+        imdbUrlError: 'imdbUrl is required',
+      });
+
+      return;
+    }
+
+    if (imdbId.trim() === '') {
+      this.setState({
+        imdbIdError: 'imdbId is required',
+      });
+
+      return;
+    }
 
     this.props.addMovie({
       title, description, imgUrl, imdbUrl, imdbId,
@@ -34,6 +86,11 @@ export class NewMovie extends Component {
       imgUrl: '',
       imdbUrl: '',
       imdbId: '',
+      titleError: '',
+      descriptionError: '',
+      imgUrlError: '',
+      imdbUrlError: '',
+      imdbIdError: '',
     });
   }
 
@@ -44,6 +101,11 @@ export class NewMovie extends Component {
       imgUrl,
       imdbUrl,
       imdbId,
+      titleError,
+      descriptionError,
+      imgUrlError,
+      imdbUrlError,
+      imdbIdError,
     } = this.state;
 
     return (
@@ -52,42 +114,52 @@ export class NewMovie extends Component {
         onSubmit={this.handleSubmit}
       >
         <h1 className="form__heading">Add your movie</h1>
-        <input
-          className="form__title"
+        <TextField
           name="title"
+          label="Movie title"
+          placeholder="Add new movie title"
           value={title}
-          placeholder="add movie title"
           onChange={this.handleInputChange}
+          error={titleError}
         />
-        <textarea
-          className="form__description"
+        <TextField
           name="description"
+          label="Movie description"
+          placeholder="Add new movie description"
           value={description}
-          placeholder="add movie description"
           onChange={this.handleInputChange}
+          error={descriptionError}
         />
-        <input
-          className="form__imgUrl"
+        <TextField
           name="imgUrl"
+          label="Movie imgUrl"
+          placeholder="Add new movie imgUrl"
           value={imgUrl}
-          placeholder="add movie imgUrl"
           onChange={this.handleInputChange}
+          error={imgUrlError}
         />
-        <input
-          className="form__imdbUrl"
+        <TextField
           name="imdbUrl"
+          label="Movie imdbUrl"
+          placeholder="Add new movie imdbUrl"
           value={imdbUrl}
-          placeholder="add movie imdbUrl"
           onChange={this.handleInputChange}
+          error={imdbUrlError}
         />
-        <input
-          className="form__imdbId"
+        <TextField
           name="imdbId"
+          label="Movie imdbId"
+          placeholder="Add new movie imdbId"
           value={imdbId}
-          placeholder="add movie imdbId"
           onChange={this.handleInputChange}
+          error={imdbIdError}
         />
-        <button type="submit">Add movie</button>
+        <button
+          type="submit"
+          className="button is-link"
+        >
+          Add movie
+        </button>
       </form>
     );
   }
