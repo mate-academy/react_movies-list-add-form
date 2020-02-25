@@ -1,0 +1,20 @@
+.newmovie {
+
+  &__label {
+    font-size: 18px;
+    margin-left: 10px;
+  }
+
+  &__input {
+    margin: 4px 4px 25px;
+  }
+
+  &__button {
+    float: right;
+  }
+
+  &__error-url {
+    color: red;
+    margin: -25px 5px 0;
+  }
+}
