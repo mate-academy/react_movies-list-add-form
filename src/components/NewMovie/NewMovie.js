@@ -9,8 +9,7 @@ export class NewMovie extends Component {
     imgUrl: '',
     imdbUrl: '',
     imdbId: '',
-    imgUrlError: false,
-    imdbUrlError: false,
+    error: false,
   };
 
   handleMovieSubmit = (event) => {
@@ -26,25 +25,16 @@ export class NewMovie extends Component {
 
     // eslint-disable-next-line max-len
     const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
-    let isValid = true;
 
-    if (!pattern.test(imgUrl)) {
-      isValid = false;
-
+    if (!pattern.test(imgUrl) || !pattern.test(imdbUrl)) {
       this.setState({
-        imgUrlError: true,
+        error: true,
       });
+
+      return;
     }
 
-    if (!pattern.test(imdbUrl)) {
-      isValid = false;
-
-      this.setState({
-        imdbUrlError: true,
-      });
-    }
-
-    if (isValid) {
+    if (!this.isValid) {
       this.props.addMovie({
         title,
         description,
@@ -59,8 +49,7 @@ export class NewMovie extends Component {
         imgUrl: '',
         imdbUrl: '',
         imdbId: '',
-        imgUrlError: false,
-        imdbUrlError: false,
+        error: false,
       });
     }
   }
@@ -80,8 +69,7 @@ export class NewMovie extends Component {
       imgUrl,
       imdbUrl,
       imdbId,
-      imgUrlError,
-      imdbUrlError,
+      error,
     } = this.state;
 
     return (
@@ -121,7 +109,7 @@ export class NewMovie extends Component {
           htmlFor="imgUrl"
           className="movie-adder__label"
         >
-          {!imdbUrlError
+          {!error
             ? 'Movie imgUrl:'
             : 'Please, enter the correct imgUrl'
           }
@@ -132,7 +120,7 @@ export class NewMovie extends Component {
           name="imgUrl"
           value={imgUrl}
           onChange={this.handleChange}
-          className={imgUrlError
+          className={error
             ? 'movie-adder__input movie-adder__input--error'
             : 'movie-adder__input'
           }
@@ -141,7 +129,7 @@ export class NewMovie extends Component {
           htmlFor="imdbUrl"
           className="movie-adder__label"
         >
-          {!imdbUrlError
+          {!error
             ? 'Movie imdbUrl:'
             : 'Please, enter the correct imdbUrl'
           }
@@ -152,7 +140,7 @@ export class NewMovie extends Component {
           name="imdbUrl"
           value={imdbUrl}
           onChange={this.handleChange}
-          className={imdbUrlError
+          className={error
             ? 'movie-adder__input movie-adder__input--error'
             : 'movie-adder__input'
           }
