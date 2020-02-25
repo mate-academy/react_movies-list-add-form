@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import './NewMovie.scss';
 import { Inputs } from './Inputs';
-import { inputArray } from './inputArray';
+import { inputsFromServer } from './inputArray';
 
 export class NewMovie extends Component {
   state = {
@@ -48,18 +48,14 @@ export class NewMovie extends Component {
     this.resetState();
   };
 
-  getState = (key) => {
-    return this.state[key];
-  }
-
   render() {
     return (
       <form onSubmit={this.handleSubmit}>
 
         <Inputs
-          inputs={inputArray}
+          inputsFromServer={inputsFromServer}
           handleChange={this.handleChange}
-          getState={this.getState}
+          state={this.state}
         />
 
         <button type="submit">Submit</button>

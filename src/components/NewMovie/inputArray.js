@@ -1,4 +1,4 @@
-export const inputArray = [
+export const inputsFromServer = [
   {
     title: 'title', stateKey: 'title', id: 1, type: 'text',
   },

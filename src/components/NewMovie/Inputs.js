@@ -1,16 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export const Inputs = ({ inputs, handleChange, getState }) => (
+export const Inputs = ({ inputsFromServer, handleChange, state }) => (
   <>
-    {inputs.map((item) => {
+    {inputsFromServer.map((item) => {
       switch (item.type) {
         case 'text':
           return (
             <input
               key={item.id}
               onChange={handleChange}
-              value={getState(item.stateKey)}
+              value={state[item.stateKey]}
               name={item.title}
               placeholder={item.title}
               type={item.type}
@@ -22,7 +22,7 @@ export const Inputs = ({ inputs, handleChange, getState }) => (
             <textarea
               key={item.id}
               onChange={handleChange}
-              value={getState(item.stateKey)}
+              value={state[item.stateKey]}
               name={item.title}
               placeholder={item.title}
               type={item.type}
@@ -37,9 +37,15 @@ export const Inputs = ({ inputs, handleChange, getState }) => (
 );
 
 Inputs.propTypes = {
-  getState: PropTypes.func.isRequired,
+  state: PropTypes.shape({
+    title: PropTypes.string,
+    description: PropTypes.string,
+    imgUrl: PropTypes.string,
+    imdbUrl: PropTypes.string,
+    imdbId: PropTypes.string,
+  }).isRequired,
   handleChange: PropTypes.func.isRequired,
-  inputs: PropTypes.arrayOf(PropTypes.shape({
+  inputsFromServer: PropTypes.arrayOf(PropTypes.shape({
     title: PropTypes.string,
     state: PropTypes.shape,
     id: PropTypes.number,
