@@ -30,16 +30,6 @@ export class NewMovie extends Component {
     // eslint-disable-next-line max-len
     const pattern = new RegExp(`^((([A-Za-z]{3,9}:(?:\\/\\/)?)(?:[-;:&=+$,\\w]+@)?[A-Za-z0-9.-]+|(?:www\\.|[-;:&=+$,\\w]+@)[A-Za-z0-9.-]+)((?:\\/[+~%/.\\w-_]*)?\\??(?:[-+=&;%@.\\w_]*)#?(?:[.!/\\\\\\w]*))?)$`);
 
-    if (
-      !(title === ''
-      || (imgUrl === '' || !pattern.test(imgUrl))
-        || (imdbUrl === '' || !pattern.test(imdbUrl))
-      || imdbId === '')
-    ) {
-      addMovie(movie);
-      this.clearInputs();
-    }
-
     this.setState((prevState) => {
       const obj = {
         title: false,
@@ -73,13 +63,23 @@ export class NewMovie extends Component {
         },
       };
     });
+
+    if (
+      !(title === ''
+        || (imgUrl === '' || !pattern.test(imgUrl))
+        || (imdbUrl === '' || !pattern.test(imdbUrl))
+        || imdbId === '')
+    ) {
+      addMovie(movie);
+      this.clearInputs();
+    }
   };
 
   handleInput = ({ target }) => {
     const { name, value } = target;
 
     this.setState(prevState => ({
-      [name]: value,
+      [name]: value.replace(/\s/g, ''),
       isValid: {
         ...prevState.isValid,
         [name]: false,
