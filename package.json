@@ -1,6 +1,6 @@
 {
   "name": "react_movies-list-add-form",
-  "homepage": ".",
+  "homepage": "https://arimazz.github.io/react_movies-list-add-form/",
   "version": "0.1.0",
   "private": true,
   "keywords": [],
@@ -12,7 +12,7 @@
     "prop-types": "^15.7.2",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
-    "react-scripts": "3.3.0"
+    "react-scripts": "^3.4.0"
   },
   "devDependencies": {
     "@mate-academy/eslint-config-react": "*",
