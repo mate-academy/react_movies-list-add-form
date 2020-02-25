@@ -10,10 +10,10 @@ const pattern = new RegExp(`^((([A-Za-z]{3,9}:(?:\\/\\/)?)(?:[-;:&=+$,\\w]+@)?`
 export class NewMovie extends Component {
   state = {
     validation: {
-      isTitleValid: false,
-      isImgUrlValid: false,
-      isImdbUrlValid: false,
-      isImdbIdValid: false,
+      titleIsValid: true,
+      imgUrlIsValid: true,
+      imdbUrlIsValid: true,
+      imdbIdIsValid: true,
     },
     title: '',
     description: '',
@@ -25,11 +25,21 @@ export class NewMovie extends Component {
   onSubmit = (event) => {
     event.preventDefault();
 
-    const { title,
+    if (!this.state.title.trim()
+      || !this.state.imdbId.trim()
+      || !this.state.imgUrl.trim().match(pattern)
+      || !this.state.imdbUrl.trim().match(pattern)
+    ) {
+      return;
+    }
+
+    const {
+      title,
       description,
       imgUrl,
       imdbUrl,
-      imdbId } = this.state;
+      imdbId,
+    } = this.state;
 
     this.props.onAdd({
       title: title.trim(),
@@ -41,10 +51,10 @@ export class NewMovie extends Component {
 
     this.setState({
       validation: {
-        isTitleValid: false,
-        isImgUrlValid: false,
-        isImdbUrlValid: false,
-        isImdbIdValid: false,
+        titleIsValid: true,
+        imgUrlIsValid: true,
+        imdbUrlIsValid: true,
+        imdbIdIsValid: true,
       },
       title: '',
       description: '',
@@ -54,105 +64,32 @@ export class NewMovie extends Component {
     });
   }
 
-  titleChange = (event) => {
-    const { value } = event.target;
+  inputChange = (event) => {
+    const { value, name } = event.target;
 
-    this.setState(prevState => ({
-      title: value,
-      validation: {
-        ...prevState.validation, isTitleValid: value.trim(),
-      },
-    }));
+    this.setState({ [name]: value });
   }
 
-  descriptionChange = (event) => {
-    this.setState({
-      description: event.target.value,
-    });
-  }
-
-  imgUrlChange= (event) => {
-    const { value } = event.target;
+  inputBlur = (event) => {
+    const { name } = event.target;
 
     this.setState(prevState => ({
-      imgUrl: value,
       validation: {
         ...prevState.validation,
-        isImgUrlValid: value.trim().match(pattern),
+        [`${name}IsValid`]: prevState[name].trim(),
       },
     }));
   }
 
-  imdbUrlChange= (event) => {
-    const { value } = event.target;
+  inputFilteredBlur = (event) => {
+    const { name } = event.target;
 
     this.setState(prevState => ({
-      imdbUrl: value,
       validation: {
         ...prevState.validation,
-        isImdbUrlValid: value.trim().match(pattern),
+        [`${name}IsValid`]: prevState[name].trim().match(pattern),
       },
     }));
-  }
-
-  imdbIdChange= (event) => {
-    const { value } = event.target;
-
-    this.setState(prevState => ({
-      imdbId: value,
-      validation: {
-        ...prevState.validation,
-        isImdbIdValid: value.trim(),
-      },
-    }));
-  }
-
-  onBlurHandlerTitle = (event) => {
-    const { target, currentTarget } = event;
-
-    if (this.state.validation.isTitleValid) {
-      target.classList.remove('error-border');
-      currentTarget.classList.remove('error');
-    } else {
-      target.classList.add('error-border');
-      currentTarget.classList.add('error');
-    }
-  }
-
-  onBlurHandlerImgUrl = (event) => {
-    const { target, currentTarget } = event;
-
-    if (this.state.validation.isImgUrlValid) {
-      target.classList.remove('error-border');
-      currentTarget.classList.remove('error');
-    } else {
-      target.classList.add('error-border');
-      currentTarget.classList.add('error');
-    }
-  }
-
-  onBlurHandlerImdbUrl = (event) => {
-    const { target, currentTarget } = event;
-
-    if (this.state.validation.isImdbUrlValid) {
-      target.classList.remove('error-border');
-      currentTarget.classList.remove('error');
-    } else {
-      target.classList.add('error-border');
-      currentTarget.classList.add('error');
-    }
-  }
-
-  onBlurHandlerImdbId = (event) => {
-    const { target, currentTarget } = event;
-
-    if (this.state.validation.isImdbIdValid) {
-      target.classList.remove('error-border');
-      currentTarget.classList.remove('error');
-    } else {
-      target.classList.add('error-border');
-      currentTarget.classList.add('error');
-    }
   }
 
   render() {
@@ -165,14 +102,22 @@ export class NewMovie extends Component {
     return (
       <form onSubmit={this.onSubmit}>
         <div className="fieldWraper">
-          <label onBlur={this.onBlurHandlerTitle}>
+          <label
+            className={this.state.validation.titleIsValid ? '' : 'error'}
+          >
             Movie title:
             <input
               type="text"
               placeholder="title"
               value={title}
               size="40"
-              onChange={this.titleChange}
+              name="title"
+              onChange={this.inputChange}
+              className={this.state.validation.titleIsValid
+                ? ''
+                : 'error-border'
+              }
+              onBlur={this.inputBlur}
             />
           </label>
         </div>
@@ -180,56 +125,82 @@ export class NewMovie extends Component {
           <label>
             Description movie:
             <textarea
+              name="description"
+              imdbId
               placeholder="Description movie"
               rows="10"
               cols="40"
-              onChange={this.descriptionChange}
+              onChange={this.inputChange}
               value={description}
             />
           </label>
         </div>
         <div className="fieldWraper">
-          <label onBlur={this.onBlurHandlerImgUrl}>
+          <label
+            className={this.state.validation.imgUrlIsValid ? '' : 'error'}
+          >
             ImgUrl:
             <textarea
+              name="imgUrl"
               placeholder="ImgUrl movie"
               rows="4"
               cols="40"
-              onChange={this.imgUrlChange}
+              onChange={this.inputChange}
+              onBlur={this.inputFilteredBlur}
               value={imgUrl}
+              className={this.state.validation.imgUrlIsValid
+                ? ''
+                : 'error-border'
+              }
             />
           </label>
         </div>
         <div className="fieldWraper">
-          <label onBlur={this.onBlurHandlerImdbUrl}>
+          <label
+            className={this.state.validation.imdbUrlIsValid ? '' : 'error'}
+          >
             ImdbUrl:
             <textarea
+              name="imdbUrl"
               placeholder="ImdbUrl movie"
               rows="2"
               cols="40"
-              onChange={this.imdbUrlChange}
+              onChange={this.inputChange}
+              onBlur={this.inputFilteredBlur}
               value={imdbUrl}
+              className={this.state.validation.imdbUrlIsValid
+                ? ''
+                : 'error-border'
+              }
             />
           </label>
         </div>
         <div className="fieldWraper">
-          <label onBlur={this.onBlurHandlerImdbId}>
+          <label
+            className={this.state.validation.imdbIdIsValid ? '' : 'error'}
+          >
             ImdbId:
             <input
+              name="imdbId"
               type="text"
               placeholder="ImdbId movie"
               value={imdbId}
               size="40"
-              onChange={this.imdbIdChange}
+              onChange={this.inputChange}
+              onBlur={this.inputBlur}
+              className={this.state.validation.imdbIdIsValid
+                ? ''
+                : 'error-border'
+              }
             />
           </label>
         </div>
         <button
           type="submit"
-          disabled={!(this.state.validation.isTitleValid
-            && this.state.validation.isImgUrlValid
-            && this.state.validation.isImdbUrlValid
-            && this.state.validation.isImdbIdValid)}
+          /*          disabled={!(this.state.validation.titleIsValid
+            && this.state.validation.imgUrlIsValid
+            && this.state.validation.imdbUrlIsValid
+            && this.state.validation.imdbIdIsValid)} */
         >
           Add new movie
         </button>
