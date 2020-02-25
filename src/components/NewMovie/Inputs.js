@@ -2,38 +2,36 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 export const Inputs = ({ inputsFromServer, handleChange, state }) => (
-  <>
-    {inputsFromServer.map((item) => {
-      switch (item.type) {
-        case 'text':
-          return (
-            <input
-              key={item.id}
-              onChange={handleChange}
-              value={state[item.stateKey]}
-              name={item.title}
-              placeholder={item.title}
-              type={item.type}
-            />
-          );
+  inputsFromServer.map((item) => {
+    switch (item.type) {
+      case 'text':
+        return (
+          <input
+            key={item.id}
+            onChange={handleChange}
+            value={state[item.stateKey]}
+            name={item.title}
+            placeholder={item.title}
+            type={item.type}
+          />
+        );
 
-        case 'textarea':
-          return (
-            <textarea
-              key={item.id}
-              onChange={handleChange}
-              value={state[item.stateKey]}
-              name={item.title}
-              placeholder={item.title}
-              type={item.type}
-            />
-          );
+      case 'textarea':
+        return (
+          <textarea
+            key={item.id}
+            onChange={handleChange}
+            value={state[item.stateKey]}
+            name={item.title}
+            placeholder={item.title}
+            type={item.type}
+          />
+        );
 
-        default:
-          return <></>;
-      }
-    })}
-  </>
+      default:
+        return <></>;
+    }
+  })
 );
 
 Inputs.propTypes = {

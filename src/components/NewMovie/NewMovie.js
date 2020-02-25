@@ -14,23 +14,11 @@ export class NewMovie extends Component {
   };
 
   handleChange = (event) => {
+    const { name, value } = event.target;
+
     this.setState({
-      [event.target.name]: event.target.value,
+      [name]: value,
     });
-  }
-
-  getMovie = (event) => {
-    const { title, description, imgUrl, imdbUrl, imdbId } = this.state;
-
-    event.preventDefault();
-
-    return {
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    };
   }
 
   resetState = () => {
@@ -44,7 +32,8 @@ export class NewMovie extends Component {
   }
 
   handleSubmit = (event) => {
-    this.props.addMovie(this.getMovie(event));
+    event.preventDefault();
+    this.props.addMovie(this.state);
     this.resetState();
   };
 
