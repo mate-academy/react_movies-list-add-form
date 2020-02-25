@@ -39,8 +39,8 @@ export class NewMovie extends Component {
     },
   };
 
-  handleChange = (e, name) => {
-    const { value } = e.target;
+  handleChange = (event, name) => {
+    const { value } = event.target;
     const { newMovie } = this.state;
 
     const movie = {
@@ -62,32 +62,38 @@ export class NewMovie extends Component {
     const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
     const { newMovie } = this.state;
 
-    if (newMovie[name] === '') {
-      this.setState(prev => ({
-        errorMassage: {
-          ...prev.errorMassage,
-          [name]: true,
-        },
-      }));
-    }
+    this.setState((prevState) => {
+      if (newMovie[name] === '') {
+        return {
+          errorMassage: {
+            ...prevState.errorMassage,
+            [name]: true,
+          },
+        };
+      }
 
-    if (!pattern.test(newMovie.imgUrl)) {
-      this.setState(prev => ({
-        errorMassage: {
-          ...prev.errorMassage,
-          imgUrl: true,
-        },
-      }));
-    }
+      if (newMovie[name] === '') {
+        return {
+          errorMassage: {
+            ...prevState.errorMassage,
+            [name]: true,
+          },
+        };
+      }
 
-    if (!pattern.test(newMovie.imdbUrl)) {
-      this.setState(prev => ({
-        errorMassage: {
-          ...prev.errorMassage,
-          imdbUrl: true,
-        },
-      }));
-    }
+      if (!pattern.test(newMovie.imgUrl)) {
+        return {
+          errorMassage: {
+            ...prevState.errorMassage,
+            imgUrl: true,
+          },
+        };
+      }
+
+      return {
+        ...prevState,
+      };
+    });
   };
 
   reset = () => {
@@ -137,7 +143,7 @@ export class NewMovie extends Component {
             />
             {errorMassage[item.label] && (
               <span className="badge badge-pill badge-danger">
-                  not valid value
+                not valid value
               </span>
             )}
           </div>
