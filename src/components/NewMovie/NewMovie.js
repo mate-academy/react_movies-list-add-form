@@ -41,6 +41,8 @@ export class NewMovie extends Component {
       this.setState({
         error: true,
       });
+
+      return;
     }
 
     if (!pattern.test(imdbUrl)) {
@@ -49,6 +51,8 @@ export class NewMovie extends Component {
       this.setState({
         error: true,
       });
+
+      return;
     }
 
     if (!isError) {
@@ -65,6 +69,7 @@ export class NewMovie extends Component {
         imgUrl: '',
         imdbUrl: '',
         imdbId: '',
+        error: false,
       });
     }
   };
