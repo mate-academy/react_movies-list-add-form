@@ -56,8 +56,12 @@
     font-size: 11px;
   }
 
-  &__filled{
+  &__fill-all{
+    color: red;
     opacity: 0;
+    display: block;
+    margin-top: -10px;
+    font-size: 11px;
   }
 
   &__error-Url {

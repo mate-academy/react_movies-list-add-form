@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './NewMovie.scss';
+import * as cx from 'classnames';
 import PropTypes from 'prop-types';
 
 export class NewMovie extends Component {
@@ -9,17 +10,37 @@ export class NewMovie extends Component {
     imgUrl: '',
     imdbUrl: '',
     imdbId: '',
-    validImdbUrl: false,
-    validImgUrl: false,
+    errors: {
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    },
   };
 
   handleChange = (event) => {
+    const regExp = /^\s/;
     const { name, value } = event.target;
 
-    this.setState({
-      [name]: value,
-    });
+    this.setState(prevState => ({
+      [name]: value.replace(regExp, ''),
+      errors: {
+        ...prevState.isValid,
+        [name]: false,
+      },
+    }));
   }
+
+  clearInputs = () => {
+    this.setState({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
+  };
 
   handleSubmit = (event) => {
     event.preventDefault();
@@ -34,49 +55,63 @@ export class NewMovie extends Component {
     // eslint-disable-next-line max-len
     const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
 
-    let isError = false;
-
-    if (!pattern.test(imgUrl)) {
-      isError = true;
-
-      this.setState({
-        validImgUrl: true,
-      });
-    }
-
-    if (!pattern.test(imdbUrl)) {
-      isError = true;
-
-      this.setState({
-        validImdbUrl: true,
-      });
-    }
-
-    if (
-      title.length > 3
-       && imdbId.length > 3
-       && description.length > 3
-       && !isError
-    ) {
-      const movie = {
-        title,
-        description,
-        imgUrl,
-        imdbUrl,
-        imdbId,
+    this.setState((prevState) => {
+      const obj = {
+        title: false,
+        description: false,
+        imgUrl: false,
+        imdbUrl: false,
+        imdbId: false,
       };
 
-      this.props.addMovie(movie);
+      if (title === '') {
+        obj.title = true;
+      }
 
-      this.setState({
-        title: '',
-        description: '',
-        imgUrl: '',
-        imdbUrl: '',
-        imdbId: '',
-        validImdbUrl: false,
-        validImgUrl: false,
-      });
+      if (description === '') {
+        obj.description = true;
+      }
+
+      if (imgUrl === '' || !pattern.test(imgUrl)) {
+        obj.imgUrl = true;
+      }
+
+      if (imdbUrl === '' || !pattern.test(imdbUrl)) {
+        obj.imdbUrl = true;
+      }
+
+      if (imdbId === '') {
+        obj.imdbId = true;
+      }
+
+      return {
+        errors: {
+          title: obj.title,
+          description: obj.description,
+          imgUrl: obj.imgUrl,
+          imdbUrl: obj.imdbUrl,
+          imdbId: obj.imdbId,
+        },
+      };
+    });
+
+    const movie = {
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    };
+
+    if (
+      !(title === ''
+       || description === ''
+       || (imgUrl === '' || !pattern.test(imgUrl))
+       || (imdbUrl === '' || !pattern.test(imdbUrl))
+       || imdbId === '')
+    ) {
+      this.props.addMovie(movie);
+      this.clearInputs();
     }
   }
 
@@ -87,8 +122,7 @@ export class NewMovie extends Component {
       imgUrl,
       imdbUrl,
       imdbId,
-      validImgUrl,
-      validImdbUrl,
+      errors,
     } = this.state;
 
     return (
@@ -100,19 +134,17 @@ export class NewMovie extends Component {
           onChange={this.handleChange}
           type="text"
           id="movie-title"
-          className={
-            `form__input ${title.length < 3 ? 'form__input-red' : ''}`
-          }
+          className={cx('form__input', { 'form__input-red': errors.title })}
           value={title}
           name="title"
           placeholder="Type title"
         />
         <span
           className={
-            `form__fill ${title.length < 3 ? 'form__fill' : 'form__filled'}`
+            cx('form__fill', { 'form__fill-all': !errors.title })
           }
         >
-          Min 3 simbols
+          Empty field
         </span>
         <label htmlFor="movie-description" className="form__label">
           Description
@@ -122,7 +154,7 @@ export class NewMovie extends Component {
           type="text"
           id="movie-title"
           className={
-            `form__input ${description.length < 3 ? 'form__input-red' : ''}`
+            cx('form__input', { 'form__input-red': errors.description })
           }
           value={description}
           name="description"
@@ -130,11 +162,10 @@ export class NewMovie extends Component {
         />
         <span
           className={
-            `form__fill
-            ${description.length < 3 ? 'form__fill' : 'form__filled'}`
+            cx('form__fill', { 'form__fill-all': !errors.description })
           }
         >
-          Min 3 simbols
+          Empty field
         </span>
         <label htmlFor="movie-imgUrl" className="form__label">
           imgUrl
@@ -143,16 +174,14 @@ export class NewMovie extends Component {
           onChange={this.handleChange}
           type="text"
           id="movie-imgUrl"
-          className={
-            `form__input ${validImgUrl ? 'form__input-red' : ''}`
-          }
+          className={cx('form__input', { 'form__input-red': errors.imgUrl })}
           value={imgUrl}
           name="imgUrl"
           placeholder="Type imgUrl"
         />
         <span
           className={
-            !validImgUrl ? 'form__right-Url' : 'form__error-Url'
+            cx('form__error-Url', { 'form__right-Url': !errors.imgUrl })
           }
         >
           Not valid
@@ -165,16 +194,14 @@ export class NewMovie extends Component {
           onBlur={this.onblur}
           type="text"
           id="movie-title"
-          className={
-            `form__input ${validImdbUrl ? 'form__input-red' : ''}`
-          }
+          className={cx('form__input', { 'form__input-red': errors.imdbUrl })}
           value={imdbUrl}
           name="imdbUrl"
           placeholder="Type imdbUrl"
         />
         <span
           className={
-            !validImdbUrl ? 'form__right-Url' : 'form__error-Url'
+            cx('form__error-Url', { 'form__right-Url': !errors.imdbUrl })
           }
         >
           Not valid
@@ -187,7 +214,7 @@ export class NewMovie extends Component {
           type="text"
           id="movie-imdbId"
           className={
-            `form__input ${imdbId.length < 3 ? 'form__input-red' : ''}`
+            cx('form__input', { 'form__input-red': errors.imdbId })
           }
           value={imdbId}
           name="imdbId"
@@ -195,10 +222,10 @@ export class NewMovie extends Component {
         />
         <span
           className={
-            `form__fill ${imdbId.length < 3 ? 'form__fill' : 'form__filled'}`
+            cx('form__fill', { 'form__fill-all': !errors.imdbId })
           }
         >
-          Min 3 simbols
+          Empty field
         </span>
 
         <button
@@ -207,7 +234,6 @@ export class NewMovie extends Component {
         >
           Add
         </button>
-
       </form>
     );
   }
