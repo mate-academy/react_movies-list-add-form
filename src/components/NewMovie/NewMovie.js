@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import * as cx from 'classnames';
 import './NewMovie.scss';
 
 export class NewMovie extends Component {
@@ -9,22 +10,19 @@ export class NewMovie extends Component {
     imgUrl: '',
     imdbUrl: '',
     imdbId: '',
-    imgUrlError: false,
-    imdbUrlError: false,
+    isError: false,
   };
 
   handleChange = ({ target }) => {
     const { name, value } = target;
 
     this.setState({
-      [name]: value,
-      imgUrlError: false,
-      imdbUrlError: false,
+      [name]: value.replace(/^\s/, ''),
     });
   }
 
-  submitHandler = (evt) => {
-    evt.preventDefault();
+  submitHandler = (event) => {
+    event.preventDefault();
 
     const {
       title,
@@ -36,41 +34,31 @@ export class NewMovie extends Component {
 
     // eslint-disable-next-line max-len
     const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
-    let isError = false;
 
-    if (!pattern.test(imgUrl)) {
-      isError = true;
-
+    if (!pattern.test(imgUrl) || !pattern.test(imdbUrl)) {
       this.setState({
-        imgUrlError: true,
+        isError: true,
       });
+
+      return;
     }
 
-    if (!pattern.test(imdbUrl)) {
-      isError = true;
+    this.props.addMovie({
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    });
 
-      this.setState({
-        imdbUrlError: true,
-      });
-    }
-
-    if (!isError) {
-      this.props.addMovie({
-        title,
-        description,
-        imgUrl,
-        imdbUrl,
-        imdbId,
-      });
-
-      this.setState({
-        title: '',
-        description: '',
-        imgUrl: '',
-        imdbUrl: '',
-        imdbId: '',
-      });
-    }
+    this.setState({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+      isError: false,
+    });
   };
 
   render() {
@@ -80,14 +68,12 @@ export class NewMovie extends Component {
       imgUrl,
       imdbUrl,
       imdbId,
-      imgUrlError,
-      imdbUrlError,
+      isError,
     } = this.state;
 
-    const imgUrlClassName = (imgUrlError)
-      ? 'form__error--visible' : 'form__error';
-    const imdbUrlClassName = (imdbUrlError)
-      ? 'form__error--visible' : 'form__error';
+    const invalidClassName = cx('form__error', {
+      'form__error--visible': !!isError,
+    });
 
     return (
       <form
@@ -137,7 +123,7 @@ export class NewMovie extends Component {
             onChange={this.handleChange}
             required
           />
-          <span className={imgUrlClassName}>Enter correct URL</span>
+          <span className={invalidClassName}>Enter correct URL</span>
         </p>
 
         <p className="form__item">
@@ -154,7 +140,8 @@ export class NewMovie extends Component {
             onChange={this.handleChange}
             required
           />
-          <span className={imdbUrlClassName}>Enter correct URL</span>
+          {isError
+            && <span className={invalidClassName}>Enter correct URL</span>}
         </p>
 
         <p className="form__item">
