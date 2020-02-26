@@ -1,0 +1,52 @@
+.form {
+  &__title {
+    position: relative;
+    font-weight: bold;
+  }
+
+  &__input {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0 30px;
+    border: 1px solid #000;
+    outline: none;
+    transition: 0.2s;
+
+    &--textarea {
+      height: 100px;
+    }
+
+    &:focus {
+      box-shadow: 0 0 5px rgba(0,0,0,0.5);
+    }
+  }
+
+  &__btn {
+    width: 100%;
+    padding: 10px 0;
+    margin-top: 30px;
+    cursor: pointer;
+    font-weight: bold;
+    background-color: #fff;
+    border: 1px solid #000;
+    transition: box-shadow 0.3s;
+
+    &:hover {
+      box-shadow: 0 0 5px rgba(0,0,0,0.5);
+    }
+  }
+}
+
+.error-field {
+  border: 1px solid red;
+}
+
+.error-message {
+  font-size: 10px;
+  font-style: italic;
+  color: red;
+  position: absolute;
+  top: 75px;
+  width: 100px;
+}
