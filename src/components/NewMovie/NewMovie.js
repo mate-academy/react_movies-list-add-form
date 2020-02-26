@@ -24,7 +24,7 @@ export class NewMovie extends Component {
   changeHandler = ({ target }) => {
     const { name, value } = target;
 
-    this.setState({ [name]: value }, () => {
+    this.setState({ [name]: value.trim() }, () => {
       this.validateField(name, value);
     });
   };
@@ -81,13 +81,13 @@ export class NewMovie extends Component {
 
       switch (fieldName) {
         case 'title': {
-          titleValid = value.trim().length > 0;
+          titleValid = value.length > 0;
           fieldValidationErrors.title = titleValid ? '' : 'is required';
           break;
         }
 
         case 'imdbId': {
-          imdbIdValid = value.trim().length > 0;
+          imdbIdValid = value.length > 0;
           fieldValidationErrors.imdbId = imdbIdValid ? '' : 'is required';
           break;
         }
