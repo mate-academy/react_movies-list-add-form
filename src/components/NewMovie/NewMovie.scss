@@ -1,0 +1,13 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  &__lable {
+    height: 70px;
+  }
+
+  &__item {
+    width: 100%;
+  }
+}
