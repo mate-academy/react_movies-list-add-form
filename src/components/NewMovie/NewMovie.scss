@@ -1,0 +1,22 @@
+.form {
+  &__heading {
+    margin-bottom: 20px;
+  }
+  &__title,
+  &__description,
+  &__imgUrl,
+  &__imdbUrl,
+  &__imdbId {
+    display: block;
+    margin-top: 20px;
+  }
+
+  &__description {
+    width: 50%;
+    height: 100px;
+  }
+
+  &__button {
+    margin-top: 20px;
+  }
+}
