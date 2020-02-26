@@ -68,8 +68,8 @@ export class NewMovie extends Component {
         description: '',
         imgUrl: '',
         imdbUrl: '',
-        imdbId: '',
         error: false,
+        imdbId: '',
       });
     }
   };
