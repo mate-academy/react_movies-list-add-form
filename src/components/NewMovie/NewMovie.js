@@ -15,7 +15,6 @@ export class NewMovie extends Component {
       imdbUrl: '',
       imdbId: '',
     },
-    formValid: false,
     titleValid: false,
     imgUrlValid: false,
     imdbUrlvalid: false,
@@ -61,7 +60,6 @@ export class NewMovie extends Component {
       imgUrl: '',
       imdbUrl: '',
       imdbId: '',
-      formValid: false,
       titleValid: false,
       imgUrlValid: false,
       imdbUrlvalid: false,
@@ -69,18 +67,11 @@ export class NewMovie extends Component {
     });
   };
 
-  validateForm = () => {
-    this.setState(prevState => ({
-      formValid: prevState.titleValid
-      && prevState.imgUrlValid
-      && prevState.imdbUrlvalid
-      && prevState.imdbIdValid,
-    }));
-  }
-
   validateField(fieldName, value) {
     this.setState((prevState) => {
       const fieldValidationErrors = prevState.formErrors;
+      /* eslint-disable-next-line */
+      const regExPattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
       let {
         titleValid,
         imgUrlValid,
@@ -90,29 +81,25 @@ export class NewMovie extends Component {
 
       switch (fieldName) {
         case 'title': {
-          titleValid = value.length > 0;
+          titleValid = value.trim().length > 0;
           fieldValidationErrors.title = titleValid ? '' : 'is required';
           break;
         }
 
         case 'imdbId': {
-          imdbIdValid = value.length > 0;
+          imdbIdValid = value.trim().length > 0;
           fieldValidationErrors.imdbId = imdbIdValid ? '' : 'is required';
           break;
         }
 
         case 'imgUrl': {
-          /* eslint-disable-next-line */
-          imgUrlValid = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/
-            .test(value);
+          imgUrlValid = regExPattern.test(value);
           fieldValidationErrors.imgUrl = imgUrlValid ? '' : 'must be url';
           break;
         }
 
         case 'imdbUrl': {
-          /* eslint-disable-next-line */
-          imdbUrlvalid = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/
-            .test(value);
+          imdbUrlvalid = regExPattern.test(value);
           fieldValidationErrors.imdbUrl = imdbUrlvalid ? '' : 'must be url';
           break;
         }
@@ -127,7 +114,7 @@ export class NewMovie extends Component {
         imgUrlValid,
         imdbUrlvalid,
       };
-    }, this.validateForm);
+    });
   }
 
   render() {
@@ -138,8 +125,13 @@ export class NewMovie extends Component {
       imdbUrl,
       imdbId,
       formErrors,
-      formValid,
+      titleValid,
+      imgUrlValid,
+      imdbUrlvalid,
+      imdbIdValid,
     } = this.state;
+
+    const disabled = titleValid && imgUrlValid && imdbUrlvalid && imdbIdValid;
 
     return (
       <form name="new-movie" onSubmit={this.submitHandler}>
@@ -155,7 +147,7 @@ export class NewMovie extends Component {
             htmlFor="description"
             className="label"
           >
-              Movie description
+            Movie description
           </label>
           <div className="control">
             <textarea
@@ -193,7 +185,7 @@ export class NewMovie extends Component {
           <button
             className="button is-link"
             type="submit"
-            disabled={!formValid}
+            disabled={!disabled}
           >
             Add
           </button>

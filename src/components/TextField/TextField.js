@@ -23,8 +23,9 @@ export const TextField = (props) => {
         onChange={changeHandler}
         onBlur={blurHandler}
       />
-      {errors[name]
-      && <p className="help is-danger">{`This field ${errors[name]}`}</p>}
+      {errors[name] && (
+        <p className="help is-danger">{`This field ${errors[name]}`}</p>
+      )}
     </div>
   );
 };
