@@ -67,41 +67,41 @@ export class NewMovie extends Component {
     // eslint-disable-next-line max-len
     const pattern = new RegExp(`^((([A-Za-z]{3,9}:(?:\\/\\/)?)(?:[-;:&=+$,\\w]+@)?[A-Za-z0-9.-]+|(?:www\\.|[-;:&=+$,\\w]+@)[A-Za-z0-9.-]+)((?:\\/[+~%/.\\w-_]*)?\\??(?:[-+=&;%@.\\w_]*)#?(?:[.!/\\\\\\w]*))?)$`);
 
-    this.setState((prevState) => {
-      const validation = {
-        title: false,
-        imgUrl: false,
-        imdbUrl: false,
-        imdbId: false,
-      };
-
-      if (title === '') {
-        validation.title = true;
-      }
-
-      if (imgUrl === '' || !pattern.test(imgUrl)) {
-        validation.imgUrl = true;
-      }
-
-      if (imdbUrl === '' || !pattern.test(imdbUrl)) {
-        validation.imdbUrl = true;
-      }
-
-      if (imdbId === '') {
-        validation.imdbId = true;
-      }
-
-      return {
-        errors: {
-          ...validation,
-        },
-      };
-    });
-
     if (title && (pattern.test(imgUrl))
       && (pattern.test(imdbUrl)) && imdbId) {
       this.props.addMovie(newMovie);
       this.clearInputs();
+    } else {
+      this.setState((prevState) => {
+        const validation = {
+          title: false,
+          imgUrl: false,
+          imdbUrl: false,
+          imdbId: false,
+        };
+
+        if (title === '') {
+          validation.title = true;
+        }
+
+        if (imgUrl === '' || !pattern.test(imgUrl)) {
+          validation.imgUrl = true;
+        }
+
+        if (imdbUrl === '' || !pattern.test(imdbUrl)) {
+          validation.imdbUrl = true;
+        }
+
+        if (imdbId === '') {
+          validation.imdbId = true;
+        }
+
+        return {
+          errors: {
+            ...validation,
+          },
+        };
+      });
     }
   }
 

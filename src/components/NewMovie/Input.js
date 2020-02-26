@@ -19,7 +19,11 @@ export const Input = (props) => {
       <input
         id={id}
         name={name}
-        className={cn('input', { 'is-danger': errors && value.length < 3 })}
+        className={cn(
+          'input', {
+            'is-danger': errors && value.length < 3,
+          },
+        )}
         type="text"
         placeholder={placeholder}
         value={value}
