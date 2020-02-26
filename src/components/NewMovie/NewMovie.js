@@ -35,17 +35,7 @@ export class NewMovie extends Component {
     const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
     let isError = false;
 
-    if (!pattern.test(imgUrl)) {
-      isError = true;
-
-      this.setState({
-        error: true,
-      });
-
-      return;
-    }
-
-    if (!pattern.test(imdbUrl)) {
+    if (!pattern.test(imdbUrl) || !pattern.test(imgUrl)) {
       isError = true;
 
       this.setState({
