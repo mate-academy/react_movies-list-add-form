@@ -55,46 +55,6 @@ export class NewMovie extends Component {
     // eslint-disable-next-line max-len
     const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
 
-    this.setState((prevState) => {
-      const obj = {
-        title: false,
-        description: false,
-        imgUrl: false,
-        imdbUrl: false,
-        imdbId: false,
-      };
-
-      if (title === '') {
-        obj.title = true;
-      }
-
-      if (description === '') {
-        obj.description = true;
-      }
-
-      if (imgUrl === '' || !pattern.test(imgUrl)) {
-        obj.imgUrl = true;
-      }
-
-      if (imdbUrl === '' || !pattern.test(imdbUrl)) {
-        obj.imdbUrl = true;
-      }
-
-      if (imdbId === '') {
-        obj.imdbId = true;
-      }
-
-      return {
-        errors: {
-          title: obj.title,
-          description: obj.description,
-          imgUrl: obj.imgUrl,
-          imdbUrl: obj.imdbUrl,
-          imdbId: obj.imdbId,
-        },
-      };
-    });
-
     const movie = {
       title,
       description,
@@ -112,6 +72,46 @@ export class NewMovie extends Component {
     ) {
       this.props.addMovie(movie);
       this.clearInputs();
+    } else {
+      this.setState((prevState) => {
+        const obj = {
+          title: false,
+          description: false,
+          imgUrl: false,
+          imdbUrl: false,
+          imdbId: false,
+        };
+
+        if (title === '') {
+          obj.title = true;
+        }
+
+        if (description === '') {
+          obj.description = true;
+        }
+
+        if (imgUrl === '' || !pattern.test(imgUrl)) {
+          obj.imgUrl = true;
+        }
+
+        if (imdbUrl === '' || !pattern.test(imdbUrl)) {
+          obj.imdbUrl = true;
+        }
+
+        if (imdbId === '') {
+          obj.imdbId = true;
+        }
+
+        return {
+          errors: {
+            title: obj.title,
+            description: obj.description,
+            imgUrl: obj.imgUrl,
+            imdbUrl: obj.imdbUrl,
+            imdbId: obj.imdbId,
+          },
+        };
+      });
     }
   }
 
