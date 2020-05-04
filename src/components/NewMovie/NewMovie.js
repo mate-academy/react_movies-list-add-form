@@ -21,11 +21,18 @@ export class NewMovie extends Component {
   state = initState;
 
   validateForm = () => {
+    const {
+      titleErrorMsg,
+      imgUrlErrorMsg,
+      imdbUrlErrorMsg,
+      imdbIdErrorMsg,
+    } = this.state;
+
     if (
-      this.state.titleErrorMsg === ''
-      && this.state.imgUrlErrorMsg === ''
-      && this.state.imdbUrlErrorMsg === ''
-      && this.state.imdbIdErrorMsg === ''
+      titleErrorMsg === ''
+      && imgUrlErrorMsg === ''
+      && imdbUrlErrorMsg === ''
+      && imdbIdErrorMsg === ''
     ) {
       this.setState({
         validationStatus: true,
@@ -39,14 +46,23 @@ export class NewMovie extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
+    const { addMovie } = this.props;
+    const {
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+      validationStatus,
+    } = this.state;
 
-    if (this.state.validationStatus) {
-      this.props.addMovie({
-        title: this.state.title,
-        description: this.state.description,
-        imgUrl: this.state.imgUrl,
-        imdbUrl: this.state.imdbUrl,
-        imdbId: this.state.imdbId,
+    if (validationStatus) {
+      addMovie({
+        title,
+        description,
+        imgUrl,
+        imdbUrl,
+        imdbId,
       });
 
       this.setState(initState);
@@ -54,11 +70,13 @@ export class NewMovie extends Component {
   }
 
   handleInputTitle = (e) => {
+    const { title } = this.state;
+
     this.setState({
       title: e.target.value,
       titleErrorMsg: '',
     }, () => {
-      if (this.state.title.length === 0) {
+      if (title.length === 0) {
         this.setState({
           titleErrorMsg: 'This field is required',
         });
@@ -78,6 +96,8 @@ export class NewMovie extends Component {
   }
 
   handleInputImgUrl = (e) => {
+    const { imgUrl } = this.state;
+
     this.setState({
       imgUrl: e.target.value,
       imgUrlErrorMsg: '',
@@ -90,7 +110,7 @@ export class NewMovie extends Component {
         return;
       }
 
-      if (!urlValidation.test(this.state.imgUrl)) {
+      if (!urlValidation.test(imgUrl)) {
         this.setState({
           imgUrlErrorMsg: 'This field should be a valid URL',
         });
@@ -101,11 +121,13 @@ export class NewMovie extends Component {
   }
 
   handleInputImdbUrl = (e) => {
+    const { imdbUrl } = this.state;
+
     this.setState({
       imdbUrl: e.target.value,
       imdbUrlErrorMsg: '',
     }, () => {
-      if (this.state.imdbUrl.length === 0) {
+      if (imdbUrl.length === 0) {
         this.setState({
           imdbUrlErrorMsg: 'This field is required',
         });
@@ -113,7 +135,7 @@ export class NewMovie extends Component {
         return;
       }
 
-      if (!urlValidation.test(this.state.imdbUrl)) {
+      if (!urlValidation.test(imdbUrl)) {
         this.setState({
           imdbUrlErrorMsg: 'This field should be a valid URL',
         });
@@ -124,11 +146,13 @@ export class NewMovie extends Component {
   }
 
   handleInputImdbId = (e) => {
+    const { imdbId } = this.state;
+
     this.setState({
       imdbId: e.target.value,
       imdbIdErrorMsg: '',
     }, () => {
-      if (this.state.imdbId.length === 0) {
+      if (imdbId.length === 0) {
         this.setState({
           imdbIdErrorMsg: 'This field is required',
         });
@@ -139,6 +163,20 @@ export class NewMovie extends Component {
   }
 
   render() {
+    const {
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+      titleErrorMsg,
+      descriptionErrorMsg,
+      imgUrlErrorMsg,
+      imdbUrlErrorMsg,
+      imdbIdErrorMsg,
+      validationStatus,
+    } = this.state;
+
     return (
       <form
         className="new-movie"
@@ -148,17 +186,17 @@ export class NewMovie extends Component {
           title:
           <input
             className={
-              this.state.titleErrorMsg
+              titleErrorMsg
                 ? 'new-movie__input new-movie__input--error'
                 : 'new-movie__input'
             }
             type="text"
-            value={this.state.title}
+            value={title}
             onChange={this.handleInputTitle}
             placeholder="Movie name"
           />
           <span className="new-movie__error">
-            {this.state.titleErrorMsg}
+            {titleErrorMsg}
           </span>
         </label>
         <label className="new-movie__label">
@@ -166,25 +204,25 @@ export class NewMovie extends Component {
           <textarea
             className="new-movie__input"
             type="text"
-            value={this.state.description}
+            value={description}
             onChange={this.handleInputDescription}
             rows="6"
             placeholder="Movie description"
           />
           <span className="new-movie__error">
-            {this.state.descriptionErrorMsg}
+            {descriptionErrorMsg}
           </span>
         </label>
         <label className="new-movie__label">
           imgUrl:
           <input
             className={
-              this.state.imgUrlErrorMsg
+              imgUrlErrorMsg
                 ? 'new-movie__input new-movie__input--error'
                 : 'new-movie__input'
             }
             type="text"
-            value={this.state.imgUrl}
+            value={imgUrl}
             onChange={this.handleInputImgUrl}
             placeholder="https://www.example.com"
           />
@@ -196,45 +234,45 @@ export class NewMovie extends Component {
           imdbUrl:
           <input
             className={
-              this.state.imdbUrlErrorMsg
+              imdbUrlErrorMsg
                 ? 'new-movie__input new-movie__input--error'
                 : 'new-movie__input'
             }
             type="text"
-            value={this.state.imdbUrl}
+            value={imdbUrl}
             onChange={this.handleInputImdbUrl}
             placeholder="https://www.example.com"
           />
           <span className="new-movie__error">
-            {this.state.imdbUrlErrorMsg}
+            {imdbUrlErrorMsg}
           </span>
         </label>
         <label className="new-movie__label">
           imdbId:
           <input
             className={
-              this.state.imdbIdErrorMsg
+              imdbIdErrorMsg
                 ? 'new-movie__input new-movie__input--error'
                 : 'new-movie__input'
             }
             type="text"
-            value={this.state.imdbId}
+            value={imdbId}
             onChange={this.handleInputImdbId}
             placeholder="Movie imdb id"
           />
           <span className="new-movie__error">
-            {this.state.imdbIdErrorMsg}
+            {imdbIdErrorMsg}
           </span>
         </label>
 
         <button
           className={
-            this.state.validationStatus
+            validationStatus
               ? 'new-movie__button'
               : 'new-movie__button new-movie__button--disabled'
           }
           type="submit"
-          disabled={!this.state.validationStatus}
+          disabled={!validationStatus}
         >
           Add new movie
         </button>
