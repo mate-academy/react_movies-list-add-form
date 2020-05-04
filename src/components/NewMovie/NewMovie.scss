@@ -1,0 +1,73 @@
+$imdb-color: #f3ce13;
+
+.form {
+  display: flex;
+  flex-direction: column;
+
+  &__heading {
+    text-align: center;
+    font-weight: bold;
+  }
+
+  &__item {
+    padding: 20px;
+    margin: 10px;
+    width: 350px;
+    height: 30px;
+    border: 1px solid dimgrey;
+    border-radius: 5px;
+
+    &--touched {
+      &::placeholder {
+        color: red;
+      }
+    }
+
+    &::placeholder {
+      text-align: center;
+      opacity: 0.8;
+    }
+
+    &:focus {
+      outline: none;
+      border: 1px solid $imdb-color;
+
+    }
+  }
+
+  &__description {
+    height: 80px;
+  }
+
+  &__button {
+    margin: 10px auto;
+    width: 100px;
+    height: 30px;
+    background: $imdb-color;
+    border: 1px solid $imdb-color;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 5px;
+
+    &:focus {
+      outline: none;
+      border: 1px solid black;
+    }
+  }
+
+  &__error {
+    animation: blink 0.5s step-end infinite alternate;
+
+    &-span {
+      margin: 0 auto;
+      font-size: 14px;
+      color: red;
+    }
+  }
+}
+
+@keyframes blink {
+  50% {
+    border-color: red;
+  }
+}
