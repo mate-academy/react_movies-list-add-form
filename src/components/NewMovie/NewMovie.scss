@@ -1,0 +1,11 @@
+
+.new-movie {
+  &__error {
+    font-size: 10px;
+    color: red;
+    visibility: hidden;
+    &--visible {
+      visibility: visible;
+    }
+  }
+}

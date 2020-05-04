@@ -3,16 +3,16 @@ import PropTypes from 'prop-types';
 
 export class NewMovie extends Component {
   state = {
-    title_InputValue: '',
-    isValid_title_InputValue: true,
-    description_InputValue: '',
-    isValid_description_InputValue: true,
-    imgUrl_InputValue: '',
-    isValid_imgUrl_InputValue: true,
-    imdbUrl_InputValue: '',
-    isValid_imdbUrl_InputValue: true,
-    imdbId_InputValue: '',
-    isValid_imdbId_InputValue: true,
+    title: '',
+    isValid_title: true,
+    description: '',
+    isValid_description: true,
+    imgUrl: '',
+    isValid_imgUrl: true,
+    imdbUrl: '',
+    isValid_imdbUrl: true,
+    imdbId: '',
+    isValid_imdbId: true,
 
   };
 
@@ -29,7 +29,7 @@ export class NewMovie extends Component {
       case 'imdbId':
       case 'title':
       case 'description':
-        return value !== '';
+        return value.trim() !== '';
       case 'imgUrl':
       case 'imdbUrl':
         // eslint-disable-next-line
@@ -40,9 +40,9 @@ export class NewMovie extends Component {
 
   handleFieldChange = (event) => {
     this.setState({
-      [`${event.target.name}_InputValue`]:
+      [event.target.name]:
         event.target.value,
-      [`isValid_${event.target.name}_InputValue`]:
+      [`isValid_${event.target.name}`]:
         this.inputValidation(event.target.name, event.target.value),
 
     });
@@ -50,73 +50,69 @@ export class NewMovie extends Component {
 
   handleFormSubmit = (event) => {
     event.preventDefault();
-    if (this.state.title_InputValue === '') {
+    if (this.state.title === '') {
       this.setState({
-        isValid_title_InputValue: false,
+        isValid_title: false,
       });
 
       return;
     }
 
-    if (this.state.description_InputValue === '') {
+    if (this.state.description === '') {
       this.setState({
-        isValid_description_InputValue: false,
+        isValid_description: false,
       });
 
       return;
     }
 
-    if (this.state.imgUrl_InputValue === '') {
+    if (this.state.imgUrl === '') {
       this.setState({
-        isValid_imgUrl_InputValue: false,
+        isValid_imgUrl: false,
       });
 
       return;
     }
 
-    if (this.state.imdbUrl_InputValue === '') {
+    if (this.state.imdbUrl === '') {
       this.setState({
-        isValid_imdbUrl_InputValue: false,
+        isValid_imdbUrl: false,
       });
 
       return;
     }
 
-    if (this.state.imdbId_InputValue === '') {
+    if (this.state.imdbId === '') {
       this.setState({
-        isValid_imdbId_InputValue: false,
+        isValid_imdbId: false,
       });
 
       return;
     }
 
-    const movie = {
-      title: this.state.title_InputValue,
-      description: this.state.description_InputValue,
-      imgUrl: this.state.imgUrl_InputValue,
-      imdbUrl: this.state.imdbUrl_InputValue,
-      imdbId: this.state.imdbId_InputValue,
-    };
+    const { title, description, imgUrl, imdbUrl, imdbId } = this.state;
 
-    this.props.addMovie(movie);
+    this.props.addMovie({
+      title, description, imgUrl, imdbUrl, imdbId,
+    });
 
     this.setState({
-      title_InputValue: '',
-      isValid_title_InputValue: true,
-      description_InputValue: '',
-      isValid_description_InputValue: true,
-      imgUrl_InputValue: '',
-      isValid_imgUrl_InputValue: true,
-      imdbUrl_InputValue: '',
-      isValid_imdbUrl_InputValue: true,
-      imdbId_InputValue: '',
-      isValid_imdbId_InputValue: true,
+      title: '',
+      isValid_title: true,
+      description: '',
+      isValid_description: true,
+      imgUrl: '',
+      isValid_imgUrl: true,
+      imdbUrl: '',
+      isValid_imdbUrl: true,
+      imdbId: '',
+      isValid_imdbId: true,
     });
   }
 
   render() {
     return (
-      <form onSubmit={this.handleFormSubmit}>
+      <form className="new-movie" onSubmit={this.handleFormSubmit}>
         <fieldset>
           {this.fields.map(field => (
             <Fragment key={field}>
@@ -128,23 +124,20 @@ export class NewMovie extends Component {
                   style={{
                     outline: 'none',
                     border: `1px solid ${(
-                      this.state[`isValid_${field}_InputValue`])
+                      this.state[`isValid_${field}`])
                       ? 'black' : 'red'}`,
                   }}
                   key={field}
                   type="text"
                   name={field}
-                  value={this.state[`${field}_InputValue`]}
+                  value={this.state[field]}
                   onChange={this.handleFieldChange}
                 />
               </label>
               <p
-                style={{
-                  color: 'red',
-                  fontSize: '10px',
-                  visibility: `${(this.state[`isValid_${field}_InputValue`])
-                    ? 'hidden' : 'visible'}`,
-                }}
+                className={`new-movie__error${(this.state[`isValid_${field}`])
+                  ? '' : ' new-movie__error--visible'}`}
+
               >
                 Not valid data
               </p>
