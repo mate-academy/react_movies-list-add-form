@@ -4,15 +4,15 @@ import PropTypes from 'prop-types';
 export class NewMovie extends Component {
   state = {
     title: '',
-    isValid_title: true,
+    isValidTitle: true,
     description: '',
-    isValid_description: true,
+    isValidDescription: true,
     imgUrl: '',
-    isValid_imgUrl: true,
+    isValidImgUrl: true,
     imdbUrl: '',
-    isValid_imdbUrl: true,
+    isValidImdbUrl: true,
     imdbId: '',
-    isValid_imdbId: true,
+    isValidImdbId: true,
 
   };
 
@@ -33,58 +33,59 @@ export class NewMovie extends Component {
       case 'imgUrl':
       case 'imdbUrl':
         // eslint-disable-next-line
-          return /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/.test(value);
+        return /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/.test(value);
       default: return true;
     }
   }
 
   handleFieldChange = (event) => {
+    const { name, value } = event.target;
+
     this.setState({
-      [event.target.name]:
-        event.target.value,
-      [`isValid_${event.target.name}`]:
-        this.inputValidation(event.target.name, event.target.value),
+      [name]: value,
+      [`isValid${name[0].toUpperCase() + name.slice(1)}`]:
+        this.inputValidation(name, value),
 
     });
   }
 
   handleFormSubmit = (event) => {
     event.preventDefault();
-    if (this.state.title === '') {
+    if (this.state.title.trim() === '') {
       this.setState({
-        isValid_title: false,
+        isValidTitle: false,
       });
 
       return;
     }
 
-    if (this.state.description === '') {
+    if (this.state.description.trim() === '') {
       this.setState({
-        isValid_description: false,
+        isValidDescription: false,
       });
 
       return;
     }
 
-    if (this.state.imgUrl === '') {
+    if (this.state.imgUrl.trim() === '') {
       this.setState({
-        isValid_imgUrl: false,
+        isValidImgUrl: false,
       });
 
       return;
     }
 
-    if (this.state.imdbUrl === '') {
+    if (this.state.imdbUrl.trim() === '') {
       this.setState({
-        isValid_imdbUrl: false,
+        isValidImdbUrl: false,
       });
 
       return;
     }
 
-    if (this.state.imdbId === '') {
+    if (this.state.imdbId.trim() === '') {
       this.setState({
-        isValid_imdbId: false,
+        isValidImdbId: false,
       });
 
       return;
@@ -98,15 +99,15 @@ export class NewMovie extends Component {
 
     this.setState({
       title: '',
-      isValid_title: true,
+      isValidTitle: true,
       description: '',
-      isValid_description: true,
+      isValidDescription: true,
       imgUrl: '',
-      isValid_imgUrl: true,
+      isValidImgUrl: true,
       imdbUrl: '',
-      isValid_imdbUrl: true,
+      isValidImdbUrl: true,
       imdbId: '',
-      isValid_imdbId: true,
+      isValidImdbId: true,
     });
   }
 
@@ -114,35 +115,41 @@ export class NewMovie extends Component {
     return (
       <form className="new-movie" onSubmit={this.handleFormSubmit}>
         <fieldset>
-          {this.fields.map(field => (
-            <Fragment key={field}>
-              <label htmlFor={field}>
-                {`${field[0].toUpperCase() + field.slice(1)}  `}
-                <br />
-                <input
-                  onFocus={this.handleFieldChange}
-                  style={{
-                    outline: 'none',
-                    border: `1px solid ${(
-                      this.state[`isValid_${field}`])
-                      ? 'black' : 'red'}`,
-                  }}
-                  key={field}
-                  type="text"
-                  name={field}
-                  value={this.state[field]}
-                  onChange={this.handleFieldChange}
-                />
-              </label>
-              <p
-                className={`new-movie__error${(this.state[`isValid_${field}`])
-                  ? '' : ' new-movie__error--visible'}`}
+          {this.fields.map((field) => {
+            const fieldCapitalised = field[0].toUpperCase() + field.slice(1);
 
-              >
-                Not valid data
-              </p>
-            </Fragment>
-          ))}
+            return (
+              <Fragment key={field}>
+                <label htmlFor={field}>
+                  {`${fieldCapitalised}  `}
+                  <br />
+                  <input
+                    className={`new-movie__field${
+                      (this.state[`isValid${fieldCapitalised}`])
+                        ? ''
+                        : ' new-movie__field--non-valid'
+                    }`}
+                    onBlur={this.handleFieldChange}
+                    key={field}
+                    type="text"
+                    name={field}
+                    value={this.state[field]}
+                    onChange={this.handleFieldChange}
+                  />
+                </label>
+                <p
+                  className={
+                    `new-movie__error${
+                      (this.state[`isValid${fieldCapitalised}`])
+                        ? ''
+                        : ' new-movie__error--visible'
+                    }`}
+                >
+                  Not valid data
+                </p>
+              </Fragment>
+            );
+          })}
 
         </fieldset>
         <br />

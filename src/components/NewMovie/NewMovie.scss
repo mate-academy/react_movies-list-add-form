@@ -8,4 +8,12 @@
       visibility: visible;
     }
   }
+
+  &__field {
+    outline: none;
+    border: 1px solid black;
+    &--non-valid {
+      border: 1px solid red;
+    }
+  }
 }
