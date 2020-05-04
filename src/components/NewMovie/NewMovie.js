@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import './NewMovie.scss';
 import PropTypes from 'prop-types';
 
+const validation = new RegExp(/^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/);
+const validationTitle = new RegExp(/\w/);
+
 export class NewMovie extends Component {
   state = {
     title: '',
@@ -18,26 +21,28 @@ export class NewMovie extends Component {
   };
 
   handleSubmit = (event) => {
-    const validation = new RegExp(/^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/);
+    const { title, description, imdbId, imdbUrl, imgUrl } = this.state;
 
     event.preventDefault();
-    if (this.state.title.split('').length === 0) {
+    if (title.length === 0) {
       this.setState({ inputErrorTitle: true });
-    } else if (this.state.description.split('').length === 0) {
+    } else if (!validationTitle.test(title)) {
+      this.setState({ inputErrorTitle: true });
+    } else if (description.length === 0) {
       this.setState({ inputErrorDescription: true });
-    } else if (!validation.test(this.state.imgUrl)) {
+    } else if (!validation.test(imgUrl)) {
       this.setState({ inputErrorImgUrl: true });
-    } else if (!validation.test(this.state.imdbUrl)) {
+    } else if (!validation.test(imdbUrl)) {
       this.setState({ inputErrorImdbUrl: true });
-    } else if (this.state.imdbId.split('').length === 0) {
+    } else if (imdbId.length === 0) {
       this.setState({ inputErrorImdbId: true });
     } else {
       this.props.addMovie({
-        title: this.state.title,
-        description: this.state.description,
-        imgUrl: this.state.imdbUrl,
-        imdbUrl: this.state.imdbUrl,
-        imdbId: this.state.imdbId,
+        title,
+        description,
+        imgUrl: imdbUrl,
+        imdbUrl,
+        imdbId,
       });
       this.setState({
         title: '',
@@ -51,7 +56,7 @@ export class NewMovie extends Component {
   }
 
   onTitleChange = (event) => {
-    if (this.state.title.split('').length > 0) {
+    if (this.state.title.length > 0) {
       this.setState({ inputErrorTitle: false });
     }
 
@@ -61,7 +66,7 @@ export class NewMovie extends Component {
   }
 
   onDescriptionChange = (event) => {
-    if (this.state.description.split('').length > 0) {
+    if (this.state.description.length > 0) {
       this.setState({ inputErrorDescription: false });
     }
 
@@ -71,7 +76,7 @@ export class NewMovie extends Component {
   }
 
   onImgUrlChange = (event) => {
-    if (this.state.imgUrl.split('').length > 0) {
+    if (this.state.imgUrl.length > 0) {
       this.setState({ inputErrorImgUrl: false });
     }
 
@@ -81,7 +86,7 @@ export class NewMovie extends Component {
   }
 
   onImdbUrlChange = (event) => {
-    if (this.state.imdbUrl.split('').length > 0) {
+    if (this.state.imdbUrl.length > 0) {
       this.setState({ inputErrorImdbUrl: false });
     }
 
@@ -91,7 +96,7 @@ export class NewMovie extends Component {
   }
 
   onImdbIdChange = (event) => {
-    if (this.state.imdbId.split('').length > 0) {
+    if (this.state.imdbId.length > 0) {
       this.setState({ inputErrorImdbId: false });
     }
 
@@ -101,13 +106,19 @@ export class NewMovie extends Component {
   }
 
   buttonSwitch = () => {
-    if (this.state.imdbId.split('').length > 0
-        && this.state.title.split('').length > 0
-        && this.state.description.split('').length > 0
-        && this.state.imgUrl.split('').length > 0
-        && this.state.imdbUrl.split('').length > 0) {
+    const { title, description, imdbId, imdbUrl, imgUrl } = this.state;
+
+    if (imdbId.length > 0
+        && title.length > 0
+        && description.length > 0
+        && imgUrl.length > 0
+        && imdbUrl.length > 0) {
       this.setState({ activeButton: false });
     }
+  }
+
+  blur = (event) => {
+    event.target.style.background = 'rgba(119, 156, 255, 0.1)';
   }
 
   render() {
@@ -116,21 +127,62 @@ export class NewMovie extends Component {
     return (
       <form onSubmit={this.handleSubmit} onChange={this.buttonSwitch}>
         <label htmlFor="inputTitle">Title:&nbsp;</label>
-        {this.state.inputErrorTitle && (<span className="inputError">Please, enter the title!</span>)}
-        <input id="inputTitle" className={`input ${this.state.inputErrorTitle && 'active'}`} value={title} onChange={this.onTitleChange} />
+        {this.state.inputErrorTitle
+        && (<span className="inputError">Please, enter the title!</span>)}
+        <input
+          id="inputTitle"
+          onBlur={this.blur}
+          className={`input${this.state.inputErrorTitle ? 'active' : ''}`}
+          value={title}
+          onChange={this.onTitleChange}
+        />
         <label htmlFor="inputDescription">Description:&nbsp;</label>
-        {this.state.inputErrorDescription && (<span className="inputError">Please, enter the description!</span>)}
-        <input id="inputDescription" className={`input ${this.state.inputErrorDescription && 'active'}`} value={description} onChange={this.onDescriptionChange} />
+        {this.state.inputErrorDescription
+        && (<span className="inputError">Please, enter the description!</span>)}
+        <input
+          id="inputDescription"
+          onBlur={this.blur}
+          className={`input ${this.state.inputErrorDescription && 'active'}`}
+          value={description}
+          onChange={this.onDescriptionChange}
+        />
         <label htmlFor="imgUrl">ImgUrl:&nbsp;</label>
-        {this.state.inputErrorImgUrl && (<span className="inputError">Please, enter correct ImgUrl!</span>)}
-        <input id="imgUrl" className={`input ${this.state.inputErrorImgUrl && 'active'}`} value={imgUrl} onChange={this.onImgUrlChange} />
+        {this.state.inputErrorImgUrl
+        && (<span className="inputError">Please, enter correct ImgUrl!</span>)}
+        <input
+          id="imgUrl"
+          onBlur={this.blur}
+          className={`input ${this.state.inputErrorImgUrl && 'active'}`}
+          value={imgUrl}
+          onChange={this.onImgUrlChange}
+        />
         <label htmlFor="imdbUrl">ImdbUrl:&nbsp;</label>
-        {this.state.inputErrorImdbUrl && (<span className="inputError">Please, enter correct ImgUrl!</span>)}
-        <input id="imdbUrl" className={`input ${this.state.inputErrorImdbUrl && 'active'}`} value={imdbUrl} onChange={this.onImdbUrlChange} />
+        {this.state.inputErrorImdbUrl
+        && (<span className="inputError">Please, enter correct ImgUrl!</span>)}
+        <input
+          id="imdbUrl"
+          onBlur={this.blur}
+          className={`input ${this.state.inputErrorImdbUrl && 'active'}`}
+          value={imdbUrl}
+          onChange={this.onImdbUrlChange}
+        />
         <label htmlFor="idbId">ImdbId:&nbsp;</label>
-        {this.state.inputErrorImdbId && (<span className="inputError">Please, enter the ImgUrl!</span>)}
-        <input id="idbId" className={`input ${this.state.inputErrorImdbId && 'active'}`} value={imdbId} onChange={this.onImdbIdChange} />
-        <button disabled={this.state.activeButton} type="submit" className="button">ADD</button>
+        {this.state.inputErrorImdbId
+        && (<span className="inputError">Please, enter the ImgUrl!</span>)}
+        <input
+          id="idbId"
+          onBlur={this.blur}
+          className={`input ${this.state.inputErrorImdbId && 'active'}`}
+          value={imdbId}
+          onChange={this.onImdbIdChange}
+        />
+        <button
+          disabled={this.state.activeButton}
+          type="submit"
+          className="button"
+        >
+          ADD
+        </button>
       </form>
     );
   }
