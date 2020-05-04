@@ -13,3 +13,45 @@
   padding: 20px;
   border-left: 1px solid lightgray;
 }
+
+.textarea__no-change {
+  resize: none;
+}
+
+.error {
+  transition: all 0.3s;
+  font-weight: normal;
+  color: rgb(172, 23, 23);
+}
+
+.label {
+  height: 90px;
+}
+
+.textarea__label {
+  height: 190px;
+}
+
+.input,
+.textarea__no-change {
+  border: 1px solid grey;
+  outline: none;
+
+  &:hover {
+    border: 1px solid grey;
+  }
+
+  &:focus {
+    outline: 0;
+    outline-offset: 0;
+  }
+}
+
+.input__err {
+  transition: all 0.3s;
+  border: 1px solid red;
+
+  &:hover {
+    border: 1px solid rgb(207, 28, 28);
+  }
+}
