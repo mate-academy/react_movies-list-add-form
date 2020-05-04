@@ -14,7 +14,7 @@ export class NewMovie extends Component {
     inputErrorImgUrl: false,
     inputErrorImdbUrl: false,
     inputErrorImdbId: false,
-    activeButton: false,
+    activeButton: true,
   };
 
   handleSubmit = (event) => {
@@ -45,6 +45,7 @@ export class NewMovie extends Component {
         imgUrl: '',
         imdbUrl: '',
         imdbId: '',
+        activeButton: true,
       });
     }
   }
@@ -99,11 +100,21 @@ export class NewMovie extends Component {
     });
   }
 
+  buttonSwitch = () => {
+    if (this.state.imdbId.split('').length > 0
+        && this.state.title.split('').length > 0
+        && this.state.description.split('').length > 0
+        && this.state.imgUrl.split('').length > 0
+        && this.state.imdbUrl.split('').length > 0) {
+      this.setState({ activeButton: false });
+    }
+  }
+
   render() {
     const { title, description, imgUrl, imdbUrl, imdbId } = this.state;
 
     return (
-      <form onSubmit={this.handleSubmit}>
+      <form onSubmit={this.handleSubmit} onChange={this.buttonSwitch}>
         <label htmlFor="inputTitle">Title:&nbsp;</label>
         {this.state.inputErrorTitle && (<span className="inputError">Please, enter the title!</span>)}
         <input id="inputTitle" className={`input ${this.state.inputErrorTitle && 'active'}`} value={title} onChange={this.onTitleChange} />
