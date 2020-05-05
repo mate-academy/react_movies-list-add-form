@@ -138,6 +138,54 @@ export class NewMovie extends Component {
     }));
   }
 
+  setTitleBlur = () => {
+    this.setState((state) => {
+      let titleErr = false;
+
+      if (state.movieTitle.length < 3) {
+        titleErr = true;
+      }
+
+      return { titleErr };
+    });
+  }
+
+  setDescriptionBlur = () => {
+    this.setState((state) => {
+      let descriptionErr = false;
+
+      if (state.movieDescr.length < 10) {
+        descriptionErr = true;
+      }
+
+      return { descriptionErr };
+    });
+  }
+
+  setImageUrlBlur = () => {
+    this.setState((state) => {
+      let imageUrlErr = false;
+
+      if (!this.imagePattern.test(state.imageUrl)) {
+        imageUrlErr = true;
+      }
+
+      return { imageUrlErr };
+    });
+  }
+
+  setMovieUrlBlur = () => {
+    this.setState((state) => {
+      let movieUrlErr = false;
+
+      if (!this.urlPattern.test(state.movieUrl)) {
+        movieUrlErr = true;
+      }
+
+      return { movieUrlErr };
+    });
+  }
+
   render() {
     const {
       movieTitle, movieDescr, imageUrl, movieUrl,
@@ -150,7 +198,9 @@ export class NewMovie extends Component {
           e.preventDefault();
         }}
       >
-        <label className="label">
+        <label
+          className="label"
+        >
           {' '}
           Write movie title
           <input
@@ -159,6 +209,7 @@ export class NewMovie extends Component {
             placeholder="Title"
             value={movieTitle}
             onChange={this.setTitle}
+            onBlur={this.setTitleBlur}
           />
           {titleErr
             && <span className="error">Invalid title</span>
@@ -175,6 +226,7 @@ export class NewMovie extends Component {
             placeholder="Description"
             value={movieDescr}
             onChange={this.setDescription}
+            onBlur={this.setDescriptionBlur}
           />
           {descriptionErr
             && <span className="error">Invalid description</span>
@@ -189,6 +241,7 @@ export class NewMovie extends Component {
             placeholder="URL"
             value={imageUrl}
             onChange={this.setImageUrl}
+            onBlur={this.setImageUrlBlur}
           />
           {imageUrlErr
             && <span className="error">Invalid URL</span>
@@ -209,6 +262,7 @@ export class NewMovie extends Component {
             placeholder="URL"
             value={movieUrl}
             onChange={this.setMovieUrl}
+            onBlur={this.setMovieUrlBlur}
           />
           {movieUrlErr && (
             <span className="error">Invalid URL</span>
