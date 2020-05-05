@@ -1,0 +1,17 @@
+@mixin normal_state {
+  border: 1px solid lightblue;
+  border-radius: 5px;
+  height: 40px;
+  &:focus {
+    outline: none;
+  }
+}
+
+@mixin alert_state {
+  border: 1px solid red;
+  border-radius: 5px;
+  height: 40px;
+  &:focus {
+    outline: none;
+  }
+}

@@ -1,3 +1,5 @@
+@import "src/components/NewMovie/vars";
+
 .page {
   display: grid;
   grid-template: auto / 1fr 400px;
@@ -13,3 +15,39 @@
   padding: 20px;
   border-left: 1px solid lightgray;
 }
+
+.form {
+  display: flex;
+  flex-direction: column;
+  & * {
+    margin-top: 10px;
+  }
+  &__description {
+    @include normal_state;
+  }
+  &__title {
+    @include normal_state;
+    &_false {
+      @include alert_state;
+    }
+  }
+  &__imgUrl {
+    @include normal_state;
+    &_false {
+      @include alert_state;
+    }
+  }
+  &__imdbUrl {
+    @include normal_state;
+    &_false {
+      @include alert_state;
+    }
+  }
+  &__imdbId {
+    @include normal_state;
+    &_false {
+      @include alert_state;
+    }
+  }
+}
+
