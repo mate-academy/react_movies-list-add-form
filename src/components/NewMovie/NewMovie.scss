@@ -1,0 +1,36 @@
+.form-item {
+  display: block;
+  margin-bottom: 15px;
+  input {
+    display: block;
+    width: 100%;
+    line-height: 38px;
+    padding-left: 10px;
+  }
+}
+
+.btn {
+  line-height: 40px;
+  min-width: 200px;
+  background: #363636;
+  color: #fff;
+  cursor: pointer;
+  border: 0;
+  font-size: 16px;
+  outline: 0;
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: unset;
+  &:hover {
+    opacity: 0.5;
+  }
+}
+
+.error {
+  border: 2px solid red;
+}
