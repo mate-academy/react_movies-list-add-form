@@ -76,32 +76,39 @@ export class NewMovie extends Component {
     if (target.id === 'title') {
       if (title.length === 0 || title.trim() === '') {
         this.setState({ checkTitle: true });
+      } else {
+        this.setState({ checkTitle: false });
       }
     }
 
     if (target.id === 'imgUrl') {
       if (!validation.test(imgUrl)) {
         this.setState({ checkImgUrl: true });
+      } else {
+        this.setState({ checkImgUrl: false });
       }
     }
 
     if (target.id === 'imdbUrl') {
       if (!validation.test(imdbUrl)) {
         this.setState({ checkImdbUrl: true });
+      } else {
+        this.setState({ checkImdbUrl: false });
       }
     }
 
     if (target.id === 'imdbId') {
       if (imdbId.length === 0 || imdbId.trim() === '') {
         this.setState({ checkImdbId: true });
+      } else {
+        this.setState({ checkImdbId: false });
       }
     }
-
-    // target.style.backgroundColor = 'rgba(246, 71, 71, 0.4)';
   };
 
   render() {
-    const { title,
+    const {
+      title,
       description,
       imgUrl,
       imdbUrl,
@@ -110,7 +117,8 @@ export class NewMovie extends Component {
       checkImgUrl,
       checkImdbUrl,
       checkImdbId,
-      isButtonDisabled } = this.state;
+      isButtonDisabled,
+    } = this.state;
 
     return (
       <>
