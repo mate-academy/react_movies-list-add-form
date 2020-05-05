@@ -18,37 +18,18 @@ export class NewMovie extends Component {
     imdbIdError: '',
   };
 
-  handleTitleChange = (event) => {
+  handleInputChange = (event) => {
+    const { value, name } = event.target;
+
     this.setState({
-      title: event.target.value,
-      titleError: '',
+      [name]: value,
+      [`${name}Error`]: '',
     });
   }
 
   handleDescriptionChange = (event) => {
     this.setState({
       description: event.target.value,
-    });
-  }
-
-  handleImgUrlChange = (event) => {
-    this.setState({
-      imgUrl: event.target.value,
-      imgUrlError: '',
-    });
-  }
-
-  handleImdbUrlChange = (event) => {
-    this.setState({
-      imdbUrl: event.target.value,
-      imdbUrlError: '',
-    });
-  }
-
-  handleImdbIdChange = (event) => {
-    this.setState({
-      imdbId: event.target.value,
-      imdbIdError: '',
     });
   }
 
@@ -166,11 +147,11 @@ export class NewMovie extends Component {
       <form onSubmit={this.handleSubmit} className="form">
         <label className="form__label">
           Title:
-          <br />
           <input
             type="text"
+            name="title"
             value={title}
-            onChange={this.handleTitleChange}
+            onChange={this.handleInputChange}
             onBlur={this.validateTitle}
             className={classNames(
               'form__input',
@@ -183,7 +164,6 @@ export class NewMovie extends Component {
         </label>
         <label className="form__label">
           Description:
-          <br />
           <textarea
             value={description}
             onChange={this.handleDescriptionChange}
@@ -192,11 +172,11 @@ export class NewMovie extends Component {
         </label>
         <label className="form__label">
           Image URL:
-          <br />
           <input
             type="text"
+            name="imgUrl"
             value={imgUrl}
-            onChange={this.handleImgUrlChange}
+            onChange={this.handleInputChange}
             onBlur={this.validateImgUrl}
             className={classNames(
               'form__input',
@@ -209,11 +189,11 @@ export class NewMovie extends Component {
         </label>
         <label className="form__label">
           imdb URL:
-          <br />
           <input
             type="text"
+            name="imdbUrl"
             value={imdbUrl}
-            onChange={this.handleImdbUrlChange}
+            onChange={this.handleInputChange}
             onBlur={this.validateImdbUrl}
             className={classNames(
               'form__input',
@@ -226,11 +206,11 @@ export class NewMovie extends Component {
         </label>
         <label className="form__label">
           imdb ID:
-          <br />
           <input
             type="text"
+            name="imdbId"
             value={imdbId}
-            onChange={this.handleImdbIdChange}
+            onChange={this.handleInputChange}
             onBlur={this.validateImdbId}
             className={classNames(
               'form__input',
