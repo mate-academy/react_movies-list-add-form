@@ -12,6 +12,7 @@ const initState = {
   descriptionErrorMsg: '',
   imgUrlErrorMsg: '',
   imdbUrlErrorMsg: '',
+  imdbIdErrorMsg: '',
   validationStatus: false,
 };
 // eslint-disable-next-line max-len
@@ -30,6 +31,7 @@ export class NewMovie extends Component {
         titleErrorMsg,
         imgUrlErrorMsg,
         imdbUrlErrorMsg,
+        imdbIdErrorMsg,
       } = state;
 
       if (!title
@@ -39,6 +41,7 @@ export class NewMovie extends Component {
         || !!titleErrorMsg
         || !!imgUrlErrorMsg
         || !!imdbUrlErrorMsg
+        || !!imdbIdErrorMsg
       ) {
         return { validationStatus: false };
       }
