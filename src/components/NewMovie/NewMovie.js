@@ -28,11 +28,12 @@ export class NewMovie extends Component {
     const {
       title, description, imgUrl, imdbUrl, imdbId,
     } = this.state;
+    const { validation } = this.props;
 
     if (title.trim().length > 0
       && description.trim().length > 0
-      && imgUrl.trim().length > 0
-      && imdbUrl.trim().length > 0
+      && validation.test(imgUrl)
+      && validation.test(imdbUrl)
       && imdbId.trim().length > 0
     ) {
       this.setState({ isButtonDisabled: false });
