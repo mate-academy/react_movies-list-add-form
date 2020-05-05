@@ -1,0 +1,42 @@
+.form {
+  &__label {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 16px;
+  }
+
+  &__field {
+    padding: 8px 16px;
+    border: 1px solid lightgray;
+    border-radius: 4px;
+    background-color: #fff;
+
+    &--error {
+      border: 1px solid red;
+    }
+  }
+
+  &__textarea {
+    height: 100px;
+    padding: 8px 16px;
+    resize: none;
+    border: 1px solid lightgray;
+    border-radius: 4px;
+    background-color: #fff;
+
+    &--error {
+      border: 1px solid red;
+    }
+  }
+
+  &__button {
+    display: block;
+    margin: auto;
+    padding: 8px 16px;
+    border-radius: 4px;
+  }
+
+  &__error {
+    color: red;
+  }
+}
