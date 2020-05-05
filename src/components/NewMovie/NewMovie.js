@@ -12,29 +12,23 @@ export class NewMovie extends Component {
       description: '',
     },
     validation: {
-      title: true,
-      imgUrl: true,
-      imdbUrl: true,
-      imdbId: true,
+      title: null,
+      imgUrl: null,
+      imdbUrl: null,
+      imdbId: null,
       isValidImgUrl: true,
       isValidImdbUrl: true,
+      description: null,
     },
-    sumbmitDisabled: true,
   };
 
   handleChange = (event) => {
     const { name, value } = event.target;
-    const { validation } = this.state;
-    const arrayOfValidations = [...Object.values(validation)];
 
     this.setState(state => ({ newMovie: {
       ...state.newMovie,
-      [name]: value,
+      [name]: value.trimLeft(),
     } }));
-
-    if (!arrayOfValidations.some(valid => !valid)) {
-      this.setState({ sumbmitDisabled: false });
-    }
   }
 
   handleBlur = (event) => {
@@ -62,13 +56,25 @@ export class NewMovie extends Component {
           [name]: false,
           [validateTarget]: false,
         } }));
+      } else {
+        this.setState(state => ({ validation: {
+          ...state.validation,
+          [name]: true,
+          [validateTarget]: true,
+        } }));
       }
+    } else {
+      this.setState(state => ({ validation: {
+        ...state.validation,
+        [name]: true,
+      } }));
     }
   }
 
   render() {
     const { addMovie } = this.props;
-    const { newMovie, validation, sumbmitDisabled } = this.state;
+    const { newMovie, validation } = this.state;
+    const arrayOfValidations = [...Object.values(validation)];
 
     return (
       <form
@@ -85,13 +91,21 @@ export class NewMovie extends Component {
               imdbId: '',
               description: '',
             },
-            sumbmitDisabled: true,
+            validation: {
+              title: null,
+              imgUrl: null,
+              imdbUrl: null,
+              imdbId: null,
+              isValidImgUrl: true,
+              isValidImdbUrl: true,
+              description: null,
+            },
           });
         }}
       >
         <span>title</span>
         <input
-          className={validation.title
+          className={validation.title || validation.title === null
             ? 'form__input'
             : 'form__input form__input-with-errors'
           }
@@ -103,20 +117,30 @@ export class NewMovie extends Component {
         />
         <p
           className="form__error-message"
-          hidden={validation.title}
+          hidden={validation.title || validation.title === null}
         >
           field must not be empty
         </p>
         <span>description</span>
         <input
-          className="form__input"
+          className={validation.description || validation.description === null
+            ? 'form__input'
+            : 'form__input form__input-with-errors'
+          }
           value={newMovie.description}
           onChange={this.handleChange}
+          onBlur={this.handleBlur}
           name="description"
         />
+        <p
+          className="form__error-message"
+          hidden={validation.description || validation.description === null}
+        >
+          field must not be empty
+        </p>
         <span>imgUrl</span>
         <input
-          className={validation.imgUrl
+          className={validation.imgUrl || validation.imgUrl === null
             ? 'form__input'
             : 'form__input form__input-with-errors'
           }
@@ -128,7 +152,7 @@ export class NewMovie extends Component {
         />
         <p
           className="form__error-message"
-          hidden={validation.imgUrl}
+          hidden={validation.imgUrl || validation.imgUrl === null}
         >
           {validation.isValidImgUrl
             ? 'field must not be empty'
@@ -137,7 +161,7 @@ export class NewMovie extends Component {
         </p>
         <span>imdbUrl</span>
         <input
-          className={validation.imdbUrl
+          className={validation.imdbUrl || validation.imdbUrl === null
             ? 'form__input'
             : 'form__input form__input-with-errors'
           }
@@ -149,7 +173,7 @@ export class NewMovie extends Component {
         />
         <p
           className="form__error-message"
-          hidden={validation.imdbUrl}
+          hidden={validation.imdbUrl || validation.imdbUrl === null}
         >
           {validation.isValidImdbUrl
             ? 'field must not be empty'
@@ -158,7 +182,7 @@ export class NewMovie extends Component {
         </p>
         <span>imdbId</span>
         <input
-          className={validation.imdbId
+          className={validation.imdbId || validation.imdbId === null
             ? 'form__input'
             : 'form__input form__input-with-errors'
           }
@@ -170,11 +194,15 @@ export class NewMovie extends Component {
         />
         <p
           className="form__error-message"
-          hidden={validation.imdbId}
+          hidden={validation.imdbId || validation.imdbId === null}
         >
           field must not be empty
         </p>
-        <button disabled={sumbmitDisabled} className="form__btn" type="submit">
+        <button
+          disabled={arrayOfValidations.some(valid => !valid)}
+          className="form__btn"
+          type="submit"
+        >
           add
         </button>
       </form>
