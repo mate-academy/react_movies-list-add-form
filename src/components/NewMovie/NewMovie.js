@@ -46,6 +46,9 @@ const defaultMovieProps = {
   },
 };
 
+// eslint-disable-next-line max-len
+const urlPattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
+
 export class NewMovie extends Component {
   state = {
     ...defaultMovieProps,
@@ -72,13 +75,15 @@ export class NewMovie extends Component {
     }
 
     if (type === 'url') {
-      // eslint-disable-next-line max-len
-      const urlPattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
       const isValid = urlPattern.test(value);
 
       this.setMovieProp(field, 'isValid', isValid);
     }
   };
+
+  checkAllValid = () => {
+    return Object.values(this.state).every(prop => prop.isValid);
+  }
 
   setMovieProp = (field, prop, value) => {
     this.setState(state => ({
@@ -93,7 +98,7 @@ export class NewMovie extends Component {
   onAdd = (e) => {
     e.preventDefault();
 
-    const isAllValid = Object.values(this.state).every(prop => prop.isValid);
+    const isAllValid = this.checkAllValid();
 
     if (!isAllValid) {
       return;
@@ -160,7 +165,13 @@ export class NewMovie extends Component {
           );
         })}
 
-        <button type="submit" className="form__button">Submit</button>
+        <button
+          type="submit"
+          className="form__button"
+          disabled={!this.checkAllValid()}
+        >
+          Submit
+        </button>
       </form>
     );
   }
