@@ -154,6 +154,10 @@ export class NewMovie extends Component {
       && errorImgUrl === ''
       && errorImdbUrl === ''
       && errorImdbId === ''
+      && title !== ''
+      && imgUrl !== ''
+      && imdbUrl !== ''
+      && imdbId !== ''
       ? '' : 'disabled';
 
     return (
