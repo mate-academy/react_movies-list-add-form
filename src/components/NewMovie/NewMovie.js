@@ -52,6 +52,20 @@ export class NewMovie extends Component {
     });
   }
 
+  handleReset = () => {
+    this.setState({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+      titleError: false,
+      imgUrlError: false,
+      imdbUrlError: false,
+      imdbIdError: false,
+    });
+  }
+
   handleSubmit =(event) => {
     event.preventDefault();
 
@@ -86,6 +100,8 @@ export class NewMovie extends Component {
     };
 
     this.props.addMovie(newFilm);
+
+    this.handleReset();
   };
 
   render() {
