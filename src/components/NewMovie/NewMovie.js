@@ -21,27 +21,30 @@ export class NewMovie extends Component {
   state = initState;
 
   validateForm = () => {
-    const {
-      titleErrorMsg,
-      imgUrlErrorMsg,
-      imdbUrlErrorMsg,
-      imdbIdErrorMsg,
-    } = this.state;
+    this.setState((state) => {
+      const {
+        title,
+        imgUrl,
+        imdbUrl,
+        imdbId,
+        titleErrorMsg,
+        imgUrlErrorMsg,
+        imdbUrlErrorMsg,
+      } = state;
 
-    if (
-      titleErrorMsg === ''
-      && imgUrlErrorMsg === ''
-      && imdbUrlErrorMsg === ''
-      && imdbIdErrorMsg === ''
-    ) {
-      this.setState({
-        validationStatus: true,
-      });
-    } else {
-      this.setState({
-        validationStatus: false,
-      });
-    }
+      if (!title
+        || !imgUrl
+        || !imdbUrl
+        || !imdbId
+        || !!titleErrorMsg
+        || !!imgUrlErrorMsg
+        || !!imdbUrlErrorMsg
+      ) {
+        return { validationStatus: false };
+      }
+
+      return { validationStatus: true };
+    });
   }
 
   handleSubmit = (e) => {
@@ -70,25 +73,23 @@ export class NewMovie extends Component {
   }
 
   handleInputTitle = (e) => {
-    const { title } = this.state;
+    const title = e.target.value;
 
     this.setState({
-      title: e.target.value,
-      titleErrorMsg: '',
-    }, () => {
-      if (title.length === 0) {
-        this.setState({
-          titleErrorMsg: 'This field is required',
-        });
-      }
+      title,
+      titleErrorMsg: !title
+        ? 'This field is required'
+        : '',
     });
 
     this.validateForm();
   }
 
   handleInputDescription = (e) => {
+    const { description } = e.target.value;
+
     this.setState({
-      description: e.target.value,
+      description,
       descriptionErrorMsg: '',
     });
 
@@ -96,67 +97,39 @@ export class NewMovie extends Component {
   }
 
   handleInputImgUrl = (e) => {
-    const { imgUrl } = this.state;
+    const imgUrl = e.target.value;
 
     this.setState({
-      imgUrl: e.target.value,
-      imgUrlErrorMsg: '',
-    }, () => {
-      if (this.state.imgUrl.length === 0) {
-        this.setState({
-          imgUrlErrorMsg: 'This field is required',
-        });
-
-        return;
-      }
-
-      if (!urlValidation.test(imgUrl)) {
-        this.setState({
-          imgUrlErrorMsg: 'This field should be a valid URL',
-        });
-      }
+      imgUrl,
+      imgUrlErrorMsg: !urlValidation.test(imgUrl)
+        ? 'This field should be a valid URL'
+        : '',
     });
 
     this.validateForm();
   }
 
   handleInputImdbUrl = (e) => {
-    const { imdbUrl } = this.state;
+    const imdbUrl = e.target.value;
 
     this.setState({
-      imdbUrl: e.target.value,
-      imdbUrlErrorMsg: '',
-    }, () => {
-      if (imdbUrl.length === 0) {
-        this.setState({
-          imdbUrlErrorMsg: 'This field is required',
-        });
-
-        return;
-      }
-
-      if (!urlValidation.test(imdbUrl)) {
-        this.setState({
-          imdbUrlErrorMsg: 'This field should be a valid URL',
-        });
-      }
+      imdbUrl,
+      imdbUrlErrorMsg: !urlValidation.test(imdbUrl)
+        ? 'This field should be a valid URL'
+        : '',
     });
 
     this.validateForm();
   }
 
   handleInputImdbId = (e) => {
-    const { imdbId } = this.state;
+    const imdbId = e.target.value;
 
     this.setState({
-      imdbId: e.target.value,
-      imdbIdErrorMsg: '',
-    }, () => {
-      if (imdbId.length === 0) {
-        this.setState({
-          imdbIdErrorMsg: 'This field is required',
-        });
-      }
+      imdbId,
+      imdbIdErrorMsg: !imdbId
+        ? 'This field is required'
+        : '',
     });
 
     this.validateForm();
