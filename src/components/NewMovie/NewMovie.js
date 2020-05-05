@@ -89,7 +89,7 @@ export class NewMovie extends Component {
   }
 
   handleInputDescription = (e) => {
-    const { description } = e.target.value;
+    const description = e.target.value;
 
     this.setState({
       description,
