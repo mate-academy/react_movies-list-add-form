@@ -109,6 +109,10 @@ export class NewMovie extends Component {
     });
   }
 
+  onBlur = (event) => {
+    event.target.style.borderColor = 'red';
+  };
+
   render() {
     const { title, description, imgUrl, imdbUrl, imdbId, checkTitle,
       checkImgUrl, checkImdbUrl, checkImdbId, isButtonDisabled } = this.state;
@@ -129,6 +133,7 @@ export class NewMovie extends Component {
                 : 'form__item'}
               placeholder="Enter a title..."
               onChange={this.setTitle}
+              onBlur={this.onBlur}
               value={title}
               required
             />
@@ -138,6 +143,7 @@ export class NewMovie extends Component {
               className="form__item form__description"
               placeholder="Write description here..."
               onChange={this.setDescription}
+              onBlur={this.onBlur}
               value={description}
             />
           </label>
@@ -149,6 +155,7 @@ export class NewMovie extends Component {
                 : 'form__item'}
               placeholder="Enter a Image URL..."
               onChange={this.setImgUrl}
+              onBlur={this.onBlur}
               value={imgUrl}
             />
           </label>
@@ -166,6 +173,7 @@ export class NewMovie extends Component {
                 : 'form__item'}
               placeholder="Enter a Imdb URL..."
               onChange={this.setImdbUrl}
+              onBlur={this.onBlur}
               value={imdbUrl}
             />
           </label>
@@ -183,6 +191,7 @@ export class NewMovie extends Component {
                 : 'form__item'}
               placeholder="Enter a Imdb ID..."
               onChange={this.setImdbId}
+              onBlur={this.onBlur}
               value={imdbId}
             />
           </label>
