@@ -22,19 +22,25 @@ export class NewMovie extends Component {
   };
 
   setTitle = (e) => {
-    this.setState(({ movieTitle: e.target.value }));
-    const { movieTitle } = this.state;
+    const letter = e.target.value.replace(/^ /, '');
 
-    if (movieTitle.length >= 3) {
-      this.setState(() => ({ titleErr: false }));
+    this.setState(() => ({ movieTitle: letter }),
+      () => this.titleLengthComplet());
+  }
+
+  titleLengthComplet = () => {
+    if (this.state.movieTitle.length >= 3) {
+      this.setState({ titleErr: false });
     }
   }
 
   setDescription = (e) => {
-    this.setState(({ movieDescr: e.target.value }));
-    const { movieDescr } = this.state;
+    this.setState(({ movieDescr: e.target.value }),
+      () => this.descriptionLengthComplete());
+  }
 
-    if (movieDescr.length >= 10) {
+  descriptionLengthComplete = () => {
+    if (this.state.movieDescr.length >= 10) {
       this.setState(() => ({ descriptionErr: false }));
     }
   }
@@ -48,18 +54,21 @@ export class NewMovie extends Component {
   }
 
   setMovieUrl = (e) => {
-    this.setState(({ movieUrl: e.target.value }), () => {
-      const { movieUrl } = this.state;
+    this.setState(({ movieUrl: e.target.value }),
+      () => this.movieUrlPatternComplete());
+  }
 
-      if (this.urlPattern.test(movieUrl)) {
-        const movieId = movieUrl.match(this.imdbIdPattern);
-        const newimdbId = movieId[0].split('').slice(1, -1).join('');
+  movieUrlPatternComplete = () => {
+    const { movieUrl } = this.state;
 
-        this.setState(() => ({
-          movieUrlErr: false, imdbId: newimdbId,
-        }));
-      }
-    });
+    if (this.urlPattern.test(movieUrl)) {
+      const movieId = movieUrl.match(this.imdbIdPattern);
+      const newimdbId = movieId[0].split('').slice(1, -1).join('');
+
+      this.setState(() => ({
+        movieUrlErr: false, imdbId: newimdbId,
+      }));
+    }
   }
 
   validation = () => {
@@ -67,28 +76,37 @@ export class NewMovie extends Component {
       movieTitle, movieDescr, imageUrl, movieUrl,
     } = this.state;
 
-    if (movieTitle.length < 3) {
-      this.setState(() => ({ titleErr: true }));
-    }
+    this.setState(() => {
+      let titleErr = false;
+      let descriptionErr = false;
+      let imageUrlErr = false;
+      let movieUrlErr = false;
 
-    if (movieDescr.length < 10) {
-      this.setState(() => ({ descriptionErr: true }));
-    }
+      if (movieTitle.length < 3) {
+        titleErr = true;
+      }
 
-    if (!this.imagePattern.test(imageUrl)) {
-      this.setState(() => ({ imageUrlErr: true }));
-    }
+      if (movieDescr.length < 10) {
+        descriptionErr = true;
+      }
 
-    if (!this.urlPattern.test(movieUrl)) {
-      this.setState(() => ({ movieUrlErr: true }));
-    }
+      if (!this.imagePattern.test(imageUrl)) {
+        imageUrlErr = true;
+      }
 
-    setTimeout(() => {
+      if (!this.urlPattern.test(movieUrl)) {
+        movieUrlErr = true;
+      }
+
+      return {
+        titleErr, descriptionErr, imageUrlErr, movieUrlErr,
+      };
+    }, () => {
       if (!this.state.titleErr && !this.state.descriptionErr
         && !this.state.imageUrlErr && !this.state.movieUrlErr) {
         this.submitMovie();
       }
-    }, 0);
+    });
   }
 
   submitMovie = () => {
@@ -192,9 +210,9 @@ export class NewMovie extends Component {
             value={movieUrl}
             onChange={this.setMovieUrl}
           />
-          {movieUrlErr
-            && <span className="error">Invalid URL</span>
-          }
+          {movieUrlErr && (
+            <span className="error">Invalid URL</span>
+          )}
         </label>
 
         <button
