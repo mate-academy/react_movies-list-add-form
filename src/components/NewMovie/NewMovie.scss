@@ -31,7 +31,6 @@ $imdb-color: #f3ce13;
     &:focus {
       outline: none;
       border: 1px solid $imdb-color;
-
     }
   }
 
@@ -48,6 +47,10 @@ $imdb-color: #f3ce13;
     font-weight: bold;
     cursor: pointer;
     border-radius: 5px;
+
+    &:disabled {
+      opacity: 0.5;
+    }
 
     &:focus {
       outline: none;

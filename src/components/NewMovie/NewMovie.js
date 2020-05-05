@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 
 export class NewMovie extends Component {
   state = {
@@ -15,37 +16,13 @@ export class NewMovie extends Component {
     isButtonDisabled: true,
   };
 
-  setTitle = (e) => {
-    this.setState({
-      title: e.target.value,
-      checkTitle: false,
-    });
-  };
+  handleInputChange = (e) => {
+    const { name, value } = e.target;
 
-  setDescription = (e) => {
     this.setState({
-      description: e.target.value,
+      [name]: value,
     });
-  };
-
-  setImgUrl = (e) => {
-    this.setState({
-      imgUrl: e.target.value,
-    });
-  };
-
-  setImdbUrl = (e) => {
-    this.setState({
-      imdbUrl: e.target.value,
-
-    });
-  };
-
-  setImdbId = (e) => {
-    this.setState({
-      imdbId: e.target.value,
-    });
-  };
+  }
 
   handleActiveButton = () => {
     const {
@@ -69,30 +46,10 @@ export class NewMovie extends Component {
       const {
         title, description, imgUrl, imdbUrl, imdbId,
       } = state;
-      const { addMovie, validation } = this.props;
-
-      if (title.length === 0 || title.trim() === '') {
-        return { checkTitle: true };
-      }
-
-      if (!validation.test(imgUrl)) {
-        return { checkImgUrl: true };
-      }
-
-      if (!validation.test(imdbUrl)) {
-        return { checkImdbUrl: true };
-      }
-
-      if (imdbId.length === 0 || imdbId.trim() === '') {
-        return { checkImdbId: true };
-      }
+      const { addMovie } = this.props;
 
       addMovie({
-        title,
-        description,
-        imgUrl,
-        imdbUrl,
-        imdbId,
+        title, description, imgUrl, imdbUrl, imdbId,
       });
 
       return {
@@ -109,13 +66,51 @@ export class NewMovie extends Component {
     });
   }
 
-  onBlur = (event) => {
-    event.target.style.borderColor = 'red';
+  onBlur = ({ target }) => {
+    const {
+      title, imgUrl, imdbUrl, imdbId,
+    } = this.state;
+
+    const { validation } = this.props;
+
+    if (target.id === 'title') {
+      if (title.length === 0 || title.trim() === '') {
+        this.setState({ checkTitle: true });
+      }
+    }
+
+    if (target.id === 'imgUrl') {
+      if (!validation.test(imgUrl)) {
+        this.setState({ checkImgUrl: true });
+      }
+    }
+
+    if (target.id === 'imdbUrl') {
+      if (!validation.test(imdbUrl)) {
+        this.setState({ checkImdbUrl: true });
+      }
+    }
+
+    if (target.id === 'imdbId') {
+      if (imdbId.length === 0 || imdbId.trim() === '') {
+        this.setState({ checkImdbId: true });
+      }
+    }
+
+    // target.style.backgroundColor = 'rgba(246, 71, 71, 0.4)';
   };
 
   render() {
-    const { title, description, imgUrl, imdbUrl, imdbId, checkTitle,
-      checkImgUrl, checkImdbUrl, checkImdbId, isButtonDisabled } = this.state;
+    const { title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+      checkTitle,
+      checkImgUrl,
+      checkImdbUrl,
+      checkImdbId,
+      isButtonDisabled } = this.state;
 
     return (
       <>
@@ -127,35 +122,49 @@ export class NewMovie extends Component {
           <h2 className="form__heading">Add Movie Form</h2>
           <label>
             <input
+              id="title"
               type="text"
-              className={checkTitle
-                ? 'form__item form__error'
-                : 'form__item'}
+              className={classNames({
+                form__item: true,
+                form__error: checkTitle,
+              })}
               placeholder="Enter a title..."
-              onChange={this.setTitle}
+              onChange={this.handleInputChange}
               onBlur={this.onBlur}
+              name="title"
               value={title}
               required
             />
           </label>
+          {checkTitle
+          && (
+            <span className="form__error-span">
+              Please, enter a title
+            </span>
+          )}
           <label>
             <textarea
+              id="description"
               className="form__item form__description"
               placeholder="Write description here..."
-              onChange={this.setDescription}
+              onChange={this.handleInputChange}
               onBlur={this.onBlur}
+              name="description"
               value={description}
             />
           </label>
           <label>
             <input
+              id="imgUrl"
               type="text"
-              className={checkImgUrl
-                ? 'form__item form__error'
-                : 'form__item'}
+              className={classNames({
+                form__item: true,
+                form__error: checkImgUrl,
+              })}
               placeholder="Enter a Image URL..."
-              onChange={this.setImgUrl}
+              onChange={this.handleInputChange}
               onBlur={this.onBlur}
+              name="imgUrl"
               value={imgUrl}
             />
           </label>
@@ -167,13 +176,16 @@ export class NewMovie extends Component {
           )}
           <label>
             <input
+              id="imdbUrl"
               type="text"
-              className={checkImdbUrl
-                ? 'form__item form__error'
-                : 'form__item'}
+              className={classNames({
+                form__item: true,
+                form__error: checkImdbUrl,
+              })}
               placeholder="Enter a Imdb URL..."
-              onChange={this.setImdbUrl}
+              onChange={this.handleInputChange}
               onBlur={this.onBlur}
+              name="imdbUrl"
               value={imdbUrl}
             />
           </label>
@@ -185,13 +197,16 @@ export class NewMovie extends Component {
           )}
           <label>
             <input
+              id="imdbId"
               type="text"
-              className={checkImdbId
-                ? 'form__item form__error'
-                : 'form__item'}
+              className={classNames({
+                form__item: true,
+                form__error: checkImdbId,
+              })}
               placeholder="Enter a Imdb ID..."
-              onChange={this.setImdbId}
+              onChange={this.handleInputChange}
               onBlur={this.onBlur}
+              name="imdbId"
               value={imdbId}
             />
           </label>
