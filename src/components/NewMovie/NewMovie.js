@@ -16,7 +16,11 @@ export class NewMovie extends Component {
     imdbUrlInputError: false,
     imdbIdInputError: false,
     formErrors: {
-      title: '', description: '', imgUrl: '', imdbUrl: '', imdbId: '',
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
     },
     formValid: false,
   };
@@ -150,7 +154,8 @@ export class NewMovie extends Component {
           <div className={`form-group
           ${(this.state.formErrors.description.length === 0
         ? ''
-        : 'has-error')}`}
+        : 'has-error')}`
+          }
           >
             <label htmlFor="description">Description</label>
             <textarea
@@ -163,7 +168,8 @@ export class NewMovie extends Component {
             />
             {formErrors.description.length
               ? <span className="formErrors">{formErrors.description}</span>
-              : ''}
+              : ''
+            }
           </div>
 
           <Input

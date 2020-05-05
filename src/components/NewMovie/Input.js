@@ -17,7 +17,8 @@ const Input = ({ formErrors, value, name, handleInput }) => {
       />
       {formErrors[name].length
         ? <span className="formErrors">{formErrors[name]}</span>
-        : ''}
+        : ''
+      }
     </div>
   );
 };
