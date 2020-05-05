@@ -73,10 +73,11 @@ export class NewMovie extends Component {
     );
   }
 
-  checkField(fieldName, value) {
+  checkField(fieldName, valueStr) {
     let { titleInputError, descriptionInputError } = this.state;
     let { imgUrlInputError, imdbUrlInputError, imdbIdInputError } = this.state;
     const { formErrors } = this.state;
+    const value = valueStr.trim();
     // eslint-disable-next-line
     const regExp = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
 
