@@ -123,7 +123,8 @@ export class NewMovie extends Component {
     if (this.state.title.trim() !== ''
       && regexp.test(this.state.imgUrl)
       && regexp.test(this.state.imdbUrl)
-      && this.state.imdbId.trim() !== '') {
+      && this.state.imdbId.trim() !== ''
+    ) {
       this.props.addMovie(
         this.state.title,
         this.state.description,
@@ -149,7 +150,7 @@ export class NewMovie extends Component {
       errorImdbId,
     } = this.state;
 
-    const disableButton = errorTitle === ''
+    const buttonState = errorTitle === ''
       && errorImgUrl === ''
       && errorImdbUrl === ''
       && errorImdbId === ''
@@ -162,7 +163,7 @@ export class NewMovie extends Component {
           <input
             type="text"
             className={cn({
-              hasError: errorTitle,
+              error: errorTitle,
             })}
             id="title"
             value={title}
@@ -187,7 +188,7 @@ export class NewMovie extends Component {
           <input
             type="text"
             className={cn({
-              hasError: errorImgUrl,
+              error: errorImgUrl,
             })}
             id="imgUrl"
             value={imgUrl}
@@ -202,7 +203,7 @@ export class NewMovie extends Component {
           <input
             type="text"
             className={cn({
-              hasError: errorImdbUrl,
+              error: errorImdbUrl,
             })}
             id="imdbUrl"
             value={imdbUrl}
@@ -217,7 +218,7 @@ export class NewMovie extends Component {
           <input
             type="text"
             className={cn({
-              hasError: errorImdbId,
+              error: errorImdbId,
             })}
             id="imdbId"
             value={imdbId}
@@ -227,7 +228,7 @@ export class NewMovie extends Component {
           {errorImdbId && <span>Please enter correct ImdbId</span>}
         </div>
 
-        <button type="submit" disabled={disableButton}>Add film</button>
+        <button type="submit" disabled={buttonState}>Add film</button>
       </form>
     );
   }
