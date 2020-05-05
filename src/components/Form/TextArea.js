@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Error from '../Error/Error';
+import cn from 'classnames';
 import './Form.scss';
 
 const TextArea = ({
@@ -14,7 +14,10 @@ const TextArea = ({
     {fieldData.fieldLabel}
     <textarea
       id={fieldName}
-      className="form field form__field--textarea"
+      className={cn(
+        'form__textarea',
+        { 'form__textarea--error': fieldData.showError && !fieldData.isValid },
+      )}
       type="text"
       value={fieldData.input}
       onBlur={handleFieldBlur}
@@ -23,7 +26,11 @@ const TextArea = ({
     {
       fieldData.showError
       && !fieldData.isValid
-      && <Error text={textsOfErrors.default} />
+      && (
+        <div className="form__error">
+          {textsOfErrors[fieldData.type] || textsOfErrors.default}
+        </div>
+      )
     }
   </label>
 );
@@ -35,6 +42,7 @@ TextArea.propTypes = {
     fieldLabel: PropTypes.string.isRequired,
     showError: PropTypes.bool.isRequired,
     isValid: PropTypes.bool.isRequired,
+    type: PropTypes.string.isRequired,
   }).isRequired,
   textsOfErrors: PropTypes.shape({
     default: PropTypes.string.isRequired,

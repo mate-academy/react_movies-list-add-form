@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Error from '../Error/Error';
+import cn from 'classnames';
 import './Form.scss';
 
 const TextInput = ({
@@ -14,7 +14,10 @@ const TextInput = ({
     {fieldData.fieldLabel}
     <input
       id={fieldName}
-      className="form__field"
+      className={cn(
+        'form__field',
+        { 'form__field--error': fieldData.showError && !fieldData.isValid },
+      )}
       type="text"
       value={fieldData.input}
       onBlur={handleFieldBlur}
@@ -23,7 +26,11 @@ const TextInput = ({
     {
       fieldData.showError
       && !fieldData.isValid
-      && <Error text={textsOfErrors[fieldData.type] || textsOfErrors.default} />
+      && (
+        <div className="form__error">
+          {textsOfErrors[fieldData.type] || textsOfErrors.default}
+        </div>
+      )
     }
   </label>
 );
