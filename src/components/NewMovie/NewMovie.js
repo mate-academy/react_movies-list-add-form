@@ -24,23 +24,32 @@ export class NewMovie extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
 
-    const { title, description, imdbId, imdbUrl, imgUrl } = this.state;
+    this.setState((state) => {
 
-      this.props.addMovie({
+      const { title, description, imdbId, imdbUrl, imgUrl } = state;
+      const { addMovie } = this.props;
+
+      addMovie({
         title,
         description,
         imgUrl,
         imdbUrl,
         imdbId,
-      });
-      this.setState({
+      })
+
+      return {
         title: '',
         description: '',
         imgUrl: '',
         imdbUrl: '',
         imdbId: '',
-        activeButton: true,
-      });
+        inputErrorTitle: false,
+        inputErrorDescription: false,
+        inputErrorImgUrl: false,
+        inputErrorImdbUrl: false,
+        inputErrorImdbId: false,
+      };
+    })
   }
 
   onBlur = ({target}) => {
@@ -89,50 +98,30 @@ export class NewMovie extends Component {
 
 
   onTitleChange = (event) => {
-    if (this.state.title.length > 0) {
-      this.setState({ inputErrorTitle: false });
-    }
-
     this.setState({
       title: event.target.value,
     });
   }
 
   onDescriptionChange = (event) => {
-    if (this.state.description.length > 0) {
-      this.setState({ inputErrorDescription: false });
-    }
-
     this.setState({
       description: event.target.value,
     });
   }
 
   onImgUrlChange = (event) => {
-    if (this.state.imgUrl.length > 0) {
-      this.setState({ inputErrorImgUrl: false });
-    }
-
     this.setState({
       imgUrl: event.target.value,
     });
   }
 
   onImdbUrlChange = (event) => {
-    if (this.state.imdbUrl.length > 0) {
-      this.setState({ inputErrorImdbUrl: false });
-    }
-
     this.setState({
       imdbUrl: event.target.value,
     });
   }
 
   onImdbIdChange = (event) => {
-    if (this.state.imdbId.length > 0) {
-      this.setState({ inputErrorImdbId: false });
-    }
-
     this.setState({
       imdbId: event.target.value,
     });
@@ -141,17 +130,17 @@ export class NewMovie extends Component {
   buttonSwitch = () => {
     const { title, description, imdbId, imdbUrl, imgUrl } = this.state;
 
-    if (imdbId.trim().length > 0
-        && title.trim().length > 0
+    if ( title.trim().length > 0
         && description.trim().length > 0
-        && imgUrl.length > 0
-        && imdbUrl.length > 0) {
+        && validation.test(imgUrl)
+        && validation.test(imdbUrl)
+        && imdbId.trim().length > 0) {
       this.setState({ activeButton: false });
     }
   }
 
   render() {
-    const { title, description, imgUrl, imdbUrl, imdbId } = this.state;
+    const { title, description, imgUrl, imdbUrl, imdbId, activeButton } = this.state;
 
     return (
       <form onSubmit={this.handleSubmit} onChange={this.buttonSwitch}>
@@ -166,6 +155,7 @@ export class NewMovie extends Component {
           className={classNames('input', {active: this.state.inputErrorTitle})}
           value={title}
           onChange={this.onTitleChange}
+          required
         />
 
         <label htmlFor="inputDescription">Description:&nbsp;</label>
@@ -178,6 +168,7 @@ export class NewMovie extends Component {
           className={classNames('input', {active: this.state.inputErrorDescription})}
           value={description}
           onChange={this.onDescriptionChange}
+          required
         />
 
         <label htmlFor="imgUrl">ImgUrl:&nbsp;</label>
@@ -190,6 +181,7 @@ export class NewMovie extends Component {
           className={classNames('input', {active: this.state.inputErrorImgUrl})}
           value={imgUrl}
           onChange={this.onImgUrlChange}
+          required
         />
 
         <label htmlFor="imdbUrl">ImdbUrl:&nbsp;</label>
@@ -202,6 +194,7 @@ export class NewMovie extends Component {
           className={classNames('input', {active: this.state.inputErrorImdbUrl})}
           value={imdbUrl}
           onChange={this.onImdbUrlChange}
+          required
         />
 
         <label htmlFor="idbId">ImdbId:&nbsp;</label>
@@ -214,10 +207,11 @@ export class NewMovie extends Component {
           className={classNames('input', {active: this.state.inputErrorImdbId})}
           value={imdbId}
           onChange={this.onImdbIdChange}
+          required
         />
 
         <button
-          disabled={this.state.activeButton}
+          disabled={activeButton}
           type="submit"
           className="button"
         >
