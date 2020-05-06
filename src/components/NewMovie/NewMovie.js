@@ -80,6 +80,7 @@ export class NewMovie extends Component {
     const title = e.target.value;
 
     this.setState({ title });
+    this.validateForm();
   }
 
   validateTitle = (e) => {
@@ -140,6 +141,7 @@ export class NewMovie extends Component {
     const imdbId = e.target.value;
 
     this.setState({ imdbId });
+    this.validateForm();
   }
 
   validateInputImdbId = (e) => {
