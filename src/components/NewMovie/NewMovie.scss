@@ -7,6 +7,10 @@
   letter-spacing: 1px;
 }
 
+textarea {
+  resize: none;
+}
+
 .form__field,
 .form__btn {
   width: 100%;
@@ -46,6 +50,6 @@
   border: 2px solid grey;
 }
 
-.form__field--error {
+.form__fieldError {
   border: 2px solid red;
 }
