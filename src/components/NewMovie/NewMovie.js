@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import './NewMovie.scss';
 
 const initState = {
@@ -162,18 +163,22 @@ export class NewMovie extends Component {
           title:
           <input
             className={
-              titleErrorMsg
-                ? 'new-movie__input new-movie__input--error'
-                : 'new-movie__input'
+              classNames(
+                'new-movie__input',
+                { 'new-movie__input--error': titleErrorMsg },
+              )
             }
             type="text"
             value={title}
             onChange={this.handleInputTitle}
+            onBlur={this.handleInputTitle}
             placeholder="Movie name"
           />
-          <span className="new-movie__error">
-            {titleErrorMsg}
-          </span>
+          {titleErrorMsg && (
+            <span className="new-movie__error">
+              {titleErrorMsg}
+            </span>
+          )}
         </label>
         <label className="new-movie__label">
           description:
@@ -182,6 +187,7 @@ export class NewMovie extends Component {
             type="text"
             value={description}
             onChange={this.handleInputDescription}
+            onBlur={this.handleInputDescription}
             rows="6"
             placeholder="Movie description"
           />
@@ -193,59 +199,71 @@ export class NewMovie extends Component {
           imgUrl:
           <input
             className={
-              imgUrlErrorMsg
-                ? 'new-movie__input new-movie__input--error'
-                : 'new-movie__input'
+              classNames(
+                'new-movie__input',
+                { 'new-movie__input--error': imgUrlErrorMsg },
+              )
             }
             type="text"
             value={imgUrl}
             onChange={this.handleInputImgUrl}
+            onBlur={this.handleInputImgUrl}
             placeholder="https://www.example.com"
           />
-          <span className="new-movie__error">
-            {this.state.imgUrlErrorMsg}
-          </span>
+          {imgUrlErrorMsg && (
+            <span className="new-movie__error">
+              {imgUrlErrorMsg}
+            </span>
+          )}
         </label>
         <label className="new-movie__label">
           imdbUrl:
           <input
             className={
-              imdbUrlErrorMsg
-                ? 'new-movie__input new-movie__input--error'
-                : 'new-movie__input'
+              classNames(
+                'new-movie__input',
+                { 'new-movie__input--error': imdbUrlErrorMsg },
+              )
             }
             type="text"
             value={imdbUrl}
             onChange={this.handleInputImdbUrl}
+            onBlur={this.handleInputImdbUrl}
             placeholder="https://www.example.com"
           />
-          <span className="new-movie__error">
-            {imdbUrlErrorMsg}
-          </span>
+          {imdbUrlErrorMsg && (
+            <span className="new-movie__error">
+              {imdbUrlErrorMsg}
+            </span>
+          )}
         </label>
         <label className="new-movie__label">
           imdbId:
           <input
             className={
-              imdbIdErrorMsg
-                ? 'new-movie__input new-movie__input--error'
-                : 'new-movie__input'
+              classNames('new-movie__input', {
+                'new-movie__input--error': imdbIdErrorMsg,
+              })
             }
             type="text"
             value={imdbId}
             onChange={this.handleInputImdbId}
+            onBlur={this.handleInputImdbId}
             placeholder="Movie imdb id"
           />
-          <span className="new-movie__error">
-            {imdbIdErrorMsg}
-          </span>
+          {imdbIdErrorMsg && (
+            <span className="new-movie__error">
+              {imdbIdErrorMsg}
+            </span>
+          )}
         </label>
 
         <button
           className={
-            validationStatus
-              ? 'new-movie__button'
-              : 'new-movie__button new-movie__button--disabled'
+            classNames(
+              'new-movie__button',
+              { 'new-movie__button--disabled': !validationStatus },
+            )
           }
           type="submit"
           disabled={!validationStatus}
