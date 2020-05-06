@@ -179,8 +179,10 @@ export class NewMovie extends Component {
         <label className="form__label">
           imgUrl
           <input
-            className={imgUrlError
-              ? 'form__field form__field--error' : 'form__field'}
+            className={cn({
+              form__field: true,
+              form__fieldError: imgUrlError,
+            })}
             value={imgUrl}
             onChange={this.handleImgUrlChange}
             onBlur={this.blurImgUrlError}
@@ -194,8 +196,10 @@ export class NewMovie extends Component {
           imdbUrl
           <input
             value={imdbUrl}
-            className={imdbUrlError
-              ? 'form__field form__field--error' : 'form__field'}
+            className={cn({
+              form__field: true,
+              form__fieldError: imdbUrlError,
+            })}
             onChange={this.handleImdbUrlChange}
             onBlur={this.blurImdbUrlError}
           />
@@ -208,8 +212,10 @@ export class NewMovie extends Component {
           imdbId
           <input
             value={imdbId}
-            className={imdbIdError
-              ? 'form__field form__field--error' : 'form__field'}
+            className={cn({
+              form__field: true,
+              form__fieldError: imdbIdError,
+            })}
             onChange={this.handleImdbIdChange}
             onBlur={this.blurImdbIdError}
           />
