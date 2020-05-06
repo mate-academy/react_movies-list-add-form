@@ -26,19 +26,6 @@ export class NewMovie extends Component {
 
     const { title, description, imdbId, imdbUrl, imgUrl } = this.state;
 
-    if (title.trim().length === 0) {
-      this.setState({ inputErrorTitle: true });
-    } else if (!validationTitle.test(title)) {
-      this.setState({ inputErrorTitle: true });
-    } else if (description.trim().length === 0) {
-      this.setState({ inputErrorDescription: true });
-    } else if (!validation.test(imgUrl)) {
-      this.setState({ inputErrorImgUrl: true });
-    } else if (!validation.test(imdbUrl)) {
-      this.setState({ inputErrorImdbUrl: true });
-    } else if (imdbId.trim().length === 0) {
-      this.setState({ inputErrorImdbId: true });
-    } else {
       this.props.addMovie({
         title,
         description,
@@ -54,8 +41,52 @@ export class NewMovie extends Component {
         imdbId: '',
         activeButton: true,
       });
+  }
+
+  onBlur = ({target}) => {
+    const { title, description, imdbId, imdbUrl, imgUrl } = this.state;
+
+    if (target.id === 'inputTitle') {
+      if (title.trim().length === 0 && !validationTitle.test(title)) {
+        this.setState({ inputErrorTitle: true });
+      } else {
+        this.setState({ inputErrorTitle: false });
+      }
+    }
+
+    if (target.id === 'inputDescription') {
+      if (description.trim().length === 0) {
+        this.setState({ inputErrorDescription: true });
+      } else {
+        this.setState({ inputErrorDescription: false });
+      }
+    }
+
+    if (target.id === 'imgUrl') {
+      if (!validation.test(imgUrl)) {
+        this.setState({ inputErrorImgUrl: true });
+      } else {
+        this.setState({ inputErrorImgUrl: false });
+      }
+    }
+
+    if (target.id === 'imdbUrl') {
+      if (!validation.test(imdbUrl)) {
+        this.setState({ inputErrorImdbUrl: true });
+      } else {
+        this.setState({ inputErrorImdbUrl: false });
+      }
+    }
+
+    if (target.id === 'idbId') {
+      if (imdbId.trim().length === 0) {
+        this.setState({ inputErrorImdbId: true });
+      } else {
+        this.setState({ inputErrorImdbId: false });
+      }
     }
   }
+
 
   onTitleChange = (event) => {
     if (this.state.title.length > 0) {
@@ -131,6 +162,7 @@ export class NewMovie extends Component {
 
         <input
           id="inputTitle"
+          onBlur={this.onBlur}
           className={classNames('input', {active: this.state.inputErrorTitle})}
           value={title}
           onChange={this.onTitleChange}
@@ -142,6 +174,7 @@ export class NewMovie extends Component {
 
         <input
           id="inputDescription"
+          onBlur={this.onBlur}
           className={classNames('input', {active: this.state.inputErrorDescription})}
           value={description}
           onChange={this.onDescriptionChange}
@@ -153,6 +186,7 @@ export class NewMovie extends Component {
 
         <input
           id="imgUrl"
+          onBlur={this.onBlur}
           className={classNames('input', {active: this.state.inputErrorImgUrl})}
           value={imgUrl}
           onChange={this.onImgUrlChange}
@@ -164,6 +198,7 @@ export class NewMovie extends Component {
 
         <input
           id="imdbUrl"
+          onBlur={this.onBlur}
           className={classNames('input', {active: this.state.inputErrorImdbUrl})}
           value={imdbUrl}
           onChange={this.onImdbUrlChange}
@@ -171,10 +206,11 @@ export class NewMovie extends Component {
 
         <label htmlFor="idbId">ImdbId:&nbsp;</label>
         {this.state.inputErrorImdbId
-        && (<span className="inputError">Please, enter the ImgUrl!</span>)}
+        && (<span className="inputError">Please, enter the IdbId!</span>)}
 
         <input
           id="idbId"
+          onBlur={this.onBlur}
           className={classNames('input', {active: this.state.inputErrorImdbId})}
           value={imdbId}
           onChange={this.onImdbIdChange}
