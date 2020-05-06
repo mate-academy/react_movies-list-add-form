@@ -1,4 +1,5 @@
 @mixin normal_state {
+  margin: 10px 0;
   border: 1px solid lightblue;
   border-radius: 5px;
   height: 40px;
@@ -8,10 +9,17 @@
 }
 
 @mixin alert_state {
+  margin: 10px 0;
   border: 1px solid red;
   border-radius: 5px;
   height: 40px;
   &:focus {
     outline: none;
   }
+}
+
+@mixin alert-active {
+  font-size: 0.8em;
+  visibility: initial;
+  color: red;
 }

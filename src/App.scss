@@ -19,9 +19,6 @@
 .form {
   display: flex;
   flex-direction: column;
-  & * {
-    margin-top: 10px;
-  }
   &__description {
     @include normal_state;
   }
@@ -29,25 +26,37 @@
     @include normal_state;
     &_false {
       @include alert_state;
+      &-alert {
+        @include alert-active;
+      }
     }
   }
   &__imgUrl {
     @include normal_state;
     &_false {
       @include alert_state;
+      &-alert {
+        @include alert-active;
+      }
+
     }
   }
   &__imdbUrl {
     @include normal_state;
     &_false {
       @include alert_state;
+      &-alert {
+        @include alert-active;
+      }
     }
   }
   &__imdbId {
     @include normal_state;
     &_false {
       @include alert_state;
+      &-alert {
+        @include alert-active;
+      }
     }
   }
 }
-

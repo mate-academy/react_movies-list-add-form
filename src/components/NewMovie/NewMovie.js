@@ -19,28 +19,16 @@ export class NewMovie extends Component {
     isImdbIDValid: true,
   };
 
-  addTitle = (event) => {
-    this.setState({ newTitle: event.target.value });
-  }
+  handleChange = (event) => {
+    const { target: { name, value } } = event;
 
-  addDescription = (event) => {
-    this.setState({ newDescription: event.target.value });
-  }
-
-  addImgUrl = (event) => {
-    this.setState({ newImgUrl: event.target.value });
-  }
-
-  addImdbUrl = (event) => {
-    this.setState({ newImdbUrl: event.target.value });
-  }
-
-  addImdbID = (event) => {
-    this.setState({ newImdbID: event.target.value });
+    this.setState({
+      [name]: value.trim(),
+    });
   }
 
   validateOnBlurTitle = (event) => {
-    if (event.target.value === '') {
+    if (event.target.value.trim() === '') {
       this.setState({ isTitleValid: false });
     } else {
       this.setState({ isTitleValid: true });
@@ -48,7 +36,7 @@ export class NewMovie extends Component {
   }
 
   validateOnBlurImdbID = (event) => {
-    if (event.target.value === '') {
+    if (event.target.value.trim() === '') {
       this.setState({ isImdbIDValid: false });
     } else {
       this.setState({ isImdbIDValid: true });
@@ -56,7 +44,7 @@ export class NewMovie extends Component {
   }
 
   validateOnBlurImdbUrl = (event) => {
-    if (pattern.test(event.target.value) === false) {
+    if (!pattern.test(event.target.value)) {
       this.setState({ isImdbUrlValid: false });
     } else {
       this.setState({ isImdbUrlValid: true });
@@ -64,7 +52,7 @@ export class NewMovie extends Component {
   }
 
   validateOnBlurImgUrl = (event) => {
-    if (pattern.test(event.target.value) === false) {
+    if (!pattern.test(event.target.value)) {
       this.setState({ isImgUrlValid: false });
     } else {
       this.setState({ isImgUrlValid: true });
@@ -90,7 +78,8 @@ export class NewMovie extends Component {
     if (this.state.newTitle.trim().length > 0
       && pattern.test(this.state.newImgUrl) === true
       && pattern.test(this.state.newImdbUrl) === true
-      && this.state.newImdbID.trim().length > 0) {
+      && this.state.newImdbID.trim().length > 0
+    ) {
       this.setState({ buttonDisabled: false });
     } else {
       this.setState({ buttonDisabled: true });
@@ -106,6 +95,7 @@ export class NewMovie extends Component {
       imdbUrl: this.state.newImdbUrl,
       imdbId: this.state.newImdbID,
     });
+
     this.resetInputedData();
   }
 
@@ -113,47 +103,80 @@ export class NewMovie extends Component {
     return (
       <form className="form" onChange={this.isButtonDisabled}>
         <input
+          name="newTitle"
           placeholder="Title"
           onBlur={this.validateOnBlurTitle}
-          onChange={this.addTitle}
+          onChange={this.handleChange}
           value={this.state.newTitle}
           className={classNames(this.state.isTitleValid
             ? 'form__title'
-            : 'form__title_false')}
+            : 'form__title_false')
+          }
         />
+        <span
+          hidden={this.state.isTitleValid}
+          className="form__title_false-alert"
+        >
+          Please enter a title
+        </span>
         <input
+          name="newDescription"
           placeholder="Description"
-          onChange={this.addDescription}
+          onChange={this.handleChange}
           value={this.state.newDescription}
           className="form__description"
         />
         <input
+          name="newImgUrl"
           placeholder="ImgUrl"
           onBlur={this.validateOnBlurImgUrl}
-          onChange={this.addImgUrl}
+          onChange={this.handleChange}
           value={this.state.newImgUrl}
           className={classNames(this.state.isImgUrlValid
             ? 'form__imgUrl'
-            : 'form__imgUrl_false')}
+            : 'form__imgUrl_false')
+          }
         />
+        <span
+          hidden={this.state.isImgUrlValid}
+          className="form__imgUrl_false-alert"
+        >
+          Please enter valid image link
+        </span>
         <input
+          name="newImdbUrl"
           placeholder="ImdbUrl"
           onBlur={this.validateOnBlurImdbUrl}
-          onChange={this.addImdbUrl}
+          onChange={this.handleChange}
           value={this.state.newImdbUrl}
           className={classNames(this.state.isImdbUrlValid
             ? 'form__imdbUrl'
-            : 'form__imdbUrl_false')}
+            : 'form__imdbUrl_false')
+          }
         />
+        <span
+          hidden={this.state.isImdbUrlValid}
+          className="form__imdbUrl_false-alert"
+        >
+          Please enter valid IMDB link
+        </span>
         <input
+          name="newImdbID"
           placeholder="ImdbID"
           onBlur={this.validateOnBlurImdbID}
-          onChange={this.addImdbID}
+          onChange={this.handleChange}
           value={this.state.newImdbID}
           className={classNames(this.state.isImdbIDValid
             ? 'form__imdbId'
-            : 'form__imdbId_false')}
+            : 'form__imdbId_false')
+          }
         />
+        <span
+          hidden={this.state.isImdbIDValid}
+          className="form__imdbId_false-alert"
+        >
+          Please enter IMDB id
+        </span>
         <button
           type="submit"
           onClick={this.addMovie}
