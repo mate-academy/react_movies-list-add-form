@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './NewMovie.scss';
 import PropTypes from 'prop-types';
+import cs from 'classnames';
 
 export class NewMovie extends Component {
   state = {
@@ -105,9 +106,11 @@ export class NewMovie extends Component {
       >
         <span>title</span>
         <input
-          className={validation.title || validation.title === null
-            ? 'form__input'
-            : 'form__input form__input-with-errors'
+          className={cs({
+            form__input: true,
+            'form__input-with-errors': !(validation.title
+            || validation.title === null),
+          })
           }
           value={newMovie.title}
           onChange={this.handleChange}
@@ -123,9 +126,11 @@ export class NewMovie extends Component {
         </p>
         <span>description</span>
         <input
-          className={validation.description || validation.description === null
-            ? 'form__input'
-            : 'form__input form__input-with-errors'
+          className={cs({
+            form__input: true,
+            'form__input-with-errors': !(validation.description
+            || validation.description === null),
+          })
           }
           value={newMovie.description}
           onChange={this.handleChange}
@@ -140,9 +145,11 @@ export class NewMovie extends Component {
         </p>
         <span>imgUrl</span>
         <input
-          className={validation.imgUrl || validation.imgUrl === null
-            ? 'form__input'
-            : 'form__input form__input-with-errors'
+          className={cs({
+            form__input: true,
+            'form__input-with-errors': !(validation.imgUrl
+            || validation.imgUrl === null),
+          })
           }
           value={newMovie.imgUrl}
           onChange={this.handleChange}
@@ -161,9 +168,11 @@ export class NewMovie extends Component {
         </p>
         <span>imdbUrl</span>
         <input
-          className={validation.imdbUrl || validation.imdbUrl === null
-            ? 'form__input'
-            : 'form__input form__input-with-errors'
+          className={cs({
+            form__input: true,
+            'form__input-with-errors': !(validation.imdbUrl
+            || validation.imdbUrl === null),
+          })
           }
           value={newMovie.imdbUrl}
           onChange={this.handleChange}
@@ -182,9 +191,11 @@ export class NewMovie extends Component {
         </p>
         <span>imdbId</span>
         <input
-          className={validation.imdbId || validation.imdbId === null
-            ? 'form__input'
-            : 'form__input form__input-with-errors'
+          className={cs({
+            form__input: true,
+            'form__input-with-errors': !(validation.imdbId
+            || validation.imdbId === null),
+          })
           }
           value={newMovie.imdbId}
           onChange={this.handleChange}
