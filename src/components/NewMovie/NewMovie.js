@@ -15,7 +15,7 @@ export class NewMovie extends Component {
 
   handleChangeInput = (name, value) => {
     this.setState({
-      [name]: value,
+      [name]: value.trim(),
     });
   }
 
