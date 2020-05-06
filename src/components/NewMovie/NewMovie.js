@@ -23,41 +23,43 @@ export class NewMovie extends Component {
   };
 
   blurErrorText = (event) => {
-    const { id, value } = event.target;
+    const { name, value } = event.target;
 
-    if (value.length < 3) {
+    if (/^ /.test(value) || value.length <= 2) {
       this.setState(state => ({
+        ...state,
         errors: {
-          ...state.errors, [id]: true,
+          ...state.errors, [name]: true,
         },
       }));
     } else {
       this.setState(state => ({
+        ...state,
         errors: {
-          ...state.errors, [id]: false,
+          ...state.errors, [name]: false,
         },
       }));
     }
   }
 
   blurErrorUrl = (event) => {
-    const { id, value } = event.target;
+    const { name, value } = event.target;
     const test = patternToUrl.test(value);
 
     this.setState(state => ({
       errors: {
-        ...state.errors, [id]: !test,
+        ...state.errors, [name]: !test,
       },
     }));
   }
 
   blurErrorImdbId = (event) => {
-    const { id, value } = event.target;
+    const { name, value } = event.target;
     const test = patternToId.test(value);
 
     this.setState(state => ({
       errors: {
-        ...state.errors, [id]: !test,
+        ...state.errors, [name]: !test,
       },
     }));
   }
@@ -66,14 +68,21 @@ export class NewMovie extends Component {
     const target = event.target.value;
     const { name } = event.target;
 
-    this.setState({
+    this.setState(state => ({
       [name]: target,
-    });
+      errors: {
+        ...state.errors, [name]: false,
+      },
+    }));
   }
 
   returnMovie = (event) => {
+    const { title, description, imgUrl, imdbUrl, imdbId } = this.state;
+
     event.preventDefault();
-    this.props.addMovie(this.state);
+    this.props.addMovie({
+      title, description, imgUrl, imdbUrl, imdbId,
+    });
     this.reset();
   }
 
