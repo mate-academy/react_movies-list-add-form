@@ -79,6 +79,16 @@ export class NewMovie extends Component {
   handleInputTitle = (e) => {
     const title = e.target.value;
 
+    this.setState({ title });
+  }
+
+  validateTitle = (e) => {
+    let title = e.target.value;
+
+    if (title.trim().length === 0) {
+      title = '';
+    }
+
     this.setState({
       title,
       titleErrorMsg: !title
@@ -129,6 +139,16 @@ export class NewMovie extends Component {
   handleInputImdbId = (e) => {
     const imdbId = e.target.value;
 
+    this.setState({ imdbId });
+  }
+
+  validateInputImdbId = (e) => {
+    let imdbId = e.target.value;
+
+    if (imdbId.trim().length === 0) {
+      imdbId = '';
+    }
+
     this.setState({
       imdbId,
       imdbIdErrorMsg: !imdbId
@@ -171,7 +191,7 @@ export class NewMovie extends Component {
             type="text"
             value={title}
             onChange={this.handleInputTitle}
-            onBlur={this.handleInputTitle}
+            onBlur={this.validateTitle}
             placeholder="Movie name"
           />
           {titleErrorMsg && (
@@ -184,6 +204,7 @@ export class NewMovie extends Component {
           description:
           <textarea
             className="new-movie__input"
+            style={{ resize: 'none' }}
             type="text"
             value={description}
             onChange={this.handleInputDescription}
@@ -248,7 +269,7 @@ export class NewMovie extends Component {
             type="text"
             value={imdbId}
             onChange={this.handleInputImdbId}
-            onBlur={this.handleInputImdbId}
+            onBlur={this.validateInputImdbId}
             placeholder="Movie imdb id"
           />
           {imdbIdErrorMsg && (
