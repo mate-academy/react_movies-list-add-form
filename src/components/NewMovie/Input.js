@@ -4,26 +4,40 @@ import classNames from 'classnames';
 
 class Input extends React.Component {
   state={
-    validating: false,
+    errorMassage: '',
+    isError: false,
   }
 
-  handleBlur = () => {
-    this.setState({ validating: true });
+  handleBlur = (e) => {
+    const { name } = e.target;
+    const { formErrors } = this.props;
+
+    if (!formErrors[name].length) {
+      return;
+    }
+
+    this.setState({
+      isError: true,
+      errorMassage: formErrors[name],
+    });
   }
 
   handleFocus = () => {
-    this.setState({ validating: false });
+    this.setState({
+      isError: false,
+      errorMassage: '',
+    });
   }
 
   render() {
-    const { formErrors, value, name, handleInput } = this.props;
-    const errorClass = formErrors[name].length !== 0 && this.state.validating;
+    const { value, name, handleInput } = this.props;
+    const { errorMassage, isError } = this.state;
 
     return (
       <div className="form-group">
         <label htmlFor={name}>{name}</label>
         <input
-          className={classNames('form-control', { has_error: errorClass })}
+          className={classNames('form-control', { has_error: isError })}
           type="text"
           name={name}
           value={value}
@@ -32,10 +46,7 @@ class Input extends React.Component {
           onBlur={this.handleBlur}
           onFocus={this.handleFocus}
         />
-        {this.state.validating && formErrors[name].length
-          ? <span className="formErrors">{formErrors[name]}</span>
-          : ''
-        }
+        <span className="formErrors">{errorMassage}</span>
       </div>
     );
   }
