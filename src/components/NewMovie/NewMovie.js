@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Input from './Input';
 import './NewMovie.scss';
+// eslint-disable-next-line
+ const regExp = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
 
 export class NewMovie extends Component {
   state = {
@@ -78,8 +80,6 @@ export class NewMovie extends Component {
     let { imgUrlInputError, imdbUrlInputError, imdbIdInputError } = this.state;
     const { formErrors } = this.state;
     const value = valueStr.trim();
-    // eslint-disable-next-line
-    const regExp = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
 
     switch (fieldName) {
       case 'title':
