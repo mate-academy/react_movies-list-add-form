@@ -17,7 +17,6 @@ const fieldConfigs = [
     name: 'description',
     label: 'Description',
     placeholder: 'Enter a description',
-    validators: [required],
   },
   {
     name: 'imgUrl',

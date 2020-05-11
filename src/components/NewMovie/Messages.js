@@ -5,7 +5,7 @@ import { Message } from 'semantic-ui-react';
 export const MessageWarning = () => (
   <Message
     warning
-    header="Error!"
+    header="Warning!"
     content="All form fields must be filled out."
   />
 );
