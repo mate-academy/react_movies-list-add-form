@@ -14,3 +14,9 @@ export const url = (label, value) => {
     ? ''
     : `${label} should be a valid URL`;
 };
+
+export const minLength = length => (name, value) => {
+  return !value || (value.length >= length)
+    ? ''
+    : `${name} should have at least ${length} characters`;
+};

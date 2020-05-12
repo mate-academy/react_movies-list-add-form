@@ -14,7 +14,7 @@ export const FormField = ({
   onBlur,
 }) => (
   <Form.Input
-    error={error && { content: error }}
+    error={!!error && { content: error }}
     type="text"
     id={id}
     name={name}

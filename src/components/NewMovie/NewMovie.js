@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Button, Form } from 'semantic-ui-react';
 import { FormField } from '../FormField';
-import { MessageWarning } from './Messages';
-import { required, url } from '../../helpers/validators';
+import { MessageSuccess, MessageWarning } from './Messages';
+import { required, url, minLength } from '../../helpers/validators';
 import './NewMovie.scss';
 
 const fieldConfigs = [
@@ -11,12 +11,13 @@ const fieldConfigs = [
     name: 'title',
     label: 'Title',
     placeholder: 'Enter a title',
-    validators: [required],
+    validators: [required, minLength(3)],
   },
   {
     name: 'description',
     label: 'Description',
     placeholder: 'Enter a description',
+    validators: [minLength(30)],
   },
   {
     name: 'imgUrl',
@@ -49,7 +50,7 @@ export class NewMovie extends Component {
   state = {
     values: preparedState,
     errors: preparedState,
-    isFetching: false,
+    isFetching: true,
   };
 
   handleChange = ({ target: { name, value } }) => {
@@ -112,6 +113,7 @@ export class NewMovie extends Component {
   render() {
     const { values, errors, isFetching } = this.state;
     const isValid = this.isValid(errors);
+    const allFilled = Object.values(values).every(Boolean);
 
     return (
       <Form
@@ -133,10 +135,11 @@ export class NewMovie extends Component {
             onBlur={this.handleBlur}
           />
         ))}
-        <MessageWarning
-          isValid={isValid}
-          isFetching={isFetching}
-        />
+        {
+          isValid && allFilled
+            ? <MessageSuccess isValid={isValid} isFetching={isFetching} />
+            : <MessageWarning />
+        }
         <Button className="add-movie__btn" color="yellow">Add Movie</Button>
       </Form>
     );
