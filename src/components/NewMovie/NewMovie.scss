@@ -22,12 +22,14 @@
 
   &__button {
     margin-top: 20px;
-  }
-
-  &__button:hover {
-    margin-top: 20px;
     cursor: pointer;
   }
+
+  &__button--disabled {
+    margin-top: 20px;
+    cursor: not-allowed;
+  }
+
 }
 
 .error {
