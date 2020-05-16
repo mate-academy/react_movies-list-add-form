@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames/bind';
+import cn from 'classnames/bind';
 import './NewMovie.scss';
 
 // eslint-disable-next-line
@@ -100,11 +100,11 @@ export class NewMovie extends Component {
   }
 
   onBlurImdbId = (event) => {
-    if (!this.state.values.title) {
+    if (!this.state.values.imdbId) {
       this.setState(prevState => ({
         errors: {
           ...prevState.errors,
-          imdbIdError: !prevState.values.title,
+          imdbIdError: !prevState.values.imdbId,
         },
       }));
     }
@@ -148,7 +148,8 @@ export class NewMovie extends Component {
               value={title}
               onBlur={this.onBlurTitle}
               onChange={this.handleInput}
-              className={titleError ? 'form__input-error' : 'form__input'}
+              className={cn('form__input',
+                { 'form__input-error': titleError })}
             />
           </label>
           {titleError && (
@@ -165,7 +166,8 @@ export class NewMovie extends Component {
               value={description}
               onBlur={this.onBlurDescription}
               onChange={this.handleInput}
-              className={descriptionError ? 'form__input-error' : 'form__input'}
+              className={cn('form__input',
+                { 'form__input-error': descriptionError })}
             />
           </label>
           {descriptionError && (
@@ -181,7 +183,8 @@ export class NewMovie extends Component {
               value={imgUrl}
               onChange={this.handleInput}
               onBlur={this.onBlurImgUrl}
-              className={imgUrlError ? 'form__input-error' : 'form__input'}
+              className={cn('form__input',
+                { 'form__input-error': imgUrlError })}
             />
           </label>
           {imgUrlError && (
@@ -197,7 +200,8 @@ export class NewMovie extends Component {
               value={imdbUrl}
               onChange={this.handleInput}
               onBlur={this.onBlurImdbUrl}
-              className={imdbUrlError ? 'form__input-error' : 'form__input'}
+              className={cn('form__input',
+                { 'form__input-error': imdbUrlError })}
             />
           </label>
           {imdbUrlError && (
@@ -211,19 +215,21 @@ export class NewMovie extends Component {
               type="text"
               name="imdbId"
               value={imdbId}
+              onBlur={this.onBlurImdbId}
               onChange={this.handleInput}
-              className="form__input"
+              className={cn('form__input',
+                { 'form__input-error': imdbIdError })}
             />
           </label>
           {imdbIdError && (
             <span className="error">
-              Please enter correct ImdbId
+              Please enter ImdbId
             </span>
           )}
           <button
             type="submit"
             disabled={disabledSubmit}
-            className={classNames(
+            className={cn(
               { form__button: !disabledSubmit },
               { 'form__button--disabled': disabledSubmit },
             )}
@@ -232,7 +238,6 @@ export class NewMovie extends Component {
           </button>
         </form>
       </>
-
     );
   }
 }
