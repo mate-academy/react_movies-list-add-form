@@ -93,7 +93,7 @@ export class NewMovie extends Component {
   #handleSubmit = (event) => {
     event.preventDefault();
     this.setState({ ...this.initState });
-    this.props.addMovie(this.state);
+    this.props.addMovie(this.state.movie);
   }
 
   render() {
