@@ -14,7 +14,7 @@ export const NewMovieField = memo(
         onChange={(event) => {
           handleOnChange(title, event.target.value);
         }}
-        onBlur={() => checkValidation(title)}
+        onBlur={event => checkValidation(title, event.target.value)}
       />
       {
         !isValid && <small className="form__error">Field is invalid</small>
