@@ -13,3 +13,33 @@
   padding: 20px;
   border-left: 1px solid lightgray;
 }
+
+.input {
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  margin-bottom: 30px;
+}
+
+.errors {
+  color: red;
+  font-size: 14px;
+  font-weight: bold;
+  font-style: oblique;
+  width: 100%;
+}
+
+input {
+  outline: none;
+  width: 100%;
+  height: 50px;
+  border: 1px solid lightgray;
+  margin-bottom: 15px;
+  padding: 10px;
+  &:focus {
+    border: 1px solid rgb(134, 127, 127);
+  }
+}
+
+::placeholder {
+  font-size: 16px;
+}
