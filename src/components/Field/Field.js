@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export const Field = ({ name, err, handleChange, validation, value }) => {
+export const Field = ({ name, err, handleChange, validation, value, valid}) => {
   let option;
+  let classTitle;
 
-  if(name.includes('Url')) {
+  if (name.includes('Url')) {
     option = 'url';
   } else if (name === 'title' || name === 'imdbId') {
     option = 5;
@@ -12,9 +13,18 @@ export const Field = ({ name, err, handleChange, validation, value }) => {
     option = 30;
   }
 
+  if (valid === false) {
+    classTitle = 'no-verified';
+  } else if (valid === true) {
+    classTitle = 'accepted';
+  } else {
+    classTitle = 'before-verification';
+  }
+
   return (
     <div>
       <input
+        className={classTitle}
         value={value}
         placeholder={name}
         type="text"

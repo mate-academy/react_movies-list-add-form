@@ -1,31 +1,19 @@
+/* eslint-disable max-len */
 /* eslint-disable no-console */
 import React, { Component } from 'react';
-import { number } from 'prop-types';
 import { Field } from '../Field/Field';
+import { names, states, indexes, status } from '../../api/constants';
 
 const initialState = {
-  title: '',
-  description: '',
-  imgUrl: '',
-  imdbUrl: '',
-  imdbId: '',
-  titleError: '',
-  descriptionError: '',
-  imgUrlError: '',
-  imdbUrlError: '',
-  imdbIdError: '',
+  ...states,
 };
 
 const allValid = {
-  title: 0,
-  description: 1,
-  imgUrl: 2,
-  imdbUrl: 3,
-  imdbId: 4,
+  ...indexes,
 };
 
-const valid = [false, false, false, false, false];
-let fields = ['title', 'description', 'imdbUrl', 'imdbId', 'imgUrl']
+let valid = [...status];
+const fields = [...names];
 let disabled = true;
 const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
 
@@ -41,13 +29,12 @@ export class NewMovie extends Component {
   }
 
   handleSubmit = (ev) => {
+    const { title, description, imgUrl, imdbUrl, imdbId } = this.state;
+    
+    valid = [...status];
     ev.preventDefault();
     this.props.addMovie({
-      title: this.state.title,
-      description: this.state.description,
-      imgUrl: this.state.imgUrl,
-      imdbUrl: this.state.imdbUrl,
-      imdbId: this.state.imdbId,
+      title, description, imgUrl, imdbUrl, imdbId,
     });
     this.setState(initialState);
     disabled = true;
@@ -79,11 +66,6 @@ export class NewMovie extends Component {
   }
 
   render() {
-    // const { title, description, imdbUrl,
-    //   imdbId, imgUrl, titleError,
-    //   descriptionError, imdbUrlError,
-    //   imdbIdError, imgUrlError } = this.state;
-
     return (
       <form onSubmit={ev => this.handleSubmit(ev)}>
         <fieldset className="inputs-block">
@@ -91,6 +73,7 @@ export class NewMovie extends Component {
           {
             fields.map(name => (
               <Field
+                valid={valid[indexes[name]]}
                 name={name}
                 value={this.state[name]}
                 err={this.state[`${name}Error`]}
@@ -99,63 +82,6 @@ export class NewMovie extends Component {
               />
             ))
           }
-
-{/*
-          <div>
-            <input
-              value={title}
-              placeholder="Title"
-              type="text"
-              name="title"
-              onChange={ev => this.handleChange(ev)}
-              onBlur={ev => this.validation(ev.target.name, ev.target.value, 5)}
-            />
-            <p className="errors">{titleError}</p>
-          </div>
-          <div className="inputs">
-            <input
-              type="text"
-              name="description"
-              placeholder="Description"
-              onChange={ev => this.handleChange(ev)}
-              value={description}
-              onBlur={ev => this.validation(ev.target.name, ev.target.value, 30)}
-            />
-            <p className="errors">{descriptionError}</p>
-          </div>
-          <div className="inputs">
-            <input
-              type="text"
-              name="imgUrl"
-              placeholder="imgURL"
-              onChange={ev => this.handleChange(ev)}
-              value={imgUrl}
-              onBlur={ev => this.validation(ev.target.name, ev.target.value, 'url')}
-            />
-            <p className="errors">{imgUrlError}</p>
-          </div>
-          <div className="inputs">
-            <input
-              type="text"
-              name="imdbUrl"
-              placeholder="imdbUrl"
-              onChange={ev => this.handleChange(ev)}
-              value={imdbUrl}
-              onBlur={ev => this.validation(ev.target.name, ev.target.value, 'url')}
-            />
-            <p className="errors">{imdbUrlError}</p>
-          </div>
-          <div className="inputs">
-            <input
-              value={imdbId}
-              placeholder="imdbId"
-              type="text"
-              name="imdbId"
-              onChange={ev => this.handleChange(ev)}
-              onBlur={ev => this.validation(ev.target.name, ev.target.value, 9)}
-            />
-            <p className="errors">{imdbIdError}</p>
-          </div> */}
         </fieldset>
         <input
           disabled={disabled}
