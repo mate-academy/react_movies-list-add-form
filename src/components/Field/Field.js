@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export const Field = ({ name, err, handleChange, validation, value, valid}) => {
+export const Field = ({
+  name, err, handleChange, validation, value, valid,
+}) => {
   let option;
   let classTitle;
 
@@ -34,13 +36,14 @@ export const Field = ({ name, err, handleChange, validation, value, valid}) => {
       />
       <p className="errors">{err}</p>
     </div>
-  )
+  );
 };
 
 Field.propTypes = {
-  title: PropTypes.string.isRequired,
-  description: PropTypes.string,
-  imgUrl: PropTypes.string.isRequired,
-  imdbUrl: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  err: PropTypes.string.isRequired,
+  handleChange: PropTypes.func.isRequired,
+  validation: PropTypes.func.isRequired,
+  value: PropTypes.string.isRequired,
+  valid: PropTypes.bool.isRequired,
 };
-

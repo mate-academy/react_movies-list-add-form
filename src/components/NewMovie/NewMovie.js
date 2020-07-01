@@ -1,12 +1,7 @@
-/* eslint-disable max-len */
-/* eslint-disable no-console */
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { Field } from '../Field/Field';
-import { names, states, indexes, status } from '../../api/constants';
-
-const initialState = {
-  ...states,
-};
+import { names, initialState, indexes, status, reg } from '../../api/constants';
 
 const allValid = {
   ...indexes,
@@ -15,7 +10,6 @@ const allValid = {
 let valid = [...status];
 const fields = [...names];
 let disabled = true;
-const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
 
 export class NewMovie extends Component {
   state = initialState;
@@ -30,7 +24,7 @@ export class NewMovie extends Component {
 
   handleSubmit = (ev) => {
     const { title, description, imgUrl, imdbUrl, imdbId } = this.state;
-    
+
     valid = [...status];
     ev.preventDefault();
     this.props.addMovie({
@@ -41,7 +35,6 @@ export class NewMovie extends Component {
   }
 
   validation = (name, value, option) => {
-
     if (typeof option === 'number') {
       if (value.length < option) {
         valid[allValid[name]] = false;
@@ -53,7 +46,7 @@ export class NewMovie extends Component {
         valid[allValid[name]] = true;
       }
     } else if (option === 'url') {
-      if (!pattern.test(value)) {
+      if (!reg.test(value)) {
         valid[allValid[name]] = false;
         this.setState(() => ({ [`${name}Error`]: 'Enter the correct url' }));
       } else {
@@ -93,3 +86,7 @@ export class NewMovie extends Component {
     );
   }
 }
+
+NewMovie.propTypes = {
+  addMovie: PropTypes.func.isRequired,
+};
