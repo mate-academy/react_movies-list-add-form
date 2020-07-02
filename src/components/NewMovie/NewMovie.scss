@@ -1,0 +1,25 @@
+.form {
+  display: flex;
+  flex-direction: column;
+
+  &__input {
+    margin-bottom: 20px;
+    padding: 15px 5px;
+    outline-color: green;
+    font-size: 16px;
+  }
+
+  &__button {
+    background-color: green;
+    border: none;
+    color: #fff;
+    text-transform: uppercase;
+    padding: 15px 0;
+    cursor: pointer;
+    transition: box-shadow 0.2s ease;
+
+    &:hover {
+      box-shadow: 0 0 10px 0 rgba(0,0,0,0.75);
+    }
+  }
+}
