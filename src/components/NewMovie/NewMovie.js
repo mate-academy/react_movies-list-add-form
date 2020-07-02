@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import './NewMovie.scss';
 
 export class NewMovie extends Component {
   state = {
@@ -99,13 +100,14 @@ export class NewMovie extends Component {
 
   render() {
     return (
-      <form onSubmit={this.submitHandler}>
+      <form className="film__form" onSubmit={this.submitHandler}>
         <label htmlFor="">
           Title
           <input
             type="text"
             className="film__input"
             onChange={this.handleChangeTitle}
+            placeholder="Enter title"
           />
         </label>
         {this.state.titleError && (
@@ -117,6 +119,7 @@ export class NewMovie extends Component {
             type="text"
             className="film__input"
             onChange={this.handleChangeDescription}
+            placeholder="Enter description"
           />
         </label>
         {this.state.descriptionError && (
@@ -128,6 +131,7 @@ export class NewMovie extends Component {
             type="text"
             className="film__input"
             onChange={this.handleChangeImgUrl}
+            placeholder="Enter imgUrl"
           />
         </label>
         {this.state.imgUrlError && (
@@ -139,6 +143,7 @@ export class NewMovie extends Component {
             type="text"
             className="film__input"
             onChange={this.handleChangeImdbUrl}
+            placeholder="Enter imdbUrl"
           />
         </label>
         {this.state.imdbUrlError && (
@@ -150,6 +155,7 @@ export class NewMovie extends Component {
             type="text"
             className="film__input"
             onChange={this.handleChangeImdbld}
+            placeholder="Enter imdbld"
           />
         </label>
         {this.state.imdbldErorr && (
