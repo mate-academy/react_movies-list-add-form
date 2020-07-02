@@ -22,4 +22,15 @@
       box-shadow: 0 0 10px 0 rgba(0,0,0,0.75);
     }
   }
+
+  &__error {
+    position: relative;
+    bottom: 23px;
+    color: red;
+    text-transform: uppercase;
+  }
+
+  &__input--error {
+    border: 1px solid red;
+  }
 }
