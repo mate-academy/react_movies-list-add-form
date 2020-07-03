@@ -51,8 +51,8 @@ export class NewMovie extends Component {
     }));
   };
 
-  submitHandler = (e) => {
-    e.preventDefault();
+  submitHandler = (event) => {
+    event.preventDefault();
 
     if (!this.state.newTitle) {
       this.setState(prevState => ({ titleError: true }));
@@ -87,16 +87,21 @@ export class NewMovie extends Component {
         imdbUrl: this.state.imdUrl,
         imdbld: this.state.newImdbld,
       });
-    }
 
-    this.setState(prevState => ({
-      newTitle: '',
-      newDescription: '',
-      newImgUrl: '',
-      newImdbUrl: '',
-      newImdbld: '',
-    }));
-  }
+      this.setState(prevState => ({
+        newTitle: '',
+        titleError: false,
+        newDescription: '',
+        descriptionError: false,
+        newImgUrl: '',
+        imgUrlError: false,
+        newImdbUrl: '',
+        imdbUrlError: false,
+        newImdbld: '',
+        imdbldErorr: false,
+      }));
+    }
+  };
 
   render() {
     return (
@@ -106,6 +111,7 @@ export class NewMovie extends Component {
           <input
             type="text"
             className="film__input"
+            value={this.state.newTitle}
             onChange={this.handleChangeTitle}
             placeholder="Enter title"
           />
@@ -118,6 +124,7 @@ export class NewMovie extends Component {
           <input
             type="text"
             className="film__input"
+            value={this.state.newDescription}
             onChange={this.handleChangeDescription}
             placeholder="Enter description"
           />
@@ -130,6 +137,7 @@ export class NewMovie extends Component {
           <input
             type="text"
             className="film__input"
+            value={this.state.newImgUrl}
             onChange={this.handleChangeImgUrl}
             placeholder="Enter imgUrl"
           />
@@ -142,6 +150,7 @@ export class NewMovie extends Component {
           <input
             type="text"
             className="film__input"
+            value={this.state.newImdbUrl}
             onChange={this.handleChangeImdbUrl}
             placeholder="Enter imdbUrl"
           />
@@ -154,6 +163,7 @@ export class NewMovie extends Component {
           <input
             type="text"
             className="film__input"
+            value={this.state.newImdbld}
             onChange={this.handleChangeImdbld}
             placeholder="Enter imdbld"
           />

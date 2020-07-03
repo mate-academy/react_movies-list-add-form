@@ -14,7 +14,8 @@ export class App extends Component {
       movies: [...prevState.movies,
         {
           ...movie,
-        }],
+        },
+      ],
     }));
   };
 
