@@ -45,7 +45,7 @@ export class NewMovie extends Component {
 
     if (title && description && (imgUrl && pattern.test(imgUrl))
         && (imdbUrl && pattern.test(imdbUrl))
-        && imdbId) {
+        && Number(imdbId)) {
       // Add new movie
       this.props.addMovie(this.state);
 
@@ -114,7 +114,7 @@ export class NewMovie extends Component {
         <input
           type="text"
           name="title"
-          className={`form__input ${error.title && `form__input--error`}`}
+          className={`form__input ${error.title && 'form__input--error'}`}
           placeholder="Add movie title"
           maxLength="100"
           onChange={e => this.onChangeInput(e.target)}
