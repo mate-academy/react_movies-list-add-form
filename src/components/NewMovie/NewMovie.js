@@ -1,26 +1,51 @@
 import React, { Component } from 'react';
-import { v4 as uuidv4 } from 'uuid';
+import PropTypes from 'prop-types';
 import { NewMovieInput } from '../NewMovieInput/NewMovieInput';
+import { NewMovieDefaultState,
+  NewMovieDefaultStateValidatedFalse } from './NewMovieDefaultState';
 
 export class NewMovie extends Component {
-  state = {
-    title: '',
-    description: '',
-    imgUrl: '',
-    imdbUrl: '',
-    imdbId: '',
-  };
+  state = NewMovieDefaultState;
 
   handleInput = (event) => {
     const { name, value } = event.target;
 
-    this.setState({
-      [name]: value,
-    });
+    this.setState(prevState => ({
+      [name]: {
+        ...prevState[name],
+        value,
+      },
+    }));
+  }
+
+  isValidatedInput = (event) => {
+    const { name } = event.target;
+    const validateItem = this.state[name];
+    const isValueValidated = validateItem.pattern.test(validateItem.value);
+
+    this.setState(prevState => ({
+      [name]: {
+        ...prevState[name],
+        isValid: isValueValidated,
+      },
+    }));
   }
 
   onSubmittedMovie = (event) => {
     event.preventDefault();
+    if (Object.is(this.state, NewMovieDefaultState)) {
+      this.setState(NewMovieDefaultStateValidatedFalse);
+
+      return;
+    }
+
+    const hadUnvalidated = Object.values(this.state)
+      .some(el => el.value.length === 0);
+
+    if (hadUnvalidated) {
+      return;
+    }
+
     const {
       title,
       description,
@@ -31,15 +56,15 @@ export class NewMovie extends Component {
     const { addMovie } = this.props;
 
     const movie = {
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
+      title: title.value,
+      description: description.value,
+      imgUrl: imgUrl.value,
+      imdbUrl: imdbUrl.value,
+      imdbId: imdbId.value,
     };
 
     addMovie(movie);
-    event.target.reset();
+    this.setState(NewMovieDefaultState);
   }
 
   render() {
@@ -49,12 +74,13 @@ export class NewMovie extends Component {
         className="p-2 d-flex flex-column justify-content-center"
       >
         {Object.entries(this.state)
-          .map(([key, value]) => (
+          .map(([key, valueItem]) => (
             <NewMovieInput
-              key={uuidv4()}
+              key={key}
               name={key}
-              value={value}
+              valueItem={valueItem}
               handleInput={this.handleInput}
+              isValidatedInput={this.isValidatedInput}
             />
           ))
         }
@@ -68,3 +94,7 @@ export class NewMovie extends Component {
     );
   }
 }
+
+NewMovie.propTypes = {
+  addMovie: PropTypes.func.isRequired,
+};
