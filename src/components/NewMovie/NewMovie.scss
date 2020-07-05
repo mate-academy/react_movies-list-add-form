@@ -39,6 +39,14 @@
       background-color: black;
       color: #e4b622;
     }
+
+    &:disabled {
+      opacity: 70%;
+      &:hover {
+        background-color: #e4b622;
+        color: black;
+      }
+    }
   }
 
   &__error {
