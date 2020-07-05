@@ -1,0 +1,50 @@
+.NewMovie {
+  display: flex;
+  flex-direction: column;
+
+  &__input {
+    margin: 20px;
+    padding: 10px;
+    height: 50px;
+    font-size: large;
+    border: 1px solid lightgray;
+
+    &--invalid {
+      border-color: #e4b622;
+    }
+  }
+
+  &__field {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__button {
+    align-self: center;
+    margin: 20px;
+    height: 50px;
+    width: 250px;
+
+    font-size: x-large;
+    font-weight: bold;
+
+    background-color: #e4b622;
+    color: black;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 1px 1px 3px 0 rgba(0,0,0,0.75);
+    transition: background-color 0.5s ease-out, color 0.5s ease-out;
+
+    &:hover {
+      background-color: black;
+      color: #e4b622;
+    }
+  }
+
+  &__error {
+    display: block;
+    margin: -20px 0 0 20px;
+    font-size: small;
+    color: #e4b622;
+  }
+}
