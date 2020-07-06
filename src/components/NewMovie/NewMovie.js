@@ -11,7 +11,6 @@ export class NewMovie extends Component {
     imgUrl: '',
     error: {
       title: '',
-      description: '',
       imdbUrl: '',
       imdbId: '',
       imgUrl: '',
@@ -76,7 +75,6 @@ export class NewMovie extends Component {
     this.setState({
       error: {
         title: !title,
-        description: !description,
         imdbId: !imdbId,
         imdbUrl: !((imdbUrl === '' || urlPattern.test(imdbUrl))),
         imgUrl: !((imgUrl === '' || urlPattern.test(imgUrl))),
