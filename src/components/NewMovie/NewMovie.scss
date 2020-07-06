@@ -39,13 +39,6 @@
       background-color: black;
       color: #e4b622;
     }
-
-    &:disabled {
-      &:hover {
-        background-color: #e4b622;
-        color: black;
-      }
-    }
   }
 
   &__error {
