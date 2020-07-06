@@ -11,33 +11,9 @@ export class NewMovie extends Component {
     imgUrl: '',
   };
 
-  getTitle = (event) => {
+  getMovieData = (event, prop) => {
     this.setState({
-      title: event.target.value,
-    });
-  }
-
-  getDescription = (event) => {
-    this.setState({
-      description: event.target.value,
-    });
-  }
-
-  getPoster = (event) => {
-    this.setState({
-      imgUrl: event.target.value,
-    });
-  }
-
-  getImdbUrl = (event) => {
-    this.setState({
-      imdbUrl: event.target.value,
-    });
-  }
-
-  getImdbId = (event) => {
-    this.setState({
-      imdbId: event.target.value,
+      [prop]: event.target.value,
     });
   }
 
@@ -73,7 +49,7 @@ export class NewMovie extends Component {
         <input
           type="text"
           value={this.state.title}
-          onChange={this.getTitle}
+          onChange={event => this.getMovieData(event, 'title')}
           placeholder="Enter a movie title"
           className="addMovieForm__element"
           required
@@ -82,7 +58,7 @@ export class NewMovie extends Component {
         <textarea
           type="text"
           value={this.state.description}
-          onChange={this.getDescription}
+          onChange={event => this.getMovieData(event, 'description')}
           placeholder="Enter a movie description"
           className="addMovieForm__element"
           rows="5"
@@ -92,7 +68,7 @@ export class NewMovie extends Component {
         <input
           type="text"
           value={this.state.imgUrl}
-          onChange={this.getPoster}
+          onChange={event => this.getMovieData(event, 'imgUrl')}
           placeholder="Enter a movie poster URL"
           className="addMovieForm__element"
           required
@@ -102,7 +78,7 @@ export class NewMovie extends Component {
         <input
           type="text"
           value={this.state.imdbUrl}
-          onChange={this.getImdbUrl}
+          onChange={event => this.getMovieData(event, 'imdbUrl')}
           placeholder="Enter a movie IMDB URL"
           className="addMovieForm__element"
           required
@@ -112,7 +88,7 @@ export class NewMovie extends Component {
         <input
           type="text"
           value={this.state.imdbId}
-          onChange={this.getImdbId}
+          onChange={event => this.getMovieData(event, 'imdbId')}
           placeholder="Enter a movie IMDB id"
           className="addMovieForm__element"
           required
