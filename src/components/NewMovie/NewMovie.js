@@ -74,8 +74,8 @@ export class NewMovie extends Component {
 
     this.setState({
       error: {
-        title: !title,
-        imdbId: !imdbId,
+        title: !title || title.length < 3,
+        imdbId: !imdbId || imdbId.length < 3,
         imdbUrl: !(imdbUrl === '') || !urlPattern.test(imdbUrl),
         imgUrl: !(imgUrl === '') || !urlPattern.test(imgUrl),
       },
@@ -107,7 +107,7 @@ export class NewMovie extends Component {
           />
           {error.title && (
             <span className="NewMovie__error">
-              Please add movie title.
+              Please add movie title, minimum 3 characters.
             </span>
           )}
         </div>
@@ -168,7 +168,7 @@ export class NewMovie extends Component {
           />
           {error.imdbId && (
             <span className="NewMovie__error">
-              Please add IMDB Id.
+              Please add IMDB Id, minimum 3 characters.
             </span>
           )}
         </div>
