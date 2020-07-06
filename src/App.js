@@ -6,7 +6,7 @@ import moviesFromServer from './api/movies.json';
 
 export class App extends Component {
   state = {
-    movies: moviesFromServer,
+    movies: [...moviesFromServer],
   };
 
   addMovie = (movie) => {
@@ -14,7 +14,7 @@ export class App extends Component {
       prevState.movies.push(movie);
 
       return {
-        movies: prevState.movies,
+        movies: [...prevState.movies],
       };
     });
   };

@@ -1,50 +1,52 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { NewMovieInput } from '../NewMovieInput/NewMovieInput';
-import { NewMovieDefaultState,
-  NewMovieDefaultStateValidatedFalse } from './NewMovieDefaultState';
+import { NewMovieDefaultState } from './NewMovieDefaultState';
 
 export class NewMovie extends Component {
-  state = NewMovieDefaultState;
+  state = {
+    movie: NewMovieDefaultState,
+    isActiveButton: false,
+  }
 
   handleInput = (event) => {
     const { name, value } = event.target;
 
     this.setState(prevState => ({
-      [name]: {
-        ...prevState[name],
-        value,
+      ...prevState,
+      movie: {
+        ...prevState.movie,
+        [name]: {
+          ...prevState.movie[name],
+          value,
+        },
       },
     }));
   }
 
   isValidatedInput = (event) => {
     const { name } = event.target;
-    const validateItem = this.state[name];
-    const isValueValidated = validateItem.pattern.test(validateItem.value);
+    const { value, pattern } = this.state.movie[name];
+    const isValueValidated = Boolean((value.match(pattern) || []).length);
+
+    const hadUnvalidated = Object.values(this.state.movie)
+      .every(el => el.isValid && el.value.length);
 
     this.setState(prevState => ({
-      [name]: {
-        ...prevState[name],
-        isValid: isValueValidated,
+      ...prevState,
+      isActiveButton: (hadUnvalidated),
+      movie: {
+        ...prevState.movie,
+        [name]: {
+          ...prevState.movie[name],
+          isValid: isValueValidated,
+        },
       },
     }));
   }
 
   onSubmittedMovie = (event) => {
     event.preventDefault();
-    if (Object.is(this.state, NewMovieDefaultState)) {
-      this.setState(NewMovieDefaultStateValidatedFalse);
-
-      return;
-    }
-
-    const hadUnvalidated = Object.values(this.state)
-      .some(el => el.value.length === 0);
-
-    if (hadUnvalidated) {
-      return;
-    }
 
     const {
       title,
@@ -52,7 +54,7 @@ export class NewMovie extends Component {
       imgUrl,
       imdbUrl,
       imdbId,
-    } = this.state;
+    } = this.state.movie;
     const { addMovie } = this.props;
 
     const movie = {
@@ -64,16 +66,21 @@ export class NewMovie extends Component {
     };
 
     addMovie(movie);
-    this.setState(NewMovieDefaultState);
+    this.setState({
+      movie: NewMovieDefaultState,
+      isActiveButton: false,
+    });
   }
 
   render() {
+    const { isActiveButton } = this.state;
+
     return (
       <form
         onSubmit={event => this.onSubmittedMovie(event)}
         className="p-2 d-flex flex-column justify-content-center"
       >
-        {Object.entries(this.state)
+        {Object.entries(this.state.movie)
           .map(([key, valueItem]) => (
             <NewMovieInput
               key={key}
@@ -81,12 +88,14 @@ export class NewMovie extends Component {
               valueItem={valueItem}
               handleInput={this.handleInput}
               isValidatedInput={this.isValidatedInput}
+              isActiveButton={isActiveButton}
             />
           ))
         }
         <button
           type="submit"
           className="btn btn-primary"
+          disabled={!isActiveButton}
         >
           Add movie
         </button>
