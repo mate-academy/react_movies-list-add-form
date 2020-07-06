@@ -1,19 +1,37 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import './InputForm.scss';
+import { InputFormTypes } from '../Shapes/Shapes';
 
-export const InputForm = ({ onChange, text, value }) => (
-  <label>
-    {text}
-    <input
-      required
-      onChange={onChange}
-      value={value}
-    />
-  </label>
-);
+export const InputForm = (props) => {
+  const {
+    text,
+    value,
+    name,
+    error,
+    onChange,
+    onBlur,
+  } = props;
 
-InputForm.propTypes = {
-  onChange: PropTypes.func.isRequired,
-  text: PropTypes.string.isRequired,
-  value: PropTypes.string.isRequired,
+  return (
+    <label className="label">
+      {text}
+      <input
+        className={error ? 'input input--error' : 'input'}
+        name={name}
+        value={value}
+        onChange={onChange}
+        onBlur={onBlur}
+      />
+      {error
+        ? (
+          <span className="error__message">
+            {`Please, type correct ${text}`}
+          </span>
+        )
+        : ''}
+
+    </label>
+  );
 };
+
+InputForm.propTypes = InputFormTypes;
