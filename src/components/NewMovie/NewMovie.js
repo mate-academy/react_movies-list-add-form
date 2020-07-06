@@ -30,7 +30,7 @@ export class NewMovie extends Component {
     const isValueValidated = Boolean((value.match(pattern) || []).length);
 
     const hadUnvalidated = Object.values(this.state.movie)
-      .every(el => el.isValid && el.value.length);
+      .every(el => (el.isValid && el.value.length));
 
     this.setState(prevState => ({
       ...prevState,

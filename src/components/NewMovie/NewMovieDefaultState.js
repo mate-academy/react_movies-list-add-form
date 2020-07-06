@@ -7,7 +7,7 @@ export const NewMovieDefaultState = {
   description: {
     value: '',
     isValid: true,
-    pattern: new RegExp(/\w+/, 'g'),
+    pattern: new RegExp(/\w*/, 'g'),
   },
   imgUrl: {
     value: '',
