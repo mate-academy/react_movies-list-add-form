@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import './NewMovie.scss';
 
 export class NewMovie extends Component {
@@ -40,23 +41,34 @@ export class NewMovie extends Component {
     });
   }
 
-  render() {
-    console.log("NewMovie -> render -> this", this)
-    const { title, description, imdbId, getImdbUrl, imgUrl } = this.state;
+  submit = (event) => {
+    const { title, description, imdbId, imdbUrl, imgUrl } = this.state;
 
+    this.setState({
+      title: '',
+      description: '',
+      imdbId: '',
+      imdbUrl: '',
+      imgUrl: '',
+    });
+
+    return (
+      this.props.addMovie(
+        event,
+        title,
+        description,
+        imdbId,
+        imdbUrl,
+        imgUrl,
+      )
+    );
+  }
+
+  render() {
     return (
       <form
         className="addMovieForm"
-        onSubmit={event => (
-          this.props.addMovie(
-            event,
-            title,
-            description,
-            imdbId,
-            getImdbUrl,
-            imgUrl,
-          )
-        )}
+        onSubmit={this.submit}
       >
         <input
           type="text"
@@ -114,3 +126,7 @@ export class NewMovie extends Component {
     );
   }
 }
+
+NewMovie.propTypes = {
+  addMovie: PropTypes.func.isRequired,
+};

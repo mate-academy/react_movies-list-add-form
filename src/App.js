@@ -9,8 +9,8 @@ export class App extends Component {
     movies: moviesFromServer,
   };
 
-  addMovie = (event, title, description, imdbId, getImdbUrl, imgUrl) => {
-    event.preventDefault()
+  addMovie = (event, title, description, imdbId, imdbUrl, imgUrl) => {
+    event.preventDefault();
     this.setState(prev => ({
       movies: [
         ...prev.movies,
@@ -18,16 +18,15 @@ export class App extends Component {
           title,
           description,
           imdbId,
-          getImdbUrl,
+          imdbUrl,
           imgUrl,
-        }
-      ]
+        },
+      ],
     }));
   };
 
   render() {
     const { movies } = this.state;
-    console.log("App -> render -> this", this)
 
     return (
       <div className="page">
@@ -35,7 +34,7 @@ export class App extends Component {
           <MoviesList movies={movies} />
         </div>
         <div className="sidebar">
-          <NewMovie addMovie={this.addMovie}/>
+          <NewMovie addMovie={this.addMovie} />
         </div>
       </div>
     );
