@@ -76,8 +76,8 @@ export class NewMovie extends Component {
       error: {
         title: !title,
         imdbId: !imdbId,
-        imdbUrl: !((imdbUrl === '' || urlPattern.test(imdbUrl))),
-        imgUrl: !((imgUrl === '' || urlPattern.test(imgUrl))),
+        imdbUrl: !(imdbUrl === '' || urlPattern.test(imdbUrl)),
+        imgUrl: !(imgUrl === '' || urlPattern.test(imgUrl)),
       },
     });
   }
