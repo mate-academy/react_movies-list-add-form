@@ -106,7 +106,7 @@ export class NewMovie extends Component {
           placeholder="Enter a movie IMDB URL"
           className="addMovieForm__element"
           required
-          pattern="(https:\/\/|http:\/\/)?(www.imdb.com\/title\/(.{2})\w{7})(\/)?$"
+          pattern="(https:\/\/)?(www.imdb.com\/title\/(.{2})\w{7})(\/)?$"
         />
 
         <input
