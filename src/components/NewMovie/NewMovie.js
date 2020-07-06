@@ -21,7 +21,7 @@ export class NewMovie extends Component {
     const { name, value } = event.target;
 
     this.setState(prevState => ({
-      [name]: value.trim(),
+      [name]: value,
       error: {
         ...prevState.error,
         [name]: false,
@@ -76,8 +76,8 @@ export class NewMovie extends Component {
       error: {
         title: !title,
         imdbId: !imdbId,
-        imdbUrl: !(imdbUrl === '' || urlPattern.test(imdbUrl)),
-        imgUrl: !(imgUrl === '' || urlPattern.test(imgUrl)),
+        imdbUrl: !(!(imdbUrl === '') || urlPattern.test(imdbUrl)),
+        imgUrl: !(!(imgUrl === '') || urlPattern.test(imgUrl)),
       },
     });
   }
