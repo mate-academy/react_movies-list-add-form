@@ -2,15 +2,19 @@ import React, { Component } from 'react';
 import './App.scss';
 import { MoviesList } from './components/MoviesList';
 import { NewMovie } from './components/NewMovie';
-import moviesFromServer from './api/movies.json';
+import filmsFromServer from './api/movies.json';
 
-export class App extends Component {
+class App extends Component {
   state = {
-    movies: moviesFromServer,
+    movies: filmsFromServer,
   };
 
   addMovie = (movie) => {
-    // put your code here
+    this.setState((prevState) => {
+      return {
+        movies: [...prevState.movies, movie],
+      };
+    });
   };
 
   render() {
@@ -22,9 +26,11 @@ export class App extends Component {
           <MoviesList movies={movies} />
         </div>
         <div className="sidebar">
-          <NewMovie />
+          <NewMovie addMovie={this.addMovie} />
         </div>
       </div>
     );
   }
 }
+
+export default App;
