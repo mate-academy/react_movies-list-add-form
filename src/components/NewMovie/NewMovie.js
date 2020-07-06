@@ -76,8 +76,8 @@ export class NewMovie extends Component {
       error: {
         title: !title,
         imdbId: !imdbId,
-        imdbUrl: !(!(imdbUrl === '') || urlPattern.test(imdbUrl)),
-        imgUrl: !(!(imgUrl === '') || urlPattern.test(imgUrl)),
+        imdbUrl: !(imdbUrl === '') || !urlPattern.test(imdbUrl),
+        imgUrl: !(imgUrl === '') || !urlPattern.test(imgUrl),
       },
     });
   }
@@ -175,10 +175,10 @@ export class NewMovie extends Component {
         <button
           type="submit"
           className="NewMovie__button"
-          disabled={!this.state.title
-            && !this.state.imgUrl
-            && !this.state.imdbUrl
-            && !this.state.imdbId}
+          disabled={!title
+            || (!imgUrl || error.imgUrl)
+            || (!imdbUrl || error.imdbUrl)
+            || !imdbId}
         >
           Add movie
         </button>

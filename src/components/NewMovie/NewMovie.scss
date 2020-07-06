@@ -24,21 +24,6 @@
     margin: 20px;
     height: 50px;
     width: 250px;
-
-    font-size: x-large;
-    font-weight: bold;
-
-    background-color: #e4b622;
-    color: black;
-    border: none;
-    border-radius: 10px;
-    box-shadow: 1px 1px 3px 0 rgba(0,0,0,0.75);
-    transition: background-color 0.5s ease-out, color 0.5s ease-out;
-
-    &:hover {
-      background-color: black;
-      color: #e4b622;
-    }
   }
 
   &__error {
