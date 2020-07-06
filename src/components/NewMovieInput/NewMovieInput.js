@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { ErrorMessage } from '../ErrorMessage/ErrorMessage';
 
 export const NewMovieInput = (props) => {
   const {
@@ -20,8 +21,9 @@ export const NewMovieInput = (props) => {
         placeholder={name}
         className={
           `w-100 p-2 form-control ${!valueItem.isValid && 'is-invalid'}`
-        } //  "is-invalid" class for error
+        }
       />
+      <ErrorMessage name={name} />
     </label>
   );
 };
