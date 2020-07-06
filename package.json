@@ -15,7 +15,9 @@
     "react-scripts": "3.4.1"
   },
   "devDependencies": {
+    "@linthtml/linthtml": "^0.4.2",
     "@mate-academy/eslint-config-react": "*",
+    "@mate-academy/linthtml-config": "0.0.1",
     "@mate-academy/stylelint-config": "*",
     "eslint": "^6.8.0",
     "gh-pages": "^2.2.0",
