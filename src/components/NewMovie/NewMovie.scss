@@ -1,0 +1,14 @@
+.addMovieForm {
+  display: flex;
+  flex-direction: column;
+}
+
+.addMovieForm__element {
+  margin: 2px;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 100px;
+  max-height: 500px;
+}

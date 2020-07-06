@@ -9,12 +9,25 @@ export class App extends Component {
     movies: moviesFromServer,
   };
 
-  addMovie = (movie) => {
-    // put your code here
+  addMovie = (event, title, description, imdbId, getImdbUrl, imgUrl) => {
+    event.preventDefault()
+    this.setState(prev => ({
+      movies: [
+        ...prev.movies,
+        {
+          title,
+          description,
+          imdbId,
+          getImdbUrl,
+          imgUrl,
+        }
+      ]
+    }));
   };
 
   render() {
     const { movies } = this.state;
+    console.log("App -> render -> this", this)
 
     return (
       <div className="page">
@@ -22,7 +35,7 @@ export class App extends Component {
           <MoviesList movies={movies} />
         </div>
         <div className="sidebar">
-          <NewMovie />
+          <NewMovie addMovie={this.addMovie}/>
         </div>
       </div>
     );
