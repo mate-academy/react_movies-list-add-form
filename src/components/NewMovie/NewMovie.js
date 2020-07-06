@@ -48,6 +48,10 @@ export class NewMovie extends Component {
   onSubmittedMovie = (event) => {
     event.preventDefault();
 
+    if (!this.state.isActiveButton) {
+      return;
+    }
+
     const {
       title,
       description,
