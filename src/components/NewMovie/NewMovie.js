@@ -11,35 +11,13 @@ export class NewMovie extends Component {
     imdbId: '',
   };
 
-  onTitleChange = event => (
-    this.setState({
-      title: event.target.value,
-    })
-  )
+  onChangeMovie = (event) => {
+    const { name, value } = event.target;
 
-  onDescriptionChange = event => (
-    this.setState({
-      description: event.target.value,
-    })
-  )
-
-  onImgChange = event => (
-    this.setState({
-      imgUrl: event.target.value,
-    })
-  )
-
-  onImdUrlChange = event => (
-    this.setState({
-      imdbUrl: event.target.value,
-    })
-  )
-
-  onImdIdChange = event => (
-    this.setState({
-      imdbId: event.target.value,
-    })
-  )
+    return this.setState({
+      [name]: value,
+    });
+  }
 
   handleSubmit = (event) => {
     event.preventDefault();
@@ -68,8 +46,9 @@ export class NewMovie extends Component {
           className="form__input"
           id="input__title"
           placeholder="title..."
+          name="title"
           value={title}
-          onChange={this.onTitleChange}
+          onChange={this.onChangeMovie}
           required
         />
         <label className="form__label" htmlFor="description__input">
@@ -81,7 +60,8 @@ export class NewMovie extends Component {
           id="description__input"
           value={description}
           placeholder="description..."
-          onChange={this.onDescriptionChange}
+          name="description"
+          onChange={this.onChangeMovie}
         />
 
         <label className="form__label" htmlFor="imgurl__input">
@@ -93,7 +73,8 @@ export class NewMovie extends Component {
           id="imgurl__input"
           value={imgUrl}
           placeholder="imgURL..."
-          onChange={this.onImgChange}
+          name="imgUrl"
+          onChange={this.onChangeMovie}
           required
         />
 
@@ -106,7 +87,8 @@ export class NewMovie extends Component {
           id="imdburl__input"
           value={imdbUrl}
           placeholder="imbdURL..."
-          onChange={this.onImdUrlChange}
+          name="imdbUrl"
+          onChange={this.onChangeMovie}
           required
         />
 
@@ -119,7 +101,8 @@ export class NewMovie extends Component {
           id="imbdId__input"
           value={imdbId}
           placeholder="imbdID..."
-          onChange={this.onImdIdChange}
+          name="imdbId"
+          onChange={this.onChangeMovie}
           required
         />
 
