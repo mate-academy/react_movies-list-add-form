@@ -14,11 +14,10 @@ let disabled = true;
 export class NewMovie extends Component {
   state = initialState;
 
-  handleChange = (ev) => {
-    ev.persist();
-
+  handleChange = (name, value) => {
     return (this.setState(() => ({
-      [ev.target.name]: ev.target.value,
+      [name]: value,
+      [`${name}Error`]: '',
     })));
   }
 

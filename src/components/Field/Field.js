@@ -31,7 +31,7 @@ export const Field = ({
         placeholder={name}
         type="text"
         name={`${name}`}
-        onChange={ev => handleChange(ev)}
+        onChange={ev => handleChange(ev.target.name, ev.target.value)}
         onBlur={ev => validation(ev.target.name, ev.target.value, option)}
       />
       <p className="errors">{err}</p>
