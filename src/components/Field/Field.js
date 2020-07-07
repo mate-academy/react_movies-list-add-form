@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 export const Field = ({
-  name, err, handleChange, validation, value, valid,
+  name, error, handleChange, validation, value, isValid,
 }) => {
   let option;
   let classTitle;
@@ -12,12 +12,12 @@ export const Field = ({
   } else if (name === 'title' || name === 'imdbId') {
     option = 5;
   } else {
-    option = 30;
+    option = 0;
   }
 
-  if (valid === false) {
+  if (isValid === false) {
     classTitle = 'no-verified';
-  } else if (valid === true) {
+  } else if (isValid === true) {
     classTitle = 'accepted';
   } else {
     classTitle = 'before-verification';
@@ -26,24 +26,24 @@ export const Field = ({
   return (
     <div>
       <input
-        className={classTitle}
+        className={`${classTitle} form_input`}
         value={value}
         placeholder={name}
         type="text"
         name={`${name}`}
-        onChange={ev => handleChange(ev.target.name, ev.target.value)}
-        onBlur={ev => validation(ev.target.name, ev.target.value, option)}
+        onChange={event => handleChange(event, value)}
+        onBlur={event => validation(event, option)}
       />
-      <p className="errors">{err}</p>
+      <p className="errors">{error}</p>
     </div>
   );
 };
 
 Field.propTypes = {
   name: PropTypes.string.isRequired,
-  err: PropTypes.string.isRequired,
+  error: PropTypes.string.isRequired,
   handleChange: PropTypes.func.isRequired,
   validation: PropTypes.func.isRequired,
   value: PropTypes.string.isRequired,
-  valid: PropTypes.bool.isRequired,
+  isValid: PropTypes.bool.isRequired,
 };

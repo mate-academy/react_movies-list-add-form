@@ -3,29 +3,31 @@ import React, { Component } from 'react';
 import { Field } from '../Field/Field';
 import { names, initialState, indexes, status, reg } from '../../api/constants';
 
-const allValid = {
+const areFieldsValid = {
   ...indexes,
 };
 
-let valid = [...status];
+let isValid = [...status];
 const fields = [...names];
 let disabled = true;
 
 export class NewMovie extends Component {
   state = initialState;
 
-  handleChange = (name, value) => {
+  handleChange = (event) => {
+    const { value, name } = event.target;
+
     return (this.setState(() => ({
       [name]: value,
       [`${name}Error`]: '',
     })));
   }
 
-  handleSubmit = (ev) => {
+  handleSubmit = (event) => {
     const { title, description, imgUrl, imdbUrl, imdbId } = this.state;
 
-    valid = [...status];
-    ev.preventDefault();
+    isValid = [...status];
+    event.preventDefault();
     this.props.addMovie({
       title, description, imgUrl, imdbUrl, imdbId,
     });
@@ -33,42 +35,44 @@ export class NewMovie extends Component {
     disabled = true;
   }
 
-  validation = (name, value, option) => {
+  validation = (event, option) => {
+    const { value, name } = event.target;
+
     if (typeof option === 'number') {
       if (value.length < option) {
-        valid[allValid[name]] = false;
+        isValid[areFieldsValid[name]] = false;
         this.setState(() => ({
           [`${name}Error`]: `Must contain at least ${option} characters`,
         }));
       } else {
         this.setState(() => ({ [`${name}Error`]: '' }));
-        valid[allValid[name]] = true;
+        isValid[areFieldsValid[name]] = true;
       }
     } else if (option === 'url') {
       if (!reg.test(value)) {
-        valid[allValid[name]] = false;
+        isValid[areFieldsValid[name]] = false;
         this.setState(() => ({ [`${name}Error`]: 'Enter the correct url' }));
       } else {
         this.setState(() => ({ [`${name}Error`]: '' }));
-        valid[allValid[name]] = true;
+        isValid[areFieldsValid[name]] = true;
       }
     }
 
-    disabled = (!valid.every(el => el === true));
+    disabled = (!isValid.every(element => element === true));
   }
 
   render() {
     return (
-      <form onSubmit={ev => this.handleSubmit(ev)}>
+      <form onSubmit={this.handleSubmit}>
         <fieldset className="inputs-block">
           <legend>Add a movie</legend>
           {
             fields.map(name => (
               <Field
-                valid={valid[indexes[name]]}
+                isValid={isValid[indexes[name]]}
                 name={name}
                 value={this.state[name]}
-                err={this.state[`${name}Error`]}
+                error={this.state[`${name}Error`]}
                 handleChange={this.handleChange}
                 validation={this.validation}
               />
