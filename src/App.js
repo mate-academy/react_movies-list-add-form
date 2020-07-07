@@ -10,7 +10,12 @@ export class App extends Component {
   };
 
   addMovie = (movie) => {
-    this.setState(prevState => prevState.movies.push(movie));
+    this.setState(prevState => ({
+      movies: [
+        ...prevState.movies,
+        { ...movie },
+      ],
+    }));
   };
 
   render() {

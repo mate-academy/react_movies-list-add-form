@@ -4,6 +4,9 @@ import PropTypes from 'prop-types';
 import './Input.scss';
 
 export const Input = ({ name, onChange, valid, onBlur }) => {
+  const placeholderValue = `${name === 'imdbUrl'
+  || name === 'imgUrl' ? 'https://www.example.com' : `${name}`}`;
+
   return (
     <div className="form-group">
       <label htmlFor={name} className="form-label">
@@ -13,10 +16,9 @@ export const Input = ({ name, onChange, valid, onBlur }) => {
         className={`form-input ${valid ? '' : 'form-input-error'}`}
         name={name}
         id={name}
-        placeholder={`${name === 'imdbUrl'
-          || name === 'imgUrl' ? 'https://www.example.com' : `${name}`}`}
-        onChange={event => onChange(event.target.name, event.target.value)}
-        onBlur={event => onBlur(event.target.name, event.target.value)}
+        placeholder={placeholderValue}
+        onChange={onChange}
+        onBlur={onBlur}
         required
       />
       <span

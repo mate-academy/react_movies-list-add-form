@@ -30,11 +30,13 @@ export class NewMovie extends Component {
     isButtonDisabled: false,
   };
 
-  onChangeFields = (fieldName, content) => {
+  onChangeFields = (event) => {
+    const { name, value } = event.target;
+
     this.setState(prevState => ({
       movie: {
         ...prevState.movie,
-        [fieldName]: content,
+        [name]: value,
       },
     }));
   }
@@ -42,25 +44,25 @@ export class NewMovie extends Component {
   onAdd = (event) => {
     event.preventDefault();
 
-    const movie = { ...this.state.movie };
-
-    this.props.addMovie(movie);
+    this.props.addMovie(this.state.movie);
 
     event.target.reset();
   };
 
-  fieldValidation = (fieldName, content) => {
+  fieldValidation = (event) => {
+    const { name, value } = event.target;
+
     // eslint-disable-next-line max-len
     const patternUrl = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
 
-    const isValid = (fieldName === 'title' || fieldName === 'imdbId')
-      ? Boolean(content)
-      : patternUrl.test(content);
+    const isValid = (name === 'title' || name === 'imdbId')
+      ? Boolean(value)
+      : patternUrl.test(value);
 
     this.setState(prevState => ({
       field: {
         ...prevState.field,
-        [fieldName]: {
+        [name]: {
           isValid,
         },
       },
