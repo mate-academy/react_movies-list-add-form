@@ -9,18 +9,12 @@ export class App extends Component {
     movies: moviesFromServer,
   };
 
-  addMovie = (event, title, description, imdbId, imdbUrl, imgUrl) => {
+  addMovie = (event, movieData) => {
     event.preventDefault();
-    this.setState(prev => ({
+    this.setState(previous => ({
       movies: [
-        ...prev.movies,
-        {
-          title,
-          description,
-          imdbId,
-          imdbUrl,
-          imgUrl,
-        },
+        ...previous.movies,
+        movieData,
       ],
     }));
   };
