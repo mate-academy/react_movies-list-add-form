@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import './NewMovie.scss';
+import { TextField } from '../TextField/TextField';
+import { NewMovieShape } from '../Shape';
 
 export class NewMovie extends Component {
   state = {
@@ -8,100 +10,154 @@ export class NewMovie extends Component {
     imgUrl: [],
     imdbUrl: [],
     imdbId: [],
+    validation: true,
+    errors: {
+      titleError: false,
+      descriptionError: false,
+      imgUrlError: false,
+      imdbUrlError: false,
+      imdbIdError: false,
+    },
   };
 
-  handleSubmit = (event) => {
+  handleInput = (event) => {
+    const text = event.target.value;
+    const { name } = event.target;
+
+    this.setState(prevState => ({
+      [name]: text,
+    }));
+  }
+
+  handleValidation = (event) => {
+    const { value, name } = event.target;
+    const errorName = `${name}Error`;
+    const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
+    let isValid;
+
+    switch (name) {
+      case 'title':
+        isValid = value.length < 3;
+        break;
+      case 'description':
+        isValid = value.length < 10;
+        break;
+      case 'imgUrl':
+        isValid = !pattern.test(value);
+        break;
+      case 'imdbUrl':
+        isValid = !pattern.test(value);
+        break;
+      case 'imdbId':
+        isValid = !Number(this.state.imdbId);
+        break;
+      default: isValid = false;
+    }
+
+    this.setState(prevState => ({
+      validation: Object.values(prevState.errors)
+        .every(input => input === false),
+    }));
+
+    this.setState(prevState => ({
+      errors: {
+        ...prevState.errors,
+        [errorName]: isValid,
+      },
+    }));
+  }
+
+  handleNewMovie = (event) => {
     event.preventDefault();
-    this.props.addMovies(this.state);
-    this.setState({
-      title: '',
-      description: '',
-      imgUrl: '',
-      imdbUrl: '',
-      imdbId: '',
-    });
-  }
 
-  addTitle = (event) => {
-    this.setState({
-      title: event.target.value,
-    });
-  }
+    const newMovie = {
+      title: this.state.title,
+      description: this.state.description,
+      imgUrl: this.state.imgUrl,
+      imdbUrl: this.state.imdbUrl,
+      imdbId: this.state.imdbId,
+    };
 
-  addDescription = (event) => {
-    this.setState({
-      description: event.target.value,
-    });
-  }
+    this.props.addMovie(newMovie);
 
-  addImg = (event) => {
     this.setState({
-      imgUrl: event.target.value,
+      title: [],
+      description: [],
+      imgUrl: [],
+      imdbUrl: [],
+      imdbId: [],
     });
-  }
 
-  addImdbUrl = (event) => {
-    this.setState({
-      imdbUrl: event.target.value,
-    });
-  }
-
-  addImdbId = (event) => {
-    this.setState({
-      imdbId: event.target.value,
-    });
+    event.target.reset();
   }
 
   render() {
+    const {
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    } = this.state;
+
+    const {
+      titleError,
+      imgUrlError,
+      descriptionError,
+      imdbUrlError,
+      imdbIdError,
+    } = this.state.errors;
+
     return (
-      <>
-        <form className="form" onSubmit={this.handleSubmit}>
-          <input
-            type="text"
-            required
-            placeholder="Add title"
-            onChange={this.addTitle}
-            value={this.state.title}
-          />
-          <input
-            required
-            type="text"
-            placeholder="Add description"
-            onChange={this.addDescription}
-            value={this.state.description}
-          />
-          <input
-            required
-            type="text"
-            placeholder="Add image url"
-            onChange={this.addImg}
-            value={this.state.imgUrl}
-          />
-          <input
-            required
-            type="text"
-            placeholder="Add imdb url"
-            onChange={this.addImdbUrl}
-            value={this.state.imdbUrl}
-          />
-          <input
-            required
-            type="text"
-            placeholder="Add imdb id"
-            onChange={this.addImdbId}
-            value={this.state.imdbId}
-          />
-          <button
-            type="submit"
-          >
-            ADD
-          </button>
-        </form>
-      </>
+      <form
+        name="newMovie"
+        onSubmit={this.handleNewMovie}
+      >
+        <TextField
+          name="title"
+          value={title}
+          error={titleError}
+          onChange={this.handleInput}
+          onBlur={this.handleValidation}
+        />
+        <TextField
+          name="description"
+          value={description}
+          error={descriptionError}
+          onChange={this.handleInput}
+          onBlur={this.handleValidation}
+        />
+        <TextField
+          name="imgUrl"
+          value={imgUrl}
+          error={imgUrlError}
+          onChange={this.handleInput}
+          onBlur={this.handleValidation}
+        />
+        <TextField
+          name="imdbUrl"
+          value={imdbUrl}
+          error={imdbUrlError}
+          onChange={this.handleInput}
+          onBlur={this.handleValidation}
+        />
+        <TextField
+          name="imdbId"
+          value={imdbId}
+          error={imdbIdError}
+          onChange={this.handleInput}
+          onBlur={this.handleValidation}
+        />
+        <button
+          name="submitButton"
+          type="submit"
+          disabled={!this.state.validation}
+        >
+          ADD MOVIE
+        </button>
+      </form>
     );
   }
 }
 
-NewMovie.propTypes = {
-  addMovies: PropTypes.func.isRequired,
-};
+NewMovie.propTypes = NewMovieShape;
