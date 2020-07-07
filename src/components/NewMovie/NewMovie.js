@@ -28,17 +28,17 @@ export class NewMovie extends Component {
   handleBlur = (name, event) => {
     const errorName = name.concat('Error');
 
-    if (name !== 'imgUrl' && name !== 'imdbUrl') {
-      if (event.target.value.replace(/\s+/g, '').length === 0) {
-        this.setState({
-          [errorName]: true,
-          isFormInvalid: true,
-        });
-      }
-    } else {
-      // eslint-disable-next-line max-len
-      const urlRegex = /[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/;
+    if (event.target.value.replace(/\s+/g, '').length === 0) {
+      this.setState({
+        [errorName]: true,
+        isFormInvalid: true,
+      });
+    }
 
+    // eslint-disable-next-line max-len
+    const urlRegex = /[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/;
+
+    if (name === 'imgUrl' || name === 'imdbUrl') {
       if (!urlRegex.test(event.target.value)) {
         this.setState({
           [errorName]: true,
@@ -157,7 +157,7 @@ export class NewMovie extends Component {
         </label>
         <br />
         {
-          this.state.imgUrlError
+          this.state.imdbUrlError
             ? (
               <>
                 <span className="error">
