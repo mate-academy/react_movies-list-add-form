@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.scss';
 import { MoviesList } from './components/MoviesList';
-import { NewMovie } from './components/NewMovie';
+import { NewMovie } from './components/NewMovie/NewMovie';
 import moviesFromServer from './api/movies.json';
 
 export class App extends Component {

@@ -4,102 +4,69 @@ import './NewMovie.scss';
 
 export class NewMovie extends Component {
   state = {
-    newTitle: '',
-    titleError: false,
-    newDescription: '',
-    descriptionError: false,
-    newImgUrl: '',
-    imgUrlError: false,
-    newImdbUrl: '',
-    imdbUrlError: false,
-    newImdbld: '',
-    imdbldErorr: false,
+    movie: {
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbld: '',
+    },
+    error: {
+      title: false,
+      description: false,
+      imgUrl: false,
+      imdbUrl: false,
+      imdbld: false,
+    },
   };
 
-  handleChangeTitle = ({ target: { value } }) => {
-    this.setState(prevState => ({
-      newTitle: value,
-      titleError: false,
+  onChangeMovie = (event) => {
+    const { name, value } = event.target;
+    const propValue = (value.trim().length === 0);
+
+    return this.setState(prevState => ({
+      movie: {
+        ...prevState.movie,
+        [name]: value,
+      },
+      error: {
+        ...prevState.error,
+        [name]: propValue,
+      },
     }));
   };
 
-  handleChangeDescription = ({ target: { value } }) => {
-    this.setState(prevState => ({
-      newDescription: value,
-      descriptionError: false,
-    }));
-  };
-
-  handleChangeImgUrl = ({ target: { value } }) => {
-    this.setState(prevState => ({
-      newImgUrl: value,
-      imgUrlError: false,
-    }));
-  };
-
-  handleChangeImdbUrl = ({ target: { value } }) => {
-    this.setState(prevState => ({
-      newImdbUrl: value,
-      imdbUrlError: false,
-    }));
-  };
-
-  handleChangeImdbld = ({ target: { value } }) => {
-    this.setState(prevState => ({
-      newImdbld: value,
-      titleError: false,
+  resetState = () => {
+    return this.setState(prevState => ({
+      movie: {
+        title: '',
+        description: '',
+        imgUrl: '',
+        imdbUrl: '',
+        imdbld: '',
+      },
+      error: {
+        title: false,
+        description: false,
+        imgUrl: false,
+        imdbUrl: false,
+        imdbld: false,
+      },
     }));
   };
 
   submitHandler = (event) => {
     event.preventDefault();
 
-    if (!this.state.newTitle) {
-      this.setState(prevState => ({ titleError: true }));
-    }
-
-    if (!this.state.newDescription) {
-      this.setState(prevState => ({ descriptionError: true }));
-    }
-
-    if (!this.state.newImgUrl) {
-      this.setState(prevState => ({ imgUrlError: true }));
-    }
-
-    if (!this.state.newImdbUrl) {
-      this.setState(prevState => ({ imdbUrlError: true }));
-    }
-
-    if (!this.state.newImdbld) {
-      this.setState(prevState => ({ imdbldErorr: true }));
-    }
-
-    if (this.state.newImdbld
-      && this.state.newImdbUrl
-      && this.state.newImgUrl
-      && this.state.newDescription
-      && this.state.newTitle
+    if (this.state.movie.imdbld
+      && this.state.movie.imdbUrl
+      && this.state.movie.imgUrl
+      && this.state.movie.description
+      && this.state.movie.title
     ) {
-      this.props.addMovie({
-        title: this.state.newTitle,
-        description: this.state.newDescription,
-        imgUrl: this.state.newImgUrl,
-        imdbUrl: this.state.imdUrl,
-        imdbld: this.state.newImdbld,
-      });
+      this.props.addMovie(this.state.movie);
 
-      this.setState(prevState => ({
-        newTitle: '',
-        titleError: false,
-        newDescription: '',
-        descriptionError: false,
-        newImgUrl: '',
-        imgUrlError: false,
-        newImdbUrl: '',
-        imdbUrlError: false,
-        newImdbld: '',
-        imdbldErorr: false,
-      }));
+      this.resetState();
     }
   };
 
@@ -111,12 +78,13 @@ export class NewMovie extends Component {
           <input
             type="text"
             className="film__input"
-            value={this.state.newTitle}
-            onChange={this.handleChangeTitle}
+            value={this.state.movie.title}
+            name="title"
+            onChange={this.onChangeMovie}
             placeholder="Enter title"
           />
         </label>
-        {this.state.titleError && (
+        {this.state.error.title && (
           <div className="film__error">Please, enter title text</div>
         )}
         <label htmlFor="">
@@ -124,12 +92,13 @@ export class NewMovie extends Component {
           <input
             type="text"
             className="film__input"
-            value={this.state.newDescription}
-            onChange={this.handleChangeDescription}
+            value={this.state.movie.description}
+            name="description"
+            onChange={this.onChangeMovie}
             placeholder="Enter description"
           />
         </label>
-        {this.state.descriptionError && (
+        {this.state.error.description && (
           <div className="film__error">Please, enter description text</div>
         )}
         <label htmlFor="">
@@ -137,12 +106,13 @@ export class NewMovie extends Component {
           <input
             type="text"
             className="film__input"
-            value={this.state.newImgUrl}
-            onChange={this.handleChangeImgUrl}
+            value={this.state.movie.imgUrl}
+            name="imgUrl"
+            onChange={this.onChangeMovie}
             placeholder="Enter imgUrl"
           />
         </label>
-        {this.state.imgUrlError && (
+        {this.state.error.imgUrl && (
           <div className="film__error">Please, enter imgUrl text</div>
         )}
         <label htmlFor="">
@@ -150,12 +120,13 @@ export class NewMovie extends Component {
           <input
             type="text"
             className="film__input"
-            value={this.state.newImdbUrl}
-            onChange={this.handleChangeImdbUrl}
+            value={this.state.movie.imdbUrl}
+            name="imdbUrl"
+            onChange={this.onChangeMovie}
             placeholder="Enter imdbUrl"
           />
         </label>
-        {this.state.imdbUrlError && (
+        {this.state.error.imdbUrl && (
           <div className="film__error">Please, enter imdUrl text</div>
         )}
         <label htmlFor="">
@@ -163,12 +134,13 @@ export class NewMovie extends Component {
           <input
             type="text"
             className="film__input"
-            value={this.state.newImdbld}
-            onChange={this.handleChangeImdbld}
+            value={this.state.movie.imdbld}
+            name="imdbld"
+            onChange={this.onChangeMovie}
             placeholder="Enter imdbld"
           />
         </label>
-        {this.state.imdbldErorr && (
+        {this.state.error.imdbld && (
           <div className="film__error">Please, enter imdbld title text</div>
         )}
         <button type="submit">Save card</button>
