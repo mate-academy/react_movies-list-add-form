@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import './NewMovie.scss';
 import { TextField } from '../TextField/TextField';
 
 export class NewMovie extends Component {
@@ -40,7 +41,7 @@ export class NewMovie extends Component {
 
   handleChange = ({ target: { name, value } }) => {
     this.setState({
-      [name]: value.trim(),
+      [name]: value.replace(/\s/, ' ').trimLeft(),
     });
   };
 
@@ -54,7 +55,7 @@ export class NewMovie extends Component {
     } = this.state;
 
     return (
-      <form onSubmit={this.handleSubmit}>
+      <form className="add-movie" onSubmit={this.handleSubmit}>
         <TextField
           name="title"
           label="Title"
@@ -91,7 +92,7 @@ export class NewMovie extends Component {
           onChange={this.handleChange}
         />
         <div>
-          <button type="submit">
+          <button className="add-movie__button" type="submit">
             Add movie
           </button>
         </div>

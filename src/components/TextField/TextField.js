@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import './TextField.scss';
 
 export const TextField = (props) => {
   const {
@@ -11,10 +12,11 @@ export const TextField = (props) => {
   } = props;
 
   return (
-    <div>
+    <div className="add-movie__item">
       <label>
-        {label}
+        <span className="label">{label}</span>
         <input
+          className="text-field"
           type="text"
           name={name}
           value={value}
