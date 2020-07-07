@@ -1,12 +1,8 @@
 import React, { Component } from 'react';
 import './NewMovie.scss';
 import PropTypes from 'prop-types';
-import { TitleInput } from '../Inputs/TitleInput/TitleInput';
-import { DescriptionInput } from '../Inputs/DescriptionInput/DescriptionInput';
-import { ImageInput } from '../Inputs/ImageInput/ImageInput';
-import { ImdbUrlInput } from '../Inputs/ImdbUrlInput/ImdbUrlInput';
-import { ImdbIdInput } from '../Inputs/ImdbIdInput/ImdbIdInput';
 import { MovieButton } from '../MovieButton/MovieButton';
+import { MovieInput } from '../MovieInput/MovieInput';
 
 export class NewMovie extends Component {
   state = {
@@ -22,11 +18,18 @@ export class NewMovie extends Component {
       imdbUrl: true,
       imdbId: true,
     },
+    touched: {
+      title: false,
+      description: false,
+      imgUrl: false,
+      imdbUrl: false,
+      imdbId: false,
+    },
   };
 
   onChangeInput = (event, field) => {
     this.setState({
-      [field]: event.trim(),
+      [field]: event.replace(/^\s/, '').replace(/\s/g, ' '),
     });
   }
 
@@ -39,6 +42,10 @@ export class NewMovie extends Component {
         this.setState(prevState => ({
           errors: {
             ...prevState.errors,
+            [field]: true,
+          },
+          touched: {
+            ...prevState.touched,
             [field]: true,
           },
         }));
@@ -54,6 +61,10 @@ export class NewMovie extends Component {
       this.setState(prevState => ({
         errors: {
           ...prevState.errors,
+          [field]: true,
+        },
+        touched: {
+          ...prevState.touched,
           [field]: true,
         },
       }));
@@ -85,6 +96,13 @@ export class NewMovie extends Component {
         imdbUrl: true,
         imdbId: true,
       },
+      touched: {
+        title: false,
+        description: false,
+        imgUrl: false,
+        imdbUrl: false,
+        imdbId: false,
+      },
     });
   }
 
@@ -96,42 +114,69 @@ export class NewMovie extends Component {
       imdbUrl,
       imdbId,
       errors,
+      touched,
     } = this.state;
+
+    const inputs = {
+      fieldTitle: title,
+      fieldDescription: description,
+      fieldImgUrl: imgUrl,
+      fieldImdbUrl: imdbUrl,
+      fieldImdbId: imdbId,
+    };
+
+    // eslint-disable-next-line max-len
+    const regex = (/^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/);
 
     return (
       <form className="App__form" onSubmit={this.handleSubmit}>
         <h1>Add a movie</h1>
-        <TitleInput
+        <MovieInput
           onChangeInput={this.onChangeInput}
           handleValidate={this.handleValidate}
-          title={title}
+          value={title}
+          maxLength="40"
+          field="title"
+          touched={touched.title}
           error={errors.title}
         />
-        <DescriptionInput
+        <MovieInput
           onChangeInput={this.onChangeInput}
           handleValidate={this.handleValidate}
-          description={description}
+          value={description}
+          field="description"
+          maxLength="250"
+          touched={touched.description}
           error={errors.description}
         />
-        <ImageInput
+        <MovieInput
           onChangeInput={this.onChangeInput}
           handleValidate={this.handleValidate}
-          imgUrl={imgUrl}
+          value={imgUrl}
+          field="imgUrl"
+          maxLength="150"
+          touched={touched.imgUrl}
           error={errors.imgUrl}
         />
-        <ImdbUrlInput
+        <MovieInput
           onChangeInput={this.onChangeInput}
           handleValidate={this.handleValidate}
-          imdbUrl={imdbUrl}
+          value={imdbUrl}
+          field="imdbUrl"
+          maxLength="70"
+          touched={touched.imdbUrl}
           error={errors.imdbUrl}
         />
-        <ImdbIdInput
+        <MovieInput
           onChangeInput={this.onChangeInput}
           handleValidate={this.handleValidate}
-          imdbId={imdbId}
+          value={imdbId}
+          field="imdbId"
+          maxLength="30"
+          touched={touched.imdbId}
           error={errors.imdbId}
         />
-        <MovieButton errors={errors} />
+        <MovieButton inputs={inputs} regex={regex} />
       </form>
     );
   }

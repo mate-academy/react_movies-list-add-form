@@ -6,4 +6,12 @@ export const InputsInformationShape = PropTypes.shape({
   imgUrl: PropTypes.string.isRequired,
   imdbUrl: PropTypes.string.isRequired,
   imdbId: PropTypes.string.isRequired,
+  inputs: PropTypes.objectOf(PropTypes.shape({
+    fieldTitle: PropTypes.string.isRequired,
+    fieldDescription: PropTypes.string.isRequired,
+    fieldImgUrl: PropTypes.string.isRequired,
+    fieldImdbUrl: PropTypes.string.isRequired,
+    fieldImdbId: PropTypes.string.isRequired,
+  })).isRequired,
+  regex: PropTypes.object.isRequired,
 });
