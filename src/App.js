@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.scss';
 import { MoviesList } from './components/MoviesList';
-import { NewMovie } from './components/NewMovie';
+import { NewMovie } from './components/NewMovie/NewMovie';
 import moviesFromServer from './api/movies.json';
 
 export class App extends Component {
@@ -9,8 +9,15 @@ export class App extends Component {
     movies: moviesFromServer,
   };
 
-  addMovie = (movie) => {
-    // put your code here
+  addMovie = (event, movie) => {
+    event.preventDefault();
+
+    this.setState(prevState => ({
+      movies: [
+        ...prevState.movies,
+        movie,
+      ],
+    }));
   };
 
   render() {
@@ -22,7 +29,9 @@ export class App extends Component {
           <MoviesList movies={movies} />
         </div>
         <div className="sidebar">
-          <NewMovie />
+          <NewMovie
+            addMovie={this.addMovie}
+          />
         </div>
       </div>
     );
