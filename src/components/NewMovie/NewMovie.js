@@ -33,10 +33,12 @@ export class NewMovie extends Component {
   onChangeFields = (event) => {
     const { name, value } = event.target;
 
+    const content = value.replace(/\s/g, '');
+
     this.setState(prevState => ({
       movie: {
         ...prevState.movie,
-        [name]: value,
+        [name]: content,
       },
     }));
   }
@@ -52,12 +54,14 @@ export class NewMovie extends Component {
   fieldValidation = (event) => {
     const { name, value } = event.target;
 
+    const content = value.replace(/\s/g, '');
+
     // eslint-disable-next-line max-len
     const patternUrl = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
 
     const isValid = (name === 'title' || name === 'imdbId')
-      ? Boolean(value)
-      : patternUrl.test(value);
+      ? Boolean(content)
+      : patternUrl.test(content);
 
     this.setState(prevState => ({
       field: {
