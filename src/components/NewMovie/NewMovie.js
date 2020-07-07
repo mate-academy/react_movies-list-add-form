@@ -21,6 +21,7 @@ export class NewMovie extends Component {
     this.setState({
       [name]: event.target.value,
       [errorName]: false,
+      isFormInvalid: false,
     });
   }
 
