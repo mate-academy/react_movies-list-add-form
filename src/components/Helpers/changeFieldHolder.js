@@ -1,4 +1,4 @@
-export const PlaceholderHelper = (field) => {
+export const changeFieldHolder = (field) => {
   switch (field) {
     case 'imgUrl':
       return 'image url'.toUpperCase();

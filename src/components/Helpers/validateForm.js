@@ -1,11 +1,12 @@
-export const ButtonSecurity = (inputs, regex) => {
+export const validateForm = (inputs, urlValidator) => {
   const inputsAmount = Array.from(Object.values(inputs));
 
   if (inputsAmount.some(input => input === '')) {
     return true;
   }
 
-  if (!regex.test(inputs.fieldImgUrl) || !regex.test(inputs.fieldImdbUrl)) {
+  if (!urlValidator.test(inputs.fieldImgUrl)
+   || !urlValidator.test(inputs.fieldImdbUrl)) {
     return true;
   }
 

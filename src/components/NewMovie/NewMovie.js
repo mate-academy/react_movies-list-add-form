@@ -3,6 +3,7 @@ import './NewMovie.scss';
 import PropTypes from 'prop-types';
 import { MovieButton } from '../MovieButton/MovieButton';
 import { MovieInput } from '../MovieInput/MovieInput';
+import { urlValidator } from '../Helpers/urlValidator';
 
 export class NewMovie extends Component {
   state = {
@@ -36,9 +37,8 @@ export class NewMovie extends Component {
   handleValidate = (event, field) => {
     if (field === 'imgUrl' || field === 'imdbUrl') {
       // eslint-disable-next-line max-len
-      const regex = (/^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/);
 
-      if (!regex.test(event)) {
+      if (!urlValidator.test(event)) {
         this.setState(prevState => ({
           errors: {
             ...prevState.errors,
@@ -81,7 +81,7 @@ export class NewMovie extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
 
-    this.props.handleAddMovies(this.state);
+    this.props.addNewMovie(this.state);
 
     this.setState({
       title: '',
@@ -125,61 +125,75 @@ export class NewMovie extends Component {
       fieldImdbId: imdbId,
     };
 
+    const movieInputs = [
+      {
+        onChangeInput: this.onChangeInput,
+        handleValidate: this.handleValidate,
+        value: title,
+        maxLength: '40',
+        field: 'title',
+        touched: touched.title,
+        error: errors.title,
+      },
+      {
+        onChangeInput: this.onChangeInput,
+        handleValidate: this.handleValidate,
+        value: description,
+        maxLength: '250',
+        field: 'description',
+        touched: touched.description,
+        error: errors.description,
+      },
+      {
+        onChangeInput: this.onChangeInput,
+        handleValidate: this.handleValidate,
+        value: imgUrl,
+        maxLength: '150',
+        field: 'imgUrl',
+        touched: touched.imgUrl,
+        error: errors.imgUrl,
+      },
+      {
+        onChangeInput: this.onChangeInput,
+        handleValidate: this.handleValidate,
+        value: imdbUrl,
+        maxLength: '70',
+        field: 'imdbUrl',
+        touched: touched.imdbUrl,
+        error: errors.imdbUrl,
+      },
+      {
+        onChangeInput: this.onChangeInput,
+        handleValidate: this.handleValidate,
+        value: imdbId,
+        maxLength: '30',
+        field: 'imdbId',
+        touched: touched.imdbId,
+        error: errors.imdbId,
+      },
+    ];
+
     // eslint-disable-next-line max-len
-    const regex = (/^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/);
 
     return (
       <form className="App__form" onSubmit={this.handleSubmit}>
         <h1>Add a movie</h1>
-        <MovieInput
-          onChangeInput={this.onChangeInput}
-          handleValidate={this.handleValidate}
-          value={title}
-          maxLength="40"
-          field="title"
-          touched={touched.title}
-          error={errors.title}
-        />
-        <MovieInput
-          onChangeInput={this.onChangeInput}
-          handleValidate={this.handleValidate}
-          value={description}
-          field="description"
-          maxLength="250"
-          touched={touched.description}
-          error={errors.description}
-        />
-        <MovieInput
-          onChangeInput={this.onChangeInput}
-          handleValidate={this.handleValidate}
-          value={imgUrl}
-          field="imgUrl"
-          maxLength="150"
-          touched={touched.imgUrl}
-          error={errors.imgUrl}
-        />
-        <MovieInput
-          onChangeInput={this.onChangeInput}
-          handleValidate={this.handleValidate}
-          value={imdbUrl}
-          field="imdbUrl"
-          maxLength="70"
-          touched={touched.imdbUrl}
-          error={errors.imdbUrl}
-        />
-        <MovieInput
-          onChangeInput={this.onChangeInput}
-          handleValidate={this.handleValidate}
-          value={imdbId}
-          field="imdbId"
-          maxLength="30"
-          touched={touched.imdbId}
-          error={errors.imdbId}
-        />
-        <MovieButton inputs={inputs} regex={regex} />
+        {movieInputs.map(input => (
+          <MovieInput
+            onChangeInput={input.onChangeInput}
+            handleValidate={input.handleValidate}
+            value={input.value}
+            maxLength={input.maxLength}
+            field={input.field}
+            touched={input.touched}
+            error={input.error}
+            key={input.field}
+          />
+        ))}
+        <MovieButton inputs={inputs} />
       </form>
     );
   }
 }
 
-NewMovie.propTypes = { handleAddMovies: PropTypes.func.isRequired };
+NewMovie.propTypes = { addNewMovie: PropTypes.func.isRequired };
