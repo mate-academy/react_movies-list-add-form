@@ -1,0 +1,37 @@
+.labelName {
+  margin-bottom: 2em;
+  position: relative;
+  display: block;
+}
+
+.label__title {
+  display: block;
+}
+
+.error {
+  position: absolute;
+  left: 10px;
+  bottom: -1.5em;
+  width: max-content;
+  color: brown;
+  font-size: 0.8em;
+}
+
+.wrong-input {
+  border-color: #f70b0b;
+  border-width: 1px;
+  border-radius: 5px;
+}
+
+.preview-header {
+  margin-bottom: 2em;
+  text-align: center;
+}
+
+.form__submit-button {
+  font-size: 20px;
+  display: block;
+  width: 7em;
+  height: 3em;
+  margin: 0 auto 1em;
+}
