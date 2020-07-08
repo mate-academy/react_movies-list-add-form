@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { TextField } from '../TextField/TextField';
+import './NewMovie.scss';
 
 const fields = {
   title: {
@@ -107,7 +108,7 @@ export class NewMovie extends Component {
     const { values, errors, touched } = this.state;
 
     return (
-      <form onSubmit={this.handleSubmit}>
+      <form onSubmit={this.handleSubmit} className="form">
         {fieldsConfig.map(({ name, label, placeholder }) => (
           <TextField
             key={name}
@@ -121,7 +122,7 @@ export class NewMovie extends Component {
             touched={touched[name]}
           />
         ))}
-        <button type="submit">
+        <button type="submit" className="form__btn">
           Add Movie
         </button>
       </form>
