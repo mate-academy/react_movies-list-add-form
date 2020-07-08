@@ -14,8 +14,8 @@ export class App extends Component {
 
     this.setState(prevState => ({
       movies: [
-        ...prevState.movies,
         movie,
+        ...prevState.movies,
       ],
     }));
   };

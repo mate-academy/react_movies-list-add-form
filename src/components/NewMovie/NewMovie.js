@@ -19,7 +19,63 @@ export class NewMovie extends Component {
       imdbUrl: false,
       imdbId: false,
     },
+    errors: {
+      title: null,
+      description: null,
+      imgUrl: null,
+      imdbUrl: null,
+      imdbId: null,
+    },
   };
+
+  isTextValid = (text) => {
+    return text && (text.search(/\w/) !== -1);
+  }
+
+  isUrlValid = (url) => {
+    // eslint-disable-next-line max-len
+    return url && url.test(/^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/);
+  }
+
+  manageTextFieldError = (name, value) => {
+    if (this.isTextValid(value)) {
+      this.setState(prevState => ({
+        ...prevState,
+        errors: {
+          ...prevState.errors,
+          [name]: `${name} field should not be empty`,
+        },
+      }));
+    } else {
+      this.setState(prevState => ({
+        ...prevState,
+        errors: {
+          ...prevState.errors,
+          [name]: null,
+        },
+      }));
+    }
+  }
+
+  manageUrlError = (name, value) => {
+    if (this.isUrlValid(value)) {
+      this.setState(prevState => ({
+        ...prevState,
+        errors: {
+          ...prevState.errors,
+          [name]: `${name} URL should be correct`,
+        },
+      }));
+    } else {
+      this.setState(prevState => ({
+        ...prevState,
+        errors: {
+          ...prevState.errors,
+          [name]: null,
+        },
+      }));
+    }
+  }
 
   handleChange = (event) => {
     const { target: { name, value } } = event;
@@ -30,7 +86,27 @@ export class NewMovie extends Component {
         ...prevState.values,
         [name]: value,
       },
+      touched: {
+        ...prevState.touched,
+        [name]: true,
+      },
     }));
+  }
+
+  handleBlur = ({ name, value }) => {
+    // eslint-disable-next-line no-console
+    // console.log('blur', name, value);
+
+    if (name === 'imgUrl' || name === 'imdbUrl') {
+      this.manageUrlError(name, value);
+    } else {
+      this.manageTextFieldError(name, value);
+    }
+  }
+
+  handleFocus = ({ name, value }) => {
+    // eslint-disable-next-line no-console
+    // console.log('focus', name, value);
   }
 
   render() {
@@ -61,8 +137,10 @@ export class NewMovie extends Component {
             type="text"
             name="title"
             onChange={event => this.handleChange(event)}
+            onBlur={event => this.handleBlur(event.target)}
+            onFocus={event => this.handleFocus(event.target)}
             value={title}
-            placeholder="write the title"
+            placeholder="Enter the title"
           />
         </label>
         <label>
@@ -73,8 +151,10 @@ export class NewMovie extends Component {
             type="textarea"
             name="description"
             onChange={event => this.handleChange(event)}
+            onBlur={event => this.handleBlur(event.target)}
+            onFocus={event => this.handleFocus(event.target)}
             value={description}
-            placeholder="write the description"
+            placeholder="Enter the description"
           />
         </label>
         <label>
@@ -85,6 +165,8 @@ export class NewMovie extends Component {
             type="text"
             name="imgUrl"
             onChange={event => this.handleChange(event)}
+            onBlur={event => this.handleBlur(event.target)}
+            onFocus={event => this.handleFocus(event.target)}
             value={imgUrl}
             placeholder="paste the link to poster"
           />
@@ -97,21 +179,27 @@ export class NewMovie extends Component {
             type="text"
             name="imdbUrl"
             onChange={event => this.handleChange(event)}
+            onBlur={event => this.handleBlur(event.target)}
+            onFocus={event => this.handleFocus(event.target)}
             value={imdbUrl}
             placeholder="paste the link to IMDB"
           />
         </label>
         <label>
           <span className="label">
-            Description:
+            IMDB ID:
           </span>
           <input
             type="textarea"
             name="imdbId"
             onChange={event => this.handleChange(event)}
+            onBlur={event => this.handleBlur(event.target)}
+            onFocus={event => this.handleFocus(event.target)}
             value={imdbId}
             placeholder="paste the IMDB ID"
           />
+          {this.state.errors.imdbId
+            && <span className="error">{this.state.errors.imdbId}</span>}
         </label>
         <br />
         <button
