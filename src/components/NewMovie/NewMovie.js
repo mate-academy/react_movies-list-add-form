@@ -33,13 +33,12 @@ export class NewMovie extends Component {
   };
 
   validateInput = (target) => {
-    const { name } = target;
+    const { name, value } = target;
     const isRequired = target.required;
-    const { value } = target;
     // eslint-disable-next-line max-len
     const regexTemplate = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
 
-    this.setState((prevState) => {
+    this.setState(() => {
       if (isRequired && !value) {
         return ({
           [`${name}Valid`]: false,
@@ -100,6 +99,22 @@ export class NewMovie extends Component {
   };
 
   render() {
+    const {
+      titleError,
+      title,
+      description,
+      imgUrlError,
+      imgUrl,
+      imdbUrlError,
+      imdbUrl,
+      imdbIdError,
+      imdbId,
+      titleValid,
+      imgUrlValid,
+      imdbUrlValid,
+      imdbIdValid,
+    } = this.state;
+
     return (
       <form
         className="form"
@@ -109,19 +124,17 @@ export class NewMovie extends Component {
         <h2 className="form__title">Add new film</h2>
         <div className="form__field">
           <input
-            className={`form__input ${this.state.titleError
-              && 'form__input--error'}`}
+            className={`form__input ${titleError && 'form__input--error'}`}
             type="text"
             placeholder="Title"
             name="title"
-            value={this.state.title}
+            value={title}
             onChange={this.onInputChange}
             onBlur={this.onBlurHandle}
             required
           />
           {
-            this.state.titleError
-            && <ErrorMessage message={this.state.titleError} />
+            titleError && <ErrorMessage message={titleError} />
           }
         </div>
         <div className="form__field">
@@ -130,67 +143,60 @@ export class NewMovie extends Component {
             placeholder="Description"
             rows={3}
             name="description"
-            value={this.state.description}
+            value={description}
             onChange={this.onInputChange}
           />
         </div>
         <div className="form__field">
           <input
-            className={`form__input ${this.state.imgUrlError
-              && 'form__input--error'}`}
+            className={`form__input ${imgUrlError && 'form__input--error'}`}
             type="text"
             placeholder="Image link"
             name="imgUrl"
-            value={this.state.imgUrl}
+            value={imgUrl}
             onChange={this.onInputChange}
             onBlur={this.onBlurHandle}
             required
           />
           {
-            this.state.imgUrlError
-            && <ErrorMessage message={this.state.imgUrlError} />
+            imgUrlError && <ErrorMessage message={imgUrlError} />
           }
         </div>
         <div className="form__field">
           <input
-            className={`form__input ${this.state.imdbUrlError
-              && 'form__input--error'}`}
+            className={`form__input ${imdbUrlError && 'form__input--error'}`}
             type="text"
             placeholder="Film link on IMDb"
             name="imdbUrl"
-            value={this.state.imdbUrl}
+            value={imdbUrl}
             onChange={this.onInputChange}
             onBlur={this.onBlurHandle}
             required
           />
           {
-            this.state.imdbUrlError
-            && <ErrorMessage message={this.state.imdbUrlError} />
+            imdbUrlError && <ErrorMessage message={imdbUrlError} />
           }
         </div>
         <div className="form__field">
           <input
-            className={`form__input ${this.state.imdbIdError
-              && 'form__input--error'}`}
+            className={`form__input ${imdbIdError && 'form__input--error'}`}
             type="text"
             placeholder="Film id on IMDb"
             name="imdbId"
-            value={this.state.imdbId}
+            value={imdbId}
             onChange={this.onInputChange}
             onBlur={this.onBlurHandle}
             required
           />
           {
-            this.state.imdbIdError
-            && <ErrorMessage message={this.state.imdbIdError} />
+            imdbIdError && <ErrorMessage message={imdbIdError} />
           }
         </div>
         <button
           className="form__submit"
           type="submit"
           disabled={
-            !this.state.titleValid || !this.state.imgUrlValid
-            || !this.state.imdbUrlValid || !this.state.imdbIdValid
+            !titleValid || !imgUrlValid || !imdbUrlValid || !imdbIdValid
           }
         >
           Save
