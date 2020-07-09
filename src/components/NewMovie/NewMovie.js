@@ -6,55 +6,35 @@ import { MovieCard } from '../MovieCard';
 
 import './NewMovie.scss';
 
+const initialState = {
+  values: {
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  },
+  touched: {
+    title: false,
+    description: true,
+    imgUrl: false,
+    imdbUrl: false,
+    imdbId: false,
+  },
+  errors: {
+    title: null,
+    description: null,
+    imgUrl: null,
+    imdbUrl: null,
+    imdbId: null,
+  },
+};
+
 export class NewMovie extends Component {
-  state = {
-    values: {
-      title: '',
-      description: '',
-      imgUrl: '',
-      imdbUrl: '',
-      imdbId: '',
-    },
-    touched: {
-      title: false,
-      description: true,
-      imgUrl: false,
-      imdbUrl: false,
-      imdbId: false,
-    },
-    errors: {
-      title: null,
-      description: null,
-      imgUrl: null,
-      imdbUrl: null,
-      imdbId: null,
-    },
-  };
+  state = initialState;
 
   resetState = () => {
-    this.setState({
-      values: {
-        title: '',
-        description: '',
-        imgUrl: '',
-        imdbUrl: '',
-        imdbId: '',
-      },
-      touched: {
-        title: false,
-        description: true,
-        imgUrl: false,
-        imdbUrl: false,
-        imdbId: false,
-      },
-      errors: {
-        title: null,
-        description: null,
-        imgUrl: null,
-        imdbUrl: null,
-        imdbId: null,
-      },
-    });
+    this.setState(initialState);
   }
 
   isTextValid = (text) => {
@@ -112,8 +92,17 @@ export class NewMovie extends Component {
     }));
   }
 
-  handleBlur = ({ name, value }) => {
-    const trimmedValue = value.trim();
+  handleBlur = (name) => {
+    const { values } = this.state;
+    const trimmedValue = values[name].trim();
+
+    this.setState(prevState => ({
+      ...prevState,
+      values: {
+        ...prevState.values,
+        [name]: trimmedValue,
+      },
+    }));
 
     if (name === 'imgUrl' || name === 'imdbUrl') {
       if (this.isTextValid(trimmedValue)) {
@@ -127,9 +116,11 @@ export class NewMovie extends Component {
   }
 
   isFormValid = () => {
-    const formHasErrors = Object.values(this.state.errors)
+    const { errors, touched } = this.state;
+
+    const formHasErrors = Object.values(errors)
       .some(error => !!error === true);
-    const isFormTouched = Object.values(this.state.touched)
+    const isFormTouched = Object.values(touched)
       .every(touch => touch === true);
 
     return !formHasErrors && isFormTouched;
@@ -139,25 +130,26 @@ export class NewMovie extends Component {
     event.preventDefault();
 
     if (this.isFormValid()) {
-      callback(event, movie);
+      callback(movie);
       this.resetState();
     }
   }
 
   render() {
+    const { values, touched, errors } = this.state;
     const {
       title,
       description,
       imgUrl,
       imdbUrl,
       imdbId,
-    } = this.state.values;
+    } = values;
 
-    const movie = this.state.values;
+    const movie = values;
     const { addMovie } = this.props;
 
     const hasError = name => (
-      this.state.errors[name] && this.state.touched[name]
+      errors[name] && touched[name]
     );
 
     return (
@@ -177,12 +169,13 @@ export class NewMovie extends Component {
             name="title"
             className={cn({ 'wrong-input': hasError('title') })}
             onChange={event => this.handleChange(event)}
-            onBlur={event => this.handleBlur(event.target)}
+            onBlur={event => this.handleBlur(event.target.name)}
             value={title}
             placeholder="Enter the title"
           />
-          {hasError('title')
-            && <span className="error">{this.state.errors.title}</span>}
+          {hasError('title') && (
+            <span className="error">{errors.title}</span>
+          )}
         </label>
         <label className="labelName">
           <span className="label__title">
@@ -193,12 +186,12 @@ export class NewMovie extends Component {
             name="description"
             className={cn({ 'wrong-input': hasError('description') })}
             onChange={event => this.handleChange(event)}
-            // onBlur={event => this.handleBlur(event.target)}
             value={description}
             placeholder="Enter the description"
           />
-          {hasError('description')
-            && <span className="error">{this.state.errors.description}</span>}
+          {hasError('description') && (
+            <span className="error">{errors.description}</span>
+          )}
         </label>
         <label className="labelName">
           <span className="label__title">
@@ -209,12 +202,13 @@ export class NewMovie extends Component {
             name="imgUrl"
             className={cn({ 'wrong-input': hasError('imgUrl') })}
             onChange={event => this.handleChange(event)}
-            onBlur={event => this.handleBlur(event.target)}
+            onBlur={event => this.handleBlur(event.target.name)}
             value={imgUrl}
             placeholder="paste the link to poster"
           />
-          {hasError('imgUrl')
-            && <span className="error">{this.state.errors.imgUrl}</span>}
+          {hasError('imgUrl') && (
+            <span className="error">{errors.imgUrl}</span>
+          )}
         </label>
         <label className="labelName">
           <span className="label__title">
@@ -225,12 +219,13 @@ export class NewMovie extends Component {
             name="imdbUrl"
             className={cn({ 'wrong-input': hasError('imdbUrl') })}
             onChange={event => this.handleChange(event)}
-            onBlur={event => this.handleBlur(event.target)}
+            onBlur={event => this.handleBlur(event.target.name)}
             value={imdbUrl}
             placeholder="paste the link to IMDB"
           />
-          {hasError('imdbUrl')
-            && <span className="error">{this.state.errors.imdbUrl}</span>}
+          {hasError('imdbUrl') && (
+            <span className="error">{errors.imdbUrl}</span>
+          )}
         </label>
         <label className="labelName">
           <span className="label__title">
@@ -241,12 +236,13 @@ export class NewMovie extends Component {
             name="imdbId"
             className={cn({ 'wrong-input': hasError('imdbId') })}
             onChange={event => this.handleChange(event)}
-            onBlur={event => this.handleBlur(event.target)}
+            onBlur={event => this.handleBlur(event.target.name)}
             value={imdbId}
             placeholder="paste the IMDB ID"
           />
-          {hasError('imdbId')
-            && <span className="error">{this.state.errors.imdbId}</span>}
+          {hasError('imdbId') && (
+            <span className="error">{errors.imdbId}</span>
+          )}
         </label>
         <button
           disabled={!this.isFormValid()}
