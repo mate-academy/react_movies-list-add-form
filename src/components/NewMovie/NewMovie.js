@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { urlRegex } from '../../api/urlRegex';
 
 export class NewMovie extends Component {
   state = {
@@ -35,9 +36,6 @@ export class NewMovie extends Component {
       });
     }
 
-    // eslint-disable-next-line max-len
-    const urlRegex = /[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/;
-
     if (name === 'imgUrl' || name === 'imdbUrl') {
       if (!urlRegex.test(event.target.value)) {
         this.setState({
@@ -52,13 +50,14 @@ export class NewMovie extends Component {
     event.preventDefault();
 
     const { addMovie } = this.props;
+    const { title, description, imgUrl, imdbUrl, imdbId } = this.state;
 
     addMovie({
-      title: this.state.title,
-      description: this.state.description,
-      imgUrl: this.state.imgUrl,
-      imdbUrl: this.state.imdbUrl,
-      imdbId: this.state.imdbId,
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
     });
 
     this.setState({
