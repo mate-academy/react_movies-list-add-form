@@ -6,6 +6,10 @@ import { MovieCard } from '../MovieCard';
 
 import './NewMovie.scss';
 
+// eslint-disable-next-line max-len
+// const imgPlaceholder = 'https://m.media-amazon.com/images/G/01/imdb/images/nopicture/medium/film-3385785534._CB468454186_.png';
+// TODO: get rid of wrong poster links in preview
+
 const initialState = {
   values: {
     title: '',
@@ -168,7 +172,7 @@ export class NewMovie extends Component {
             type="text"
             name="title"
             className={cn({ 'wrong-input': hasError('title') })}
-            onChange={event => this.handleChange(event)}
+            onChange={this.handleChange}
             onBlur={event => this.handleBlur(event.target.name)}
             value={title}
             placeholder="Enter the title"
@@ -185,7 +189,7 @@ export class NewMovie extends Component {
             type="textarea"
             name="description"
             className={cn({ 'wrong-input': hasError('description') })}
-            onChange={event => this.handleChange(event)}
+            onChange={this.handleChange}
             value={description}
             placeholder="Enter the description"
           />
@@ -201,7 +205,7 @@ export class NewMovie extends Component {
             type="text"
             name="imgUrl"
             className={cn({ 'wrong-input': hasError('imgUrl') })}
-            onChange={event => this.handleChange(event)}
+            onChange={this.handleChange}
             onBlur={event => this.handleBlur(event.target.name)}
             value={imgUrl}
             placeholder="paste the link to poster"
@@ -218,7 +222,7 @@ export class NewMovie extends Component {
             type="text"
             name="imdbUrl"
             className={cn({ 'wrong-input': hasError('imdbUrl') })}
-            onChange={event => this.handleChange(event)}
+            onChange={this.handleChange}
             onBlur={event => this.handleBlur(event.target.name)}
             value={imdbUrl}
             placeholder="paste the link to IMDB"
@@ -235,7 +239,7 @@ export class NewMovie extends Component {
             type="textarea"
             name="imdbId"
             className={cn({ 'wrong-input': hasError('imdbId') })}
-            onChange={event => this.handleChange(event)}
+            onChange={this.handleChange}
             onBlur={event => this.handleBlur(event.target.name)}
             value={imdbId}
             placeholder="paste the IMDB ID"
