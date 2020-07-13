@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import './NewMovie.scss';
+import { Pattern } from '../Pattern';
 
 const initialState = {
   title: {
@@ -32,8 +33,7 @@ const initialState = {
 };
 
 export class NewMovie extends Component {
-  // eslint-disable-next-line max-len
-  urlPattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
+  urlPattern = Pattern;
 
   state = initialState;
 
@@ -76,7 +76,8 @@ export class NewMovie extends Component {
     const movie = {};
 
     Object.entries(this.state).forEach(([input, obj]) => (
-      movie[input] = obj.value));
+      movie[input] = obj.value
+    ));
     this.props.addMovie(movie);
     this.setState({
       ...initialState,
@@ -89,14 +90,15 @@ export class NewMovie extends Component {
 
   render() {
     const { onSubmit } = this;
-    const titleValue = this.state.title.value;
-    const descriptionValue = this.state.description.value;
-    const imgUrlValue = this.state.imgUrl.value;
-    const imdbUrlValue = this.state.imdbUrl.value;
-    const imdbValue = this.state.imdbId.value;
+    const { value: titleValue } = this.state.title;
+    const { value: descriptionValue } = this.state.description;
+    const { value: imgUrlValue } = this.state.imgUrl;
+    const { value: imdbUrlValue } = this.state.imdbUrl;
+    const { value: imdbValue } = this.state.imdbId;
     const isSubmitButtonDisable = !this.isValidForm();
     const onChange = this.handleInputChange;
     const onBlur = this.handleIsValidInputOnBlur;
+    const { error } = this.state.title;
 
     return (
       <form className="form" onSubmit={onSubmit}>
@@ -114,7 +116,7 @@ export class NewMovie extends Component {
               : 'form__input'
             }
           />
-          {this.state.title.error && <span>{this.state.title.error}</span>}
+          {error && <span>{error}</span>}
         </label>
         <label className="form__item">
           Description
