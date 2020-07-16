@@ -1,7 +1,7 @@
 # Movies list - Add Form
 - Replace `<your_account>` with your Github username in the links
 
-    - [DEMO LINK](https://andreas-just.github.io/react_article/)
+    - [DEMO LINK](https://andreas-just.github.io/react_movies-list-add-form/)
     - [PULL REQUEST](https://github.com/mate-academy/react_article/pull/59)
 
 - Follow the [React task guideline](https://github.com/mate-academy/react_task-guideline#react-tasks-guideline)
