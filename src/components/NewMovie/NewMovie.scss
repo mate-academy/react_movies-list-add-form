@@ -1,0 +1,53 @@
+.form {
+  &__input {
+    height: 40px;
+    width: 100%;
+    margin-top: 10px;
+    border: 1px solid #dbdbdb;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 1em;
+
+    &::placeholder {
+      color: #949494;
+    }
+
+    &:focus {
+      border: 1px solid #3273dc;
+      box-shadow: 0 0 2px #919191;
+    }
+  }
+
+  &__heading {
+    font-weight: bold;
+  }
+
+  &__label {
+    display: block;
+    margin-top: 10px;
+  }
+
+  &__addmovie {
+    height: 40px;
+    width: 110px;
+    margin-top: 15px;
+    border-radius: 5px;
+    background: #3273dc;
+    border: 2px solid #3273dc;
+    font-size: 1em;
+    color: #fff;
+    cursor: pointer;
+    transition: 0.3s;
+    
+    &:hover:not(:disabled) {
+      background: transparent;
+      color: #3273dc;
+    }
+
+    &:disabled {
+      background: #98b9ee;
+      border: 2px solid #98b9ee;
+      cursor: not-allowed;
+    }
+  }
+}
