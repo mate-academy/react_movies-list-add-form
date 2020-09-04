@@ -18,6 +18,11 @@ export const NewMovie = ({ addMovie }) => {
       imdbUrl,
       imdbId,
     });
+    setTitle('');
+    setDescription('');
+    setImgUrl('');
+    setImdbUrl('');
+    setImdbId('');
   }
 
   return (
