@@ -1,0 +1,41 @@
+.form {
+  width: 100%;
+
+  &__title {
+    margin-top: 10px;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+
+  &__input {
+    padding: 10px 20px 10px;
+    width: 100%;
+    border: 1px solid lightgrey;
+    height: 40px;
+    border-radius: 5px;
+    outline: none;
+
+    &::placeholder {
+      font-size: 15px;
+    }
+
+    &:focus{
+      border: 1px solid #a9a9a9;
+    }
+  }
+
+  &__label {
+    margin-top: 15px;
+  }
+
+  &__btn {
+    margin: 20px auto;
+    width: 100px;
+    height: 45px;
+    display: block;
+    font-size: 15px;
+    font-weight: bold;
+    color: #4a4a4a;
+  }
+}
+
