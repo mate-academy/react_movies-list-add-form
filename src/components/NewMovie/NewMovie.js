@@ -19,6 +19,13 @@ export class NewMovie extends Component {
           onSubmit={(e) => {
             e.preventDefault();
             addMovie(this.state);
+            this.setState({
+              title: '',
+              description: '',
+              imgUrl: '',
+              imdbUrl: '',
+              imdbId: '',
+            });
           }}
         >
 
