@@ -1,0 +1,28 @@
+.Form {
+  display:flex;
+  flex-direction: column;
+  align-content: center;
+  box-shadow: 0 0.5em 1em -0.125em rgba(10, 10, 10, 0.1)
+    , 0 0px 0 1px rgba(10, 10, 10, 0.02);
+  color: #4a4a4a;
+  padding:20px;
+  border-radius: 8px;
+
+  &__description {
+    resize: none;
+  }
+
+  &__input {
+    margin-bottom: 10px;
+    padding-left: 5px;
+  }
+
+  &__submit {
+    background-color: #E4B621;
+    font-weight: 900;
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+  }
+}
+
