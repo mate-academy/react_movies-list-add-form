@@ -1,0 +1,22 @@
+.new-movie {
+  display: flex;
+  flex-direction: column;
+
+  &__heading {
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+
+  &__input {
+    margin-bottom: 5px;
+
+    &--textarea {
+      height: 100px;
+      resize: none;
+    }
+  }
+
+  &__submit {
+    margin-top: 15px;
+  }
+}
