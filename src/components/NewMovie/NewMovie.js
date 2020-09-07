@@ -26,6 +26,12 @@ export class NewMovie extends Component {
     });
   }
 
+  handleChange = (event) => {
+    const { name, value } = event.target;
+
+    this.setState({ [name]: value });
+  }
+
   render() {
     const {
       title,
@@ -44,9 +50,7 @@ export class NewMovie extends Component {
           placeholder="Pleas enter title"
           required
           value={title}
-          onChange={event => this.setState({
-            title: event.target.value,
-          })}
+          onChange={this.handleChange}
         />
         <textarea
           name="description"
@@ -54,9 +58,7 @@ export class NewMovie extends Component {
           placeholder="Pleas enter description"
           required
           value={description}
-          onChange={event => this.setState({
-            description: event.target.value,
-          })}
+          onChange={this.handleChange}
         />
         <input
           type="url"
@@ -65,9 +67,7 @@ export class NewMovie extends Component {
           placeholder="Pleas enter image url"
           required
           value={imgUrl}
-          onChange={event => this.setState({
-            imgUrl: event.target.value,
-          })}
+          onChange={this.handleChange}
         />
         <input
           type="url"
@@ -76,9 +76,7 @@ export class NewMovie extends Component {
           placeholder="Pleas enter imdb url"
           required
           value={imdbUrl}
-          onChange={event => this.setState({
-            imdbUrl: event.target.value,
-          })}
+          onChange={this.handleChange}
         />
         <input
           type="text"
@@ -87,9 +85,7 @@ export class NewMovie extends Component {
           placeholder="Pleas enter imdb ID"
           required
           value={imdbId}
-          onChange={event => this.setState({
-            imdbId: event.target.value,
-          })}
+          onChange={this.handleChange}
         />
         <button type="submit" className="form__button">Add</button>
       </form>
