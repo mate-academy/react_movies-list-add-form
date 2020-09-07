@@ -13,19 +13,12 @@ export class NewMovie extends Component {
 
   handleAdd = (event) => {
     event.preventDefault();
-    const { title, description, imdbId, imdbUrl, imgUrl } = this.state;
 
     if (Object.values(this.state).some(item => !item)) {
       return;
     }
 
-    this.props.onAdd({
-      title,
-      description,
-      imdbId,
-      imdbUrl,
-      imgUrl,
-    });
+    this.props.onAdd({ ...this.state });
 
     this.setState({
       title: '',
@@ -37,9 +30,9 @@ export class NewMovie extends Component {
   }
 
   handleChange = (event) => {
-    this.setState({
-      [event.target.name]: event.target.value.trimLeft(),
-    });
+    const { name, value } = event.target;
+
+    this.setState({ [name]: value.trimLeft() });
   }
 
   render() {
