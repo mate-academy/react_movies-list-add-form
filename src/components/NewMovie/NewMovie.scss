@@ -1,0 +1,32 @@
+.movie {
+  display: grid;
+  row-gap: 15px;
+
+  &__item {
+    height: 30px;
+    padding-left: 10px;
+    box-shadow: 2px 2px 3px #e6e6e6;
+    border: 2px solid #e6e6e6;
+
+    &_description {
+      height: 100px;
+      resize: none;
+      padding-top: 10px;
+    }
+
+    &_add {
+      height: 40px;
+      background-color: #9e9e9e;
+      text-transform: uppercase;
+      font-weight: 500;
+      transition: background-color 0.3s;
+      cursor: pointer;
+
+      &:hover {
+        background-color: rgb(71, 71, 71);
+        color: #fff;
+      }
+    }
+  }
+
+}
