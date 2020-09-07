@@ -9,9 +9,7 @@ export class App extends Component {
     movies: moviesFromServer,
   };
 
-  addMovie = (event, movie) => {
-    event.preventDefault();
-
+  addMovie = (movie) => {
     this.setState(state => ({
       movies: [...state.movies, movie],
     }));

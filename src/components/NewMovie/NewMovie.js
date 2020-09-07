@@ -32,7 +32,8 @@ export class NewMovie extends Component {
       <form
         className="form"
         onSubmit={(event) => {
-          this.props.addMovie(event, this.state);
+          event.preventDefault();
+          this.props.addMovie(this.state);
           this.clearForm(event);
         }}
       >
@@ -41,11 +42,9 @@ export class NewMovie extends Component {
           type="text"
           id="title"
           name="title"
-          value={title.trim()}
+          value={title}
           className="form__input"
-          onChange={(event) => {
-            this.createMovie(event);
-          }}
+          onChange={this.createMovie}
           required
         />
         <label
@@ -58,11 +57,9 @@ export class NewMovie extends Component {
           type="text"
           id="description"
           name="description"
-          value={description.trim()}
+          value={description}
           className="form__input form__input_textarea"
-          onChange={(event) => {
-            this.createMovie(event);
-          }}
+          onChange={this.createMovie}
           required
         />
         <label htmlFor="imgUrl" className="form__title">imgUrl: </label>
@@ -70,11 +67,9 @@ export class NewMovie extends Component {
           type="url"
           id="imgUrl"
           name="imgUrl"
-          value={imgUrl.trim()}
+          value={imgUrl}
           className="form__input"
-          onChange={(event) => {
-            this.createMovie(event);
-          }}
+          onChange={this.createMovie}
           required
         />
         <label htmlFor="imdbUrl" className="form__title">imdbUrl: </label>
@@ -82,11 +77,9 @@ export class NewMovie extends Component {
           type="url"
           id="imdbUrl"
           name="imdbUrl"
-          value={imdbUrl.trim()}
+          value={imdbUrl}
           className="form__input"
-          onChange={(event) => {
-            this.createMovie(event);
-          }}
+          onChange={this.createMovie}
           required
         />
         <label htmlFor="imdbId" className="form__title">imdbId: </label>
@@ -94,11 +87,9 @@ export class NewMovie extends Component {
           type="text"
           id="imdbId"
           name="imdbId"
-          value={imdbId.trim()}
+          value={imdbId}
           className="form__input"
-          onChange={(event) => {
-            this.createMovie(event);
-          }}
+          onChange={this.createMovie}
           required
         />
         <button className="form__button" type="submit">Submit</button>
