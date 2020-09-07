@@ -11,7 +11,7 @@ export class NewMovie extends Component {
     imdbId: '',
   };
 
-  isSubmit = (event) => {
+  handleSubmit = (event) => {
     event.preventDefault();
     const { addMovie } = this.props;
 
@@ -42,7 +42,7 @@ export class NewMovie extends Component {
     } = this.state;
 
     return (
-      <form className="form" onSubmit={this.isSubmit}>
+      <form className="form" onSubmit={this.handleSubmit}>
         <input
           type="text"
           className="form__input"
