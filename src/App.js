@@ -9,20 +9,13 @@ export class App extends Component {
     movies: moviesFromServer,
   };
 
-  addMovie = ({ title, description, imgUrl, imdbUrl, imdbId }) => {
-    if (title && description && imgUrl && imdbUrl && imdbId) {
-      moviesFromServer.push({
-        title,
-        description,
-        imgUrl,
-        imdbUrl,
-        imdbId,
-      });
-    }
-
-    this.setState({
-      movies: moviesFromServer,
-    });
+  addMovie = (movie) => {
+    this.setState(prevState => ({
+      movies: [
+        ...prevState.movies,
+        movie,
+      ],
+    }));
   };
 
   render() {

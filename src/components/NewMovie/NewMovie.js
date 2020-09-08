@@ -52,30 +52,35 @@ export class NewMovie extends Component {
           value={title}
           placeholder="Please, add a movie title"
           onChange={this.handleInputChange}
+          required
         />
 
-        <input
+        <textarea
           type="text"
           name="description"
           value={description}
           placeholder="Please, add a description"
           onChange={this.handleInputChange}
+          required
+          className="form__text-area"
         />
 
         <input
-          type="text"
+          type="url"
           name="imgUrl"
           value={imgUrl}
           placeholder="Please, add a img url"
           onChange={this.handleInputChange}
+          required
         />
 
         <input
-          type="text"
+          type="url"
           name="imdbUrl"
           value={imdbUrl}
           placeholder="Please, add a imdb url"
           onChange={this.handleInputChange}
+          required
         />
 
         <input
@@ -84,6 +89,7 @@ export class NewMovie extends Component {
           value={imdbId}
           placeholder="Please, add a imdb Id"
           onChange={this.handleInputChange}
+          required
         />
 
         <button

@@ -1,4 +1,10 @@
 .form {
   display: grid;
   row-gap: 10px;
+
+  &__text-area {
+    height: 100px;
+
+    resize: none;
+  }
 }
