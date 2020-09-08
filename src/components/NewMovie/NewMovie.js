@@ -10,7 +10,7 @@ export class NewMovie extends React.PureComponent {
     imdbId: '',
   };
 
-  Add = (event) => {
+  add = (event) => {
     event.preventDefault();
 
     const { title, description, imgUrl, imdbUrl, imdbId } = event.target;
@@ -34,7 +34,7 @@ export class NewMovie extends React.PureComponent {
 
   valuesToStateSetter = (event) => {
     this.setState({
-      [event.target.name]: event.target.value,
+      [event.target.name]: event.target.value.trimStart(),
     });
   }
 
