@@ -1,0 +1,46 @@
+.form {
+  display: grid;
+  grid-row-gap: 10px;
+  margin-top: 20px;
+
+  &__label {
+    margin: 0;
+    font-weight: normal;
+    color: black;
+    cursor: pointer;
+  }
+
+  &__textarea {
+    height: 80px;
+    resize: none;
+  }
+
+  &__input,
+  &__textarea {
+    width: 100%;
+    margin-top: 5px;
+    padding: 5px;
+    border: 1px solid grey;
+    border-radius: 3px;
+    border-color: grey;
+    cursor: pointer;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  &__button {
+    padding: 8px 0;
+    font-size: 18px;
+    color: #fff;
+    background-color: rgb(48, 47, 47);
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+
+    &:focus {
+      outline: none;
+    }
+  }
+}
