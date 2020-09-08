@@ -1,0 +1,9 @@
+.form {
+  display: flex;
+  flex-direction: column;
+
+  &__item {
+    padding: 7px;
+    margin: 7px;
+  }
+}
