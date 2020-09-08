@@ -54,6 +54,7 @@ export class NewMovie extends React.Component {
               type="text"
               value={title}
               onChange={this.hendleChange}
+              required
             />
           </label>
           <label className="form__lable">
@@ -65,6 +66,7 @@ export class NewMovie extends React.Component {
               type="text"
               value={description}
               onChange={this.hendleChange}
+              required
             />
           </label>
           <label className="form__lable">
@@ -73,9 +75,10 @@ export class NewMovie extends React.Component {
               name="imgUrl"
               className="form__input"
               placeholder="image URL"
-              type="text"
+              type="url"
               value={imgUrl}
               onChange={this.hendleChange}
+              required
             />
           </label>
           <label className="form__lable">
@@ -83,9 +86,10 @@ export class NewMovie extends React.Component {
               name="imdbUrl"
               className="form__input"
               placeholder="imdbUrl"
-              type="text"
+              type="url"
               value={imdbUrl}
               onChange={this.hendleChange}
+              required
             />
           </label>
           <label className="form__lable">
@@ -96,6 +100,7 @@ export class NewMovie extends React.Component {
               type="text"
               value={imdbId}
               onChange={this.hendleChange}
+              required
             />
           </label>
           <button
