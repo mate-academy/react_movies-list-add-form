@@ -2,7 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 export class NewMovie extends React.PureComponent {
-  state = {};
+  state = {
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  };
 
   Add = (event) => {
     event.preventDefault();
@@ -17,10 +23,24 @@ export class NewMovie extends React.PureComponent {
       imdbId: imdbId.value,
     });
 
-    event.target.reset();
+    this.setState({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
+  }
+
+  valuesToStateSetter = (event) => {
+    this.setState({
+      [event.target.name]: event.target.value,
+    });
   }
 
   render() {
+    const { title, description, imgUrl, imdbUrl, imdbId } = this.state;
+
     return (
       <form
         onSubmit={this.Add}
@@ -30,29 +50,44 @@ export class NewMovie extends React.PureComponent {
           placeholder="title"
           type="text"
           className="input"
+          value={title}
+          onChange={this.valuesToStateSetter}
+          required
         />
         <textarea
           name="description"
           placeholder="description"
           className="input textarea"
+          value={description}
+          onChange={this.valuesToStateSetter}
+          required
         />
         <input
           name="imgUrl"
           placeholder="url of image"
           type="text"
           className="input"
+          value={imgUrl}
+          onChange={this.valuesToStateSetter}
+          required
         />
         <input
           name="imdbUrl"
           placeholder="url of IMDB page"
           type="text"
           className="input"
+          value={imdbUrl}
+          onChange={this.valuesToStateSetter}
+          required
         />
         <input
           name="imdbId"
           placeholder="IMDB id"
           type="number-"
           className="input"
+          value={imdbId}
+          onChange={this.valuesToStateSetter}
+          required
         />
         <button
           type="submit"
