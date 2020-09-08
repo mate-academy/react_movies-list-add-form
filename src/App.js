@@ -10,12 +10,12 @@ export class App extends Component {
   };
 
   addMovie = (movie) => {
-    this.setState({
+    this.setState(state => ({
       movies: [
-        ...moviesFromServer,
+        ...state.movies,
         movie,
       ],
-    });
+    }));
   };
 
   render() {
