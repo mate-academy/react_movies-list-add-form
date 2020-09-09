@@ -1,0 +1,13 @@
+.form {
+  display: flex;
+  flex-direction: column;
+
+  &__input {
+    margin-bottom: 15px;
+  }
+
+  &__textarea {
+    height: 150px;
+    resize: none;
+  }
+}
