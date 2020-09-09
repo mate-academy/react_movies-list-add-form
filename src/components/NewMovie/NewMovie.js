@@ -67,7 +67,6 @@ export class NewMovie extends Component {
             value={description}
             autoComplete="off"
             onChange={this.handleChange}
-            required
           />
         </label>
 
@@ -95,13 +94,14 @@ export class NewMovie extends Component {
             value={imdbUrl}
             autoComplete="off"
             onChange={this.handleChange}
+            required
           />
         </label>
 
         <label htmlFor="imdbId">
           <h3 className="form__heading">IMDb id</h3>
           <input
-            id="imdbUrl"
+            id="imdbId"
             className="form__input"
             name="imdbId"
             placeholder="Add url to IMDb"
