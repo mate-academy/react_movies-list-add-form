@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import './NewMovie.scss';
 
 export class NewMovie extends Component {
   state = {
@@ -65,7 +66,7 @@ export class NewMovie extends Component {
           <br />
           <input
             type="text"
-            className="newMove__title"
+            className="newMovie__title"
             id="title"
             name="title"
             value={title}
