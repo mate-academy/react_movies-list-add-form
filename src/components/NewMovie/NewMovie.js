@@ -9,6 +9,7 @@ export class NewMovie extends Component {
     imgUrl: '',
     imdbUrl: '',
     imdbId: '',
+    error: false,
   };
 
   handleChange = (event) => {
@@ -16,28 +17,41 @@ export class NewMovie extends Component {
 
     this.setState({
       [name]: value.trim(),
+      error: false,
     });
   }
 
-  render() {
+  formsCheck = () => {
+    const { title, imgUrl, imdbUrl, imdbId, description } = this.state;
     const { addMovie } = this.props;
-    const { title, description, imgUrl, imdbUrl, imdbId } = this.state;
+
+    if (title && imgUrl && imdbUrl && imdbId) {
+      addMovie({
+        title, description, imgUrl, imdbUrl, imdbId,
+      });
+      this.setState({
+        title: '',
+        description: '',
+        imgUrl: '',
+        imdbUrl: '',
+        imdbId: '',
+      });
+    } else {
+      this.setState({
+        error: true,
+      });
+    }
+  }
+
+  render() {
+    const { title, description, imgUrl, imdbUrl, imdbId, error } = this.state;
 
     return (
       <form
         className="form"
         onSubmit={(event) => {
           event.preventDefault();
-          addMovie({
-            title, description, imgUrl, imdbUrl, imdbId,
-          });
-          this.setState({
-            title: '',
-            description: '',
-            imgUrl: '',
-            imdbUrl: '',
-            imdbId: '',
-          });
+          this.formsCheck();
         }}
       >
         <Template
@@ -88,6 +102,10 @@ export class NewMovie extends Component {
         <button type="submit" className="button is-warning">
           Add movie
         </button>
+
+        <p hidden={!error}>
+          Complete all fields, please
+        </p>
       </form>
     );
   }
