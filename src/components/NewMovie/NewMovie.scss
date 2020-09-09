@@ -1,0 +1,17 @@
+.title {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.form-block {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-block__input {
+  margin-bottom: 20px;
+}
+
+.form-block__textarea {
+  min-height: 100px;
+}
