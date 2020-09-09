@@ -15,7 +15,7 @@ export class NewMovie extends Component {
     const { name, value } = event.target;
 
     this.setState({
-      [name]: value.replace(/ +/g, ' ').trim(),
+      [name]: value.trimLeft(),
     });
   };
 
