@@ -18,7 +18,7 @@ export class NewMovie extends Component {
 
   onChange = (event) => {
     this.setState({
-      [event.target.name]: event.target.value,
+      [event.target.name]: event.target.value.trimStart(),
     });
   }
 
