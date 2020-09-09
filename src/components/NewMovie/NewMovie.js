@@ -52,7 +52,7 @@ export class NewMovie extends Component {
           <p>imgUrl:</p>
           <input
             className="form__item"
-            type="text"
+            type="url"
             name="imgUrl"
             onChange={this.change}
             required
@@ -62,7 +62,7 @@ export class NewMovie extends Component {
           <p>imdbUrl:</p>
           <input
             className="form__item"
-            type="text"
+            type="url"
             name="imdbUrl"
             onChange={this.change}
             required
