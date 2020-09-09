@@ -13,3 +13,37 @@
   padding: 20px;
   border-left: 1px solid lightgray;
 }
+
+.addFilm {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  width: 80%;
+
+  &__title {
+    text-align: center;
+    font-size: 32px;
+    font-weight: bold;
+    margin-bottom: 30px;
+  }
+
+  &__input {
+    margin-top: 15px;
+    height: 40px;
+    padding-left: 10px;
+  }
+
+  &__description {
+    resize: vertical;
+    height: 60px;
+    padding-top: 10px;
+  }
+
+  &__button {
+    margin-top: 15px;
+    height: 50px;
+    font-size: 20px;
+    border-radius: 20px;
+    background-color: lightgreen;
+  }
+}
