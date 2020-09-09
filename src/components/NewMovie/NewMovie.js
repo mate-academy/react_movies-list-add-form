@@ -40,6 +40,7 @@ export class NewMovie extends Component {
           placeholder="title"
           value={this.state.title}
           onChange={this.onChange}
+          required
         />
         <br />
         <textarea
@@ -47,6 +48,7 @@ export class NewMovie extends Component {
           placeholder="description"
           value={this.state.description}
           onChange={this.onChange}
+          required
         />
         <br />
         <input
@@ -54,6 +56,7 @@ export class NewMovie extends Component {
           placeholder="imgUrl"
           value={this.state.imgUrl}
           onChange={this.onChange}
+          required
         />
         <br />
         <input
@@ -61,6 +64,7 @@ export class NewMovie extends Component {
           placeholder="imdbUrl"
           value={this.state.imdbUrl}
           onChange={this.onChange}
+          required
         />
         <br />
         <input
@@ -68,6 +72,7 @@ export class NewMovie extends Component {
           placeholder="imdbId"
           value={this.state.imdbId}
           onChange={this.onChange}
+          required
         />
         <br />
         <button type="submit">
