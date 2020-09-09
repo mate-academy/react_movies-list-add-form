@@ -108,6 +108,7 @@ export class NewMovie extends Component {
             value={imdbId}
             autoComplete="off"
             onChange={this.handleChange}
+            required
           />
         </label>
 
