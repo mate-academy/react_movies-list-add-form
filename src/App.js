@@ -29,7 +29,7 @@ export class App extends Component {
           <MoviesList movies={movies} />
         </div>
         <div className="sidebar">
-          <NewMovie movies={movies} addMovie={this.addMovie} />
+          <NewMovie addMovie={this.addMovie} />
         </div>
       </div>
     );

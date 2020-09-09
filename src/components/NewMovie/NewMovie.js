@@ -5,7 +5,6 @@ import './NewMovie.scss';
 
 export class NewMovie extends Component {
   state = {
-    // movies: this.props.movies,
     title: '',
     description: '',
     imgUrl: '',
