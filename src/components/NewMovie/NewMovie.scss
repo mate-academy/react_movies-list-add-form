@@ -1,0 +1,15 @@
+.form {
+  display: flex;
+  flex-direction: column;
+
+  &__input {
+    padding: 7px;
+    margin: 7px;
+  }
+
+  .button__submit {
+    width: 200px;
+    margin: 5px auto;
+    cursor: pointer;
+  }
+}
