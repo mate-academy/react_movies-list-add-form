@@ -36,7 +36,7 @@ export class NewMovie extends Component {
     } = event.target;
 
     this.setState({
-      [name]: value.trim(),
+      [name]: value.trimLeft(),
     });
   }
 
