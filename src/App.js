@@ -1,3 +1,4 @@
+/* eslint-disable react/no-access-state-in-setstate */
 import React, { Component } from 'react';
 import './App.scss';
 import { MoviesList } from './components/MoviesList';
@@ -10,7 +11,10 @@ export class App extends Component {
   };
 
   addMovie = (movie) => {
-    // put your code here
+    const movies = [...this.state.movies, movie];
+
+    this.setState({ movies });
+    document.querySelector('form').reset();
   };
 
   render() {
@@ -22,7 +26,7 @@ export class App extends Component {
           <MoviesList movies={movies} />
         </div>
         <div className="sidebar">
-          <NewMovie />
+          <NewMovie addMovie={this.addMovie} />
         </div>
       </div>
     );
