@@ -1,0 +1,42 @@
+.movie-form {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  box-shadow: 0 0.5em 1em -0.13em rgba(10, 10, 10, 0.1),
+    0 0 0 1px rgba(10, 10, 10, 0.02);
+
+  &__title {
+    margin-bottom: 20px;
+    font-weight: bold;
+  }
+
+  &__input {
+    margin: 10px 0;
+    height: 30px;
+
+    &--description {
+      height: 200px;
+      resize: none;
+    }
+  }
+
+  &__btn {
+    margin-top: 10px;
+    width: 100px;
+    height: 30px;
+
+    border: 2px solid black;
+    border-radius: 5px;
+    background-color: #e4b622;
+    cursor: pointer;
+    font-weight: bold;
+
+    &:hover {
+      background-color: #caa320;
+    }
+
+    &:active {
+      transform: scale(0.9);
+    }
+  }
+}
