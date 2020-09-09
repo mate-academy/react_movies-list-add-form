@@ -1,0 +1,30 @@
+.form {
+  display: flex;
+  flex-direction: column;
+
+  &__info {
+    color: red;
+    font-size: 10px;
+  }
+
+  &__item {
+    padding: 10px;
+    margin-bottom: 20px;
+  }
+
+  &__button {
+    height: 50px;
+    border: none;
+    outline: none;
+    border-radius: 3px;
+    font-weight: 900;
+    background-color: #e4b622;
+    cursor: pointer;
+
+    transition: 0.3s;
+
+    &:hover {
+      background-color: #cca113;
+    }
+  }
+}
