@@ -52,7 +52,7 @@ export class NewMovie extends Component {
           className="form__input"
           id="title"
           name="title"
-          value={this.state.name}
+          value={this.state.title}
           onChange={this.handleChange}
           placeholder="Enter a title"
           autoComplete="off"
@@ -61,17 +61,17 @@ export class NewMovie extends Component {
 
         <label
           className="form__label"
-          htmlFor="descriprion"
+          htmlFor="description"
         >
           Movie descriprion
         </label>
         <textarea
           className="form__input form__input-textarea"
-          id="descriprion"
-          name="descriprion"
-          value={this.state.descriprion}
+          id="description"
+          name="description"
+          value={this.state.description}
           onChange={this.handleChange}
-          placeholder="Enter a descriprion"
+          placeholder="Enter a description"
           autoComplete="off"
           required
         />
