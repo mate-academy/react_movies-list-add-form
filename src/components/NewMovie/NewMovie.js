@@ -58,7 +58,13 @@ export class NewMovie extends Component {
   render() {
     const { title, description, imdbUrl, imdbId, imgUrl } = this.state;
 
-    const checkFields = Object.values(this.state).every(item => item !== '');
+    const checkEmptyFields = Object.values(this.state)
+      .every(item => (item !== ''));
+
+    const checkForSpacesStart = Object.values(this.state)
+      .map(item => [...item].every(elem => elem === ' '));
+
+    const checkForSpacesEnd = checkForSpacesStart.some(x => x);
 
     return (
       <form onSubmit={this.handleSubmit} className="formAddMovie">
@@ -118,13 +124,14 @@ export class NewMovie extends Component {
         </label>
         <button
           type="submit"
-          onClick={() => (checkFields) && (this.props.addMovie({
-            title,
-            description,
-            imdbUrl,
-            imdbId,
-            imgUrl,
-          }))
+          onClick={() => (checkEmptyFields && !checkForSpacesEnd)
+            && (this.props.addMovie({
+              title,
+              description,
+              imdbUrl,
+              imdbId,
+              imgUrl,
+            }))
           }
         >
           Add Movie
