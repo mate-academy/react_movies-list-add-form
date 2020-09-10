@@ -44,6 +44,15 @@ export class NewMovie extends Component {
           }
 
           this.props.addedMovie(this.state);
+
+          this.setState({
+            title: '',
+            description: '',
+            imgUrl: '',
+            imdbUrl: '',
+            imdbId: '',
+            error: false,
+          });
         }}
       >
         <label className="newMovie__label">
