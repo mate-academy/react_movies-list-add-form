@@ -21,6 +21,8 @@ export class NewMovie extends Component {
       imdbId,
     };
 
+    form.reset();
+
     this.props.addMovie(newMovie);
   }
 
