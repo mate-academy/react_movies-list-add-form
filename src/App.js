@@ -14,7 +14,6 @@ export class App extends Component {
     const movies = [...this.state.movies, movie];
 
     this.setState({ movies });
-    document.querySelector('form').reset();
   };
 
   render() {

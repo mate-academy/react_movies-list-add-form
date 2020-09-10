@@ -3,10 +3,12 @@ import React, { Component } from 'react';
 import './NewMovie.scss';
 
 export class NewMovie extends Component {
-  state = {
-  };
+  textSaving = (event) => {
+    if (event.target.value === ' ') {
+      // eslint-disable-next-line no-param-reassign
+      event.target.value = '';
+    }
 
-  change = (event) => {
     this.setState({
       [event.target.name]: event.target.value,
     });
@@ -26,6 +28,7 @@ export class NewMovie extends Component {
             imdbUrl: '',
             imdbId: '',
           });
+          event.target.reset();
         }}
       >
         <label>
@@ -34,7 +37,7 @@ export class NewMovie extends Component {
             className="form__item"
             type="text"
             name="title"
-            onChange={this.change}
+            onChange={this.textSaving}
             required
           />
         </label>
@@ -44,7 +47,7 @@ export class NewMovie extends Component {
             className="form__item"
             name="description"
             rows="5"
-            onChange={this.change}
+            onChange={this.textSaving}
             required
           />
         </label>
@@ -54,7 +57,7 @@ export class NewMovie extends Component {
             className="form__item"
             type="url"
             name="imgUrl"
-            onChange={this.change}
+            onChange={this.textSaving}
             required
           />
         </label>
@@ -64,7 +67,7 @@ export class NewMovie extends Component {
             className="form__item"
             type="url"
             name="imdbUrl"
-            onChange={this.change}
+            onChange={this.textSaving}
             required
           />
         </label>
@@ -74,7 +77,7 @@ export class NewMovie extends Component {
             className="form__item"
             type="text"
             name="imdbId"
-            onChange={this.change}
+            onChange={this.textSaving}
             required
           />
         </label>
