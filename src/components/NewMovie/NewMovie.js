@@ -9,13 +9,19 @@ export class NewMovie extends Component {
     imgUrl: '',
     imdbUrl: '',
     imdbId: '',
+    hasDescriptionError: false,
+    hasTitleError: false,
   };
 
   handleChange = (event) => {
-    const { name, value } = event.target;
+    const {
+      name, value,
+    } = event.target;
 
     this.setState({
       [name]: value,
+      hasTitleError: false,
+      hasUserError: false,
     });
   }
 
@@ -23,6 +29,23 @@ export class NewMovie extends Component {
     event.preventDefault();
 
     const { onAdd } = this.props;
+    const { title, description } = this.state;
+
+    if (!title.trim()) {
+      this.setState({
+        hasTitleError: !title.trim(),
+      });
+
+      return;
+    }
+
+    if (!description.trim()) {
+      this.setState({
+        hasDescriptionError: !description.trim(),
+      });
+
+      return;
+    }
 
     onAdd(this.state);
 
@@ -125,7 +148,6 @@ export class NewMovie extends Component {
           onChange={this.handleChange}
           required
         />
-
         <button
           className="submit"
           type="submit"
