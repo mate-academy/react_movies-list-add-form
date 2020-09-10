@@ -1,0 +1,36 @@
+.newMovie {
+  &__label {
+    display: flex;
+    flex-direction: column;
+
+    & span {
+      font-weight: bold;
+    }
+  }
+
+  &__input {
+    width: 100%;
+    padding: 5px;
+    border-radius: 10px;
+    border: 1px solid darkgrey;
+    margin-bottom: 10px;
+
+    &-error {
+      font-weight: bold;
+
+      background: lightcoral;
+    }
+
+    &-textarea {
+      resize: none;
+    }
+  }
+
+  &__error {
+    color: white;
+    background: lightcoral;
+    border-radius: 10px;
+    font-weight: bold;
+    text-align: center;
+  }
+}
