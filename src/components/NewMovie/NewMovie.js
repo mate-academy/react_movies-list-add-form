@@ -37,16 +37,11 @@ export class NewMovie extends Component {
       imdbId,
       imgUrl,
     } = this.state;
-    const { addMovie } = this.props;
 
     return (
       <div className="container">
         <h2 className="container__title">Add new movie</h2>
-        <form onSubmit={(event) => {
-          event.preventDefault();
-          addMovie(this.state);
-        }}
-        >
+        <form onSubmit={this.handleSubmit}>
           <div className="container__content">
             <div>
               <label>
