@@ -14,8 +14,13 @@ export class NewMovie extends Component {
   handleChange = (event) => {
     event.preventDefault();
     const { name, value } = event.target;
+    let query = value;
 
-    this.setState({ [name]: value });
+    if (value[0] === ' ') {
+      query = '';
+    }
+
+    this.setState({ [name]: query });
   };
 
   handleSubmit = (event) => {
