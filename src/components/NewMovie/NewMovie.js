@@ -29,7 +29,7 @@ export class NewMovie extends Component {
     const { name, value } = event.target;
 
     this.setState({
-      [name]: value,
+      [name]: value.trim(),
     });
   }
 
@@ -61,7 +61,7 @@ export class NewMovie extends Component {
 
         <label htmlFor="movie_poster">Movie poster</label>
         <input
-          type="text"
+          type="url"
           id="movie_poster"
           required
           name="imgUrl"
@@ -71,7 +71,7 @@ export class NewMovie extends Component {
 
         <label htmlFor="movie_link">Movie IMDb link</label>
         <input
-          type="text"
+          type="url"
           id="movie_link"
           required
           name="imdbUrl"
