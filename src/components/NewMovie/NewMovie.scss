@@ -1,0 +1,41 @@
+.form {
+  display: flex;
+  flex-direction: column;
+
+  &__label {
+    color: lightseagreen;
+    font-weight: 600;
+    margin: 5px 0;
+  }
+
+  &__input {
+    height: 35px;
+    outline: none;
+    border: 2px solid lightskyblue;
+    border-radius: 10px;
+    padding-left: 10px;
+
+    &::placeholder {
+      font-style: italic;
+    }
+
+    &-textarea {
+      height: 70px;
+      resize: none;
+    }
+  }
+
+  &__button {
+    margin-top: 15px;
+    height: 35px;
+    border-radius: 10px;
+    outline: none;
+    border: 2px solid lightskyblue;
+    background-color: lightskyblue;
+    cursor: pointer;
+
+    &:hover {
+      background-color: white;
+    }
+  }
+}
