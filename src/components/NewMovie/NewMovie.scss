@@ -1,0 +1,30 @@
+.title {
+  font-size: 18px;
+}
+
+label {
+  display: block;
+  margin-bottom: 20px;
+  font-weight: 600;
+  font-size: 18px;
+}
+
+textarea {
+  display: block;
+  width: 100%;
+  height: 60px;
+  font-size: 16px;
+  padding: 10px 15px;
+}
+
+.movie-button {
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.disabled {
+  pointer-events: none;
+}
