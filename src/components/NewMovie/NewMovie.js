@@ -15,7 +15,7 @@ export class NewMovie extends Component {
     const { name, value } = event.target;
 
     this.setState({
-      [name]: value.trim(),
+      [name]: value,
     });
   }
 
@@ -47,46 +47,83 @@ export class NewMovie extends Component {
         className="movieForm"
         onSubmit={this.handleSubmit}
       >
-        <input
-          type="text"
-          name="title"
-          className="movieForm__textField"
-          value={title}
-          placeholder="Enter the title"
-          onChange={this.handleChange}
-        />
-        <input
-          type="text"
-          name="description"
-          className="movieForm__textField"
-          value={description}
-          placeholder="Enter description"
-          onChange={this.handleChange}
-        />
-        <input
-          type="text"
-          name="imgUrl"
-          className="movieForm__textField"
-          value={imgUrl}
-          placeholder="Enter movie image link"
-          onChange={this.handleChange}
-        />
-        <input
-          type="text"
-          name="imdbUrl"
-          className="movieForm__textField"
-          value={imdbUrl}
-          placeholder="Enter IMBD link"
-          onChange={this.handleChange}
-        />
-        <input
-          type="text"
-          name="imdbId"
-          className="movieForm__textField"
-          value={imdbId}
-          placeholder="Enter IMBD ID"
-          onChange={this.handleChange}
-        />
+        <div className="movieForm__container">
+          <label
+            htmlFor="title"
+            className="movieForm__label"
+          >
+            Title
+          </label>
+          <input
+            type="text"
+            name="title"
+            id="title"
+            className="movieForm__textField"
+            value={title}
+            placeholder="Enter the title"
+            onChange={this.handleChange}
+          />
+          <label
+            htmlFor="description"
+            className="movieForm__label"
+          >
+            Description
+          </label>
+          <input
+            type="text"
+            name="description"
+            id="description"
+            className="movieForm__textField"
+            value={description}
+            placeholder="Enter description"
+            onChange={this.handleChange}
+          />
+          <label
+            htmlFor="imgUrl"
+            className="movieForm__label"
+          >
+            Movie image link
+          </label>
+          <input
+            type="text"
+            name="imgUrl"
+            id="imgUrl"
+            className="movieForm__textField"
+            value={imgUrl}
+            placeholder="Enter movie image link"
+            onChange={this.handleChange}
+          />
+          <label
+            htmlFor="imdbUrl"
+            className="movieForm__label"
+          >
+            IMDB link
+          </label>
+          <input
+            type="text"
+            name="imdbUrl"
+            id="imdbUrl"
+            className="movieForm__textField"
+            value={imdbUrl}
+            placeholder="Enter IMBD link"
+            onChange={this.handleChange}
+          />
+          <label
+            htmlFor="imdbId"
+            className="movieForm__label"
+          >
+            IMDB ID
+          </label>
+          <input
+            type="text"
+            name="imdbId"
+            id="imdbId"
+            className="movieForm__textField"
+            value={imdbId}
+            placeholder="Enter IMBD ID"
+            onChange={this.handleChange}
+          />
+        </div>
         <button
           type="submit"
           className="movieForm__addButton"
