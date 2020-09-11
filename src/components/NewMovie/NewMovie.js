@@ -24,28 +24,38 @@ export class NewMovie extends Component {
       imdbId,
     };
 
-    event.target.reset();
+    this.setState({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
 
     this.props.addMovie(newMovie);
   }
 
   render() {
+    const { title, description, imgUrl, imdbUrl, imdbId } = this.state;
+
     return (
       <form onSubmit={this.submitHandler}>
         <input
           type="text"
+          value={title}
           id="title"
           className="movie-title"
           placeholder="Enter the title"
           required
           onChange={(event) => {
             this.setState({
-              title: event.target.value,
+              title: event.target.value.trimLeft(),
             });
           }}
         />
         <textarea
           id="description"
+          value={description}
           className="movie-description"
           placeholder="Enter the description"
           onChange={(event) => {
@@ -56,6 +66,7 @@ export class NewMovie extends Component {
         />
         <input
           id="imgUrl"
+          value={imgUrl}
           className="movie-imgUrl"
           type="url"
           placeholder="Enter the imgUrl"
@@ -69,6 +80,7 @@ export class NewMovie extends Component {
         <input
           type="text"
           id="imdbUrl"
+          value={imdbUrl}
           className="movie-imdbUrl"
           placeholder="Enter the imdbUrl"
           required
@@ -81,6 +93,7 @@ export class NewMovie extends Component {
         <input
           type="text"
           id="imdbId"
+          value={imdbId}
           className="movie-imdbId"
           placeholder="Enter the imdbId"
           required
