@@ -3,15 +3,18 @@ import PropTypes from 'prop-types';
 import './NewMovie.scss';
 
 export class NewMovie extends Component {
+  state = {
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  };
+
   submitHandler = (event) => {
     event.preventDefault();
 
-    const form = event.target;
-    const title = form.title.value;
-    const description = form.description.value;
-    const imgUrl = form.imgUrl.value;
-    const imdbUrl = form.imdbUrl.value;
-    const imdbId = form.imdbId.value;
+    const { title, description, imgUrl, imdbUrl, imdbId } = this.state;
 
     const newMovie = {
       title,
@@ -21,7 +24,7 @@ export class NewMovie extends Component {
       imdbId,
     };
 
-    form.reset();
+    event.target.reset();
 
     this.props.addMovie(newMovie);
   }
@@ -35,11 +38,21 @@ export class NewMovie extends Component {
           className="movie-title"
           placeholder="Enter the title"
           required
+          onChange={(event) => {
+            this.setState({
+              title: event.target.value,
+            });
+          }}
         />
         <textarea
           id="description"
           className="movie-description"
           placeholder="Enter the description"
+          onChange={(event) => {
+            this.setState({
+              description: event.target.value,
+            });
+          }}
         />
         <input
           id="imgUrl"
@@ -47,6 +60,11 @@ export class NewMovie extends Component {
           type="url"
           placeholder="Enter the imgUrl"
           required
+          onChange={(event) => {
+            this.setState({
+              imgUrl: event.target.value,
+            });
+          }}
         />
         <input
           type="text"
@@ -54,6 +72,11 @@ export class NewMovie extends Component {
           className="movie-imdbUrl"
           placeholder="Enter the imdbUrl"
           required
+          onChange={(event) => {
+            this.setState({
+              imdbUrl: event.target.value,
+            });
+          }}
         />
         <input
           type="text"
@@ -61,6 +84,11 @@ export class NewMovie extends Component {
           className="movie-imdbId"
           placeholder="Enter the imdbId"
           required
+          onChange={(event) => {
+            this.setState({
+              imdbId: event.target.value,
+            });
+          }}
         />
         <button type="submit">Add</button>
       </form>
