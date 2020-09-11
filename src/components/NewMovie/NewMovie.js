@@ -18,8 +18,24 @@ export class NewMovie extends Component {
     const { name, value } = event.target;
 
     this.setState({
-      [name]: value,
+      [name]: value.trimLeft(),
     });
+  }
+
+  onSubmitHandler = (event) => {
+    event.preventDefault();
+    const { title, imgUrl, imdbUrl, imdbId, description } = this.state;
+
+    const newMovie = {
+      title,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+      description,
+    };
+
+    this.props.onAdd(newMovie);
+    this.clearState();
   }
 
   clearState = () => {
@@ -38,21 +54,7 @@ export class NewMovie extends Component {
     return (
       <>
         <h1 className="title">Add new Movie to a list</h1>
-        <form onSubmit={(event) => {
-          event.preventDefault();
-
-          const newMovie = {
-            title,
-            imgUrl,
-            imdbUrl,
-            imdbId,
-            description,
-          };
-
-          this.props.onAdd(newMovie);
-          this.clearState();
-        }}
-        >
+        <form onSubmit={event => this.onSubmitHandler(event)}>
           <Form
             value={title}
             label="Title"
