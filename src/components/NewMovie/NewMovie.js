@@ -11,10 +11,34 @@ export class NewMovie extends Component {
     imgUrl: '',
     imdbUrl: '',
     imdbId: '',
+    error: '',
   };
 
   handleSubmit = (event) => {
     event.preventDefault();
+
+    const { addMovie } = this.props;
+
+    const { title, description, imgUrl, imdbUrl, imdbId } = this.state;
+    const checkEmptyFields = Object.values(this.state)
+      .every(item => (item !== ''));
+
+    const checkIfOnlySpacesStart = Object.values(this.state)
+      .map(item => [...item].every(elem => elem === ' '));
+
+    const checkIfOnlySpacesEnd = checkIfOnlySpacesStart.some(x => x);
+
+    ((checkEmptyFields && !checkIfOnlySpacesEnd)
+      && (addMovie({
+        title,
+        description,
+        imdbUrl,
+        imdbId,
+        imgUrl,
+      })))
+      || (this.setState({
+        error: true,
+      }));
 
     this.setState({
       title: '',
@@ -25,46 +49,14 @@ export class NewMovie extends Component {
     });
   }
 
-  titleChange = (event) => {
+  inputValueChange = (event) => {
     this.setState({
-      title: event.target.value,
-    });
-  }
-
-  descriptionChange = (event) => {
-    this.setState({
-      description: event.target.value,
-    });
-  }
-
-  imgUrlChange = (event) => {
-    this.setState({
-      imgUrl: event.target.value,
-    });
-  }
-
-  imdbUrlChange = (event) => {
-    this.setState({
-      imdbUrl: event.target.value,
-    });
-  }
-
-  imdbIdChange = (event) => {
-    this.setState({
-      imdbId: event.target.value,
+      [event.target.name]: event.target.value,
     });
   }
 
   render() {
     const { title, description, imdbUrl, imdbId, imgUrl } = this.state;
-
-    const checkEmptyFields = Object.values(this.state)
-      .every(item => (item !== ''));
-
-    const checkForSpacesStart = Object.values(this.state)
-      .map(item => [...item].every(elem => elem === ' '));
-
-    const checkForSpacesEnd = checkForSpacesStart.some(x => x);
 
     return (
       <form onSubmit={this.handleSubmit} className="formAddMovie">
@@ -75,9 +67,11 @@ export class NewMovie extends Component {
             name="title"
             placeholder="title"
             value={title}
-            onChange={this.titleChange}
+            onChange={this.inputValueChange}
             required
           />
+          {(this.state.error)
+           && (<span className="warning">Enter a valid title</span>)}
         </label>
         <label htmlFor="description">
           Description
@@ -86,8 +80,10 @@ export class NewMovie extends Component {
             name="description"
             placeholder="description"
             value={description}
-            onChange={this.descriptionChange}
+            onChange={this.inputValueChange}
           />
+          {(this.state.error)
+           && (<span className="warning">Enter a valid description</span>)}
         </label>
         <label htmlFor="imgUrl">
           imgUrl
@@ -96,9 +92,11 @@ export class NewMovie extends Component {
             name="imgUrl"
             placeholder="imgUrl"
             value={imgUrl}
-            onChange={this.imgUrlChange}
+            onChange={this.inputValueChange}
             required
           />
+          {(this.state.error)
+          && (<span className="warning">Enter a valid imgUrl</span>)}
         </label>
         <label htmlFor="imdbUrl">
           imdbUrl
@@ -107,9 +105,11 @@ export class NewMovie extends Component {
             name="imdbUrl"
             placeholder="imdbUrl"
             value={imdbUrl}
-            onChange={this.imdbUrlChange}
+            onChange={this.inputValueChange}
             required
           />
+          {(this.state.error)
+           && (<span className="warning">Enter a valid imdbUrl</span>)}
         </label>
         <label htmlFor="imdbId">
           imdbId
@@ -118,21 +118,14 @@ export class NewMovie extends Component {
             name="imdbId"
             placeholder="imdbId"
             value={imdbId}
-            onChange={this.imdbIdChange}
+            onChange={this.inputValueChange}
             required
           />
+          {(this.state.error)
+           && (<span className="warning">Enter a valid imdbUrl</span>)}
         </label>
         <button
           type="submit"
-          onClick={() => (checkEmptyFields && !checkForSpacesEnd)
-            && (this.props.addMovie({
-              title,
-              description,
-              imdbUrl,
-              imdbId,
-              imgUrl,
-            }))
-          }
         >
           Add Movie
         </button>
