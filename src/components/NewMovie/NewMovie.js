@@ -16,6 +16,7 @@ export class NewMovie extends Component {
 
     this.setState({
       [name]: value,
+      error: false,
     });
   };
 
@@ -23,6 +24,12 @@ export class NewMovie extends Component {
     event.preventDefault();
     const { title, description, imgUrl, imdbUrl, imdbId } = this.state;
     const { onAdd } = this.props;
+
+    if (!title.trim() || !imdbId.trim()) {
+      this.setState({ error: true });
+
+      return;
+    }
 
     onAdd({
       title, description, imgUrl, imdbUrl, imdbId,
@@ -34,11 +41,12 @@ export class NewMovie extends Component {
       imgUrl: '',
       imdbUrl: '',
       imdbId: '',
+      error: false,
     });
   }
 
   render() {
-    const { title, description, imgUrl, imdbUrl, imdbId } = this.state;
+    const { title, description, imgUrl, imdbUrl, imdbId, error } = this.state;
 
     return (
       <form onSubmit={this.handleSubmit}>
@@ -102,7 +110,14 @@ export class NewMovie extends Component {
             required
           />
         </div>
-        <button className="buttonForm" type="submit">Add movie</button>
+        <button
+          className="buttonForm"
+          type="submit"
+          disabled={error}
+        >
+          Add movie
+        </button>
+        {error && <p className="error">Please fill in the  blank fields!</p>}
       </form>
     );
   }
