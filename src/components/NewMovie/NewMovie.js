@@ -1,12 +1,19 @@
-/* eslint-disable react/prop-types */
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import './NewMovie.scss';
 
 export class NewMovie extends Component {
+  state = {
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  };
+
   textSaving = (event) => {
     if (event.target.value === ' ') {
-      // eslint-disable-next-line no-param-reassign
-      event.target.value = '';
+      return;
     }
 
     this.setState({
@@ -15,6 +22,14 @@ export class NewMovie extends Component {
   }
 
   render() {
+    const {
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    } = this.state;
+
     return (
       <form
         className="form"
@@ -28,7 +43,6 @@ export class NewMovie extends Component {
             imdbUrl: '',
             imdbId: '',
           });
-          event.target.reset();
         }}
       >
         <label>
@@ -37,6 +51,7 @@ export class NewMovie extends Component {
             className="form__item"
             type="text"
             name="title"
+            value={title}
             onChange={this.textSaving}
             required
           />
@@ -47,6 +62,7 @@ export class NewMovie extends Component {
             className="form__item"
             name="description"
             rows="5"
+            value={description}
             onChange={this.textSaving}
             required
           />
@@ -57,6 +73,7 @@ export class NewMovie extends Component {
             className="form__item"
             type="url"
             name="imgUrl"
+            value={imgUrl}
             onChange={this.textSaving}
             required
           />
@@ -67,6 +84,7 @@ export class NewMovie extends Component {
             className="form__item"
             type="url"
             name="imdbUrl"
+            value={imdbUrl}
             onChange={this.textSaving}
             required
           />
@@ -77,6 +95,7 @@ export class NewMovie extends Component {
             className="form__item"
             type="text"
             name="imdbId"
+            value={imdbId}
             onChange={this.textSaving}
             required
           />
@@ -86,3 +105,7 @@ export class NewMovie extends Component {
     );
   }
 }
+
+NewMovie.propTypes = {
+  addMovie: PropTypes.func.isRequired,
+};
