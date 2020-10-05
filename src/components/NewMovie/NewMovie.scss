@@ -1,0 +1,36 @@
+.sidebar {
+  form {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    box-shadow: 0 0.5em 1em -0.125em rgba(10, 10, 10, 0.1), 0 0px 0 1px rgba(10, 10, 10, 0.02);
+
+    input {
+      padding: 10px 15px;
+        
+      &:not(:first-child) {
+        margin-top: 10px;
+      }
+    }
+
+    .redBorder {
+      border: 1px solid #f00;
+    }
+
+    .error {
+      margin-top: 10px;
+      color: #f00;
+    }
+
+    button {
+      margin-top: 10px;
+      padding: 10px 15px;
+      background-color: #e4b621;
+      border: 1px solid #e4b621;
+
+      &:hover {
+        background-color: #fff;
+      }
+    }
+  }
+}
