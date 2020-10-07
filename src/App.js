@@ -9,8 +9,10 @@ export class App extends Component {
     movies: moviesFromServer,
   };
 
-  addMovie = (movie) => {
-    // put your code here
+  addMovie = (newMovie) => {
+    this.setState(state => ({
+      movies: [...state.movies, newMovie],
+    }));
   };
 
   render() {
@@ -19,10 +21,13 @@ export class App extends Component {
     return (
       <div className="page">
         <div className="page-content">
-          <MoviesList movies={movies} />
+          <MoviesList movies={[...movies]} />
         </div>
         <div className="sidebar">
-          <NewMovie />
+          <NewMovie
+            addMovie={this.addMovie}
+            movies={movies}
+          />
         </div>
       </div>
     );
