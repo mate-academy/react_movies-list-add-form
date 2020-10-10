@@ -1,1 +1,1 @@
-export * from './NewMovie';
+export * from './NewMovie.jsx';
