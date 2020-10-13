@@ -14,26 +14,28 @@ export class NewMovie extends Component {
     errorInImgbUrl: '',
     errorInId: '',
     disableButton: true,
+    // eslint-disable-next-line max-len
+    urlsValidation: /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/,
   };
 
   errorInTitle = () => {
     if (!this.state.movieTitle) {
       this.setState({
         errorInTitle: 'Please choose an user',
+        disableButton: true,
       });
     } else {
       this.setState({
         errorInTitle: '',
-      });
+      }, this.validateForm);
     }
-
-    this.checkButton();
   }
 
   errorInId = () => {
     if (!this.state.imdbId) {
       this.setState({
         errorInId: 'Please choose an id',
+        disableButton: true,
       });
     } else if
     (this.props.movies.some(movie => movie.imdbId === this.state.imdbId)) {
@@ -44,43 +46,37 @@ export class NewMovie extends Component {
     } else {
       this.setState({
         errorInId: '',
-      });
+      }, this.validateForm);
     }
-
-    this.checkButton();
   }
 
   errorInImgUrl = () => {
-    // eslint-disable-next-line max-len
-    if (!/^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/.test(this.state.imgUrl)) {
+    if (!this.state.urlsValidation.test(this.state.imgUrl)) {
       this.setState({
         errorInImgUrl: 'Please choose correct imgUrl form',
+        disableButton: true,
       });
     } else {
       this.setState({
         errorInImgUrl: '',
-      });
+      }, this.validateForm);
     }
-
-    this.checkButton();
   }
 
   errorInImdbUrl = () => {
-    // eslint-disable-next-line max-len
-    if (!/^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/.test(this.state.imdbUrl)) {
+    if (!this.state.urlsValidation.test(this.state.imdbUrl)) {
       this.setState({
         errorInImgbUrl: 'Please choose correct imgbUrl form',
+        disableButton: true,
       });
     } else {
       this.setState({
         errorInImgbUrl: '',
-      });
+      }, this.validateForm);
     }
-
-    this.checkButton();
   }
 
-  checkButton = () => {
+  validateForm = () => {
     if (!this.state.errorInTitle && !this.state.errorInImgUrl
       && !this.state.errorInImgbUrl && !this.state.errorInId
       && this.state.movieTitle && this.state.imgUrl && this.state.imdbUrl
@@ -88,32 +84,26 @@ export class NewMovie extends Component {
       this.setState({
         disableButton: false,
       });
+    } else {
+      this.setState({
+        disableButton: true,
+      });
     }
   }
 
-  handleChange = (event) => {
-    const { name, value } = event.target;
+    handleSubmit = (event) => {
+      event.preventDefault();
 
-    this.setState({
-      [name]: value,
-    });
-  };
+      const {
+        movieTitle,
+        movieDescription,
+        imgUrl,
+        imdbUrl,
+        imdbId,
+      } = this.state;
 
-  handleSubmit = (event) => {
-    event.preventDefault();
+      const { addMovie } = this.props;
 
-    const {
-      movieTitle,
-      movieDescription,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-      disableButton,
-    } = this.state;
-
-    const { addMovie } = this.props;
-
-    if (!disableButton) {
       const newMovie = {
         title: movieTitle,
         description: movieDescription,
@@ -136,97 +126,114 @@ export class NewMovie extends Component {
         disableButton: true,
       });
     }
-  }
 
-  render() {
-    const {
-      movieTitle,
-      movieDescription,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-      errorInTitle,
-      errorInImgUrl,
-      errorInImgbUrl,
-      errorInId,
-      disableButton,
-    } = this.state;
+    render() {
+      const {
+        movieTitle,
+        movieDescription,
+        imgUrl,
+        imdbUrl,
+        imdbId,
+        errorInTitle,
+        errorInImgUrl,
+        errorInImgbUrl,
+        errorInId,
+        disableButton,
+      } = this.state;
 
-    return (
-      <form onSubmit={this.handleSubmit}>
-        <h1>
-          Put the form here
-        </h1>
-        <div>
-          <input
-            className={errorInTitle ? 'selected' : ''}
-            name="movieTitle"
-            type="text"
-            placeholder="Enter a title"
-            value={movieTitle}
-            onBlur={this.errorInTitle}
-            onChange={this.handleChange}
-          />
-          <p>
-            {errorInTitle}
-          </p>
+      return (
+        <form onSubmit={this.handleSubmit}>
+          <h1>
+            Put the form here
+          </h1>
           <div>
             <input
+              className={errorInTitle ? 'selected' : ''}
+              name="movieTitle"
               type="text"
-              name="movieDescription"
-              placeholder="Enter a description"
-              value={movieDescription}
-              onChange={this.handleChange}
+              placeholder="Enter a title"
+              value={movieTitle}
+              onChange={(event) => {
+                const { name, value } = event.target;
+
+                this.setState({ [name]: value }, this.errorInTitle);
+              }}
             />
+            <p>
+              {errorInTitle}
+            </p>
+            <div>
+              <input
+                type="text"
+                name="movieDescription"
+                placeholder="Enter a description"
+                value={movieDescription}
+                onChange={(event) => {
+                  const { name, value } = event.target;
+
+                  this.setState({ [name]: value });
+                }}
+              />
+            </div>
+            <input
+              className={errorInImgUrl ? 'selected' : ''}
+              type="text"
+              name="imgUrl"
+              placeholder="Enter an imgUrl"
+              value={imgUrl}
+              onChange={(event) => {
+                const { name, value } = event.target;
+
+                this.setState({ [name]: value }, this.errorInImgUrl);
+              }}
+            />
+            <p>
+              {errorInImgUrl}
+            </p>
+            <input
+              className={errorInImgbUrl ? 'selected' : ''}
+              type="text"
+              name="imdbUrl"
+              placeholder="Enter an imdbUrl"
+              value={imdbUrl}
+              onBlur={this.errorInImdbUrl}
+              onChange={(event) => {
+                const { name, value } = event.target;
+
+                this.setState({ [name]: value }, this.errorInImdbUrl);
+              }}
+            />
+            <p>
+              {errorInImgbUrl}
+            </p>
+            <input
+              className={errorInId ? 'selected' : ''}
+              type="text"
+              name="imdbId"
+              placeholder="Enter an imdbId"
+              value={imdbId}
+              onBlur={this.errorInId}
+              onChange={(event) => {
+                const { name, value } = event.target;
+
+                this.setState({ [name]: value }, this.errorInId);
+              }}
+            />
+            <p>
+              {errorInId}
+            </p>
+            <div>
+              <button
+                type="submit"
+                disabled={disableButton}
+              >
+                Add new movie
+              </button>
+            </div>
           </div>
-          <input
-            className={errorInImgUrl ? 'selected' : ''}
-            type="text"
-            name="imgUrl"
-            placeholder="Enter an imgUrl"
-            value={imgUrl}
-            onBlur={this.errorInImgUrl}
-            onChange={this.handleChange}
-          />
-          <p>
-            {errorInImgUrl}
-          </p>
-          <input
-            className={errorInImgbUrl ? 'selected' : ''}
-            type="text"
-            name="imdbUrl"
-            placeholder="Enter an imdbUrl"
-            value={imdbUrl}
-            onBlur={this.errorInImdbUrl}
-            onChange={this.handleChange}
-          />
-          <p>
-            {errorInImgbUrl}
-          </p>
-          <input
-            className={errorInId ? 'selected' : ''}
-            type="text"
-            name="imdbId"
-            placeholder="Enter an imdbId"
-            value={imdbId}
-            onChange={this.handleChange}
-            onBlur={this.errorInId}
-          />
-          <p>
-            {errorInId}
-          </p>
-          <div>
-            <button
-              type="submit"
-              disabled={disableButton}
-            >
-              Add new movie
-            </button>
-          </div>
-        </div>
-      </form>
-    );
-  }
+        </form>
+      );
+    }
 }
 
 NewMovie.propTypes = {
