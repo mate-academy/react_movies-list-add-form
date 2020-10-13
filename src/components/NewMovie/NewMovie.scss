@@ -1,0 +1,44 @@
+.heading {
+  font-size: 24px;
+  margin: 10px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;;
+  padding: 15px;
+  box-shadow: 0 0 15px 0 rgba(0,0,0,0.1);
+
+  &__lable {
+    margin: 10px;
+    display: block;
+  }
+
+  &__input {
+    padding: 10px;
+    margin-left: 20px;
+    border-radius: 5px;
+    border: 1px solid rgb(118, 134, 87);
+    background-color: rgb(243, 255, 225);
+  }
+
+  &__button {
+    display: block;
+    margin: 10px auto;
+    padding: 10px 40px;
+    border: 1px solid rgb(118, 134, 87);
+    background-color: rgb(236, 255, 206);
+    font-size: 20px;
+    border-radius: 5px;
+    color: rgb(118, 134, 87);
+
+    &:hover {
+      cursor: pointer;
+      font-weight: 500;
+      color: rgb(77, 92, 49);
+      border-color: rgb(77, 92, 49);
+      box-shadow: 0 0 15px 0 rgba(0,0,0,0.2);
+    }
+  }
+}
