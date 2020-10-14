@@ -1,3 +1,6 @@
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable guard-for-in */
+/* eslint-disable no-param-reassign */
 import React, { Component } from 'react';
 import './App.scss';
 import { MoviesList } from './components/MoviesList';
@@ -9,8 +12,24 @@ export class App extends Component {
     movies: moviesFromServer,
   };
 
-  addMovie = (movie) => {
-    // put your code here
+  addMovie = (event, form) => {
+    event.preventDefault();
+
+    const newMovie = {
+      title: form.title,
+      description: form.description,
+      imgUrl: form.imgUrl,
+      imdbUrl: form.imdbUrl,
+      imdbId: form.imdbId,
+    };
+
+    this.setState(state => ({
+      movies: [...state.movies, newMovie],
+    }));
+
+    for (const key in form) {
+      form[key] = '';
+    }
   };
 
   render() {
@@ -22,7 +41,7 @@ export class App extends Component {
           <MoviesList movies={movies} />
         </div>
         <div className="sidebar">
-          <NewMovie />
+          <NewMovie onAdd={this.addMovie} />
         </div>
       </div>
     );
