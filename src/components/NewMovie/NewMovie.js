@@ -1,3 +1,5 @@
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable guard-for-in */
 import React, { Component } from 'react';
 import './NewMovie.scss';
 import PropTypes from 'prop-types';
@@ -19,6 +21,18 @@ export class NewMovie extends Component {
     });
   };
 
+  addMovie = (event) => {
+    event.preventDefault();
+
+    this.props.onAdd(this.state);
+
+    for (const key in this.state) {
+      this.setState({
+        [key]: '',
+      });
+    }
+  };
+
   render() {
     const {
       title,
@@ -31,9 +45,7 @@ export class NewMovie extends Component {
     return (
       <form
         className="form"
-        onSubmit={(event) => {
-          this.props.onAdd(event, this.state);
-        }}
+        onSubmit={this.addMovie}
       >
         <label htmlFor="title">
           Title
