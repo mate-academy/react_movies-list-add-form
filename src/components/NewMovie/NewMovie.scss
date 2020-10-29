@@ -1,0 +1,64 @@
+.App__form {
+  position: relative;
+  font-weight: 500;
+  padding: 45px 40px 0 0;
+  text-align: right;
+  border: 1px solid black;
+  border-radius: 5px;
+
+  &::before {
+    position: absolute;
+    content: "Add movie form";
+    background: #fff;
+    padding: 5px;
+    border-radius: 5px;
+    left: 100px;
+    top: -15px;
+    font-size: larger;
+    border: 1px solid black;
+  }
+}
+
+.App__input {
+  width: 200px;
+  height: 26px;
+  font-size: 16px;
+  background: rgb(249, 246, 246);
+  border: 1px solid rgb(155, 153, 153);
+  border-radius: 5px;
+  margin: 0;
+}
+
+.App__error {
+  height: 20px;
+  color: rgb(250, 125, 125);
+  font-size: 12px;
+}
+
+.App__textarea {
+  font-size: 16px;
+  background: rgb(249, 246, 246);
+  border: 1px solid rgb(155, 153, 153);
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 15px;
+  width: 280px;
+  height: 140px;
+}
+
+.App__label {
+  margin: 0;
+}
+
+.App__button {
+  font-size: 16px;
+  background: #e4b623;
+  border: 1px solid #e4b623;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 15px;
+}
+
+.border {
+  border: 1px solid red;
+}
