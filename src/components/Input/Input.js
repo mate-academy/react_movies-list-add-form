@@ -13,12 +13,10 @@ export const Input = ({ errorField, field, fieldName, onChange, onBlur }) => (
       className={
         classNames(
           'form-control',
-          // eslint-disable-next-line no-nested-ternary
-          `${errorField === 'valid'
-            ? 'is-valid'
-            : errorField
-              ? 'is-invalid'
-              : ''}`,
+          {
+            'is-valid': errorField === 'valid',
+            'is-invalid': errorField === 'invalid' || errorField === 'empty',
+          },
         )
       }
       onChange={event => onChange(event)}
