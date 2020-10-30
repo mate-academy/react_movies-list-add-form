@@ -59,6 +59,7 @@ export class Input extends Component {
     if (!this.state.value) {
       this.setState({
         error: `Please add ${name}`,
+        isSaved: false,
       });
 
       return;
