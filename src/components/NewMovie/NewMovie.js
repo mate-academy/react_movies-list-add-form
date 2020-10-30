@@ -33,6 +33,7 @@ export class NewMovie extends PureComponent {
 
     this.setState({
       [name]: value,
+      [`${name}Error`]: false,
     });
   }
 
