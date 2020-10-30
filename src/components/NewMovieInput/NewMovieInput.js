@@ -24,7 +24,7 @@ export const NewMovieInput = React.memo(({
           'is-danger': isError,
         })}
         value={value}
-        onChange={event => handleChange(event)}
+        onChange={handleChange}
       />
       {isError
         && (
