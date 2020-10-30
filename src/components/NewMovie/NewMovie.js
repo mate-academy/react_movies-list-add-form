@@ -13,7 +13,7 @@ export class NewMovie extends Component {
   };
 
   state = {
-    ...this.defaultState,
+    ...this.initialtState,
   };
 
   saveMovieProperty = (name, value) => {
