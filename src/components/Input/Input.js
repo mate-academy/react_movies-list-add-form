@@ -6,6 +6,7 @@ export const Input = (
     name,
     pattern,
     required,
+    title,
     value,
     handleChange,
     handleBlur },
@@ -21,6 +22,7 @@ export const Input = (
         name={name}
         id={name}
         placeholder={name}
+        title={title}
         pattern={pattern}
         required={required}
         value={value}
@@ -35,6 +37,7 @@ Input.propTypes = {
   type: PropTypes.string,
   name: PropTypes.string.isRequired,
   pattern: PropTypes.string,
+  title: PropTypes.string,
   required: PropTypes.bool,
   value: PropTypes.string.isRequired,
   handleChange: PropTypes.func.isRequired,
@@ -45,5 +48,6 @@ Input.defaultProps = {
   type: 'text',
   pattern: '.+',
   required: true,
+  title: ``,
   handleBlur: () => {},
 };

@@ -4,6 +4,9 @@ import PropTypes from 'prop-types';
 import { Input } from '../Input/Input';
 
 export class NewMovie extends Component {
+  // eslint-disable-next-line max-len
+  patternUrl = '^((([A-Za-z]{3,9}:(?:\\/\\/)?)(?:[-;:&=+$,\\w]+@)\n?[A-Za-z0-9.-]+|(?:www\\.|[-;:&=+$,\\w]+@)[A-Za-z0-9.-]+)\n((?:\\/[+~%/.\\w-_]*)?\\??(?:[-+=&;%@.\\w_]*)#?\n(?:[.!/\\\\\\w]*))?)$';
+
   state = {
     title: '',
     description: '',
@@ -64,19 +67,13 @@ export class NewMovie extends Component {
         />
         <Input
           name="imgUrl"
-          pattern="^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)
-          ?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)
-          ((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?
-          (?:[.!/\\\w]*))?)$"
+          pattern={this.patternUrl}
           value={imgUrl}
           handleChange={this.handleChange}
         />
         <Input
           name="imdbUrl"
-          pattern="^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)
-          ?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)
-          ((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?
-          (?:[.!/\\\w]*))?)$"
+          pattern={this.patternUrl}
           value={imdbUrl}
           handleChange={this.handleChange}
         />
