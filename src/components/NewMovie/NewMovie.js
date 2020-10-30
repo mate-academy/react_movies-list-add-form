@@ -92,7 +92,9 @@ export class NewMovie extends Component {
             }));
           }}
         />
-        <button type="submit">Add movie</button>
+        <button type="submit" className="button is-link">
+          Add movie
+        </button>
       </form>
     );
   }

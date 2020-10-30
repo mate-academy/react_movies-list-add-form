@@ -10,20 +10,25 @@ export const Input = (
     handleChange,
     handleBlur },
 ) => (
-  <label htmlFor={name}>
-    {name}
-    <input
-      type={type}
-      name={name}
-      id={name}
-      placeholder={name}
-      pattern={pattern}
-      required={required}
-      value={value}
-      onChange={handleChange}
-      onBlur={handleBlur}
-    />
-  </label>
+  <div className="field">
+    <label htmlFor={name} className="label">
+      {name[0].toUpperCase() + name.slice(1)}
+    </label>
+    <div>
+      <input
+        className="input"
+        type={type}
+        name={name}
+        id={name}
+        placeholder={name}
+        pattern={pattern}
+        required={required}
+        value={value}
+        onChange={handleChange}
+        onBlur={handleBlur}
+      />
+    </div>
+  </div>
 );
 
 Input.propTypes = {
