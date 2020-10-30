@@ -8,6 +8,7 @@ export const NewMovieInput = React.memo(({
   isError,
   value,
   handleChange,
+  handleBlur,
   placeholder,
 }) => (
   <div className="field">
@@ -25,6 +26,7 @@ export const NewMovieInput = React.memo(({
         })}
         value={value}
         onChange={handleChange}
+        onBlur={handleBlur}
       />
       {isError
         && (
@@ -43,6 +45,7 @@ NewMovieInput.propTypes = {
   isError: PropTypes.bool.isRequired,
   value: PropTypes.string.isRequired,
   handleChange: PropTypes.func.isRequired,
+  handleBlur: PropTypes.func.isRequired,
   placeholder: PropTypes.string,
 };
 

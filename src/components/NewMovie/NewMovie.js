@@ -16,17 +16,44 @@ const initialState = {
   isValid: false,
 };
 
-function checkUrl(url) {
-  // eslint-disable-next-line max-len
-  return url.match(/^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/);
-}
-
-function checkValid(input) {
-  return Boolean(input.trim());
-}
+// eslint-disable-next-line max-len
+const urlValidationRegExp = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
 
 export class NewMovie extends PureComponent {
   state = initialState
+
+  validateText = (event) => {
+    const { name } = event.target;
+    const errorKey = `${name}Error`;
+
+    this.setState((state) => {
+      if (!state[name].trim()) {
+        return ({
+          [errorKey]: true,
+        });
+      }
+
+      return ({
+        [errorKey]: false,
+      });
+    });
+  }
+
+  validateUrl = (event) => {
+    const { name } = event.target;
+
+    this.setState((state) => {
+      if (!state[name].match(urlValidationRegExp)) {
+        return ({
+          [`${name}Error`]: true,
+        });
+      }
+
+      return ({
+        [`${name}Error`]: false,
+      });
+    });
+  }
 
   handleChange = (event) => {
     const { name, value } = event.target;
@@ -40,23 +67,14 @@ export class NewMovie extends PureComponent {
   handleSubmit = (event) => {
     event.preventDefault();
 
-    const { title, description, imgUrl, imdbUrl, imdbId } = this.state;
+    const {
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    } = this.state;
     const { addMovie } = this.props;
-    const titleError = !checkValid(title);
-    const imgUrlError = !checkUrl(imgUrl);
-    const imdbUrlError = !checkUrl(imdbUrl);
-    const imdbIdError = !checkValid(imdbId);
-
-    if (titleError || imgUrlError || imdbUrlError || imdbIdError) {
-      this.setState({
-        titleError,
-        imgUrlError,
-        imdbUrlError,
-        imdbIdError,
-      });
-
-      return;
-    }
 
     const movie = {
       title,
@@ -84,6 +102,8 @@ export class NewMovie extends PureComponent {
       imdbIdError,
     } = this.state;
 
+    const error = !titleError || !imgUrlError || !imdbUrlError || !imdbIdError;
+
     return (
       <form
         onSubmit={this.handleSubmit}
@@ -94,6 +114,7 @@ export class NewMovie extends PureComponent {
           isError={titleError}
           value={title}
           handleChange={this.handleChange}
+          handleBlur={this.validateText}
         />
 
         <NewMovieTextArea
@@ -110,6 +131,7 @@ export class NewMovie extends PureComponent {
           isError={imgUrlError}
           value={imgUrl}
           handleChange={this.handleChange}
+          handleBlur={this.validateUrl}
         />
 
         <NewMovieInput
@@ -119,6 +141,7 @@ export class NewMovie extends PureComponent {
           isError={imdbUrlError}
           value={imdbUrl}
           handleChange={this.handleChange}
+          handleBlur={this.validateUrl}
         />
 
         <NewMovieInput
@@ -127,10 +150,13 @@ export class NewMovie extends PureComponent {
           isError={imdbIdError}
           value={imdbId}
           handleChange={this.handleChange}
+          handleBlur={this.validateText}
         />
         <button
           type="submit"
-          className="button is-info"
+          className="button is-success normal"
+          title="Fill all fields"
+          disabled={error}
         >
           Add new movie
         </button>
