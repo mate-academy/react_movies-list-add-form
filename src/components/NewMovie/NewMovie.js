@@ -11,12 +11,6 @@ export class NewMovie extends PureComponent {
     imgUrl: '',
     imdbUrl: '',
     imdbId: '',
-    errorMessages: {
-      title: 'Write here title',
-      imdbUrl: 'Write here correct URL',
-      imgUrl: 'Write here correct Image Url ',
-      imdbId: 'Put here correct ID',
-    },
     titleError: false,
     imdbUrlError: false,
     imgUrlError: false,
@@ -105,7 +99,6 @@ export class NewMovie extends PureComponent {
       imgUrl,
       imdbUrl,
       imdbId,
-      errorMessages,
       titleError,
       imdbIdError,
       imgUrlError,
@@ -133,7 +126,7 @@ export class NewMovie extends PureComponent {
               />
 
               {titleError && (
-                <p className="has-text-danger">{errorMessages.title}</p>
+                <p className="has-text-danger">Write here title</p>
               )}
             </div>
           </label>
@@ -170,7 +163,7 @@ export class NewMovie extends PureComponent {
               />
 
               {imgUrlError && (
-                <p className="has-text-danger">{errorMessages.imgUrl}</p>
+                <p className="has-text-danger">Write here correct Image Url</p>
               )}
             </div>
           </label>
@@ -192,7 +185,7 @@ export class NewMovie extends PureComponent {
               />
 
               {imdbUrlError && (
-                <p className="has-text-danger">{errorMessages.imdbUrl}</p>
+                <p className="has-text-danger">Write here correct URL</p>
               )}
             </div>
           </label>
@@ -214,7 +207,7 @@ export class NewMovie extends PureComponent {
               />
 
               {imdbIdError && (
-                <p className="has-text-danger">{errorMessages.imdbId}</p>
+                <p className="has-text-danger">Put here correct ID</p>
               )}
             </div>
           </label>
