@@ -63,7 +63,7 @@ export class NewMovie extends PureComponent {
 
     this.setState({
       [name]: value,
-      [`${name}Error`]: false,
+      [`${name}Error`]: !value,
     });
   };
 
@@ -95,6 +95,11 @@ export class NewMovie extends PureComponent {
       imdbUrlError,
       imdbIdError,
     } = this.state;
+
+    const formHasError = titleError || !title
+      || imdbIdError || !imdbId
+      || imdbUrlError || !imdbUrl
+      || imgUrlError || !imgUrl;
 
     return (
       <form
@@ -164,7 +169,7 @@ export class NewMovie extends PureComponent {
         <button
           type="submit"
           className="button is-primary"
-          disabled={titleError || imdbIdError || imdbUrlError || imgUrlError}
+          disabled={formHasError}
         >
           Add movie
         </button>
