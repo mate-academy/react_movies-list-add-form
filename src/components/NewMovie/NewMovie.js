@@ -61,6 +61,7 @@ export class NewMovie extends Component {
               id={`movie${field}`}
               className="text-capitalize"
               ref={this[field]}
+              required
             />
           </Form.Group>
         ))}
