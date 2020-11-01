@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ClassNames from 'classnames';
 import PropTypes from 'prop-types';
 
 export class Input extends Component {
@@ -82,6 +83,11 @@ export class Input extends Component {
     const { name } = this.props;
     const { error, value, isSaved } = this.state;
 
+    const styleClasses = ClassNames('form-control', 'myInput', {
+      'is-invalid': error,
+      'is-valid': isSaved,
+    });
+
     return (
       <div className="form-row">
         <div className="col-md-12 mb-2">
@@ -90,9 +96,7 @@ export class Input extends Component {
               ? (
                 <input
                   type="text"
-                  className={`form-control myInput
-                  ${error ? 'is-invalid' : ''}
-                  ${isSaved ? 'is-valid' : ''}`}
+                  className={styleClasses}
                   id={name}
                   placeholder={name}
                   value={value}
@@ -104,9 +108,7 @@ export class Input extends Component {
               : (
                 <textarea
                   type="text"
-                  className={`form-control myInput
-                  ${error ? 'is-invalid' : ''}
-                  ${isSaved ? 'is-valid' : ''}`}
+                  className={styleClasses}
                   id={name}
                   placeholder={name}
                   value={value === null ? '' : value}
