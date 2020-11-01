@@ -14,17 +14,19 @@ export class NewMovie extends Component {
 
   imdbId = React.createRef();
 
+  movie = {
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  };
+
   onSubmit = (event) => {
     event.preventDefault();
 
+    const { movie } = this;
     const { onAdd } = this.props;
-    const movie = {
-      title: '',
-      description: '',
-      imgUrl: '',
-      imdbUrl: '',
-      imdbId: '',
-    };
 
     Object.keys(movie).forEach((key) => {
       movie[key] = this[key].current.value;
@@ -35,14 +37,7 @@ export class NewMovie extends Component {
   }
 
   render() {
-    const {
-      onSubmit,
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    } = this;
+    const { onSubmit, movie } = this;
 
     return (
       <Form
@@ -50,60 +45,25 @@ export class NewMovie extends Component {
       >
         <h1>Add new movie</h1>
 
-        <Form.Group>
-          <Form.Label htmlFor="movieTitle">Title</Form.Label>
-          <Form.Control
-            type="text"
-            name="title"
-            placeholder="Enter title"
-            id="movieTitle"
-            ref={title}
-          />
-        </Form.Group>
+        {Object.keys(movie).map(field => (
+          <Form.Group key={Math.random()}>
+            <Form.Label
+              htmlFor="movieTitle"
+              className="text-capitalize"
+            >
+              {field}
+            </Form.Label>
 
-        <Form.Group>
-          <Form.Label htmlFor="movieDescription">Description</Form.Label>
-          <Form.Control
-            type="text"
-            name="description"
-            placeholder="Enter description"
-            id="movieDescription"
-            ref={description}
-          />
-        </Form.Group>
-
-        <Form.Group>
-          <Form.Label htmlFor="movieImgUrl">ImgUrl</Form.Label>
-          <Form.Control
-            type="text"
-            name="imgUrl"
-            placeholder="Enter ImgUrl"
-            id="movieImgUrl"
-            ref={imgUrl}
-          />
-        </Form.Group>
-
-        <Form.Group>
-          <Form.Label htmlFor="movieImdbUrl">ImdbUrl</Form.Label>
-          <Form.Control
-            type="text"
-            name="imdbUrl"
-            placeholder="Enter ImdbUrl"
-            id="movieImdbUrl"
-            ref={imdbUrl}
-          />
-        </Form.Group>
-
-        <Form.Group>
-          <Form.Label htmlFor="movieImdbId">ImdbId</Form.Label>
-          <Form.Control
-            type="text"
-            name="imdbId"
-            placeholder="Enter ImdbId"
-            id="movieImdbId"
-            ref={imdbId}
-          />
-        </Form.Group>
+            <Form.Control
+              type="text"
+              name={field}
+              placeholder={`Enter ${field}`}
+              id={`movie${field}`}
+              className="text-capitalize"
+              ref={this[field]}
+            />
+          </Form.Group>
+        ))}
 
         <Button variant="primary" type="submit">
           Submit
