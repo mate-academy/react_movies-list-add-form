@@ -1,0 +1,31 @@
+.newMovie {
+  display: flex;
+  flex-direction: column;
+  font-size: large;
+
+  &__input {
+    margin-bottom: 20px;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 1px 1px 3px rgb(12, 12, 12);
+    transition: 0.5s;
+
+    &:hover {
+      transform: scale(1.1);
+    }
+  }
+
+  button {
+    padding: 15px;
+    margin-top: 20px;
+    border-radius: 8px;
+    box-shadow: 2px 2px 5px rgb(12, 12, 12);
+    transition: 0.5s;
+    background-color: rgb(157, 226, 226);
+    font-size: large;
+
+    &:hover {
+      transform: scale(1.1);
+    }
+  }
+}
