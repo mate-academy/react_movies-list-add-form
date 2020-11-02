@@ -4,17 +4,25 @@ import PropTypes from 'prop-types';
 // eslint-disable-next-line max-len
 const regEx = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
 
+const initialState = {
+  title: '',
+  description: '',
+  imgUrl: '',
+  imdbUrl: '',
+  imdbId: '',
+};
+
+const initialErrorsStatus = {
+  isTitleError: false,
+  isImdbUrlError: false,
+  isImgUrlError: false,
+  isImdbIdError: false,
+};
+
 export class NewMovie extends PureComponent {
   state = {
-    title: '',
-    description: '',
-    imgUrl: '',
-    imdbUrl: '',
-    imdbId: '',
-    titleError: false,
-    imdbUrlError: false,
-    imgUrlError: false,
-    imdbIdError: false,
+    ...initialState,
+    ...initialErrorsStatus,
   };
 
   changeHandler = (e) => {
@@ -33,14 +41,14 @@ export class NewMovie extends PureComponent {
       imgUrl,
       imdbUrl,
       description,
-      titleError,
-      imgUrlError,
-      imdbUrlError,
-      imdbIdError,
+      isTitleError,
+      isImgUrlError,
+      isImdbUrlError,
+      isImdbIdError,
     }
     = this.state;
 
-    if (titleError || imdbIdError || imdbUrlError || imgUrlError) {
+    if (isTitleError || isImdbIdError || isImdbUrlError || isImgUrlError) {
       return;
     }
 
@@ -65,30 +73,35 @@ export class NewMovie extends PureComponent {
 
   validateField = (event) => {
     const { name, value } = event.target;
-    let { titleError, imgUrlError, imdbUrlError, imdbIdError } = this.state;
+    let {
+      isTitleError,
+      isImgUrlError,
+      isImdbUrlError,
+      isImdbIdError,
+    } = this.state;
 
     switch (name) {
       case 'title':
-        titleError = !value;
+        isTitleError = !value;
         break;
       case 'imgUrl':
-        imgUrlError = !value.match(regEx);
+        isImgUrlError = !value.match(regEx);
         break;
       case 'imdbUrl':
-        imdbUrlError = !value.match(regEx);
+        isImdbUrlError = !value.match(regEx);
         break;
       case 'imdbId':
-        imdbIdError = !value;
+        isImdbIdError = !value;
         break;
       default:
         break;
     }
 
     this.setState({
-      titleError,
-      imgUrlError,
-      imdbUrlError,
-      imdbIdError,
+      isTitleError,
+      isImgUrlError,
+      isImdbUrlError,
+      isImdbIdError,
     });
   }
 
@@ -99,10 +112,10 @@ export class NewMovie extends PureComponent {
       imgUrl,
       imdbUrl,
       imdbId,
-      titleError,
-      imdbIdError,
-      imgUrlError,
-      imdbUrlError,
+      isTitleError,
+      isImdbIdError,
+      isImgUrlError,
+      isImdbUrlError,
     }
     = this.state;
 
@@ -118,14 +131,14 @@ export class NewMovie extends PureComponent {
                 type="text"
                 name="title"
                 placeholder="title"
-                className={`input ${titleError && 'is-danger'}`}
+                className={`input ${isTitleError && 'is-danger'}`}
                 value={title}
                 onChange={this.changeHandler}
                 required
                 onBlur={this.validateField}
               />
 
-              {titleError && (
+              {isTitleError && (
                 <p className="has-text-danger">Write here title</p>
               )}
             </div>
@@ -153,7 +166,7 @@ export class NewMovie extends PureComponent {
             <div className="control">
               <input
                 type="text"
-                className={`input ${imgUrlError && 'is-danger'}`}
+                className={`input ${isImgUrlError && 'is-danger'}`}
                 placeholder="imgUrl"
                 name="imgUrl"
                 value={imgUrl}
@@ -162,7 +175,7 @@ export class NewMovie extends PureComponent {
                 onBlur={this.validateField}
               />
 
-              {imgUrlError && (
+              {isImgUrlError && (
                 <p className="has-text-danger">Write here correct Image Url</p>
               )}
             </div>
@@ -175,7 +188,7 @@ export class NewMovie extends PureComponent {
             <div className="control">
               <input
                 type="text"
-                className={`input ${imdbUrlError && 'is-danger'}`}
+                className={`input ${isImdbUrlError && 'is-danger'}`}
                 placeholder="imdbUrl"
                 name="imdbUrl"
                 value={imdbUrl}
@@ -184,7 +197,7 @@ export class NewMovie extends PureComponent {
                 onBlur={this.validateField}
               />
 
-              {imdbUrlError && (
+              {isImdbUrlError && (
                 <p className="has-text-danger">Write here correct URL</p>
               )}
             </div>
@@ -197,7 +210,7 @@ export class NewMovie extends PureComponent {
             <div className="control">
               <input
                 type="text"
-                className={`input ${imdbIdError && 'is-danger'}`}
+                className={`input ${isImdbIdError && 'is-danger'}`}
                 placeholder="imdbId"
                 name="imdbId"
                 value={imdbId}
@@ -206,7 +219,7 @@ export class NewMovie extends PureComponent {
                 onBlur={this.validateField}
               />
 
-              {imdbIdError && (
+              {isImdbIdError && (
                 <p className="has-text-danger">Put here correct ID</p>
               )}
             </div>
