@@ -13,3 +13,16 @@
   padding: 20px;
   border-left: 1px solid lightgray;
 }
+
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.input--error {
+  border-color: red;
+}
+
+.error {
+  color: red;
+}
