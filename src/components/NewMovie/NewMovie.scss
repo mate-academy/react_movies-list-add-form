@@ -1,0 +1,61 @@
+.NewMovie {
+  display: flex;
+  flex-direction: column;
+
+  &__input-field {
+    width: 100%;
+  }
+
+  &__input {
+    width: 100%;
+    margin: 15px 0;
+    border: none;
+    outline: none;
+
+    padding: 10px;
+    border-bottom: 1px solid black;
+
+    resize: none;
+
+    &--invalid {
+      padding-bottom: 9px;
+      border-width: 2px;
+      border-color: red;
+    }
+
+    &:focus {
+      padding-bottom: 9px;
+      border-bottom: 2px solid #200EE3;
+    }
+  }
+
+  &__submit {
+    margin: 20px 0;
+
+    font-size: 20px;
+    padding: 10px;
+    background-color: #200EE3;
+    color: white;
+    border: 1px solid #200EE3;
+    border-radius: 10px;
+
+    transition: color 1s, border-color 1s;
+    cursor: pointer;
+
+    &:hover {
+      background-color: white;
+      color: #200EE3
+    }
+
+    &:disabled {
+      cursor: default;
+      background-color: lightgray;
+      color: rgb(68, 61, 61);
+      border-color: silver;
+    }
+  }
+
+  &__error {
+    color:  rgba(234, 48, 8, 0.8);
+  }
+}
