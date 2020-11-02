@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Form, Button } from 'react-bootstrap';
 
 export class NewMovie extends Component {
@@ -11,7 +12,6 @@ export class NewMovie extends Component {
   };
 
   emptyState = Object.assign(this.state)
-
 
   handleChange = (event) => {
     const { name, value } = event.target;
@@ -31,8 +31,8 @@ export class NewMovie extends Component {
 
   addForm = (event) => {
     event.preventDefault();
-    this.props.addMovie(this.returnObj())
-    this.setState(this.emptyState)
+    this.props.addMovie(this.returnObj());
+    this.setState(this.emptyState);
   }
 
   render() {
@@ -41,12 +41,12 @@ export class NewMovie extends Component {
         <Form.Group>
           <Form.Label>Title</Form.Label>
           <Form.Control
-          name="title"
-          type="text"
-          placeholder="title"
-          value={this.state.title}
-          onChange={this.handleChange}
-          required={1}
+            name="title"
+            type="text"
+            placeholder="title"
+            value={this.state.title}
+            onChange={this.handleChange}
+            required={1}
           />
         </Form.Group>
         <Form.Group>
@@ -96,9 +96,13 @@ export class NewMovie extends Component {
           type="submit"
           variant="primary"
         >
-          Add movie
+          Add Movie
         </Button>
       </Form>
     );
   }
 }
+
+NewMovie.propTypes = {
+  addMovie: PropTypes.func.isRequired,
+};
