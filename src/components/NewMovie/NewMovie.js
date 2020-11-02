@@ -35,13 +35,27 @@ export class NewMovie extends Component {
 
   handleChange = (event) => {
     const { name, value } = event.target;
+    let error = '';
+
+    // eslint-disable-next-line default-case
+    switch (name) {
+      case 'title':
+        error = 'errorTitle';
+        break;
+      case 'imgUrl':
+        error = 'errorImgUrl';
+        break;
+      case 'imdbUrl':
+        error = 'errorImdbUrl';
+        break;
+      case 'imdbId':
+        error = 'errorImdbId';
+        break;
+    }
 
     this.setState({
-      errorTitle: '',
-      errorImgUrl: '',
-      errorImdbUrl: '',
-      errorImdbId: '',
       [name]: value,
+      [error]: '',
     });
   };
 
@@ -84,16 +98,17 @@ export class NewMovie extends Component {
               name="title"
               type="text"
               value={title}
+              autoComplete="off"
               onBlur={(event) => {
                 let error = '';
 
                 if (!event.target.value) {
                   error = 'Please write title of the movie';
+                } else {
+                  error = '';
                 }
 
-                if (error) {
-                  this.setState({ errorTitle: error });
-                }
+                this.setState({ errorTitle: error });
               }}
               onChange={this.handleChange}
             />
@@ -123,21 +138,21 @@ export class NewMovie extends Component {
                 placeholder="put link for cover here"
                 name="imgUrl"
                 type="text"
+                autoComplete="off"
                 value={imgUrl}
                 onBlur={(event) => {
                   let error = '';
 
-                  if (!event.target.value) {
-                    error = 'Please write a link';
-                  }
-
-                  if (!this.checkURL(event.target.value)) {
+                  if (
+                    !this.checkURL(event.target.value)
+                      || !event.target.value
+                  ) {
                     error = 'Please write correct link (ex. https://...)';
+                  } else {
+                    error = '';
                   }
 
-                  if (error) {
-                    this.setState({ errorImgUrl: error });
-                  }
+                  this.setState({ errorImgUrl: error });
                 }}
                 onChange={this.handleChange}
               />
@@ -156,21 +171,21 @@ export class NewMovie extends Component {
                 placeholder="put link of IMDB logo here"
                 name="imdbUrl"
                 type="text"
+                autoComplete="off"
                 value={imdbUrl}
                 onBlur={(event) => {
                   let error = '';
 
-                  if (!event.target.value) {
-                    error = 'Please write a link';
-                  }
-
-                  if (!this.checkURL(event.target.value)) {
+                  if (
+                    !event.target.value
+                    || !this.checkURL(event.target.value)
+                  ) {
                     error = 'Please write correct link (ex. https://...)';
+                  } else {
+                    error = '';
                   }
 
-                  if (error) {
-                    this.setState({ errorImdbUrl: error });
-                  }
+                  this.setState({ errorImdbUrl: error });
                 }}
                 onChange={this.handleChange}
               />
@@ -189,17 +204,18 @@ export class NewMovie extends Component {
                 placeholder="write id of this movie"
                 name="imdbId"
                 type="text"
+                autoComplete="off"
                 value={imdbId}
                 onBlur={(event) => {
                   let error = '';
 
                   if (!event.target.value) {
-                    error = 'Please write correct link';
+                    error = 'Please write correct ID';
+                  } else {
+                    error = '';
                   }
 
-                  if (error) {
-                    this.setState({ errorImdbId: error });
-                  }
+                  this.setState({ errorImdbId: error });
                 }}
                 onChange={this.handleChange}
               />
@@ -209,7 +225,10 @@ export class NewMovie extends Component {
             </div>
           </p>
           {
-            (!title || !imgUrl || !imdbUrl || !imdbId)
+            (
+              !title || !imgUrl || !imdbUrl || !imdbId
+              || !this.checkURL(imgUrl) || !this.checkURL(imdbUrl)
+            )
               ? (
                 <button
                   type="submit"
