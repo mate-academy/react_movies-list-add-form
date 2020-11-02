@@ -18,7 +18,8 @@ export const Input = ({ inputName, value, error, onChange, onBlur }) => {
           classNames(
             'NewMovie__input',
             {
-              'NewMovie__input--invalid': error === 'invalid'
+              'NewMovie__input--invalid':
+                error === 'invalid'
                 || error === 'empty',
             },
           )
