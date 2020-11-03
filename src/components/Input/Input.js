@@ -140,6 +140,10 @@ Input.propTypes = {
   name: PropTypes.string.isRequired,
   value: PropTypes.oneOf([
     PropTypes.instanceOf(null),
-    PropTypes.string]).isRequired,
+    PropTypes.string.isRequired]),
   saveValue: PropTypes.func.isRequired,
+};
+
+Input.defaultProps = {
+  value: '',
 };
