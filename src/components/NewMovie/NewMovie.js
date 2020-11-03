@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 const fields = [
@@ -16,7 +16,7 @@ const cardFields = fields.reduce((acc, name) => {
   };
 }, {});
 
-export class NewMovie extends React.Component {
+export class NewMovie extends Component {
   state = {
     newMovieFields: cardFields,
   }
@@ -59,9 +59,10 @@ export class NewMovie extends React.Component {
 
     return (
       <form
-        className="ui form"
+        className="ui large form"
         onSubmit={this.handleSubmit}
         name="newMovie"
+        method="post"
       >
         <label htmlFor="title">Title</label>
         <input
@@ -83,8 +84,9 @@ export class NewMovie extends React.Component {
 
         <label htmlFor="imgUrl">ImgUrl</label>
         <input
-          type="text"
+          type="url"
           name="imgUrl"
+          placeholder="https://example.com"
           value={imgUrl}
           onChange={this.handleChange}
           required
@@ -92,9 +94,10 @@ export class NewMovie extends React.Component {
 
         <label htmlFor="imdbUrl">ImdbUrl</label>
         <input
-          type="text"
+          type="url"
           name="imdbUrl"
           value={imdbUrl}
+          placeholder="https://example.com"
           onChange={this.handleChange}
           required
         />
