@@ -7,7 +7,7 @@ export const FormInput = React.memo(({
   value,
   handleChange,
   handleBlur,
-  isValid,
+  textError,
 }) => (
   <div>
     <label className="form-group row">
@@ -16,7 +16,7 @@ export const FormInput = React.memo(({
         name={name}
         placeholder={`Enter ${name}`}
         className={classNames('form-control', {
-          'is-invalid': !isValid,
+          'is-invalid': textError,
         })}
         value={value}
         onChange={handleChange}
@@ -25,7 +25,7 @@ export const FormInput = React.memo(({
         autoComplete="off"
       />
       <div id="validationFeedback" className="invalid-feedback">
-        Please enter a valid state
+        {textError}
       </div>
     </label>
   </div>
@@ -35,5 +35,5 @@ FormInput.propTypes = FormInputProps;
 
 FormInput.defaultProps = {
   value: '',
-  isValid: true,
+  textError: null,
 };

@@ -5,5 +5,5 @@ export const FormInputProps = {
   value: PropTypes.string,
   handleChange: PropTypes.func.isRequired,
   handleBlur: PropTypes.func.isRequired,
-  isValid: PropTypes.bool,
+  textError: PropTypes.string,
 };

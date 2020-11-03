@@ -7,21 +7,28 @@ import { NewMovieProps } from '../../props/NewMovieProps';
 // eslint-disable-next-line max-len
 const regex = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
 
+const NEW_MOVIE = {
+  title: '',
+  description: '',
+  imgUrl: '',
+  imdbUrl: '',
+  imdbId: '',
+};
+
+const MOVIE_ERRORS = Object.keys(NEW_MOVIE)
+  .filter(fild => fild === 'title'
+    || fild === 'imgUrl'
+    || fild === 'imdbUrl'
+    || fild === 'imdbId')
+  .reduce((errors, movie) => ({
+    ...errors,
+    [movie]: null,
+  }), {});
+
 export class NewMovie extends Component {
   state = {
-    values: {
-      title: '',
-      description: '',
-      imgUrl: '',
-      imdbUrl: '',
-      imdbId: '',
-    },
-    controlers: {
-      isValidTitle: true,
-      isValidImgUrl: true,
-      isValidImdbUrl: true,
-      isValidImdbId: true,
-    },
+    values: NEW_MOVIE,
+    errors: MOVIE_ERRORS,
   };
 
   handleChange = (event) => {
@@ -41,108 +48,75 @@ export class NewMovie extends Component {
     this.props.addMovie(this.state.values);
 
     this.setState({
-      values: {
-        title: '',
-        description: '',
-        imgUrl: '',
-        imdbUrl: '',
-        imdbId: '',
-      },
+      values: NEW_MOVIE,
     });
   }
 
   handleBlur = (event) => {
     const { name, value } = event.target;
-    const { controlers } = this.state;
-    const controler = `isValid${name[0].toUpperCase()}${name.slice(1)}`;
-    const isControler = Object
+    const { errors } = this.state;
+    const isControled = Object
       .prototype
       .hasOwnProperty
-      .call(controlers, controler);
+      .call(errors, name);
 
-    if (!isControler) {
+    if (!isControled) {
       return;
     }
 
     this.setState(state => ({
-      controlers: {
-        ...state.controlers,
-        [controler]: controler.includes('Url')
-          ? regex.test(value) && !!value
-          : !!value,
+      errors: {
+        ...state.errors,
+        [name]: value ? null : `The ${name} is required`,
       },
     }));
+
+    if (value && name.includes('Url')) {
+      this.setState(state => ({
+        errors: {
+          ...state.errors,
+          [name]: regex.test(value) ? null : 'Please enter a valid url',
+        },
+      }));
+    }
   }
 
-  hasFailedControlers = () => {
-    return Object.values(this.state.controlers).some(value => !value);
+  isDisabledButton = () => {
+    const { title, imgUrl, imdbUrl, imdbId } = this.state.values;
+    const hasErrors = Object.values(this.state.errors).some(err => err);
+
+    return !imdbId
+      || !imdbUrl
+      || !imgUrl
+      || !title
+      || hasErrors;
   }
 
   render() {
     const {
-      controlers: {
-        isValidTitle,
-        isValidImgUrl,
-        isValidImdbUrl,
-        isValidImdbId,
-      },
-      values: {
-        title,
-        description,
-        imgUrl,
-        imdbUrl,
-        imdbId,
-      },
+      errors,
+      values,
     } = this.state;
 
     return (
       <form onSubmit={this.handleSubmit}>
         <h3 className="form-group row">Add film</h3>
-        <FormInput
-          name="title"
-          value={title}
-          handleChange={this.handleChange}
-          handleBlur={this.handleBlur}
-          isValid={isValidTitle}
-        />
-        <FormInput
-          name="description"
-          value={description}
-          handleChange={this.handleChange}
-          handleBlur={this.handleBlur}
-        />
-        <FormInput
-          name="imgUrl"
-          value={imgUrl}
-          handleChange={this.handleChange}
-          handleBlur={this.handleBlur}
-          isValid={isValidImgUrl}
-        />
-        <FormInput
-          name="imdbUrl"
-          value={imdbUrl}
-          handleChange={this.handleChange}
-          handleBlur={this.handleBlur}
-          isValid={isValidImdbUrl}
-        />
-        <FormInput
-          name="imdbId"
-          value={imdbId}
-          handleChange={this.handleChange}
-          handleBlur={this.handleBlur}
-          isValid={isValidImdbId}
-        />
+
+        {Object.keys(values).map(fild => (
+          <FormInput
+            key={fild}
+            name={fild}
+            value={values[fild]}
+            handleChange={this.handleChange}
+            handleBlur={this.handleBlur}
+            textError={errors[fild]}
+          />
+        ))}
 
         <button
           type="submit"
           className="btn btn-primary form-group row"
-          disabled={
-            !imdbId
-            || !imdbUrl
-            || !imgUrl
-            || !title
-            || this.hasFailedControlers()
-          }
+          disabled={this.isDisabledButton()}
         >
           Add film
         </button>
