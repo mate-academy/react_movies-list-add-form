@@ -4,16 +4,19 @@ import PropTypes from 'prop-types';
 import { Input } from '../Input/Input';
 import './NewMovie.scss';
 
-const initialState = {
+const initalFields = {
   title: '',
   description: '',
   imgUrl: '',
   imdbUrl: '',
   imdbId: '',
-  titleError: false,
-  imgUrlError: false,
-  imdbUrlError: false,
-  imdbIdError: false,
+};
+
+const initalErrors = {
+  title: false,
+  imgUrl: false,
+  imdbUrl: false,
+  imdbId: false,
 };
 
 // eslint-disable-next-line max-len
@@ -21,101 +24,90 @@ const patternUrl = '^((([A-Za-z]{3,9}:(?:\\/\\/)?)(?:[-;:&=+$,\\w]+@)\n?[A-Za-z0
 const patternId = 'tt\\d{7}';
 
 export class NewMovie extends Component {
-  state = { ...initialState };
+  state = {
+    fields: { ...initalFields },
+    errors: { ...initalErrors },
+  };
 
   handleChange = (event) => {
     const { name, value } = event.target;
-    const errorKey = `${name}Error`;
 
-    this.setState({
-      [name]: value,
-      [errorKey]: false,
-    });
+    this.setState(prevState => ({
+      fields: {
+        ...prevState.fields,
+        [name]: value,
+      },
+      errors: {
+        ...prevState.errors,
+        [name]: false,
+      },
+    }));
   }
 
   handleBlur = (event) => {
     const { name } = event.target;
-    const errorKey = `${name}Error`;
 
-    this.setState((state) => {
-      const stateIs = !state[name].trim();
-      const urlFormat = /Url/.test(name) && !state[name].match(patternUrl);
-      const idFormat = name === 'imdbId' && !state[name].match(patternId);
+    this.setState((prevState) => {
+      const inputIsEmpty = !prevState.fields[name].trim();
 
-      if (stateIs || urlFormat || idFormat) {
+      const urlFormatNotValid = /Url/.test(name)
+        && !prevState.fields[name].match(patternUrl);
+
+      const idFormatNotValid = name === 'imdbId'
+        && !prevState.fields[name].match(patternId);
+
+      if (inputIsEmpty || urlFormatNotValid || idFormatNotValid) {
         return ({
-          [errorKey]: true,
+          errors: {
+            ...prevState.errors,
+            [name]: true,
+          },
         });
       }
 
       return ({
-        [errorKey]: false,
+        errors: {
+          ...prevState.errors,
+          [name]: false,
+        },
       });
     });
   };
 
   handleSubmit = (event) => {
     event.preventDefault();
-    const { titleError,
-      imgUrlError,
-      imdbUrlError,
-      imdbIdError } = this.state;
+    const { errors } = this.state;
 
-    if (titleError || imgUrlError || imdbUrlError || imdbIdError) {
+    if (Object.entries(errors).some(error => error[1])) {
       return;
     }
 
     this.props.addMovie(this.state);
-    this.setState({ ...initialState });
+    this.setState({
+      fields: { ...initalFields },
+      errors: { ...initalErrors },
+    });
   }
 
   render() {
-    const { title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-      titleError,
-      imgUrlError,
-      imdbUrlError,
-      imdbIdError } = this.state;
-
-    const error = titleError || imgUrlError || imdbUrlError || imdbIdError;
+    const { fields, errors } = this.state;
+    const preparedFields = Object.entries(fields);
+    const preparedErrors = Object.entries(errors);
+    const error = preparedErrors.some(err => err[1]);
 
     return (
       <form onSubmit={this.handleSubmit}>
         {error && <div className="error">Not valid input</div> }
-        <Input
-          name="title"
-          value={title}
-          onChange={this.handleChange}
-          onBlur={this.handleBlur}
-        />
-        <Input
-          name="description"
-          value={description}
-          required={false}
-          onChange={this.handleChange}
-        />
-        <Input
-          name="imgUrl"
-          value={imgUrl}
-          onChange={this.handleChange}
-          onBlur={this.handleBlur}
-        />
-        <Input
-          name="imdbUrl"
-          value={imdbUrl}
-          onChange={this.handleChange}
-          onBlur={this.handleBlur}
-        />
-        <Input
-          name="imdbId"
-          value={imdbId}
-          title="Enter 7 digits"
-          onChange={this.handleChange}
-          onBlur={this.handleBlur}
-        />
+        {preparedFields.map(([inputName, value]) => (
+          <Input
+            key={inputName}
+            name={inputName}
+            value={value}
+            onChange={this.handleChange}
+            onBlur={this.handleBlur}
+          />
+        ))
+        }
         <button type="submit" className="button is-link">
           Add movie
         </button>

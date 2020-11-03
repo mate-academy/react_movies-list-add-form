@@ -1,10 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+const formText = text => text[0].toUpperCase() + text.slice(1);
+
 export const Input = props => (
   <div className="field">
     <label htmlFor={props.name} className="label">
-      {props.name[0].toUpperCase() + props.name.slice(1)}
+      {formText(props.name)}
     </label>
     <div>
       <input
