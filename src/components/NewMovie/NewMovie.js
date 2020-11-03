@@ -4,11 +4,11 @@ import { Input } from '../Input';
 import './NewMovie.scss';
 
 const initialtState = {
-  title: null,
-  description: null,
-  imgUrl: null,
-  imdbUrl: null,
-  imdbId: null,
+  title: '',
+  description: '',
+  imgUrl: '',
+  imdbUrl: '',
+  imdbId: '',
 };
 
 export class NewMovie extends Component {

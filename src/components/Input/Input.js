@@ -13,17 +13,19 @@ export class Input extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.value !== null && prevProps.value !== this.props.value) {
+    if (prevProps.value !== this.props.value) {
       this.updateState(this.props.value);
     }
   }
 
   updateState = (updatedValue) => {
-    this.setState({
-      value: updatedValue,
-      error: '',
-      isSaved: !!updatedValue,
-    });
+    if (updatedValue !== null) {
+      this.setState({
+        value: this.props.value,
+        error: '',
+        isSaved: !!updatedValue,
+      });
+    }
   }
 
   handleChange = (event) => {
@@ -138,12 +140,13 @@ export class Input extends Component {
 
 Input.propTypes = {
   name: PropTypes.string.isRequired,
-  value: PropTypes.oneOf([
-    PropTypes.instanceOf(null),
-    PropTypes.string.isRequired]),
+  value: PropTypes.oneOfType([
+    PropTypes.string.isRequired,
+    PropTypes.oneOf([null]).isRequired,
+  ]),
   saveValue: PropTypes.func.isRequired,
 };
 
 Input.defaultProps = {
-  value: '',
+  value: null,
 };
