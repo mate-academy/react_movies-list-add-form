@@ -3,51 +3,56 @@ import PropTypes from 'prop-types';
 
 import './NewMovie.scss';
 
+const lowercaseFirstLetter = string => string.charAt(0).toLowerCase()
+  + string.slice(1);
+
 class NewMovie extends Component {
   fields = ['Title', 'Description', 'ImgUrl', 'ImdbUrl', 'ImdbId'];
 
   state = {
-    Title: '',
-    Description: '',
-    ImgUrl: '',
-    ImdbUrl: '',
-    ImdbId: '',
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
   };
 
-  setField(key, value) {
+  setField = (event) => {
+    const { name, value } = event.target;
+
     this.setState((state) => {
       return {
         ...state,
-        [`${key}`]: value,
+        [`${name}`]: value,
       };
     });
   }
 
-  handleSubmit(event) {
+  handleSubmit = (event) => {
     event.preventDefault();
-    const { Title, Description, ImdbId, ImgUrl, ImdbUrl } = this.state;
+    const { title, description, imdbId, imgUrl, imdbUrl } = this.state;
 
     if (
-      Title.trim()
-      && Description.trim()
-      && ImdbId.trim()
-      && ImgUrl.trim()
-      && ImdbUrl.trim()
+      title.trim()
+      && description.trim()
+      && imdbId.trim()
+      && imgUrl.trim()
+      && imdbUrl.trim()
     ) {
       const movie = {
-        title: Title,
-        description: Description,
-        imgUrl: ImgUrl,
-        imdbUrl: ImdbUrl,
-        imdbId: ImdbId,
+        title,
+        description,
+        imgUrl,
+        imdbUrl,
+        imdbId,
       };
 
       this.setState({
-        Title: '',
-        Description: '',
-        ImgUrl: '',
-        ImdbUrl: '',
-        ImdbId: '',
+        description: '',
+        imdbId: '',
+        imdbUrl: '',
+        imgUrl: '',
+        title: '',
       });
 
       this.props.onAdd(movie);
@@ -60,16 +65,17 @@ class NewMovie extends Component {
         name="new-movie"
         method="POST"
         className="field"
-        onSubmit={event => this.handleSubmit(event)}
+        onSubmit={this.handleSubmit}
       >
         {this.fields.map(field => (
           <input
+            name={lowercaseFirstLetter(field)}
             key={field}
             type="text"
             placeholder={field}
-            onChange={event => this.setField(field, event.target.value)}
+            onChange={this.setField}
             className="input is-info"
-            value={this.state[field]}
+            value={this.state[lowercaseFirstLetter(field)]}
             required
           />
         ))}
