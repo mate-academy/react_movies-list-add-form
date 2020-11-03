@@ -14,16 +14,14 @@ export const Input = ({ errorField, field, fieldName, onChange, onBlur }) => (
         classNames(
           'form-control',
           {
-            'is-valid': errorField === 'valid',
+            'is-valid': errorField === null,
             'is-invalid': errorField === 'invalid' || errorField === 'empty',
           },
         )
       }
       onChange={event => onChange(event)}
       onBlur={() => {
-        onBlur(
-          fieldName, `error${fieldName[0].toUpperCase()}${fieldName.slice(1)}`,
-        );
+        onBlur(fieldName);
       }}
     />
 

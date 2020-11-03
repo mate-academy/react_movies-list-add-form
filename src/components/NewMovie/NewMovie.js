@@ -3,106 +3,130 @@ import PropTypes from 'prop-types';
 import { Input } from '../Input';
 import './NewMovie.scss';
 
+// eslint-disable-next-line max-len
+const URLRegExp = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)/;
+
+const inputsFromServer = [
+  'title',
+  'description',
+  'imgUrl',
+  'imdbUrl',
+  'imdbId',
+];
+
+const initialInputs = inputsFromServer.reduce((acc, field) => {
+  return {
+    ...acc,
+    [field]: '',
+  };
+}, {});
+
+const initialErrors = inputsFromServer.reduce((acc, error) => {
+  return {
+    ...acc,
+    [error]: 'start',
+  };
+}, {});
+
+function containsURL(inputName) {
+  return /url/i.test(inputName);
+}
+
 export class NewMovie extends Component {
   state = {
-    title: '',
-    description: '',
-    imgUrl: '',
-    imdbUrl: '',
-    imdbId: '',
-    errorTitle: false,
-    errorImgUrl: false,
-    errorImdbUrl: false,
-    errorImdbId: false,
+    inputs: initialInputs,
+    errors: initialErrors,
   };
 
   onChange = (event) => {
-    this.setState({
-      [event.target.name]: event.target.value,
-    });
+    const { name, value } = event.target;
+
+    this.setState(prevState => ({
+      inputs: {
+        ...prevState.inputs,
+        [name]: value,
+      },
+    }));
   }
 
-  onBlur = (fieldName, errorName) => {
-    const inputValue = this.state[fieldName];
+  onBlur = (fieldName) => {
+    const inputValue = this.state.inputs[fieldName];
 
     if (!inputValue) {
-      this.setState({
-        [errorName]: 'empty',
-      });
+      this.setState(prevState => ({
+        errors: {
+          ...prevState.errors,
+          [fieldName]: 'empty',
+        },
+      }));
 
       return;
     }
 
-    if (/url/i.test(fieldName)) {
-      // eslint-disable-next-line max-len
-      if (!inputValue.match(/^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)/)) {
-        this.setState({
-          [errorName]: 'invalid',
-        });
+    if (containsURL(fieldName)) {
+      if (!inputValue.match(URLRegExp)) {
+        this.setState(prevState => ({
+          errors: {
+            ...prevState.errors,
+            [fieldName]: 'invalid',
+          },
+        }));
       } else {
-        this.setState({
-          [errorName]: 'valid',
-        });
+        this.setState(prevState => ({
+          errors: {
+            ...prevState.errors,
+            [fieldName]: null,
+          },
+        }));
       }
 
       return;
     }
 
-    this.setState({
-      [errorName]: 'valid',
+    this.setState(prevState => ({
+      errors: {
+        ...prevState.errors,
+        [fieldName]: null,
+      },
+    }));
+  }
+
+  handlerSubmit = (event) => {
+    event.preventDefault();
+
+    const isError = Object.entries(this.state.errors).some(([name, error]) => {
+      return !!error && name !== 'description';
     });
+
+    if (isError) {
+      return;
+    }
+
+    this.props.addMovie(this.state.inputs);
+    this.resetState();
   }
 
   resetState = () => {
     this.setState({
-      title: '',
-      description: '',
-      imgUrl: '',
-      imdbUrl: '',
-      imdbId: '',
-      errorTitle: false,
-      errorImgUrl: false,
-      errorImdbUrl: false,
-      errorImdbId: false,
+      inputs: initialInputs,
+      errors: initialErrors,
     });
   }
 
   render() {
-    const { addMovie } = this.props;
-
-    const {
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-      errorTitle,
-      errorImgUrl,
-      errorImdbUrl,
-      errorImdbId,
-    } = this.state;
-
-    const errors = errorTitle === true || !title
-      || errorImgUrl === true || !imgUrl
-      || errorImdbUrl === true || !imdbUrl
-      || errorImdbId === true || !imdbId;
+    const { inputs, errors } = this.state;
+    const hasErrors = Object.entries(errors).some(([name, error]) => {
+      return !!error && name !== 'description';
+    });
 
     return (
       <form
         className="form form-group"
-        onSubmit={(event) => {
-          event.preventDefault();
-          if (errors) {
-            return;
-          }
-
-          addMovie(this.state);
-          this.resetState();
-        }}
+        onSubmit={this.handlerSubmit}
       >
         <Input
-          errorField={errorTitle}
-          field={title}
+          errorField={errors.title}
+          field={inputs.title}
           fieldName="title"
           onChange={this.onChange}
           onBlur={this.onBlur}
@@ -113,29 +137,29 @@ export class NewMovie extends Component {
           placeholder="description"
           type="text"
           className="form-control"
-          value={description}
+          value={inputs.description}
           onChange={event => this.onChange(event)}
         />
 
         <Input
-          errorField={errorImgUrl}
-          field={imgUrl}
+          errorField={errors.imgUrl}
+          field={inputs.imgUrl}
           fieldName="imgUrl"
           onChange={this.onChange}
           onBlur={this.onBlur}
         />
 
         <Input
-          errorField={errorImdbUrl}
-          field={imdbUrl}
+          errorField={errors.imdbUrl}
+          field={inputs.imdbUrl}
           fieldName="imdbUrl"
           onChange={this.onChange}
           onBlur={this.onBlur}
         />
 
         <Input
-          errorField={errorImdbId}
-          field={imdbId}
+          errorField={errors.imdbId}
+          field={inputs.imdbId}
           fieldName="imdbId"
           onChange={this.onChange}
           onBlur={this.onBlur}
@@ -143,7 +167,7 @@ export class NewMovie extends Component {
 
         <button
           type="submit"
-          className={errors ? 'btn btn-dark disabled' : 'btn btn-dark'}
+          className={hasErrors ? 'btn btn-dark disabled' : 'btn btn-dark'}
         >
           Add a movie
         </button>
