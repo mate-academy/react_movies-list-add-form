@@ -1,33 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export const Input = (
-  { type,
-    name,
-    pattern,
-    required,
-    title,
-    value,
-    handleChange,
-    handleBlur },
-) => (
+export const Input = props => (
   <div className="field">
-    <label htmlFor={name} className="label">
-      {name[0].toUpperCase() + name.slice(1)}
+    <label htmlFor={props.name} className="label">
+      {props.name[0].toUpperCase() + props.name.slice(1)}
     </label>
     <div>
       <input
+        {...props}
         className="input"
-        type={type}
-        name={name}
-        id={name}
-        placeholder={name}
-        title={title}
-        pattern={pattern}
-        required={required}
-        value={value}
-        onChange={handleChange}
-        onBlur={handleBlur}
+        id={props.name}
+        placeholder={props.name}
       />
     </div>
   </div>
@@ -40,8 +24,8 @@ Input.propTypes = {
   title: PropTypes.string,
   required: PropTypes.bool,
   value: PropTypes.string.isRequired,
-  handleChange: PropTypes.func.isRequired,
-  handleBlur: PropTypes.func,
+  onChange: PropTypes.func.isRequired,
+  onBlur: PropTypes.func,
 };
 
 Input.defaultProps = {
@@ -49,5 +33,5 @@ Input.defaultProps = {
   pattern: '.+',
   required: true,
   title: ``,
-  handleBlur: () => {},
+  onBlur: () => {},
 };
