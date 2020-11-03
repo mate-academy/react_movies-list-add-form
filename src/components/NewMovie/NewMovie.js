@@ -4,49 +4,57 @@ import PropTypes from 'prop-types';
 // eslint-disable-next-line max-len
 const regEx = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
 
-const initialState = {
-  title: '',
-  description: '',
-  imgUrl: '',
-  imdbUrl: '',
-  imdbId: '',
-};
+const movieKeys = ['title', 'description', 'imgUrl', 'imdbUrl', 'imdbId'];
+const errorKeys = [
+  'isTitleError',
+  'isImdbUrlError',
+  'isImgUrlError',
+  'isImdbIdError',
+];
 
-const initialErrorsStatus = {
-  isTitleError: false,
-  isImdbUrlError: false,
-  isImgUrlError: false,
-  isImdbIdError: false,
-};
+const NEW_MOVIE = movieKeys.reduce((acc, movieKey) => ({
+  ...acc,
+  [movieKey]: '',
+}), {});
+
+const NEW_MOVIE_ERRORS = errorKeys.reduce((acc, errorKey) => ({
+  ...acc,
+  [errorKey]: false,
+}), {});
 
 export class NewMovie extends PureComponent {
   state = {
-    ...initialState,
-    ...initialErrorsStatus,
+    NEW_MOVIE,
+    NEW_MOVIE_ERRORS,
   };
 
   changeHandler = (e) => {
     const { name, value } = e.target;
 
-    this.setState({
-      [name]: value,
-    });
+    this.setState(state => ({
+      NEW_MOVIE: {
+        ...state.NEW_MOVIE,
+        [name]: value,
+      },
+    }));
   }
 
   onSubmit = (e) => {
     e.preventDefault();
-    const {
+
+    const { NEW_MOVIE: {
       title,
       imdbId,
       imgUrl,
       imdbUrl,
       description,
+    },
+    NEW_MOVIE_ERRORS: {
       isTitleError,
       isImgUrlError,
       isImdbUrlError,
       isImdbIdError,
-    }
-    = this.state;
+    } } = this.state;
 
     if (isTitleError || isImdbIdError || isImdbUrlError || isImgUrlError) {
       return;
@@ -63,22 +71,24 @@ export class NewMovie extends PureComponent {
     this.props.onAdd(newMovie);
 
     this.setState({
-      title: '',
-      description: '',
-      imgUrl: '',
-      imdbUrl: '',
-      imdbId: '',
+      NEW_MOVIE: {
+        title: '',
+        description: '',
+        imgUrl: '',
+        imdbUrl: '',
+        imdbId: '',
+      },
     });
   }
 
   validateField = (event) => {
     const { name, value } = event.target;
-    let {
+    let { NEW_MOVIE_ERRORS: {
       isTitleError,
       isImgUrlError,
       isImdbUrlError,
       isImdbIdError,
-    } = this.state;
+    } } = this.state;
 
     switch (name) {
       case 'title':
@@ -98,26 +108,29 @@ export class NewMovie extends PureComponent {
     }
 
     this.setState({
-      isTitleError,
-      isImgUrlError,
-      isImdbUrlError,
-      isImdbIdError,
+      NEW_MOVIE_ERRORS: {
+        isTitleError,
+        isImgUrlError,
+        isImdbUrlError,
+        isImdbIdError,
+      },
     });
   }
 
   render() {
-    const {
+    const { NEW_MOVIE: {
       title,
-      description,
+      imdbId,
       imgUrl,
       imdbUrl,
-      imdbId,
+      description,
+    },
+    NEW_MOVIE_ERRORS: {
       isTitleError,
-      isImdbIdError,
       isImgUrlError,
       isImdbUrlError,
-    }
-    = this.state;
+      isImdbIdError,
+    } } = this.state;
 
     return (
       <form
