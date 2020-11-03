@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import ClassNames from 'classnames';
 import PropTypes from 'prop-types';
 
-export class Input extends Component {
-  // eslint-disable-next-line max-len
-  urlExp = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/
+// eslint-disable-next-line max-len
+const urlExp = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
 
+export class Input extends Component {
   state = {
     value: this.props.value,
     error: '',
@@ -13,7 +13,7 @@ export class Input extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.value !== this.props.value) {
+    if (this.props.value !== null && prevProps.value !== this.props.value) {
       this.updateState(this.props.value);
     }
   }
@@ -38,10 +38,13 @@ export class Input extends Component {
     const { name, saveValue } = this.props;
     const { value } = this.state;
 
-    if (!this.urlExp.test(value)) {
+    if (!urlExp.test(value)) {
       this.setState({
         error: 'Please add correct url',
+        isSaved: false,
       });
+
+      saveValue(name, null);
 
       return;
     }
@@ -62,6 +65,8 @@ export class Input extends Component {
         error: `Please add ${name}`,
         isSaved: false,
       });
+
+      saveValue(name, null);
 
       return;
     }
@@ -99,7 +104,7 @@ export class Input extends Component {
                   className={styleClasses}
                   id={name}
                   placeholder={name}
-                  value={value}
+                  value={value === null ? '' : value}
                   required
                   onChange={this.handleChange}
                   onBlur={this.validateValue}
@@ -133,6 +138,8 @@ export class Input extends Component {
 
 Input.propTypes = {
   name: PropTypes.string.isRequired,
-  value: PropTypes.string.isRequired,
+  value: PropTypes.oneOf([
+    PropTypes.instanceOf(null),
+    PropTypes.string]).isRequired,
   saveValue: PropTypes.func.isRequired,
 };

@@ -3,17 +3,17 @@ import PropTypes from 'prop-types';
 import { Input } from '../Input';
 import './NewMovie.scss';
 
-export class NewMovie extends Component {
-  initialtState = {
-    title: '',
-    description: '',
-    imgUrl: '',
-    imdbUrl: '',
-    imdbId: '',
-  };
+const initialtState = {
+  title: null,
+  description: null,
+  imgUrl: null,
+  imdbUrl: null,
+  imdbId: null,
+};
 
+export class NewMovie extends Component {
   state = {
-    ...this.initialtState,
+    ...initialtState,
   };
 
   saveMovieProperty = (name, value) => {
@@ -29,7 +29,7 @@ export class NewMovie extends Component {
       this.props.addMovie({ ...this.state });
 
       this.setState({
-        ...this.initialtState,
+        ...initialtState,
       });
     }
   }
@@ -38,11 +38,11 @@ export class NewMovie extends Component {
     return (
       <form className="needs-validation" onSubmit={this.addMovie}>
         {
-          Object.keys(this.state).map(nameKey => (
+          Object.keys(this.state).map(key => (
             <Input
-              key={nameKey}
-              name={nameKey}
-              value={this.state[nameKey]}
+              key={key}
+              name={key}
+              value={this.state[key]}
               saveValue={this.saveMovieProperty}
             />
           ))
