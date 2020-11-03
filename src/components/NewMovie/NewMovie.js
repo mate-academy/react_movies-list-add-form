@@ -56,6 +56,7 @@ export class NewMovie extends Component {
 
   onBlur = (event) => {
     const { name, value } = event.target;
+    const { title, imgUrl, imdbUrl, imdbId } = this.state;
 
     const valueMatch = value
       // eslint-disable-next-line max-len
@@ -71,7 +72,8 @@ export class NewMovie extends Component {
       imgUrlError,
       imdbUrlError,
       imdbIdError,
-      disabled: !(!titleError && !imgUrlError && !imdbUrlError && !imdbIdError),
+      disabled: titleError || imgUrlError || imdbUrlError || imdbIdError
+      || title === '' || imgUrl === '' || imdbUrl === '' || imdbId === '',
     });
   };
 
