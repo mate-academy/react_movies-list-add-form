@@ -62,8 +62,8 @@ export class NewMovie extends Component {
         </div>
         <label htmlFor="description">Movie description </label>
         <div className="control">
-          <input
-            className="input"
+          <textarea
+            className="textarea"
             type="text"
             id="description"
             value={description}
@@ -110,7 +110,7 @@ export class NewMovie extends Component {
         </div>
         <button
           type="submit"
-          className="button is-dark"
+          className="button is-dark is-fullwidth"
           disabled={submitDisabled}
         >
           Add
