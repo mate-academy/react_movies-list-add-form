@@ -6,40 +6,42 @@ import './NewMovie.scss';
 
 export class NewMovie extends Component {
   state = {
-    title: '',
-    description: '',
-    imgUrl: '',
-    imdbUrl: '',
-    imdbId: '',
-    titleError: '',
-    imgUrlError: '',
-    imdbUrlError: '',
-    imdbIdError: '',
-  };
-
-  handleSubmit = (event) => {
-    event.preventDefault();
-    const { onAdd } = this.props;
-    const { title, description, imgUrl, imdbUrl, imdbId } = this.state;
-
-    onAdd({
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    });
-
-    this.setState({
+    inputs: {
       title: '',
       description: '',
       imgUrl: '',
       imdbUrl: '',
       imdbId: '',
-      titleError: '',
-      imgUrlError: '',
-      imdbUrlError: '',
-      imdbIdError: '',
+    },
+    errors: {
+      title: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    },
+  };
+
+  handleSubmit = (event) => {
+    event.preventDefault();
+    const { onAdd } = this.props;
+    const { inputs } = this.state;
+
+    onAdd({ inputs });
+
+    this.setState({
+      inputs: {
+        title: '',
+        description: '',
+        imgUrl: '',
+        imdbUrl: '',
+        imdbId: '',
+      },
+      errors: {
+        title: '',
+        imgUrl: '',
+        imdbUrl: '',
+        imdbId: '',
+      },
     });
   }
 
@@ -48,8 +50,13 @@ export class NewMovie extends Component {
     const valueToCheck = value.trim();
 
     if (!valueToCheck) {
-      this.setState({
-        [`${name}Error`]: 'empty',
+      this.setState((prevState) => {
+        const newErrorState = {
+          ...prevState.errors,
+          [name]: 'empty',
+        };
+
+        return { errors: newErrorState };
       });
 
       return;
@@ -59,44 +66,53 @@ export class NewMovie extends Component {
     const urlRegex = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
 
     if ((name === 'imgUrl' || name === 'imdbUrl') && !value.match(urlRegex)) {
-      this.setState({
-        [`${name}Error`]: 'invalid',
+      this.setState((prevState) => {
+        const newErrorState = {
+          ...prevState.errors,
+          [name]: 'invalid',
+        };
+
+        return { errors: newErrorState };
       });
 
       return;
     }
 
-    this.setState({
-      [`${name}Error`]: 'valid',
+    this.setState((prevState) => {
+      const newErrorState = {
+        ...prevState.errors,
+        [name]: 'valid',
+      };
+
+      return {
+        errors: newErrorState,
+      };
     });
   }
 
   handleChange = (event) => {
     const { name, value } = event.target;
 
-    this.setState({
-      [name]: value,
-      [`${name}Error`]: 'valid',
+    this.setState((prevState) => {
+      const newValue = {
+        ...prevState.inputs,
+        [name]: value,
+      };
+
+      return { inputs: newValue };
     });
   }
 
   render() {
     const {
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-      titleError,
-      imgUrlError,
-      imdbUrlError,
-      imdbIdError,
+      inputs,
+      errors,
     } = this.state;
 
-    const isFormInvalid = titleError !== 'valid' || !title
-      || imgUrlError !== 'valid' || !imgUrl
-      || imdbUrlError !== 'valid' || !imdbUrl
-      || imdbIdError !== 'valid' || !imdbId;
+    const isFormInvalid = errors.title !== 'valid' || !inputs.title
+      || errors.imgUrl !== 'valid' || !inputs.imgUrl
+      || errors.imdbUrl !== 'valid' || !inputs.imdbUrl
+      || errors.imdbId !== 'valid' || !inputs.imdbId;
 
     return (
       <form
@@ -107,10 +123,10 @@ export class NewMovie extends Component {
 
         <Input
           inputName="title"
-          value={title}
+          value={inputs.title}
           onChange={this.handleChange}
           onBlur={this.validateInput}
-          error={titleError}
+          error={errors.title}
         />
 
         <input
@@ -118,32 +134,32 @@ export class NewMovie extends Component {
           type="text"
           name="description"
           placeholder="description"
-          value={description}
+          value={inputs.description}
           onChange={this.handleChange}
         />
 
         <Input
           inputName="imgUrl"
-          value={imgUrl}
+          value={inputs.imgUrl}
           onChange={this.handleChange}
           onBlur={this.validateInput}
-          error={imgUrlError}
+          error={errors.imgUrl}
         />
 
         <Input
           inputName="imdbUrl"
-          value={imdbUrl}
+          value={inputs.imdbUrl}
           onChange={this.handleChange}
           onBlur={this.validateInput}
-          error={imdbUrlError}
+          error={errors.imdbUrl}
         />
 
         <Input
           inputName="imdbId"
-          value={imdbId}
+          value={inputs.imdbId}
           onChange={this.handleChange}
           onBlur={this.validateInput}
-          error={imdbIdError}
+          error={errors.imdbId}
         />
 
         <button
