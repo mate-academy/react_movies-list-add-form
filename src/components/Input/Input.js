@@ -6,69 +6,39 @@ import PropTypes from 'prop-types';
 const urlExp = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
 
 export class Input extends Component {
-  state = {
-    value: this.props.value,
-    error: '',
-    isSaved: false,
-  }
+  // componentDidUpdate(prevProps) {
+  //   if (prevProps.value !== this.props.value) {
+  //     this.updateState(this.props.value);
+  //   }
+  // }
 
-  componentDidUpdate(prevProps) {
-    if (prevProps.value !== this.props.value) {
-      this.updateState(this.props.value);
-    }
-  }
-
-  updateState = (updatedValue) => {
-    if (updatedValue !== null) {
-      this.setState({
-        value: this.props.value,
-        error: '',
-        isSaved: !!updatedValue,
-      });
-    }
-  }
-
-  handleChange = (event) => {
-    const { value } = event.target;
-
-    this.setState({
-      value,
-    });
-  }
+  // updateState = (updatedValue) => {
+  //   if (updatedValue !== null) {
+  //     this.setState({
+  //       value: this.props.value,
+  //       error: '',
+  //       isSaved: !!updatedValue,
+  //     });
+  //   }
+  // }
 
   validateUrl = () => {
-    const { name, saveValue } = this.props;
-    const { value } = this.state;
+    const { name, saveValue, value } = this.props;
 
     if (!urlExp.test(value)) {
-      this.setState({
-        error: 'Please add correct url',
-        isSaved: false,
-      });
-
-      saveValue(name, null);
+      saveValue(name, 'Please add correct url');
 
       return;
     }
 
-    saveValue(name, value);
-
-    this.setState({
-      error: '',
-    });
+    saveValue(name);
   }
 
   validateValue = () => {
-    const { name, saveValue } = this.props;
-    const { value } = this.state;
+    const { name, saveValue, value } = this.props;
 
-    if (!this.state.value) {
-      this.setState({
-        error: `Please add ${name}`,
-        isSaved: false,
-      });
-
-      saveValue(name, null);
+    if (!value) {
+      saveValue(name, `Please add ${name}`);
 
       return;
     }
@@ -79,20 +49,14 @@ export class Input extends Component {
       return;
     }
 
-    saveValue(name, value);
-
-    this.setState({
-      error: '',
-    });
+    saveValue(name);
   }
 
   render() {
-    const { name } = this.props;
-    const { error, value, isSaved } = this.state;
+    const { name, changeValue, value, error } = this.props;
 
     const styleClasses = ClassNames('form-control', 'myInput', {
       'is-invalid': error,
-      'is-valid': isSaved,
     });
 
     return (
@@ -106,9 +70,9 @@ export class Input extends Component {
                   className={styleClasses}
                   id={name}
                   placeholder={name}
-                  value={value === null ? '' : value}
+                  value={value}
                   required
-                  onChange={this.handleChange}
+                  onChange={e => changeValue(e, name)}
                   onBlur={this.validateValue}
                 />
               )
@@ -118,16 +82,13 @@ export class Input extends Component {
                   className={styleClasses}
                   id={name}
                   placeholder={name}
-                  value={value === null ? '' : value}
+                  value={value}
                   required
-                  onChange={this.handleChange}
+                  onChange={e => changeValue(e, name)}
                   onBlur={this.validateValue}
                 />
               )
           }
-          <div className="valid-feedback">
-            Looks good!
-          </div>
           <div className="invalid-feedback">
             {error}
           </div>
@@ -140,13 +101,8 @@ export class Input extends Component {
 
 Input.propTypes = {
   name: PropTypes.string.isRequired,
-  value: PropTypes.oneOfType([
-    PropTypes.string.isRequired,
-    PropTypes.oneOf([null]).isRequired,
-  ]),
+  changeValue: PropTypes.func.isRequired,
+  value: PropTypes.string.isRequired,
+  error: PropTypes.string.isRequired,
   saveValue: PropTypes.func.isRequired,
-};
-
-Input.defaultProps = {
-  value: null,
 };
