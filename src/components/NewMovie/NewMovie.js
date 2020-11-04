@@ -25,6 +25,8 @@ export class NewMovie extends Component {
     event.preventDefault();
 
     this.props.addMovie(this.state);
+
+    this.setState({ ...initialState });
   }
 
   getClearForm = () => {
