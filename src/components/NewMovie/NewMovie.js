@@ -102,7 +102,8 @@ export class NewMovie extends PureComponent {
       imdbIdError,
     } = this.state;
 
-    const error = !titleError || !imgUrlError || !imdbUrlError || !imdbIdError;
+    const disabled = titleError || imgUrlError || imdbUrlError || imdbIdError
+      || !title || !imdbUrl || !imgUrl || !imdbId;
 
     return (
       <form
@@ -156,7 +157,7 @@ export class NewMovie extends PureComponent {
           type="submit"
           className="button is-success normal"
           title="Fill all fields"
-          disabled={error}
+          disabled={disabled}
         >
           Add new movie
         </button>
