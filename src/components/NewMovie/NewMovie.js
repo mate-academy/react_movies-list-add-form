@@ -1,19 +1,27 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { InputForm } from '../InputForm';
+import { Input } from '../Input';
+
+const fields = {
+  title: '',
+  description: '',
+  imgUrl: '',
+  imdbUrl: '',
+  imdbId: '',
+};
+
+const errors = {
+  titleError: false,
+  descriptionError: false,
+  imgUrlError: false,
+  imdbUrlError: false,
+  imdbIdError: false,
+};
 
 export class NewMovie extends Component {
   state = {
-    title: '',
-    description: '',
-    imgUrl: '',
-    imdbUrl: '',
-    imdbId: '',
-    titleError: false,
-    descriptionError: false,
-    imgUrlError: false,
-    imdbUrlError: false,
-    imdbIdError: false,
+    ...fields,
+    ...errors,
   };
 
   addNewMovie = (event) => {
@@ -53,11 +61,7 @@ export class NewMovie extends Component {
     this.props.addMovie(newMovie);
 
     this.setState({
-      title: '',
-      description: '',
-      imgUrl: '',
-      imdbUrl: '',
-      imdbId: '',
+      ...fields,
     });
   }
 
@@ -84,35 +88,35 @@ export class NewMovie extends Component {
 
     return (
       <form className="ui form" onSubmit={this.addNewMovie}>
-        <InputForm
+        <Input
           inputValue={title}
           inputName="title"
           error={titleError}
           addChange={this.inputValue}
         />
 
-        <InputForm
+        <Input
           inputValue={description}
           inputName="description"
           error={descriptionError}
           addChange={this.inputValue}
         />
 
-        <InputForm
+        <Input
           inputValue={imgUrl}
           inputName="imgUrl"
           error={imgUrlError}
           addChange={this.inputValue}
         />
 
-        <InputForm
+        <Input
           inputValue={imdbUrl}
           inputName="imdbUrl"
           error={imdbUrlError}
           addChange={this.inputValue}
         />
 
-        <InputForm
+        <Input
           inputValue={imdbId}
           inputName="imdbId"
           error={imdbIdError}
