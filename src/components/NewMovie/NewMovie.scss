@@ -1,0 +1,35 @@
+.form {
+  &__item {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+  }
+
+  &__textarea,
+  &__input,
+  &__button {
+    padding: 10px;
+  }
+
+  &__textarea {
+    resize: vertical;
+    min-height: 100px;
+    max-height: 300px;
+  }
+
+  &__input {
+    &-invalid {
+      border: 1px solid red;
+    }
+  }
+
+  &__error {
+    color: red;
+  }
+
+  &__button {
+    width: 100%;
+    max-width: 200px;
+    cursor: pointer;
+  }
+}
