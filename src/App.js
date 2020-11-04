@@ -17,9 +17,9 @@ export class App extends Component {
     const newMovie = {
       title,
       description,
-      imgUrl: `https://${imgUrl}.jpg`,
-      imdbUrl: `https://${imdbUrl}`,
-      imdbId: `tt${imdbId}`,
+      imgUrl,
+      imdbUrl,
+      imdbId,
     };
 
     this.setState(prevState => ({

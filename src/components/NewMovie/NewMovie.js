@@ -8,6 +8,7 @@ export class NewMovie extends Component {
     imgUrl: '',
     imdbUrl: '',
     imdbId: '',
+    errors: false,
   };
 
   handleChange = (event) => {
@@ -28,6 +29,14 @@ export class NewMovie extends Component {
       imdbId,
     } = this.state;
 
+    if (!title || !description || !imgUrl || !imdbUrl || !imdbId) {
+      this.setState({
+        errors: true,
+      });
+
+      return;
+    }
+
     addMovie(title, description, imgUrl, imdbUrl, imdbId);
     this.setState({
       title: '',
@@ -35,6 +44,7 @@ export class NewMovie extends Component {
       imgUrl: '',
       imdbUrl: '',
       imdbId: '',
+      errors: false,
     });
   }
 
@@ -45,6 +55,7 @@ export class NewMovie extends Component {
       imgUrl,
       imdbUrl,
       imdbId,
+      errors,
     } = this.state;
 
     return (
@@ -103,12 +114,26 @@ export class NewMovie extends Component {
             onChange={this.handleChange}
           />
         </label>
-        <button
-          type="submit"
-          className="ui button"
-        >
-          Add movie
-        </button>
+        <div>
+          <button
+            type="submit"
+            className="ui button"
+          >
+            Add movie
+          </button>
+          {errors
+            ? (
+              <p
+                className="ui floating message"
+                style={{ color: 'red' }}
+              >
+                Enter all data
+              </p>
+            )
+            : ''
+          }
+        </div>
+
       </form>
     );
   }
