@@ -11,9 +11,11 @@ export class NewMovie extends Component {
     submitDisabled: true,
   };
 
-  onInputChange = (value, id) => {
+  onInputChange = (event) => {
+    const { value, name } = event.target;
+
     this.setState(state => ({
-      [id]: value,
+      [name]: value,
       submitDisabled: !(
         state.title !== ''
           && state.imgUrl !== ''
@@ -51,65 +53,50 @@ export class NewMovie extends Component {
         }}
       >
         <label htmlFor="title">Movie title </label>
-        <div className="control">
-          <input
-            className="input"
-            type="text"
-            id="title"
-            value={title}
-            onChange={
-              event => this.onInputChange(event.target.value, event.target.id)
-            }
-          />
-        </div>
+        <input
+          className="input"
+          type="text"
+          name="title"
+          id="title"
+          value={title}
+          onChange={this.onInputChange}
+        />
         <label htmlFor="description">Movie description </label>
-        <div className="control">
-          <textarea
-            className="textarea"
-            type="text"
-            id="description"
-            value={description}
-            onChange={
-              event => this.onInputChange(event.target.value, event.target.id)
-            }
-          />
-        </div>
+        <textarea
+          className="textarea"
+          type="text"
+          name="description"
+          id="description"
+          value={description}
+          onChange={this.onInputChange}
+        />
         <label htmlFor="imgUrl">Image Url </label>
-        <div className="control">
-          <input
-            className="input"
-            type="text"
-            id="imgUrl"
-            value={imgUrl}
-            onChange={
-              event => this.onInputChange(event.target.value, event.target.id)
-            }
-          />
-        </div>
+        <input
+          className="input"
+          type="text"
+          name="imgUrl"
+          id="imgUrl"
+          value={imgUrl}
+          onChange={this.onInputChange}
+        />
         <label htmlFor="imdbUrl">IMDB Url </label>
-        <div className="control">
-          <input
-            className="input"
-            type="text"
-            id="imdbUrl"
-            value={imdbUrl}
-            onChange={
-              event => this.onInputChange(event.target.value, event.target.id)
-            }
-          />
-        </div>
+        <input
+          className="input"
+          type="text"
+          name="imdbUrl"
+          id="imdbUrl"
+          value={imdbUrl}
+          onChange={this.onInputChange}
+        />
         <label htmlFor="imdbId">IMDB Id </label>
-        <div className="control">
-          <input
-            className="input"
-            type="text"
-            id="imdbId"
-            value={imdbId}
-            onChange={
-              event => this.onInputChange(event.target.value, event.target.id)
-            }
-          />
-        </div>
+        <input
+          className="input"
+          type="text"
+          name="imdbId"
+          id="imdbId"
+          value={imdbId}
+          onChange={this.onInputChange}
+        />
         <button
           type="submit"
           className="button is-dark is-fullwidth"
