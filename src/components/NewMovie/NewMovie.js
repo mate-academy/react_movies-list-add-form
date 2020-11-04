@@ -29,16 +29,13 @@ export class NewMovie extends Component {
     this.setState({ ...initialState });
   }
 
-  getClearForm = () => {
-    this.setState({ ...initialState });
-  };
-
   render() {
     return (
       <form
         className="form"
         name="addNewMovieForm"
         onSubmit={this.onSubmit}
+        method="post"
       >
         <h1 className="heading">Add new movie</h1>
         {Object.entries(this.state).map(([name, value]) => (
@@ -52,7 +49,6 @@ export class NewMovie extends Component {
         <button
           className="button"
           type="submit"
-          onClick={this.getClearForm}
         >
           Add
         </button>
