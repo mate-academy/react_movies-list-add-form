@@ -5,17 +5,21 @@ import { InputField } from '../InputField';
 // eslint-disable-next-line max-len
 const urlRegEx = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
 
+const initialState = {
+  title: '',
+  description: '',
+  imgUrl: '',
+  imdbUrl: '',
+  imdbId: '',
+  titleError: false,
+  imgUrlError: false,
+  imdbUrlError: false,
+  imdbIdError: false,
+};
+
 export class NewMovie extends PureComponent {
   state = {
-    title: '',
-    description: '',
-    imgUrl: '',
-    imdbUrl: '',
-    imdbId: '',
-    titleError: false,
-    imgUrlError: false,
-    imdbUrlError: false,
-    imdbIdError: false,
+    ...initialState,
   };
 
   onAdd = (event) => {
@@ -46,15 +50,7 @@ export class NewMovie extends PureComponent {
     });
 
     this.setState({
-      title: '',
-      description: '',
-      imgUrl: '',
-      imdbUrl: '',
-      imdbId: '',
-      titleError: false,
-      imgUrlError: false,
-      imdbUrlError: false,
-      imdbIdError: false,
+      ...initialState,
     });
   };
 
