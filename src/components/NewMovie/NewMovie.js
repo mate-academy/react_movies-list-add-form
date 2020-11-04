@@ -40,6 +40,7 @@ export class NewMovie extends Component {
         name="addNewMovieForm"
         onSubmit={this.onSubmit}
       >
+        <h1 className="heading">Add new movie</h1>
         {Object.entries(this.state).map(([name, value]) => (
           <Input
             name={name}
