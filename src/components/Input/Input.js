@@ -1,27 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
 import ClassNames from 'classnames';
 import PropTypes from 'prop-types';
 
 // eslint-disable-next-line max-len
 const urlExp = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
 
-export class Input extends Component {
-  // componentDidUpdate(prevProps) {
-  //   if (prevProps.value !== this.props.value) {
-  //     this.updateState(this.props.value);
-  //   }
-  // }
-
-  // updateState = (updatedValue) => {
-  //   if (updatedValue !== null) {
-  //     this.setState({
-  //       value: this.props.value,
-  //       error: '',
-  //       isSaved: !!updatedValue,
-  //     });
-  //   }
-  // }
-
+export class Input extends React.PureComponent {
   validateUrl = () => {
     const { name, saveValue, value } = this.props;
 
