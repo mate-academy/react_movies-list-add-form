@@ -1,6 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import './NewMovie.scss';
+import { Input } from '../input';
+
+const initialState = {
+  title: '',
+  description: '',
+  imgUrl: '',
+  imdbUrl: '',
+  imdbId: '',
+};
 
 function transformText(text) {
   return text.slice(0, 1).toUpperCase() + text.slice(1);
@@ -8,16 +17,10 @@ function transformText(text) {
 
 export class NewMovie extends Component {
   state = {
-    title: '',
-    description: '',
-    imgUrl: '',
-    imdbUrl: '',
-    imdbId: '',
+    ...initialState,
   };
 
-  titles = Object.keys(this.state);
-
-  onnAdd = ({ target }) => {
+  onAdd = ({ target }) => {
     this.setState({
       [target.name]: transformText(target.value),
     });
@@ -28,13 +31,9 @@ export class NewMovie extends Component {
 
     const { addMovie } = this.props;
 
-    this.titles.map(title => (
-      this.setState({
-        [title]: '',
-      })
-    ));
-
     addMovie(this.state);
+
+    this.setState({ ...initialState });
   }
 
   render() {
@@ -43,20 +42,13 @@ export class NewMovie extends Component {
         className="new-movie__form"
         onSubmit={this.handleSubmit}
       >
-        {this.titles.map(title => (
-          <label
-            className="new-movie__label"
-          >
-            {transformText(title)}
-            <input
-              className="new-movie__input"
-              name={title}
-              value={this.state[title]}
-              title={title}
-              required
-              onChange={this.onnAdd}
-            />
-          </label>
+        {Object.entries(this.state).map(element => (
+          <Input
+            title={element[0]}
+            value={element[1]}
+            onAdd={this.onAdd}
+            transformText={transformText}
+          />
         ))}
 
         <button
