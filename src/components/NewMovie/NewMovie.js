@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Inputs } from '../Inputs';
+import PropTypes from 'prop-types';
 import { Form, Button } from 'react-bootstrap';
 
 export class NewMovie extends Component {
@@ -20,6 +21,7 @@ export class NewMovie extends Component {
 
   addForm = (event) => {
     event.preventDefault();
+
     this.props.addMovie({ ...this.state })
     this.setState(this.emptyState)
   }
@@ -31,13 +33,18 @@ export class NewMovie extends Component {
           state={this.state}
           changeHandler={this.handleChange}
         />
+
         <Button
           type="submit"
           variant="primary"
         >
-          Add movie
+          Add Movie
         </Button>
       </Form>
     );
   }
 }
+
+NewMovie.propTypes = {
+  addMovie: PropTypes.func.isRequired,
+};
