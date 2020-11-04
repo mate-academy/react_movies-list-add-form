@@ -3,14 +3,17 @@ import './App.scss';
 import { MoviesList } from './components/MoviesList';
 import { NewMovie } from './components/NewMovie';
 import moviesFromServer from './api/movies.json';
+import 'semantic-ui-css/semantic.min.css';
 
 export class App extends Component {
   state = {
-    movies: moviesFromServer,
+    movies: [...moviesFromServer],
   };
 
   addMovie = (movie) => {
-    // put your code here
+    this.setState(state => ({
+      movies: [...state.movies, movie],
+    }));
   };
 
   render() {
