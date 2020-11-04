@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Input } from '../Input';
 
-const fields = {
+const initialFields = {
   title: '',
   description: '',
   imgUrl: '',
@@ -10,7 +10,7 @@ const fields = {
   imdbId: '',
 };
 
-const errors = {
+const initialErrors = {
   titleError: false,
   descriptionError: false,
   imgUrlError: false,
@@ -20,8 +20,8 @@ const errors = {
 
 export class NewMovie extends Component {
   state = {
-    ...fields,
-    ...errors,
+    ...initialFields,
+    ...initialErrors,
   };
 
   addNewMovie = (event) => {
@@ -43,8 +43,7 @@ export class NewMovie extends Component {
       imdbId,
     };
 
-    // eslint-disable-next-line array-callback-return
-    Object.entries(newMovie).map((item) => {
+    Object.entries(newMovie).forEach((item) => {
       if (item[1] === '') {
         this.setState({
           [`${item[0]}Error`]: true,
@@ -61,7 +60,7 @@ export class NewMovie extends Component {
     this.props.addMovie(newMovie);
 
     this.setState({
-      ...fields,
+      ...initialFields,
     });
   }
 
@@ -73,55 +72,18 @@ export class NewMovie extends Component {
   }
 
   render() {
-    const {
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-      titleError,
-      descriptionError,
-      imgUrlError,
-      imdbUrlError,
-      imdbIdError,
-    } = this.state;
-
     return (
       <form className="ui form" onSubmit={this.addNewMovie}>
-        <Input
-          inputValue={title}
-          inputName="title"
-          error={titleError}
-          addChange={this.inputValue}
-        />
 
-        <Input
-          inputValue={description}
-          inputName="description"
-          error={descriptionError}
-          addChange={this.inputValue}
-        />
-
-        <Input
-          inputValue={imgUrl}
-          inputName="imgUrl"
-          error={imgUrlError}
-          addChange={this.inputValue}
-        />
-
-        <Input
-          inputValue={imdbUrl}
-          inputName="imdbUrl"
-          error={imdbUrlError}
-          addChange={this.inputValue}
-        />
-
-        <Input
-          inputValue={imdbId}
-          inputName="imdbId"
-          error={imdbIdError}
-          addChange={this.inputValue}
-        />
+        {Object.entries(initialFields).map(field => (
+          <Input
+            key={field[0]}
+            inputValue={this.state.[field[0]]}
+            inputName={field[0]}
+            error={this.state.[`${field[0]}Error`]}
+            addChange={this.inputValue}
+          />
+        ))}
 
         <button
           className="ui secondary button"
