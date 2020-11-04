@@ -1,0 +1,40 @@
+.form {
+  &__label,
+  &__input {
+    display: block;
+  }
+
+  &__input {
+    height: 30px;
+
+    padding: 5px;
+
+    border: 1px solid grey;
+    border-radius: 5px;
+    outline: none;
+
+    &:focus {
+      border: 1px solid black;
+    }
+  }
+
+  &__button {
+    font-size: 1.2em;
+
+    margin-top: 10px;
+    padding: 10px;
+
+    color: black;
+
+    border: none;
+    border-radius: 3px;
+    background-color: rgb(228, 182, 34);
+
+    transition: 0.1s;
+
+    &:hover {
+      cursor: pointer;
+      transform: scale(1.1);
+    }
+  }
+}
