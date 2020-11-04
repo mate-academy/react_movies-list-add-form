@@ -47,10 +47,12 @@ export class NewMovie extends React.Component {
   };
 
   handleValue = (event) => {
+    const { name, value } = event.target;
+
     this.setState((prevState) => {
       return { inputs: {
         ...prevState.inputs,
-        [event.target.name]: event.target.value,
+        [name]: value,
       } };
     });
   }
