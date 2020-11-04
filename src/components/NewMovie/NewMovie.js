@@ -6,19 +6,23 @@ import { InputField } from '../InputField';
 // eslint-disable-next-line max-len
 const regExp = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
 
+const initialState = {
+  title: '',
+  description: '',
+  imgUrl: '',
+  imdbUrl: '',
+  imdbId: '',
+  errors: {
+    title: false,
+    imgUrl: false,
+    imdbUrl: false,
+    imdbId: false,
+  },
+};
+
 export class NewMovie extends Component {
   state = {
-    title: '',
-    description: '',
-    imgUrl: '',
-    imdbUrl: '',
-    imdbId: '',
-    errors: {
-      title: false,
-      imgUrl: false,
-      imdbUrl: false,
-      imdbId: false,
-    },
+    ...initialState,
   };
 
   handleChange = (event) => {
@@ -55,11 +59,7 @@ export class NewMovie extends Component {
     onAdd(movie);
 
     this.setState({
-      title: '',
-      description: '',
-      imgUrl: '',
-      imdbUrl: '',
-      imdbId: '',
+      ...initialState,
     });
   }
 
