@@ -10,9 +10,9 @@ export class App extends Component {
   };
 
   addMovie = (movie) => {
-    this.setState(state => (
+    this.setState(prevState => (
       {
-        movies: [...state.movies, movie],
+        movies: [...prevState.movies, movie],
       }
     ));
   };
@@ -26,7 +26,7 @@ export class App extends Component {
           <MoviesList movies={movies} />
         </div>
         <div className="sidebar">
-          <NewMovie onAdd={this.addMovie} />
+          <NewMovie addMovie={this.addMovie} />
         </div>
       </div>
     );

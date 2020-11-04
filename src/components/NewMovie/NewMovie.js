@@ -1,17 +1,29 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { AddInput } from './addInput';
+import { Inputs } from './inputs';
 import './NewMovie.scss';
 
+const initialState = {
+  title: '',
+  description: '',
+  imgUrl: '',
+  imdbUrl: '',
+  imdbId: '',
+};
+
 export class NewMovie extends Component {
-  state = {
-    title: '',
-    description: '',
-    imgUrl: '',
-    imdbUrl: '',
-    imdbId: '',
-  };
+  state = { ...initialState };
+
+  controlButton = Object.entries(this.state)
+    .filter(([key]) => (key !== 'description'));
+
+  componentDidUpdate(prevState) {
+    if (prevState !== this.State) {
+      this.controlButton = Object.entries(this.state)
+        .filter(([key]) => (key !== 'description'));
+    }
+  }
 
   chahgeState = (event, name) => {
     this.setState({
@@ -23,34 +35,25 @@ export class NewMovie extends Component {
     event.preventDefault();
     const movie = { ...this.state };
 
-    this.setState({
-      title: '',
-      description: '',
-      imgUrl: '',
-      imdbUrl: '',
-      imdbId: '',
-    });
+    this.setState({ ...initialState });
 
-    this.props.onAdd(movie);
+    this.props.addMovie(movie);
   }
 
   render() {
-    const controlButton = Object.entries(this.state)
-      .filter(([key]) => (key !== 'description'));
-
     return (
       <form
         className="movie-form"
         onSubmit={this.handleSubmit}
       >
-        <AddInput
+        <Inputs
           state={this.state}
           onChange={this.chahgeState}
         />
         <br />
         <button
           type="submit"
-          disabled={controlButton.some(([, value]) => !value)}
+          disabled={this.controlButton.some(([, value]) => !value)}
         >
           ADD
         </button>
@@ -60,5 +63,5 @@ export class NewMovie extends Component {
 }
 
 NewMovie.propTypes = {
-  onAdd: PropTypes.func.isRequired,
+  addMovie: PropTypes.func.isRequired,
 };
