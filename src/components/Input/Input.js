@@ -15,7 +15,8 @@ export const Input = ({ errorField, field, fieldName, onChange, onBlur }) => (
           'form-control',
           {
             'is-valid': errorField === null,
-            'is-invalid': errorField === 'invalid' || errorField === 'empty',
+            'is-invalid': errorField === 'invalid'
+              || errorField === 'emptyField',
           },
         )
       }
@@ -26,7 +27,7 @@ export const Input = ({ errorField, field, fieldName, onChange, onBlur }) => (
     />
 
     {/* eslint-disable-next-line no-nested-ternary */}
-    {errorField === 'empty'
+    {errorField === 'emptyField'
       ? <div>This field should not be empty</div>
       : errorField === 'invalid'
         ? <div>This should be URL</div>

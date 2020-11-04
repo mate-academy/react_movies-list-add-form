@@ -2,35 +2,12 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Input } from '../Input';
 import './NewMovie.scss';
-
-// eslint-disable-next-line max-len
-const URLRegExp = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)/;
-
-const inputsFromServer = [
-  'title',
-  'description',
-  'imgUrl',
-  'imdbUrl',
-  'imdbId',
-];
-
-const initialInputs = inputsFromServer.reduce((acc, field) => {
-  return {
-    ...acc,
-    [field]: '',
-  };
-}, {});
-
-const initialErrors = inputsFromServer.reduce((acc, error) => {
-  return {
-    ...acc,
-    [error]: 'start',
-  };
-}, {});
-
-function containsURL(inputName) {
-  return /url/i.test(inputName);
-}
+import {
+  URLRegExp,
+  initialInputs,
+  initialErrors,
+  doesContainsURL,
+} from '../../consts';
 
 export class NewMovie extends Component {
   state = {
@@ -51,58 +28,58 @@ export class NewMovie extends Component {
 
   onBlur = (fieldName) => {
     const inputValue = this.state.inputs[fieldName];
-
-    if (!inputValue) {
+    const setError = text => (
       this.setState(prevState => ({
         errors: {
           ...prevState.errors,
-          [fieldName]: 'empty',
+          [fieldName]: text,
         },
-      }));
+      }))
+    );
+
+    if (fieldName === 'description') {
+      return;
+    }
+
+    if (!inputValue) {
+      setError('emptyField');
 
       return;
     }
 
-    if (containsURL(fieldName)) {
+    if (doesContainsURL(fieldName)) {
       if (!inputValue.match(URLRegExp)) {
-        this.setState(prevState => ({
-          errors: {
-            ...prevState.errors,
-            [fieldName]: 'invalid',
-          },
-        }));
+        setError('invalid');
       } else {
-        this.setState(prevState => ({
-          errors: {
-            ...prevState.errors,
-            [fieldName]: null,
-          },
-        }));
+        setError(null);
       }
 
       return;
     }
 
-    this.setState(prevState => ({
-      errors: {
-        ...prevState.errors,
-        [fieldName]: null,
-      },
-    }));
+    setError(null);
   }
 
   handlerSubmit = (event) => {
     event.preventDefault();
+    const { inputs } = this.state;
 
-    const isError = Object.entries(this.state.errors).some(([name, error]) => {
+    const hasError = Object.entries(this.state.errors).some(([name, error]) => {
       return !!error && name !== 'description';
     });
 
-    if (isError) {
+    if (hasError) {
       return;
     }
 
-    this.props.addMovie(this.state.inputs);
+    const newMovie = Object.entries(inputs).reduce((acc, [name, value]) => {
+      return {
+        ...acc,
+        [name]: value,
+      };
+    }, {});
+
+    this.props.addMovie(newMovie);
     this.resetState();
   }
 
@@ -118,52 +95,24 @@ export class NewMovie extends Component {
     const hasErrors = Object.entries(errors).some(([name, error]) => {
       return !!error && name !== 'description';
     });
+    const inputNames = Object.keys(inputs);
 
     return (
       <form
         className="form form-group"
         onSubmit={this.handlerSubmit}
       >
-        <Input
-          errorField={errors.title}
-          field={inputs.title}
-          fieldName="title"
-          onChange={this.onChange}
-          onBlur={this.onBlur}
-        />
-
-        <textarea
-          name="description"
-          placeholder="description"
-          type="text"
-          className="form-control"
-          value={inputs.description}
-          onChange={event => this.onChange(event)}
-        />
-
-        <Input
-          errorField={errors.imgUrl}
-          field={inputs.imgUrl}
-          fieldName="imgUrl"
-          onChange={this.onChange}
-          onBlur={this.onBlur}
-        />
-
-        <Input
-          errorField={errors.imdbUrl}
-          field={inputs.imdbUrl}
-          fieldName="imdbUrl"
-          onChange={this.onChange}
-          onBlur={this.onBlur}
-        />
-
-        <Input
-          errorField={errors.imdbId}
-          field={inputs.imdbId}
-          fieldName="imdbId"
-          onChange={this.onChange}
-          onBlur={this.onBlur}
-        />
+        {
+          inputNames.map(inputName => (
+            <Input
+              errorField={errors[inputName]}
+              field={inputs[inputName]}
+              fieldName={inputName}
+              onChange={this.onChange}
+              onBlur={this.onBlur}
+            />
+          ))
+        }
 
         <button
           type="submit"
