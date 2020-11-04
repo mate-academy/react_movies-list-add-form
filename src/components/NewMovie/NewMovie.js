@@ -2,6 +2,18 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import './NewMovie.scss';
 
+const initialState = {
+  title: '',
+  description: '',
+  imgUrl: '',
+  imdbLink: '',
+  imdbId: '',
+  titleError: false,
+  imgUrlError: false,
+  imdbLinkError: false,
+  imdbIdError: false,
+};
+
 export class NewMovie extends Component {
   state = {
     title: '',
@@ -31,15 +43,7 @@ export class NewMovie extends Component {
 
   resetState() {
     this.setState({
-      title: '',
-      description: '',
-      imgUrl: '',
-      imdbLink: '',
-      imdbId: '',
-      titleError: false,
-      imgUrlError: false,
-      imdbLinkError: false,
-      imdbIdError: false,
+      ...initialState,
     });
   }
 
