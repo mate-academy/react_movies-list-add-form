@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Input } from '../Input';
 
-const defaultForm = {
+const initialState = {
   title: '',
   description: '',
   imgUrl: '',
@@ -10,7 +11,7 @@ const defaultForm = {
 };
 
 export class NewMovie extends Component {
-  state = { ...defaultForm }
+  state = { ...initialState }
 
   handleChange = ({ target }) => {
     this.setState(prevState => ({
@@ -26,11 +27,11 @@ export class NewMovie extends Component {
 
     this.props.addMovie(movie);
 
-    this.setState({ ...defaultForm });
+    this.setDefaultForm();
   }
 
   setDefaultForm = () => {
-    this.setState({ ...defaultForm });
+    this.setState({ ...initialState });
   };
 
   render() {
@@ -42,19 +43,11 @@ export class NewMovie extends Component {
         method="post"
       >
         { Object.entries(this.state).map(([fieldName, value]) => (
-          <>
-            <label htmlFor="fieldName">
-              {fieldName[0].toUpperCase() + fieldName.slice(1)}
-            </label>
-            <input
-              key={fieldName}
-              type="text"
-              name={fieldName}
-              value={value}
-              onChange={this.handleChange}
-              required
-            />
-          </>
+          <Input
+            fieldName={fieldName}
+            value={value}
+            onChange={this.handleChange}
+          />
         ))}
 
         <button
