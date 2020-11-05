@@ -1,47 +1,43 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Input } from '../Input';
+
+const initialFields = {
+  title: '',
+  description: '',
+  imgUrl: '',
+  imdbUrl: '',
+  imdbId: '',
+};
+
+// eslint-disable-next-line max-len
+const regexp = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
 
 export class NewMovie extends Component {
   state = {
-    title: '',
-    description: '',
-    imgUrl: '',
-    imdbUrl: '',
-    imdbId: '',
-    titleError: false,
-    imgUrlError: false,
-    imdbUrlError: false,
-    imdbIdError: false,
+    fields: {
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    },
+    errors: {
+      title: false,
+      imgUrl: false,
+      imdbUrl: false,
+      imdbId: false,
+    },
     disabled: true,
   };
 
   handleSubmit = (event) => {
     event.preventDefault();
 
-    const {
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    } = this.state;
-
-    const movie = {
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    };
-
-    this.props.addMovie(movie);
+    this.props.addMovie({ ...this.state.fields });
 
     this.setState({
-      title: '',
-      description: '',
-      imgUrl: '',
-      imdbUrl: '',
-      imdbId: '',
+      fields: initialFields,
       disabled: true,
     });
   };
@@ -49,46 +45,49 @@ export class NewMovie extends Component {
   handleChange = (event) => {
     const { name, value } = event.target;
 
-    this.setState({
-      [name]: value,
-    });
+    this.setState(prevState => ({
+      fields: {
+        ...prevState.fields,
+        [name]: value,
+      },
+    }));
   };
 
   onBlur = (event) => {
     const { name, value } = event.target;
-    const { title, imgUrl, imdbUrl, imdbId } = this.state;
+    const { fields, errors } = this.state;
 
-    const valueMatch = value
-      // eslint-disable-next-line max-len
-      .match(/^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/);
+    if (name === 'imgUrl' || name === 'imdbUrl') {
+      this.setState(prevState => ({
+        errors: {
+          ...prevState.errors,
+          [name]: !regexp.test(value),
+        },
+      }));
+    } else if (name !== 'description') {
+      this.setState(prevState => ({
+        errors: {
+          ...prevState.errors,
+          [name]: value === '',
+        },
+      }));
+    }
 
-    const titleError = name === 'title' && value === '';
-    const imgUrlError = name === 'imgUrl' && (value === '' || !valueMatch);
-    const imdbUrlError = name === 'imdbUrl' && (value === '' || !valueMatch);
-    const imdbIdError = name === 'imdbId' && value === '';
+    const fieldsWithoutDescription = { ...fields };
+
+    delete fieldsWithoutDescription.description;
 
     this.setState({
-      titleError,
-      imgUrlError,
-      imdbUrlError,
-      imdbIdError,
-      disabled: titleError || imgUrlError || imdbUrlError || imdbIdError
-      || title === '' || imgUrl === '' || imdbUrl === '' || imdbId === '',
+      disabled:
+        Object.values(fieldsWithoutDescription).some(field => field === '')
+        || Object.values(errors).some(error => error === true),
     });
   };
 
   render() {
     const {
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-      titleError,
-      imgUrlError,
-      imdbUrlError,
-      imdbIdError,
-      disabled,
+      fields,
+      errors,
     } = this.state;
 
     return (
@@ -98,111 +97,21 @@ export class NewMovie extends Component {
           className="form"
           onSubmit={this.handleSubmit}
         >
-          <label
-            className="label"
-            htmlFor="title"
-          >
-            title
-          </label>
-          <input
-            className={titleError
-              ? 'input input--error'
-              : 'input'}
-            type="text"
-            id="title"
-            name="title"
-            value={title}
-            placeholder="title"
-            onChange={this.handleChange}
-            onBlur={this.onBlur}
-          />
-          {titleError
-            && <div className="error">Please enter valid title!</div>}
-
-          <label
-            className="label"
-            htmlFor="description"
-          >
-            description
-          </label>
-          <input
-            className="input"
-            type="text"
-            id="description"
-            name="description"
-            value={description}
-            placeholder="description"
-            onChange={this.handleChange}
-            onBlur={this.onBlur}
-          />
-
-          <label
-            className="label"
-            htmlFor="imgUrl"
-          >
-            imgUrl
-          </label>
-          <input
-            className={imgUrlError
-              ? 'input input--error'
-              : 'input'}
-            type="text"
-            id="imgUrl"
-            name="imgUrl"
-            value={imgUrl}
-            placeholder="imgUrl"
-            onChange={this.handleChange}
-            onBlur={this.onBlur}
-          />
-          {imgUrlError
-            && <div className="error">Please enter valid imgUrl!</div>}
-
-          <label
-            className="label"
-            htmlFor="imdbUrl"
-          >
-            imdbUrl
-          </label>
-          <input
-            className={imdbUrlError
-              ? 'input input--error'
-              : 'input'}
-            type="text"
-            id="imdbUrl"
-            name="imdbUrl"
-            value={imdbUrl}
-            placeholder="imdbUrl"
-            onChange={this.handleChange}
-            onBlur={this.onBlur}
-          />
-          {imdbUrlError
-            && <div className="error">Please enter valid imdbUrl!</div>}
-
-          <label
-            className="label"
-            htmlFor="imdbId"
-          >
-            imdbId
-          </label>
-          <input
-            className={imdbIdError
-              ? 'input input--error'
-              : 'input'}
-            type="text"
-            id="imdbId"
-            name="imdbId"
-            value={imdbId}
-            placeholder="imdbId"
-            onChange={this.handleChange}
-            onBlur={this.onBlur}
-          />
-          {imdbIdError
-            && <div className="error">Please enter valid imdbId!</div>}
+          {Object.keys(fields).map(field => (
+            <Input
+              key={field}
+              fields={fields}
+              field={field}
+              errors={errors}
+              handleChange={this.handleChange}
+              onBlur={this.onBlur}
+            />
+          ))}
 
           <button
             className="button"
             type="submit"
-            disabled={disabled}
+            disabled={this.state.disabled}
           >
             Add
           </button>
