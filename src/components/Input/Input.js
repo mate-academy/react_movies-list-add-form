@@ -2,53 +2,46 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 export const Input = ({
-  fields,
-  field,
-  errors,
+  name,
+  value,
+  error,
   handleChange,
   onBlur,
 }) => (
   <>
     <label
-      key={field}
+      key={name}
       className="label"
-      htmlFor={field}
+      htmlFor={name}
     >
-      {field}
+      {name}
     </label>
     <input
-      className={errors[field]
+      className={error
         ? 'input input--error'
         : 'input'}
       type="text"
-      id={field}
-      name={field}
-      value={fields[field]}
-      placeholder={field}
+      id={name}
+      name={name}
+      value={value}
+      placeholder={name}
       onChange={handleChange}
       onBlur={onBlur}
     />
-    {errors[field] && (
+    {error && (
       <div className="error">Please enter correct value</div>
     )}
   </>
 );
 
 Input.propTypes = {
-  fields: PropTypes.shape({
-    title: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired,
-    imgUrl: PropTypes.string.isRequired,
-    imdbUrl: PropTypes.string.isRequired,
-    imdbId: PropTypes.string.isRequired,
-  }).isRequired,
-  field: PropTypes.string.isRequired,
-  errors: PropTypes.shape({
-    title: PropTypes.bool.isRequired,
-    imgUrl: PropTypes.bool.isRequired,
-    imdbUrl: PropTypes.bool.isRequired,
-    imdbId: PropTypes.bool.isRequired,
-  }).isRequired,
+  name: PropTypes.string.isRequired,
+  value: PropTypes.string.isRequired,
+  error: PropTypes.bool,
   handleChange: PropTypes.func.isRequired,
   onBlur: PropTypes.func.isRequired,
+};
+
+Input.defaultProps = {
+  error: null,
 };

@@ -100,9 +100,9 @@ export class NewMovie extends Component {
           {Object.keys(fields).map(field => (
             <Input
               key={field}
-              fields={fields}
-              field={field}
-              errors={errors}
+              name={field}
+              value={fields[field]}
+              error={errors[field]}
               handleChange={this.handleChange}
               onBlur={this.onBlur}
             />
