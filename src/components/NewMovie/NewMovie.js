@@ -52,9 +52,10 @@ export class NewMovie extends Component {
       }
     });
 
-    const error = Object.entries(newMovie).some(([key, value]) => value === '');
+    const hasError = Object.entries(newMovie)
+      .some(([key, value]) => value === '');
 
-    if (error) {
+    if (hasError) {
       return;
     }
 

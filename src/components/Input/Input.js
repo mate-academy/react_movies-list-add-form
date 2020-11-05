@@ -2,11 +2,11 @@ import React from 'react';
 import classNames from 'classnames';
 import { InputShape } from '../Shapes/InputShape';
 
-export const Input = ({ inputValue, inputName, error, addChange }) => {
-  const titleFormatting = (title) => {
-    return title[0].toUpperCase() + title.slice(1);
-  };
+const titleFormatting = (title) => {
+  return title[0].toUpperCase() + title.slice(1);
+};
 
+export const Input = ({ inputValue, inputName, error, addChange }) => {
   return (
     <div className="field">
       <label
