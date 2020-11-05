@@ -1,3 +1,7 @@
+body {
+  overflow: hidden;
+}
+
 .page {
   display: grid;
   grid-template: auto / 1fr 400px;
@@ -7,9 +11,11 @@
 
 .page-content {
   padding: 20px;
+  overflow-y: scroll;
 }
 
 .sidebar {
   padding: 20px;
   border-left: 1px solid lightgray;
+  background-color: #9aecdb;
 }

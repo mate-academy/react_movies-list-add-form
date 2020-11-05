@@ -1,0 +1,58 @@
+form {
+  display: grid;
+  grid-auto-rows: auto;
+  width: 90%;
+  background-color: #58b19f;
+  border-radius: 15px;
+  padding: 15px;
+  transform: translate(10%,50%);
+}
+
+label {
+  margin: 5px;
+  color: #021411;
+  text-align: center;
+  font-family: initial;
+}
+
+input[type="text"] {
+  float: right;
+  width: 70%;
+  border-radius: 25px;
+  height: 30px;
+  outline: none;
+}
+
+input[type="submit"] {
+  width: fit-content;
+  border-radius: 25px;
+  height: 30px;
+  margin-top: 5px;
+  margin-left: 50%;
+  outline: none;
+}
+
+.error {
+  color: red;
+  font-size: 12px;
+  text-align: center;
+}
+
+textarea {
+  float: right;
+  width: 70%;
+  border-radius: 10px;
+  height: auto;
+  outline: none;
+  resize: none;
+
+  &:focus {
+    height: 100px;
+  }
+}
+
+.example {
+  text-align: right;
+  font-size: 12px;
+  color: black;
+}
