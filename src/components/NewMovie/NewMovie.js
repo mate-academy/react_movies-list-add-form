@@ -67,6 +67,7 @@ export class NewMovie extends Component {
 
   render() {
     const { values, errors } = this.state;
+    // console.log(errors);
 
     return (
       <form className="ui form" onSubmit={this.handleSubmit}>
@@ -74,8 +75,8 @@ export class NewMovie extends Component {
           <Input
             key={movie}
             movie={movie}
-            values={value}
-            errors={errors}
+            value={value}
+            error={errors[movie]}
             handleChange={this.handleChange}
           />
         ))}

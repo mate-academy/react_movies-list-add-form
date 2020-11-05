@@ -2,10 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 export const Input = (props) => {
-  const { values, movie, errors, handleChange } = props;
+  const { value, movie, error, handleChange } = props;
 
   return (
-    <div className={`field ${errors[movie] ? 'error' : ''}`}>
+    <div className={`field ${error ? 'error' : ''}`}>
       <label htmlFor={movie}>
         {movie.toUpperCase()}
       </label>
@@ -13,19 +13,23 @@ export const Input = (props) => {
         type="text"
         name={movie}
         id={movie}
-        value={values}
+        value={value}
         onChange={handleChange}
       />
-      {errors[movie] && (
-        <label>{errors[movie]}</label>
+      {error && (
+        <label>{error}</label>
       )}
     </div>
   );
 };
 
 Input.propTypes = {
-  values: PropTypes.string.isRequired,
+  value: PropTypes.string.isRequired,
   movie: PropTypes.string.isRequired,
-  errors: PropTypes.shape(PropTypes.string).isRequired,
+  error: PropTypes.string,
   handleChange: PropTypes.func.isRequired,
+};
+
+Input.defaultProps = {
+  error: null,
 };
