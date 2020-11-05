@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export const Inputs = (props) => {
+export const Input = (props) => {
   const { values, movie, errors, handleChange } = props;
 
   return (
@@ -13,7 +13,7 @@ export const Inputs = (props) => {
         type="text"
         name={movie}
         id={movie}
-        value={values[movie]}
+        value={values}
         onChange={handleChange}
       />
       {errors[movie] && (
@@ -23,9 +23,9 @@ export const Inputs = (props) => {
   );
 };
 
-Inputs.propTypes = {
+Input.propTypes = {
   values: PropTypes.string.isRequired,
-  errors: PropTypes.string.isRequired,
   movie: PropTypes.string.isRequired,
+  errors: PropTypes.shape(PropTypes.string).isRequired,
   handleChange: PropTypes.func.isRequired,
 };

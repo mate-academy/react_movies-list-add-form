@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { validateForm } from './validateForm';
-import { Inputs } from './Inputs';
+import { Input } from './Input';
 
 const movies = [
   'title',
@@ -70,10 +70,11 @@ export class NewMovie extends Component {
 
     return (
       <form className="ui form" onSubmit={this.handleSubmit}>
-        {movies.map(movie => (
-          <Inputs
+        {Object.entries(values).map(([movie, value]) => (
+          <Input
+            key={movie}
             movie={movie}
-            values={values}
+            values={value}
             errors={errors}
             handleChange={this.handleChange}
           />
