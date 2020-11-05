@@ -1,14 +1,18 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-export class NewMovie extends Component {
-  state = {
+const initialState = {
+  newMovie: {
     title: '',
     description: '',
     imgUrl: '',
     imdbUrl: '',
     imdbId: '',
-  };
+  },
+};
+
+export class NewMovie extends Component {
+  state = { ...initialState };
 
   handleChange = (event) => {
     const { name, value } = event.target;
@@ -22,16 +26,11 @@ export class NewMovie extends Component {
     event.preventDefault();
 
     const { addMovie } = this.props;
+    const { newMovie } = this.state;
 
-    addMovie(this.state);
+    addMovie(newMovie);
 
-    this.setState({
-      title: '',
-      description: '',
-      imgUrl: '',
-      imdbUrl: '',
-      imdbId: '',
-    });
+    this.setState({ ...newMovie });
   }
 
   render() {
