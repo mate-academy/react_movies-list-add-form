@@ -26,6 +26,7 @@ export const Input = (props) => {
           />
         </div>
       </label>
+      <p className="help is-danger">{error}</p>
     </div>
   );
 };

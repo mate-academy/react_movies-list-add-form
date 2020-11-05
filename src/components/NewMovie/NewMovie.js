@@ -92,23 +92,21 @@ export class NewMovie extends React.Component {
 
     return (
       <form name="addMovie" onSubmit={this.handleSubmit}>
-        {Object.entries(initialState).map(
-          (stateItem) => {
-            return (
-              <Input
-                value={inputs[stateItem[0]]}
-                id={stateItem[0]}
-                labelText={`Add a ${stateItem[0]}`}
-                placeholder={
-                  stateItem[0].includes('Url')
-                    ? 'https://example.com'
-                    : stateItem[0]
-                }
-                onChange={this.handleValue}
-                error={errors[stateItem[0]]}
-              />
-            );
-          },
+        {Object.entries(inputs).map(
+          ([name, value]) => (
+            <Input
+              value={value}
+              id={name}
+              labelText={`Add a ${name}`}
+              placeholder={
+                name.includes('Url')
+                  ? 'https://example.com'
+                  : name
+              }
+              onChange={this.handleValue}
+              error={errors[name]}
+            />
+          ),
         )}
 
         <div className="field">
