@@ -13,6 +13,14 @@ export class NewMovie extends Component {
     submitDisabled: true,
   };
 
+  formFields = [
+    'title',
+    'description',
+    'imgUrl',
+    'imdbUrl',
+    'imdbId',
+  ];
+
   onInputChange = (event) => {
     const { value, name } = event.target;
 
@@ -52,69 +60,16 @@ export class NewMovie extends Component {
           this.clearForm();
         }}
       >
-        <FormInput
-          inputName="title"
-          inputTitle={title}
-          onChange={this.onInputChange}
-        />
-        <FormInput
-          inputName="description"
-          inputTitle={description}
-          onChange={this.onInputChange}
-        />
-        <FormInput
-          inputName="imgUrl"
-          inputTitle={imgUrl}
-          onChange={this.onInputChange}
-        />
-        <FormInput
-          inputName="imdbUrl"
-          inputTitle={imdbUrl}
-          onChange={this.onInputChange}
-        />
-        <FormInput
-          inputName="imdbId"
-          inputTitle={imdbId}
-          onChange={this.onInputChange}
-        />
-        {/* <label className="form__label" htmlFor="description">
-          Movie description:
-        </label>
-        <input
-          className="form__input"
-          type="text"
-          name="description"
-          id="description"
-          value={description}
-          onChange={this.onInputChange}
-        />
-        <label className="form__label" htmlFor="imgUrl">Image Url:</label>
-        <input
-          className="form__input"
-          type="text"
-          name="imgUrl"
-          id="imgUrl"
-          value={imgUrl}
-          onChange={this.onInputChange}
-        />
-        <label className="form__label" htmlFor="imdbUrl">IMDB Url:</label>
-        <input
-          className="form__input"
-          type="text"
-          name="imdbUrl"
-          id="imdbUrl"
-          value={imdbUrl}
-          onChange={this.onInputChange}
-        />
-        <label className="form__label" htmlFor="imdbId">IMDB Id:</label>
-        <input
-          className="form__input"
-          type="text"
-          name="imdbId"
-          id="imdbId"
-          value={imdbId}
-          onChange={this.onInputChange}
-        /> */}
+        {
+          this.formFields.map((field) => {
+            return (
+              <FormInput
+                inputName={field}
+                onChange={this.onInputChange}
+              />
+            );
+          })
+        }
         <button
           type="submit"
           className="form__button"
