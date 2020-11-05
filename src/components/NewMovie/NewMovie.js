@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import './NewMovie.scss';
+import { FormInput } from '../FormInput';
 
 export class NewMovie extends Component {
   state = {
@@ -51,16 +52,32 @@ export class NewMovie extends Component {
           this.clearForm();
         }}
       >
-        <label className="form__label" htmlFor="title">Movie title:</label>
-        <input
-          className="form__input"
-          type="text"
-          name="title"
-          id="title"
-          value={title}
+        <FormInput
+          inputName="title"
+          inputTitle={title}
           onChange={this.onInputChange}
         />
-        <label className="form__label" htmlFor="description">
+        <FormInput
+          inputName="description"
+          inputTitle={description}
+          onChange={this.onInputChange}
+        />
+        <FormInput
+          inputName="imgUrl"
+          inputTitle={imgUrl}
+          onChange={this.onInputChange}
+        />
+        <FormInput
+          inputName="imdbUrl"
+          inputTitle={imdbUrl}
+          onChange={this.onInputChange}
+        />
+        <FormInput
+          inputName="imdbId"
+          inputTitle={imdbId}
+          onChange={this.onInputChange}
+        />
+        {/* <label className="form__label" htmlFor="description">
           Movie description:
         </label>
         <input
@@ -97,7 +114,7 @@ export class NewMovie extends Component {
           id="imdbId"
           value={imdbId}
           onChange={this.onInputChange}
-        />
+        /> */}
         <button
           type="submit"
           className="form__button"
