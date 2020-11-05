@@ -65,6 +65,7 @@ export class NewMovie extends Component {
             return (
               <FormInput
                 inputName={field}
+                value={this.state[field]}
                 onChange={this.onInputChange}
               />
             );

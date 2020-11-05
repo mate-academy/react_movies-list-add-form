@@ -36,5 +36,10 @@
       cursor: pointer;
       transform: scale(1.1);
     }
+
+    &:disabled {
+      cursor: pointer;
+      background-color: rgb(219, 201, 143);
+    }
   }
 }

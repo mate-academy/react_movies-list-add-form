@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './FormInput.scss';
 
-export const FormInput = ({ inputName, onChange }) => (
+export const FormInput = ({ inputName, onChange, value }) => (
   <>
     <label className="form__label" htmlFor={inputName}>
       {`Movie ${inputName}`}
@@ -12,6 +12,7 @@ export const FormInput = ({ inputName, onChange }) => (
       type="text"
       name={inputName}
       id={inputName}
+      value={value}
       onChange={onChange}
     />
   </>
@@ -19,5 +20,6 @@ export const FormInput = ({ inputName, onChange }) => (
 
 FormInput.propTypes = {
   inputName: PropTypes.string.isRequired,
+  value: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
 };
