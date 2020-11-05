@@ -21,7 +21,6 @@ export const Input = ({ inputValue, inputName, error, addChange }) => {
           id={inputName}
           value={inputValue}
           onChange={addChange}
-          placeholder="Write here"
         />
 
         <p className={classNames(
