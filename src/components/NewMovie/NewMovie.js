@@ -92,53 +92,24 @@ export class NewMovie extends React.Component {
 
     return (
       <form name="addMovie" onSubmit={this.handleSubmit}>
-        <Input
-          value={inputs.title}
-          id="title"
-          labelText="Title"
-          placeholder="Add a title"
-          onChange={this.handleValue}
-          error={errors.title}
-        />
-        <p className="help is-danger">{errors.title}</p>
-
-        <Input
-          value={inputs.description}
-          labelText="Description"
-          id="description"
-          placeholder="Add a description"
-          onChange={this.handleValue}
-        />
-
-        <Input
-          value={inputs.imgUrl}
-          labelText="Image Url"
-          id="imgUrl"
-          placeholder="https://example.com"
-          onChange={this.handleValue}
-          error={errors.imgUrl}
-        />
-        <p className="help is-danger">{errors.imgUrl}</p>
-
-        <Input
-          value={inputs.imdbUrl}
-          labelText="Imdb Url"
-          id="imdbUrl"
-          placeholder="https://example.com"
-          onChange={this.handleValue}
-          error={errors.imdbUrl}
-        />
-        <p className="help is-danger">{errors.imdbUrl}</p>
-
-        <Input
-          value={inputs.imdbId}
-          labelText="Imdb Id"
-          id="imdbId"
-          placeholder="Add a imdbId"
-          onChange={this.handleValue}
-          error={errors.imdbId}
-        />
-        <p className="help is-danger">{errors.imdbId}</p>
+        {Object.entries(initialState).map(
+          (stateItem) => {
+            return (
+              <Input
+                value={inputs[stateItem[0]]}
+                id={stateItem[0]}
+                labelText={`Add a ${stateItem[0]}`}
+                placeholder={
+                  stateItem[0].includes('Url')
+                    ? 'https://example.com'
+                    : stateItem[0]
+                }
+                onChange={this.handleValue}
+                error={errors[stateItem[0]]}
+              />
+            );
+          },
+        )}
 
         <div className="field">
           <button className="button is-link" type="submit">
