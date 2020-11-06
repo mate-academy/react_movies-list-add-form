@@ -11,6 +11,7 @@ export const InputCreator = (
       name={name}
       id={name}
       onChange={handleChange}
+      required
     />
     {
       hasError
