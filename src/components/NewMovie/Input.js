@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export const InputCreator = (
+export const Input = (
   { handleChange, name, hasError },
 ) => (
   <>
@@ -21,7 +21,7 @@ export const InputCreator = (
   </>
 );
 
-InputCreator.propTypes = {
+Input.propTypes = {
   handleChange: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
   hasError: PropTypes.bool.isRequired,

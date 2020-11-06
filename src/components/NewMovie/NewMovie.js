@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { InputCreator } from './InputCreator';
+import { Input } from './Input';
 import './NewMovie.scss';
 
 export class NewMovie extends Component {
@@ -48,11 +48,11 @@ export class NewMovie extends Component {
           this.formClear();
         }}
       >
-        <InputCreator name="title" handleChange={this.handleChange} />
-        <InputCreator name="description" handleChange={this.handleChange} />
-        <InputCreator name="imgUrl" handleChange={this.handleChange} />
-        <InputCreator name="imdbUrl" handleChange={this.handleChange} />
-        <InputCreator name="imdbId" handleChange={this.handleChange} />
+        <Input name="title" handleChange={this.handleChange} />
+        <Input name="description" handleChange={this.handleChange} />
+        <Input name="imgUrl" handleChange={this.handleChange} />
+        <Input name="imdbUrl" handleChange={this.handleChange} />
+        <Input name="imdbId" handleChange={this.handleChange} />
         <button type="submit" className="submitButton">Add movie</button>
       </form>
     );
