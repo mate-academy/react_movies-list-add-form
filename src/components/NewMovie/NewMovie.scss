@@ -6,7 +6,7 @@
   &__input {
     width: 300px;
     padding: 10px;
-    margin-bottom: 20px;
+    margin-bottom: 5px;
 
     border: 1px solid black;
     border-radius: 5px;
@@ -16,5 +16,9 @@
     &:focus {
       box-shadow: 0 0 5px rgb(83, 83, 231);
     }
+  }
+
+  &__error {
+    color: red;
   }
 }

@@ -1,25 +1,17 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Input } from '../Input';
+import { initialState, movie } from '../../constatnts';
 import './NewMovie.scss';
 
-const movie = [
-  'title',
-  'description',
-  'imgUrl',
-  'imdbUrl',
-  'imdbId',
-];
-
-const initialState = movie.reduce((acc, value) => {
-  return {
-    ...acc,
-    [value]: '',
-  };
-}, {});
-
 export class NewMovie extends Component {
-  state = initialState;
+  state = {
+    ...initialState,
+    titleError: '',
+    imgUrlError: '',
+    imdbUrlError: '',
+    imdbIdError: '',
+  }
 
   handlerChange = (event) => {
     const { name, value } = event.target;
@@ -29,17 +21,67 @@ export class NewMovie extends Component {
     });
   }
 
+  validate = () => {
+    let titleError = '';
+    let imgUrlError = '';
+    let imdbUrlError = '';
+    let imdbIdError = '';
+
+    if (!this.state.title) {
+      titleError = 'Please enter title...';
+    }
+
+    if (!this.state.imgUrl) {
+      imgUrlError = 'Please enter imgUrl...';
+    }
+
+    if (!this.state.imdbUrl) {
+      imdbUrlError = 'Please enter imdbUrl...';
+    }
+
+    if (!this.state.imdbId) {
+      imdbIdError = 'Please enter imbdId...';
+    }
+
+    if (titleError || imgUrlError || imdbUrlError || imdbIdError) {
+      this.setState({
+        titleError,
+        imgUrlError,
+        imdbUrlError,
+        imdbIdError,
+      });
+
+      return false;
+    }
+
+    return true;
+  }
+
   onAdd = (event) => {
     event.preventDefault();
     const { addMovie } = this.props;
+    const isValid = this.validate();
 
-    this.setState(prevState => addMovie(prevState));
-    this.setState({
-      ...initialState,
-    });
+    if (isValid) {
+      this.setState(prevState => addMovie(prevState));
+      this.setState({
+        ...initialState,
+        titleError: '',
+        imgUrlError: '',
+        imdbUrlError: '',
+        imdbIdError: '',
+      });
+    }
   }
 
   render() {
+    const {
+      titleError,
+      imgUrlError,
+      imdbUrlError,
+      imdbIdError,
+    } = this.state;
+
     return (
       <form className="form" onSubmit={this.onAdd}>
         {
@@ -49,6 +91,10 @@ export class NewMovie extends Component {
               handlerChange={this.handlerChange}
               name={name}
               value={this.state[name]}
+              titleError={titleError}
+              imgUrlError={imgUrlError}
+              imdbUrlError={imdbUrlError}
+              imdbIdError={imdbIdError}
             />
           ))
         }
