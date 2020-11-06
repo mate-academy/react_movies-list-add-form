@@ -1,64 +1,79 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-const initialValues = {
+const initialState = {
   formControls: {
     title: {
       value: '',
-      inputType: 'input',
-      type: 'text',
-      label: 'Title',
-      errormessage: 'Enter correct title',
       valid: false,
       touched: false,
       required: true,
     },
     description: {
       value: '',
-      inputType: 'textArea',
-      type: 'text',
-      label: 'Description',
-      errormessage: 'Enter correct description',
-      touched: false,
       valid: false,
+      touched: false,
       required: true,
     },
     imgUrl: {
       value: '',
-      inputType: 'input',
-      type: 'url',
-      label: 'ImgUrl',
-      errormessage: 'Enter correct URL',
-      touched: false,
       valid: false,
+      touched: false,
       required: true,
     },
     imdbUrl: {
       value: '',
-      inputType: 'input',
-      type: 'url',
-      label: 'ImdbUrl',
-      errormessage: 'Enter correct URL',
-      touched: false,
       valid: false,
+      touched: false,
       required: true,
     },
     imdbId: {
       value: '',
+      valid: false,
+      touched: false,
+      required: true,
+    },
+  },
+};
+
+const initialValues = {
+  formControls: {
+    title: {
+      inputType: 'input',
+      type: 'text',
+      label: 'Title',
+      errormessage: 'Enter correct title',
+    },
+    description: {
+      inputType: 'textArea',
+      type: 'text',
+      label: 'Description',
+      errormessage: 'Enter correct description',
+    },
+    imgUrl: {
+      inputType: 'input',
+      type: 'url',
+      label: 'ImgUrl',
+      errormessage: 'Enter correct URL',
+    },
+    imdbUrl: {
+      inputType: 'input',
+      type: 'url',
+      label: 'ImdbUrl',
+      errormessage: 'Enter correct URL',
+    },
+    imdbId: {
       inputType: 'input',
       type: 'number',
       label: 'ImdbId',
       errormessage: 'Enter correct ID',
-      touched: false,
-      valid: false,
-      required: true,
     },
   },
 };
 
 class NewMovie extends PureComponent {
   state = {
-    ...initialValues,
+    ...initialState,
   }
 
   validURL = (url) => {
@@ -102,20 +117,21 @@ class NewMovie extends PureComponent {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    // eslint-disable-next-line
+    const { title, description, imgUrl, imdbUrl, imdbId } = this.state;
+
     this.props.addMovie(
-      this.state.title,
-      this.state.description,
-      this.state.imgUrl,
-      this.state.imdbUrl,
-      this.state.imdbId,
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
     );
     this.clearForm();
   }
 
   clearForm = () => {
     this.setState({
-      ...initialValues,
+      ...initialState,
     });
   }
 
@@ -123,6 +139,7 @@ class NewMovie extends PureComponent {
     // eslint-disable-next-line
     const formControlCopy = { ...this.state.formControls };
     const control = { ...formControlCopy[controlName] };
+    const typeValue = initialValues.formControls[controlName].type;
 
     control.touched = true;
     formControlCopy[controlName] = control;
@@ -130,7 +147,7 @@ class NewMovie extends PureComponent {
       control.value,
       control.required,
       control.touched,
-      control.type,
+      typeValue,
     );
     this.setState({
       formControls: formControlCopy,
@@ -151,8 +168,9 @@ class NewMovie extends PureComponent {
   }
 
   renderInputs = () => {
-    return Object.keys(this.state.formControls).map((controlName, index) => {
-      const control = this.state.formControls[controlName];
+    return Object.keys(initialValues.formControls).map((controlName, index) => {
+      const control = initialValues.formControls[controlName];
+      const stateControl = this.state.formControls[controlName];
 
       return (
         <div
@@ -166,9 +184,9 @@ class NewMovie extends PureComponent {
                 <input
                   key={`${control.label}${Math.ceil(Math.random(10))}`}
                   type={control.type}
-                  value={control.value}
-                  valid={control.valid}
-                  touched={control.touched}
+                  value={stateControl.value}
+                  valid={stateControl.valid}
+                  touched={stateControl.touched}
                   errormessage={control.errormessage}
                   onChange={event => this.onChangeHandler(event, controlName)}
                   onBlur={event => this.onBlurHandler(controlName)}
@@ -178,9 +196,9 @@ class NewMovie extends PureComponent {
                 <textarea
                   key={`${control.label}${Math.ceil(Math.random(10))}`}
                   type={control.type}
-                  value={control.value}
-                  valid={control.valid}
-                  touched={control.touched}
+                  value={stateControl.value}
+                  valid={stateControl.valid}
+                  touched={stateControl.touched}
                   errormessage={control.errormessage}
                   onChange={event => this.onChangeHandler(event, controlName)}
                   onBlur={event => this.onBlurHandler(controlName)}
@@ -188,7 +206,7 @@ class NewMovie extends PureComponent {
               )
           }
           {
-            control.valid && control.touched
+            stateControl.valid && stateControl.touched
               ? null
               : <span>{control.errormessage}</span>
           }
@@ -215,7 +233,7 @@ class NewMovie extends PureComponent {
     );
   }
 }
-NewMovie.defaultProps = {
+NewMovie.propTypes = {
   addMovie: PropTypes.func.isRequired,
 };
 
