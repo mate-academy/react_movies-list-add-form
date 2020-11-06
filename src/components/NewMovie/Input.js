@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 export const Input = (
-  { handleChange, name, hasError },
+  { name, handleChange, value },
 ) => (
   <>
     <label htmlFor={name}>{name}</label>
@@ -11,18 +11,14 @@ export const Input = (
       name={name}
       id={name}
       onChange={handleChange}
+      value={value}
       required
     />
-    {
-      hasError
-        ? <span className="form__error">{`Please enter the ${name}`}</span>
-        : ''
-    }
   </>
 );
 
 Input.propTypes = {
   handleChange: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
-  hasError: PropTypes.bool.isRequired,
+  value: PropTypes.string.isRequired,
 };

@@ -3,15 +3,16 @@ import PropTypes from 'prop-types';
 import { Input } from './Input';
 import './NewMovie.scss';
 
+const initialState = {
+  title: '',
+  description: '',
+  imgUrl: '',
+  imdbUrl: '',
+  imdbId: '',
+};
+
 export class NewMovie extends Component {
-  state = {
-    title: '',
-    description: '',
-    imgUrl: '',
-    imdbUrl: '',
-    imdbId: '',
-    submitDisabled: true,
-  };
+  state = { ...initialState };
 
   handleChange = (event) => {
     const { id, value } = event.target;
@@ -21,38 +22,34 @@ export class NewMovie extends Component {
     });
   }
 
-  formClear = () => {
-    this.setState({
-      title: '',
-      description: '',
-      imgUrl: '',
-      imdbUrl: '',
-      imdbId: '',
-      submitDisabled: true,
-    });
+  onSubmit = (event) => {
+    event.preventDefault();
+    const newMovie = this.state;
+
+    this.props.onAdd(newMovie);
+    this.formClear();
+  }
+
+  formClear() {
+    this.setState({ ...initialState });
   }
 
   render() {
-    const {
-      title, description, imgUrl, imdbUrl, imdbId, submitDisabled,
-    } = this.state;
-
     return (
       <form
         name="newMovie"
-        onSubmit={(event) => {
-          event.preventDefault();
-          this.props.onAdd(
-            title, description, imgUrl, imdbUrl, imdbId, submitDisabled,
-          );
-          this.formClear();
-        }}
+        onSubmit={this.onSubmit}
       >
-        <Input name="title" handleChange={this.handleChange} />
-        <Input name="description" handleChange={this.handleChange} />
-        <Input name="imgUrl" handleChange={this.handleChange} />
-        <Input name="imdbUrl" handleChange={this.handleChange} />
-        <Input name="imdbId" handleChange={this.handleChange} />
+        {
+          Object.entries(this.state).map(([key, value]) => (
+            <Input
+              name={key}
+              value={value}
+              handleChange={this.handleChange}
+              key={key}
+            />
+          ))
+        }
         <button type="submit" className="submitButton">Add movie</button>
       </form>
     );

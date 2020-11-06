@@ -9,7 +9,9 @@ export class App extends Component {
     movies: moviesFromServer,
   };
 
-  addMovie = (title, description, imgUrl, imdbUrl, imdbId) => {
+  addMovie = (newMovie) => {
+    const { title, description, imgUrl, imdbUrl, imdbId } = newMovie;
+
     this.setState(state => ({
       movies: [
         ...state.movies,
