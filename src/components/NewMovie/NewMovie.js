@@ -1,45 +1,35 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Input } from '../Input';
+
+const initialState = {
+  title: '',
+  description: '',
+  imgUrl: '',
+  imdbUrl: '',
+  imdbId: '',
+};
 
 export class NewMovie extends Component {
-  state = {
-    title: '',
-    description: '',
-    imgUrl: '',
-    imdbUrl: '',
-    imdbId: '',
-    submitDisabled: true,
-  };
+  state = { ...initialState };
 
   onInputChange = (event) => {
     const { value, name } = event.target;
 
-    this.setState(state => ({
+    this.setState(prevState => ({
+      ...prevState,
       [name]: value,
-      submitDisabled: !(
-        state.title !== ''
-          && state.imgUrl !== ''
-          && state.imdbUrl !== ''
-          && state.imdbId !== ''
-      ),
     }));
   }
 
   clearForm() {
-    this.setState({
-      title: '',
-      description: '',
-      imgUrl: '',
-      imdbUrl: '',
-      imdbId: '',
-      submitDisabled: true,
-    });
+    this.setState({ ...initialState });
   }
 
   render() {
     const { onAdd } = this.props;
     const {
-      title, description, imgUrl, imdbUrl, imdbId, submitDisabled,
+      title, description, imgUrl, imdbUrl, imdbId,
     } = this.state;
 
     return (
@@ -52,55 +42,16 @@ export class NewMovie extends Component {
           this.clearForm();
         }}
       >
-        <label htmlFor="title">Movie title </label>
-        <input
-          className="input"
-          type="text"
-          name="title"
-          id="title"
-          value={title}
-          onChange={this.onInputChange}
-        />
-        <label htmlFor="description">Movie description </label>
-        <textarea
-          className="textarea"
-          type="text"
-          name="description"
-          id="description"
-          value={description}
-          onChange={this.onInputChange}
-        />
-        <label htmlFor="imgUrl">Image Url </label>
-        <input
-          className="input"
-          type="url"
-          name="imgUrl"
-          id="imgUrl"
-          value={imgUrl}
-          onChange={this.onInputChange}
-        />
-        <label htmlFor="imdbUrl">IMDB Url </label>
-        <input
-          className="input"
-          type="url"
-          name="imdbUrl"
-          id="imdbUrl"
-          value={imdbUrl}
-          onChange={this.onInputChange}
-        />
-        <label htmlFor="imdbId">IMDB Id </label>
-        <input
-          className="input"
-          type="url"
-          name="imdbId"
-          id="imdbId"
-          value={imdbId}
-          onChange={this.onInputChange}
-        />
+        {Object.entries(this.state).map(([name, value]) => (
+          <Input
+            name={name}
+            value={value}
+            onInputChange={this.onInputChange}
+          />
+        ))}
         <button
           type="submit"
           className="button is-dark is-fullwidth"
-          disabled={submitDisabled}
         >
           Add
         </button>
