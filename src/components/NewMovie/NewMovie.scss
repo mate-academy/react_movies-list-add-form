@@ -8,11 +8,17 @@ form {
   transform: translate(10%,50%);
 }
 
+.container {
+  width: 100%;
+  display: grid;
+}
+
 label {
   margin: 5px;
   color: #021411;
   text-align: center;
   font-family: initial;
+  font-size: 13px;
 }
 
 input[type="text"] {
@@ -32,23 +38,18 @@ input[type="submit"] {
   outline: none;
 }
 
-.error {
+.error-message {
   color: red;
   font-size: 12px;
   text-align: center;
 }
 
-textarea {
-  float: right;
-  width: 70%;
-  border-radius: 10px;
-  height: auto;
-  outline: none;
-  resize: none;
+.error-input {
+  border-color: red;
+}
 
-  &:focus {
-    height: 100px;
-  }
+input[name="description"]:focus {
+  height: 50px;
 }
 
 .example {
