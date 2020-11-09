@@ -22,25 +22,24 @@ export class NewMovie extends Component {
     }));
   }
 
+  onSubmit = (event) => {
+    event.preventDefault();
+
+    this.props.onAdd(this.state);
+
+    this.setState({ ...initialState });
+  }
+
   clearForm() {
     this.setState({ ...initialState });
   }
 
   render() {
-    const { onAdd } = this.props;
-    const {
-      title, description, imgUrl, imdbUrl, imdbId,
-    } = this.state;
-
     return (
       <form
         name="newMovie"
         className="field"
-        onSubmit={(event) => {
-          event.preventDefault();
-          onAdd(title, description, imgUrl, imdbUrl, imdbId);
-          this.clearForm();
-        }}
+        onSubmit={this.onSubmit}
       >
         {Object.entries(this.state).map(([name, value]) => (
           <Input
