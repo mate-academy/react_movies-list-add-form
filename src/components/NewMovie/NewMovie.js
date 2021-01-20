@@ -52,8 +52,7 @@ export class NewMovie extends Component {
                 });
               })}
             />
-            <input
-              type="text"
+            <textarea
               placeholder="Enter a description"
               value={description}
               onChange={((event) => {
