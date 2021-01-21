@@ -1,0 +1,12 @@
+.red {
+  border: 2px red solid;
+
+}
+
+.error {
+  &::after {
+    content: "  invalid URL";
+    display: "inline";
+    color: red;
+  }
+}
