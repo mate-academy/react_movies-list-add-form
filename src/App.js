@@ -10,8 +10,14 @@ export class App extends Component {
   };
 
   addMovie = (movie) => {
-    // put your code here
+    this.setState(state => ({
+      movies: [...state.movies, movie],
+    }));
   };
+
+  checkDuplication = (imdbId) => {
+    return this.state.movies.some(movie => movie.imdbId === imdbId);
+  }
 
   render() {
     const { movies } = this.state;
@@ -22,7 +28,10 @@ export class App extends Component {
           <MoviesList movies={movies} />
         </div>
         <div className="sidebar">
-          <NewMovie />
+          <NewMovie
+            onAdd={this.addMovie}
+            checkDoubles={this.checkDuplication}
+          />
         </div>
       </div>
     );
