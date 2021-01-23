@@ -28,7 +28,7 @@ export class NewMovie extends Component {
       imdbId: this.state.imdbId,
     };
 
-    this.props.add(newMovie);
+    this.props.addMovie(newMovie);
     this.setState({
       title: '',
       description: '',
@@ -110,5 +110,5 @@ export class NewMovie extends Component {
 }
 
 NewMovie.propTypes = {
-  add: PropTypes.func.isRequired,
+  addMovie: PropTypes.func.isRequired,
 };
