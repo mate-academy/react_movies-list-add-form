@@ -10,6 +10,11 @@
 
   &__input {
     padding: 4px 8px;
+    outline: none;
+
+    &--error {
+      border: 1px solid red;
+    }
   }
 
   &__error-message {

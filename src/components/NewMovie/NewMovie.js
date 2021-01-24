@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import cn from 'classnames';
 
 import './NewMovie.scss';
 
@@ -56,30 +57,17 @@ export class NewMovie extends Component {
       imdbId,
     };
 
-    if (!title || !imgUrl || !imdbUrl || !imdbId) {
+    const isValideImgUrl = this.validateUrl(imgUrl);
+    const isValideImdbUrl = this.validateUrl(imdbUrl);
+
+    if (!title || !isValideImgUrl || !isValideImdbUrl || !imdbId) {
       this.setState(state => ({
         errors: {
           ...state.errors,
           title: !title,
-          imgUrl: !imgUrl,
-          imdbUrl: !imdbUrl,
-          imdbId: !imdbId,
-        },
-        isNotValid: !state.isValid,
-      }));
-
-      return;
-    }
-
-    const isValideImgUrl = this.validateUrl(imgUrl);
-    const isValideImdbUrl = this.validateUrl(imdbUrl);
-
-    if (!isValideImgUrl || !isValideImdbUrl) {
-      this.setState(state => ({
-        errors: {
-          ...state.errors,
           imgUrl: !isValideImgUrl,
           imdbUrl: !isValideImdbUrl,
+          imdbId: !imdbId,
         },
         isNotValid: !state.isValid,
       }));
@@ -134,7 +122,8 @@ export class NewMovie extends Component {
           <input
             id="title"
             name="title"
-            className="form__input"
+            className={cn('form__input',
+              { 'form__input--error': this.state.errors.title })}
             onChange={this.handleChange}
             value={title}
           />
@@ -161,7 +150,8 @@ export class NewMovie extends Component {
           <input
             id="imgUrl"
             name="imgUrl"
-            className="form__input"
+            className={cn('form__input',
+              { 'form__input--error': this.state.errors.imgUrl })}
             onChange={this.handleChange}
             value={imgUrl}
           />
@@ -177,7 +167,8 @@ export class NewMovie extends Component {
           <input
             id="imdbUrl"
             name="imdbUrl"
-            className="form__input"
+            className={cn('form__input',
+              { 'form__input--error': this.state.errors.imdbUrl })}
             onChange={this.handleChange}
             value={imdbUrl}
           />
@@ -193,7 +184,8 @@ export class NewMovie extends Component {
           <input
             id="imdbId"
             name="imdbId"
-            className="form__input"
+            className={cn('form__input',
+              { 'form__input--error': this.state.errors.imdbId })}
             onChange={this.handleChange}
             value={imdbId}
           />
