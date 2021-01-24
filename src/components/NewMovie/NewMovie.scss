@@ -1,0 +1,31 @@
+.form {
+  display: grid;
+  row-gap: 20px;
+
+  &__wrapper {
+    position: relative;
+    display: grid;
+    grid-template-rows: repeat(2, 30px);
+  }
+
+  &__input {
+    padding: 4px 8px;
+  }
+
+  &__error-message {
+    position: absolute;
+    bottom: -20px;
+    left: 10px;
+
+    font-size: 14px;
+    color: red;
+  }
+
+  &__submit {
+    width: 80px;
+    height: 40px;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-top: 20px;
+  }
+}
