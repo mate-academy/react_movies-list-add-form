@@ -198,8 +198,11 @@ export class NewMovie extends Component {
     } = this.state.newMovie;
 
     const {
+      isValid,
+      wasClicked,
       errorMessageRequiredIsHidden,
       errorMessageUnvalidIsHidden,
+      unvalidInputsCount,
     } = this.state;
 
     return (
@@ -216,11 +219,11 @@ export class NewMovie extends Component {
           Title:
           <input
             className={
-              `${(!this.state.isValid.title
-                  && this.state.wasClicked.title)
+              `part-of-form__input ${(!isValid.title
+                  && wasClicked.title)
                     && 'unvalid'}
-                ${(this.state.isValid.title
-                  && this.state.wasClicked.title)
+                ${(isValid.title
+                  && wasClicked.title)
                     && 'valid'}`
             }
             value={title}
@@ -239,7 +242,7 @@ export class NewMovie extends Component {
           <p
             className={`error-message--required
               ${(errorMessageRequiredIsHidden.title
-                || !this.state.wasClicked.title)
+                || !wasClicked.title)
                   && 'hidden'}`}
           >
             Title is required
@@ -253,7 +256,9 @@ export class NewMovie extends Component {
           Description:
           <textarea
             className={
-              `${this.state.wasClicked.description && 'valid'}`
+              `part-of-form__textarea
+                ${wasClicked.description
+                  && 'valid'}`
             }
             value={description}
             name="description"
@@ -271,11 +276,11 @@ export class NewMovie extends Component {
           imgUrl:
           <input
             className={
-              `${(!this.state.isValid.imgUrl
-                && this.state.wasClicked.imgUrl)
+              `part-of-form__input ${(!isValid.imgUrl
+                && wasClicked.imgUrl)
                   && 'unvalid'}
-              ${(this.state.isValid.imgUrl
-                && this.state.wasClicked.imgUrl)
+              ${(isValid.imgUrl
+                && wasClicked.imgUrl)
                   && 'valid'}`
             }
             value={imgUrl}
@@ -294,7 +299,7 @@ export class NewMovie extends Component {
           <p
             className={`error-message--required
               ${(errorMessageRequiredIsHidden.imgUrl
-                || !this.state.wasClicked.imgUrl)
+                || !wasClicked.imgUrl)
                   && 'hidden'}`}
           >
             imgUrl is required
@@ -302,7 +307,7 @@ export class NewMovie extends Component {
           <p
             className={`error-message--required
               ${(errorMessageUnvalidIsHidden.imgUrl
-                || !this.state.wasClicked.imgUrl)
+                || !wasClicked.imgUrl)
                   && 'hidden'}`}
           >
             imgUrl is unvalid
@@ -313,14 +318,14 @@ export class NewMovie extends Component {
           className="new-movie-form__part-of-form
             part-of-form part-of-form--imdbUrl"
         >
-          imdbUrl
+          imdbUrl:
           <input
             className={
-              `${(!this.state.isValid.imdbUrl
-                  && this.state.wasClicked.imdbUrl)
+              `part-of-form__input ${(!isValid.imdbUrl
+                  && wasClicked.imdbUrl)
                     && 'unvalid'}
-                ${(this.state.isValid.imdbUrl
-                  && this.state.wasClicked.imdbUrl)
+                ${(isValid.imdbUrl
+                  && wasClicked.imdbUrl)
                     && 'valid'}`
             }
             value={imdbUrl}
@@ -339,7 +344,7 @@ export class NewMovie extends Component {
           <p
             className={`error-message--required
               ${(errorMessageRequiredIsHidden.imdbUrl
-                || !this.state.wasClicked.imdbUrl)
+                || !wasClicked.imdbUrl)
                   && 'hidden'}`}
           >
             imdbUrl is required
@@ -347,7 +352,7 @@ export class NewMovie extends Component {
           <p
             className={`error-message--required
               ${(errorMessageUnvalidIsHidden.imdbUrl
-                || !this.state.wasClicked.imdbUrl)
+                || !wasClicked.imdbUrl)
                   && 'hidden'}`}
           >
             imdbUrl is unvalid
@@ -358,14 +363,14 @@ export class NewMovie extends Component {
           className="new-movie-form__part-of-form
             part-of-form part-of-form--imdbId"
         >
-          imdbId
+          imdbId:
           <input
             className={
-              `${(!this.state.isValid.imdbId
-                && this.state.wasClicked.imdbId)
+              `part-of-form__input ${(!isValid.imdbId
+                && wasClicked.imdbId)
                   && 'unvalid'}
-              ${(this.state.isValid.imdbId
-                && this.state.wasClicked.imdbId)
+              ${(isValid.imdbId
+                && wasClicked.imdbId)
                   && 'valid'}`
             }
             value={imdbId}
@@ -383,7 +388,7 @@ export class NewMovie extends Component {
           />
           <p className={`error-message--required
             ${(errorMessageRequiredIsHidden.imdbId
-              || !this.state.wasClicked.imdbId)
+              || !wasClicked.imdbId)
                 && 'hidden'}`}
           >
             imdbId is required
@@ -391,7 +396,7 @@ export class NewMovie extends Component {
         </div>
 
         <button
-          disabled={this.state.unvalidInputsCount}
+          disabled={unvalidInputsCount}
           className="new-movie-form__add-button"
           type="submit"
         >

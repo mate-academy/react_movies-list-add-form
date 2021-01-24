@@ -1,19 +1,25 @@
-input,
-textarea {
+.part-of-form__input,
+.part-of-form__textarea {
+  width: 70%;
+  padding: 5px;
   outline: none;
   border: solid 1px black;
   border-radius: 4px;
+  resize: vertical;
   &:focus {
     border: solid 2px black;
+    background-color: rgba(3, 3, 200, 0.05);
   }
 }
 
 .unvalid {
   border: solid 1px red;
+  background-color: rgba(211, 3, 3, 0.15);
 }
 
 .valid {
   border: solid 1px green;
+  background-color: rgba(0, 244, 0, 0.1);
 }
 
 .new-movie-form {
@@ -31,7 +37,7 @@ textarea {
 .error-message--required,
 .error-message--unvalid {
   position: absolute;
-  top: 20px;
+  top: 27px;
   right: 0;
   color: rgb(211, 3, 3);
 }
