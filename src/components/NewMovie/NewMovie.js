@@ -119,7 +119,7 @@ export class NewMovie extends Component {
           {errors.imdbId && <p>Please enter the imdbId!</p>}
           <input
             className={classNames('input', { 'is-danger': errors.imdbId })}
-            type="imdbId"
+            type="text"
             name="imdbId"
             placeholder="imdbId"
             value={values.imdbId}
@@ -129,7 +129,7 @@ export class NewMovie extends Component {
           {errors.imdbUrl && <p>Please enter the imdbUrl!</p>}
           <input
             className={classNames('input', { 'is-danger': errors.imdbUrl })}
-            type="imdbUrl"
+            type="text"
             name="imdbUrl"
             placeholder="imdbUrl"
             value={values.imdbUrl}
@@ -139,7 +139,7 @@ export class NewMovie extends Component {
           {errors.imgUrl && <p>Please enter imgUrl!</p>}
           <input
             className={classNames('input', { 'is-danger': errors.imgUrl })}
-            type="imgUrl"
+            type="text"
             name="imgUrl"
             placeholder="imgUrl"
             value={values.imgUrl}
