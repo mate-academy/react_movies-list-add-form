@@ -1,0 +1,20 @@
+.NewMovie {
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__input {
+    margin-bottom: 10px;
+    padding: 7px;
+
+    &--incorrect {
+      border: 2px solid red;
+    }
+
+    &--correct {
+      border: 2px solid green;
+    }
+  }
+}
