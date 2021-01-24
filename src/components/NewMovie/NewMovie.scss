@@ -1,0 +1,48 @@
+input,
+textarea {
+  outline: none;
+  border: solid 1px black;
+  border-radius: 4px;
+  &:focus {
+    border: solid 2px black;
+  }
+}
+
+.unvalid {
+  border: solid 1px red;
+}
+
+.valid {
+  border: solid 1px green;
+}
+
+.new-movie-form {
+  display: flex;
+  flex-direction: column;
+  &__part-of-form {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 35px;
+    margin-right: 20px;
+  }
+}
+
+.error-message--required,
+.error-message--unvalid {
+  position: absolute;
+  top: 20px;
+  right: 0;
+  color: rgb(211, 3, 3);
+}
+
+.new-movie-form__add-button {
+  margin-top: 25px;
+  height: 30px;
+  align-self: center;
+  border-radius: 20px;
+}
+
+.hidden {
+  visibility: hidden;
+}
