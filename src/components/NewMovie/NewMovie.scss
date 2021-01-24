@@ -1,0 +1,19 @@
+.add-movie-form {
+  display: grid;
+  grid-auto-flow: row;
+  gap: 25px;
+}
+
+.error {
+  border: 2px solid red;
+}
+
+.url-error {
+
+  &::after {
+    content: "invalid URL";
+    display: block;
+    margin-top: -25px;
+    color: red;
+  }
+}
