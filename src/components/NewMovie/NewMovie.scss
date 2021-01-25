@@ -1,0 +1,22 @@
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+input {
+  outline: none;
+  height: 50px;
+}
+
+label,
+button {
+  margin-top: 20px;
+}
+
+.invalid {
+  border-color: red;
+}
+
+.error {
+  color: red;
+}
