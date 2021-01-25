@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Form } from '../Form/Form';
+import classNames from 'classnames';
+import './NewMovie.scss';
 
 export class NewMovie extends Component {
   state = {
@@ -69,19 +70,172 @@ export class NewMovie extends Component {
     });
   }
 
-  render() {
-    const { values, errors } = this.state;
+  onSubmit = (event) => {
+    const { values: {
+      title,
+      description,
+      imgUrl,
+      imdbId,
+      imdbUrl,
+    } } = this.state;
+
     const { addMovie } = this.props;
 
+    event.preventDefault();
+
+    const currentErrors = {
+      buttonDisabled: true,
+    };
+
+    if (!title) {
+      currentErrors.title = true;
+    }
+
+    // eslint-disable-next-line
+    const urlRegex = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
+
+    if (!imgUrl || !urlRegex.test(imgUrl)) {
+      currentErrors.imgUrl = true;
+    }
+
+    if (!imdbUrl || !urlRegex.test(imdbUrl)) {
+      currentErrors.imdbUrl = true;
+    }
+
+    if (!imdbId) {
+      currentErrors.imdbId = true;
+    }
+
+    if (Object.keys(currentErrors).length > 1) {
+      this.setErrors(currentErrors);
+
+      return;
+    }
+
+    addMovie({
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    });
+
+    this.clearForm();
+  };
+
+  render() {
+    const { values, errors } = this.state;
+
     return (
-      <Form
-        values={values}
-        errors={errors}
-        onChange={this.onChange}
-        onAdd={addMovie}
-        setErrors={this.setErrors}
-        clearForm={this.clearForm}
-      />
+      <form
+        action=""
+        method="post"
+        onSubmit={this.onSubmit}
+      >
+        {errors.title && (
+          <span className="error">
+            Please enter a film title
+          </span>
+        )}
+
+        <label className="label">
+          Film Title:
+          <input
+            className={classNames({
+              input: true,
+              'is-danger': errors.title,
+            })}
+            name="title"
+            type="text"
+            value={values.title}
+            placeholder="Title"
+            onChange={this.onChange}
+          />
+        </label>
+
+        <label className="label">
+          Film Description:
+          <input
+            className="input"
+            name="description"
+            type="text"
+            placeholder="Description"
+            value={values.description}
+            onChange={this.onChange}
+          />
+        </label>
+
+        {errors.imgUrl && (
+          <span className="error">
+            Please enter an image link
+          </span>
+        )}
+
+        <label className="label">
+          Image link:
+          <input
+            className={classNames({
+              input: true,
+              'is-danger': errors.imgUrl,
+            })}
+            name="imgUrl"
+            type="text"
+            placeholder="Image Url"
+            value={values.imgUrl}
+            onChange={this.onChange}
+          />
+        </label>
+
+        {errors.imdbUrl && (
+          <span className="error">
+            Please enter an IMDB link
+          </span>
+        )}
+
+        <label className="label">
+          IMDB link:
+          <input
+            className={classNames({
+              input: true,
+              'is-danger': errors.imdbUrl,
+            })}
+            name="imdbUrl"
+            type="text"
+            placeholder="IMDB Url"
+            value={values.imdbUrl}
+            onChange={this.onChange}
+          />
+        </label>
+
+        {errors.imdbId && (
+          <span className="error">
+            Please enter an IMDB id
+          </span>
+        )}
+
+        <label className="label">
+          IMDB ID:
+          <input
+            className={classNames({
+              input: true,
+              'is-danger': errors.imdbId,
+            })}
+            name="imdbId"
+            type="text"
+            placeholder="IMDB Id"
+            value={values.imdbId}
+            onChange={this.onChange}
+          />
+        </label>
+
+        <button
+          className="button is-warning"
+          type="submit"
+          disabled={errors.buttonDisabled}
+        >
+          Add new movie
+        </button>
+      </form>
     );
   }
 }
