@@ -23,7 +23,7 @@ export class NewMovie extends Component {
 
   static propTypes = {
     onAdd: PropTypes.func.isRequired,
-    checkDoubles: PropTypes.func.isRequired,
+    isDuplicate: PropTypes.func.isRequired,
   }
 
   resetForm = () => {
@@ -68,22 +68,6 @@ export class NewMovie extends Component {
       errors,
     } = this.state;
 
-    if (this.cleanForm) {
-      this.cleanForm = false;
-
-      this.setState(state => ({
-        errors: {
-          ...state.errors,
-          title: true,
-          imgUrl: true,
-          imdbUrl: true,
-          imdbId: true,
-        },
-      }));
-
-      return;
-    }
-
     if (Object.values(errors).some(error => error)) {
       return;
     }
@@ -107,7 +91,7 @@ export class NewMovie extends Component {
 
   validateInput = (event) => {
     const { name, dataset, value } = event.target;
-    const { checkDoubles } = this.props;
+    const { isDuplicate } = this.props;
 
     // eslint-disable-next-line
     if (dataset.type === 'url' && !value.match(/^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/)) {
@@ -116,7 +100,7 @@ export class NewMovie extends Component {
       return;
     }
 
-    if (dataset.type === 'id' && checkDoubles(value)) {
+    if (dataset.type === 'id' && isDuplicate(value)) {
       this.addError(name);
 
       return;
@@ -147,7 +131,7 @@ export class NewMovie extends Component {
               type="text"
               name="title"
               id="title"
-              className={errors.title ? 'error' : undefined}
+              className={classNames({ error: errors.title })}
               autoComplete="off"
               placeholder="Movie title"
               value={title}
@@ -204,7 +188,7 @@ export class NewMovie extends Component {
               name="imdbUrl"
               id="imdbUrl"
               data-type="url"
-              className={errors.imdbUrl ? 'error' : undefined}
+              className={classNames({ error: errors.imdbUrl })}
               autoComplete="off"
               placeholder="IMDB URL"
               value={imdbUrl}
@@ -226,7 +210,7 @@ export class NewMovie extends Component {
               name="imdbId"
               id="imdbId"
               data-type="id"
-              className={errors.imdbId ? 'error' : undefined}
+              className={classNames({ error: errors.imdbId })}
               autoComplete="off"
               placeholder="IMDB ID"
               value={imdbId}
@@ -243,7 +227,8 @@ export class NewMovie extends Component {
 
           <button
             type="submit"
-            disabled={Object.values(errors).some(error => error)}
+            disabled={Object.values(errors).some(error => error)
+              || this.cleanForm}
           >
             Add Movie
           </button>

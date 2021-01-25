@@ -30,7 +30,7 @@ export class App extends Component {
         <div className="sidebar">
           <NewMovie
             onAdd={this.addMovie}
-            checkDoubles={this.isDuplicate}
+            isDuplicate={this.isDuplicate}
           />
         </div>
       </div>
