@@ -39,13 +39,13 @@ export class NewMovie extends Component {
     const entries = Object.entries(newMovie);
     const { onAdd } = this.props;
 
-    entries.forEach((entry) => {
-      if (!entry[1]) {
+    entries.forEach(([name, value]) => {
+      if (!value) {
         this.setState(prevState => ({
           valid: false,
           errors: {
             ...prevState.errors,
-            [entry[0]]: true,
+            [name]: true,
           },
         }));
       } else {
@@ -53,7 +53,7 @@ export class NewMovie extends Component {
           valid: true,
           errors: {
             ...prevState.errors,
-            [entry[0]]: false,
+            [name]: false,
           },
         }));
       }
@@ -111,6 +111,7 @@ export class NewMovie extends Component {
           value={title}
           type="text"
           onChange={this.changeHandler}
+          required
         />
 
         <label className="NewMovie__label" htmlFor="movie-description">
@@ -141,6 +142,7 @@ export class NewMovie extends Component {
           value={imgUrl}
           onChange={this.changeHandler}
           type="text"
+          required
         />
 
         <label className="NewMovie__label" htmlFor="movie-imdb">
@@ -160,6 +162,7 @@ export class NewMovie extends Component {
           type="text"
           value={imdbUrl}
           onChange={this.changeHandler}
+          required
         />
 
         <label
@@ -182,6 +185,7 @@ export class NewMovie extends Component {
           type="text"
           value={imdbId}
           onChange={this.changeHandler}
+          required
         />
 
         <Button
