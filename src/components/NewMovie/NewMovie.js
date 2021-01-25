@@ -4,7 +4,7 @@ import classNames from 'classnames';
 
 import './NewMovie.scss';
 
-function validUrl(inputValue) {
+function isValidUrl(inputValue) {
   // eslint-disable-next-line max-len
   return /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/.test(inputValue);
 }
@@ -17,7 +17,6 @@ export class NewMovie extends Component {
       imgUrl: '',
       imdbUrl: '',
       imdbId: '',
-
     },
     errors: {
       title: false,
@@ -25,41 +24,39 @@ export class NewMovie extends Component {
       imdbUrl: false,
       imdbId: false,
     },
-
-    submit: false,
   };
 
-  getChanges = (event) => {
+  handleChanges = (event) => {
     const { name, value } = event.target;
 
     if (name === 'imgUrl' || name === 'imdbUrl') {
-      this.setState(state => ({
+      this.setState(prevState => ({
         values: {
-          ...state.values,
+          ...prevState.values,
           [name]: value,
         },
         errors: {
-          ...state.errors,
-          [name]: !validUrl(value),
+          ...prevState.errors,
+          [name]: !isValidUrl(value),
         },
       }));
 
       return;
     }
 
-    this.setState(state => ({
+    this.setState(prevState => ({
       values: {
-        ...state.values,
+        ...prevState.values,
         [name]: value,
       },
       errors: {
-        ...state.errors,
+        ...prevState.errors,
         [name]: false,
       },
     }));
   }
 
-  getSubmit = (event) => {
+  handleSubmit = (event) => {
     event.preventDefault();
     const {
       title,
@@ -69,29 +66,25 @@ export class NewMovie extends Component {
       imgUrl,
     } = this.state.values;
 
-    this.setState({
-      submit: true,
-    });
-
     if (!title || !imdbId || !imdbUrl || !imgUrl) {
-      this.setState(state => ({
+      this.setState(prevState => ({
         errors: {
-          ...state.errors,
-          title: !state.values.title,
-          imdbId: !state.values.imdbId,
-          imgUrl: !validUrl(imgUrl),
-          imdbUrl: !validUrl(imdbUrl),
+          ...prevState.errors,
+          title: !prevState.values.title,
+          imdbId: !prevState.values.imdbId,
+          imgUrl: !isValidUrl(imgUrl),
+          imdbUrl: !isValidUrl(imdbUrl),
         },
       }));
 
       return;
     }
 
-    if (!validUrl(imdbUrl) || !validUrl(imgUrl)) {
+    if (!isValidUrl(imdbUrl) || !isValidUrl(imgUrl)) {
       return;
     }
 
-    this.props.getMovie({
+    this.props.addMovie({
       title,
       description,
       imdbId,
@@ -117,17 +110,16 @@ export class NewMovie extends Component {
   }
 
   render() {
-    const { values, errors, submit } = this.state;
-    let infoAboutErrors = Object.values(errors);
-
-    infoAboutErrors = infoAboutErrors.some(item => item === true);
+    const { values, errors } = this.state;
+    const isFormWithErrors = Object.values(errors)
+      .some(item => item === true);
 
     return (
       <form
         action=""
         method="POST"
         className="form"
-        onSubmit={this.getSubmit}
+        onSubmit={this.handleSubmit}
       >
         {errors.title && (
           <span className="form__message">
@@ -143,7 +135,7 @@ export class NewMovie extends Component {
             { 'form__input--error': errors.title },
           )}
           value={values.title}
-          onChange={this.getChanges}
+          onChange={this.handleChanges}
         />
 
         <textarea
@@ -151,12 +143,12 @@ export class NewMovie extends Component {
           placeholder="description for movie"
           className="form__input"
           value={values.description}
-          onChange={this.getChanges}
+          onChange={this.handleChanges}
         />
 
         {errors.imgUrl && (
           <span className="form__message">
-            you have to write picture address
+            you have to write imgUrl
           </span>
         )}
         <input
@@ -165,15 +157,15 @@ export class NewMovie extends Component {
           placeholder="enter url to movie image*"
           className={classNames(
             'form__input',
-            { 'form__input--error': errors.imgUrl && submit },
+            { 'form__input--error': errors.imgUrl },
           )}
           value={values.imgUrl}
-          onChange={this.getChanges}
+          onChange={this.handleChanges}
         />
 
         {errors.imdbUrl && (
           <span className="form__message">
-            you have to write picture address
+            you have to write imdbUrl address
           </span>
         )}
         <input
@@ -182,10 +174,10 @@ export class NewMovie extends Component {
           placeholder="enter url to IMDb image*"
           className={classNames(
             'form__input',
-            { 'form__input--error': errors.imdbUrl && submit },
+            { 'form__input--error': errors.imdbUrl },
           )}
           value={values.imdbUrl}
-          onChange={this.getChanges}
+          onChange={this.handleChanges}
         />
 
         {errors.imdbId && (
@@ -202,13 +194,13 @@ export class NewMovie extends Component {
             { 'form__input--error': errors.imdbId },
           )}
           value={values.imdbId}
-          onChange={this.getChanges}
+          onChange={this.handleChanges}
         />
 
         <button
           type="submit"
           className="form__button"
-          disabled={infoAboutErrors}
+          disabled={isFormWithErrors}
         >
           ⩥ Add ⩤
         </button>
@@ -218,5 +210,5 @@ export class NewMovie extends Component {
 }
 
 NewMovie.propTypes = {
-  getMovie: PropTypes.func.isRequired,
+  addMovie: PropTypes.func.isRequired,
 };
