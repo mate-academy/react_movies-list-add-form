@@ -1,0 +1,56 @@
+form {
+  position: relative;
+  //outline: 3px dashed indigo;
+}
+
+input {
+  margin: 25px 0 10px;
+  padding: 10px;
+  width: 100%;
+  border-radius: 4px;
+  font-size: 18px;
+  border: 1px solid gray;
+
+  &::placeholder {
+    font-size: 14px;
+    color: lightslategray;
+  }
+
+  &:focus {
+    background-color: #f6f6f6;
+  }
+}
+
+span {
+  position: absolute;
+  right: 0;
+  font-size: 12px;
+}
+
+.green-text {
+  font-size: 18px;
+  color: green;
+  font-weight: bold;
+}
+
+.approve {
+  border: 1px solid white;
+}
+
+.error {
+  border: 1px solid red;
+}
+
+.green {
+  border: 3px solid green;
+}
+
+.blue {
+  background-color: blue;
+  color: blue;
+}
+
+.magenta {
+  background-color: magenta;
+  color: magenta;
+}
