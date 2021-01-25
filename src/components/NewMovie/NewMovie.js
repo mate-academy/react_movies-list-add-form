@@ -27,14 +27,13 @@ export class NewMovie extends Component {
     this.setState(state => ({
       newMovie: {
         ...state.newMovie,
-        [name]: value,
+        [name]: value.trim(),
       },
     }));
   }
 
   submitHandler = (e) => {
     e.preventDefault();
-    e.persist();
 
     const { valid, newMovie } = this.state;
     const entries = Object.entries(newMovie);
@@ -42,18 +41,18 @@ export class NewMovie extends Component {
 
     entries.forEach((entry) => {
       if (!entry[1]) {
-        this.setState(state => ({
+        this.setState(prevState => ({
           valid: false,
           errors: {
-            ...state.errors,
+            ...prevState.errors,
             [entry[0]]: true,
           },
         }));
       } else {
-        this.setState(state => ({
+        this.setState(prevState => ({
           valid: true,
           errors: {
-            ...state.errors,
+            ...prevState.errors,
             [entry[0]]: false,
           },
         }));
@@ -105,7 +104,7 @@ export class NewMovie extends Component {
         )}
         <input
           className={errors.title
-            ? 'NewMovie__input--invalid'
+            ? 'NewMovie__input NewMovie__input--invalid'
             : 'NewMovie__input'}
           name="title"
           id="movie-title"
@@ -135,7 +134,7 @@ export class NewMovie extends Component {
         )}
         <input
           className={errors.imgUrl
-            ? 'NewMovie__input--invalid'
+            ? 'NewMovie__input NewMovie__input--invalid'
             : 'NewMovie__input'}
           name="imgUrl"
           id="movie-poster"
@@ -154,7 +153,7 @@ export class NewMovie extends Component {
         )}
         <input
           className={errors.imdbUrl
-            ? 'NewMovie__input--invalid'
+            ? 'NewMovie__input NewMovie__input--invalid'
             : 'NewMovie__input'}
           id="movie-imdb"
           name="imdbUrl"
@@ -176,7 +175,7 @@ export class NewMovie extends Component {
         )}
         <input
           className={errors.imdbId
-            ? 'NewMovie__input--invalid'
+            ? 'NewMovie__input NewMovie__input--invalid'
             : 'NewMovie__input'}
           id="movie-imdb-id"
           name="imdbId"
