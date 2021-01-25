@@ -19,8 +19,8 @@ export class NewMovie extends Component {
   };
 
   checkingToEmpty = (fields) => {
-    Object.entries(fields).forEach((field) => {
-      if (!field[1]) {
+    fields.forEach((field) => {
+      if (!field[1] && field[0] !== 'description') {
         this.setState(state => ({
           errors: {
             ...state.errors,
@@ -75,8 +75,10 @@ export class NewMovie extends Component {
       imgUrl,
     };
 
-    if (Object.values(newMovie).some(field => !field)) {
-      this.checkingToEmpty(newMovie);
+    const valuesOfMovie = Object.entries(newMovie);
+
+    if (valuesOfMovie.some(field => !field[1] && field[0] !== 'description')) {
+      this.checkingToEmpty(valuesOfMovie);
 
       return;
     }
