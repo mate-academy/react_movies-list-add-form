@@ -11,8 +11,8 @@ export class App extends Component {
   };
 
   addMovie = (newMovie) => {
-    this.setState(state => ({
-      movies: [newMovie, ...state.movies],
+    this.setState(prevState => ({
+      movies: [newMovie, ...prevState.movies],
     }));
   };
 
