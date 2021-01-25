@@ -1,6 +1,7 @@
 .page__creater {
   border: solid 1px lightgray;
   padding: 10px;
+  padding-top: 30px;
 }
 
 .page__item {
@@ -21,4 +22,18 @@
   border-color: #e4b620;
   border-radius: 5px;
   font-weight: 700;
+}
+
+.invalid {
+  border: solid red 1px;
+}
+
+.incorrect {
+  // display: none;
+  text-align: right;
+  color: red;
+}
+
+.correct {
+  visibility: hidden;
 }
