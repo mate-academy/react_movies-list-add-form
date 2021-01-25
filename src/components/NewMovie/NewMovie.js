@@ -73,6 +73,15 @@ export class NewMovie extends Component {
 
     if (!isValidatedImdbUrl && !isValidatedImgUrl) {
       onAdd(test);
+      this.setState({
+        title: '',
+        description: '',
+        imgUrl: '',
+        imdbUrl: '',
+        imdbId: '',
+        isValidatedImgUrl: false,
+        isValidatedImdbUrl: false,
+      });
     }
   }
 
