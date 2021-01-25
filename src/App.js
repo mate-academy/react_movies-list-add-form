@@ -25,7 +25,7 @@ export class App extends Component {
         </div>
         <div className="sidebar">
           <NewMovie
-            onSubmit={this.addMovie}
+            addMovie={this.addMovie}
           />
         </div>
       </div>

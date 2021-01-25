@@ -10,7 +10,7 @@ export class NewMovie extends Component {
     imdbId: '',
   };
 
-  inputsHandler = (event) => {
+  handleChange = (event) => {
     const { value, name } = event.target;
 
     this.setState({
@@ -18,18 +18,26 @@ export class NewMovie extends Component {
     });
   }
 
-  formHandler = (event) => {
+  handleSubmit = (event) => {
     event.preventDefault();
 
+    const {
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    } = this.state;
+
     const movie = {
-      title: this.state.title,
-      description: this.state.description,
-      imgUrl: this.state.imgUrl,
-      imdbId: this.state.imdbId,
-      imdbUrl: this.state.imdbUrl,
+      title,
+      description,
+      imgUrl,
+      imdbId,
+      imdbUrl,
     };
 
-    this.props.onSubmit(movie);
+    this.props.addMovie(movie);
 
     this.setState({
       title: '',
@@ -41,9 +49,17 @@ export class NewMovie extends Component {
   }
 
   render() {
+    const {
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    } = this.state;
+
     return (
       <form
-        onSubmit={this.formHandler}
+        onSubmit={this.handleSubmit}
       >
         <div className="mb-3">
           <label
@@ -57,8 +73,8 @@ export class NewMovie extends Component {
             id="title"
             name="title"
             placeholder="title"
-            value={this.state.title}
-            onChange={this.inputsHandler}
+            value={title}
+            onChange={this.handleChange}
             required
           />
         </div>
@@ -74,8 +90,8 @@ export class NewMovie extends Component {
             id="imgUrl"
             name="imgUrl"
             placeholder="imgUrl"
-            value={this.state.imgUrl}
-            onChange={this.inputsHandler}
+            value={imgUrl}
+            onChange={this.handleChange}
             required
           />
         </div>
@@ -91,8 +107,8 @@ export class NewMovie extends Component {
             className="form-control"
             name="imdbUrl"
             placeholder="imdbUrl"
-            value={this.state.imdbUrl}
-            onChange={this.inputsHandler}
+            value={imdbUrl}
+            onChange={this.handleChange}
             required
           />
         </div>
@@ -108,8 +124,8 @@ export class NewMovie extends Component {
             className="form-control"
             name="imdbId"
             placeholder="imdbId"
-            value={this.state.imdbId}
-            onChange={this.inputsHandler}
+            value={imdbId}
+            onChange={this.handleChange}
             required
           />
         </div>
@@ -125,10 +141,10 @@ export class NewMovie extends Component {
             className="form-control"
             name="description"
             placeholder="description"
-            value={this.state.description}
-            onChange={this.inputsHandler}
+            value={description}
+            onChange={this.handleChange}
           >
-            {this.state.description}
+            {description}
           </textarea>
         </div>
         <button
@@ -143,5 +159,5 @@ export class NewMovie extends Component {
 }
 
 NewMovie.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
+  addMovie: PropTypes.func.isRequired,
 };
