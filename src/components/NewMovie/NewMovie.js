@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import './NewMovie.scss';
 
 export class NewMovie extends Component {
@@ -9,7 +10,6 @@ export class NewMovie extends Component {
     imgUrl: '',
     imdbUrl: '',
     imdbId: '',
-    cleanForm: true,
     errors: {
       title: false,
       description: false,
@@ -19,12 +19,14 @@ export class NewMovie extends Component {
     },
   };
 
+  cleanForm = true;
+
   static propTypes = {
     onAdd: PropTypes.func.isRequired,
     checkDoubles: PropTypes.func.isRequired,
   }
 
-  clearState = () => {
+  resetForm = () => {
     this.setState({
       title: '',
       description: '',
@@ -44,9 +46,10 @@ export class NewMovie extends Component {
   handleChange = (event) => {
     const { name, value } = event.target;
 
+    this.cleanForm = false;
+
     this.setState(state => ({
       [name]: value,
-      cleanForm: false,
       errors: {
         ...state.errors,
         [name]: false,
@@ -62,13 +65,13 @@ export class NewMovie extends Component {
       imgUrl,
       imdbUrl,
       imdbId,
-      cleanForm,
       errors,
     } = this.state;
 
-    if (cleanForm) {
+    if (this.cleanForm) {
+      this.cleanForm = false;
+
       this.setState(state => ({
-        cleanForm: false,
         errors: {
           ...state.errors,
           title: true,
@@ -89,14 +92,14 @@ export class NewMovie extends Component {
       title, description, imgUrl, imdbUrl, imdbId,
     };
 
-    this.clearState();
+    this.resetForm();
     this.props.onAdd(newMovie);
   }
 
-  showError = (name) => {
-    this.setState(state => ({
+  addError = (name) => {
+    this.setState(prevState => ({
       errors: {
-        ...state.errors,
+        ...prevState.errors,
         [name]: true,
       },
     }));
@@ -108,19 +111,19 @@ export class NewMovie extends Component {
 
     // eslint-disable-next-line
     if (dataset.type === 'url' && !value.match(/^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/)) {
-      this.showError(name);
+      this.addError(name);
 
       return;
     }
 
     if (dataset.type === 'id' && checkDoubles(value)) {
-      this.showError(name);
+      this.addError(name);
 
       return;
     }
 
     if (!value) {
-      this.showError(name);
+      this.addError(name);
     }
   }
 
@@ -179,7 +182,7 @@ export class NewMovie extends Component {
               name="imgUrl"
               id="imgUrl"
               data-type="url"
-              className={errors.imgUrl ? 'error' : undefined}
+              className={classNames({ error: errors.imgUrl })}
               autoComplete="off"
               placeholder="Poster URL"
               value={imgUrl}
@@ -191,7 +194,7 @@ export class NewMovie extends Component {
             className="error-message"
             hidden={!errors.imgUrl}
           >
-            Please, provide poster URL
+            Please, provide valid poster URL
           </p>
 
           <label htmlFor="imdbUrl">
@@ -213,7 +216,7 @@ export class NewMovie extends Component {
             className="error-message"
             hidden={!errors.imdbUrl}
           >
-            Please, provide IMDB URL
+            Please, provide valid IMDB URL
           </p>
 
           <label htmlFor="imdbId">

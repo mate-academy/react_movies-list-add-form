@@ -15,7 +15,7 @@ export class App extends Component {
     }));
   };
 
-  checkDuplication = (imdbId) => {
+  isDuplicate = (imdbId) => {
     return this.state.movies.some(movie => movie.imdbId === imdbId);
   }
 
@@ -30,7 +30,7 @@ export class App extends Component {
         <div className="sidebar">
           <NewMovie
             onAdd={this.addMovie}
-            checkDoubles={this.checkDuplication}
+            checkDoubles={this.isDuplicate}
           />
         </div>
       </div>
