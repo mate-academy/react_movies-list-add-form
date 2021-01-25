@@ -76,7 +76,7 @@ export class NewMovie extends Component {
     };
 
     if (Object.values(newMovie).some(field => !field)) {
-      this.checkIsEmpty(newMovie);
+      this.checkingToEmpty(newMovie);
 
       return;
     }
