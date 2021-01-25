@@ -10,6 +10,22 @@
 }
 
 .sidebar {
-  padding: 20px;
-  border-left: 1px solid lightgray;
+  form {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+
+    input {
+      margin-top: 10px;
+    }
+    .errors {
+      margin-top: 10px;
+      color: #f00;
+    }
+
+    button {
+      margin-top: 10px;
+      padding: 10px 15px;
+    }
+  }
 }
