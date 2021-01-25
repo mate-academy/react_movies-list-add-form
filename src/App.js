@@ -11,7 +11,7 @@ export class App extends Component {
 
   addMovie = (title, imdbId, imdbUrl, imgUrl, description) => {
     const newMovie = {
-      key: Math.random(),
+      key: Date.now(),
       title,
       description,
       imgUrl,

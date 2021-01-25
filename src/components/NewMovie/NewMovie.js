@@ -25,7 +25,6 @@ export class NewMovie extends Component {
   };
 
   handleChange = (event) => {
-    event.persist();
     const { name, value } = event.target;
 
     if (name === 'imgUrl' || name === 'imdbUrl') {
@@ -40,9 +39,7 @@ export class NewMovie extends Component {
             [name]: false,
           },
         }));
-      }
-
-      if (!validator.test(value)) {
+      } else {
         this.setState(state => ({
           values: {
             ...state.values,
@@ -53,9 +50,7 @@ export class NewMovie extends Component {
           },
         }));
       }
-    }
-
-    if (name !== 'imgUrl' && name !== 'imdbUrl') {
+    } else {
       this.setState(state => ({
         values: {
           ...state.values,
@@ -83,9 +78,7 @@ export class NewMovie extends Component {
           imdbId: !state.values.imdbId,
         },
       }));
-    }
-
-    if (title && imdbId && imdbUrl && imgUrl) {
+    } else {
       this.props.onAdd(title, imdbId, imdbUrl, imgUrl, description);
       this.setState({
         values: {
@@ -103,65 +96,63 @@ export class NewMovie extends Component {
     const { values, errors } = this.state;
 
     return (
-      <>
+      <form onSubmit={this.handleSubmit}>
         <h1>Add new movie form:</h1>
-        <form onSubmit={this.handleSubmit}>
-          {errors.title && <p>Please enter the title!</p>}
-          <input
-            className={classNames('input', { 'is-danger': errors.title })}
-            type="text"
-            name="title"
-            placeholder="title"
-            value={values.title}
-            onChange={this.handleChange}
-          />
-          <br />
-          {errors.imdbId && <p>Please enter the imdbId!</p>}
-          <input
-            className={classNames('input', { 'is-danger': errors.imdbId })}
-            type="text"
-            name="imdbId"
-            placeholder="imdbId"
-            value={values.imdbId}
-            onChange={this.handleChange}
-          />
-          <br />
-          {errors.imdbUrl && <p>Please enter the imdbUrl!</p>}
-          <input
-            className={classNames('input', { 'is-danger': errors.imdbUrl })}
-            type="text"
-            name="imdbUrl"
-            placeholder="imdbUrl"
-            value={values.imdbUrl}
-            onChange={this.handleChange}
-          />
-          <br />
-          {errors.imgUrl && <p>Please enter imgUrl!</p>}
-          <input
-            className={classNames('input', { 'is-danger': errors.imgUrl })}
-            type="text"
-            name="imgUrl"
-            placeholder="imgUrl"
-            value={values.imgUrl}
-            onChange={this.handleChange}
-          />
-          <br />
-          <textarea
-            className="textarea"
-            name="description"
-            placeholder="Description"
-            value={values.description}
-            onChange={this.handleChange}
-          />
-          <br />
-          <button
-            className="button is-light"
-            type="submit"
-          >
-            New movie!
-          </button>
-        </form>
-      </>
+        {errors.title && <p>Please enter the title!</p>}
+        <input
+          className={classNames('input', { 'is-danger': errors.title })}
+          type="text"
+          name="title"
+          placeholder="title"
+          value={values.title}
+          onChange={this.handleChange}
+        />
+        <br />
+        {errors.imdbId && <p>Please enter the imdbId!</p>}
+        <input
+          className={classNames('input', { 'is-danger': errors.imdbId })}
+          type="text"
+          name="imdbId"
+          placeholder="imdbId"
+          value={values.imdbId}
+          onChange={this.handleChange}
+        />
+        <br />
+        {errors.imdbUrl && <p>Please enter the imdbUrl!</p>}
+        <input
+          className={classNames('input', { 'is-danger': errors.imdbUrl })}
+          type="text"
+          name="imdbUrl"
+          placeholder="imdbUrl"
+          value={values.imdbUrl}
+          onChange={this.handleChange}
+        />
+        <br />
+        {errors.imgUrl && <p>Please enter imgUrl!</p>}
+        <input
+          className={classNames('input', { 'is-danger': errors.imgUrl })}
+          type="text"
+          name="imgUrl"
+          placeholder="imgUrl"
+          value={values.imgUrl}
+          onChange={this.handleChange}
+        />
+        <br />
+        <textarea
+          className="textarea"
+          name="description"
+          placeholder="Description"
+          value={values.description}
+          onChange={this.handleChange}
+        />
+        <br />
+        <button
+          className="button is-light"
+          type="submit"
+        >
+          New movie!
+        </button>
+      </form>
     );
   }
 }
