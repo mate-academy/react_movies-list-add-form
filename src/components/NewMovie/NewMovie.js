@@ -18,7 +18,7 @@ export class NewMovie extends Component {
     },
   };
 
-  checkIsEmpty = (fields) => {
+  checkingToEmpty = (fields) => {
     Object.entries(fields).forEach((field) => {
       if (!field[1]) {
         this.setState(state => ({
