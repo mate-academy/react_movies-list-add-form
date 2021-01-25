@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import './NewMovie.scss';
 
+const requiredFields = ['title', 'imgUrl', 'imdbUrl', 'imdbId'];
+
 export class NewMovie extends Component {
   state = {
     values: {
@@ -30,8 +32,8 @@ export class NewMovie extends Component {
 
     this.setState((state) => {
       const buttonDisabled = Object.keys(state.values)
-        .filter(key => key !== 'description')
-        .some(k => !this.state.values[k]);
+        .some(field => requiredFields
+          .includes(this.state.values[field]) && !this.state.values[field]);
 
       return ({
         values: {
@@ -45,10 +47,6 @@ export class NewMovie extends Component {
         },
       });
     });
-  }
-
-  setErrors = (errors) => {
-    this.setState({ errors });
   }
 
   clearForm = () => {
@@ -71,13 +69,13 @@ export class NewMovie extends Component {
   }
 
   onSubmit = (event) => {
-    const { values: {
+    const {
       title,
       description,
       imgUrl,
       imdbId,
       imdbUrl,
-    } } = this.state;
+    } = this.state.values;
 
     const { addMovie } = this.props;
 
@@ -107,7 +105,7 @@ export class NewMovie extends Component {
     }
 
     if (Object.keys(currentErrors).length > 1) {
-      this.setErrors(currentErrors);
+      this.setState({ errors: currentErrors });
 
       return;
     }
@@ -141,10 +139,10 @@ export class NewMovie extends Component {
         <label className="label">
           Film Title:
           <input
-            className={classNames({
-              input: true,
-              'is-danger': errors.title,
-            })}
+            className={classNames(
+              'input',
+              { 'is-danger': errors.title },
+            )}
             name="title"
             type="text"
             value={values.title}
@@ -174,10 +172,10 @@ export class NewMovie extends Component {
         <label className="label">
           Image link:
           <input
-            className={classNames({
-              input: true,
-              'is-danger': errors.imgUrl,
-            })}
+            className={classNames(
+              'input',
+              { 'is-danger': errors.imgUrl },
+            )}
             name="imgUrl"
             type="text"
             placeholder="Image Url"
@@ -216,10 +214,10 @@ export class NewMovie extends Component {
         <label className="label">
           IMDB ID:
           <input
-            className={classNames({
-              input: true,
-              'is-danger': errors.imdbId,
-            })}
+            className={classNames(
+              'input',
+              { 'is-danger': errors.imdbId },
+            )}
             name="imdbId"
             type="text"
             placeholder="IMDB Id"
