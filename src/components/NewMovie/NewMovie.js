@@ -77,6 +77,14 @@ export class NewMovie extends Component {
   }
 
   render() {
+    const {
+      title,
+      description,
+      isValidatedImgUrl,
+      isValidatedImdbUrl,
+      imdbId,
+    } = this.state;
+
     return (
       <Form
         method="POST"
@@ -92,7 +100,7 @@ export class NewMovie extends Component {
             type="text"
             name="title"
             id="title"
-            value={this.state.title}
+            value={title}
             onChange={this.changeHandler}
             required
           />
@@ -107,7 +115,7 @@ export class NewMovie extends Component {
             type="text"
             name="description"
             id="description"
-            value={this.state.description}
+            value={description}
             onChange={this.changeHandler}
           />
         </div>
@@ -119,7 +127,7 @@ export class NewMovie extends Component {
           </label>
           <input
             className={
-              classnames({ validation: this.state.isValidatedImgUrl })}
+              classnames({ validation: isValidatedImgUrl })}
             type="text"
             name="imgUrl"
             id="imgUrl"
@@ -131,7 +139,7 @@ export class NewMovie extends Component {
         </div>
         <div className="alert">
           <Alert
-            hidden={!this.state.isValidatedImgUrl}
+            hidden={!isValidatedImgUrl}
             className={classnames('alert__inner')}
             variant="danger"
           >
@@ -146,7 +154,7 @@ export class NewMovie extends Component {
           </label>
           <input
             className={
-              classnames({ validation: this.state.isValidatedImdbUrl })}
+              classnames({ validation: isValidatedImdbUrl })}
             type="text"
             name="imdbUrl"
             id="imdbUrl"
@@ -158,7 +166,7 @@ export class NewMovie extends Component {
         </div>
         <div className="alert">
           <Alert
-            hidden={!this.state.isValidatedImdbUrl}
+            hidden={!isValidatedImdbUrl}
             className={classnames('alert__inner')}
             variant="danger"
           >
@@ -175,7 +183,7 @@ export class NewMovie extends Component {
             type="text"
             name="imdbId"
             id="imdbId"
-            value={this.state.imdbId}
+            value={imdbId}
             onChange={this.changeHandler}
             required
           />
@@ -184,6 +192,7 @@ export class NewMovie extends Component {
           <Button
             className="mt-5"
             type="submit"
+            disabled={isValidatedImdbUrl || isValidatedImgUrl}
           >
             Add movie
           </Button>
