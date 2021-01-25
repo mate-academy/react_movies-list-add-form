@@ -4,11 +4,13 @@ import './NewMovie.scss';
 
 export class NewMovie extends Component {
   state = {
-    title: '',
-    description: '',
-    imgUrl: '',
-    imdbUrl: '',
-    imdbId: '',
+    values: {
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    },
     errors: [],
   };
 
