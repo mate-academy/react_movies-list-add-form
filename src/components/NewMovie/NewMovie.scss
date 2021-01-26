@@ -1,0 +1,49 @@
+.form__heading {
+  text-align: center;
+  font-weight: 600;
+}
+
+.element {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+
+  &__input {
+    &:focus {
+      border-color: blue;
+      box-shadow: 0 0 5px 0 blue;
+    }
+
+    &--invalid {
+      border-color: red;
+      box-shadow: 0 0 5px 0 red;
+    }
+  }
+
+  &__alert {
+    position: absolute;
+    padding: 1px 10px;
+    color: #000;
+    background: rgba(255, 0, 0, 0.5);
+    top: 0;
+    right: 0;
+
+    &::after {
+      position: absolute;
+      content: "";
+      bottom: -12px;
+      right: 5px;
+      border: 6px solid transparent;
+      border-top: 6px solid rgba(255, 0, 0, 0.5);
+    }
+  }
+}
+
+.text__input {
+  margin: 5px;
+}
+
+.button {
+  padding: 10px 20px;
+}
