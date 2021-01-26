@@ -1,0 +1,8 @@
+.form {
+  display: flex;
+  flex-direction: column;
+
+  &__item {
+    margin: 5px 0;
+  }
+}
