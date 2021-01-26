@@ -14,12 +14,40 @@ export class NewMovie extends Component {
       imgUrl: false,
       imdbUrl: false,
       imdbId: false,
-      button: false,
     },
   };
 
   handleChange = (event) => {
     const { name, value } = event.target;
+    const { imgUrl, imdbUrl } = this.state;
+    /* eslint-disable-next-line */
+    const regex = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
+
+    if (!regex.test(imgUrl) || !regex.test(imdbUrl)) {
+      this.setState(state => ({
+        errors: {
+          ...state.errors,
+          imgUrl: !regex.test(imgUrl),
+          imdbUrl: !regex.test(imdbUrl),
+        },
+      }));
+    }
+
+    if (!value) {
+      this.setState(state => ({
+        errors: {
+          ...state.errors,
+          [name]: true,
+        },
+      }));
+    } else {
+      this.setState(state => ({
+        errors: {
+          ...state.errors,
+          [name]: false,
+        },
+      }));
+    }
 
     this.setState({
       [name]: value,
@@ -36,6 +64,8 @@ export class NewMovie extends Component {
 
     if (!title
       || !imgUrl
+      || !regex.test(imgUrl)
+      || !regex.test(imdbUrl)
       || !imdbUrl
       || !imdbId
     ) {
@@ -46,26 +76,25 @@ export class NewMovie extends Component {
           imgUrl: !regex.test(state.imgUrl),
           imdbUrl: !regex.test(state.imdbUrl),
           imdbId: !state.imdbId,
-          button: true,
         },
       }));
 
       return;
     }
 
-    onAdd({
-      title: '',
-      description: '',
-      imgUrl: '',
-      imdbUrl: '',
-      imdbId: '',
-    });
+    onAdd(this.state);
     this.setState({
       title: '',
       description: '',
       imgUrl: '',
       imdbUrl: '',
       imdbId: '',
+      errors: {
+        title: false,
+        imgUrl: false,
+        imdbUrl: false,
+        imdbId: false,
+      },
     });
   }
 
@@ -161,7 +190,11 @@ export class NewMovie extends Component {
         <br />
         <button
           type="submit"
-          disabled={errors.button && true}
+          disabled={errors.imdbId
+            && errors.imdbUrl
+            && errors.imgUrl
+            && errors.title
+            && true}
         >
           Add new movie
         </button>
