@@ -1,0 +1,28 @@
+input {outline: none;}
+input:-webkit-autofill {
+    -webkit-box-shadow: inset 0 0 0 50px bisque;
+    -webkit-text-fill-color: #0f1123;
+    color: #0f1123;
+}
+
+.NewMovie {
+  &__form {
+    display: flex;
+    flex-direction: column;
+
+    &-item {
+      padding: 5px;
+      outline: none;
+      border: 2px solid #663f3f;
+      margin-bottom: 5px;
+      background-color: bisque;
+    }
+
+    &-btn {
+      outline: none;
+      border: 3px solid #663f3f;
+      background-color: bisque;
+      border-radius: 5px;
+    }
+  }
+}
