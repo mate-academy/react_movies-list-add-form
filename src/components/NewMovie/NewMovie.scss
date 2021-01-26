@@ -1,0 +1,46 @@
+.form {
+  label,
+  input {
+    display: block;
+  }
+
+  label {
+    text-align: center;
+  }
+
+  .form__input {
+    padding: 5px 10px;
+    width: 100%;
+  }
+
+  &__title {
+    text-align: center;
+    font-size: 32px;
+    margin-bottom: 15px;
+  }
+
+  &__field {
+    margin-bottom: 15px;
+  }
+
+  &__field-error {
+    text-align: center;
+    color: red;
+    font-weight: 700;
+  }
+
+  &__input {
+    &--error {
+      border-color: red;
+    }
+  }
+
+  &__submit {
+    width: 100%;
+    cursor: pointer;
+    padding: 5px;
+    margin-top: 10px;
+    font-size: 16px;
+    font-weight: 700;
+  }
+}
