@@ -1,0 +1,25 @@
+.movie {
+  &__inputs {
+    height: 30px;
+    margin-bottom: 10px;
+    border: 3px solid rgb(146, 146, 230);
+    outline: none;
+  }
+
+  &__submit {
+    height: 40px;
+    width: 100px;
+    margin: 10px 0;
+    background: rgb(146, 146, 230);
+    color: #fff;
+    border: 2px solid black;
+    border-radius: 10px;
+    outline: none;
+    cursor: pointer;
+  }
+
+  &__textarea {
+    border: 3px solid rgb(146, 146, 230);
+    outline: none;
+  }
+}
