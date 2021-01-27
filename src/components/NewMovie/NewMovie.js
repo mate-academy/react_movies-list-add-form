@@ -44,7 +44,7 @@ export class NewMovie extends Component {
     });
   };
 
-  validationMovie = (e) => {
+  handleSubmit = (e) => {
     e.preventDefault();
     const { title, description, imgUrl, imdbUrl, imdbId } = this.state;
 
@@ -68,7 +68,7 @@ export class NewMovie extends Component {
         imgUrl: '',
         imdbUrl: '',
         imdbId: '',
-        buttonDisabled: true,
+        buttonDisabled: false,
       });
     } else {
       this.setState({
@@ -89,7 +89,7 @@ export class NewMovie extends Component {
     } = this.state;
 
     return (
-      <form onSubmit={this.validationMovie}>
+      <form onSubmit={this.handleSubmit}>
         <p className="is-size-4">Add a new film</p>
 
         <div>
@@ -101,7 +101,7 @@ export class NewMovie extends Component {
             placeholder="title"
           />
 
-          {title.length > 0 ? <span className="green-text">✓</span> : ''}
+          {title.length > 0 && <span className="green-text">✓</span>}
         </div>
 
         <div>
@@ -113,7 +113,7 @@ export class NewMovie extends Component {
             placeholder="description"
           />
 
-          {description.length > 0 ? <span className="green-text">✓</span> : ''}
+          {description.length > 0 && <span className="green-text">✓</span>}
         </div>
 
         <div>
@@ -153,7 +153,7 @@ export class NewMovie extends Component {
             placeholder="imdbId"
           />
 
-          {imdbId.length > 0 ? <span className="green-text">✓</span> : ''}
+          {imdbId.length > 0 && <span className="green-text">✓</span>}
         </div>
 
         <button
