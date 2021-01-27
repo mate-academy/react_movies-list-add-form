@@ -1,0 +1,12 @@
+.newMovie {
+  display: flex;
+  flex-direction: column;
+
+  &__label {
+    font-weight: 600;
+  }
+
+  &__input {
+    margin: 5px 0 20px;
+  }
+}
