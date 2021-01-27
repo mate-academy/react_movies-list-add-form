@@ -1,0 +1,10 @@
+.form {
+  &__container {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__alert {
+    text-align: end;
+  }
+}
