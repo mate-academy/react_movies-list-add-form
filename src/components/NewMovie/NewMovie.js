@@ -50,6 +50,7 @@ export class NewMovie extends Component {
         <label htmlFor="title">
           Title:&nbsp;
           <input
+            required
             placeholder="Title"
             name="title"
             className="form__input"
@@ -64,6 +65,7 @@ export class NewMovie extends Component {
         <label htmlFor="description">
           Description:&nbsp;
           <input
+            required
             placeholder="Description"
             name="description"
             className="form__input"
@@ -78,6 +80,7 @@ export class NewMovie extends Component {
         <label htmlFor="imgUrl">
           Img Url:&nbsp;
           <input
+            required
             placeholder="Img Url"
             name="imgUrl"
             className="form__input"
@@ -92,6 +95,7 @@ export class NewMovie extends Component {
         <label htmlFor="imdbUrl">
           IMDb Url:&nbsp;
           <input
+            required
             placeholder="IMDb Url"
             name="imdbUrl"
             className="form__input"
@@ -106,6 +110,7 @@ export class NewMovie extends Component {
         <label htmlFor="imdbId">
           IMDb Id:&nbsp;
           <input
+            required
             placeholder="IMDb Id"
             name="imdbId"
             className="form__input"
