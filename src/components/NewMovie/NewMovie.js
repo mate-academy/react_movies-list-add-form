@@ -10,11 +10,11 @@ export class NewMovie extends Component {
     imgUrl: '',
     imdbUrl: '',
     imdbId: '',
-    submitButtonPressed: false,
-    formHasErrors: false,
+    errors: {
+      submitButtonPressed: false,
+      formHasErrors: false,
+    },
   };
-
-  defaultState = { ...this.state }
 
   handleChange = (event) => {
     const { name, value } = event.target;
@@ -23,10 +23,17 @@ export class NewMovie extends Component {
   }
 
   createMovie = (event) => {
-    event.preventDefault();
-    this.setState(({ submitButtonPressed: true }));
+    const { formHasErrors } = this.state.errors;
 
-    if (!this.state.formHasErrors) {
+    event.preventDefault();
+    this.setState(state => ({
+      ...state,
+      errors: {
+        submitButtonPressed: true,
+      },
+    }));
+
+    if (!formHasErrors) {
       const { title, description, imgUrl, imdbUrl, imdbId } = this.state;
       const movie = {
         title,
@@ -45,7 +52,10 @@ export class NewMovie extends Component {
         imgUrl: '',
         imdbUrl: '',
         imdbId: '',
-        submitButtonPressed: false,
+        errors: {
+          submitButtonPressed: false,
+          formHasErrors: false,
+        },
       }));
     }
   }
@@ -65,6 +75,7 @@ export class NewMovie extends Component {
             onChange={this.handleChange}
             autoComplete="off"
             onBlur={this.titleValidation}
+            required
           />
         </div>
 
@@ -87,6 +98,7 @@ export class NewMovie extends Component {
             value={imgUrl}
             onChange={this.handleChange}
             autoComplete="off"
+            required
           />
         </div>
 
@@ -98,6 +110,7 @@ export class NewMovie extends Component {
             value={imdbUrl}
             onChange={this.handleChange}
             autoComplete="off"
+            required
           />
         </div>
 
@@ -109,6 +122,7 @@ export class NewMovie extends Component {
             value={imdbId}
             onChange={this.handleChange}
             autoComplete="off"
+            required
           />
 
         </div>
