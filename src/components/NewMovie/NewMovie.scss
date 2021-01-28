@@ -1,0 +1,14 @@
+.form-input {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 30px;
+}
+
+.multi-error-wrapper {
+  display: flex;
+  justify-content: space-between;
+}
+
+.error-line {
+  visibility: hidden;
+}
