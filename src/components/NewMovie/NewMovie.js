@@ -12,39 +12,43 @@ export class NewMovie extends Component {
     imdbId: '',
   };
 
-  inputHandler = (event) => {
+  handleChange = (event) => {
     const { name, value } = event.target;
 
     this.setState({ [name]: value });
   }
 
+  handleSubmit = (event) => {
+    event.preventDefault();
+
+    const { title, description, imgUrl, imdbUrl, imdbId } = this.state;
+    const { onAdd } = this.props;
+
+    const newMovie = {
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    };
+
+    this.setState({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
+
+    onAdd(newMovie);
+  }
+
   render() {
     const { title, description, imgUrl, imdbUrl, imdbId } = this.state;
 
-    const { onAdd } = this.props;
-
     return (
       <form
-        onSubmit={(event) => {
-          event.preventDefault();
-          const newMovie = {
-            title,
-            description,
-            imgUrl,
-            imdbUrl,
-            imdbId,
-          };
-
-          this.setState({
-            title: '',
-            description: '',
-            imgUrl: '',
-            imdbUrl: '',
-            imdbId: '',
-          });
-
-          onAdd(newMovie);
-        }}
+        onSubmit={this.handleSubmit}
       >
 
         <label htmlFor="title">
@@ -56,9 +60,7 @@ export class NewMovie extends Component {
             className="form__input"
             id="title"
             value={title}
-            onChange={(event) => {
-              this.inputHandler(event);
-            }}
+            onChange={this.handleChange}
           />
         </label>
 
@@ -71,9 +73,7 @@ export class NewMovie extends Component {
             className="form__input"
             id="description"
             value={description}
-            onChange={(event) => {
-              this.inputHandler(event);
-            }}
+            onChange={this.handleChange}
           />
         </label>
 
@@ -86,9 +86,7 @@ export class NewMovie extends Component {
             className="form__input"
             id="imgUrl"
             value={imgUrl}
-            onChange={(event) => {
-              this.inputHandler(event);
-            }}
+            onChange={this.handleChange}
           />
         </label>
 
@@ -101,9 +99,7 @@ export class NewMovie extends Component {
             className="form__input"
             id="imdbUrl"
             value={imdbUrl}
-            onChange={(event) => {
-              this.inputHandler(event);
-            }}
+            onChange={this.handleChange}
           />
         </label>
 
@@ -116,9 +112,7 @@ export class NewMovie extends Component {
             className="form__input"
             id="imdbId"
             value={imdbId}
-            onChange={(event) => {
-              this.inputHandler(event);
-            }}
+            onChange={this.handleChange}
           />
         </label>
 
