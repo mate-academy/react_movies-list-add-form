@@ -1,0 +1,39 @@
+.page__creater {
+  border: solid 1px lightgray;
+  padding: 10px;
+  padding-top: 30px;
+}
+
+.page__item {
+  display: flex;
+  justify-content: space-between;
+}
+
+.page__item--input {
+  width: 250px;
+}
+
+.page__button {
+  display: block;
+  margin: auto;
+  height: 30px;
+  line-height: 20px;
+  background-color: #e4b620;
+  border-color: #e4b620;
+  border-radius: 5px;
+  font-weight: 700;
+}
+
+.invalid {
+  border: solid red 1px;
+}
+
+.incorrect {
+  // display: none;
+  text-align: right;
+  color: red;
+}
+
+.correct {
+  visibility: hidden;
+}
