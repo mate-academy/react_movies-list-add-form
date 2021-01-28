@@ -9,32 +9,9 @@ export class NewMovie extends Component {
     imgUrl: '',
     imdbUrl: '',
     imdbId: '',
-    buttonDisabled: true,
     checkImgUrl: false,
     checkImdbUrl: false,
   };
-
-  componentDidUpdate() {
-    const { title, description, imgUrl, imdbUrl, imdbId } = this.state;
-
-    // eslint-disable-next-line
-    const validUrl = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
-    const check = validUrl.test(imgUrl) && validUrl.test(imdbUrl);
-
-    if (title && description && imgUrl && imdbUrl && imdbId) {
-      if (check && this.state.buttonDisabled) {
-        // eslint-disable-next-line
-        this.setState({
-          buttonDisabled: false,
-          checkImgUrl: true,
-          checkImdbUrl: true,
-        });
-      }
-    } else if (!this.state.buttonDisabled) {
-      // eslint-disable-next-line
-      this.setState({ buttonDisabled: true });
-    }
-  }
 
   handleChange = (e) => {
     const { name, value } = e.target;
@@ -48,14 +25,6 @@ export class NewMovie extends Component {
     e.preventDefault();
     const { title, description, imgUrl, imdbUrl, imdbId } = this.state;
 
-    if (!title || !imgUrl || !imdbUrl || !imdbId) {
-      this.setState({
-        buttonDisabled: true,
-      });
-
-      return;
-    }
-
     // eslint-disable-next-line
     const validUrl = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
     const check = validUrl.test(imgUrl) && validUrl.test(imdbUrl);
@@ -68,12 +37,16 @@ export class NewMovie extends Component {
         imgUrl: '',
         imdbUrl: '',
         imdbId: '',
-        buttonDisabled: false,
       });
-    } else {
-      this.setState({
-        buttonDisabled: true,
-      });
+    }
+
+    if (title && description && imgUrl && imdbUrl && imdbId) {
+      if (check) {
+        this.setState({
+          checkImgUrl: true,
+          checkImdbUrl: true,
+        });
+      }
     }
   };
 
@@ -156,13 +129,7 @@ export class NewMovie extends Component {
           {imdbId.length > 0 && <span className="green-text">✓</span>}
         </div>
 
-        <button
-          type="submit"
-          disabled={this.state.buttonDisabled}
-        >
-          add
-        </button>
-
+        <button type="submit">add</button>
       </form>
     );
   }
