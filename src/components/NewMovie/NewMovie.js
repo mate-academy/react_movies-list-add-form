@@ -10,11 +10,6 @@ export class NewMovie extends Component {
     imgUrl: '',
     imdbUrl: '',
     imdbId: '',
-    inputTitle: false,
-    inputImdbId: false,
-    correctImageUrl: false,
-    correctDataBaseUrl: false,
-    disabledButton: true,
   };
 
   clearForm() {
@@ -24,7 +19,6 @@ export class NewMovie extends Component {
       imgUrl: '',
       imdbUrl: '',
       imdbId: '',
-      disabledButton: true,
     });
   }
 
@@ -42,47 +36,10 @@ export class NewMovie extends Component {
     }
   }
 
-  checkFormCorrect() {
-    const { title, imgUrl, imdbUrl, imdbId, inputTitle,
-      correctImageUrl, correctDataBaseUrl, inputImdbId } = this.state;
-
-    const noEmptyInputs = title.length > 0 && imgUrl.length > 0
-    && imdbUrl.length > 0 && imdbId.length > 0;
-
-    const noErrorMessages = !inputTitle && !correctImageUrl
-    && !correctDataBaseUrl && !inputImdbId;
-
-    if (noErrorMessages && noEmptyInputs) {
-      this.setState({
-        disabledButton: false,
-      });
-    } else {
-      this.setState({
-        disabledButton: true,
-      });
-    }
-  }
-
-  checkUrlCorrect(e) {
-    const { valid } = e.target.dataset;
-
-    // eslint-disable-next-line
-    if (/^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/.test(e.target.value)) {
-      this.setState({
-        [valid]: false,
-      });
-    } else {
-      this.setState({
-        [valid]: true,
-      });
-    }
-  }
-
   render() {
     const { onAdd } = this.props;
     const { title, description, imgUrl, imdbUrl, imdbId,
-      inputTitle, inputImdbId,
-      disabledButton, correctImageUrl, correctDataBaseUrl } = this.state;
+      inputTitle, inputImdbId } = this.state;
 
     return (
       <form
@@ -117,7 +74,6 @@ export class NewMovie extends Component {
               });
             }}
             onBlur={(e) => {
-              this.checkFormCorrect();
               this.validateInput(e);
             }}
           />
@@ -147,23 +103,16 @@ export class NewMovie extends Component {
             name="inputImgUrl"
             data-valid="correctImageUrl"
             value={imgUrl}
-            className={classNames('form__input', {
-              'form__input--error': correctImageUrl,
-            })}
+            className="form__input"
             onChange={(e) => {
               this.setState({
                 imgUrl: e.target.value,
               });
             }}
             onBlur={(e) => {
-              this.checkFormCorrect();
               this.validateInput(e);
-              this.checkUrlCorrect(e);
             }}
           />
-          {correctImageUrl
-          && <p className="form__error">URL should be correct</p>}
-
         </label>
 
         <label className="form__label">
@@ -173,23 +122,16 @@ export class NewMovie extends Component {
             value={imdbUrl}
             name="inputImdbUrl"
             data-valid="correctDataBaseUrl"
-            className={classNames('form__input', {
-              'form__input--error': correctDataBaseUrl,
-            })}
+            className="form__input"
             onChange={(e) => {
               this.setState({
                 imdbUrl: e.target.value,
               });
             }}
             onBlur={(e) => {
-              this.checkFormCorrect();
               this.validateInput(e);
-              this.checkUrlCorrect(e);
             }}
           />
-          {correctDataBaseUrl
-          && <p className="form__error">URL should be correct</p>}
-
         </label>
 
         <label className="form__label">
@@ -207,7 +149,6 @@ export class NewMovie extends Component {
               });
             }}
             onBlur={(e) => {
-              this.checkFormCorrect();
               this.validateInput(e);
             }}
           />
@@ -217,7 +158,6 @@ export class NewMovie extends Component {
 
         <button
           className="form__button"
-          disabled={disabledButton}
           type="submit"
         >
           Add new movie
