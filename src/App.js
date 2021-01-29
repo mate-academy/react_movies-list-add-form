@@ -6,11 +6,10 @@ import moviesFromServer from './api/movies.json';
 
 export class App extends Component {
   state = {
-    movies: [...moviesFromServer],
+    movies: moviesFromServer,
   };
 
-  addMovie = (e, movie) => {
-    e.preventDefault();
+  addMovie = (movie) => {
     this.setState(currentState => ({
       movies: [
         ...currentState.movies,

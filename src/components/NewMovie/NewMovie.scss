@@ -1,20 +1,24 @@
 .form {
   position: fixed;
   top: 70px;
+
   &__input.form__input--error {
     border: 2px solid rgb(168, 0, 0);
     border-radius: 5px;
   }
+
   &__input {
     padding: 5px 15px;
     border-radius: 5px;
     border: 2px inset lightgray;
   }
+
   &__label {
     display: block;
     position: relative;
     margin-bottom: 30px;
   }
+
   &__error {
     position: absolute;
     bottom: -80%;
@@ -22,9 +26,11 @@
     width: 80%;
     color: rgb(168, 0, 0);
   }
+
   &__button {
     height: 30px;
   }
+
   &__button,
  
   &__input {

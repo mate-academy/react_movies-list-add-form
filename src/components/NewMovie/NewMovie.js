@@ -10,19 +10,11 @@ export class NewMovie extends Component {
     imgUrl: '',
     imdbUrl: '',
     imdbId: '',
+    inputTitle: false,
+    inputImdbId: false,
   };
 
-  clearForm() {
-    this.setState({
-      title: '',
-      description: '',
-      imgUrl: '',
-      imdbUrl: '',
-      imdbId: '',
-    });
-  }
-
-  validateInput(e) {
+  validateInput = (e) => {
     const { name } = e.target;
 
     if (e.target.value.length < 3) {
@@ -36,28 +28,47 @@ export class NewMovie extends Component {
     }
   }
 
+  handleSubmit = (e) => {
+    e.preventDefault();
+    const { title, description, imgUrl, imdbUrl, imdbId } = this.state;
+    const movie = {
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    };
+
+    this.props.onAdd(movie);
+    this.clearForm();
+  }
+
+  handleChange = (e) => {
+    const { change } = e.target.dataset;
+
+    this.setState({
+      [change]: e.target.value,
+    });
+  }
+
+  clearForm() {
+    this.setState({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
+  }
+
   render() {
-    const { onAdd } = this.props;
     const { title, description, imgUrl, imdbUrl, imdbId,
       inputTitle, inputImdbId } = this.state;
 
     return (
       <form
-        method="POST"
-        action="/api/Movies"
         className="form"
-        onSubmit={(e) => {
-          const movie = {
-            title,
-            description,
-            imgUrl,
-            imdbUrl,
-            imdbId,
-          };
-
-          onAdd(e, movie);
-          this.clearForm();
-        }}
+        onSubmit={this.handleSubmit}
       >
         <label className="form__label">
           <input
@@ -65,17 +76,12 @@ export class NewMovie extends Component {
             placeholder="Title"
             name="inputTitle"
             value={title}
+            data-change="title"
             className={classNames('form__input', {
               'form__input--error': inputTitle,
             })}
-            onChange={(e) => {
-              this.setState({
-                title: e.target.value,
-              });
-            }}
-            onBlur={(e) => {
-              this.validateInput(e);
-            }}
+            onChange={this.handleChange}
+            onBlur={this.validateInput}
           />
           {inputTitle
           && <p className="form__error">Please, enter the title</p>}
@@ -87,12 +93,9 @@ export class NewMovie extends Component {
             placeholder="Description"
             name="description"
             value={description}
+            data-change="description"
             className="form__input"
-            onChange={(e) => {
-              this.setState({
-                description: e.target.value,
-              });
-            }}
+            onChange={this.handleChange}
           />
         </label>
 
@@ -101,17 +104,11 @@ export class NewMovie extends Component {
             type="text"
             placeholder="image url"
             name="inputImgUrl"
-            data-valid="correctImageUrl"
             value={imgUrl}
+            data-change="imgUrl"
             className="form__input"
-            onChange={(e) => {
-              this.setState({
-                imgUrl: e.target.value,
-              });
-            }}
-            onBlur={(e) => {
-              this.validateInput(e);
-            }}
+            onChange={this.handleChange}
+            onBlur={this.validateInput}
           />
         </label>
 
@@ -120,17 +117,11 @@ export class NewMovie extends Component {
             type="text"
             placeholder="IMDB url"
             value={imdbUrl}
+            data-change="imdbUrl"
             name="inputImdbUrl"
-            data-valid="correctDataBaseUrl"
             className="form__input"
-            onChange={(e) => {
-              this.setState({
-                imdbUrl: e.target.value,
-              });
-            }}
-            onBlur={(e) => {
-              this.validateInput(e);
-            }}
+            onChange={this.handleChange}
+            onBlur={this.validateInput}
           />
         </label>
 
@@ -139,18 +130,13 @@ export class NewMovie extends Component {
             type="text"
             placeholder="IMDB id"
             value={imdbId}
+            data-change="imdbId"
             name="inputImdbId"
             className={classNames('form__input', {
               'form__input--error': inputImdbId,
             })}
-            onChange={(e) => {
-              this.setState({
-                imdbId: e.target.value,
-              });
-            }}
-            onBlur={(e) => {
-              this.validateInput(e);
-            }}
+            onChange={this.handleChange}
+            onBlur={this.validateInput}
           />
           {inputImdbId
             && <p className="form__error">Please, enter the IMBD id</p>}
