@@ -1,13 +1,10 @@
-/* eslint-disable max-len */
-/* eslint-disable no-restricted-syntax */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
 import './NewMovie.scss';
 
+// eslint-disable-next-line max-len
 const links = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
 const movies = ['title', 'imdbUrl', 'imgUrl', 'description', 'imdbId'];
-
 const initState = {
   imdbUrl: '',
   title: '',
@@ -20,39 +17,16 @@ const initState = {
     imgUrl: false,
     imdbId: false,
   },
-  showError: {
-    title: false,
-    imdbUrl: false,
-    imgUrl: false,
-    imdbId: false,
-  },
   disabled: false,
+  isSubmitted: false,
 };
 
 export class NewMovie extends Component {
   state = initState;
 
   handleBlur = (event) => {
-    const { error } = this.state;
-    const { name } = event.target;
-
-    if (!error[name]) {
-      return (this.validateError() && this.validateForm())
-        ? this.setState({ disabled: false })
-        : this.setState({ disabled: true });
-    }
-
-    return this.setState(state => ({
-      showError: {
-        ...state.showError, [name]: true,
-      },
-      disabled: true,
-    }));
-  };
-
-  handleChange = (event) => {
     const { name, value } = event.target;
-    const { showError } = this.state;
+    const { error } = this.state;
     let isValidEmail;
 
     switch (name) {
@@ -83,11 +57,23 @@ export class NewMovie extends Component {
       },
     }));
 
-    if (showError[name] && isValidEmail) {
-      this.setState(state => ({ showError: {
-        ...state.showError, [name]: false,
-      } }));
+    if (!error[name]) {
+      return (this.validateError() && this.validateForm())
+        ? this.setState({ disabled: false })
+        : this.setState({ disabled: true });
     }
+
+    return this.setState({
+      disabled: true,
+    });
+  }
+
+  handleChange = (event) => {
+    const { name, value } = event.target;
+
+    this.setState({
+      [name]: value, isSubmitted: false,
+    });
   }
 
   validateError = () => {
@@ -104,9 +90,9 @@ export class NewMovie extends Component {
   }
 
   validateForm = () => {
-    // eslint-disable-next-line no-restricted-syntax
     const requiredArr = movies.filter(movie => movie !== 'description');
 
+    // eslint-disable-next-line no-restricted-syntax
     for (const film of requiredArr) {
       if (!this.state[film]) {
         return false;
@@ -126,23 +112,19 @@ export class NewMovie extends Component {
 
   creatNewMovie = () => {
     const { title, description, imgUrl, imdbUrl, imdbId } = this.state;
-    const newMovie = {
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    };
 
-    return newMovie;
+    return {
+      title, description, imgUrl, imdbUrl, imdbId,
+    };
   }
 
   clearForm = () => {
     this.setState(initState);
+    this.setState({ isSubmitted: true });
   }
 
   render() {
-    const { showError } = this.state;
+    const { error, isSubmitted } = this.state;
 
     return (
       <form
@@ -163,7 +145,7 @@ export class NewMovie extends Component {
                 }}
                 onBlur={this.handleBlur}
               />
-              {showError[item] && (
+              {error[item] && (
                 <span
                   className="error"
                 >
@@ -180,6 +162,13 @@ export class NewMovie extends Component {
         >
           Add
         </button>
+        {isSubmitted && (
+          <span
+            className="success"
+          >
+            Form has been successfully submitted!
+          </span>
+        )}
       </form>
     );
   }
