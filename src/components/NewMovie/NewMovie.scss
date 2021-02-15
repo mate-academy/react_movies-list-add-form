@@ -1,0 +1,35 @@
+.NewMovie {
+  display: grid;
+  border: 1px solid rgb(155, 154, 154);
+  border-radius: 5px;
+  padding: 20px;
+  background-color: rgb(242, 242, 242);
+}
+
+.invalid {
+  border-color: red;
+}
+
+span {
+  color: red;
+  font-style: italic;
+  font-size: 12px;
+}
+
+.input {
+  margin-top: 15px;
+}
+
+button {
+  width: 100px;
+  margin: 0 auto;
+  margin-top: 20px;
+  padding: 10px;
+  background: rgb(228, 182, 33);
+  border: 1px;
+  border-radius: 5px;
+  font-weight: bold;
+  font-size: 15px;
+  outline-style: none;
+  cursor: pointer;
+}
