@@ -1,0 +1,59 @@
+form {
+  display: grid;
+  grid-auto-rows: auto;
+  width: 90%;
+  background-color: #58b19f;
+  border-radius: 15px;
+  padding: 15px;
+  transform: translate(10%,50%);
+}
+
+.container {
+  width: 100%;
+  display: grid;
+}
+
+label {
+  margin: 5px;
+  color: #021411;
+  text-align: center;
+  font-family: initial;
+  font-size: 13px;
+}
+
+input[type="text"] {
+  float: right;
+  width: 70%;
+  border-radius: 25px;
+  height: 30px;
+  outline: none;
+}
+
+input[type="submit"] {
+  width: fit-content;
+  border-radius: 25px;
+  height: 30px;
+  margin-top: 5px;
+  margin-left: 50%;
+  outline: none;
+}
+
+.error-message {
+  color: red;
+  font-size: 12px;
+  text-align: center;
+}
+
+.error-input {
+  border-color: red;
+}
+
+input[name="description"]:focus {
+  height: 50px;
+}
+
+.example {
+  text-align: right;
+  font-size: 12px;
+  color: black;
+}
