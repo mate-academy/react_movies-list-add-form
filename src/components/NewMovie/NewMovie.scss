@@ -46,9 +46,10 @@ button {
   background-color: lightgrey;
   color: black;
   &:hover {
-    border: 2px solid black;
-    background: grey;
-    color: white;
+    border: 2px solid lightgrey;
+    background: lightgrey;
+    color: black;
+    cursor: default;
   }
 }
  

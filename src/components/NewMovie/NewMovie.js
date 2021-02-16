@@ -2,6 +2,10 @@ import React, { Component } from 'react';
 import './NewMovie.scss';
 import PropTypes from 'prop-types';
 
+const movieCardFields = [
+  'title', 'description', 'imgUrl', 'imdbUrl', 'imdbId',
+];
+
 export class NewMovie extends Component {
   state = {
     title: '',
@@ -16,6 +20,7 @@ export class NewMovie extends Component {
       imdbUrl: false,
       imdbId: false,
     },
+    isFormValid: true,
   };
 
   setInputToState = ({ target }) => {
@@ -66,33 +71,73 @@ export class NewMovie extends Component {
   isAllInputsFilled = () => {
     const { title, imgUrl, imdbUrl, imdbId } = this.state;
 
-    if (title && imgUrl && imdbUrl && imdbId) {
+    if (title.length && imgUrl.length && imdbUrl.length && imdbId.length) {
       return true;
     }
 
     return false;
   }
 
-  checkAllInputsValidity = () => {
+  isAllInputsValid = () => {
     const { title, imgUrl, imdbUrl, imdbId } = this.state.isErrorIn;
 
-    if (!title && !imgUrl && !imdbUrl && !imdbId && this.isAllInputsFilled()) {
+    if (!title && !imgUrl && !imdbUrl && !imdbId) {
       return true;
     }
 
     return false;
+  }
+
+  isFormValid = () => {
+    if (this.isAllInputsValid() && this.isAllInputsFilled()) {
+      this.setState({ isFormValid: true });
+
+      return true;
+    }
+
+    this.setState({ isFormValid: false });
+
+    return false;
+  }
+
+  showErrors =() => {
+    if (this.state.isFormValid) {
+      const fields = movieCardFields.filter(field => field !== 'description');
+
+      fields.forEach((field) => {
+        if (!this.state[field].length && !this.state.isErrorIn[field]) {
+          this.setState(state => ({
+            ...state,
+            isErrorIn: {
+              ...state.isErrorIn,
+              [field]: true,
+            },
+          }));
+        }
+      });
+    }
+  }
+
+  handleSubmit = (event) => {
+    event.preventDefault();
+    const { onAdd } = this.props;
+
+    if (this.isFormValid()) {
+      onAdd(this.createNewMovieCard());
+      this.resetState();
+    } else {
+      this.showErrors();
+    }
   }
 
   createNewMovieCard = () => {
-    const movieCard = {};
-
-    movieCard.title = this.state.title;
-    movieCard.description = this.state.description;
-    movieCard.imgUrl = this.state.imgUrl;
-    movieCard.imdbUrl = this.state.imdbUrl;
-    movieCard.imdbId = this.state.imdbId;
-
-    return movieCard;
+    return {
+      title: this.state.title,
+      description: this.state.description,
+      imgUrl: this.state.imgUrl,
+      imdbUrl: this.state.imdbUrl,
+      imdbId: this.state.imdbId,
+    };
   }
 
   resetState = () => {
@@ -109,44 +154,42 @@ export class NewMovie extends Component {
         imdbUrl: false,
         imdbId: false,
       },
+      isFormValid: true,
     });
   }
 
   render() {
-    const movieCardKeys = [
-      'title', 'description', 'imgUrl', 'imdbUrl', 'imdbId',
-    ];
-
-    const { onAdd } = this.props;
-
     return (
       <form>
-        {movieCardKeys.map((key) => {
+        {movieCardFields.map((field) => {
           return (
-            <>
-              <label key={key}>
+            <div key={field}>
+              <label>
                 <input
-                  name={key}
-                  value={this.state[key]}
-                  placeholder={key}
-                  className={this.state.isErrorIn[key] ? 'error' : null}
-                  onChange={event => this.setInputToState(event)}
-                  onBlur={event => this.isCurrentInputValid(event)}
+                  name={field}
+                  value={this.state[field]}
+                  placeholder={field}
+                  className={this.state.isErrorIn[field] ? 'error' : null}
+                  onChange={(event) => {
+                    this.setInputToState(event);
+                  }}
+                  onBlur={(event) => {
+                    this.isCurrentInputValid(event);
+                  }}
                 />
               </label>
-              <p hidden={!this.state.isErrorIn[key]}>
-                {`Please enter correct ${key}`}
+              <p hidden={!this.state.isErrorIn[field]}>
+                {`Please enter correct ${field}`}
               </p>
-            </>
+            </div>
           );
         })}
         <button
-          type="button"
-          className={!this.checkAllInputsValidity() ? 'disabled' : null}
-          disabled={!this.checkAllInputsValidity()}
-          onClick={() => {
-            onAdd(this.createNewMovieCard());
-            this.resetState();
+          type="submit"
+          className={!this.isAllInputsValid() ? 'disabled' : null}
+          disabled={!this.isAllInputsValid()}
+          onClick={(event) => {
+            this.handleSubmit(event);
           }}
         >
           Add Movie
