@@ -133,7 +133,7 @@ export class NewMovie extends Component {
             <article className="message is-danger">
               <div className="message-header">
                 <p>
-                  The title must be more than 1 character
+                  The title must have at least one character
                 </p>
               </div>
             </article>
@@ -161,7 +161,7 @@ export class NewMovie extends Component {
             <article className="message is-danger">
               <div className="message-header">
                 <p className="help is-danger">
-                  The description must be more than 1 character
+                  The description must have at least one character
                 </p>
               </div>
             </article>
