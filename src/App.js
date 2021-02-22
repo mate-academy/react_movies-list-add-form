@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import './App.scss';
+import './App.css';
+import 'bulma/css/bulma.css';
 import { MoviesList } from './components/MoviesList';
 import { NewMovie } from './components/NewMovie';
 import moviesFromServer from './api/movies.json';
@@ -10,7 +11,9 @@ export class App extends Component {
   };
 
   addMovie = (movie) => {
-    // put your code here
+    this.setState(state => ({
+      movies: [...state.movies, movie],
+    }));
   };
 
   render() {
@@ -22,7 +25,7 @@ export class App extends Component {
           <MoviesList movies={movies} />
         </div>
         <div className="sidebar">
-          <NewMovie />
+          <NewMovie onAdd={this.addMovie} />
         </div>
       </div>
     );
