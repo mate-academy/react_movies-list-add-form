@@ -12,4 +12,37 @@
 .sidebar {
   padding: 20px;
   border-left: 1px solid lightgray;
+  font-size: 0.9rem;
+}
+
+input {
+  box-shadow: -1px -2px grey;
+  width: 260px;
+  height: 30px;
+  margin-top: 1px;
+}
+
+.empty_field_error {
+  border: 1px solid red;
+  border-radius: 5px;
+  width: 260px;
+  margin-top: 4px;
+  text-align: center;
+  font-size: 10px;
+}
+
+button {
+  margin-top: 5px;
+  margin-left: 4.5rem;
+  border: 1px solid;
+  border-radius: 50px;
+  box-shadow: -1px -2px grey;
+  font-weight: bold;
+  padding: 5px 10px;
+}
+
+button:hover {
+  background-color: black;
+  color: white;
+  cursor: pointer;
 }
