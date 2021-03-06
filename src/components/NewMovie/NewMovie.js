@@ -21,13 +21,12 @@ export class NewMovie extends Component {
 
   lossFocusFromTheInput = (event) => {
     const { value, id } = event.target;
-    const loseFocus = [];
     const { focusOnInput } = this.state;
 
     if (!value) {
       focusOnInput.push(id);
     } else {
-      focusOnInput.splice(loseFocus.indexOf(id), 1);
+      focusOnInput.splice(focusOnInput.indexOf(id), 1);
     }
 
     this.setState({ focusOnInput: [...focusOnInput] });
