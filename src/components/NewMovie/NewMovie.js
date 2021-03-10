@@ -96,10 +96,12 @@ export class NewMovie extends Component {
   }
 
   validateButton = () => {
-    const result = Object.values(this.state.formFields)
+    const errorsValid = Object.values(this.state.errors)
+      .some(el => !!el === false);
+    const formFieldsValid = Object.values(this.state.formFields)
       .some(el => !!el === false);
 
-    return result;
+    return errorsValid || formFieldsValid;
   }
 
   render() {
