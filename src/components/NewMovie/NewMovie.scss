@@ -36,6 +36,7 @@ input {
 }
 
 .addMovieBtn {
+  cursor: pointer;
   font-size: 13px;
   margin: 20px auto;
   position: relative;
@@ -57,5 +58,10 @@ input {
 }
 
 .addMovieBtn:focus {
+  outline: 0;
+}
+
+.addMovieBtn:disabled {
+  cursor: not-allowed;
   outline: 0;
 }

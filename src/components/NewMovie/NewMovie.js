@@ -3,63 +3,76 @@ import PropTypes from 'prop-types';
 import './NewMovie.scss';
 import classnames from 'classnames';
 
+// eslint-disable-next-line max-len
+const EMAIL_REGEXP = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
+
 export class NewMovie extends Component {
   state = {
-    title: '',
-    description: '',
-    imgUrl: '',
-    imdbUrl: '',
-    imdbId: '',
-    titleValid: true,
-    descriptionValid: true,
-    imgUrlValid: true,
-    imdbUrlValid: true,
-    imdbIdValid: true,
+    formFields: {
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    },
+    errors: {
+      titleValid: true,
+      descriptionValid: true,
+      imgUrlValid: true,
+      imdbUrlValid: true,
+      imdbIdValid: true,
+    },
   };
 
   handleChange = (e) => {
     const { name, value } = e.target;
 
-    this.setState({
-      [name]: value,
-    });
+    this.setState(state => (
+      {
+        formFields: {
+          ...state.formFields,
+          [name]: value,
+        },
+      }
+    ));
   }
 
   onAdd = () => {
-    const { title, description, imgUrl, imdbUrl, imdbId } = this.state;
-    const newMovie = {
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    };
+    const newMovie = this.state.formFields;
 
     this.props.addMovie(newMovie);
     this.clear();
   }
 
-  toValidate = (e) => {
+  validate = (e) => {
     const { name, value } = e.target;
-    // eslint-disable-next-line max-len
-    const regExp = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
 
     switch (name) {
       case 'title':
       case 'description':
       case 'imdbId':
-        this.setState({
-          [`${name}Valid`]: !!value,
-        });
+        this.setState(state => (
+          {
+            errors: {
+              ...state.errors,
+              [`${name}Valid`]: !!value,
+            },
+          }
+        ));
         break;
 
       case 'imgUrl':
       case 'imdbUrl':
-        this.setState({
-          [`${name}Valid`]: !!value.match(regExp)
-          ,
-        });
+        this.setState(state => (
+          {
+            errors: {
+              ...state.errors,
+              [`${name}Valid`]: !!value.match(EMAIL_REGEXP),
+            },
+          }
+        ));
         break;
+
       default:
         break;
     }
@@ -67,31 +80,44 @@ export class NewMovie extends Component {
 
   clear = () => {
     this.setState({
-      title: '',
-      description: '',
-      imgUrl: '',
-      imdbUrl: '',
-      imdbId: '',
+      formFields: {
+        title: '',
+        description: '',
+        imgUrl: '',
+        imdbUrl: '',
+        imdbId: '',
+      },
     });
   }
 
+  handleSubmit = (e) => {
+    e.preventDefault();
+    this.onAdd();
+  }
+
+  validateButton = () => {
+    const result = Object.values(this.state.formFields)
+      .some(el => !!el === false);
+
+    return result;
+  }
+
   render() {
-    const { title,
+    const {
+      title,
       description,
       imgUrl,
       imdbUrl,
       imdbId,
+    } = this.state.formFields;
+
+    const {
       titleValid,
       descriptionValid,
       imgUrlValid,
       imdbUrlValid,
-      imdbIdValid } = this.state;
-
-    const formIsValid = !title
-    || !description
-    || !imgUrl
-    || !imdbUrl
-    || !imdbId;
+      imdbIdValid,
+    } = this.state.errors;
 
     return (
       <div className="container">
@@ -113,7 +139,7 @@ export class NewMovie extends Component {
               })}
               value={title}
               onChange={this.handleChange}
-              onBlur={this.toValidate}
+              onBlur={this.validate}
             />
             {!titleValid
             && <p className="error">The title is not valid</p>}
@@ -130,7 +156,7 @@ export class NewMovie extends Component {
               })}
               value={description}
               onChange={this.handleChange}
-              onBlur={this.toValidate}
+              onBlur={this.validate}
             />
             {!descriptionValid
             && <p className="error">The description is not valid</p>}
@@ -147,7 +173,7 @@ export class NewMovie extends Component {
               })}
               value={imgUrl}
               onChange={this.handleChange}
-              onBlur={this.toValidate}
+              onBlur={this.validate}
             />
             {!imgUrlValid
             && <p className="error">The link is not valid</p>}
@@ -164,7 +190,7 @@ export class NewMovie extends Component {
               })}
               value={imdbUrl}
               onChange={this.handleChange}
-              onBlur={this.toValidate}
+              onBlur={this.validate}
             />
             {!imdbUrlValid
             && <p className="error">The link is not valid</p>}
@@ -181,7 +207,7 @@ export class NewMovie extends Component {
               })}
               value={imdbId}
               onChange={this.handleChange}
-              onBlur={this.toValidate}
+              onBlur={this.validate}
             />
             {!imdbIdValid
             && <p className="error">The id is not valid</p>}
@@ -190,7 +216,7 @@ export class NewMovie extends Component {
           <button
             type="submit"
             className="addMovieBtn"
-            disabled={formIsValid}
+            disabled={this.validateButton()}
           >
             Add new movie
           </button>
