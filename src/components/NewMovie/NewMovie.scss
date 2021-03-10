@@ -1,0 +1,67 @@
+.container {
+  padding: 15px;
+  border: solid 1px rgb(218, 218, 218);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+  background-color: white;
+}
+
+.header {
+  font-size: 30px;
+  color: black;
+  font-weight: bold;
+  text-align: left;
+  margin: 20px 0;
+  padding: 0 0 0 10px;
+}
+
+.inputBlock {
+  margin: 10px;
+}
+
+input {
+  width: 250px;
+  height: 30px;
+  border: solid 1px #c9c9c9;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+  outline: none;
+}
+
+.warning {
+  border: solid 1px #f75555;
+}
+
+.error {
+  font-size: 13px;
+  color: #f75555;
+}
+
+.addMovieBtn {
+  cursor: pointer;
+  font-size: 13px;
+  margin: 20px auto;
+  position: relative;
+  top: 50%;
+  left: 3%;
+  padding: 8px 15px;
+  border: solid 1px rgb(224, 224, 224);
+
+  background-image: linear-gradient(
+    #f0f0f0 100%, #afafaf 50%, #ebebeb 0%
+  );
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+.addMovieBtn:hover {
+  background-image: linear-gradient(
+    #e4e4e4 100%, #dbdbdb 50%, #ebe8e8 0%
+  );
+}
+
+.addMovieBtn:focus {
+  outline: 0;
+}
+
+.addMovieBtn:disabled {
+  cursor: not-allowed;
+  outline: 0;
+}
