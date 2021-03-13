@@ -12,8 +12,6 @@ export function Input({
   onBlur,
   hasWarning,
 }) {
-  const isNotDescription = name !== 'description';
-
   return (
     <>
       <label
@@ -26,10 +24,9 @@ export function Input({
         name={name}
         value={value}
         onChange={onChange}
-        onBlur={isNotDescription ? onBlur : undefined}
+        onBlur={onBlur}
         placeholder="Type here"
         id={name}
-        required={isNotDescription}
         className={classNames('NewMovie__input',
           { NewMovie__input_warning: hasWarning[name] })}
       />
