@@ -9,23 +9,9 @@ export class App extends Component {
     movies: moviesFromServer,
   };
 
-  addMovie = ({ ...movieProperties }) => {
-    const { title, description, imgUrl, imdbUrl, imdbId } = movieProperties;
-
-    this.setState((prevState) => {
-      const newMovie = {
-        title,
-        description,
-        imgUrl,
-        imdbUrl,
-        imdbId,
-      };
-
-      return {
-        movies: [...prevState.movies, newMovie],
-      };
-    });
-  };
+  addMovie = movie => this.setState(prevState => ({
+    movies: [...prevState.movies, movie],
+  }));
 
   render() {
     const { movies } = this.state;

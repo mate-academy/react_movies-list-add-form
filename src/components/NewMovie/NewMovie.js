@@ -16,20 +16,22 @@ export class NewMovie extends Component {
     this.setState({ [name]: value });
   }
 
-  render() {
-    const { addMovie } = this.props;
+  handleSubmit = () => {
+    this.props.addMovie(this.state);
+    this.setState({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
+  }
 
+  render() {
     return (
       <form onSubmit={(e) => {
         e.preventDefault();
-        addMovie(this.state);
-        this.setState({
-          title: '',
-          description: '',
-          imgUrl: '',
-          imdbUrl: '',
-          imdbId: '',
-        });
+        this.handleSubmit();
       }}
       >
         {Object.keys(this.state).map(stateField => (
@@ -51,10 +53,6 @@ export class NewMovie extends Component {
   }
 }
 
-NewMovie.propTypes = PropTypes.shape({
-  title: PropTypes.string.isRequired,
-  description: PropTypes.string,
-  imgUrl: PropTypes.string.isRequired,
-  imdbUrl: PropTypes.string.isRequired,
-  imdbId: PropTypes.string.isRequired,
-}).isRequired;
+NewMovie.propTypes = {
+  addMovie: PropTypes.func.isRequired,
+}.isRequired;
