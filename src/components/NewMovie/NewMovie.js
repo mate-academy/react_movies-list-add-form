@@ -16,30 +16,81 @@ export class NewMovie extends Component {
     charsLeft: 30,
   };
 
-  handleChange = (event) => {
-    const { name, value, type } = event.target;
+  validate = {
+    title: title => this.validateString('Title', title),
+    description: description => this.validateString('Description', description),
+    imgUrl: url => this.validateUrl(url),
+    imdbUrl: url => this.validateUrl(url),
+    imdbId: id => this.validateString('ID', id),
+  };
+
+  initialValues = {
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  };
+
+  validateString = (fieldName, fieldValue) => {
+    if (fieldValue.trim() === '') {
+      return `${fieldName} is required`;
+    }
+
+    if (fieldName === 'Title' && /[^a-zA-Z -]/.test(fieldValue)) {
+      return 'Invalid characters';
+    }
+
+    if (fieldValue.trim().length < 1) {
+      return `${fieldName} needs to be at least one characters`;
+    }
+
+    return null;
+  };
+
+  validateUrl = (url) => {
+    if (
+      // eslint-disable-next-line max-len
+      /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/.test(
+        url,
+      )
+    ) {
+      return null;
+    }
+
+    if (url.trim() === '') {
+      return 'Url is required';
+    }
+
+    return 'Please enter a valid Url';
+  };
+
+  getCharactersLeft = (type, name, value, charsLeft) => {
     const { maxlength } = this.state;
 
-    event.persist();
+    return type === 'text' && name === 'title'
+      ? maxlength - value.length
+      : charsLeft;
+  }
+
+  handleChange = (event) => {
+    const { name, value, type } = event.target;
 
     this.setState(state => ({
       values: {
         ...state.values,
         [name]: type === 'text' ? value.replace(/^\s/g, '') : value,
       },
-      charsLeft: type === 'text' && name === 'title'
-        ? maxlength - value.length
-        : state.charsLeft,
+      charsLeft: this.getCharactersLeft(type, name, value, state.charsLeft),
     }));
   }
 
   handleBlur = (event) => {
     const { name, value } = event.target;
-    const { validate } = this.props;
     const { errors } = this.state;
 
     const { [name]: removedError, ...rest } = errors;
-    const error = validate[name](value);
+    const error = this.validate[name](value);
 
     this.setState({
       errors: {
@@ -51,14 +102,13 @@ export class NewMovie extends Component {
 
   handleSubmit = (event) => {
     const { values, errors, maxlength } = this.state;
-    const { validate, onAdd, initialValues } = this.props;
+    const { onAdd } = this.props;
 
     event.preventDefault();
 
     const formValidation = Object.keys(values).reduce(
       (acc, key) => {
-        const isDescriptionKey = key === 'description';
-        const newError = isDescriptionKey ? null : validate[key](values[key]);
+        const newError = this.validate[key](values[key]);
 
         return {
           errors: {
@@ -76,16 +126,17 @@ export class NewMovie extends Component {
       errors: formValidation.errors,
     });
 
-    if (
-      !Object.values(formValidation.errors).length // errors object is empty
-    ) {
+    if (this.checkFormError(formValidation)) {
       onAdd(values);
       this.setState({
-        values: initialValues,
+        values: this.initialValues,
         charsLeft: maxlength,
       });
     }
   };
+
+  checkFormError = formValidation => !Object
+    .values(formValidation.errors).length;
 
   render() {
     const {
@@ -142,7 +193,13 @@ export class NewMovie extends Component {
               value={values.description}
               placeholder="Please enter a description"
               onChange={this.handleChange}
+              onBlur={this.handleBlur}
             />
+            {errors.description && (
+              <div className="errorText">
+                {errors.description}
+              </div>
+            )}
           </div>
           <div>
             <input
@@ -191,10 +248,4 @@ export class NewMovie extends Component {
 
 NewMovie.propTypes = {
   onAdd: PropTypes.func.isRequired,
-  initialValues: PropTypes.shape().isRequired,
-  validate: PropTypes.shape().isRequired,
-};
-
-NewMovie.default = {
-  description: '',
 };
