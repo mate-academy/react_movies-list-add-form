@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import './NewMovie.scss';
 
 export class NewMovie extends Component {
@@ -21,8 +22,6 @@ export class NewMovie extends Component {
   onSubmitHandler = (event) => {
     event.preventDefault();
 
-    // не можу ніяк написати пропси до цієї функції
-    // eslint-disable-next-line react/prop-types
     this.props.addMovie(this.state);
 
     this.setState({
@@ -96,3 +95,7 @@ export class NewMovie extends Component {
     );
   }
 }
+
+NewMovie.propTypes = {
+  addMovie: PropTypes.func.isRequired,
+};
