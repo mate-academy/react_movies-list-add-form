@@ -1,0 +1,40 @@
+form > div {
+  margin-bottom: 2.25rem;
+}
+
+button,
+textarea,
+input {
+  font-size: 1rem;
+  outline: 0;
+  width: 75%;
+  border-style: solid;
+  border-radius: 25px;
+  height: 3.25vh;
+}
+
+button {
+  font-style: italic;
+  background-color: green;
+}
+
+p,
+input,
+textarea,
+.errorText {
+  padding: 0 1.25rem;
+}
+
+textarea {
+  height: 5.25vh;
+  resize: vertical;
+  padding-top: 0.5rem;
+}
+
+.errorInput {
+  border-color: red;
+}
+
+.errorText {
+  color: red;
+}
