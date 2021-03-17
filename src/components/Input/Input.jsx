@@ -34,7 +34,11 @@ export function Input({
         className={classNames('NewMovie__message',
           { NewMovie__message_warning: hasWarning[name] })}
       >
-        {`${name} is required`}
+        {
+        name.includes('Url')
+          ? `Url of ${name} is invalid`
+          : `${name} is required`
+        }
       </div>
     </>
   );

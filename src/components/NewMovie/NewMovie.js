@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Input } from '../Input';
+import { validURL } from '../../test/test';
 
 import './NewMovie.scss';
+
+const movieFieldsRequired = ['imgUrl', 'imdbUrl', 'imdbId', 'title'];
 
 export class NewMovie extends Component {
   state = {
@@ -19,7 +22,6 @@ export class NewMovie extends Component {
       imdbUrl: false,
       imdbId: false,
     },
-
   };
 
   handleChange = (event) => {
@@ -27,6 +29,7 @@ export class NewMovie extends Component {
 
     switch (name) {
       case 'description':
+
         this.setState({ [name]: value });
 
         break;
@@ -48,20 +51,43 @@ export class NewMovie extends Component {
   handleBlur = (event) => {
     const { value, name } = event.target;
 
-    if (!value) {
-      this.setState(prevState => ({
-        hasWarning: {
-          ...prevState.hasWarning,
-          [name]: true,
-        },
-      }));
+    if (value) {
+      switch (name) {
+        case 'imgUrl':
+        case 'imdbUrl':
+          this.setState(prevState => ({
+            hasWarning: {
+              ...prevState.hasWarning,
+              [name]: !validURL(value),
+            },
+          }));
+          break;
+        default:
+      }
+
+      return;
     }
+
+    this.setState(prevState => ({
+      hasWarning: {
+        ...prevState.hasWarning,
+        [name]: true,
+      },
+    }));
   }
 
   handleDisabled = () => {
-    return Object.values(this.state.necessaryFields).some(
+    const { imgUrl, imdbUrl } = this.state.hasWarning;
+
+    const hasError = Object.values(this.state.necessaryFields).some(
       field => !field,
     );
+
+    if (!hasError && !imdbUrl && !imgUrl) {
+      return false;
+    }
+
+    return true;
   }
 
   handleSubmit = (event) => {
@@ -93,7 +119,6 @@ export class NewMovie extends Component {
 
   render() {
     const { hasWarning, necessaryFields } = this.state;
-    const movieFieldsRequired = Object.keys(necessaryFields);
     const { handleSubmit, handleChange, handleBlur, handleDisabled } = this;
 
     return (
