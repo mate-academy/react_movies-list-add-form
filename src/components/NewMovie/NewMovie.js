@@ -1,18 +1,18 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Inputs } from '../Inputs';
+import { Input } from '../Input';
 
 import './NewMovie.scss';
 
 export class NewMovie extends Component {
   state = {
-    isRequired: {
+    description: '',
+    necessaryFields: {
       imgUrl: '',
       imdbUrl: '',
       imdbId: '',
       title: '',
     },
-    description: '',
     hasWarning: {
       title: false,
       imgUrl: false,
@@ -25,19 +25,23 @@ export class NewMovie extends Component {
   handleChange = (event) => {
     const { value, name } = event.target;
 
-    if (name !== 'description') {
-      this.setState(prevState => ({
-        hasWarning: {
-          ...prevState.hasWarning,
-          [name]: false,
-        },
-        isRequired: {
-          ...prevState.isRequired,
-          [name]: value,
-        },
-      }));
-    } else {
-      this.setState({ [name]: value });
+    switch (name) {
+      case 'description':
+        this.setState({ [name]: value });
+
+        break;
+
+      default:
+        this.setState(prevState => ({
+          hasWarning: {
+            ...prevState.hasWarning,
+            [name]: false,
+          },
+          necessaryFields: {
+            ...prevState.necessaryFields,
+            [name]: value,
+          },
+        }));
     }
   }
 
@@ -54,9 +58,15 @@ export class NewMovie extends Component {
     }
   }
 
+  handleDisabled = () => {
+    return Object.values(this.state.necessaryFields).some(
+      field => !field,
+    );
+  }
+
   handleSubmit = (event) => {
     event.preventDefault();
-    const { title, imdbUrl, imdbId, imgUrl } = this.state.isRequired;
+    const { title, imdbUrl, imdbId, imgUrl } = this.state.necessaryFields;
     const { description } = this.state;
     const newFilm = {
       title,
@@ -66,7 +76,7 @@ export class NewMovie extends Component {
       imdbUrl,
     };
 
-    const isRequired = {
+    const necessaryFields = {
       title: '',
       imdbUrl: '',
       imdbId: '',
@@ -74,7 +84,7 @@ export class NewMovie extends Component {
     };
 
     this.setState({
-      isRequired,
+      necessaryFields,
       description: '',
     });
 
@@ -82,11 +92,9 @@ export class NewMovie extends Component {
   }
 
   render() {
-    const { handleSubmit, handleChange, handleBlur } = this;
-    const { hasWarning, isRequired } = this.state;
-    const isDisabled = Object.values(isRequired).some(
-      field => !field,
-    );
+    const { hasWarning, necessaryFields } = this.state;
+    const movieFieldsRequired = Object.keys(necessaryFields);
+    const { handleSubmit, handleChange, handleBlur, handleDisabled } = this;
 
     return (
       <form
@@ -94,12 +102,18 @@ export class NewMovie extends Component {
         onSubmit={handleSubmit}
         className="NewMovie__form"
       >
-        <Inputs
-          requiredFields={this.state.isRequired}
-          hasWarning={hasWarning}
-          onChange={handleChange}
-          onBlur={handleBlur}
-        />
+        {movieFieldsRequired.map((field) => {
+          return (
+            <Input
+              key={field}
+              value={necessaryFields[field]}
+              name={field}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              hasWarning={hasWarning}
+            />
+          );
+        })}
 
         <textarea
           name="description"
@@ -110,7 +124,7 @@ export class NewMovie extends Component {
         />
         <button
           className="NewMovie__button"
-          disabled={isDisabled}
+          disabled={handleDisabled()}
           type="submit"
         >
           submit
