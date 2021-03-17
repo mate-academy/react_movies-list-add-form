@@ -20,7 +20,25 @@ export class NewMovie extends Component {
   }
 
   onSubmitHandler = (event) => {
+    const {
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    } = this.state;
+
     event.preventDefault();
+
+    if (
+      !title
+      || !description
+      || !imgUrl
+      || !imdbUrl
+      || !imdbId
+    ) {
+      return;
+    }
 
     this.props.addMovie(this.state);
 
