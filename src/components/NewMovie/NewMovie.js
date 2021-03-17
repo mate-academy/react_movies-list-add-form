@@ -2,6 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Form, TextArea } from 'semantic-ui-react';
 
+const validator
+  // eslint-disable-next-line max-len
+  = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
+
 export class NewMovie extends React.Component {
   state = {
     title: '',
@@ -9,6 +13,14 @@ export class NewMovie extends React.Component {
     imgUrl: '',
     imdbUrl: '',
     imdbId: '',
+    errors: {
+      imdbUrl: false,
+      imgUrl: false,
+      isTitle: false,
+      isImdbId: false,
+      isButtonDisable: false,
+    },
+
   };
 
   handleChange = (event) => {
@@ -16,6 +28,9 @@ export class NewMovie extends React.Component {
 
     this.setState({
       [name]: value,
+      errors: {
+        isButtonDisable: false,
+      },
     });
   }
 
@@ -30,13 +45,44 @@ export class NewMovie extends React.Component {
       imdbId,
     } = this.state;
 
+    if (!validator.test(imdbUrl)) {
+      this.setState({
+        errors: {
+          imdbUrl: true,
+          isButtonDisable: true,
+        },
+      });
+
+      return;
+    }
+
+    if (!validator.test(imgUrl)) {
+      this.setState({
+        errors: {
+          imgUrl: true,
+          isButtonDisable: true,
+        },
+      });
+
+      return;
+    }
+
     if (
       !title
-      || !description
       || !imgUrl
       || !imdbUrl
       || !imdbId
     ) {
+      this.setState(prevState => ({
+        errors: {
+          imdbId: !prevState.imdbId,
+          imdbUrl: true,
+          title: !prevState.title,
+          imgUrl: !prevState.imgUrl,
+          isButtonDisable: true,
+        },
+      }));
+
       return;
     }
 
@@ -46,6 +92,12 @@ export class NewMovie extends React.Component {
       imgUrl: '',
       imdbUrl: '',
       imdbId: '',
+      errors: {
+        imdbUrl: false,
+        imgUrl: false,
+        isTitle: false,
+        isImdbId: false,
+      },
     });
 
     const movie = {
@@ -63,8 +115,10 @@ export class NewMovie extends React.Component {
     const {
       title,
       description,
-      imgUrl, imdbUrl,
+      imgUrl,
+      imdbUrl,
       imdbId,
+      errors,
     } = this.state;
 
     return (
@@ -78,6 +132,10 @@ export class NewMovie extends React.Component {
             placeholder="Title"
             type="text"
             name="title"
+            error={errors.title && {
+              content: 'Please enter title',
+              pointing: 'below',
+            }}
             value={title}
             onChange={this.handleChange}
           />
@@ -92,17 +150,25 @@ export class NewMovie extends React.Component {
           <Form.Input
             transparent
             placeholder="ImgUrl"
-            type="url"
+            type="text"
             name="imgUrl"
             value={imgUrl}
+            error={!validator.test(imgUrl) && {
+              content: 'Please enter a valid url',
+              pointing: 'below',
+            }}
             onChange={this.handleChange}
           />
           <Form.Input
             transparent
             placeholder="ImdbUrl"
-            type="url"
+            type="text"
             name="imdbUrl"
             value={imdbUrl}
+            error={!validator.test(imdbUrl) && {
+              content: 'Please enter a valid url',
+              pointing: 'below',
+            }}
             onChange={this.handleChange}
           />
         </Form.Group>
@@ -112,10 +178,14 @@ export class NewMovie extends React.Component {
           type="text"
           name="imdbId"
           value={imdbId}
+          error={errors.imdbId && {
+            content: 'Please enter imdb Id',
+            pointing: 'below',
+          }}
           onChange={this.handleChange}
         />
 
-        <Form.Button>
+        <Form.Button disabled={errors.isButtonDisable === true}>
           Add Film
         </Form.Button>
       </Form>
