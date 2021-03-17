@@ -7,6 +7,25 @@
 
   box-sizing: border-box;
 
+  &__error {
+    position: absolute;
+    top: 96px;
+    right: 59px;
+
+    width: 277px;
+    background-color: rgb(228,182,34);
+    text-align: center;
+
+    border: black 1px solid;
+    h1 {
+      font-size: 20px;
+      font-weight: bold;
+    }
+    p {
+      font-size: 11px;
+    }
+  }
+
   &__title {
     margin-bottom: 40px;
 

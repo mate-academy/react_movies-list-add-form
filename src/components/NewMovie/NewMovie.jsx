@@ -9,12 +9,30 @@ export class NewMovie extends Component {
     newImdbUrl: '',
     imdbId: '',
     description: '',
+    showErrorUrl: false,
   };
 
   handlerUniversal = (event) => {
     const { name, value } = event.target;
+    let checkUrl = true;
+
+    if (name === 'newImg' || name === 'newImdbUrl') {
+      this.setState({ showErrorUrl: false });
+      checkUrl = this.test(value);
+    }
+
+    if (!checkUrl) {
+      this.setState({ showErrorUrl: true });
+    }
 
     this.setState({ [name]: value });
+  }
+
+  test = (test) => {
+    // eslint-disable-next-line
+    const regularExample = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
+
+    return regularExample.test(test);
   }
 
   handlerSubmit = (event) => {
@@ -49,6 +67,7 @@ export class NewMovie extends Component {
       newImdbUrl: '',
       imdbId: '',
       description: '',
+      showErrorUrl: false,
     });
   }
 
@@ -59,6 +78,7 @@ export class NewMovie extends Component {
       newImdbUrl,
       imdbId,
       description,
+      showErrorUrl,
     } = this.state;
 
     return (
@@ -68,6 +88,17 @@ export class NewMovie extends Component {
         >
           Add new film
         </h1>
+
+        {showErrorUrl
+        && (
+          <div
+            className="form__error"
+          >
+            <h1>Invalid URL!</h1>
+            <p>Please write another One.</p>
+          </div>
+        )
+        }
 
         <form
           className="form"
@@ -88,7 +119,6 @@ export class NewMovie extends Component {
             imgUrl:
             <input
               name="newImg"
-              required
               placeholder="imgUrl"
               value={newImg}
               onChange={this.handlerUniversal}
@@ -99,7 +129,6 @@ export class NewMovie extends Component {
             imdbUrl:
             <input
               name="newImdbUrl"
-              required
               placeholder="imdbUrl"
               value={newImdbUrl}
               onChange={this.handlerUniversal}
