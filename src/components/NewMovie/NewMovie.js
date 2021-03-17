@@ -13,7 +13,7 @@ export class NewMovie extends Component {
     imgUrl: '',
     imdbUrl: '',
     imdbId: '',
-    isButtonDisabled: false,
+    disabledSubmit: false,
     isError: {
       title: false,
       imgUrl: false,
@@ -25,42 +25,19 @@ export class NewMovie extends Component {
   controlHandle = () => {
     const { title, imgUrl, imdbUrl, imdbId } = this.state;
 
-    if (!title) {
+    if (
+      !title
+      || !verifier.test(imgUrl)
+      || !verifier.test(imdbUrl)
+      || !imdbId
+    ) {
       this.setState(prevState => ({
-        isButtonDisabled: true,
+        disabledSubmit: true,
         isError: {
-          ...prevState.isError,
-          title: true,
-        },
-      }));
-    }
-
-    if (!verifier.test(imgUrl)) {
-      this.setState(prevState => ({
-        isButtonDisabled: true,
-        isError: {
-          ...prevState.isError,
-          imgUrl: true,
-        },
-      }));
-    }
-
-    if (!verifier.test(imdbUrl)) {
-      this.setState(prevState => ({
-        isButtonDisabled: true,
-        isError: {
-          ...prevState.isError,
-          imdbUrl: true,
-        },
-      }));
-    }
-
-    if (!imdbId) {
-      this.setState(prevState => ({
-        isButtonDisabled: true,
-        isError: {
-          ...prevState.isError,
-          imdbId: true,
+          title: !prevState.title,
+          imgUrl: !verifier.test(prevState.imgUrl),
+          imdbUrl: !verifier.test(prevState.imdbUrl),
+          imdbId: !prevState.imdbId,
         },
       }));
     }
@@ -93,7 +70,7 @@ export class NewMovie extends Component {
 
     this.setState(prevState => ({
       [name]: value,
-      isButtonDisabled: false,
+      disabledSubmit: false,
       isError: {
         ...prevState.isError,
         [name]: false,
@@ -154,7 +131,7 @@ export class NewMovie extends Component {
         <button
           className="form__button"
           type="submit"
-          disabled={this.state.isButtonDisabled}
+          disabled={this.state.disabledSubmit}
         >
           Add movie
         </button>
