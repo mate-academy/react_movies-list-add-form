@@ -1,0 +1,36 @@
+.error {
+  color: red;
+  font-weight: 700;
+}
+
+.form {
+  &__header {
+    font-weight: 900;
+    font-size: 18px;
+    text-align: center;
+    margin-bottom: 30px;
+  }
+
+  &__field {
+    margin: 20px 0;
+  }
+  &__input {
+    margin-left: 10px;
+    padding: 5px;
+
+    &--error {
+      border: 2px solid red;
+    }
+  }
+
+  &__button {
+    margin: 0 auto;
+    display: block;
+    padding: 5px 20px;
+    background-color: #e4b622;
+    border-radius: 5px;
+    border-color: #fff;
+    font-weight: 700;
+    cursor: pointer;
+  }
+}
