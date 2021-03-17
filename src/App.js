@@ -10,15 +10,9 @@ export class App extends Component {
   };
 
   addMovie = (movie) => {
-    this.setState((state) => {
-      const newMovie = {
-        ...movie,
-      };
-
-      return {
-        movies: [...state.movies, newMovie],
-      };
-    });
+    this.setState(prevState => ({
+      movies: [...prevState.movies, movie],
+    }));
   };
 
   render() {
