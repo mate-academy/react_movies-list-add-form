@@ -1,0 +1,26 @@
+.NewMovie__label {
+  margin-left: 10px;
+  margin-bottom: 5px
+}
+
+.NewMovie__input {
+  border-radius: 5px;
+  padding: 2px;
+  border: 2px solid transparent;
+
+  &_warning {
+    border: 2px solid red;
+  }
+}
+
+.NewMovie__message {
+  margin-top: 5px;
+  background-color: red;
+  border-radius: 5px;
+  padding: 2px;
+  opacity: 0;
+
+  &_warning {
+    opacity: 1;
+  }
+}
