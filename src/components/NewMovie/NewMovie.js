@@ -18,7 +18,7 @@ export class NewMovie extends React.Component {
       imgUrl: false,
       isTitle: false,
       isImdbId: false,
-      isButtonDisable: false,
+      isButtonDisabled: false,
     },
 
   };
@@ -29,7 +29,7 @@ export class NewMovie extends React.Component {
     this.setState({
       [name]: value,
       errors: {
-        isButtonDisable: false,
+        isButtonDisabled: false,
       },
     });
   }
@@ -49,7 +49,7 @@ export class NewMovie extends React.Component {
       this.setState({
         errors: {
           imdbUrl: true,
-          isButtonDisable: true,
+          isButtonDisabled: true,
         },
       });
 
@@ -60,7 +60,7 @@ export class NewMovie extends React.Component {
       this.setState({
         errors: {
           imgUrl: true,
-          isButtonDisable: true,
+          isButtonDisabled: true,
         },
       });
 
@@ -79,7 +79,7 @@ export class NewMovie extends React.Component {
           imdbUrl: true,
           title: !prevState.title,
           imgUrl: !prevState.imgUrl,
-          isButtonDisable: true,
+          isButtonDisabled: true,
         },
       }));
 
@@ -185,7 +185,7 @@ export class NewMovie extends React.Component {
           onChange={this.handleChange}
         />
 
-        <Form.Button disabled={errors.isButtonDisable === true}>
+        <Form.Button disabled={errors.isButtonDisabled === true}>
           Add Film
         </Form.Button>
       </Form>
