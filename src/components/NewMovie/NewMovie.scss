@@ -13,3 +13,18 @@
   display: block;
   margin: 20px auto 0;
 }
+
+.wrong-input {
+  border: 1px solid red;
+  background-color: rgba(255, 100, 100, 0.3);
+}
+
+.error-message {
+  width: max-content;
+  margin: 10px;
+  margin-top: 0px;
+  padding: 5px;
+  background-color: rgba(255, 100, 100, 0.3);;
+  border: 1px solid red;
+  border-radius: 5px;
+}
