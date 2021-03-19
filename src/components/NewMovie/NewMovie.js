@@ -17,19 +17,10 @@ export class NewMovie extends Component {
     imdbIdDirty: false,
   };
 
-  componentDidMount() {
-    this.setState({
-      errorMessage: 'Field can\'t be empty',
-      titleDirty: true,
-      imgUrlDirty: true,
-      imdbUrlDirty: true,
-      imdbIdDirty: true,
-    });
-  }
-
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (prevState.addedMovie !== this.state.addedMovie) {
       this.props.addMovie(this.state.addedMovie);
+      this.clearForm();
     }
   }
 
@@ -41,46 +32,35 @@ export class NewMovie extends Component {
     this.setState({
       [name]: value,
       [val]: false,
+      submitMessage: false,
     });
   }
 
   blurHandler = (e) => {
+    if (e.target.value) {
+      return;
+    }
+
     switch (e.target.name) {
       case 'title':
-        if (e.target.value) {
-          return;
-        }
-
         this.setState({
           titleDirty: true,
           errorMessage: `Title value is invalid`,
         });
         break;
       case 'imgUrl':
-        if (e.target.value) {
-          return;
-        }
-
         this.setState({
           imgUrlDirty: true,
           errorMessage: `ImgUrl value is invalid`,
         });
         break;
       case 'imdbUrl':
-        if (e.target.value) {
-          return;
-        }
-
         this.setState({
           imdbUrlDirty: true,
           errorMessage: `ImdbUrl value is invalid`,
         });
         break;
       case 'imdbId':
-        if (e.target.value) {
-          return;
-        }
-
         this.setState({
           imdbIdDirty: true,
           errorMessage: `ImdbId value is invalid`,
@@ -93,6 +73,20 @@ export class NewMovie extends Component {
   onSubmitHandler = (e) => {
     e.preventDefault();
 
+    if (
+      !this.state.title || !this.state.title.replace(/ /g, '')
+      || !this.state.imgUrl || !this.state.imgUrl.replace(/ /g, '')
+      || !this.state.imdbUrl || !this.state.imdbUrl.replace(/ /g, '')
+      || !this.state.imdbId || !this.state.imdbId.replace(/ /g, '')
+    ) {
+      this.setState({
+        submitMessage: true,
+      });
+      this.clearForm();
+
+      return;
+    }
+
     this.setState(state => ({
       addedMovie: {
         title: state.title,
@@ -100,8 +94,19 @@ export class NewMovie extends Component {
         imgUrl: state.imgUrl,
         imdbUrl: state.imdbUrl,
         imdbId: state.imdbId,
+        submitMessage: false,
       },
     }));
+  }
+
+  clearForm() {
+    this.setState({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
   }
 
   render() {
@@ -129,7 +134,6 @@ export class NewMovie extends Component {
       <form
         className="form-style-7"
         onSubmit={this.onSubmitHandler}
-        disabled="false"
       >
         <ul>
           <li>
@@ -147,6 +151,7 @@ export class NewMovie extends Component {
             && <span style={{ color: 'red' }}>{errorMessage}</span>}
           </li>
           <li>
+            <label htmlFor="description">Description</label>
             <input
               name="description"
               type="text"
@@ -165,11 +170,11 @@ export class NewMovie extends Component {
               onBlur={this.blurHandler}
               id="imgUrl"
               required="true"
-              pattern="/^((([A-Za-z]{3,9}:(?:\\/\\/)?)(?:[-;:&=+\$,
-              \\w]+@)?[A-Za-z0-9.-]+|
-                (?:www\\.|[-;:&=+\$,\\w]+@)[A-Za-z0-9.-]+)
-                ((?:\\/[+~%/.\\w-_]*)?\\??
-                (?:[-+=&;%@.\\w_]*)#?(?:[.!/\\\\\\w]*))?)\$/"
+              pattern="/^((([A-Za-z]{3,9}:(?:\\/\\/)?)(?:
+              [-;:&=+\$,\\w]+@)?[A-Za-z0-9.-]+|
+              (?:www\\.|[-;:&=+\$,\\w]+@)[A-Za-z0-9.-]+)
+              ((?:\\/[+~%/.\\w-_]*)?\\??(?:
+              [-+=&;%@.\\w_]*)#?(?:[.!/\\\\\\w]*))?)\$/"
             />
             {(imgUrlDirty && errorMessage)
             && <span style={{ color: 'red' }}>{errorMessage}</span>}
@@ -184,11 +189,11 @@ export class NewMovie extends Component {
               onBlur={this.blurHandler}
               id="imdbUrl"
               required="true"
-              pattern="/^((([A-Za-z]{3,9}:(?:\\/\\/)?)(?:[-;:&=+\$,
-              \\w]+@)?[A-Za-z0-9.-]+|
-                (?:www\\.|[-;:&=+\$,\\w]+@)[A-Za-z0-9.-]+)
-                ((?:\\/[+~%/.\\w-_]*)?\\??
-                (?:[-+=&;%@.\\w_]*)#?(?:[.!/\\\\\\w]*))?)\$/"
+              pattern="/^((([A-Za-z]{3,9}:(?:\\/\\/)?)(?:
+              [-;:&=+\$,\\w]+@)?[A-Za-z0-9.-]+|
+              (?:www\\.|[-;:&=+\$,\\w]+@)[A-Za-z0-9.-]+)
+              ((?:\\/[+~%/.\\w-_]*)?\\??(?:
+              [-+=&;%@.\\w_]*)#?(?:[.!/\\\\\\w]*))?)\$/"
             />
             {(imdbUrlDirty && errorMessage)
             && <span style={{ color: 'red' }}>{errorMessage}</span>}
@@ -208,6 +213,15 @@ export class NewMovie extends Component {
             && <span style={{ color: 'red' }}>{errorMessage}</span>}
           </li>
           <li>
+            { this.state.submitMessage
+            && (
+            <p style={{
+              color: 'red', padding: '10px',
+            }}
+            >
+              All inputs must must contain characters
+            </p>
+            )}
             <button
               type="submit"
               disabled={!validForm}
