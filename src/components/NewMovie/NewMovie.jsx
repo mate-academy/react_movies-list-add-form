@@ -4,9 +4,9 @@ import './NewMovie.scss';
 
 export class NewMovie extends Component {
   state = {
-    newTitle: '',
-    newImg: '',
-    newImdbUrl: '',
+    title: '',
+    imgUrl: '',
+    imdbUrl: '',
     imdbId: '',
     description: '',
     showErrorUrl: false,
@@ -14,25 +14,25 @@ export class NewMovie extends Component {
 
   handlerUniversal = (event) => {
     const { name, value } = event.target;
-    let checkUrl = true;
+    let isCorrectUrl = true;
 
-    if (name === 'newImg' || name === 'newImdbUrl') {
+    if (name === 'imgUrl' || name === 'imdbUrl') {
       this.setState({ showErrorUrl: false });
-      checkUrl = this.test(value);
+      isCorrectUrl = this.test(value);
     }
 
-    if (!checkUrl) {
+    if (!isCorrectUrl) {
       this.setState({ showErrorUrl: true });
     }
 
     this.setState({ [name]: value });
   }
 
-  test = (test) => {
+  test = (currentUrl) => {
     // eslint-disable-next-line
     const regularExample = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
 
-    return regularExample.test(test);
+    return regularExample.test(currentUrl);
   }
 
   handlerSubmit = (event) => {
@@ -40,18 +40,18 @@ export class NewMovie extends Component {
 
     const { addMovie } = this.props;
     const {
-      newTitle,
-      newImg,
-      newImdbUrl,
+      title,
+      imgUrl,
+      imdbUrl,
       imdbId,
       description,
     } = this.state;
 
     const newFilm = {
-      title: newTitle,
+      title,
       description,
-      imgUrl: newImg,
-      imdbUrl: newImdbUrl,
+      imgUrl,
+      imdbUrl,
       imdbId,
     };
 
@@ -62,9 +62,9 @@ export class NewMovie extends Component {
 
   resetForm = () => {
     this.setState({
-      newTitle: '',
-      newImg: '',
-      newImdbUrl: '',
+      title: '',
+      imgUrl: '',
+      imdbUrl: '',
       imdbId: '',
       description: '',
       showErrorUrl: false,
@@ -73,8 +73,8 @@ export class NewMovie extends Component {
 
   render() {
     const {
-      newTitle,
-      newImg,
+      title,
+      imgUrl,
       newImdbUrl,
       imdbId,
       description,
@@ -107,10 +107,10 @@ export class NewMovie extends Component {
           <label>
             Title:
             <input
-              name="newTitle"
+              name="title"
               required
               placeholder="Title"
-              value={newTitle}
+              value={title}
               onChange={this.handlerUniversal}
             />
           </label>
@@ -118,9 +118,9 @@ export class NewMovie extends Component {
           <label>
             imgUrl:
             <input
-              name="newImg"
+              name="imgUrl"
               placeholder="imgUrl"
-              value={newImg}
+              value={imgUrl}
               onChange={this.handlerUniversal}
             />
           </label>
@@ -128,7 +128,7 @@ export class NewMovie extends Component {
           <label>
             imdbUrl:
             <input
-              name="newImdbUrl"
+              name="imdbUrl"
               placeholder="imdbUrl"
               value={newImdbUrl}
               onChange={this.handlerUniversal}
