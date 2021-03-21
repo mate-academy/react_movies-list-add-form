@@ -8,7 +8,15 @@ export class NewMovie extends Component {
     imgUrl: '',
     imdbUrl: '',
     imdbId: '',
+    isErrorValidation: false,
   };
+
+  checkValidationUrl = (url) => {
+    // eslint-disable-next-line
+    const regExp = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
+
+    return regExp.test(url);
+  }
 
   createMovie = () => {
     const { title, description, imgUrl, imdbUrl, imdbId } = this.state;
@@ -34,6 +42,15 @@ export class NewMovie extends Component {
 
   changeHandler = (event) => {
     const { name, value } = event.target;
+    let isValidationUrl = false;
+
+    if (name === 'imgUrl' || name === 'imbdUrl') {
+      isValidationUrl = this.checkValidationUrl(value);
+    }
+
+    if (!isValidationUrl) {
+      this.setState({ isErrorValidation: true });
+    }
 
     this.setState({
       [name]: value,
@@ -41,7 +58,13 @@ export class NewMovie extends Component {
   }
 
   render() {
-    const { title, description, imgUrl, imdbUrl, imdbId } = this.state;
+    const {
+      title,
+      description,
+      imgUrl, imdbUrl,
+      imdbId,
+      isErrorValidation,
+    } = this.state;
     const { onAdd } = this.props;
 
     return (
@@ -49,6 +72,11 @@ export class NewMovie extends Component {
         <h1 className="title">
           Add new movie
         </h1>
+        {isErrorValidation && (
+          <div className="is-error">
+            <h1>Please enter corect url</h1>
+          </div>
+        )}
         <form
           onSubmit={(event) => {
             event.preventDefault();
@@ -105,6 +133,7 @@ export class NewMovie extends Component {
           <button
             className="button"
             type="submit"
+            disabled={isErrorValidation}
           >
             Add film
           </button>
