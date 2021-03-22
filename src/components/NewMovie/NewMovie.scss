@@ -1,0 +1,68 @@
+.form {
+  display: flex;
+  flex-direction: column;
+
+  padding-left: 40px;
+  padding-right: 40px;
+
+  box-sizing: border-box;
+
+  &__error {
+    position: absolute;
+    top: 96px;
+    right: 59px;
+
+    width: 277px;
+    background-color: rgb(228,182,34);
+    text-align: center;
+
+    border: black 1px solid;
+    h1 {
+      font-size: 20px;
+      font-weight: bold;
+    }
+    p {
+      font-size: 11px;
+    }
+  }
+
+  &__title {
+    margin-bottom: 40px;
+
+    text-align: center;
+    font-size: 60px;
+  }
+
+  label {
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
+
+    font-size: 30px;
+  }
+
+  &__text-area {
+    height: 80px;
+    margin-bottom: 15px;
+  }
+
+  &__button {
+    height: 50px;
+    padding: auto;
+
+    background-color: rgb(242, 243, 226);
+
+    font-size: 35px;
+    font-weight: bold;
+    color: white;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+
+    border-width: 1px;
+
+    &:hover {
+      background-color: rgba(228,182,34,255);
+    }
+
+  }
+
+}
