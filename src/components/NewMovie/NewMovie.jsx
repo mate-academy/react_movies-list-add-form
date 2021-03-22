@@ -12,27 +12,17 @@ export class NewMovie extends Component {
     showErrorUrl: false,
   };
 
-  handlerUniversal = (event) => {
+  ChangeUniversalHandler = (event) => {
     const { name, value } = event.target;
-    let isCorrectUrl = true;
-
-    if (name === 'imgUrl' || name === 'imdbUrl') {
-      this.setState({ showErrorUrl: false });
-      isCorrectUrl = this.test(value);
-    }
-
-    if (!isCorrectUrl) {
-      this.setState({ showErrorUrl: true });
-    }
 
     this.setState({ [name]: value });
   }
 
-  test = (currentUrl) => {
+  testUrl = (currentUrl) => {
     // eslint-disable-next-line
-    const regularExample = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
+    const regularForUrlTest = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
 
-    return regularExample.test(currentUrl);
+    return regularForUrlTest.test(currentUrl);
   }
 
   handlerSubmit = (event) => {
@@ -46,6 +36,19 @@ export class NewMovie extends Component {
       imdbId,
       description,
     } = this.state;
+
+    let isCorrectUrls = true;
+
+    const isImgUrlTrue = this.testUrl(imgUrl);
+    const isimdbUrlTrue = this.testUrl(imdbUrl);
+
+    isCorrectUrls = isImgUrlTrue && isimdbUrlTrue;
+
+    if (!isCorrectUrls) {
+      this.setState({ showErrorUrl: true });
+
+      return;
+    }
 
     const newFilm = {
       title,
@@ -111,7 +114,7 @@ export class NewMovie extends Component {
               required
               placeholder="Title"
               value={title}
-              onChange={this.handlerUniversal}
+              onChange={this.ChangeUniversalHandler}
             />
           </label>
 
@@ -121,7 +124,7 @@ export class NewMovie extends Component {
               name="imgUrl"
               placeholder="imgUrl"
               value={imgUrl}
-              onChange={this.handlerUniversal}
+              onChange={this.ChangeUniversalHandler}
             />
           </label>
 
@@ -131,7 +134,7 @@ export class NewMovie extends Component {
               name="imdbUrl"
               placeholder="imdbUrl"
               value={newImdbUrl}
-              onChange={this.handlerUniversal}
+              onChange={this.ChangeUniversalHandler}
             />
           </label>
 
@@ -142,7 +145,7 @@ export class NewMovie extends Component {
               required
               placeholder="imdbId"
               value={imdbId}
-              onChange={this.handlerUniversal}
+              onChange={this.ChangeUniversalHandler}
             />
           </label>
           <textarea
@@ -150,7 +153,7 @@ export class NewMovie extends Component {
             placeholder="Description"
             className="form__text-area"
             value={description}
-            onChange={this.handlerUniversal}
+            onChange={this.ChangeUniversalHandler}
           />
           <button
             type="submit"
