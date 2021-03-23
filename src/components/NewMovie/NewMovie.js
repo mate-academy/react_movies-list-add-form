@@ -13,21 +13,38 @@ export class NewMovie extends Component {
 
   checkValidationUrl = (url) => {
     // eslint-disable-next-line
-    const regExp = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
+    const regExp = /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._s+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&//=]*)/g;
 
     return regExp.test(url);
   }
 
   createMovie = () => {
     const { title, description, imgUrl, imdbUrl, imdbId } = this.state;
+    const { onAdd } = this.props;
 
-    return {
+    let isCorrectUrl = true;
+
+    const isCorrectImgUrl = this.checkValidationUrl(imgUrl);
+    const isCorrectImbdUrl = this.checkValidationUrl(imdbUrl);
+
+    isCorrectUrl = isCorrectImbdUrl && isCorrectImgUrl;
+
+    if (!isCorrectUrl) {
+      this.setState({ isErrorValidation: true });
+
+      return;
+    }
+
+    const newMovie = {
       title,
       description,
       imdbUrl,
       imgUrl,
       imdbId,
     };
+
+    onAdd(newMovie);
+    this.clearMovie();
   }
 
   clearMovie = () => {
@@ -42,15 +59,6 @@ export class NewMovie extends Component {
 
   changeHandler = (event) => {
     const { name, value } = event.target;
-    let isValidationUrl = false;
-
-    if (name === 'imgUrl' || name === 'imbdUrl') {
-      isValidationUrl = this.checkValidationUrl(value);
-    }
-
-    if (!isValidationUrl) {
-      this.setState({ isErrorValidation: true });
-    }
 
     this.setState({
       [name]: value,
@@ -65,7 +73,6 @@ export class NewMovie extends Component {
       imdbId,
       isErrorValidation,
     } = this.state;
-    const { onAdd } = this.props;
 
     return (
       <>
@@ -80,8 +87,7 @@ export class NewMovie extends Component {
         <form
           onSubmit={(event) => {
             event.preventDefault();
-            onAdd(this.createMovie());
-            this.clearMovie();
+            this.createMovie();
           }}
         >
           <input
@@ -133,7 +139,6 @@ export class NewMovie extends Component {
           <button
             className="button"
             type="submit"
-            disabled={isErrorValidation}
           >
             Add film
           </button>
