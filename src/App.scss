@@ -13,3 +13,13 @@
   padding: 20px;
   border-left: 1px solid lightgray;
 }
+
+.is-error {
+  position: absolute;
+  right: 70px;
+  top: 280px;
+  text-align: center;
+  background-color: #ffd8d8;
+  padding: 8px 20px;
+  border-radius: 8px;
+}
