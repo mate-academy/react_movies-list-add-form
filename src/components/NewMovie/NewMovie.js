@@ -13,21 +13,19 @@ export class NewMovie extends Component {
 
   checkValidationUrl = (url) => {
     // eslint-disable-next-line
-    const regExp = /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._s+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&//=]*)/g;
+    const isLink = /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._s+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&//=]*)/g;
 
-    return regExp.test(url);
+    return isLink.test(url);
   }
 
   createMovie = () => {
     const { title, description, imgUrl, imdbUrl, imdbId } = this.state;
     const { onAdd } = this.props;
 
-    let isCorrectUrl = true;
-
     const isCorrectImgUrl = this.checkValidationUrl(imgUrl);
     const isCorrectImbdUrl = this.checkValidationUrl(imdbUrl);
 
-    isCorrectUrl = isCorrectImbdUrl && isCorrectImgUrl;
+    const isCorrectUrl = isCorrectImbdUrl && isCorrectImgUrl;
 
     if (!isCorrectUrl) {
       this.setState({ isErrorValidation: true });
