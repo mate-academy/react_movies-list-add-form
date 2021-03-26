@@ -11,6 +11,13 @@ export class NewMovie extends Component {
     id: 0,
   };
 
+  checkValidationUrl = (url) => {
+    // eslint-disable-next-line
+    const isLink = /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._s+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&//=]*)/g;
+
+    return isLink.test(url);
+  }
+
   setData = (key) => {
     return (event) => {
       this.setState({
@@ -30,6 +37,10 @@ export class NewMovie extends Component {
     event.preventDefault();
 
     if (title === '' || description === '' || imgUrl === '' || imdbUrl === '') {
+      return;
+    }
+
+    if (!this.checkValidationUrl(imgUrl) || !this.checkValidationUrl(imdbUrl)) {
       return;
     }
 
@@ -59,6 +70,7 @@ export class NewMovie extends Component {
             type="text"
             onChange={this.setData('title')}
             value={title}
+            required
           />
         </label>
         <label>
@@ -67,6 +79,7 @@ export class NewMovie extends Component {
             type="text"
             onChange={this.setData('description')}
             value={description}
+            required
           />
         </label>
         <label>
@@ -75,6 +88,7 @@ export class NewMovie extends Component {
             type="text"
             onChange={this.setData('imgUrl')}
             value={imgUrl}
+            required
           />
         </label>
         <label>
@@ -83,6 +97,7 @@ export class NewMovie extends Component {
             type="text"
             onChange={this.setData('imdbUrl')}
             value={imdbUrl}
+            required
           />
         </label>
         <label>
@@ -91,6 +106,7 @@ export class NewMovie extends Component {
             type="number"
             onChange={this.setData('id')}
             value={this.state.id}
+            required
           />
         </label>
         <button
