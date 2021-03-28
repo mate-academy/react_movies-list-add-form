@@ -1,0 +1,23 @@
+.movie-form {
+  display: flex;
+  flex-direction: column;
+
+  &__input {
+    margin-bottom: 20px;
+    padding: 20px;
+
+    font-size: 21px;
+    border: 1px solid rgb(187, 185, 185);
+    border-radius: 10px;
+  }
+
+  &__btn {
+    align-self: center;
+    padding: 15px;
+    width: 160px;
+    
+    font-size: 21px;
+    border: 1px solid rgb(187, 185, 185);
+    border-radius: 10px;
+  }
+}
