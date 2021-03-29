@@ -3,6 +3,7 @@ import './App.scss';
 import { MoviesList } from './components/MoviesList';
 import { NewMovie } from './components/NewMovie';
 import moviesFromServer from './api/movies.json';
+import 'bulma';
 
 export class App extends Component {
   state = {
@@ -10,7 +11,9 @@ export class App extends Component {
   };
 
   addMovie = (movie) => {
-    // put your code here
+    this.setState(prevState => ({
+      movies: [...prevState.movies, movie],
+    }));
   };
 
   render() {
@@ -22,7 +25,7 @@ export class App extends Component {
           <MoviesList movies={movies} />
         </div>
         <div className="sidebar">
-          <NewMovie />
+          <NewMovie onAdd={this.addMovie} />
         </div>
       </div>
     );
