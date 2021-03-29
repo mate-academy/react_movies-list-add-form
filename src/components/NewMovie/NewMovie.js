@@ -25,6 +25,14 @@ export class NewMovie extends Component {
     });
   }
 
+  handleChange = (event) => {
+    const { name, value } = event.target;
+
+    this.setState({
+      [name]: value,
+    });
+  }
+
   render() {
     return (
       <form
@@ -39,11 +47,8 @@ export class NewMovie extends Component {
           type="text"
           placeholder="Title"
           value={this.state.title}
-          onChange={(event) => {
-            this.setState({
-              title: event.target.value,
-            });
-          }}
+          name="title"
+          onChange={this.handleChange}
           required
         />
         <input
@@ -51,22 +56,16 @@ export class NewMovie extends Component {
           type="textarea"
           placeholder="Description"
           value={this.state.description}
-          onChange={(event) => {
-            this.setState({
-              description: event.target.value,
-            });
-          }}
+          name="description"
+          onChange={this.handleChange}
         />
         <input
           className="input"
           type="text"
           placeholder="ImgUrl"
           value={this.state.ImgUrl}
-          onChange={(event) => {
-            this.setState({
-              ImgUrl: event.target.value,
-            });
-          }}
+          name="imgUrl"
+          onChange={this.handleChang}
           required
         />
         <input
@@ -74,11 +73,8 @@ export class NewMovie extends Component {
           type="text"
           placeholder="ImdbUrl"
           value={this.state.ImdbUrl}
-          onChange={(event) => {
-            this.setState({
-              ImdbUrl: event.target.value,
-            });
-          }}
+          name="imdbUrl"
+          onChange={this.handleChange}
           required
         />
         <input
@@ -86,11 +82,8 @@ export class NewMovie extends Component {
           type="text"
           placeholder="ImdbId"
           value={this.state.ImdbId}
-          onChange={(event) => {
-            this.setState({
-              ImdbId: event.target.value,
-            });
-          }}
+          name="imdbId"
+          onChange={this.handleChange}
           required
         />
         <button
