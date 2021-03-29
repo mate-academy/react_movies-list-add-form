@@ -1,0 +1,18 @@
+.error {
+  color: red;
+}
+
+.form {
+  display: grid;
+
+  &__input {
+    display: flex;
+    width: 300px;
+    margin: 5px 0;
+    padding: 5px;
+
+    &__error {
+      border-color: red;
+    }
+  }
+}
