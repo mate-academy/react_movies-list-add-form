@@ -102,28 +102,31 @@ export class NewMovie extends Component {
         }}
       >
 
-        <fieldset>Add new movie</fieldset>
-        <br />
-        <label htmlFor="title">Title:</label>
-        <input
-          type="text"
-          name="title"
-          id="title"
-          placeholder="Title"
-          className="form__input"
-          value={title}
-          onChange={this.handleChange}
-        />
+        <div className="title">Add new movie</div>
+        <label htmlFor="title">
+          <div>Title:</div>
+          <input
+            type="text"
+            name="title"
+            id="title"
+            placeholder="Title"
+            className="form__input"
+            value={title}
+            onChange={this.handleChange}
+          />
+        </label>
 
-        <label htmlFor="description">Description:</label>
-        <textarea
-          name="description"
-          id="description"
-          placeholder="Description"
-          className="form__input"
-          value={description}
-          onChange={this.handleChange}
-        />
+        <label htmlFor="description">
+          <div>Description:</div>
+          <textarea
+            name="description"
+            id="description"
+            placeholder="Description"
+            className="form__input"
+            value={description}
+            onChange={this.handleChange}
+          />
+        </label>
 
         <label htmlFor="imgUrl">
           ImgUrl:&nbsp;
@@ -132,8 +135,6 @@ export class NewMovie extends Component {
               Enter correct img url
             </span>
           )}
-
-          <br />
           <input
             type="text"
             name="imgUrl"
@@ -155,8 +156,6 @@ export class NewMovie extends Component {
               Enter correct imdb url
             </span>
           )}
-
-          <br />
           <input
             type="text"
             name="imdbUrl"
@@ -171,19 +170,24 @@ export class NewMovie extends Component {
           />
         </label>
 
-        <label htmlFor="imdbId">ImdbId</label>
-        <input
-          type="text"
-          name="imdbId"
-          id="imdbId"
-          placeholder="ImdbId"
-          className="form__input"
-          value={imdbId}
-          onChange={this.handleChange}
-        />
+        <label htmlFor="imdbId">
+          <div>ImdbId:</div>
+          <input
+            type="text"
+            name="imdbId"
+            id="imdbId"
+            placeholder="ImdbId"
+            className="form__input"
+            value={imdbId}
+            onChange={this.handleChange}
+          />
+        </label>
 
         <div>
-          <button type="submit">
+          <button
+            type="submit"
+            className="button"
+          >
             Add movie
           </button>
         </div>
