@@ -16,7 +16,7 @@ export class NewMovie extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
 
-    this.props.addMovie(this.state.form);
+    this.props.onAdd(this.state.form);
 
     this.setState({
       form: {
@@ -68,7 +68,6 @@ export class NewMovie extends Component {
           className="movie-form__input"
           value={description}
           onChange={this.handleChange}
-          required
         />
         <input
           type="text"
@@ -106,5 +105,5 @@ export class NewMovie extends Component {
 }
 
 NewMovie.propTypes = {
-  addMovie: PropTypes.func.isRequired,
+  onAdd: PropTypes.func.isRequired,
 };
