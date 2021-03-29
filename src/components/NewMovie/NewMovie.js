@@ -45,6 +45,7 @@ export class NewMovie extends Component {
       imgUrl: '',
       imdbUrl: '',
       imdbId: '',
+      hasEmptyField: false,
     });
   }
 
@@ -72,9 +73,9 @@ export class NewMovie extends Component {
             value={title}
             onChange={this.handleChange}
           />
-          <input
+          <textarea
             name="description"
-            className="input is-medium input-margin"
+            className="textarea is-success input-margin"
             type="text"
             placeholder="description"
             value={description}
