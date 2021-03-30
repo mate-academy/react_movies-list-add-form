@@ -16,10 +16,10 @@ export class NewMovie extends Component {
   };
 
   setValue = (event) => {
-    const { name } = event.target;
+    const { name, value } = event.target;
 
     this.setState({
-      [name]: event.target.value,
+      [name]: value,
     });
   }
 
