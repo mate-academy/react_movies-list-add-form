@@ -6,7 +6,7 @@ import './NewMovie.scss';
 export class NewMovie extends Component {
   state = {
     title: '',
-    description: 'Description...',
+    description: '',
     imgUrl: '',
     imdbUrl: '',
     imdbId: '',
@@ -21,7 +21,7 @@ export class NewMovie extends Component {
 
     this.setState({
       title: '',
-      description: 'Description...',
+      description: '',
       imgUrl: '',
       imdbUrl: '',
       imdbId: '',
@@ -60,13 +60,9 @@ export class NewMovie extends Component {
           name="description"
           className="form__field"
           value={description}
+          placeholder="Description..."
           onChange={this.handleChange}
-          onClick={() => this.setState({
-            description: '',
-          })}
-        >
-          Description
-        </textarea>
+        />
 
         <input
           type="text"

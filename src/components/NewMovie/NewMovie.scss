@@ -7,10 +7,6 @@
     border: 2px solid darkslategray;
     padding: 10px;
 
-    &::placeholder {
-      color: black;
-    }
-
     &:focus {
       background-color: #e8f0fe;
     }
