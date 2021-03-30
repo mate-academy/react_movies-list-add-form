@@ -54,6 +54,7 @@ export class NewMovie extends Component {
           className="form__field"
           value={title}
           onChange={this.handleChange}
+          required
         />
 
         <textarea
@@ -62,6 +63,7 @@ export class NewMovie extends Component {
           value={description}
           placeholder="Description..."
           onChange={this.handleChange}
+          required
         />
 
         <input
@@ -71,6 +73,7 @@ export class NewMovie extends Component {
           className="form__field"
           value={imgUrl}
           onChange={this.handleChange}
+          required
         />
 
         <input
@@ -80,6 +83,7 @@ export class NewMovie extends Component {
           className="form__field"
           value={imdbUrl}
           onChange={this.handleChange}
+          required
         />
 
         <input
@@ -89,6 +93,7 @@ export class NewMovie extends Component {
           className="form__field"
           value={imdbId}
           onChange={this.handleChange}
+          required
         />
 
         <button type="submit" className="form__button">Add Movie</button>
