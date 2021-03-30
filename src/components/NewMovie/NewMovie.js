@@ -94,9 +94,7 @@ export class NewMovie extends Component {
 
         <form
           className="form"
-          onSubmit={(event) => {
-            this.handleSubmit(event);
-          }}
+          onSubmit={this.handleSubmit}
         >
 
           <label htmlFor="title-movie">
@@ -106,9 +104,7 @@ export class NewMovie extends Component {
               id="title-movie"
               placeholder="Enter a title"
               value={title}
-              onChange={(event) => {
-                this.setValue(event);
-              }}
+              onChange={this.setValue}
               required
             />
           </label>
@@ -121,9 +117,7 @@ export class NewMovie extends Component {
               id="description-movie"
               placeholder="Enter a description"
               value={description}
-              onChange={(event) => {
-                this.setValue(event);
-              }}
+              onChange={this.setValue}
             />
           </label>
           <br />
@@ -140,9 +134,7 @@ export class NewMovie extends Component {
               id="movie-image"
               placeholder="Enter an image URL"
               value={imgUrl}
-              onChange={(event) => {
-                this.setValue(event);
-              }}
+              onChange={this.setValue}
               required
             />
           </label>
@@ -159,9 +151,7 @@ export class NewMovie extends Component {
               id="movie-imdb"
               placeholder="Enter IMDB URL"
               value={imdbUrl}
-              onChange={(event) => {
-                this.setValue(event);
-              }}
+              onChange={this.setValue}
               required
             />
           </label>
@@ -173,9 +163,7 @@ export class NewMovie extends Component {
               id="movie-imdb-id"
               placeholder="Enter IMDB Id"
               value={imdbId}
-              onChange={(event) => {
-                this.setValue(event);
-              }}
+              onChange={this.setValue}
               required
             />
           </label>
