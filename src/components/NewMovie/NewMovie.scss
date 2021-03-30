@@ -1,0 +1,24 @@
+.moviesform {
+  display: flex;
+  flex-direction: column;
+
+  &__input {
+    margin-bottom: 5px;
+    border: 2px purple solid;
+    border-radius: 2px;
+    height: 30px;
+    &--textarea {
+      height: 60px;
+    }
+  }
+  &__button {
+    background-color: purple;
+    color: wheat;
+    height: 30px;
+    cursor: pointer;
+    border-radius: 2px;
+  }
+  &__warning {
+    color: red;
+  }
+}
