@@ -33,16 +33,20 @@ export class NewMovie extends Component {
 
     const { onAdd } = this.props;
 
-    if (title
+    if (
+      title
     && description
     && imgUrl
     && imdbUrl
-    && imdbId) {
-      onAdd(title,
+    && imdbId
+    ) {
+      onAdd({
+        title,
         description,
         imgUrl,
         imdbUrl,
-        imdbId);
+        imdbId,
+      });
 
       this.setState({
         title: '',
