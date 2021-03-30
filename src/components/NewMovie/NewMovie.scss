@@ -1,0 +1,22 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  &__field {
+    border: 2px solid darkslategray;
+    padding: 10px;
+
+    &:focus {
+      background-color: #e8f0fe;
+    }
+  }
+
+  &__button {
+    padding: 10px;
+    background-color: darkslategray;
+    color: white;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+}
