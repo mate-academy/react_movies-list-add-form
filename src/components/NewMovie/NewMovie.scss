@@ -1,0 +1,26 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  &__field {
+    border: 2px solid darkslategray;
+    padding: 10px;
+
+    &::placeholder {
+      color: black;
+    }
+
+    &:focus {
+      background-color: rgb(234, 252, 255);
+    }
+  }
+
+  &__button {
+    padding: 10px;
+    background-color: darkslategray;
+    color: white;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+}
