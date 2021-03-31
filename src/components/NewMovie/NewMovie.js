@@ -63,6 +63,7 @@ export class NewMovie extends Component {
               placeholder="Movie title"
               value={title}
               onChange={onChangeHandler}
+              required
             />
           </div>
           <div className="field">
@@ -81,6 +82,7 @@ export class NewMovie extends Component {
               placeholder="Movie link"
               value={imgUrl}
               onChange={onChangeHandler}
+              required
             />
           </div>
           <div className="field">
@@ -90,6 +92,7 @@ export class NewMovie extends Component {
               placeholder="IMDB link"
               value={imdbUrl}
               onChange={onChangeHandler}
+              required
             />
           </div>
           <div className="field">
@@ -99,6 +102,7 @@ export class NewMovie extends Component {
               placeholder="IMDB id"
               value={imdbId}
               onChange={onChangeHandler}
+              required
             />
           </div>
           <button
