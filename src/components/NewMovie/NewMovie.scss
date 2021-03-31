@@ -1,0 +1,37 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+
+  &_header {
+    font-weight: 800;
+    font-size: 36px;
+    color: rgb(255, 165, 0);
+    -webkit-text-stroke: 1px black;
+  }
+  
+  &_element {
+    height: 3rem;
+    width: 20rem;
+    outline: none;
+    border-radius: 10px;
+    border: 0.5px solid gray;
+    background: linear-gradient(90deg, rgb(226, 226, 226), rgb(255, 255, 255));
+
+    &:focus {
+      border: 2px solid rgb(255, 165, 0);
+    }
+  }
+
+  &_button {
+    width: 10rem;
+    height: 3rem;
+
+    border-radius: 10px;
+    background: rgb(255, 165, 0);
+
+    font-weight: bold;
+    font-size: 15px;
+  }
+}
