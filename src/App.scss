@@ -13,3 +13,39 @@
   padding: 20px;
   border-left: 1px solid lightgray;
 }
+
+.form {
+  font-size: 18px;
+
+  &__title {
+    font-size: inherit;
+  }
+
+  &__input {
+    height: 30px;
+    width: 100%;
+    font-size: inherit;
+
+    &::placeholder {
+      color: lightslategrey;
+      font-size: inherit;
+    }
+  }
+
+  &__button {
+    margin-top: 10px;
+    width: 100%;
+    border: none;
+    border-radius: 10px;
+    font-size: inherit;
+    cursor: pointer;
+  }
+}
+
+.input-error {
+  border: 1px solid red;
+}
+
+.error {
+  color: red;
+}
