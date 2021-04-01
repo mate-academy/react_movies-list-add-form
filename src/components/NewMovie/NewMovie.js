@@ -33,7 +33,6 @@ export class NewMovie extends Component {
       imgUrl: '',
       imdbUrl: '',
       imdbId: '',
-      isEmpty: false,
     });
   }
 
