@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Input } from './Input';
+import { Inputs } from './Inputs';
 
 function isValidUrl(url) {
   // eslint-disable-next-line max-len
@@ -28,7 +28,7 @@ export class NewMovie extends Component {
     disabledSubmit: false,
   };
 
-  controlHandle = (event) => {
+  controlFocusHandle = (event) => {
     const { name, value } = event.target;
     const { title, imgUrl, imdbUrl, imdbId } = this.state.inputValue;
 
@@ -105,10 +105,10 @@ export class NewMovie extends Component {
         onSubmit={this.handleSubmit}
         className="form"
       >
-        <Input
+        <Inputs
           inputValue={this.state.inputValue}
           inputError={this.state.error}
-          controlHandle={this.controlHandle}
+          controlFocusHandle={this.controlFocusHandle}
           onChangedInput={this.onChangedInput}
         />
 

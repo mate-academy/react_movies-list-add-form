@@ -5,17 +5,15 @@ function firstLetterUpperCase(string) {
   return string[0].toUpperCase() + string.slice(1);
 }
 
-export const Input = (props) => {
-  const { inputValue, inputError, controlHandle, onChangedInput } = props;
+export const Inputs = (props) => {
+  const { inputValue, inputError, controlFocusHandle, onChangedInput } = props;
 
   return (
     <div>
       {Object.keys(inputValue).map(stateValue => (
         <label key={stateValue}>
           <p className="form__title">
-            {`
-              ${firstLetterUpperCase(stateValue)}
-              `}
+            {firstLetterUpperCase(stateValue)}
           </p>
           <input
             type="text"
@@ -26,7 +24,7 @@ export const Input = (props) => {
             }
             placeholder={firstLetterUpperCase(stateValue)}
             value={inputValue[stateValue]}
-            onBlur={controlHandle}
+            onBlur={controlFocusHandle}
             onChange={onChangedInput}
           />
           {inputError[stateValue] && (
@@ -42,8 +40,8 @@ export const Input = (props) => {
   );
 };
 
-Input.propTypes = {
-  controlHandle: PropTypes.func.isRequired,
+Inputs.propTypes = {
+  controlFocusHandle: PropTypes.func.isRequired,
   onChangedInput: PropTypes.func.isRequired,
   inputValue: PropTypes.shape({
     title: PropTypes.string.isRequired,
