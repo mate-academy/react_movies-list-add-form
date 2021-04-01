@@ -30,10 +30,10 @@ export class NewMovie extends Component {
   }
 
   handleChange = (changeEvent) => {
-    const inputName = changeEvent.target.name;
+    const { name, value } = changeEvent.target;
 
     this.setState({
-      [inputName]: changeEvent.target.value,
+      [name]: value,
     });
   }
 
