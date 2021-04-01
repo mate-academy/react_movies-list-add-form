@@ -23,6 +23,12 @@ export class NewMovie extends Component {
     });
   }
 
+  handleSubmit = (submitEvent) => {
+    submitEvent.preventDefault();
+    this.props.onAdd({ ...this.state });
+    this.clearForm();
+  }
+
   handleChange = (changeEvent) => {
     const inputName = changeEvent.target.name;
 
@@ -32,39 +38,28 @@ export class NewMovie extends Component {
   }
 
   render() {
-    const { onAdd } = this.props;
-
     return (
       <form
         className="film-adder"
-        onSubmit={(event) => {
-          event.preventDefault();
-          onAdd({ ...this.state });
-          this.clearForm();
-        }
-      }
+        onSubmit={this.handleSubmit}
       >
-        {inputs.map((inputText, index) => {
-          const keyIndex = index;
-
-          return (
-            <div key={inputText + keyIndex} className="form-container">
-              <label htmlFor={inputText}>
-                {inputText}
-                :
-                <br />
-                <input
-                  id={inputText}
-                  name={inputText}
-                  type="text"
-                  value={this.state[inputText]}
-                  placeholder={inputText}
-                  onChange={this.handleChange}
-                />
-              </label>
-            </div>
-          );
-        })}
+        {inputs.map(inputText => (
+          <div key={inputText} className="form-container">
+            <label htmlFor={inputText}>
+              <div>
+                {`${inputText}:`}
+              </div>
+              <input
+                id={inputText}
+                name={inputText}
+                type="text"
+                value={this.state[inputText]}
+                placeholder={inputText}
+                onChange={this.handleChange}
+              />
+            </label>
+          </div>
+        ))}
         <button type="submit" className="sub">add movie</button>
       </form>
     );
