@@ -1,0 +1,55 @@
+.new-movie {
+  text-align: center;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+  position: relative;
+
+  &__input {
+    height: 40px;
+    resize: none;
+    margin-bottom: 30px;
+    padding-left: 15px;
+
+    &::-webkit-input-placeholder {
+      height: 40px;
+      line-height: 40px;
+    }
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  &__borderError {
+    height: 40px;
+    resize: none;
+    margin-bottom: 30px;
+    border: 2px solid red;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  &__error-img {
+    position: absolute;
+    bottom: 190px;
+    color: red;
+  }
+
+  &__error-imdb {
+    position: absolute;
+    bottom: 120px;
+    color: red;
+  }
+
+  &__btn {
+    cursor: pointer;
+    height: 40px;
+    text-transform: uppercase;
+  }
+}
