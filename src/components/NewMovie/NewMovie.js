@@ -22,25 +22,37 @@ export class NewMovie extends Component {
 
   handleChange = (event) => {
     const { name, value } = event.target;
+    const validate = validateUrl(value);
 
-    if (name === 'imgUrl' || name === 'imdbUrl') {
-      const validate = validateUrl(value);
+    switch (name) {
+      case 'imgUrl':
+      case 'imdbUrl':
+        switch (validate) {
+          case true:
+            this.setState({
+              [`is${name[0].toUpperCase() + name.slice(1)}`]: false,
+              [name]: value,
+            });
+            break;
 
-      if (!validate) {
+          case false:
+            this.setState({
+              [`is${name[0].toUpperCase() + name.slice(1)}`]: true,
+              [name]: value,
+            });
+            break;
+
+          default: {
+            break;
+          }
+        }
+
+        break;
+
+      default:
         this.setState({
-          [`is${name[0].toUpperCase() + name.slice(1)}`]: true,
           [name]: value,
         });
-      } else {
-        this.setState({
-          [`is${name[0].toUpperCase() + name.slice(1)}`]: false,
-          [name]: value,
-        });
-      }
-    } else {
-      this.setState({
-        [name]: value,
-      });
     }
   }
 
