@@ -10,7 +10,6 @@ export class NewMovie extends Component {
     imgUrl: '',
     imdbUrl: '',
     imdbId: '',
-    isEmpty: false,
   };
 
   handleChange = (event) => {
@@ -18,7 +17,6 @@ export class NewMovie extends Component {
 
     this.setState({
       [name]: value,
-      isEmpty: false,
     });
   }
 
