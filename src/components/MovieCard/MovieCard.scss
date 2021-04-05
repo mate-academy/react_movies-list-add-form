@@ -1,3 +1,19 @@
-.card-image img {
-  object-fit: contain;
+.card {
+  &-image img {
+    object-fit: contain;
+  }
+  &-content a {
+    line-height: 2.5;
+  }
+}
+
+.content {
+  max-height: 180px;
+  overflow: auto;
+  @media screen and (min-width: 768px) {
+    max-height: 210px;
+  }
+  @media screen and (min-width: 992px) {
+    max-height: 250px;
+  }
 }
