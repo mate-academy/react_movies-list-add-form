@@ -71,7 +71,7 @@ export class NewMovie extends Component {
 
     const newItem = {
       title: this.state.title,
-      description: this.state.title,
+      description: this.state.description,
       imgUrl: this.state.imgUrl,
       imdbUrl: this.state.imdbUrl,
       imdbId: this.state.imdbId,
@@ -128,7 +128,6 @@ export class NewMovie extends Component {
         <fieldset>
           <input
             type="text"
-            className="form-field"
             name="title"
             placeholder="Add title"
             maxLength="35"
@@ -142,7 +141,6 @@ export class NewMovie extends Component {
         <fieldset>
           <input
             type="text"
-            className="form-field"
             name="description"
             placeholder="Add description"
             value={description}
@@ -192,7 +190,7 @@ export class NewMovie extends Component {
           <input
             type="text"
             name="imdbId"
-            placeholder="Edit IMDB ID"
+            placeholder="Add IMDB ID"
             value={imdbId}
             onBlur={this.handleBlur}
             onChange={this.handleChange}
