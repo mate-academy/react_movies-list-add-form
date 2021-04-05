@@ -11,4 +11,4 @@ yarn-debug.log*
 yarn-error.log*
 
 # TXT file for backup
-src/App-ACTUAL.txt
+**/*.txt
