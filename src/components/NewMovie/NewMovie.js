@@ -27,26 +27,10 @@ export class NewMovie extends Component {
     switch (name) {
       case 'imgUrl':
       case 'imdbUrl':
-        switch (validate) {
-          case true:
-            this.setState({
-              [`is${name[0].toUpperCase() + name.slice(1)}`]: false,
-              [name]: value,
-            });
-            break;
-
-          case false:
-            this.setState({
-              [`is${name[0].toUpperCase() + name.slice(1)}`]: true,
-              [name]: value,
-            });
-            break;
-
-          default: {
-            break;
-          }
-        }
-
+        this.setState({
+          [`is${name[0].toUpperCase() + name.slice(1)}`]: !validate,
+          [name]: value,
+        });
         break;
 
       default:
