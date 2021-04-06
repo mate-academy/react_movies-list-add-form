@@ -1,0 +1,23 @@
+.input__invalid {
+  border: 2px solid red;
+
+  &:hover {
+    border-color: red;
+  }
+
+  &:focus {
+    border-color: red;
+  }
+}
+
+.input__valid {
+  border: 2px solid green;
+
+  &:hover {
+    border-color: green;
+  }
+
+  &:focus {
+    border-color: green;
+  }
+}

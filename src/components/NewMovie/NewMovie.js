@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
+
+import './NewMovie.scss';
 
 export class NewMovie extends Component {
   state = {
@@ -8,7 +11,23 @@ export class NewMovie extends Component {
     imgUrlValue: '',
     imdbUrlValue: '',
     imdbIdValue: '',
+    isValidImgUrl: false,
+    isValidImdbUrl: false,
   };
+
+  checkValid = () => {
+    // eslint-disable-next-line
+    const regex = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
+    const {
+      imdbUrlValue,
+      imgUrlValue,
+    } = this.state;
+
+    this.setState({
+      isValidImdbUrl: regex.test(imdbUrlValue),
+      isValidImgUrl: regex.test(imgUrlValue),
+    });
+  }
 
   createNewMoviePost = () => {
     const {
@@ -27,6 +46,15 @@ export class NewMovie extends Component {
     };
 
     this.props.addMovie(newMovie);
+    this.setState({
+      titleValue: '',
+      descriptionValue: '',
+      imgUrlValue: '',
+      imdbUrlValue: '',
+      imdbIdValue: '',
+      isValidImgUrl: false,
+      isValidImdbUrl: false,
+    });
   }
 
   render() {
@@ -36,6 +64,8 @@ export class NewMovie extends Component {
       imgUrlValue,
       imdbUrlValue,
       imdbIdValue,
+      isValidImgUrl,
+      isValidImdbUrl,
     } = this.state;
 
     return (
@@ -75,9 +105,13 @@ export class NewMovie extends Component {
             this.setState({
               imgUrlValue: event.target.value,
             });
+            this.checkValid();
           }}
           value={imgUrlValue}
-          className="input"
+          className={
+            classNames('input', 'input__invalid',
+              { input__valid: isValidImgUrl })
+          }
           id="img-url"
           required
         />
@@ -87,9 +121,13 @@ export class NewMovie extends Component {
             this.setState({
               imdbUrlValue: event.target.value,
             });
+            this.checkValid();
           }}
           value={imdbUrlValue}
-          className="input"
+          className={
+            classNames('input', 'input__invalid',
+              { input__valid: isValidImdbUrl })
+          }
           id="imdb-url"
           required
         />
@@ -105,7 +143,13 @@ export class NewMovie extends Component {
           id="imdb-id"
           required
         />
-        <button type="submit" className="button is-link">Submit</button>
+        <button
+          disabled={!isValidImgUrl || !isValidImdbUrl}
+          type="submit"
+          className="button is-link"
+        >
+          Submit
+        </button>
       </form>
     );
   }
