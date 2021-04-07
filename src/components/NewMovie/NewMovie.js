@@ -101,7 +101,6 @@ export class NewMovie extends Component {
             name="description"
             value={description}
             onChange={this.addMovieFromForm}
-            required
             placeholder="Description of the film"
           />
           <input
