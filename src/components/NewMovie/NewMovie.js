@@ -88,6 +88,7 @@ export class NewMovie extends Component {
           value={titleValue}
           className="input"
           id="title"
+          placeholder="Title"
           required
         />
 
@@ -100,6 +101,7 @@ export class NewMovie extends Component {
           }}
           value={descriptionValue}
           className="input"
+          placeholder="Description"
           id="description"
         />
 
@@ -116,6 +118,7 @@ export class NewMovie extends Component {
             classNames('input', { input__invalid: !isValidImgUrl })
           }
           id="img-url"
+          placeholder="Image URL"
           required
         />
         {
@@ -136,6 +139,7 @@ export class NewMovie extends Component {
             classNames('input', { input__invalid: !isValidImdbUrl })
           }
           id="imdb-url"
+          placeholder="IMDB URL"
           required
         />
         {
@@ -153,6 +157,7 @@ export class NewMovie extends Component {
           value={imdbIdValue}
           className="input"
           id="imdb-id"
+          placeholder="IMDB Id"
           required
         />
 
