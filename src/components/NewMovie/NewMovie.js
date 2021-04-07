@@ -76,7 +76,6 @@ export class NewMovie extends Component {
           this.createNewMoviePost();
         }}
         className="form"
-        autoComplete="off"
       >
 
         <label className="label" htmlFor="title">Title</label>
