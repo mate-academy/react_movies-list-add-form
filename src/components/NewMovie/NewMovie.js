@@ -11,10 +11,36 @@ export class NewMovie extends Component {
     imdbId: '',
   };
 
-  handleChange = (event) => {
+  setMovie = (event) => {
     const { name, value } = event.target;
 
     this.setState({ [name]: value });
+  }
+
+  handleSubmit = (event) => {
+    event.preventDefault();
+    const {
+      title,
+      description,
+      imdbId,
+      imdbUrl,
+      imgUrl,
+    } = this.state;
+
+    this.props.onAdd({
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    });
+    this.setState({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
   }
 
   render() {
@@ -30,23 +56,7 @@ export class NewMovie extends Component {
       <div>
         <form
           className="form"
-          onSubmit={(event) => {
-            event.preventDefault();
-            this.props.onAdd({
-              title,
-              description,
-              imgUrl,
-              imdbUrl,
-              imdbId,
-            });
-            this.setState({
-              title: '',
-              description: '',
-              imgUrl: '',
-              imdbUrl: '',
-              imdbId: '',
-            });
-          }}
+          onSubmit={this.handleSubmit}
         >
           <h2 className="head"><strong>Add movies to list here</strong></h2>
           <input
@@ -54,8 +64,8 @@ export class NewMovie extends Component {
             name="title"
             placeholder="Title"
             className="form__input"
-            value={this.state.title}
-            onChange={this.handleChange}
+            value={title}
+            onChange={this.setMovie}
             required
           />
           <textarea
@@ -63,16 +73,16 @@ export class NewMovie extends Component {
             name="description"
             placeholder="Description"
             className="form__input form__textarea"
-            value={this.state.description}
-            onChange={this.handleChange}
+            value={description}
+            onChange={this.setMovie}
           />
           <input
             type="text"
             name="imgUrl"
             placeholder="ImgUrl"
             className="form__input"
-            value={this.state.imgUrl}
-            onChange={this.handleChange}
+            value={imgUrl}
+            onChange={this.setMovie}
             required
           />
           <input
@@ -80,8 +90,8 @@ export class NewMovie extends Component {
             name="imdbUrl"
             placeholder="ImdbUrl"
             className="form__input"
-            value={this.state.imdbUrl}
-            onChange={this.handleChange}
+            value={imdbUrl}
+            onChange={this.setMovie}
             required
           />
           <input
@@ -89,8 +99,8 @@ export class NewMovie extends Component {
             name="imdbId"
             placeholder="ImdbId"
             className="form__input"
-            value={this.state.imdbId}
-            onChange={this.handleChange}
+            value={imdbId}
+            onChange={this.setMovie}
             required
           />
           <button
