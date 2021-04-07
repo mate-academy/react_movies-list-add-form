@@ -114,8 +114,7 @@ export class NewMovie extends Component {
           }}
           value={imgUrlValue}
           className={
-            classNames('input', 'input__invalid',
-              { input__valid: isValidImgUrl })
+            classNames('input', { input__invalid: !isValidImgUrl })
           }
           id="img-url"
           required
@@ -135,8 +134,7 @@ export class NewMovie extends Component {
           }}
           value={imdbUrlValue}
           className={
-            classNames('input', 'input__invalid',
-              { input__valid: isValidImdbUrl })
+            classNames('input', { input__invalid: !isValidImdbUrl })
           }
           id="imdb-url"
           required
