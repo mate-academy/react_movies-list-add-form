@@ -4,6 +4,9 @@ import classNames from 'classnames';
 
 import './NewMovie.scss';
 
+// eslint-disable-next-line
+const regex = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
+
 export class NewMovie extends Component {
   state = {
     titleValue: '',
@@ -11,22 +14,20 @@ export class NewMovie extends Component {
     imgUrlValue: '',
     imdbUrlValue: '',
     imdbIdValue: '',
-    isValidImgUrl: false,
-    isValidImdbUrl: false,
+    isValidImgUrl: true,
+    isValidImdbUrl: true,
   };
 
-  checkValid = () => {
-    // eslint-disable-next-line
-    const regex = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
-    const {
-      imdbUrlValue,
-      imgUrlValue,
-    } = this.state;
+  checkValidImgUrl = () => {
+    this.setState(state => ({
+      isValidImgUrl: regex.test(state.imgUrlValue),
+    }));
+  }
 
-    this.setState({
-      isValidImdbUrl: regex.test(imdbUrlValue),
-      isValidImgUrl: regex.test(imgUrlValue),
-    });
+  checkValidIMDB = () => {
+    this.setState(state => ({
+      isValidImdbUrl: regex.test(state.imdbUrlValue),
+    }));
   }
 
   createNewMoviePost = () => {
@@ -75,7 +76,9 @@ export class NewMovie extends Component {
           this.createNewMoviePost();
         }}
         className="form"
+        autoComplete="off"
       >
+
         <label className="label" htmlFor="title">Title</label>
         <input
           onChange={(event) => {
@@ -88,6 +91,7 @@ export class NewMovie extends Component {
           id="title"
           required
         />
+
         <label className="label" htmlFor="description">Description</label>
         <input
           onChange={(event) => {
@@ -99,13 +103,14 @@ export class NewMovie extends Component {
           className="input"
           id="description"
         />
+
         <label className="label" htmlFor="img-url">Image URL</label>
         <input
           onChange={(event) => {
             this.setState({
               imgUrlValue: event.target.value,
             });
-            this.checkValid();
+            this.checkValidImgUrl();
           }}
           value={imgUrlValue}
           className={
@@ -115,13 +120,18 @@ export class NewMovie extends Component {
           id="img-url"
           required
         />
+        {
+          !isValidImgUrl
+          && <span className="tag is-warning">Input valid image url</span>
+        }
+
         <label className="label" htmlFor="imdb-url">IMDB URL</label>
         <input
           onChange={(event) => {
             this.setState({
               imdbUrlValue: event.target.value,
             });
-            this.checkValid();
+            this.checkValidIMDB();
           }}
           value={imdbUrlValue}
           className={
@@ -131,6 +141,11 @@ export class NewMovie extends Component {
           id="imdb-url"
           required
         />
+        {
+          !isValidImdbUrl
+          && <span className="tag is-warning">Input valid IMDB url</span>
+        }
+
         <label className="label" htmlFor="imdb-id">IMDB id</label>
         <input
           onChange={(event) => {
@@ -143,6 +158,7 @@ export class NewMovie extends Component {
           id="imdb-id"
           required
         />
+
         <button
           disabled={!isValidImgUrl || !isValidImdbUrl}
           type="submit"
