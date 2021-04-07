@@ -1,0 +1,29 @@
+.head {
+  text-align: center;
+  margin: 0;
+  margin-bottom: 30px;
+  font-size: 24px;
+  background: #e5b621;
+  color: #000;
+  border-radius: 4px;
+  padding: 2px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.form__input {
+  padding: 8px;
+  margin-bottom: 20px;
+  width: 300px;
+}
+
+.button {
+  font-size: 20px;
+  background: #e5b621;
+  color: #000;
+  width: 120px;
+}
