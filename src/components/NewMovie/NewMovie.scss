@@ -1,0 +1,19 @@
+.input__invalid {
+  border: 2px solid red;
+
+  &:hover {
+    border-color: red;
+  }
+
+  &:focus {
+    border-color: red;
+  }
+}
+
+.label {
+  margin-top: 25px;
+}
+
+.button {
+  margin-top: 25px;
+}
