@@ -1,0 +1,21 @@
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+input {
+  outline: none;
+  margin-bottom: 25px;
+}
+
+.error1 {
+  position: absolute;
+  top: 23%;
+  color: red;
+}
+
+.error2 {
+  position: absolute;
+  top: 31%;
+  color: red;
+}
