@@ -1,0 +1,60 @@
+.add-movie-heading {
+  text-align: center;
+  font-size: 32px;
+  font-weight: 600;
+}
+
+.error-message {
+  color: red;
+  display: none;
+  font-size: 12px;
+
+  &--active {
+    display: block;
+  }
+}
+
+.movie-form {
+  display: flex;
+  flex-direction: column;
+
+  &__input {
+    padding: 13px;
+    margin: 10px 0;
+    border: 2px solid transparent;
+    box-shadow: 0 0 3px 0 #000;
+    border-radius: 3px;
+
+    &:focus {
+      outline: none;
+      box-shadow: 0 0 8px 0 #000;
+    }
+
+    &--error {
+      border-color: red;
+    }
+  }
+
+  &__button {
+    margin: 10px 0;
+    padding: 10px;
+    font-size: 20px;
+    font-weight: 600;
+    transition: background-color 0.2s;
+    cursor: pointer;
+    border-radius: 3px;
+    background-color: #359035;
+    color: white;
+    border-color: transparent;
+
+    &:hover {
+      background-color: white;
+      color: #727272;
+      box-shadow: 0 0 8px 0 #000;
+    }
+
+    &:focus {
+      outline: none;
+    }
+  }
+}
