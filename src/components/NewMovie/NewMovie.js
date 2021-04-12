@@ -53,6 +53,16 @@ export class NewMovie extends Component {
               imdbUrl,
               imdbId,
             });
+
+            this.setState({
+              title: '',
+              description: '',
+              imgUrl: '',
+              imdbUrl: '',
+              imdbId: '',
+              imgUrlValidation: true,
+              imdbUrlValidation: true,
+            });
           }}
         >
           <div className="form__input-wrapper">
