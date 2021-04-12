@@ -23,16 +23,20 @@ export class NewMovie extends Component {
     if (name === 'imgUrl' || name === 'imdbUrl') {
       if (!validate.test(value)) {
         this.setState({ [name]: value });
-        // eslint-disable-next-line no-unused-expressions
-        (name === 'imgUrl')
-          ? this.setState({ imgUrlError: true })
-          : this.setState({ imdbUrlError: true });
+
+        if (name === 'imgUrl') {
+          this.setState({ imgUrlError: true });
+        } else {
+          this.setState({ imdbUrlError: true });
+        }
       } else {
         this.setState({ [name]: value });
-        // eslint-disable-next-line no-unused-expressions
-        (name === 'imgUrl')
-          ? this.setState({ imgUrlError: false })
-          : this.setState({ imdbUrlError: false });
+
+        if (name === 'imgUrl') {
+          this.setState({ imgUrlError: false });
+        } else {
+          this.setState({ imdbUrlError: false });
+        }
       }
     } else {
       this.setState({ [name]: value });
