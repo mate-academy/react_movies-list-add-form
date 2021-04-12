@@ -24,6 +24,17 @@
     }
   }
 
+  &__input-textarea {
+    padding-top: 10px;
+
+    &::-webkit-input-placeholder {
+      padding-top: 10px;
+      height: 0;
+      line-height: 0;
+    }
+
+  }
+
   &__borderError {
     height: 40px;
     resize: none;

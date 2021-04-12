@@ -101,7 +101,7 @@ export class NewMovie extends Component {
             placeholder="Movie title"
           />
           <textarea
-            className="form__input"
+            className="form__input form__input-textarea"
             name="description"
             value={description}
             onChange={this.addMovieFromForm}
