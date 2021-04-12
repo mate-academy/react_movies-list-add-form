@@ -12,8 +12,8 @@ export class NewMovie extends React.Component {
     imdbIdValue: '',
     imgUrlBorder: 'solid gray 1px',
     imdbUrlBorder: 'solid gray 1px',
-    visibleError1: 'none',
-    visibleError2: 'none',
+    visibleError1: true,
+    visibleError2: true,
   };
 
   validateUrl = (url) => {
@@ -27,12 +27,12 @@ export class NewMovie extends React.Component {
     if (!this.validateUrl(value)) {
       this.setState({
         imgUrlBorder: 'solid red 1px',
-        visibleError1: 'inline',
+        visibleError1: false,
       });
     } else {
       this.setState({
         imgUrlBorder: 'solid gray 1px',
-        visibleError1: 'none',
+        visibleError1: true,
       });
     }
   }
@@ -41,12 +41,12 @@ export class NewMovie extends React.Component {
     if (!this.validateUrl(value)) {
       this.setState({
         imdbUrlBorder: 'solid red 1px',
-        visibleError2: 'inline',
+        visibleError2: false,
       });
     } else {
       this.setState({
         imdbUrlBorder: 'solid gray 1px',
-        visibleError2: 'none',
+        visibleError2: true,
       });
     }
   }
@@ -59,18 +59,6 @@ export class NewMovie extends React.Component {
 
     return (
       <>
-        <p
-          className="error1"
-          style={{ display: visibleError1 }}
-        >
-          ^^^Error. Check it ^^^
-        </p>
-        <p
-          className="error2"
-          style={{ display: visibleError2 }}
-        >
-          ^^^Error. Check it ^^^
-        </p>
         <form
           className="form"
           onSubmit={(e) => {
@@ -126,6 +114,13 @@ export class NewMovie extends React.Component {
             }}
             required
           />
+          <div
+            className="alert alert-danger"
+            role="alert"
+            hidden={visibleError1}
+          >
+            ^^^Error. Check it ^^^
+          </div>
           <label htmlFor="imdbUrl">
             ImdbUrl
           </label>
@@ -141,6 +136,13 @@ export class NewMovie extends React.Component {
             }}
             required
           />
+          <div
+            className="alert alert-danger"
+            role="alert"
+            hidden={visibleError2}
+          >
+            ^^^Error. Check it ^^^
+          </div>
           <label htmlFor="imdbId">
             ImdbId
           </label>
