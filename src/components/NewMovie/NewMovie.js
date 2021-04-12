@@ -130,12 +130,10 @@ export class NewMovie extends Component {
       hasImdbIdError } = this.state;
 
     if (!title || !imgUrl || !imdbUrl || !imdbId) {
-      this.setState({
-        hasTitleError: !title,
-        hasImgUrlError: !imgUrl,
-        hasImdbUrlError: !imdbUrl,
-        hasImdbIdError: !imdbId,
-      });
+      this.titleValidation();
+      this.imgUrlValidation();
+      this.imdbUrlValidation();
+      this.imdbIdValidation();
 
       return;
     }
