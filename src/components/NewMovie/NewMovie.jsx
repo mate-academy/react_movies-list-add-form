@@ -123,8 +123,12 @@ export class NewMovie extends Component {
               name="imgUrl"
               required
               value={imgUrl}
-              error={!imgValid}
-              helperText={!imgValid && 'incorrect image URL'}
+              error={!imgValid && imgUrl !== ''}
+              helperText={
+                !imgValid
+                && imgUrl !== ''
+                && 'incorrect image URL'
+              }
               onChange={this.handleChange}
               id="standard-required"
               placeholder="Enter image URL"
@@ -135,8 +139,12 @@ export class NewMovie extends Component {
               name="imdbUrl"
               required
               value={imdbUrl}
-              error={!imdbValid}
-              helperText={!imdbValid && 'incorrect IMDB URL'}
+              error={!imdbValid && imdbUrl !== ''}
+              helperText={
+                !imdbValid
+                && imdbUrl !== ''
+                && 'incorrect IMDB URL'
+              }
               onChange={this.handleChange}
               id="standard-required"
               placeholder="Enter IMDB URL"
