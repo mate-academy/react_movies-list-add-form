@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './NewMovie.scss';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 
 export class NewMovie extends Component {
   state = {
@@ -17,20 +18,31 @@ export class NewMovie extends Component {
     const { name, value } = target;
     // eslint-disable-next-line max-len
     const isValid = /^((http|https|ftp):\/\/)?(([A-Z0-9][A-Z0-9_-]*)(\.[A-Z0-9][A-Z0-9_-]*)+)/i;
+    const isNameImgUrl = name === 'imgUrl';
 
     if (name === 'imgUrl' || name === 'imdbUrl') {
       if (!isValid.test(value)) {
-        this.setState({ [name]: value });
         // eslint-disable-next-line no-unused-expressions
-        (name === 'imgUrl')
-          ? this.setState({ imgUrlError: true })
-          : this.setState({ imdbUrlError: true });
+        (isNameImgUrl)
+          ? this.setState({
+            [name]: value,
+            imgUrlError: true,
+          })
+          : this.setState({
+            [name]: value,
+            imdbUrlError: true,
+          });
       } else {
-        this.setState({ [name]: value });
         // eslint-disable-next-line no-unused-expressions
-        (name === 'imgUrl')
-          ? this.setState({ imgUrlError: false })
-          : this.setState({ imdbUrlError: false });
+        (isNameImgUrl)
+          ? this.setState({
+            [name]: value,
+            imgUrlError: false,
+          })
+          : this.setState({
+            [name]: value,
+            imdbUrlError: false,
+          });
       }
     } else {
       this.setState({ [name]: value });
@@ -96,18 +108,21 @@ export class NewMovie extends Component {
           <input
             type="text"
             name="imgUrl"
-            className={imgUrlError
-              ? 'movie-form__input movie-form__input--error'
-              : 'movie-form__input'
+            className={
+              classNames(
+                'movie-form__input',
+                { 'movie-form__input--error': imgUrlError },
+              )
             }
             onChange={this.addMovieToState}
             placeholder="Enter the Image URL"
             value={imgUrl}
             required
           />
-          <span className={imgUrlError
-            ? 'error-message error-message--active'
-            : 'error-message'
+          <span className={
+            classNames(
+              'error-message', { 'error-message--active': imgUrlError },
+            )
           }
           >
             Please enter a valid images URL!
@@ -115,9 +130,11 @@ export class NewMovie extends Component {
           <input
             type="text"
             name="imdbUrl"
-            className={imdbUrlError
-              ? 'movie-form__input movie-form__input--error'
-              : 'movie-form__input'
+            className={
+              classNames(
+                'movie-form__input',
+                { 'movie-form__input--error': imdbUrlError },
+              )
             }
             onChange={this.addMovieToState}
             placeholder="Enter the imdbUrl"
@@ -125,9 +142,10 @@ export class NewMovie extends Component {
             required
           />
           <span
-            className={imdbUrlError
-              ? 'error-message error-message--active'
-              : 'error-message'
+            className={
+              classNames(
+                'error-message', { 'error-message--active': imdbUrlError },
+              )
             }
           >
             Please enter a valid imdb URL!
