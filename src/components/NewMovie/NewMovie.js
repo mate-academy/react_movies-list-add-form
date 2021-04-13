@@ -5,11 +5,11 @@ import './NewMovie.scss';
 
 export class NewMovie extends React.Component {
   state = {
-    textValue: '',
-    descriptionValue: '',
-    imgUrlValue: '',
-    imdbUrlValue: '',
-    imdbIdValue: '',
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
     imgUrlBorder: 'solid gray 1px',
     imdbUrlBorder: 'solid gray 1px',
     visibleError1: true,
@@ -51,28 +51,45 @@ export class NewMovie extends React.Component {
     }
   }
 
-  render() {
-    const { textValue, descriptionValue,
-      imgUrlValue, imdbUrlValue, imdbIdValue,
-      imgUrlBorder, imdbUrlBorder, visibleError1, visibleError2 } = this.state;
+  handleChange = ({ target }) => {
+    const { id, value } = target;
+
+    if (id === 'imgUrl') {
+      this.validationImgUrl(target.value);
+    }
+
+    if (id === 'imdbUrl') {
+      this.validationImdbUrl(target.value);
+    }
+
+    this.setState({ [id]: value });
+  }
+
+  handleSubmit = (e) => {
     const { submit } = this.props;
+
+    e.preventDefault();
+    submit(this.state);
+    this.setState({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+      disabledButton: '',
+    });
+  };
+
+  render() {
+    const { title, description,
+      imgUrl, imdbUrl, imdbId,
+      imgUrlBorder, imdbUrlBorder, visibleError1, visibleError2 } = this.state;
 
     return (
       <>
         <form
           className="form"
-          onSubmit={(e) => {
-            e.preventDefault();
-            submit(this.state);
-            this.setState({
-              textValue: '',
-              descriptionValue: '',
-              imgUrlValue: '',
-              imdbUrlValue: '',
-              imdbIdValue: '',
-              disabledButton: '',
-            });
-          }}
+          onSubmit={this.handleSubmit}
         >
           <label htmlFor="title">
             Title
@@ -81,10 +98,8 @@ export class NewMovie extends React.Component {
             type="text"
             id="title"
             placeholder="Title"
-            value={textValue}
-            onChange={e => (
-              this.setState({ textValue: e.target.value })
-            )}
+            value={title}
+            onChange={this.handleChange}
             required
           />
           <label htmlFor="description">
@@ -94,10 +109,8 @@ export class NewMovie extends React.Component {
             type="text"
             id="description"
             placeholder="Description"
-            value={descriptionValue}
-            onChange={e => (
-              this.setState({ descriptionValue: e.target.value })
-            )}
+            value={description}
+            onChange={this.handleChange}
           />
           <label htmlFor="imgUrl">
             ImgUrl
@@ -107,11 +120,8 @@ export class NewMovie extends React.Component {
             id="imgUrl"
             style={{ border: imgUrlBorder }}
             placeholder="ImgUrl"
-            value={imgUrlValue}
-            onChange={(e) => {
-              this.setState({ imgUrlValue: e.target.value });
-              this.validationImgUrl(e.target.value);
-            }}
+            value={imgUrl}
+            onChange={this.handleChange}
             required
           />
           <div
@@ -129,11 +139,8 @@ export class NewMovie extends React.Component {
             id="imdbUrl"
             style={{ border: imdbUrlBorder }}
             placeholder="ImdbUrl"
-            value={imdbUrlValue}
-            onChange={(e) => {
-              this.setState({ imdbUrlValue: e.target.value });
-              this.validationImdbUrl(e.target.value);
-            }}
+            value={imdbUrl}
+            onChange={this.handleChange}
             required
           />
           <div
@@ -150,10 +157,8 @@ export class NewMovie extends React.Component {
             type="text"
             id="imdbId"
             placeholder="ImdbId"
-            value={imdbIdValue}
-            onChange={e => (
-              this.setState({ imdbIdValue: e.target.value })
-            )}
+            value={imdbId}
+            onChange={this.handleChange}
             required
           />
           <input

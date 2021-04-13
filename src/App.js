@@ -14,11 +14,11 @@ export class App extends React.Component {
       movies: [
         ...state.movies,
         {
-          title: values.textValue,
-          description: values.descriptionValue,
-          imgUrl: values.imgUrlValue,
-          imdbUrl: values.imdbUrlValue,
-          imdbId: values.imdbIdValue,
+          title: values.title,
+          description: values.description,
+          imgUrl: values.imgUrl,
+          imdbUrl: values.imdbUrl,
+          imdbId: values.imdbId,
         },
       ],
     }));
