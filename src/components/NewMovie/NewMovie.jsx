@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
+import propTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import propTypes from 'prop-types';
 
 // eslint-disable-next-line
 const regex = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/
@@ -14,13 +14,18 @@ export class NewMovie extends Component {
     imgUrl: '',
     imdbUrl: '',
     imdbId: '',
-    imgValid: false,
-    imdbValid: false,
+    imgValid: true,
+    imdbValid: true,
   };
 
-  validateUrl = () => (
+  validateImgUrl = () => (
     this.setState(prevState => ({
       imgValid: regex.test(prevState.imgUrl),
+    }))
+  )
+
+  validateImdbUrl = () => (
+    this.setState(prevState => ({
       imdbValid: regex.test(prevState.imdbUrl),
     }))
   )
@@ -31,7 +36,14 @@ export class NewMovie extends Component {
     this.setState({
       [name]: value,
     });
-    this.validateUrl();
+
+    if (name === 'imgUrl') {
+      this.validateImgUrl();
+    }
+
+    if (name === 'imdbUrl') {
+      this.validateImdbUrl();
+    }
   }
 
   handleSubmit = (e) => {
