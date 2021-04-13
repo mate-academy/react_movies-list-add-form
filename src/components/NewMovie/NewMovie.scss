@@ -1,0 +1,17 @@
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+input {
+  outline: none;
+  margin-bottom: 25px;
+}
+
+.problem {
+  border: solid red 1px,
+}
+
+.notProblem {
+  border: solid gray 1px,
+}
