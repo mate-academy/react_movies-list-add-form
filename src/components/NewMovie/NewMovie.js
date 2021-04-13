@@ -28,11 +28,21 @@ export class NewMovie extends Component {
       hasImdbUrlError,
       hasImdbIdError } = this.state;
 
+    function turnOnButton() {
+      if (!hasImdbIdError && !hasImdbUrlError
+        && !hasImgUrlError && !hasTitleError) {
+        return false;
+      }
+
+      return true;
+    }
+
     switch (name) {
       case 'title':
         this.setState({
           title: value,
           hasTitleError: false,
+          buttonDisabled: turnOnButton(),
         });
         break;
       case 'description':
@@ -42,29 +52,25 @@ export class NewMovie extends Component {
         this.setState({
           imgUrl: value,
           hasImgUrlError: false,
+          buttonDisabled: turnOnButton(),
         });
         break;
       case 'imdbUrl':
         this.setState({
           imdbUrl: value,
           hasImdbUrlError: false,
+          buttonDisabled: turnOnButton(),
         });
         break;
       case 'imdbId':
         this.setState({
           imdbId: value,
           hasImdbIdError: false,
+          buttonDisabled: turnOnButton(),
         });
         break;
       default:
-        return;
-    }
-
-    if (!hasTitleError && !hasImgUrlError
-      && !hasImdbUrlError && !hasImdbIdError) {
-      this.setState({
-        buttonDisabled: false,
-      });
+        break;
     }
   }
 
@@ -72,6 +78,11 @@ export class NewMovie extends Component {
     if (!this.state.title) {
       this.setState({
         hasTitleError: true, buttonDisabled: true,
+      });
+    } else {
+      this.setState({
+        hasTitleError: false,
+        buttonDisabled: false,
       });
     }
   }
@@ -123,25 +134,13 @@ export class NewMovie extends Component {
       description,
       imgUrl,
       imdbUrl,
-      imdbId,
-      hasTitleError,
-      hasImgUrlError,
-      hasImdbUrlError,
-      hasImdbIdError } = this.state;
+      imdbId } = this.state;
 
     if (!title || !imgUrl || !imdbUrl || !imdbId) {
       this.titleValidation();
       this.imgUrlValidation();
       this.imdbUrlValidation();
       this.imdbIdValidation();
-
-      return;
-    }
-
-    if (hasTitleError || hasImgUrlError || hasImdbUrlError || hasImdbIdError) {
-      this.setState({
-        buttonDisabled: true,
-      });
 
       return;
     }
