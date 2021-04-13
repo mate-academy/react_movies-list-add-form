@@ -28,6 +28,35 @@ export class NewMovie extends Component {
     }));
   }
 
+  submitHandler = (event) => {
+    const {
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    } = this.state;
+
+    event.preventDefault();
+    this.props.addMovie({
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    });
+
+    this.setState({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+      imgUrlValidation: true,
+      imdbUrlValidation: true,
+    });
+  }
+
   render() {
     const {
       title,
@@ -44,26 +73,7 @@ export class NewMovie extends Component {
         <h2 className="form__title">Add movie</h2>
         <form
           className="form"
-          onSubmit={(event) => {
-            event.preventDefault();
-            this.props.addMovie({
-              title,
-              description,
-              imgUrl,
-              imdbUrl,
-              imdbId,
-            });
-
-            this.setState({
-              title: '',
-              description: '',
-              imgUrl: '',
-              imdbUrl: '',
-              imdbId: '',
-              imgUrlValidation: true,
-              imdbUrlValidation: true,
-            });
-          }}
+          onSubmit={this.submitHandler}
         >
           <div className="form__input-wrapper">
             <input
@@ -110,18 +120,14 @@ export class NewMovie extends Component {
               className={
                 imgUrlValidation
                   ? 'form__input'
-                  : 'form__input--invalid'
+                  : 'form__input form__input--invalid'
               }
             />
-            {
-              imgUrlValidation
-                ? null
-                : (
-                  <span className="form__invalid-text">
-                    Image URL entered incorrectly
-                  </span>
-                )
-            }
+            {!imgUrlValidation && (
+              <span className="form__invalid-text">
+                Image URL entered incorrectly
+              </span>
+            )}
           </div>
 
           <div className="form__input-wrapper">
@@ -137,18 +143,16 @@ export class NewMovie extends Component {
                 this.checkValidationImdbUrl();
               }}
               className={
-                imdbUrlValidation ? 'form__input' : 'form__input--invalid'
+                imdbUrlValidation
+                  ? 'form__input'
+                  : 'form__input form__input--invalid'
               }
             />
-            {
-              imdbUrlValidation
-                ? null
-                : (
-                  <span className="form__invalid-text">
-                    Image URL entered incorrectly
-                  </span>
-                )
-            }
+            {!imdbUrlValidation && (
+              <span className="form__invalid-text">
+                Image URL entered incorrectly
+              </span>
+            )}
           </div>
 
           <div className="form__input-wrapper">
