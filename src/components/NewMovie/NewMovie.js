@@ -10,33 +10,21 @@ export class NewMovie extends Component {
     imdbId: '',
   };
 
-  handleTitle = (event) => {
+  handleChange = (event) => {
+    const { value, name } = event.target;
+
     this.setState({
-      title: event.target.value,
+      [name]: value,
     });
   }
 
-  handleDescription = (event) => {
+  resetForm = () => {
     this.setState({
-      description: event.target.value,
-    });
-  }
-
-  handleImgUrl = (event) => {
-    this.setState({
-      imgUrl: event.target.value,
-    });
-  }
-
-  handleImdbUrl = (event) => {
-    this.setState({
-      imdbUrl: event.target.value,
-    });
-  }
-
-  handleImdbId = (event) => {
-    this.setState({
-      imdbId: event.target.value,
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
     });
   }
 
@@ -54,13 +42,7 @@ export class NewMovie extends Component {
 
     this.props.addMovie(movie);
 
-    this.setState({
-      title: '',
-      description: '',
-      imgUrl: '',
-      imdbUrl: '',
-      imdbId: '',
-    });
+    this.resetForm();
   }
 
   render() {
@@ -76,35 +58,40 @@ export class NewMovie extends Component {
             className="form-control mb-3"
             placeholder="Title"
             required
+            name="title"
             value={title}
-            onChange={this.handleTitle}
+            onChange={this.handleChange}
           />
           <input
             className="form-control mb-3"
             placeholder="Description"
+            name="description"
             value={description}
-            onChange={this.handleDescription}
+            onChange={this.handleChange}
           />
           <input
             className="form-control mb-3"
             placeholder="imgUrl"
             required
+            name="imgUrl"
             value={imgUrl}
-            onChange={this.handleImgUrl}
+            onChange={this.handleChange}
           />
           <input
             className="form-control mb-3"
             placeholder="imdbUrl"
             required
+            name="imdbUrl"
             value={imdbUrl}
-            onChange={this.handleImdbUrl}
+            onChange={this.handleChange}
           />
           <input
             className="form-control mb-3"
             placeholder="imdbId"
             required
+            name="imdbId"
             value={imdbId}
-            onChange={this.handleImdbId}
+            onChange={this.handleChange}
           />
           <button
             className="btn btn-success mb-3"
