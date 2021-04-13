@@ -12,4 +12,9 @@
 .sidebar {
   padding: 20px;
   border-left: 1px solid lightgray;
+  text-align: center;
+  .heading {
+    font-size: 40px;
+    margin-bottom: 60px;
+  }
 }
