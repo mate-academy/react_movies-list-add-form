@@ -58,6 +58,7 @@ export class NewMovie extends Component {
           value={title}
           name="title"
           onChange={(event => this.updateValue('title', event.target.value))}
+          required
         />
 
         <label htmlFor="description">Description</label>
@@ -78,6 +79,7 @@ export class NewMovie extends Component {
           value={imgUrl}
           name="imgUrl"
           onChange={(event => this.updateValue('imgUrl', event.target.value))}
+          required
         />
 
         <label htmlFor="imdbUrl">ImdbUrl</label>
@@ -87,6 +89,7 @@ export class NewMovie extends Component {
           value={imdbUrl}
           name="imdbUrl"
           onChange={(event => this.updateValue('imdbUrl', event.target.value))}
+          required
         />
 
         <label htmlFor="imdbId">ImdbId</label>
@@ -96,6 +99,7 @@ export class NewMovie extends Component {
           value={imdbId}
           name="imdbId"
           onChange={(event => this.updateValue('imdbId', event.target.value))}
+          required
         />
 
         <button
