@@ -1,0 +1,16 @@
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.error {
+  color: red;
+}
+
+.errorInput {
+  border-color: red;
+}
+
+.input {
+  margin: 10px 0;
+}
