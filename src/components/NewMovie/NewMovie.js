@@ -181,6 +181,7 @@ export class NewMovie extends Component {
         <button
           type="submit"
           className="button is-medium"
+          disabled={!hasValidImdbUrl || !hasValidImgUrl}
         >
           Add
         </button>
