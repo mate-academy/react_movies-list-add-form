@@ -1,0 +1,50 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  &__title {
+    text-align: center;
+    padding-bottom: 20px;
+    font-size: 25px;
+  }
+
+  &__input {
+    height: 40px;
+    width: 300px;
+    padding-left: 10px;
+
+    &--invalid {
+      height: 40px;
+      width: 300px;
+      padding-left: 10px;
+      border: 1px solid red;
+    }
+
+    &-wrapper {
+      display: flex;
+      flex-direction: column;
+      height: 80px;
+    }
+  }
+
+  &__invalid-text {
+    color: red;
+    font-size: 14px;
+  }
+
+  &__button {
+    width: 150px;
+    height: 30px;
+    border: 1px solid rgb(194, 190, 190);
+    transition: 0.3s;
+    color: rgb(255, 255, 255);
+    font-size: 14px;
+    text-transform: uppercase;
+    background-color: rgb(207, 176, 74);
+  
+    &:hover {
+      background-color: rgb(153, 152, 152);
+    }
+  }
+}
