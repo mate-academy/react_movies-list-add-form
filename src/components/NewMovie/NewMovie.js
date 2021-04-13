@@ -53,9 +53,7 @@ export class NewMovie extends Component {
 
     return (
       <form
-        onSubmit={(event) => {
-          this.handleSubmit(event);
-        }}
+        onSubmit={this.handleSubmit}
       >
         <span className="mb-1">Title</span>
         <input
@@ -64,9 +62,8 @@ export class NewMovie extends Component {
           type="text"
           value={title}
           placeholder="Title"
-          onChange={(event) => {
-            this.handleChange(event);
-          }}
+          onChange={this.handleChange}
+          required
         />
         <span className="mb-1">Description</span>
         <input
@@ -75,9 +72,7 @@ export class NewMovie extends Component {
           type="text"
           value={description}
           placeholder="Description"
-          onChange={(event) => {
-            this.handleChange(event);
-          }}
+          onChange={this.handleChange}
         />
         <span className="mb-1">Image Url</span>
         <input
@@ -86,9 +81,8 @@ export class NewMovie extends Component {
           type="text"
           value={imgUrl}
           placeholder="Image Url"
-          onChange={(event) => {
-            this.handleChange(event);
-          }}
+          onChange={this.handleChange}
+          required
         />
         <span className="mb-1">Imdb Url</span>
         <input
@@ -97,9 +91,8 @@ export class NewMovie extends Component {
           type="text"
           value={imdbUrl}
           placeholder="Imdb Url"
-          onChange={(event) => {
-            this.handleChange(event);
-          }}
+          onChange={this.handleChange}
+          required
         />
         <span className="mb-1">Imdb Id</span>
         <input
@@ -108,9 +101,8 @@ export class NewMovie extends Component {
           type="text"
           value={imdbId}
           placeholder="Imdb Id"
-          onChange={(event) => {
-            this.handleChange(event);
-          }}
+          onChange={this.handleChange}
+          required
         />
         <button
           type="submit"
