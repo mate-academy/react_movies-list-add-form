@@ -15,11 +15,7 @@ export class NewMovie extends Component {
     event.preventDefault();
 
     this.props.addMovie({
-      title: this.state.title,
-      description: this.state.description,
-      imgUrl: this.state.imgUrl,
-      imdbUrl: this.state.imdbUrl,
-      imdbId: this.state.imdbId,
+      ...this.state,
     });
 
     this.setState({
@@ -29,6 +25,14 @@ export class NewMovie extends Component {
       imdbUrl: '',
       imdbId: '',
     });
+  }
+
+  handleChange = (event) => {
+    const { name, value } = event.target
+
+    this.setState({
+      [name]: value,
+    })
   }
 
   render() {
@@ -45,55 +49,40 @@ export class NewMovie extends Component {
           <input
             className="form-control"
             placeholder="Title"
+            name="title"
             value={title}
-            onChange={(event) => {
-              this.setState({
-                title: event.target.value,
-              });
-            }}
+            onChange={this.handleChange}
             required
           />
           <input
             className="form-control"
             placeholder="Description"
+            name="description"
             value={description}
-            onChange={(event) => {
-              this.setState({
-                description: event.target.value,
-              });
-            }}
+            onChange={this.handleChange}
           />
           <input
             className="form-control"
             placeholder="imgUrl"
+            name="imgUrl"
             value={imgUrl}
-            onChange={(event) => {
-              this.setState({
-                imgUrl: event.target.value,
-              });
-            }}
+            onChange={this.handleChange}
             required
           />
           <input
             className="form-control"
             placeholder="imdbUrl"
+            name="imdbUrl"
             value={imdbUrl}
-            onChange={(event) => {
-              this.setState({
-                imdbUrl: event.target.value,
-              });
-            }}
+            onChange={this.handleChange}
             required
           />
           <input
             className="form-control"
             placeholder="imdbId"
+            name="imdbId"
             value={imdbId}
-            onChange={(event) => {
-              this.setState({
-                imdbId: event.target.value,
-              });
-            }}
+            onChange={this.handleChange}
             required
           />
           <button className="btn btn-success" type="submit">Add movie</button>
