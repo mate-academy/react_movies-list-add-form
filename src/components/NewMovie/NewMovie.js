@@ -10,10 +10,10 @@ export class NewMovie extends React.Component {
     imgUrl: '',
     imdbUrl: '',
     imdbId: '',
-    imgUrlBorder: 'solid gray 1px',
-    imdbUrlBorder: 'solid gray 1px',
-    visibleError1: true,
-    visibleError2: true,
+    imgUrlClass: 'notProblem',
+    imdbUrlClass: 'notProblem',
+    visibleErrorImg: true,
+    visibleErrorImdb: true,
   };
 
   validateUrl = (url) => {
@@ -26,13 +26,13 @@ export class NewMovie extends React.Component {
   validationImgUrl = (value) => {
     if (!this.validateUrl(value)) {
       this.setState({
-        imgUrlBorder: 'solid red 1px',
-        visibleError1: false,
+        imgUrlClass: 'problem',
+        visibleErrorImg: false,
       });
     } else {
       this.setState({
-        imgUrlBorder: 'solid gray 1px',
-        visibleError1: true,
+        imgUrlClass: 'notProblem',
+        visibleErrorImg: true,
       });
     }
   }
@@ -40,13 +40,13 @@ export class NewMovie extends React.Component {
   validationImdbUrl = (value) => {
     if (!this.validateUrl(value)) {
       this.setState({
-        imdbUrlBorder: 'solid red 1px',
-        visibleError2: false,
+        imdbUrlClass: 'problem',
+        visibleErrorImdb: false,
       });
     } else {
       this.setState({
-        imdbUrlBorder: 'solid gray 1px',
-        visibleError2: true,
+        imdbUrlClass: 'notProblem',
+        visibleErrorImdb: true,
       });
     }
   }
@@ -83,7 +83,8 @@ export class NewMovie extends React.Component {
   render() {
     const { title, description,
       imgUrl, imdbUrl, imdbId,
-      imgUrlBorder, imdbUrlBorder, visibleError1, visibleError2 } = this.state;
+      imgUrlClass, imdbUrlClass,
+      visibleErrorImg, visibleErrorImdb } = this.state;
 
     return (
       <>
@@ -118,7 +119,7 @@ export class NewMovie extends React.Component {
           <input
             type="text"
             id="imgUrl"
-            style={{ border: imgUrlBorder }}
+            className={imgUrlClass}
             placeholder="ImgUrl"
             value={imgUrl}
             onChange={this.handleChange}
@@ -127,7 +128,7 @@ export class NewMovie extends React.Component {
           <div
             className="alert alert-danger"
             role="alert"
-            hidden={visibleError1}
+            hidden={visibleErrorImg}
           >
             ^^^Error. Check it ^^^
           </div>
@@ -137,7 +138,7 @@ export class NewMovie extends React.Component {
           <input
             type="text"
             id="imdbUrl"
-            style={{ border: imdbUrlBorder }}
+            className={imdbUrlClass}
             placeholder="ImdbUrl"
             value={imdbUrl}
             onChange={this.handleChange}
@@ -146,7 +147,7 @@ export class NewMovie extends React.Component {
           <div
             className="alert alert-danger"
             role="alert"
-            hidden={visibleError2}
+            hidden={visibleErrorImdb}
           >
             ^^^Error. Check it ^^^
           </div>
@@ -164,8 +165,8 @@ export class NewMovie extends React.Component {
           <input
             type="submit"
             value="Submit"
-            disabled={((imgUrlBorder === 'solid gray 1px'
-            && imdbUrlBorder === 'solid gray 1px')
+            disabled={((imgUrlClass === 'notProblem'
+            && imdbUrlClass === 'notProblem')
               ? ''
               : 'disabled'
             )}
