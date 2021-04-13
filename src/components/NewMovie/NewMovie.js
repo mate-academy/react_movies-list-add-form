@@ -21,6 +21,16 @@ export class NewMovie extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
+    const { title, imgUrl, imdbUrl, imdbId } = this.state;
+    
+    if (
+      title === ''
+      || imgUrl === ''
+      || imdbUrl === ''
+      || imdbId === ''
+    ) {
+      return;
+    }
 
     const newMovie = { ...this.state };
 
