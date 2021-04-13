@@ -4,6 +4,9 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import propTypes from 'prop-types';
 
+// eslint-disable-next-line
+const regex = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/
+
 export class NewMovie extends Component {
   state = {
     title: '',
@@ -11,7 +14,16 @@ export class NewMovie extends Component {
     imgUrl: '',
     imdbUrl: '',
     imdbId: '',
+    imgValid: false,
+    imdbValid: false,
   };
+
+  validateUrl = () => (
+    this.setState(prevState => ({
+      imgValid: regex.test(prevState.imgUrl),
+      imdbValid: regex.test(prevState.imdbUrl),
+    }))
+  )
 
   handleChange = (e) => {
     const { name, value } = e.target;
@@ -19,6 +31,7 @@ export class NewMovie extends Component {
     this.setState({
       [name]: value,
     });
+    this.validateUrl();
   }
 
   handleSubmit = (e) => {
@@ -58,7 +71,13 @@ export class NewMovie extends Component {
       imgUrl,
       imdbUrl,
       imdbId,
+      imgValid,
+      imdbValid,
     } = this.state;
+
+    const buttonCheck = Object.values(this.state).some(
+      value => !value,
+    );
 
     return (
       <form onSubmit={this.handleSubmit}>
@@ -92,9 +111,11 @@ export class NewMovie extends Component {
               name="imgUrl"
               required
               value={imgUrl}
+              error={!imgValid}
+              helperText={!imgValid && 'incorrect image URL'}
               onChange={this.handleChange}
               id="standard-required"
-              placeholder="Enter cover URL"
+              placeholder="Enter image URL"
             />
           </Grid>
           <Grid item>
@@ -102,6 +123,8 @@ export class NewMovie extends Component {
               name="imdbUrl"
               required
               value={imdbUrl}
+              error={!imdbValid}
+              helperText={!imdbValid && 'incorrect IMDB URL'}
               onChange={this.handleChange}
               id="standard-required"
               placeholder="Enter IMDB URL"
@@ -122,6 +145,7 @@ export class NewMovie extends Component {
               type="submit"
               variant="contained"
               size="large"
+              disabled={buttonCheck}
             >
               Add movie!
             </Button>
