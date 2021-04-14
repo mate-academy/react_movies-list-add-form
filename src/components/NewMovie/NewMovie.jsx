@@ -1,3 +1,4 @@
+/* eslint-disable default-case */
 import React, { Component } from 'react';
 import propTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
@@ -18,6 +19,10 @@ export class NewMovie extends Component {
     imdbValid: true,
   };
 
+  buttonCheck = Object.values(this.state).some(
+    value => !value,
+  );
+
   validateImgUrl = () => (
     this.setState(prevState => ({
       imgValid: regex.test(prevState.imgUrl),
@@ -37,35 +42,27 @@ export class NewMovie extends Component {
       [name]: value,
     });
 
-    if (name === 'imgUrl') {
-      this.validateImgUrl();
-    }
+    switch (name) {
+      case 'imgUrl':
+        this.validateImgUrl();
+        break;
 
-    if (name === 'imdbUrl') {
-      this.validateImdbUrl();
+      case 'imdbUrl':
+        this.validateImgUrl();
+        break;
     }
   }
 
   handleSubmit = (e) => {
     e.preventDefault();
-    const { onAdd } = this.props;
-    const {
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    } = this.state;
+
+    const { addMovie } = this.props;
 
     const newMovie = {
-      title,
-      description,
-      imdbId,
-      imdbUrl,
-      imgUrl,
+      ...this.state,
     };
 
-    onAdd(newMovie);
+    addMovie(newMovie);
 
     this.setState({
       title: '',
@@ -86,10 +83,6 @@ export class NewMovie extends Component {
       imgValid,
       imdbValid,
     } = this.state;
-
-    const buttonCheck = Object.values(this.state).some(
-      value => !value,
-    );
 
     return (
       <form onSubmit={this.handleSubmit}>
@@ -165,7 +158,7 @@ export class NewMovie extends Component {
               type="submit"
               variant="contained"
               size="large"
-              disabled={buttonCheck}
+              disabled={this.buttonCheck}
             >
               Add movie!
             </Button>
@@ -177,5 +170,5 @@ export class NewMovie extends Component {
 }
 
 NewMovie.propTypes = {
-  onAdd: propTypes.func.isRequired,
+  addMovie: propTypes.func.isRequired,
 };
