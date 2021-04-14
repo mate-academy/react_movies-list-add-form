@@ -13,10 +13,7 @@ export class NewMovie extends Component {
   handleChange = (event) => {
     const { name, value } = event.target;
 
-    this.setState(state => ({
-      ...state,
-      [name]: value,
-    }));
+    this.setState({ [name]: value });
   }
 
   handleSubmit = (event) => {
