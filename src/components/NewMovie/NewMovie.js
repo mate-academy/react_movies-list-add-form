@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-// eslint-disable-next-line no-unused-vars
-import bulma from 'bulma';
 import './NewMovie.scss';
 
 // eslint-disable-next-line
@@ -20,13 +18,13 @@ export class NewMovie extends Component {
 
   isValidImgUrl = () => {
     this.setState(state => ({
-      imgUrlValid: regex.test(state.imdbUrlValid),
+      imgUrlValid: regex.test(state.imgUrl),
     }));
   }
 
   isValidImdbUrl = () => {
     this.setState(state => ({
-      imdbUrlValid: regex.test(state.imdbUrlValid),
+      imdbUrlValid: regex.test(state.imdbUrl),
     }));
   }
 
