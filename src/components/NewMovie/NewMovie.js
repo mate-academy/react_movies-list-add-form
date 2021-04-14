@@ -20,6 +20,19 @@ export class NewMovie extends Component {
     });
   }
 
+  handleSubmit = (event) => {
+    event.preventDefault();
+    this.props.addMovie(this.state);
+
+    this.setState({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
+  }
+
   render() {
     const {
       title,
@@ -29,22 +42,9 @@ export class NewMovie extends Component {
       imdbId,
     } = this.state;
 
-    const { addMovie } = this.props;
-
     return (
       <form
-        onSubmit={(event) => {
-          event.preventDefault();
-          addMovie(this.state);
-
-          this.setState({
-            title: '',
-            description: '',
-            imgUrl: '',
-            imdbUrl: '',
-            imdbId: '',
-          });
-        }}
+        onSubmit={this.handleSubmit}
       >
         <label>
           Title

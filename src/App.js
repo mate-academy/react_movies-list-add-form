@@ -10,16 +10,8 @@ export class App extends Component {
   };
 
   addMovie = (movie) => {
-    const newMovie = {
-      title: movie.title,
-      description: movie.description,
-      imgUrl: movie.imgUrl,
-      imdbUrl: movie.imgUrl,
-      imdbId: movie.imdbId,
-    };
-
     this.setState(state => ({
-      movies: [...state.movies, newMovie],
+      movies: [...state.movies, movie],
     }));
   };
 
