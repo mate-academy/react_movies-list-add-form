@@ -1,0 +1,45 @@
+.NewMovieForm {
+  padding: 20px 30px;
+  box-shadow: 2px 2px 10px lightgrey;
+
+  &__field {
+    margin: 0 auto 20px;
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+
+    &--invalid {
+      border: 2px solid red;
+    }
+
+    &--invalid::after {
+      content: attr(data-error);
+      color: red;
+      bottom: 0;
+      left: 0;
+      position: absolute;
+      transform: translateY(100%);
+      font-size: 14px;
+    }
+  }
+
+  &__input {
+    width: 100%;
+    border: none;
+    padding: 5px 10px;
+    font-size: 16px;
+  }
+
+  &__button {
+    width: 100%;
+    font-size: 18px;
+    padding: 0.5em 1em;
+    border: none;
+
+    &:hover:not(:disabled) {
+      background-color: #fff;
+    }
+  }
+}
