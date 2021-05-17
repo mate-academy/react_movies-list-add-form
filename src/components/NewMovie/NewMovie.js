@@ -35,7 +35,7 @@ export class NewMovie extends Component {
     this.setState({
       [name]: {
         value,
-        error: value.length < 2,
+        error: value.trim().length < 2,
       },
     });
   }
