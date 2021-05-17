@@ -1,0 +1,41 @@
+.block {
+  display: flex;
+  flex-direction: column;
+  
+  &__form {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    margin: 15px auto;
+    justify-content: center;
+  
+    .inputs {
+      display: flex;
+      flex-direction: column;
+      padding: 20px 0;
+      gap: 5px;
+      .container-input {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 6px;
+  
+        .error {
+          padding: 0 7px;
+          right: -105px;
+          position: absolute;
+          margin-bottom: 5px;
+          background-color: rgb(255, 2, 2);
+          text-align: center;
+          border-radius: 10px;
+          color: white;
+        }
+      }
+    }
+  }
+  .button {
+    background-color: lightblue;
+    border-radius: 20px;
+  }
+}
