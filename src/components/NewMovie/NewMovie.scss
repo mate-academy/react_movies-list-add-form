@@ -1,0 +1,24 @@
+.btn {
+  width: 80%;
+  padding: 5px 0;
+  border: 1px solid silver;
+  border-radius: 5px;
+  margin-top: 20px;
+
+  background-color: transparent;
+
+  cursor: pointer;
+}
+
+.btn:hover {
+  box-shadow: 2px 2px 15px silver;
+}
+
+.btn:active {
+  background-color: lightgray;
+}
+
+.btn:disabled {
+  box-shadow: none;
+  cursor: default;
+}

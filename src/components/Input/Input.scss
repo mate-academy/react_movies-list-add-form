@@ -1,0 +1,33 @@
+.fieldTitle {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.textField {
+  width: 80%;
+  margin: 0 auto;
+  border: none;
+  border-bottom: 1px solid silver;
+  padding-left: 10px;
+
+  font-size: 15px;
+
+  outline: none;
+}
+
+.errorMes {
+  color: red;
+
+  font-size: 13px;
+
+  visibility: hidden;
+}
+
+.visible {
+  visibility: visible;
+}
+
+.redBorder {
+  border: 1px solid lightcoral;
+  border-radius: 4px;
+}
