@@ -23,6 +23,10 @@ export class NewMovie extends Component {
     },
   };
 
+  componentDidMount() {
+    this.initialState = this.state;
+  }
+
   allFieldGood = () => {
     const {
       title,
@@ -87,6 +91,7 @@ export class NewMovie extends Component {
     } = this.state;
 
     event.preventDefault();
+    this.setState(this.initialState);
 
     onAdd(new Movie(
       title.value,
