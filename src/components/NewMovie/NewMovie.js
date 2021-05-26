@@ -9,11 +9,11 @@ export class NewMovie extends Component {
     imdbUrl: '',
     imgUrl: '',
     imdbId: '',
-    isButtonHidden: false,
-    isTitleValid: false,
-    isImdbUrlValid: false,
-    isImgUrlValid: false,
-    isImdbIdValid: false,
+    isButtonHidden: true,
+    isTitleValid: true,
+    isImdbUrlValid: true,
+    isImgUrlValid: true,
+    isImdbIdValid: true,
   };
 
   newFilmHandler = () => {
@@ -36,20 +36,17 @@ export class NewMovie extends Component {
         imdbUrl: '',
         imgUrl: '',
         imdbId: '',
-        isButtonHidden: false,
-        isTitleValid: false,
-        isImdbUrlValid: false,
-        isImgUrlValid: false,
-        isImdbIdValid: false,
+        isButtonHidden: true,
+        isTitleValid: true,
+        isImdbUrlValid: true,
+        isImgUrlValid: true,
+        isImdbIdValid: true,
       });
     }
   }
 
   dataCheked = (event, validator) => {
     const { value, name } = event.target;
-    const {
-      isTitleValid, isImdbUrlValid, isImgUrlValid, isImdbIdValid,
-    } = this.state;
 
     switch (name) {
       case 'imgUrl':
@@ -68,10 +65,10 @@ export class NewMovie extends Component {
         break;
     }
 
-    this.setState({
-      isButtonHidden: (isTitleValid && isImdbUrlValid
-        && isImgUrlValid && isImdbIdValid),
-    });
+    this.setState(state => ({
+      isButtonHidden: !(state.isTitleValid && state.isImdbUrlValid
+        && state.isImgUrlValid && state.isImdbIdValid),
+    }));
   }
 
   handleChange = (event) => {
@@ -100,7 +97,7 @@ export class NewMovie extends Component {
           <label>
             Title
             <input
-              className={!isTitleValid && 'warning'}
+              className={!isTitleValid ? 'warning' : ''}
               type="text"
               name="title"
               placeholder="Film title"
@@ -126,7 +123,7 @@ export class NewMovie extends Component {
           <label>
             Imdb Id
             <input
-              className={!isImdbIdValid && 'warning'}
+              className={!isImdbIdValid ? 'warning' : ''}
               type="text"
               name="imdbId"
               placeholder="ImdbId"
@@ -142,7 +139,7 @@ export class NewMovie extends Component {
           <label>
             Imdb Url
             <input
-              className={!isImdbUrlValid && 'warning'}
+              className={!isImdbUrlValid ? 'warning' : ''}
               type="text"
               name="imdbUrl"
               placeholder="ImdbUrl"
@@ -156,9 +153,9 @@ export class NewMovie extends Component {
             {!isImdbUrlValid && <span>Enter valid Imdb Url, please</span>}
           </label>
           <label>
-            Imdb Id
+            Img Url
             <input
-              className={!isImgUrlValid && 'warning'}
+              className={!isImgUrlValid ? 'warning' : ''}
               type="text"
               name="imgUrl"
               placeholder="ImgUrl"
