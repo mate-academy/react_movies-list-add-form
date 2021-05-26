@@ -9,20 +9,15 @@ export class NewMovie extends Component {
     imdbUrl: '',
     imgUrl: '',
     imdbId: '',
-    isButtonHidden: true,
-    isTitleValid: true,
-    isImdbUrlValid: true,
-    isImgUrlValid: true,
-    isImdbIdValid: true,
+    errors: {},
   };
 
   newFilmHandler = () => {
     const {
-      title, description, imdbUrl, imdbId, imgUrl, isTitleValid,
-      isImdbUrlValid, isImdbIdValid, isImgUrlValid,
+      title, description, imdbUrl, imdbId, imgUrl, errors,
     } = this.state;
 
-    if (isTitleValid && isImdbUrlValid && isImgUrlValid && isImdbIdValid) {
+    if (!Object.keys(errors).length) {
       this.props.addMovie({
         title,
         description,
@@ -36,38 +31,45 @@ export class NewMovie extends Component {
         imdbUrl: '',
         imgUrl: '',
         imdbId: '',
-        isButtonHidden: true,
-        isTitleValid: true,
-        isImdbUrlValid: true,
-        isImgUrlValid: true,
-        isImdbIdValid: true,
+        errors: {},
       });
     }
   }
 
-  dataCheked = (event, validator) => {
-    const { value, name } = event.target;
+  handleError = (event) => {
+    // eslint-disable-next-line max-len
+    const regExp = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
+    const { name, value } = event.target;
+    const urlValid = (name.includes('Url'))
+      ? regExp.test(value)
+      : true;
+    const validator = `is${name[0].toUpperCase() + name.slice(1)}Valid`;
 
-    switch (name) {
-      case 'imgUrl':
-      case 'imdbUrl':
-        this.setState({
-          // eslint-disable-next-line max-len
-          [validator]: /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/
-            .test(value),
-        });
-        break;
+    if (!Object.hasOwnProperty.call(this.state.errors, validator)
+    && (value === '' || !urlValid)) {
+      this.setState((state) => {
+        return {
+          errors: {
+            ...state.errors,
+            [validator]: true,
+          },
+        };
+      });
+    } else if (Object.hasOwnProperty.call(this.state.errors, validator)
+    && value !== '' && urlValid) {
+      this.setState((state) => {
+        const updateErrors = state.errors;
 
-      default:
-        this.setState({
-          [validator]: (value !== '') ? Boolean(value) : false,
-        });
-        break;
+        delete updateErrors[validator];
+
+        return {
+          errors: updateErrors,
+        };
+      });
     }
 
     this.setState(state => ({
-      isButtonHidden: !(state.isTitleValid && state.isImdbUrlValid
-        && state.isImgUrlValid && state.isImdbIdValid),
+      isButtonHidden: Object.keys(state.errors).length,
     }));
   }
 
@@ -81,8 +83,7 @@ export class NewMovie extends Component {
 
   render() {
     const {
-      title, description, imdbId, imdbUrl, imgUrl, isButtonHidden,
-      isTitleValid, isImdbIdValid, isImdbUrlValid, isImgUrlValid,
+      title, description, imdbId, imdbUrl, imgUrl, isButtonHidden, errors,
     } = this.state;
 
     return (
@@ -97,18 +98,19 @@ export class NewMovie extends Component {
           <label>
             Title
             <input
-              className={!isTitleValid ? 'warning' : ''}
+              className={Object.hasOwnProperty.call(errors, 'isTitleValid')
+                ? 'warning'
+                : ''}
               type="text"
               name="title"
               placeholder="Film title"
               value={title}
               onChange={this.handleChange}
               required
-              onBlur={(event) => {
-                this.dataCheked(event, 'isTitleValid');
-              }}
+              onBlur={this.handleError}
             />
-            {!isTitleValid && <span>Enter title, please</span>}
+            {Object.hasOwnProperty.call(errors, 'isTitleValid')
+            && <span>Enter title, please</span>}
           </label>
           <label>
             Description
@@ -123,50 +125,53 @@ export class NewMovie extends Component {
           <label>
             Imdb Id
             <input
-              className={!isImdbIdValid ? 'warning' : ''}
+              className={Object.hasOwnProperty.call(errors, 'isImdbIdValid')
+                ? 'warning'
+                : ''}
               type="text"
               name="imdbId"
               placeholder="ImdbId"
               value={imdbId}
               onChange={this.handleChange}
-              onBlur={(event) => {
-                this.dataCheked(event, 'isImdbIdValid');
-              }}
+              onBlur={this.handleError}
               required
             />
-            {!isImdbIdValid && <span>Enter valid Id, please</span>}
+            {Object.hasOwnProperty.call(errors, 'isImdbIdValid')
+            && <span>Enter valid Id, please</span>}
           </label>
           <label>
             Imdb Url
             <input
-              className={!isImdbUrlValid ? 'warning' : ''}
+              className={Object.hasOwnProperty.call(errors, 'isImdbUrlValid')
+                ? 'warning'
+                : ''}
               type="text"
               name="imdbUrl"
               placeholder="ImdbUrl"
               value={imdbUrl}
               onChange={this.handleChange}
-              onBlur={(event) => {
-                this.dataCheked(event, 'isImdbUrlValid');
-              }}
+              onBlur={this.handleError}
               required
             />
-            {!isImdbUrlValid && <span>Enter valid Imdb Url, please</span>}
+            {Object.hasOwnProperty.call(errors, 'isImdbUrlValid')
+            && <span>Enter valid Imdb Url, please</span>}
           </label>
           <label>
             Img Url
             <input
-              className={!isImgUrlValid ? 'warning' : ''}
+              className={Object.hasOwnProperty.call(errors, 'isImgUrlValid')
+                ? 'warning'
+                : ''}
               type="text"
               name="imgUrl"
               placeholder="ImgUrl"
               value={imgUrl}
               onChange={this.handleChange}
-              onBlur={(event) => {
-                this.dataCheked(event, 'isImgUrlValid');
-              }}
+              onBlur={this.handleError}
               required
             />
-            {!isImgUrlValid && <span>Enter valid Id, please</span>}
+            {Object.hasOwnProperty.call(errors, 'isImgUrlValid')
+            && <span>Enter valid Id, please</span>}
           </label>
 
         </fieldset>
