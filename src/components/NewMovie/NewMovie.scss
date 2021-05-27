@@ -14,17 +14,17 @@ $error-color: red;
     padding: 5px 10px;
     border: 1px solid grey;
 
-    &_textarea {
-      min-height: 4em;
-      resize: vertical;
-    }
-
     &_invalid {
       border-color: $error-color;
 
       &::placeholder {
         color: $error-color;
       }
+    }
+
+    &_textarea {
+      min-height: 4em;
+      resize: vertical;
     }
   }
 
