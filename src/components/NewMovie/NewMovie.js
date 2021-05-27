@@ -29,6 +29,16 @@ export class NewMovie extends PureComponent {
   handleValue = (event) => {
     const { name, value } = event.target;
 
+    if (value === '') {
+      return this.setState(state => ({
+        [name]: value,
+        validation: {
+          ...state.validation,
+          [`${name}Error`]: true,
+        },
+      }));
+    }
+
     if ((name === 'imgUrl' || name === 'imdbUrl') && value === '') {
       return this.setState(state => ({
         [name]: value,
@@ -135,6 +145,10 @@ export class NewMovie extends PureComponent {
     Object.values(this.state.validation).some(error => error)
   );
 
+  findSomeUrlError = () => (
+    Object.values(this.state.urlValidation).some(error => error)
+  );
+
   render() {
     const {
       title,
@@ -189,15 +203,18 @@ export class NewMovie extends PureComponent {
               this.handleValue(event);
             }}
           />
-          {this.checkingError('imgUrl') && (
+          {(
+            this.checkingError('imgUrl') && (
             <span className="form__error">
               Enter an image URL
             </span>
-          )}
-          {this.checkingUrlError('imgUrl') && (
-            <span className="form__error">
-              Enter a valid image URL
-            </span>
+            )
+          ) || (
+            this.checkingUrlError('imgUrl') && (
+              <span className="form__error">
+                Enter a valid image URL
+              </span>
+            )
           )}
         </div>
 
@@ -217,15 +234,18 @@ export class NewMovie extends PureComponent {
               this.handleValue(event);
             }}
           />
-          {this.checkingError('imdbUrl') && (
+          {(
+            this.checkingError('imdbUrl') && (
             <span className="form__error">
               Enter an IMDb URL
             </span>
-          )}
-          {this.checkingUrlError('imdbUrl') && (
-            <span className="form__error">
-              Enter a valid IMDb URL
-            </span>
+            )
+          ) || (
+            this.checkingUrlError('imdbUrl') && (
+              <span className="form__error">
+                Enter a valid IMDb URL
+              </span>
+            )
           )}
         </div>
 
@@ -265,7 +285,7 @@ export class NewMovie extends PureComponent {
         <button
           className="form__button"
           type="submit"
-          disabled={this.findSomeError()}
+          disabled={this.findSomeError() || this.findSomeUrlError()}
         >
           Add movie
         </button>
