@@ -1,0 +1,33 @@
+.Input {
+  display: block;
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  cursor: pointer;
+  border-bottom: 1px solid #aaa;
+
+  &__field {
+    display: block;
+    margin: 10px auto 20px;
+    padding: 5px 10px;
+    outline: none;
+    border-color: #aaa;
+    border-radius: 20px;
+    min-width: 85%;
+    &_err {
+      border-color: red;
+    }
+  }
+
+  &__error {
+    text-transform: lowercase;
+    font-size: 14px;
+    font-weight: normal;
+    margin: 10px 0;
+    color: red;
+    &::before {
+      content: "* ";
+    }
+  }
+}

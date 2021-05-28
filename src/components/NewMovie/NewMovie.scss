@@ -1,0 +1,18 @@
+.NewMovie {
+  text-transform: uppercase;
+  padding: 10px;
+  &__addBtn {
+    display: block;
+    cursor: pointer;
+    margin: 10px auto;
+    padding: 10px 40px;
+    background-color: #218df1;
+    color: #eee;
+    border: none;
+    border-radius: 20px;
+    &:disabled {
+      opacity: 0.5;
+      cursor: auto;
+    }
+  }
+}
