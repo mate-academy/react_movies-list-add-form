@@ -5,22 +5,27 @@ import './Input.scss';
 export const Input = ({ field, changeValue, setError, errors }) => {
   const [name, value] = field;
   let title;
+  let type;
 
   switch (name) {
     case 'imgUrl':
       title = 'Film image URL';
+      type = 'url';
       break;
 
     case 'imdbUrl':
       title = 'Film IMDB URL';
+      type = 'url';
       break;
 
     case 'imdbId':
       title = 'Film IMDB id';
+      type = 'text';
       break;
 
     default:
       title = name;
+      type = 'text';
       break;
   }
 
@@ -28,7 +33,7 @@ export const Input = ({ field, changeValue, setError, errors }) => {
     <label htmlFor={name} className="Input">
       {title}
       <input
-        type="text"
+        type={type}
         className={
           errors[name]
             ? 'Input__field Input__field_err'
