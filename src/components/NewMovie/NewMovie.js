@@ -18,13 +18,11 @@ export class NewMovie extends Component {
   };
 
   clearForm = () => this.setState({
-    movie: {
-      title: '',
-      description: '',
-      imgUrl: '',
-      imdbUrl: '',
-      imdbId: '',
-    },
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
   });
 
   render() {
