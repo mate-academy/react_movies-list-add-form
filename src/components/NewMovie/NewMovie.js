@@ -201,7 +201,7 @@ export class NewMovie extends Component {
           <li className="form__li">
             {/* eslint-disable-next-line  */}
             <label className="form__label">
-              imdbId
+              imdbId:
               <span className="required">*</span>
             </label>
             <input
