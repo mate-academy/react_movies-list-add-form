@@ -55,7 +55,7 @@ export class NewMovie extends Component {
           }}
         />
         <input
-          type="text"
+          type="url"
           placeholder="imgUrl"
           value={this.state.imgUrl}
           onChange={(event) => {
@@ -65,7 +65,7 @@ export class NewMovie extends Component {
           }}
         />
         <input
-          type="text"
+          type="url"
           placeholder="imdbUrl"
           value={this.state.imdbUrl}
           onChange={(event) => {
