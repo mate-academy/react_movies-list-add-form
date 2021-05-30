@@ -1,0 +1,27 @@
+.new-movie {
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  &__input {
+    padding: 15px;
+    font-size: 16px;
+    outline: none;
+
+    &--error {
+      border: 1px solid red;
+    }
+  }
+
+  &__submit-btn {
+    outline: none;
+    padding: 15px;
+  }
+
+  &__error {
+    text-align: center;
+    color: red;
+  }
+}
