@@ -1,0 +1,24 @@
+
+.AddMovieForm {
+  // display: block;
+}
+
+.FormLabel {
+  display: block;
+  position: relative;
+  height: 85px;
+}
+
+.FormInput {
+  position: absolute;
+  left: 31%;
+}
+
+.ErrorMessage {
+  margin-top: 7px;
+  color: darkred;
+}
+
+.true {
+  border: 2px solid darkred;
+}
