@@ -1,0 +1,52 @@
+$colorImdb: #f3ce13;
+$fieldHeight: 40px;
+
+%fieldSettings {
+  width: 100%;
+  background-color: black;
+  color: $colorImdb;
+  text-align: center;
+  border: $colorImdb solid 2px;
+  height: $fieldHeight;
+
+  &::placeholder {
+    color: rgb(145, 142, 1);
+  }
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+
+  input {
+    @extend %fieldSettings;
+  }
+
+  &__description {
+    @extend %fieldSettings;
+    height: 100px;
+    resize: none;
+  }
+
+  &button {
+    height: $fieldHeight;
+    background-color: $colorImdb;
+    border: 2px solid black;
+    color: black;
+    width: 100%;
+    cursor: pointer;
+    transition: 0.2s;
+
+    &:hover {
+      background-color: yellow;
+    }
+
+    &:active {
+      background-color: black;
+      color: yellow;
+      transition: 0.1s;
+    }
+  }
+}
