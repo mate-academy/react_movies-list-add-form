@@ -1,0 +1,22 @@
+.movieForm {
+  display: grid;
+  row-gap: 20px;
+
+  &__container {
+    display: grid;
+  }
+
+  &__label {
+    padding: 20px 0 5px 15px;
+  }
+
+  &__textField {
+    padding: 10px 20px;
+  }
+
+  &__addButton {
+    width: 120px;
+    padding: 5px 10px;
+    cursor: pointer;
+  }
+}
