@@ -11,5 +11,7 @@
 
 .sidebar {
   padding: 20px;
+  display: flex;
+  flex-direction: column;
   border-left: 1px solid lightgray;
 }
