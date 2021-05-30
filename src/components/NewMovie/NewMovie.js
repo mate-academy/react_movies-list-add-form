@@ -18,16 +18,17 @@ export class NewMovie extends Component {
   };
 
   onInputChange = (event) => {
-    (
-      this.setState(state => ({
+    const { target } = event;
+
+    this.setState(state => (
+      {
         ...state,
-        [event.target.placeholder]: event.target.value,
+        [target.name]: target.value,
         fiedsError: {
           ...state.fiedsError,
-          [`${event.target.placeholder}Error`]: false,
+          [`${target.name}Error`]: false,
         },
-      }))
-    );
+      }));
   }
 
   onSubmit = (event) => {
@@ -107,6 +108,7 @@ export class NewMovie extends Component {
           <input
             type="text"
             placeholder="title"
+            name="title"
             value={title}
             onChange={this.onInputChange}
             className={`new-movie__input 
@@ -117,6 +119,7 @@ export class NewMovie extends Component {
           <input
             type="text"
             placeholder="description"
+            name="description"
             value={description}
             onChange={this.onInputChange}
             className="new-movie__input"
@@ -124,6 +127,7 @@ export class NewMovie extends Component {
           <input
             type="text"
             placeholder="imgUrl"
+            name="imgUrl"
             value={imgUrl}
             onChange={this.onInputChange}
             className={`new-movie__input
@@ -134,6 +138,7 @@ export class NewMovie extends Component {
           <input
             type="text"
             placeholder="imdbUrl"
+            name="imdbUrl"
             value={imdbUrl}
             onChange={this.onInputChange}
             className={`new-movie__input
@@ -144,6 +149,7 @@ export class NewMovie extends Component {
           <input
             type="text"
             placeholder="imdbId"
+            name="imdbId"
             value={imdbId}
             onChange={this.onInputChange}
             className={`new-movie__input
