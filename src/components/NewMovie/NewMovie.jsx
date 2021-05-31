@@ -11,13 +11,31 @@ export class NewMovie extends Component {
   };
 
   handleChange = (event) => {
+    const { name, value } = event.target;
+
     this.setState({
-      [event.target.name]: event.target.value,
+      [name]: value,
     });
   }
 
   handleSubmit =(event) => {
     event.preventDefault();
+
+    this.props.onAdd({
+      title: this.state.title,
+      description: this.state.description,
+      imdbId: this.state.imdbId,
+      imdbUrl: this.state.imdbUrl,
+      imgUrl: this.state.imgUrl,
+    });
+
+    this.setState({
+      title: '',
+      description: '',
+      imdbId: '',
+      imdbUrl: '',
+      imgUrl: '',
+    });
   }
 
   render() {
@@ -67,27 +85,7 @@ export class NewMovie extends Component {
           onChange={this.handleChange}
         />
 
-        <button
-          type="submit"
-          onClick={() => {
-            this.props.onAdd({
-              title,
-              description,
-              imdbId,
-              imdbUrl,
-              imgUrl,
-            });
-
-            this.setState({
-              title: '',
-              description: '',
-              imdbId: '',
-              imdbUrl: '',
-              imgUrl: '',
-            });
-          }
-        }
-        >
+        <button type="submit">
           Add new film
         </button>
       </form>
