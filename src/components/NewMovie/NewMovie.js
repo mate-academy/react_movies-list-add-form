@@ -26,7 +26,6 @@ export class NewMovie extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    // this.props.addMovie(this.state.newMovie);
 
     this.setState({
       newMovie: {
