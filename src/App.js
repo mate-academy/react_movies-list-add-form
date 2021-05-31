@@ -13,10 +13,6 @@ export class App extends Component {
     this.setState(state => ({
       movies: [...state.movies, movie],
     }));
-
-    this.setState(state => ({
-      movies: [...state.movies, movie],
-    }));
   };
 
   render() {
