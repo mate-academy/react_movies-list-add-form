@@ -37,14 +37,18 @@ export class NewMovie extends Component {
   }
 
   render() {
+    const { inputHandler, addHandler } = this;
+    const { title, description, imgUrl, imdbUrl, imdbId } = this.state.newMovie;
+
     return (
       <form>
         <div>
           <label>
             <input
+              placeholder="Movie title"
               name="title"
-              value={this.state.newMovie.title}
-              onChange={this.inputHandler}
+              value={title}
+              onChange={inputHandler}
             />
             Title
           </label>
@@ -52,9 +56,10 @@ export class NewMovie extends Component {
         <div>
           <label>
             <input
+              placeholder="Movie description"
               name="description"
-              value={this.state.newMovie.description}
-              onChange={this.inputHandler}
+              value={description}
+              onChange={inputHandler}
             />
             Description
           </label>
@@ -62,9 +67,10 @@ export class NewMovie extends Component {
         <div>
           <label>
             <input
+              placeholder="Movie image link"
               name="imgUrl"
-              value={this.state.newMovie.imgUrl}
-              onChange={this.inputHandler}
+              value={imgUrl}
+              onChange={inputHandler}
             />
             Image
           </label>
@@ -72,9 +78,10 @@ export class NewMovie extends Component {
         <div>
           <label>
             <input
+              placeholder="Movie imdb link"
               name="imdbUrl"
-              value={this.state.newMovie.imdbUrl}
-              onChange={this.inputHandler}
+              value={imdbUrl}
+              onChange={inputHandler}
             />
             IMDB
           </label>
@@ -82,17 +89,18 @@ export class NewMovie extends Component {
         <div>
           <label>
             <input
+              placeholder="Movie imdb id"
               name="imdbId"
-              value={this.state.newMovie.imdbId}
-              onChange={this.inputHandler}
+              value={imdbId}
+              onChange={inputHandler}
             />
             IMDB ID
           </label>
         </div>
         <button
           type="submit"
-          onClick={event => this.addHandler(event)}
-          onChange={this.inputHandler}
+          onClick={event => addHandler(event)}
+          onChange={inputHandler}
         >
           Add
         </button>
