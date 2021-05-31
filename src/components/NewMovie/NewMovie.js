@@ -77,7 +77,7 @@ export class NewMovie extends Component {
 
     return (
       <form
-        className="form"
+        className="form form"
         onSubmit={this.handleSubmit}
       >
 
