@@ -11,38 +11,33 @@ export class NewMovie extends Component {
     imdbId: '',
   };
 
+  handleChange = (event) => {
+    const { value, name } = event.target;
+
+    this.setState(state => ({
+      [name]: value.trim(),
+    }));
+  }
+
   handleSubmit = (event) => {
     event.preventDefault();
 
+    const {
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    } = this.state;
+
     const newMovie = {
-      title: this.state.title,
-      description: this.state.description,
-      imgUrl: this.state.imgUrl,
-      imdbUrl: this.state.imdbUrl,
-      imdbId: this.state.imdbId,
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
     };
 
-    const { title, description, imgUrl, imdbUrl, imdbId } = this.state;
-
-    if (!title || title.startsWith(' ')) {
-      return;
-    }
-
-    if (!description || description.startsWith(' ')) {
-      return;
-    }
-
-    if (!imgUrl || imgUrl.startsWith(' ')) {
-      return;
-    }
-
-    if (!imdbUrl || imdbUrl.startsWith(' ')) {
-      return;
-    }
-
-    if (!imdbId || imdbId.startsWith(' ')) {
-      return;
-    }
     // eslint-disable-next-line
     this.props.addMovie(newMovie);
     this.setState({
@@ -55,77 +50,75 @@ export class NewMovie extends Component {
   };
 
   render() {
+    const {
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    } = this.state;
+
     return (
       <form onSubmit={this.handleSubmit} className="submitForm">
         <input
+          required
           className={classNames(
             'submitForm__form',
             { submitForm__active: this.state.title !== '' },
           )}
           type="text"
           placeholder="title"
-          value={this.state.title}
-          onChange={(event) => {
-            this.setState({
-              title: event.target.value,
-            });
-          }}
+          value={title}
+          name="title"
+          onChange={this.handleChange}
         />
         <input
+          required
           className={classNames(
             'submitForm__form',
             { submitForm__active: this.state.description !== '' },
           )}
           type="text"
           placeholder="description"
-          value={this.state.description}
-          onChange={(event) => {
-            this.setState({
-              description: event.target.value,
-            });
-          }}
+          value={description}
+          name="description"
+          onChange={this.handleChange}
         />
         <input
+          required
           className={classNames(
             'submitForm__form',
             { submitForm__active: this.state.imgUrl !== '' },
           )}
           type="url"
           placeholder="imgUrl"
-          value={this.state.imgUrl}
-          onChange={(event) => {
-            this.setState({
-              imgUrl: event.target.value,
-            });
-          }}
+          value={imgUrl}
+          name="imgUrl"
+          onChange={this.handleChange}
         />
         <input
+          required
           className={classNames(
             'submitForm__form',
             { submitForm__active: this.state.imdbUrl !== '' },
           )}
           type="url"
           placeholder="imdbUrl"
-          value={this.state.imdbUrl}
-          onChange={(event) => {
-            this.setState({
-              imdbUrl: event.target.value,
-            });
-          }}
+          value={imdbUrl}
+          name="imdbUrl"
+          onChange={this.handleChange}
         />
         <input
+          required
           className={classNames(
             'submitForm__form',
             { submitForm__active: this.state.imdbId !== '' },
           )}
           type="url"
           placeholder="imdbId"
-          value={this.state.imdbId}
-          onChange={(event) => {
-            this.setState({
-              imdbId: event.target.value,
-            });
-          }}
+          value={imdbId}
+          name="imdbId"
+          onChange={this.handleChange}
         />
         <button type="submit" className="formButton">
           Add movie
