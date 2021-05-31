@@ -26,7 +26,7 @@ export class NewMovie extends Component {
 
   addHandler = (event) => {
     event.preventDefault();
-    this.props.addMovie(this.state.newMovie);
+    this.props.addMovie({ ...this.state.newMovie });
     this.setState({ newMovie: {
       title: '',
       description: '',
