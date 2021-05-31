@@ -1,0 +1,40 @@
+.form {
+  margin: 10px 0;
+
+  &__title {
+    margin-bottom: 1.5rem;
+    font-size: 20px;
+  }
+
+  &__input {
+    margin-bottom: 7px;
+    padding: 10px;
+    width: 100%;
+    border: 1px solid #3298dc;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+
+    &:focus {
+      border: 2px solid #3298dc;
+      outline: none;
+    }
+  }
+
+  &__textarea {
+    min-height: 120px;
+  }
+
+  &__button {
+    display: flex;
+    align-items: center;
+    margin-top: 5px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    background-color: #3298dc;
+    color: #fff;
+    cursor: pointer;
+  }
+}
