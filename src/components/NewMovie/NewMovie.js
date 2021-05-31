@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import './NewMovie.scss';
+import cloneDeep from 'lodash/cloneDeep';
 
 export class NewMovie extends Component {
   state = {
@@ -11,25 +12,54 @@ export class NewMovie extends Component {
     imdbId: '',
     errors: {
       titleError: {
-        empty: 'er',
+        empty: '',
       },
       imgUrlError: {
-        empty: 'gf',
-        wrongFormat: '',
+        empty: '',
+      },
+      imdbUrlError: {
+        empty: '',
       },
       imdbIdError: {
         empty: '',
-        wrongFormat: '',
       },
     },
     validation: false,
   }
 
+  hasErrors = () => {
+    const { errors } = this.state;
+    const arrOfErrors = Object.keys(errors);
+
+    return arrOfErrors.indexOf(error => error.empty.length > 0) !== -1;
+  }
+
+  isRequiredFieldsFilled = () => {
+    const arrOfFields = Object.keys(this.state);
+    const requiredFields = arrOfFields.filter((field) => {
+      return field !== 'errors'
+        && field !== 'description'
+        && field !== 'validation';
+    });
+
+    return requiredFields.every(field => this.state[field].length > 0);
+  }
+
   handleSubmit = (event) => {
     event.preventDefault();
-    const movie = this.state;
+    const { title, description, imgUrl, imdbUrl, imdbId } = this.state;
 
-    this.props.onAdd(movie);
+    if (!title && !imgUrl && !imdbUrl && !imdbId) {
+      return;
+    }
+
+    this.props.onAdd({
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    });
 
     this.setState({
       title: '',
@@ -44,10 +74,29 @@ export class NewMovie extends Component {
     const field = event.target.name;
 
     if (event.target.value.length === 0) {
-      this.setState(prevState => ({
-        ...prevState,
-        errors: { [field.concat('Error')]: { empty: 'is required' } },
-      }));
+      this.saveErrors(field, 'empty', 'is required');
+    }
+
+    if (!this.hasErrors() && this.isRequiredFieldsFilled()) {
+      this.setState({ validation: true });
+    }
+  }
+
+  saveErrors = (forField, typeOfError, message) => {
+    this.setState(prevState => ({
+      ...cloneDeep(prevState),
+      errors: {
+        ...prevState.errors,
+        [forField.concat('Error')]: { [typeOfError]: message },
+      },
+    }));
+  }
+
+  clearEmptyErrorForField = (field) => {
+    const { errors } = this.state;
+
+    if (errors[field.concat('Error')]?.empty.length > 0) {
+      errors[field.concat('Error')].empty = '';
     }
   }
 
@@ -55,10 +104,20 @@ export class NewMovie extends Component {
     const field = event.target.name;
 
     this.setState({ [field]: event.target.value });
+    this.clearEmptyErrorForField(field);
   }
 
   render() {
-    const { title, description, imgUrl, imdbUrl, imdbId } = this.state;
+    const { title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId } = this.state;
+
+    const { titleError,
+      imgUrlError,
+      imdbUrlError,
+      imdbIdError } = this.state.errors;
 
     return (
       <form
@@ -75,7 +134,11 @@ export class NewMovie extends Component {
               name="title"
               value={title}
               onChange={this.hangleField}
+              onBlur={this.validateField}
             />
+            {titleError.empty && (
+              <span className="error">{titleError.empty}</span>
+            )}
           </div>
           <div className="field">
             <label htmlFor="description">Description:&nbsp;</label>
@@ -95,8 +158,11 @@ export class NewMovie extends Component {
               name="imgUrl"
               value={imgUrl}
               onChange={this.hangleField}
-              onBlur={this.validateField.bind(this)}
+              onBlur={this.validateField}
             />
+            {imgUrlError.empty && (
+              <span className="error">{imgUrlError.empty}</span>
+            )}
           </div>
           <div className="field">
             <label htmlFor="imdbUrl">imdbUrl:&nbsp;</label>
@@ -106,7 +172,11 @@ export class NewMovie extends Component {
               name="imdbUrl"
               value={imdbUrl}
               onChange={this.hangleField}
+              onBlur={this.validateField}
             />
+            {imdbUrlError.empty && (
+              <span className="error">{imdbUrlError.empty}</span>
+            )}
           </div>
           <div className="field">
             <label htmlFor="imdbId">imdbId:&nbsp;</label>
@@ -116,12 +186,16 @@ export class NewMovie extends Component {
               name="imdbId"
               value={imdbId}
               onChange={this.hangleField}
+              onBlur={this.validateField}
             />
+            {imdbIdError.empty && (
+              <span className="error">{imdbIdError.empty}</span>
+            )}
           </div>
         </fieldset>
         <button
           type="submit"
-          className=""
+          className="btn"
         >
           Add a film
         </button>
