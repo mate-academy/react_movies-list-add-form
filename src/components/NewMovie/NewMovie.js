@@ -7,35 +7,60 @@ export class NewMovie extends Component {
     description: '',
     imgUrl: '',
     imdbUrl: '',
+    imdbId: '',
+    idChecker: this.props.movies.map(movie => movie.id),
 
     errorTitle: false,
     errorDesc: false,
     errorImg: false,
     errorImdb: false,
+    errorId: false,
   };
 
-  SubmitCheck = (event) => {
+  submitCheck = (event) => {
     event.preventDefault();
-    const { title, description, imgUrl, imdbUrl } = this.state;
+    const { title, description, imgUrl, imdbUrl, imdbId } = this.state;
+    const movie = {
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    };
 
     this.setState({
       errorTitle: !title,
       errorDesc: !description,
       errorImg: !imgUrl,
       errorImdb: !imdbUrl,
+      errorId: !imdbId,
     });
 
-    if (!title || !description || !imgUrl || !imdbUrl) {
+    if (!title || !description || !imgUrl || !imdbUrl || !imdbId) {
       return;
     }
 
-    this.props.onAdd(title, description, imgUrl, imdbUrl);
+    if (this.state.idChecker.some(id => id === imdbId)) {
+      this.setState({ errorId: true });
+
+      return;
+    }
+
+    this.setState(state => ({
+      idChecker: [
+        ...state.idChecker,
+        imdbId,
+      ],
+    }));
+
+    this.props.onAdd(movie);
 
     this.setState({
       title: '',
       description: '',
       imgUrl: '',
       imdbUrl: '',
+      imdbId: '',
     });
   }
 
@@ -45,14 +70,16 @@ export class NewMovie extends Component {
       description,
       imgUrl,
       imdbUrl,
+      imdbId,
       errorTitle,
       errorDesc,
       errorImg,
       errorImdb,
+      errorId,
     } = this.state;
 
     return (
-      <form onSubmit={this.SubmitCheck}>
+      <form onSubmit={this.submitCheck}>
         <label htmlFor="title">Title</label>
         <input
           type="text"
@@ -61,7 +88,8 @@ export class NewMovie extends Component {
           value={title}
           onChange={(event) => {
             this.setState({
-              title: event.target.value, errorTitle: false,
+              title: event.target.value,
+              errorTitle: false,
             });
           }}
         />
@@ -80,7 +108,8 @@ export class NewMovie extends Component {
           value={description}
           onChange={(event) => {
             this.setState({
-              description: event.target.value, errorDesc: false,
+              description: event.target.value,
+              errorDesc: false,
             });
           }}
         />
@@ -99,7 +128,8 @@ export class NewMovie extends Component {
           value={imgUrl}
           onChange={(event) => {
             this.setState({
-              imgUrl: event.target.value, errorImg: false,
+              imgUrl: event.target.value,
+              errorImg: false,
             });
           }}
         />
@@ -118,7 +148,8 @@ export class NewMovie extends Component {
           value={imdbUrl}
           onChange={(event) => {
             this.setState({
-              imdbUrl: event.target.value, errorImdb: false,
+              imdbUrl: event.target.value,
+              errorImdb: false,
             });
           }}
         />
@@ -126,6 +157,26 @@ export class NewMovie extends Component {
         <br />
         {errorImdb && (
           <span style={{ color: 'red' }}>Please enter the correct Url</span>
+        )}
+        <br />
+
+        <label htmlFor="imdbId">Film Id</label>
+        <input
+          type="text"
+          name="imdbId"
+          id="imdbId"
+          value={imdbId}
+          onChange={(event) => {
+            this.setState({
+              imdbId: event.target.value,
+              errorId: false,
+            });
+          }}
+        />
+
+        <br />
+        {errorId && (
+          <span style={{ color: 'red' }}>Please enter the correct Film Id</span>
         )}
         <br />
 
@@ -137,4 +188,5 @@ export class NewMovie extends Component {
 
 NewMovie.propTypes = {
   onAdd: PropTypes.func.isRequired,
+  movies: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
