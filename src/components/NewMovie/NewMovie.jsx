@@ -24,6 +24,7 @@ export class NewMovie extends Component {
       description,
       imgUrl,
       imdbUrl,
+      imdbId,
     } = this.state;
 
     return (
@@ -46,7 +47,8 @@ export class NewMovie extends Component {
           name="title"
           value={title}
           placeholder="Movie title"
-          onChange={event => this.onChangeHandler(event)}
+          onChange={this.onChangeHandler}
+          required
         />
         <br />
         <textarea
@@ -55,7 +57,8 @@ export class NewMovie extends Component {
           name="description"
           value={description}
           placeholder="Movie description"
-          onChange={event => this.onChangeHandler(event)}
+          onChange={this.onChangeHandler}
+          required
         />
         <br />
         <input
@@ -64,7 +67,8 @@ export class NewMovie extends Component {
           name="imgUrl"
           value={imgUrl}
           placeholder="Movie imgUrl"
-          onChange={event => this.onChangeHandler(event)}
+          onChange={this.onChangeHandler}
+          required
         />
         <br />
         <input
@@ -73,7 +77,18 @@ export class NewMovie extends Component {
           name="imdbUrl"
           value={imdbUrl}
           placeholder="Movie imdbUrl"
-          onChange={event => this.onChangeHandler(event)}
+          onChange={this.onChangeHandler}
+          required
+        />
+        <br />
+        <input
+          type="text"
+          className="input"
+          name="imdbId"
+          value={imdbId}
+          placeholder="Movie ImdbId"
+          onChange={this.onChangeHandler}
+          required
         />
         <br />
         <button
