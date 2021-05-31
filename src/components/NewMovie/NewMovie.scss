@@ -1,0 +1,24 @@
+.NewMovie {
+  display: flex;
+  flex-direction: column;
+
+  &__input {
+    margin: 0;
+    padding: 5px;
+
+    &--error {
+      border-color: red;
+    }
+  }
+}
+
+.error {
+  color: red;
+  font-size: 12px;
+  visibility: hidden;
+  margin: 4px;
+
+  &--displayed {
+    visibility: visible;
+  }
+}
