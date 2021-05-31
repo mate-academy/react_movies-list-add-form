@@ -15,9 +15,29 @@ export class NewMovie extends Component {
   };
 
   handleSubmit = (event) => {
+    const {
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    } = this.state;
+
     event.preventDefault();
 
-    this.props.onAdd(this.state);
+    if (!title || !description || !imgUrl || !imdbUrl || !imdbId) {
+      return;
+    }
+
+    const newMovie = {
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    };
+
+    this.props.onAdd(newMovie);
 
     this.setState({
       title: '',
@@ -29,8 +49,6 @@ export class NewMovie extends Component {
   };
 
   render() {
-    const { title, description, imgUrl, imdbUrl, imdbId } = this.state;
-
     return (
       <form
         className="MovieForm"
@@ -40,7 +58,7 @@ export class NewMovie extends Component {
           name="title"
           type="text"
           placeholder="title"
-          value={title}
+          value={this.state.title}
           onChange={this.handleChange}
         />
         {' '}
@@ -48,7 +66,7 @@ export class NewMovie extends Component {
           name="description"
           type="text"
           placeholder="description"
-          value={description}
+          value={this.state.description}
           onChange={this.handleChange}
         />
         {' '}
@@ -56,7 +74,7 @@ export class NewMovie extends Component {
           name="imgUrl"
           type="text"
           placeholder="imgUrl"
-          value={imgUrl}
+          value={this.state.imgUrl}
           onChange={this.handleChange}
         />
         {' '}
@@ -64,7 +82,7 @@ export class NewMovie extends Component {
           name="imdbUrl"
           type="text"
           placeholder="imdbUrl"
-          value={imdbUrl}
+          value={this.state.imdbUrl}
           onChange={this.handleChange}
         />
         {' '}
@@ -72,7 +90,7 @@ export class NewMovie extends Component {
           name="imdbId"
           type="text"
           placeholder="imdbId"
-          value={imdbId}
+          value={this.state.imdbId}
           onChange={this.handleChange}
         />
         {' '}
