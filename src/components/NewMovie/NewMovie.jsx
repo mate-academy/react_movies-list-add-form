@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import propTypes from 'prop-types';
+
 import './NewMovie.scss';
 
 export class NewMovie extends Component {
@@ -10,26 +12,25 @@ export class NewMovie extends Component {
     imdbId: '',
   };
 
+  onChangeHandler = (event) => {
+    const { value, name } = event.target;
+
+    this.setState({ [name]: value });
+  }
+
   render() {
     const {
       title,
       description,
       imgUrl,
       imdbUrl,
-      imdbId,
     } = this.state;
 
     return (
       <form
         onSubmit={(event) => {
           event.preventDefault();
-          this.props.onAdd({
-            title,
-            description,
-            imgUrl,
-            imdbUrl,
-            imdbId,
-          });
+          this.props.onAdd({ ...this.state });
           this.setState({
             title: '',
             description: '',
@@ -45,7 +46,7 @@ export class NewMovie extends Component {
           name="title"
           value={title}
           placeholder="Movie title"
-          onChange={event => this.setState({ title: event.target.value })}
+          onChange={event => this.onChangeHandler(event)}
         />
         <br />
         <textarea
@@ -54,7 +55,7 @@ export class NewMovie extends Component {
           name="description"
           value={description}
           placeholder="Movie description"
-          onChange={event => this.setState({ description: event.target.value })}
+          onChange={event => this.onChangeHandler(event)}
         />
         <br />
         <input
@@ -63,7 +64,7 @@ export class NewMovie extends Component {
           name="imgUrl"
           value={imgUrl}
           placeholder="Movie imgUrl"
-          onChange={event => this.setState({ imgUrl: event.target.value })}
+          onChange={event => this.onChangeHandler(event)}
         />
         <br />
         <input
@@ -72,7 +73,7 @@ export class NewMovie extends Component {
           name="imdbUrl"
           value={imdbUrl}
           placeholder="Movie imdbUrl"
-          onChange={event => this.setState({ imdbUrl: event.target.value })}
+          onChange={event => this.onChangeHandler(event)}
         />
         <br />
         <button
@@ -85,3 +86,7 @@ export class NewMovie extends Component {
     );
   }
 }
+
+NewMovie.propTypes = {
+  onAdd: propTypes.func.isRequired,
+};
