@@ -1,0 +1,23 @@
+.NewMovieForm {
+  display: flex;
+  flex-direction: column;
+
+  &__label {
+    color: rgb(112, 108, 108);
+  }
+
+  &__error {
+    align-self: flex-end;
+    color: red;
+  }
+
+  &__input--error {
+    border: 2px solid red;
+  }
+
+  &__textarea {
+    resize: none;
+    height: 100px;
+    margin: 10px 0;
+  }
+}
