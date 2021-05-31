@@ -9,17 +9,33 @@ export class NewMovie extends Component {
     imgUrl: '',
     imdbUrl: '',
     imdbId: '',
+    titleError: false,
+    descriptionError: false,
   };
 
   handleSubmit = (event) => {
     event.preventDefault();
+    const { title, description, imgUrl, imdbUrl, imdbId } = this.state;
     const newMovie = {
-      title: this.state.title,
-      description: this.state.description,
-      imgUrl: this.state.imgUrl,
-      imdbUrl: this.state.imdbUrl,
-      imdbId: this.state.imdbId,
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
     };
+
+    this.setState({
+      titleError: !title,
+      descriptionError: !description,
+    });
+
+    if (!title) {
+      return;
+    }
+
+    if (!description) {
+      return;
+    }
 
     this.props.addMovie(newMovie);
     this.setState({
@@ -41,9 +57,15 @@ export class NewMovie extends Component {
           onChange={(event) => {
             this.setState({
               title: event.target.value,
+              titleError: false,
             });
           }}
         />
+
+        {this.state.titleError && (
+          <span className="error">Please add a title</span>
+        )}
+
         <input
           type="text"
           placeholder="description"
@@ -51,9 +73,15 @@ export class NewMovie extends Component {
           onChange={(event) => {
             this.setState({
               description: event.target.value,
+              descriptionError: false,
             });
           }}
         />
+
+        {this.state.descriptionError && (
+          <span className="error">Please add a description</span>
+        )}
+
         <input
           type="url"
           placeholder="imgUrl"
