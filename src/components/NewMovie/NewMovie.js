@@ -41,7 +41,7 @@ export class NewMovie extends Component {
     const { title, description, imgUrl, imdbUrl, imdbId } = this.state.newMovie;
 
     return (
-      <form>
+      <form onSubmit={event => addHandler(event)}>
         <div>
           <label>
             <input
@@ -55,7 +55,9 @@ export class NewMovie extends Component {
         </div>
         <div>
           <label>
-            <input
+            <textarea
+              cols="23"
+              className="NewMovie__description"
               placeholder="Movie description"
               name="description"
               value={description}
@@ -99,7 +101,6 @@ export class NewMovie extends Component {
         </div>
         <button
           type="submit"
-          onClick={event => addHandler(event)}
           onChange={inputHandler}
         >
           Add
