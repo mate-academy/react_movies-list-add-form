@@ -1,0 +1,17 @@
+.App {
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+  }
+
+  &__text, &__button {
+    display: block;
+    height: 30px;
+  }
+
+  &__error {
+    font-size: 12px;
+    color: red;
+  }
+}
