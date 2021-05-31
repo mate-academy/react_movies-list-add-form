@@ -12,13 +12,23 @@ export class NewMovie extends Component {
     imdbId: '',
   };
 
-  addEvent = (event) => {
+  handleChange = (event) => {
     this.setState({ [event.target.name]: event.target.value });
   };
 
   movieSubmit = (event) => {
     event.preventDefault();
-    this.props.onAdd(this.state);
+
+    const { title, description, imdbId, imdbUrl, imgUrl } = this.state;
+    const newMovie = {
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    };
+
+    this.props.onAdd(newMovie);
 
     this.setState({
       title: '',
@@ -43,7 +53,7 @@ export class NewMovie extends Component {
           name="title"
           className="App__text"
           value={title}
-          onChange={event => this.addEvent(event)}
+          onChange={event => this.handleChange(event)}
         />
 
         {!title
@@ -56,31 +66,31 @@ export class NewMovie extends Component {
           name="description"
           className="App__text"
           value={description}
-          onChange={event => this.addEvent(event)}
+          onChange={event => this.handleChange(event)}
         />
 
         {!description
         && <span className="App__error">Pls enter a description</span>}
 
         <input
-          type="text"
+          type="url"
           placeholder="Enter a imgUrl"
           className="App__text"
           name="imgUrl"
           value={imgUrl}
-          onChange={event => this.addEvent(event)}
+          onChange={event => this.handleChange(event)}
         />
 
         {!imgUrl
         && (<span className="App__error">Pls enter a imgUrl</span>)}
 
         <input
-          type="text"
+          type="url"
           placeholder="Enter a imdbUrl"
           name="imdbUrl"
           className="App__text"
           value={imdbUrl}
-          onChange={event => this.addEvent(event)}
+          onChange={event => this.handleChange(event)}
         />
 
         {!imdbUrl
@@ -92,7 +102,7 @@ export class NewMovie extends Component {
           name="imdbId"
           className="App__text"
           value={imdbId}
-          onChange={event => this.addEvent(event)}
+          onChange={event => this.handleChange(event)}
         />
 
         {!imdbId
