@@ -15,12 +15,6 @@ export class NewMovie extends Component {
     imdbUrl: '',
     imdbId: '',
     isError: {
-      title: true,
-      imgUrl: true,
-      imdbUrl: true,
-      imdbId: true,
-    },
-    isErrorMessage: {
       title: false,
       imgUrl: false,
       imdbUrl: false,
@@ -44,10 +38,6 @@ export class NewMovie extends Component {
             ...state.isError,
             [name]: !value.trim(),
           },
-          isErrorMessage: {
-            ...state.isErrorMessage,
-            [name]: !value.trim(),
-          },
         }));
 
         return;
@@ -57,10 +47,6 @@ export class NewMovie extends Component {
           [name]: value,
           isError: {
             ...state.isError,
-            [name]: !urlValidation.test(value),
-          },
-          isErrorMessage: {
-            ...state.isErrorMessage,
             [name]: !urlValidation.test(value),
           },
         }));
@@ -82,6 +68,18 @@ export class NewMovie extends Component {
       imdbUrl,
       imdbId,
     } = this.state;
+    const isError = {
+      title: !title.trim(),
+      imgUrl: !urlValidation.test(imgUrl),
+      imdbUrl: !urlValidation.test(imdbUrl),
+      imdbId: !imdbId.trim(),
+    };
+
+    if (Object.values(isError).includes(true)) {
+      this.setState({ isError });
+
+      return;
+    }
 
     onAdd({
       title,
@@ -101,7 +99,6 @@ export class NewMovie extends Component {
       imdbUrl,
       imdbId,
       isError,
-      isErrorMessage,
     } = this.state;
 
     return (
@@ -115,7 +112,7 @@ export class NewMovie extends Component {
             type="text"
             id="title"
             className={classNames(
-              'new-movie__input', isErrorMessage.title && 'disable',
+              'new-movie__input', isError.title && 'disable',
             )}
             name="title"
             value={title}
@@ -124,7 +121,7 @@ export class NewMovie extends Component {
         </label>
         <p
           className={classNames(
-            'new-movie__error', isErrorMessage.title && 'active',
+            'new-movie__error', isError.title && 'active',
           )}
         >
           Please, enter a correct title
@@ -149,7 +146,7 @@ export class NewMovie extends Component {
             type="text"
             id="imgUrl"
             className={classNames(
-              'new-movie__input', isErrorMessage.imgUrl && 'disable',
+              'new-movie__input', isError.imgUrl && 'disable',
             )}
             name="imgUrl"
             value={imgUrl}
@@ -158,7 +155,7 @@ export class NewMovie extends Component {
         </label>
         <p
           className={classNames(
-            'new-movie__error', isErrorMessage.imgUrl && 'active',
+            'new-movie__error', isError.imgUrl && 'active',
           )}
         >
           Please, enter a correct url-address
@@ -170,7 +167,7 @@ export class NewMovie extends Component {
             type="text"
             id="imdbUrl"
             className={classNames(
-              'new-movie__input', isErrorMessage.imdbUrl && 'disable',
+              'new-movie__input', isError.imdbUrl && 'disable',
             )}
             name="imdbUrl"
             value={imdbUrl}
@@ -179,7 +176,7 @@ export class NewMovie extends Component {
         </label>
         <p
           className={classNames(
-            'new-movie__error', isErrorMessage.imdbUrl && 'active',
+            'new-movie__error', isError.imdbUrl && 'active',
           )}
         >
           Please, enter a correct url-address
@@ -191,7 +188,7 @@ export class NewMovie extends Component {
             type="text"
             id="imdbId"
             className={classNames(
-              'new-movie__input', isErrorMessage.imdbId && 'disable',
+              'new-movie__input', isError.imdbId && 'disable',
             )}
             name="imdbId"
             value={imdbId}
@@ -200,7 +197,7 @@ export class NewMovie extends Component {
         </label>
         <p
           className={classNames(
-            'new-movie__error', isErrorMessage.imdbId && 'active',
+            'new-movie__error', isError.imdbId && 'active',
           )}
         >
           Please, enter a correct id
@@ -209,7 +206,7 @@ export class NewMovie extends Component {
         <button
           type="submit"
           className="new-movie__button"
-          disabled={Object.values(isError).some(error => error)}
+          disabled={Object.values(isError).includes(true)}
         >
           Add
         </button>
