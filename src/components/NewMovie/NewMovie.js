@@ -12,7 +12,9 @@ export class NewMovie extends Component {
     imdbId: '',
   };
 
-  addEvent = (event, name) => this.setState({ [name]: event.target.value });
+  addEvent = (event) => {
+    this.setState({ [event.target.name]: event.target.value });
+  };
 
   movieSubmit = (event) => {
     event.preventDefault();
@@ -41,7 +43,7 @@ export class NewMovie extends Component {
           name="title"
           className="App__text"
           value={title}
-          onChange={event => this.addEvent(event, 'title')}
+          onChange={event => this.addEvent(event)}
         />
 
         {!title
@@ -54,7 +56,7 @@ export class NewMovie extends Component {
           name="description"
           className="App__text"
           value={description}
-          onChange={event => this.addEvent(event, 'description')}
+          onChange={event => this.addEvent(event)}
         />
 
         {!description
@@ -66,7 +68,7 @@ export class NewMovie extends Component {
           className="App__text"
           name="imgUrl"
           value={imgUrl}
-          onChange={event => this.addEvent(event, 'imgUrl')}
+          onChange={event => this.addEvent(event)}
         />
 
         {!imgUrl
@@ -78,7 +80,7 @@ export class NewMovie extends Component {
           name="imdbUrl"
           className="App__text"
           value={imdbUrl}
-          onChange={event => this.addEvent(event, 'imdbUrl')}
+          onChange={event => this.addEvent(event)}
         />
 
         {!imdbUrl
@@ -90,7 +92,7 @@ export class NewMovie extends Component {
           name="imdbId"
           className="App__text"
           value={imdbId}
-          onChange={event => this.addEvent(event, 'imdbId')}
+          onChange={event => this.addEvent(event)}
         />
 
         {!imdbId
