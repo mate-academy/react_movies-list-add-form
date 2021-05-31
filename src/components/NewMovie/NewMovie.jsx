@@ -22,10 +22,6 @@ export class NewMovie extends Component {
     },
   };
 
-  componentDidMount() {
-    this.defaultState = this.state;
-  }
-
   handleChange = (event) => {
     const { name, value } = event.target;
 
@@ -61,6 +57,7 @@ export class NewMovie extends Component {
     event.preventDefault();
 
     const { onAdd } = this.props;
+
     const {
       title,
       description,
@@ -68,6 +65,7 @@ export class NewMovie extends Component {
       imdbUrl,
       imdbId,
     } = this.state;
+
     const isError = {
       title: !title.trim(),
       imgUrl: !urlValidation.test(imgUrl),
@@ -88,7 +86,20 @@ export class NewMovie extends Component {
       imdbUrl,
       imdbId,
     });
-    this.setState(this.defaultState);
+
+    this.setState({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+      isError: {
+        title: false,
+        imgUrl: false,
+        imdbUrl: false,
+        imdbId: false,
+      },
+    });
   };
 
   render() {
