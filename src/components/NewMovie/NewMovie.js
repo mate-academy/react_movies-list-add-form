@@ -24,16 +24,16 @@ export class NewMovie extends Component {
     });
   }
 
-  handleSubmit = (event, newMovie) => {
+  handleSubmit = (event) => {
     event.preventDefault();
 
-    const values = Object.values(newMovie);
+    const values = Object.values(this.state);
 
     if (values.some(value => !value)) {
       return;
     }
 
-    this.props.onAdd(newMovie);
+    this.props.onAdd(this.state);
     this.setState({
       title: '',
       description: '',
@@ -45,18 +45,11 @@ export class NewMovie extends Component {
 
   render() {
     const { title, description, imgUrl, imdbUrl, imdbId } = this.state;
-    const newMovie = {
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    };
 
     return (
       <form
         className="form"
-        onSubmit={(event, movieToAdd) => this.handleSubmit(event, newMovie)}
+        onSubmit={this.handleSubmit}
       >
         <input
           type="text"
