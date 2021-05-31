@@ -5,10 +5,15 @@
   &__input {
     margin: 0;
     padding: 5px;
+    width: 100%;
 
     &--error {
       border-color: red;
     }
+  }
+
+  &__button {
+    margin-top: 20px;
   }
 }
 

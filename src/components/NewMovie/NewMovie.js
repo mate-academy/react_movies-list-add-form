@@ -157,6 +157,7 @@ export class NewMovie extends Component {
         })}
 
         <button
+          className="NewMovie__button"
           type="submit"
         >
           Add
