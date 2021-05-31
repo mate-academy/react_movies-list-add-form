@@ -73,7 +73,6 @@ export class NewMovie extends Component {
           onChange={this.createMovie}
 
           required
-          // onChange={this.handleQueryChange}
         />
         <input
           id="imdbUrl"
@@ -106,7 +105,6 @@ export class NewMovie extends Component {
           onChange={this.createMovie}
           row="10"
           required
-          // onChange={this.handleQueryChange}
         />
         <button
           type="submit"
