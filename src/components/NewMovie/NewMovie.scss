@@ -1,0 +1,45 @@
+.input {
+  display: inline-block;
+  width: 100%;
+  padding: 5px;
+  margin: 10px 0;
+  box-sizing: border-box;
+  background-color: cornsilk;
+  border: solid 1px tan;
+}
+.textarea{
+  resize: vertical;
+  min-height: 70px;
+  height: 20px;
+}
+
+.submit-btn {
+  box-sizing: border-box;
+  appearance: none;
+  border-radius: 0.6em;
+  cursor: pointer;
+  display: flex;
+  align-self: center;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1;
+  padding: 1.2em 2.8em;
+  text-decoration: none;
+  text-align: center;
+  text-transform: uppercase;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  background-color: rgb(29, 28, 28);
+  border-color: yellow;
+  color: #fff;
+  background: {
+    image: linear-gradient(45deg,rgb(189, 189, 7) 50%, transparent 50%);
+    position: 100%;
+    size: 400%;
+  }
+  transition: background 300ms ease-in-out;
+  
+  &:hover {
+    background-position: 0;
+  }
+}
