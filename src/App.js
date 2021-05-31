@@ -9,8 +9,18 @@ export class App extends Component {
     movies: moviesFromServer,
   };
 
-  addMovie = (movie) => {
-    // put your code here
+  addMovie = (title, description, imgUrl, imdbUrl) => {
+    this.setState(state => ({
+      movies: [
+        ...state.movies,
+        {
+          imdbId: String(Math.random()),
+          title,
+          description,
+          imgUrl,
+          imdbUrl,
+        }],
+    }));
   };
 
   render() {
@@ -22,7 +32,9 @@ export class App extends Component {
           <MoviesList movies={movies} />
         </div>
         <div className="sidebar">
-          <NewMovie />
+          <NewMovie
+            onAdd={this.addMovie}
+          />
         </div>
       </div>
     );
