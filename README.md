@@ -1,6 +1,6 @@
 # Movies list - Add Form
 - Replace `<your_account>` with your Github username in the
-  [DEMO LINK](https://<your_account>.github.io/react_movies-list-add-form/)
+  [DEMO LINK](https://leonid-vegera.github.io/react_movies-list-add-form/)
 - Follow the [React task guideline](https://github.com/mate-academy/react_task-guideline#react-tasks-guideline)
 
 ## Task
