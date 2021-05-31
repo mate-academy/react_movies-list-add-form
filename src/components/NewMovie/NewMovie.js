@@ -12,16 +12,13 @@ export class NewMovie extends Component {
     },
   };
 
-  inputHandler = (event) => {
+  handleChange = (event) => {
     const { name, value } = event.target;
 
-    this.setState(state => (
-      {
-        newMovie: {
-          ...state.newMovie, [name]: value,
-        },
-      }
-    ));
+    this.setState(state => ({ newMovie: {
+      ...state.newMovie,
+      [name]: value,
+    } }));
   }
 
   addHandler = (event) => {
@@ -37,7 +34,7 @@ export class NewMovie extends Component {
   }
 
   render() {
-    const { inputHandler, addHandler } = this;
+    const { handleChange: inputHandler, addHandler } = this;
     const { title, description, imgUrl, imdbUrl, imdbId } = this.state.newMovie;
 
     return (
