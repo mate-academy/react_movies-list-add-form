@@ -1,0 +1,37 @@
+.movies-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-label {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+}
+
+.inputDescription {
+  padding: 10px;
+  resize: vertical;
+}
+
+.span-error {
+  position: absolute;
+  color: #f00;
+  right: 160px;
+  font-size: 14px;
+}
+
+.input-text {
+  width: 150px;
+  outline: none;
+  border: 2px solid #000;
+}
+
+.input-text:focus {
+  border: 2px solid green;
+}
+
+.input-error {
+  border: 2px solid #f00;
+}
