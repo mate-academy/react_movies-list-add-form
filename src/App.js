@@ -24,6 +24,9 @@ export class App extends Component {
           <MoviesList movies={movies} />
         </div>
         <div className="sidebar">
+          <h1 className="sidebar-header">
+            There You can add a new movie:
+          </h1>
           <NewMovie onAdd={this.addMovie} />
         </div>
       </div>
