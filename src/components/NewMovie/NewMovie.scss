@@ -1,0 +1,16 @@
+.add-form {
+  display: flex;
+  flex-direction: column;
+
+  &__input,
+  &__textarea {
+    margin: 10px 0;
+
+    border: 1px solid lightgray;
+    outline: none;
+  }
+
+  &__textarea {
+    height: 200px;
+  }
+}
