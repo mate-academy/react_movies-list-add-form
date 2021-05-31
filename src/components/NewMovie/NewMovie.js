@@ -53,6 +53,7 @@ export class NewMovie extends Component {
           onChange={this.handleChange}
           placeholder="Write title"
           className="input"
+          required
         />
 
         <textarea
@@ -62,6 +63,7 @@ export class NewMovie extends Component {
           onChange={this.handleChange}
           placeholder="Write description"
           className="input"
+          required
         />
 
         <input
@@ -71,6 +73,7 @@ export class NewMovie extends Component {
           onChange={this.handleChange}
           placeholder="Write URL"
           className="input"
+          required
         />
 
         <input
@@ -80,6 +83,7 @@ export class NewMovie extends Component {
           onChange={this.handleChange}
           placeholder="Write image URL"
           className="input"
+          required
         />
 
         <input
@@ -89,6 +93,7 @@ export class NewMovie extends Component {
           onChange={this.handleChange}
           placeholder="Write image ID"
           className="input"
+          required
         />
         <button type="submit">
           Add film
