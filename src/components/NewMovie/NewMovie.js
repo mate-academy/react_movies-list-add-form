@@ -12,14 +12,42 @@ export class NewMovie extends Component {
   };
 
   handleFormSubmit = (event) => {
+    const {
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    } = this.state;
+
     event.preventDefault();
 
+    if (!title) {
+      return;
+    }
+
+    if (!description) {
+      return;
+    }
+
+    if (!imgUrl) {
+      return;
+    }
+
+    if (!imdbUrl) {
+      return;
+    }
+
+    if (!imdbId) {
+      return;
+    }
+
     const newMovie = {
-      title: this.state.title,
-      description: this.state.description,
-      imgUrl: this.state.imgUrl,
-      imdbUrl: this.state.imdbUrl,
-      imdbId: this.state.imdbId,
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
     };
 
     this.props.onAddMovie(newMovie);
@@ -32,6 +60,14 @@ export class NewMovie extends Component {
     });
   }
 
+  inputChange = (event) => {
+    const { name } = event.target;
+
+    this.setState({
+      [name]: event.target.value,
+    });
+  }
+
   render() {
     return (
       <form
@@ -39,54 +75,39 @@ export class NewMovie extends Component {
         onSubmit={this.handleFormSubmit}
       >
         <input
+          name="imgUrl"
           className="formImgUrl formDefaultInput"
           placeholder="Poster image url"
           value={this.state.imgUrl}
-          onChange={(event) => {
-            this.setState({
-              imgUrl: event.target.value,
-            });
-          }}
+          onChange={this.inputChange}
         />
         <input
+          name="imdbUrl"
           className="formImdbUrl formDefaultInput"
           placeholder="IMDb url"
           value={this.state.imdbUrl}
-          onChange={(event) => {
-            this.setState({
-              imdbUrl: event.target.value,
-            });
-          }}
+          onChange={this.inputChange}
         />
         <input
+          name="imdbId"
           className="formImdbId formDefaultInput"
           placeholder="IMDb id"
           value={this.state.imdbId}
-          onChange={(event) => {
-            this.setState({
-              imdbId: event.target.value,
-            });
-          }}
+          onChange={this.inputChange}
         />
         <input
+          name="title"
           className="formTitle formDefaultInput"
           placeholder="Enter title"
           value={this.state.title}
-          onChange={(event) => {
-            this.setState({
-              title: event.target.value,
-            });
-          }}
+          onChange={this.inputChange}
         />
         <input
+          name="description"
           className="formDescription"
           placeholder="Enter description"
           value={this.state.description}
-          onChange={(event) => {
-            this.setState({
-              description: event.target.value,
-            });
-          }}
+          onChange={this.inputChange}
         />
         <button type="submit">Add movie</button>
       </form>
