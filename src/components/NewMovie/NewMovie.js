@@ -12,7 +12,7 @@ export class NewMovie extends Component {
     isEmpty: false,
   };
 
-  handlerValue = (event) => {
+  handleChange = (event) => {
     const { value, name } = event.target;
 
     this.setState(state => ({
@@ -20,7 +20,9 @@ export class NewMovie extends Component {
     }));
   }
 
-  handlerSubmit = () => {
+  handleSubmit = (event) => {
+    event.preventDefault();
+
     const {
       title,
       description,
@@ -76,10 +78,7 @@ export class NewMovie extends Component {
     return (
       <form
         className="form"
-        onSubmit={(event) => {
-          event.preventDefault();
-          this.handlerSubmit();
-        }}
+        onSubmit={this.handleSubmit}
       >
 
         <input
@@ -87,9 +86,7 @@ export class NewMovie extends Component {
           name="title"
           placeholder="title"
           value={title}
-          onChange={(event) => {
-            this.handlerValue(event);
-          }}
+          onChange={this.handleChange}
         />
 
         <input
@@ -97,9 +94,7 @@ export class NewMovie extends Component {
           name="imgUrl"
           placeholder="image url"
           value={imgUrl}
-          onChange={(event) => {
-            this.handlerValue(event);
-          }}
+          onChange={this.handleChange}
         />
 
         <input
@@ -107,9 +102,7 @@ export class NewMovie extends Component {
           name="imdbUrl"
           placeholder="IMDb url"
           value={imdbUrl}
-          onChange={(event) => {
-            this.handlerValue(event);
-          }}
+          onChange={this.handleChange}
         />
 
         <input
@@ -117,9 +110,7 @@ export class NewMovie extends Component {
           name="imdbId"
           placeholder="IMDb id"
           value={imdbId}
-          onChange={(event) => {
-            this.handlerValue(event);
-          }}
+          onChange={this.handleChange}
         />
 
         <textarea
@@ -128,9 +119,7 @@ export class NewMovie extends Component {
           name="description"
           placeholder="description"
           value={description}
-          onChange={(event) => {
-            this.handlerValue(event);
-          }}
+          onChange={this.handleChange}
         />
         {isEmpty && (
           <div className="error">
