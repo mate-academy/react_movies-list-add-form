@@ -1,0 +1,29 @@
+.submitForm {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+
+  &__form {
+    border: 2px solid red;
+    outline: none;
+  }
+
+  &__active {
+    border: 2px solid black;
+  }
+}
+
+.formButton {
+  margin: 0 auto;
+  background-color: black;
+  color: white;
+  font-size: 22px;
+  font-weight: bold;
+  width: max-content;
+  border-radius: 12px;
+
+  &:active {
+    background-color: rgb(0, 255, 0);
+    color: black;
+  }
+}
