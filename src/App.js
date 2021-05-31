@@ -9,11 +9,17 @@ export class App extends Component {
     movies: moviesFromServer,
   };
 
-  addMovie = (movie) => {
+  addMovie = (title, description, imgUrl, imdbUrl) => {
     this.setState(state => ({
       movies: [
         ...state.movies,
-        movie,
+        {
+          title,
+          description,
+          imgUrl,
+          imdbUrl,
+          imdbId: Math.random(),
+        },
       ],
     }));
   };

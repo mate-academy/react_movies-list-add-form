@@ -7,46 +7,35 @@ export class NewMovie extends Component {
     description: '',
     imgUrl: '',
     imdbUrl: '',
-    imdbId: '',
 
     errorTitle: false,
     errorDesc: false,
     errorImg: false,
     errorImdb: false,
-    errorId: false,
   };
 
   SubmitCheck = (event) => {
     event.preventDefault();
-    const { title, description, imgUrl, imdbUrl, imdbId } = this.state;
-    const newMovie = {
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    };
+    const { title, description, imgUrl, imdbUrl } = this.state;
 
     this.setState({
       errorTitle: !title,
       errorDesc: !description,
       errorImg: !imgUrl,
       errorImdb: !imdbUrl,
-      errorId: !imdbId,
     });
 
-    if (!title || !description || !imgUrl || !imdbUrl || !imdbId) {
+    if (!title || !description || !imgUrl || !imdbUrl) {
       return;
     }
 
-    this.props.onAdd(newMovie);
+    this.props.onAdd(title, description, imgUrl, imdbUrl);
 
     this.setState({
       title: '',
       description: '',
       imgUrl: '',
       imdbUrl: '',
-      imdbId: '',
     });
   }
 
@@ -56,12 +45,10 @@ export class NewMovie extends Component {
       description,
       imgUrl,
       imdbUrl,
-      imdbId,
       errorTitle,
       errorDesc,
       errorImg,
       errorImdb,
-      errorId,
     } = this.state;
 
     return (
@@ -139,25 +126,6 @@ export class NewMovie extends Component {
         <br />
         {errorImdb && (
           <span style={{ color: 'red' }}>Please enter the correct Url</span>
-        )}
-        <br />
-
-        <label htmlFor="imdbId">Film Id</label>
-        <input
-          type="text"
-          name="imdbId"
-          id="imdbId"
-          value={imdbId}
-          onChange={(event) => {
-            this.setState({
-              imdbId: event.target.value, errorId: false,
-            });
-          }}
-        />
-
-        <br />
-        {errorId && (
-          <span style={{ color: 'red' }}>Please enter the Film Id</span>
         )}
         <br />
 
