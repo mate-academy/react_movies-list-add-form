@@ -7,14 +7,12 @@ export class NewMovie extends Component {
   state = {
     newMovie: {
       title: '',
-      description: '',
       imgUrl: '',
       imdbUrl: '',
       imdbId: '',
     },
     error: {
       title: false,
-      description: false,
       imgUrl: false,
       imdbUrl: false,
       imdbId: false,
@@ -89,21 +87,25 @@ export class NewMovie extends Component {
     })));
   }
 
+  handleSubmit = (event) => {
+    const { newMovie } = this.state;
+    const { onAdd } = this.props;
+
+    event.preventDefault();
+    this.handleError();
+    if (!Object.values(newMovie).some(value => value === '')) {
+      onAdd(newMovie);
+      this.clearForm();
+    }
+  }
+
   render() {
     const { newMovie, error, invalidImgUrl, invalidImdbUrl } = this.state;
-    const { onAdd } = this.props;
 
     return (
       <form
         className="NewMovieForm"
-        onSubmit={(event) => {
-          event.preventDefault();
-          this.handleError();
-          if (!Object.values(newMovie).some(value => value === '')) {
-            onAdd(newMovie);
-            this.clearForm();
-          }
-        }}
+        onSubmit={event => this.handleSubmit(event)}
       >
         <label
           className="NewMovieForm__label"
@@ -206,19 +208,12 @@ export class NewMovie extends Component {
           Please add movie description:
         </label>
         <textarea
-          className={classNames('NewMovieForm__textarea', {
-            'NewMovieForm__input--error': error.description,
-          })}
+          className="NewMovieForm__textarea"
           name="description"
           id="description"
           value={newMovie.description}
           onChange={this.handleInputChange}
         />
-        {error.description && (
-          <p className="NewMovieForm__error">
-            *Please enter movie description
-          </p>
-        )}
         <button
           className="NewMovieForm__button"
           type="submit"
