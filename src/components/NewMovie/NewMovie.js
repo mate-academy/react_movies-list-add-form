@@ -9,13 +9,13 @@ export class NewMovie extends Component {
     imgUrl: '',
     imdbUrl: '',
     imdbId: '',
-    titleError: false,
-    descriptionError: false,
   };
 
   handleSubmit = (event) => {
     event.preventDefault();
+
     const { title, description, imgUrl, imdbUrl, imdbId } = this.state;
+
     const newMovie = {
       title,
       description,
@@ -24,16 +24,23 @@ export class NewMovie extends Component {
       imdbId,
     };
 
-    this.setState({
-      titleError: !title,
-      descriptionError: !description,
-    });
-
     if (!title) {
       return;
     }
 
     if (!description) {
+      return;
+    }
+
+    if (!imgUrl) {
+      return;
+    }
+
+    if (!imdbUrl) {
+      return;
+    }
+
+    if (!imdbId) {
       return;
     }
 
@@ -47,70 +54,55 @@ export class NewMovie extends Component {
     });
   };
 
+  inputChange = (event) => {
+    const { name } = event.target;
+
+    this.setState({
+      [name]: event.target.value,
+    });
+  }
+
   render() {
     return (
       <form onSubmit={this.handleSubmit} className="submitForm">
         <input
+          name="title"
           type="text"
           placeholder="title"
           value={this.state.title}
-          onChange={(event) => {
-            this.setState({
-              title: event.target.value,
-              titleError: false,
-            });
-          }}
+          onChange={this.inputChange}
         />
 
-        {this.state.titleError && (
-          <span className="error">Please add a title</span>
-        )}
-
         <input
+          name="description"
           type="text"
           placeholder="description"
           value={this.state.description}
-          onChange={(event) => {
-            this.setState({
-              description: event.target.value,
-              descriptionError: false,
-            });
-          }}
+          onChange={this.inputChange}
         />
 
-        {this.state.descriptionError && (
-          <span className="error">Please add a description</span>
-        )}
-
         <input
+          name="imgUrl"
           type="url"
           placeholder="imgUrl"
           value={this.state.imgUrl}
-          onChange={(event) => {
-            this.setState({
-              imgUrl: event.target.value,
-            });
-          }}
+          onChange={this.inputChange}
         />
+
         <input
+          name="imdbUrl"
           type="url"
           placeholder="imdbUrl"
           value={this.state.imdbUrl}
-          onChange={(event) => {
-            this.setState({
-              imdbUrl: event.target.value,
-            });
-          }}
+          onChange={this.inputChange}
         />
+
         <input
+          name="imdbId"
           type="text"
           placeholder="imdbId"
           value={this.state.imdbId}
-          onChange={(event) => {
-            this.setState({
-              imdbId: event.target.value,
-            });
-          }}
+          onChange={this.inputChange}
         />
         <button type="submit">
           Add movie
