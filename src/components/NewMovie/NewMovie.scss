@@ -1,0 +1,25 @@
+.form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  text-align: right;
+  gap: 20px;
+}
+
+.field > * {
+  width: 200px;
+}
+
+.description{
+  height: 200px;
+}
+
+.error {
+  text-align: center;
+  color: red;
+}
+
+.btn {
+  pointer-events: all;
+  background: rgb(161, 245, 165);
+}
