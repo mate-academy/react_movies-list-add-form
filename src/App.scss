@@ -10,6 +10,12 @@
 }
 
 .sidebar {
-  padding: 20px;
+  padding: 50px;
   border-left: 1px solid lightgray;
+
+  &__title {
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+  }
 }
