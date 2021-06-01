@@ -1,0 +1,18 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+
+  &__input {
+    padding: 5px 10px;
+  }
+
+  &__description {
+    min-height: 5em;
+    resize: vertical;
+  }
+
+  &__button {
+    padding: 10px 20px;
+  }
+}
