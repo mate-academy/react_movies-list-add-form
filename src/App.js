@@ -35,7 +35,6 @@ export class App extends Component {
         </div>
         <div className="sidebar">
           <NewMovie
-            movies={movies}
             addMovie={this.addMovie}
           />
         </div>
