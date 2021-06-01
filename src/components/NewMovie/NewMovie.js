@@ -12,7 +12,7 @@ export class NewMovie extends Component {
     imdbId: '',
   };
 
-  handleSubmit = (event) => {
+  handleChange = (event) => {
     const { name, value } = event.target;
 
     this.setState({
@@ -20,7 +20,7 @@ export class NewMovie extends Component {
     });
   }
 
-  handleChange = (event) => {
+  handleSubmit = (event) => {
     event.preventDefault();
 
     const {
