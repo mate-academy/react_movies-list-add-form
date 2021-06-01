@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { InputFieldBlock } from '../InputFieldBlock';
+// import { InputFieldBlock } from '../InputFieldBlock';
 import './NewMovie.scss';
 
 export class NewMovie extends Component {
@@ -24,20 +24,23 @@ export class NewMovie extends Component {
 
   onAdd = (event) => {
     event.preventDefault();
+
+    let error = false;
     // eslint-disable-next-line
     const regexp = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
-    const imgUrl = event.target.elements.imgUrl.value;
-    const imdbUrl = event.target.elements.imdbUrl.value;
+    const { imgUrl, imdbUrl } = this.state;
 
     if (!this.isValid(imgUrl, regexp)) {
       this.setState({ imgUrlError: true });
-
-      return;
+      error = true;
     }
 
     if (!this.isValid(imdbUrl, regexp)) {
       this.setState({ imdbUrlError: true });
+      error = true;
+    }
 
+    if (error) {
       return;
     }
 
@@ -53,10 +56,20 @@ export class NewMovie extends Component {
   }
 
   onChangeHandler = (event, stateKey) => {
+    if (stateKey === 'imgUrl') {
+      this.setState({
+        imgUrlError: false,
+      });
+    }
+
+    if (stateKey === 'imdbUrl') {
+      this.setState({
+        imdbUrlError: false,
+      });
+    }
+
     this.setState({
       [stateKey]: event.target.value,
-      imgUrlError: false,
-      imdbUrlError: false,
     });
   }
 
@@ -80,19 +93,24 @@ export class NewMovie extends Component {
           <legend>
             New movie
           </legend>
-          <InputFieldBlock
-            title="Title"
-            labelFor="movie-form__title-label"
-            inputType="text"
-            inputId="movie-form__title-label"
-            inputClass="movie-form__input-field"
-            inputName="title"
-            required
-            inputValue={title}
-            inputOnChange={(event) => {
-              this.onChangeHandler(event, 'title');
-            }}
-          />
+          <label
+            htmlFor="movie-form__title-label"
+            className="movie-form__label"
+          >
+            Title:&nbsp;
+            <br />
+            <input
+              type="text"
+              id="movie-form__title-label"
+              name="title"
+              className="movie-form__input-field"
+              value={title}
+              onChange={(event) => {
+                this.onChangeHandler(event, 'title');
+              }}
+              required
+            />
+          </label>
           <br />
 
           <label
@@ -114,69 +132,84 @@ export class NewMovie extends Component {
           </label>
           <br />
 
-          <InputFieldBlock
-            title="Image url"
-            labelFor="movie-form__imgurl-label"
-            inputType="text"
-            inputId="movie-form__imgurl-label"
-            inputClass={`${imgUrlError && ' error'}
+          <label
+            htmlFor="movie-form__imgurl-label"
+            className="movie-form__label"
+          >
+            Image url:&nbsp;
+            <br />
+            <input
+              type="text"
+              id="movie-form__imgurl-label"
+              name="imgUrl"
+              className={`${imgUrlError && ' error'}
               movie-form__input-field`}
-            required
-            inputName="imgUrl"
-            inputValue={imgUrl}
-            inputOnChange={(event) => {
-              this.onChangeHandler(event, 'imgUrl');
-            }}
-          />
+              value={imgUrl}
+              onChange={(event) => {
+                this.onChangeHandler(event, 'imgUrl');
+              }}
+              required
+            />
+          </label>
           {imgUrlError
             && (
-            <span
-              className="error-message"
-            >
-              Please, enter a valid URL
-            </span>
+              <span
+                className="error-message"
+              >
+                Please, enter a valid URL
+              </span>
             )
           }
           <br />
 
-          <InputFieldBlock
-            title="Image db url"
-            labelFor="movie-form__imgdburl-label"
-            inputType="text"
-            inputId="movie-form__imgdburl-label"
-            inputClass={`${imdbUrlError && ' error'}
-                movie-form__input-field`}
-            required
-            inputName="imdbUrl"
-            inputValue={imdbUrl}
-            inputOnChange={(event) => {
-              this.onChangeHandler(event, 'imdbUrl');
-            }}
-          />
+          <label
+            htmlFor="movie-form__imgdburl-label"
+            className="movie-form__label"
+          >
+            Image db url:&nbsp;
+            <br />
+            <input
+              type="text"
+              id="movie-form__imgdburl-label"
+              name="imdbUrl"
+              className={`${imdbUrlError && ' error'}
+              movie-form__input-field`}
+              value={imdbUrl}
+              onChange={(event) => {
+                this.onChangeHandler(event, 'imdbUrl');
+              }}
+              required
+            />
+          </label>
           {imdbUrlError
             && (
-            <span
-              className="error-message"
-            >
-              Please, enter a valid URL
-            </span>
+              <span
+                className="error-message"
+              >
+                Please, enter a valid URL
+              </span>
             )
           }
           <br />
 
-          <InputFieldBlock
-            title="Image db id"
-            labelFor="movie-form__imgdbid-label"
-            inputType="text"
-            inputId="movie-form__imgdbid-label"
-            inputClass="movie-form__input-field"
-            required
-            inputName="imdbId"
-            inputValue={imdbId}
-            inputOnChange={(event) => {
-              this.onChangeHandler(event, 'imdbId');
-            }}
-          />
+          <label
+            htmlFor="movie-form__imgdbid-label"
+            className="movie-form__label"
+          >
+            Image db id:&nbsp;
+            <br />
+            <input
+              type="text"
+              id="movie-form__imgdbid-label"
+              name="imdbId"
+              className="movie-form__input-field"
+              value={imdbId}
+              onChange={(event) => {
+                this.onChangeHandler(event, 'imdbId');
+              }}
+              required
+            />
+          </label>
           <br />
 
           <button
