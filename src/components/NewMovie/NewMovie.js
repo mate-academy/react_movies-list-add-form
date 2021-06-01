@@ -20,7 +20,7 @@ export class NewMovie extends Component {
     });
   }
 
-  submitHandler = (event) => {
+  handleChange = (event) => {
     event.preventDefault();
 
     const {
@@ -63,7 +63,7 @@ export class NewMovie extends Component {
     return (
       <form
         className="form"
-        onSubmit={this.submitHandler}
+        onSubmit={this.handleSubmit}
       >
         <input
           className="form__input"
@@ -71,7 +71,8 @@ export class NewMovie extends Component {
           name="title"
           placeholder="Title of a Movie"
           value={title}
-          onChange={this.inputHandler}
+          onChange={this.handleChange}
+          required
         />
         <input
           className="form__input"
@@ -79,7 +80,8 @@ export class NewMovie extends Component {
           name="imgUrl"
           placeholder="Image URL"
           value={imgUrl}
-          onChange={this.inputHandler}
+          onChange={this.handleChange}
+          required
         />
         <input
           className="form__input"
@@ -87,7 +89,8 @@ export class NewMovie extends Component {
           name="imdbUrl"
           placeholder="IMDb URL"
           value={imdbUrl}
-          onChange={this.inputHandler}
+          onChange={this.handleChange}
+          required
         />
         <input
           className="form__input"
@@ -95,7 +98,8 @@ export class NewMovie extends Component {
           name="imdbId"
           placeholder="IMDb ID"
           value={imdbId}
-          onChange={this.inputHandler}
+          onChange={this.handleChange}
+          required
         />
         <textarea
           className="form__description"
@@ -103,7 +107,8 @@ export class NewMovie extends Component {
           name="description"
           placeholder="Description of a Movie"
           value={description}
-          onChange={this.inputHandler}
+          onChange={this.handleChange}
+          required
         />
         <button
           className="form__button"
