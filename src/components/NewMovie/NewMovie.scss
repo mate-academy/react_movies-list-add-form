@@ -1,0 +1,29 @@
+.form {
+  &__input-text {
+    outline: none;
+    border: 1px solid #000;
+  }
+  
+  &__input-text:focus {
+    border: 1px solid green;
+  }
+  
+  &__input-error {
+    border: 1px solid #f00;
+  }
+
+  &__label {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+  }
+}
+
+.span-error {
+  position: absolute;
+  font-size: 14px;
+  left: 70px;
+  color: red;
+}
+
+
