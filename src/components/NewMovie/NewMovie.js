@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 export class NewMovie extends Component {
   state = {
@@ -26,6 +27,7 @@ export class NewMovie extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
+    this.props.addMovie({ ...this.state.newMovie });
 
     this.setState({
       newMovie: {
@@ -41,7 +43,7 @@ export class NewMovie extends Component {
   render() {
     return (
       <form
-        onSubmit={event => this.handleSubmit(event)}
+        onSubmit={this.handleSubmit}
       >
         <div>
           <input
@@ -50,6 +52,7 @@ export class NewMovie extends Component {
             name="title"
             value={this.state.title}
             onChange={this.handleChange}
+            required
           />
         </div>
 
@@ -60,6 +63,7 @@ export class NewMovie extends Component {
             name="description"
             value={this.state.description}
             onChange={this.handleChange}
+            required
           />
         </div>
 
@@ -70,6 +74,7 @@ export class NewMovie extends Component {
             name="imgUrl"
             value={this.state.imgUrl}
             onChange={this.handleChange}
+            required
           />
         </div>
 
@@ -80,6 +85,7 @@ export class NewMovie extends Component {
             name="imdbUrl"
             value={this.state.imdbUrl}
             onChange={this.handleChange}
+            required
           />
         </div>
 
@@ -90,6 +96,7 @@ export class NewMovie extends Component {
             name="imdbId"
             value={this.state.imdbId}
             onChange={this.handleChange}
+            required
           />
         </div>
 
@@ -100,3 +107,7 @@ export class NewMovie extends Component {
     );
   }
 }
+
+NewMovie.propTypes = {
+  addMovie: PropTypes.func.isRequired,
+};
