@@ -11,6 +11,14 @@ export class NewMovie extends Component {
     imdbId: '',
   };
 
+  handleChange = (event) => {
+    const { name, value } = event.target;
+
+    this.setState(state => ({
+      [name]: value,
+    }));
+  };
+
   handleSubmit = (event) => {
     event.preventDefault();
 
