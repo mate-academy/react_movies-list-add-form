@@ -19,6 +19,7 @@ MoviesList.propTypes = {
       description: PropTypes.string,
       imgUrl: PropTypes.string.isRequired,
       imdbUrl: PropTypes.string.isRequired,
+      imdbId: PropTypes.string.isRequired,
     }),
   ),
 };
