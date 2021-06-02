@@ -27,6 +27,7 @@ export class NewMovie extends Component {
     if (Object.values(this.state.requiredMessages).every(element => !element)
       && Object.values(this.state).every(element => element)
     ) {
+      this.props.addMovie(this.state);
       this.setState({
         title: '',
         description: '',
@@ -34,8 +35,6 @@ export class NewMovie extends Component {
         imdbUrl: '',
         imdbId: '',
       });
-      this.props.addMovie(this.state);
-      event.target.reset();
     }
   }
 
@@ -100,6 +99,14 @@ export class NewMovie extends Component {
 
   render() {
     const {
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    } = this.state;
+
+    const {
       titleMessage,
       imgUrlMessage,
       imdbUrlMessage,
@@ -114,6 +121,7 @@ export class NewMovie extends Component {
             className={`FormInput ${titleMessage}`}
             type="text"
             onChange={this.inputTitleHandler}
+            value={title}
           />
           {titleMessage && <p className="ErrorMessage">Please enter title</p>}
         </label>
@@ -124,6 +132,7 @@ export class NewMovie extends Component {
           cols="30"
           rows="10"
           onChange={this.inputDescriptionHandler}
+          value={description}
         />
 
         <label htmlFor="" className="FormLabel">
@@ -133,6 +142,7 @@ export class NewMovie extends Component {
               ${this.state.requiredMessages.imgUrlMatchMessage}`}
             type="text"
             onChange={this.inputImgUrlHandler}
+            value={imgUrl}
           />
           {imgUrlMessage
             && (
@@ -157,6 +167,7 @@ export class NewMovie extends Component {
               ${this.state.requiredMessages.imdbUrlMatchMessage}`}
             type="text"
             onChange={this.inputImdbUrlHandler}
+            value={imdbUrl}
           />
           {imdbUrlMessage
             && (
@@ -180,6 +191,7 @@ export class NewMovie extends Component {
             className={`FormInput ${imdbIdMessage}`}
             type="text"
             onChange={this.inputImdbIdHandler}
+            value={imdbId}
           />
           {imdbIdMessage
             && (
