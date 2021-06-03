@@ -18,9 +18,8 @@ export class NewMovie extends React.Component {
     const { target } = event;
     const { value, name } = target;
 
-    this.setState(state => ({
+    this.setState(({
       newMovie: {
-        ...state.newMovie,
         [name]: value,
       },
     }));
@@ -56,12 +55,14 @@ export class NewMovie extends React.Component {
           value={title}
           placeholder="Title"
           onChange={this.handleChange}
+          required
         />
         <textarea
           name="description"
           value={description}
           placeholder="Description"
           onChange={this.handleChange}
+          required
         />
         <input
           name="imgUrl"
@@ -69,6 +70,7 @@ export class NewMovie extends React.Component {
           value={imgUrl}
           placeholder="ImgUrl"
           onChange={this.handleChange}
+          required
         />
         <input
           name="imdbId"
@@ -76,6 +78,7 @@ export class NewMovie extends React.Component {
           value={imdbId}
           placeholder="ImdbId"
           onChange={this.handleChange}
+          required
         />
         <input
           name="imdbUrl"
@@ -83,6 +86,7 @@ export class NewMovie extends React.Component {
           value={imdbUrl}
           placeholder="ImdbUrl"
           onChange={this.handleChange}
+          required
         />
         <button
           type="submit"
