@@ -29,7 +29,10 @@ export class NewMovie extends Component {
     return (
       <form
         onSubmit={
-          event => this.props.onAdd(this.state, event, this.clearForm)
+          (event) => {
+            this.props.onAdd(this.state, event);
+            this.clearForm();
+          }
         }
       >
         <p>Put the form here</p>
