@@ -30,7 +30,8 @@ export class NewMovie extends Component {
       <form
         onSubmit={
           (event) => {
-            this.props.onAdd(this.state, event);
+            event.preventDefault();
+            this.props.addMovie(this.state);
             this.clearForm();
           }
         }
@@ -82,5 +83,5 @@ export class NewMovie extends Component {
 }
 
 NewMovie.propTypes = {
-  onAdd: PropTypes.func.isRequired,
+  addMovie: PropTypes.func.isRequired,
 };

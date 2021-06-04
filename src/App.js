@@ -9,12 +9,9 @@ export class App extends Component {
     movies: moviesFromServer,
   };
 
-  onSubmitHandler = (movie, event) => {
-    event.preventDefault();
-    this.setState(prevState => ({
-      movies: [...prevState.movies, movie],
-    }));
-  };
+  addMovie = movie => this.setState(prevState => ({
+    movies: [...prevState.movies, movie],
+  }));
 
   render() {
     const { movies } = this.state;
@@ -26,7 +23,7 @@ export class App extends Component {
         </div>
         <div className="sidebar">
           <NewMovie
-            onAdd={this.onSubmitHandler}
+            addMovie={this.addMovie}
           />
         </div>
       </div>
