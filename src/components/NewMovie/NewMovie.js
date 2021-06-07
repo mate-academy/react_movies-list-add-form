@@ -6,20 +6,52 @@ import './NewMovie.scss';
 export class NewMovie extends Component {
   state = {
     title: '',
+    titleError: false,
+
     description: '',
+
     imgUrl: '',
+    imgUrlError: false,
+
     imdbUrl: '',
+    imdbUrlError: false,
+
     imdbId: '',
+    imdbIdError: false,
   };
 
+  // eslint-disable-next-line
   handleChange = (event) => {
     this.setState({ [event.target.name]: event.target.value });
+
+    const {
+      title,
+      imdbId,
+      imdbUrl,
+      imgUrl,
+    } = this.state;
+
+    if (!title || !imgUrl || !imdbUrl || !imdbId) {
+      return this.setState({
+        titleError: !title,
+        imgUrlError: !imgUrl,
+        imdbUrlError: !imdbUrl,
+        imdbIdError: !imdbId,
+      });
+    }
   };
 
   movieSubmit = (event) => {
     event.preventDefault();
 
-    const { title, description, imdbId, imdbUrl, imgUrl } = this.state;
+    const {
+      title,
+      description,
+      imdbId,
+      imdbUrl,
+      imgUrl,
+    } = this.state;
+
     const newMovie = {
       title,
       description,
@@ -40,7 +72,17 @@ export class NewMovie extends Component {
   }
 
   render() {
-    const { title, description, imdbId, imdbUrl, imgUrl } = this.state;
+    const {
+      title,
+      titleError,
+      description,
+      imdbId,
+      imdbIdError,
+      imdbUrl,
+      imdbUrlError,
+      imgUrl,
+      imgUrlError,
+    } = this.state;
 
     return (
       <form
@@ -56,7 +98,7 @@ export class NewMovie extends Component {
           onChange={event => this.handleChange(event)}
         />
 
-        {!title
+        {titleError
         && <span className="App__error">Pls enter a title</span>}
 
         <input
@@ -69,8 +111,8 @@ export class NewMovie extends Component {
           onChange={event => this.handleChange(event)}
         />
 
-        {!description
-        && <span className="App__error">Pls enter a description</span>}
+        {/* {!description
+        && <span className="App__error">Pls enter a description</span>} */}
 
         <input
           type="url"
@@ -81,7 +123,7 @@ export class NewMovie extends Component {
           onChange={event => this.handleChange(event)}
         />
 
-        {!imgUrl
+        {imgUrlError
         && (<span className="App__error">Pls enter a imgUrl</span>)}
 
         <input
@@ -93,8 +135,8 @@ export class NewMovie extends Component {
           onChange={event => this.handleChange(event)}
         />
 
-        {!imdbUrl
-        && <span className="App__error">Pls enter a imdbUrl</span>}
+        {imdbUrlError
+        && (<span className="App__error">Pls enter a imdbUrl</span>)}
 
         <input
           type="text"
@@ -105,7 +147,7 @@ export class NewMovie extends Component {
           onChange={event => this.handleChange(event)}
         />
 
-        {!imdbId
+        {imdbIdError
         && <span className="App__error">Pls enter a imdbId</span>}
 
         <button
