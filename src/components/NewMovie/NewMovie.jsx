@@ -99,8 +99,11 @@ export class NewMovie extends Component {
               && (<div className="wrapper" key={stateField}>
                 <TextField
                   id={stateField}
+                  style={{
+                    textTransform: "capitalize"
+                  }}
                   label={
-                    stateField[0].toUpperCase() + stateField.slice(1)
+                    stateField
                   }
                   fullWidth
                   name={stateField}
