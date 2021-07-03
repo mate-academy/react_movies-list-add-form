@@ -1,0 +1,35 @@
+.form {
+  $sizeText: 16px;
+
+  display: grid;
+  grid-auto-rows: auto;
+  grid-row-gap: 10px;
+
+  &__input {
+    height: $sizeText * 2;
+    padding: 0 5px;
+
+    font-size: $sizeText;
+  }
+
+  &__textarea {
+    height: $sizeText * 5;
+    padding: 0 5px;
+
+    font-size: $sizeText;
+
+    resize: none;
+  }
+
+  &__button {
+    cursor: pointer;
+    height: 35px;
+    transition: all 300ms;
+    outline: none;
+    border: none;
+
+    &:hover {
+      background-color: rgba(0, 255, 0, 0.5);
+    }
+  }
+}
