@@ -1,0 +1,33 @@
+.NewMovie {
+  display: flex;
+  flex-direction: column;
+
+  &__header {
+    margin-bottom: 20px;
+    text-align: center;
+    font-weight: bold;
+  }
+
+  &__input {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  &__textarea {
+    width: 100%;
+    height: 100px;
+    margin-bottom: 10px;
+    resize: none;
+    overflow-y: auto;
+  }
+
+  &__submit {
+    margin-top: 10px;
+  }
+}
+
+.error {
+  text-align: center;
+  margin: 10px;
+  color: red;
+}
