@@ -6,11 +6,13 @@ import moviesFromServer from './api/movies.json';
 
 export class App extends Component {
   state = {
-    movies: moviesFromServer,
+    movies: [...moviesFromServer],
   };
 
-  addMovie = (movie) => {
-    // put your code here
+  addMovie = (newMovie) => {
+    this.setState(({ movies }) => ({
+      movies: [...movies, newMovie],
+    }));
   };
 
   render() {
@@ -22,7 +24,7 @@ export class App extends Component {
           <MoviesList movies={movies} />
         </div>
         <div className="sidebar">
-          <NewMovie />
+          <NewMovie movies={this.state.movies} addMovie={this.addMovie} />
         </div>
       </div>
     );
