@@ -1,0 +1,40 @@
+.newMovie {
+  width: 250px;
+
+  &__title,
+  &__description,
+  &__imgUrl,
+  &__imdbUrl,
+  &__imdbId {
+    margin: 10px 0;
+    padding: 10px 20px;
+    width: 100%;
+    border-radius: 8px;
+    outline: none;
+    border: 1px solid blue;
+
+    &:hover {
+      box-shadow: 0 6px 23px rgba(0, 117, 255, 0.46);
+    }
+  }
+
+  &__add {
+    display: flex;
+    align-items: center;
+    outline: none;
+    margin-top: 30px;
+    border-radius: 12px;
+    padding: 8px 70px;
+    background-color: blue;
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+    border: 1px solid blue;
+
+    &:hover {
+      box-shadow: 0 6px 23px rgba(0, 117, 255, 0.46);
+      background-color: white;
+      color: blue
+    }
+  }
+} 
