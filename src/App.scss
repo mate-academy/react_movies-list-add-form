@@ -13,3 +13,59 @@
   padding: 20px;
   border-left: 1px solid lightgray;
 }
+
+.form {
+  &__field {
+    margin-bottom: 20px;
+  }
+
+  &__label {
+    display: block;
+    padding-left: 10px;
+    margin-bottom: 10px;
+
+    font-size: 17px;
+    font-weight: 600;
+  }
+
+  &__input {
+    width: 90%;
+    height: 50px;
+    box-sizing: border-box;
+
+    padding: 10px;
+
+    border-radius: 15px;
+    border: 1px solid lightgray;
+
+    font-size: 15px;
+
+    transition: 0.2s ease-in-out;
+
+    outline: none;
+
+    &:focus {
+      border: 1px solid gray;
+    }
+  }
+
+  &__button {
+    width: 150px;
+    box-sizing: border-box;
+    margin-left: 10px;
+    padding: 20px;
+    border: none;
+    border-radius: 15px;
+
+    font-size: 17px;
+
+    cursor: pointer;
+
+    transition: 0.3s ease-in-out;
+
+    &:hover {
+      background-color: lightcoral;
+      color: #fff;
+    }
+  }
+}
