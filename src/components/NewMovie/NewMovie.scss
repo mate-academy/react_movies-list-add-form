@@ -1,0 +1,36 @@
+.form {
+  box-shadow: 1px 1px 6px 9px #eed7c5;
+  border-radius: 6px;
+  padding: 10px;
+  background-color: #eee2df;
+  font-size: 18px;
+  font-weight: bold;
+
+  &__title {
+    padding: 10px;
+    display: block;
+  }
+
+  &__input {
+    display: block;
+    line-height: 25px;
+    border-radius: inherit;
+
+    &_textarea {
+      width: 300px;
+      height: 150px;
+      max-height: 300px;
+      resize: vertical;
+    }
+  }
+
+  &__button {
+    margin-top: 20px;
+    height: 40px;
+    width: 100%;
+    border-radius: inherit;
+    background-color: #c89f9c;
+    font-size: inherit;
+    font-weight: inherit;
+  }
+}
