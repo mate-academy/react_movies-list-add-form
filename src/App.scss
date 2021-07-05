@@ -12,4 +12,11 @@
 .sidebar {
   padding: 20px;
   border-left: 1px solid lightgray;
+
+  &__title {
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    color: black;
+  }
 }
