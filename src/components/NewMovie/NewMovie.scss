@@ -1,0 +1,36 @@
+form {
+  div {
+    height: 90px;
+    span {
+      color: red;
+    }
+  }
+}
+
+input,
+textarea {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border: 1px solid rgb(180, 177, 177);
+  border-radius: 10px;
+  outline: none;
+}
+
+textarea {
+  height: 60px;
+  margin-bottom: 20px;
+  resize: none;
+}
+
+.movie__description {
+  height: 120px;
+}
+
+.error {
+  border-color: red;
+}
+
+button {
+  margin-top: 10px;
+}
