@@ -1,0 +1,54 @@
+.form {
+  padding: 30px 25px;
+  width: 100%;
+  text-align: center;
+  border: 3px solid #333;
+  border-radius: 20px;
+
+  &__title {
+    padding-bottom: 25px;
+    font-size: 22px;
+    font-weight: 700;
+  }
+
+  &__field {
+    position: relative;
+    margin-bottom: 30px;
+  }
+
+  &__input {
+    display: inline-block;
+    padding: 5px;
+    width: 100%;
+    font-size: 15px;
+    color: #555;
+    border: 2px solid #888;
+    border-radius: 5px;
+    outline-color: #33d;
+
+    &--error {
+      border-color: #e11;
+    }
+  }
+
+  &__submit {
+    padding: 5px 50px;
+    font-size: 18px;
+    font-weight: 700;
+    text-transform: uppercase;
+    border: 2px solid #333;
+    border-radius: 5px;
+    outline-color: #33d;
+    cursor: pointer;
+
+    &:disabled {
+      border-color: #aaa;
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+  }
+
+  textarea {
+    resize: none;
+  }
+}
