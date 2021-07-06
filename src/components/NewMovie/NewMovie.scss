@@ -1,0 +1,20 @@
+.input {
+  display: block;
+}
+
+.inputError {
+  color: red;
+  font-weight: 600;
+}
+
+.active {
+  border: 1px solid red;
+}
+
+.button {
+  margin-top: 20px;
+}
+
+.blur {
+  box-shadow: 0 2px 2px rgb(69, 50, 243);
+}
