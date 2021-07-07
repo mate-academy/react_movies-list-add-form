@@ -1,0 +1,23 @@
+.form {
+  .form__btn {
+    margin-top: 10px;
+
+    width: 150px;
+    height: 50px;
+    
+    font-size: 18px;
+    font-weight: 500;
+
+    color: #fff;
+    background-color: rgb(255, 87, 87);
+
+    border: none;
+    border-radius: 10px;
+
+    transition: background-color 0.3s;
+
+    &:hover {
+      background-color: rgb(226, 72, 72);
+    }
+  }
+}
