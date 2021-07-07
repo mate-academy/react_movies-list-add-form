@@ -1,0 +1,17 @@
+textarea {
+  resize: none !important;
+}
+
+.ui.input {
+  padding: 0 !important;
+}
+
+.field.error {
+  position: relative;
+}
+
+.ui.red.pointing.below.basic.label {
+  position: absolute !important;
+  left: 60px;
+  bottom: 31px;
+}

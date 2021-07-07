@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import './App.scss';
 import { MoviesList } from './components/MoviesList';
 import { NewMovie } from './components/NewMovie';
 import moviesFromServer from './api/movies.json';
+import 'semantic-ui-css/semantic.min.css';
+import './App.scss';
 
 export class App extends Component {
   state = {
@@ -10,8 +11,15 @@ export class App extends Component {
   };
 
   addMovie = (movie) => {
-    // put your code here
-  };
+    this.setState(prevState => ({
+      movies: [
+        ...prevState.movies,
+        {
+          ...movie,
+        },
+      ],
+    }));
+  }
 
   render() {
     const { movies } = this.state;
@@ -22,7 +30,7 @@ export class App extends Component {
           <MoviesList movies={movies} />
         </div>
         <div className="sidebar">
-          <NewMovie />
+          <NewMovie onSubmit={this.addMovie} />
         </div>
       </div>
     );
