@@ -1,0 +1,40 @@
+.new-movie {
+  display: flex;
+  flex-direction: column;
+
+  &__label {
+    display: block;
+    background-origin: border-box;
+    font-weight: 600;
+    position: relative;
+  }
+
+  &__input {
+    position: relative;
+    width: 100%;
+    margin-bottom: 30px;
+
+    &--error {
+      border: 1px solid red;
+    }
+  }
+
+  &__error {
+    position: absolute;
+    display: block;
+    height: 14px;
+    font-weight: 400;
+    color: red;
+    font-size: 14px;
+    bottom: 15px;
+  }
+
+  &__button {
+    margin-top: 20px;
+    cursor: pointer;
+
+    &--disabled {
+      cursor: not-allowed;
+    }
+  }
+}
