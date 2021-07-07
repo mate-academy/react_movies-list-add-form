@@ -1,0 +1,18 @@
+.form {
+  display: grid;
+
+  &__header {
+    margin: auto;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    font-weight: bold;
+  }
+
+  &__input {
+    margin-bottom: 10px;
+  }
+
+  &__button {
+    margin-top: 10px;
+  }
+}
