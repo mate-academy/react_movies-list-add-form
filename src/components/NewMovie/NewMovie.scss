@@ -1,0 +1,37 @@
+.App__form {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+}
+
+.App__input {
+  height: 40px;
+  border: 1px solid green;
+  outline: none;
+  margin-bottom: 5px;
+  border-radius: 5px;
+  margin-top: 15px;
+  box-sizing: border-box;
+  padding-left: 15px;
+}
+
+.App__input-error {
+  border: 1px solid red;
+}
+
+.error__container {
+  color: red;
+}
+
+.App__button {
+  margin-top: 20px;
+  width: inherit;
+  height: 40px;
+  background-color: green;
+  outline: none;
+  border: none;
+  font-size: 18px;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
