@@ -1,0 +1,37 @@
+.addMovieForm {
+  display: flex;
+  flex-direction: column;
+}
+
+.addMovieForm__element {
+  outline: none;
+  margin: 2px;
+  border-radius: 10px;
+  border: 1px solid rgb(62, 72, 82);
+  height: 50px;
+  padding: 10px;
+}
+
+#movieDescription {
+  resize: vertical;
+  min-height: 100px;
+  max-height: 500px;
+}
+
+.addMovieForm__submit {
+  background: lightslategray;
+  margin: 2px;
+  height: 50px;
+  font-size: 20px;
+  font-weight: 600;
+  border-radius: 15px;
+  text-align: center;
+  outline: none;
+  border: none;
+  transition: background 0.7s;
+}
+
+.addMovieForm__submit:focus,
+.addMovieForm__submit:hover {
+  background: rgb(60, 64, 68);
+}
