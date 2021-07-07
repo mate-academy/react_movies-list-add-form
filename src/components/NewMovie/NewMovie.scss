@@ -1,0 +1,42 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-style: italic;
+
+  &__title {
+    font-size: 18px;
+    font-weight: bold;
+    font-style: normal;
+  }
+
+  &__content {
+    font-size: 16px;
+  }
+}
+
+.description {
+  height: 80px;
+}
+
+input {
+  width: 300px;
+}
+
+button {
+  width: 300px;
+  height: 30px;
+  font-weight: bold;
+  margin-top: 20px;
+  border: 2px solid rgb(255, 145, 0);
+  border-radius: 3px;
+  transition: background-color 0.5s;
+
+  &:hover {
+    background-color: rgb(255, 145, 0);
+  }
+
+  &:focus {
+    outline: none;
+  }
+}
