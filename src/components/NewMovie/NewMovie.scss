@@ -1,0 +1,9 @@
+.form {
+  display: grid;
+
+  &__input {
+    margin-bottom: 10px;
+    resize: none;
+  }
+
+}
