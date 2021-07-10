@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import './NewMovie.scss';
 import PropTypes from 'prop-types';
+import cn from 'classnames';
 
 export class NewMovie extends Component {
   state = {
@@ -10,8 +11,8 @@ export class NewMovie extends Component {
     imgUrl: '',
     imdbUrl: '',
     imdbId: '',
-    invalidFieldLength: false,
-    invalidUrl: false,
+    emptyField: '',
+    invalidUrl: '',
   };
 
   updateState = (value, id) => {
@@ -20,19 +21,10 @@ export class NewMovie extends Component {
     });
   }
 
-  throwError = (errorName, target) => {
-    this.setState({ [errorName]: true });
-    target.classList.add('invalid');
-  }
-
-  removeError = (errorName, target) => {
-    this.setState({ [errorName]: false });
-    target.classList.remove('invalid');
-  }
-
   render() {
-    const { invalidFieldLength, invalidUrl, ...rest } = this.state;
+    const { emptyField, invalidUrl, ...rest } = this.state;
     const formFields = Object.keys(rest);
+    const validationRegex = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
 
     return (
       <>
@@ -50,49 +42,55 @@ export class NewMovie extends Component {
                 id={field}
                 placeholder={field}
                 name={field}
+                className={cn('', {
+                  emptyField: emptyField === field,
+                  invalidUrl: invalidUrl === field,
+                })}
                 value={this.state[field]}
                 onChange={(e) => {
                   this.updateState(e.target.value, e.target.id);
                 }}
                 onBlur={(e) => {
-                  if (e.target.name !== 'description' && e.target.value.length === 0) {
-                    this.throwError('invalidFieldLength', e.target);
+                  if (e.target.value.length === 0 && field !== 'description') {
+                    this.setState({ emptyField: field });
 
                     return;
                   }
 
-                  this.removeError('invalidFieldLength', e.target);
+                  this.setState({ emptyField: '' });
 
-                  if (e.target.name === 'imgUrl' || e.target.name === 'imdbUrl') {
-                    if (!e.target.value.match(/^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/)) {
-                      this.throwError('invalidUrl', e.target);
+                  if (field === 'imgUrl' || field === 'imdbUrl') {
+                    if (!e.target.value.match(validationRegex)) {
+                      this.setState({ invalidUrl: field });
+
+                      return;
                     }
 
-                    return;
+                    this.setState({ invalidUrl: '' });
                   }
-
-                  this.removeError('invalidUrl', e.target);
                 }}
               />
             );
           })}
           <button
             type="submit"
-            disabled={invalidFieldLength || invalidUrl}
+            disabled={emptyField || invalidUrl}
           >
             Add a movie
           </button>
         </form>
-        {invalidFieldLength && (
-          <div className="notification notification_length">
-            <h2>Empty field</h2>
-          </div>
-        )}
-        {invalidUrl && (
-          <div className="notification notification_url">
-            <h2>Invalid url</h2>
-          </div>
-        )}
+        <div className="notifications">
+          {emptyField && (
+            <div className="notification">
+              <h2>Error: empty field</h2>
+            </div>
+          )}
+          {invalidUrl && (
+            <div className="notification">
+              <h2>Error: invalid URL</h2>
+            </div>
+          )}
+        </div>
       </>
     );
   }
