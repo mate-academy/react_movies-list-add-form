@@ -1,0 +1,32 @@
+.form {
+  border: 1px solid black;
+  padding: 15px;
+  border-radius: 30px;
+  background-color: rgb(219, 219, 219);
+  font-size: 21px;
+}
+
+.form input {
+  margin-left: 5px;
+}
+
+.error input,
+.error-repeat input {
+  border: 1px solid red;
+}
+
+.error::after {
+  content: "no valid data!!";
+  color: red;
+  font-size: 13px;
+}
+
+.error-repeat::after {
+  content: "no valid data, or repeat data!!";
+  color: red;
+  font-size: 13px;
+}
+
+.error-submit {
+  opacity: 50%;
+}
