@@ -14,7 +14,7 @@ export class NewMovie extends Component {
 
   handleChange = ({ target }) => {
     this.setState({
-      [target.id]: target.value,
+      [target.name]: target.value,
     });
   }
 
@@ -29,53 +29,75 @@ export class NewMovie extends Component {
     })
   );
 
-  changeIsValid = (newValue) => {
+  addNoValid = (newValue) => {
     this.setState(state => ({
       isValid: [...state.isValid, newValue],
     }));
   };
 
-  valid = (e, idElem) => {
-    const ragExp = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
-    const id = e ? e.target.id : idElem;
-    const value = e ? e.target.value : this.state[idElem];
-
-    if (id !== 'imgUrl' && id !== 'imdbUrl') {
-      if (!value.trim()) {
-        if (!e) {
-          this.changeIsValid('');
-
-          return false;
-        }
-
-        this.changeIsValid(id);
-      } else {
-        this.setState(state => ({
-          isValid: state.isValid.filter(elem => (elem !== id)),
-        }));
-      }
-
-      return true;
-    }
-
-    if (!ragExp.test(this.state[id])) {
-      if (!e) {
-        this.changeIsValid('');
-
-        return false;
-      }
-
-      this.changeIsValid(id);
-    }
-
-    return true;
+  removeNoValid = (removeValue) => {
+    this.setState(state => ({
+      isValid: state.isValid.filter(elem => (elem !== removeValue)),
+    }));
   };
 
-  validAllForm = () => (
-    this.valid(null, 'title') || this.valid(null, 'description')
-    || this.valid(null, 'imgUrl') || this.valid(null, 'imdbUrl')
-    || this.valid(null, 'imdbId')
-  );
+  validUrl = (url) => {
+    const ragExp = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
+
+    return !ragExp.test(url);
+  };
+
+  validRepeatData = (compareValue) => {
+    return !this.props.movies.some(movie => (
+      movie[compareValue] === this.state[compareValue]));
+  };
+
+  valid = ({ target }) => {
+    const fieldName = target.name;
+    const { value } = target;
+
+    if (fieldName === 'imgUrl' || fieldName === 'imdbUrl'
+    || fieldName === 'imdbId') {
+      if (!this.validRepeatData(fieldName)) {
+        this.addNoValid(fieldName);
+
+        return;
+      }
+
+      this.removeNoValid(fieldName);
+    }
+
+    if (fieldName !== 'imgUrl' && fieldName !== 'imdbUrl') {
+      if (!value.trim()) {
+        this.addNoValid(fieldName);
+      } else {
+        this.removeNoValid(fieldName);
+      }
+
+      return;
+    }
+
+    if (this.validUrl(this.state[fieldName])) {
+      this.addNoValid(fieldName);
+    } else {
+      this.removeNoValid(fieldName);
+    }
+  };
+
+  validAllForm = () => {
+    const {
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    } = this.state;
+
+    return !this.validUrl(imgUrl) && !this.validUrl(imdbUrl)
+    && title.trim() && description.trim() && imdbId.trim()
+    && this.validRepeatData('imgUrl') && this.validRepeatData('imdbUrl')
+    && this.validRepeatData('imdbId');
+  };
 
   render() {
     const { addMovie } = this.props;
@@ -114,6 +136,7 @@ export class NewMovie extends Component {
           title
           <input
             id="title"
+            name="title"
             placeholder="title your film.."
             value={this.state.title}
             onChange={this.handleChange}
@@ -126,6 +149,7 @@ export class NewMovie extends Component {
           description
           <input
             id="description"
+            name="description"
             placeholder="description your film.."
             value={this.state.description}
             onChange={this.handleChange}
@@ -134,10 +158,11 @@ export class NewMovie extends Component {
         </label>
         <hr />
 
-        <label className={isValid.includes('imgUrl') ? 'error' : ''}>
+        <label className={isValid.includes('imgUrl') ? 'error-repeat' : ''}>
           img url
           <input
             id="imgUrl"
+            name="imgUrl"
             placeholder="img url"
             value={this.state.imgUrl}
             onChange={this.handleChange}
@@ -146,10 +171,11 @@ export class NewMovie extends Component {
         </label>
         <hr />
 
-        <label className={isValid.includes('imdbUrl') ? 'error' : ''}>
+        <label className={isValid.includes('imdbUrl') ? 'error-repeat' : ''}>
           imdb url
           <input
             id="imdbUrl"
+            name="imdbUrl"
             placeholder="imdb url"
             value={this.state.imdbUrl}
             onChange={this.handleChange}
@@ -158,10 +184,11 @@ export class NewMovie extends Component {
         </label>
         <hr />
 
-        <label className={isValid.includes('imdbId') ? 'error' : ''}>
+        <label className={isValid.includes('imdbId') ? 'error-repeat' : ''}>
           imdb id
           <input
             id="imdbId"
+            name="imdbId"
             placeholder="imdb id"
             value={this.state.imdbId}
             onChange={this.handleChange}
@@ -172,7 +199,7 @@ export class NewMovie extends Component {
 
         <button
           type="submit"
-          disabled={!!isValid.length}
+          disabled={!this.validAllForm()}
         >
           Save film
         </button>
@@ -183,4 +210,9 @@ export class NewMovie extends Component {
 
 NewMovie.propTypes = {
   addMovie: PropTypes.func.isRequired,
+  movies: PropTypes.shape({
+    imgUrl: PropTypes.string.isRequired,
+    imdbUrl: PropTypes.string.isRequired,
+    imdbId: PropTypes.string.isRequired,
+  }).isRequired,
 };

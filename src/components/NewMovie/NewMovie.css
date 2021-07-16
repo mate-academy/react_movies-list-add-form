@@ -10,12 +10,19 @@
   margin-left: 5px;
 }
 
-.error input {
+.error input,
+.error-repeat input {
   border: 1px solid red;
 }
 
 .error::after {
-  content: 'no valid data!!';
+  content: "no valid data!!";
+  color: red;
+  font-size: 13px;
+}
+
+.error-repeat::after {
+  content: "no valid data, or repeat data!!";
   color: red;
   font-size: 13px;
 }
