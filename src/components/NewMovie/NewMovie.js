@@ -10,35 +10,20 @@ export class NewMovie extends Component {
     imgUrl: '',
     imdbUrl: '',
     imdbId: '',
+    isFormValid: false,
   };
 
-  onTitleChange = (title) => {
-    this.setState({
-      title,
-    });
-  }
+  isTitleValid = false;
 
-  onDescriptionChange = (description) => {
-    this.setState({
-      description,
-    });
-  }
+  isImgUrlValid = false;
 
-  onImdbIdChange = (imdbId) => {
-    this.setState({
-      imdbId,
-    });
-  }
+  isImdbUrlValid = false;
 
-  onImdbUrlChange = (imdbUrl) => {
-    this.setState({
-      imdbUrl,
-    });
-  }
+  isImdbIdValid = false;
 
-  onImgUrlChange = (imgUrl) => {
+  onFieldChange = (field, value) => {
     this.setState({
-      imgUrl,
+      [field]: value,
     });
   }
 
@@ -49,6 +34,7 @@ export class NewMovie extends Component {
       imgUrl: '',
       imdbUrl: '',
       imdbId: '',
+      isFormValid: false,
     });
   }
 
@@ -68,6 +54,19 @@ export class NewMovie extends Component {
     this.reset();
   }
 
+  validateInput = (field, value) => {
+    this[field] = value;
+
+    this.setState({
+      isFormValid: this.validateForm(),
+    });
+  }
+
+  validateForm = () => {
+    return this.isTitleValid && this.isImgUrlValid && this.isImdbUrlValid
+    && this.isImdbIdValid;
+  }
+
   render() {
     return (
       <form
@@ -81,39 +80,48 @@ export class NewMovie extends Component {
           id="title"
           name="title"
           value={this.state.title}
-          onChange={this.onTitleChange}
+          validationKey="isTitleValid"
+          onChange={this.onFieldChange}
+          setValidationResult={this.validateInput}
         />
         <FormElement
           type="textarea"
           id="description"
           name="description"
           value={this.state.description}
-          onChange={this.onDescriptionChange}
+          onChange={this.onFieldChange}
         />
         <FormElement
           type="text"
           id="imgUrl"
           name="imgUrl"
           value={this.state.imgUrl}
-          onChange={this.onImgUrlChange}
+          validationKey="isImgUrlValid"
+          onChange={this.onFieldChange}
+          setValidationResult={this.validateInput}
         />
         <FormElement
           type="text"
           id="imdbUrl"
           name="imdbUrl"
           value={this.state.imdbUrl}
-          onChange={this.onImdbUrlChange}
+          validationKey="isImdbUrlValid"
+          onChange={this.onFieldChange}
+          setValidationResult={this.validateInput}
         />
         <FormElement
           type="text"
           id="imdbId"
           name="imdbId"
           value={this.state.imdbId}
-          onChange={this.onImdbIdChange}
+          validationKey="isImdbIdValid"
+          onChange={this.onFieldChange}
+          setValidationResult={this.validateInput}
         />
         <button
           type="submit"
           className="addMovieForm__submit"
+          disabled={!this.state.isFormValid}
         >
           Add
         </button>
