@@ -1,0 +1,21 @@
+.app__form {
+  display: flex;
+  flex-direction: column;
+  width:200px;
+  gap: 20px;
+  margin-top: 10px;
+  
+}
+
+.app__textarea{
+  resize: none;
+  width: 200px;
+  height: 200px;
+  font-size: 16px;
+}
+
+.app__error {
+  margin-top: -15px;
+  color: red;
+}
+
