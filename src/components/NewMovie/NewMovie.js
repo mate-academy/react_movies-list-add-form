@@ -11,15 +11,13 @@ export class NewMovie extends Component {
     imdbUrl: '',
     imdbId: '',
     isFormValid: false,
+    errors: {
+      isTitleValid: false,
+      isImgUrlValid: false,
+      isImdbUrlValid: false,
+      isImdbIdValid: false,
+    },
   };
-
-  isTitleValid = false;
-
-  isImgUrlValid = false;
-
-  isImdbUrlValid = false;
-
-  isImdbIdValid = false;
 
   onFieldChange = (field, value) => {
     this.setState({
@@ -35,6 +33,12 @@ export class NewMovie extends Component {
       imdbUrl: '',
       imdbId: '',
       isFormValid: false,
+      errors: {
+        isTitleValid: false,
+        isImgUrlValid: false,
+        isImdbUrlValid: false,
+        isImdbIdValid: false,
+      },
     });
   }
 
@@ -55,25 +59,31 @@ export class NewMovie extends Component {
   }
 
   validateInput = (field, value) => {
-    this[field] = value;
+    this.setState(state => (
+      {
+        errors: {
+          ...state.errors,
+          [field]: value,
+        },
+      }
+    ));
 
-    this.setState({
-      isFormValid: this.validateForm(),
-    });
+    this.setState(state => ({
+      isFormValid: this.validateForm(state),
+    }));
   }
 
-  validateForm = () => {
-    return this.isTitleValid && this.isImgUrlValid && this.isImdbUrlValid
-    && this.isImdbIdValid;
+  validateForm = (state) => {
+    return state.errors.isTitleValid && state.errors.isImgUrlValid
+    && state.errors.isImdbUrlValid
+    && state.errors.isImdbIdValid;
   }
 
   render() {
     return (
       <form
         className="addMovieForm"
-        onSubmit={(event) => {
-          this.onSubmit(event);
-        }}
+        onSubmit={this.onSubmit}
       >
         <FormElement
           type="text"

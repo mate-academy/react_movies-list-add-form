@@ -2,12 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './FormElement.scss';
 
+// eslint-disable-next-line
+const urlPattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
+
 export class FormElement extends React.Component {
   state = {
     isValidInput: true,
     errorMessage: '',
-    // eslint-disable-next-line
-    urlPattern: /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/,
   }
 
   validateInput = ({ name, value }) => {
@@ -25,7 +26,7 @@ export class FormElement extends React.Component {
     }
 
     if ((name === 'imgUrl') || (name === 'imdbUrl')) {
-      if (!this.state.urlPattern.test(value)) {
+      if (!urlPattern.test(value)) {
         setValidationResult(validationKey, false);
 
         this.setState({
