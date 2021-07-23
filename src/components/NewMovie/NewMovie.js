@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import MovieInputs from '../MovieInputs/MovieInputs';
+import MovieInput from '../MovieInput/MovieInput';
 import './NewMovie.scss';
 
 export class NewMovie extends Component {
@@ -12,10 +12,6 @@ export class NewMovie extends Component {
     imdbId: '',
     wasCliked: false,
   };
-
-  componentDidUpdate() {
-    return () => this.forceUpdate();
-  }
 
   checkingAllInputs = () => {
     if (this.state.title.length
@@ -34,6 +30,10 @@ export class NewMovie extends Component {
     this.setState({ [name]: value });
   }
 
+  disabledButton = () => {
+    return this.state.wasCliked && !this.checkingAllInputs();
+  }
+
   cleanStateAfterSubmit = () => {
     this.setState({
       title: '',
@@ -48,7 +48,7 @@ export class NewMovie extends Component {
   submitForm = (event) => {
     event.preventDefault();
 
-    if (this.checkingAllInputs() !== true) {
+    if (!this.checkingAllInputs()) {
       return;
     }
 
@@ -57,11 +57,7 @@ export class NewMovie extends Component {
   }
 
   checkInputValidation = (length) => {
-    if (length === 0 && this.state.wasCliked) {
-      return true;
-    }
-
-    return false;
+    return length === 0 && this.state.wasCliked;
   }
 
   render() {
@@ -71,8 +67,8 @@ export class NewMovie extends Component {
         onSubmit={this.submitForm}
         className="form"
       >
-        <MovieInputs
-          className={this.checkInputValidation(this.state.title.length)}
+        <MovieInput
+          inputHasError={this.checkInputValidation(this.state.title.length)}
           name="title"
           value={this.state.title}
           placeholder="Title*"
@@ -85,14 +81,14 @@ export class NewMovie extends Component {
             </span>
           )
             }
-        <MovieInputs
+        <MovieInput
           name="description"
           value={this.state.description}
           placeholder="Description"
           changeStateValue={this.changeStateValue}
         />
-        <MovieInputs
-          className={this.checkInputValidation(this.state.title.length)}
+        <MovieInput
+          inputHasError={this.checkInputValidation(this.state.imgUrl.length)}
           name="imgUrl"
           value={this.state.imgUrl}
           placeholder="imgUrl*"
@@ -105,8 +101,8 @@ export class NewMovie extends Component {
             </span>
           )
             }
-        <MovieInputs
-          className={this.checkInputValidation(this.state.title.length)}
+        <MovieInput
+          inputHasError={this.checkInputValidation(this.state.imdbUrl.length)}
           name="imdbUrl"
           value={this.state.imdbUrl}
           placeholder="imdbUrl*"
@@ -119,8 +115,8 @@ export class NewMovie extends Component {
         </span>
         )
         }
-        <MovieInputs
-          className={this.checkInputValidation(this.state.title.length)}
+        <MovieInput
+          inputHasError={this.checkInputValidation(this.state.imdbId.length)}
           name="imdbId"
           value={this.state.imdbId}
           placeholder="imdbId*"
@@ -136,7 +132,7 @@ export class NewMovie extends Component {
         <button
           className="btn"
           type="submit"
-          disabled={this.state.wasCliked && !this.checkingAllInputs()}
+          disabled={this.disabledButton()}
           onClick={() => this.setState({ wasCliked: true })}
         >
           Add
