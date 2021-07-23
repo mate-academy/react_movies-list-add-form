@@ -1,0 +1,19 @@
+.addMovieForm {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  &__submit {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 36px;
+    width: 72px;
+    margin: 0 auto;
+    text-align: center;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
