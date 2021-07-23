@@ -1,0 +1,26 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.btn {
+  margin: 20px auto 0;
+  padding: 5px 0;
+  background-color: rgb(214, 127, 127);
+  border: 1px solid rgb(214, 127, 127);
+  border-radius: 20px;
+  min-width: 150px;
+  font-weight: 400;
+  color: white;
+
+  &:hover {
+    background-color: aqua;
+  }
+
+  &[disabled] {
+    background: gray;
+
+  }
+
+}
