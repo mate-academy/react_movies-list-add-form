@@ -75,7 +75,7 @@ export class NewMovie extends Component {
           className={this.checkInputValidation(this.state.title.length)}
           name="title"
           value={this.state.title}
-          placeholder="Title"
+          placeholder="Title*"
           changeStateValue={this.changeStateValue}
         />
         {this.checkInputValidation(this.state.title.length)
@@ -95,7 +95,7 @@ export class NewMovie extends Component {
           className={this.checkInputValidation(this.state.title.length)}
           name="imgUrl"
           value={this.state.imgUrl}
-          placeholder="imgUrl"
+          placeholder="imgUrl*"
           changeStateValue={this.changeStateValue}
         />
         {this.checkInputValidation(this.state.imgUrl.length)
@@ -109,7 +109,7 @@ export class NewMovie extends Component {
           className={this.checkInputValidation(this.state.title.length)}
           name="imdbUrl"
           value={this.state.imdbUrl}
-          placeholder="imdbUrl"
+          placeholder="imdbUrl*"
           changeStateValue={this.changeStateValue}
         />
         {this.checkInputValidation(this.state.imdbUrl.length)
@@ -123,7 +123,7 @@ export class NewMovie extends Component {
           className={this.checkInputValidation(this.state.title.length)}
           name="imdbId"
           value={this.state.imdbId}
-          placeholder="imdbId"
+          placeholder="imdbId*"
           changeStateValue={this.changeStateValue}
         />
         {this.checkInputValidation(this.state.imdbId.length)
