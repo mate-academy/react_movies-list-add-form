@@ -7,7 +7,7 @@ export const urlPattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-
 export class Input extends React.Component {
   state = {
     inputValidation: true,
-    text: '',
+    errorText: '',
   }
 
   checkValidation = (field) => {
@@ -15,7 +15,7 @@ export class Input extends React.Component {
       field.value.length === 0
         ? this.setState({
           inputValidation: !!field.value.length,
-          text: 'Is required',
+          errorText: 'Is required',
         })
         : this.setState({
           inputValidation: !!field.value.length,
@@ -24,11 +24,11 @@ export class Input extends React.Component {
       field.value.length === 0
         ? this.setState({
           inputValidation: urlPattern.test(field.value),
-          text: 'Is required',
+          errorText: 'Is required',
         })
         : this.setState({
           inputValidation: urlPattern.test(field.value),
-          text: 'wrong format',
+          errorText: 'Need URL format',
         });
     }
 
@@ -40,7 +40,7 @@ export class Input extends React.Component {
 
     input.value.length === 0
       && this.setState({
-        text: '',
+        errorText: '',
         inputValidation: !!input.value.length,
       });
   }
@@ -52,7 +52,7 @@ export class Input extends React.Component {
       value,
     } = this.props;
 
-    const { inputValidation, text } = this.state;
+    const { inputValidation, errorText } = this.state;
 
     return (
       <label>
@@ -72,7 +72,7 @@ export class Input extends React.Component {
           className="app__error"
         >
           {
-            inputValidation ? null : text
+            inputValidation ? null : errorText
           }
         </span>
       </label>
