@@ -30,7 +30,7 @@ export class NewMovie extends Component {
     this.setState({ [name]: value });
   }
 
-  disabledButton = () => {
+  isButtonDisabled = () => {
     return this.state.wasCliked && !this.checkingAllInputs();
   }
 
@@ -132,7 +132,7 @@ export class NewMovie extends Component {
         <button
           className="btn"
           type="submit"
-          disabled={this.disabledButton()}
+          disabled={this.isButtonDisabled()}
           onClick={() => this.setState({ wasCliked: true })}
         >
           Add
