@@ -1,13 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import './MovieInput.scss';
+import classnames from 'classnames';
 
 const MovieInput = (
   { name, value, placeholder, changeStateValue, inputHasError },
 ) => (
 
   <input
-    className={inputHasError ? 'error input' : 'input'}
+    className={classnames('input', { error: inputHasError })}
     autoComplete="off"
     name={name}
     value={value}
