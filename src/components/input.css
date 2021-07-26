@@ -1,0 +1,12 @@
+.input {
+  outline: none;
+}
+
+.input:focus {
+  border: 1px solid grey;
+  box-shadow: none;
+}
+
+.app__input:focus {
+  border: 1px solid red;
+}
