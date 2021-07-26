@@ -1,4 +1,5 @@
 import React from 'react';
+import classNames from 'classnames';
 import './input.css';
 import PropTypes from 'prop-types';
 // eslint-disable-next-line
@@ -58,22 +59,20 @@ export class Input extends React.Component {
       <label>
         {`${title} `}
         <input
-          className={
-            inputValidation
-              ? 'input'
-              : 'input app__input'
+          className={classNames(
+            'input',{
+            'app__input': !inputValidation,
+            })
           }
           value={value}
           name={name}
-          onChange={event => this.checkValue(event.target)}
-          onBlur={event => this.checkValidation(event.target)}
+          onChange={({ target }) => this.checkValue(target)}
+          onBlur={({ target }) => this.checkValidation(target)}
         />
         <span
           className="app__error"
         >
-          {
-            inputValidation ? null : errorText
-          }
+          {inputValidation ? null : errorText}
         </span>
       </label>
     );

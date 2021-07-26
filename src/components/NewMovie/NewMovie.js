@@ -93,9 +93,9 @@ export class NewMovie extends Component {
               className="app__textarea"
               maxLength="300"
               onChange={
-              event => this.changeFormState(
-                event.target.name,
-                event.target.value,
+              ({ target }) => this.changeFormState(
+                target.name,
+                target.value,
               )
             }
             />
