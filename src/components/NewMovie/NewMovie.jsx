@@ -25,12 +25,12 @@ export class NewMovie extends Component {
       || currentValue.trim().length < 1) {
       this.setState({
         isTitleValid: false,
-        isButtonDisabled: true,
+        // isButtonDisabled: true,
       });
     } else {
       this.setState({
         isTitleValid: true,
-        isButtonDisabled: false,
+        // isButtonDisabled: false,
       });
     }
 
@@ -52,12 +52,12 @@ export class NewMovie extends Component {
     if (!regEx.test(currentValue)) {
       this.setState({
         isImgUrlValid: false,
-        isButtonDisabled: true,
+        // isButtonDisabled: true,
       });
     } else {
       this.setState({
         isImgUrlValid: true,
-        isButtonDisabled: false,
+        // isButtonDisabled: false,
       });
     }
 
@@ -75,12 +75,12 @@ export class NewMovie extends Component {
     if (!regEx.test(currentValue)) {
       this.setState({
         isImdbUrlValid: false,
-        isButtonDisabled: true,
+        // isButtonDisabled: true,
       });
     } else {
       this.setState({
         isImdbUrlValid: true,
-        isButtonDisabled: false,
+        // isButtonDisabled: false,
       });
     }
 
@@ -115,43 +115,58 @@ export class NewMovie extends Component {
       imgUrl,
       imdbUrl,
       imdbId,
+      isButtonDisabled,
+      isTitleValid,
+      isImgUrlValid,
+      isImdbUrlValid,
+      isImdbIdValid,
     } = this.state;
     const { addMovie } = this.props;
 
-    if (title === '') {
-      this.setState({
-        isTitleValid: false,
-        isButtonDisabled: true,
-      });
+    if (!isButtonDisabled) {
+      if (title === '') {
+        this.setState({
+          isTitleValid: false,
+          isButtonDisabled: true,
+        });
+      }
 
-      return;
+      if (imgUrl === '') {
+        this.setState({
+          isImgUrlValid: false,
+          isButtonDisabled: true,
+        });
+      }
+
+      if (imdbUrl === '') {
+        this.setState({
+          isImdbUrlValid: false,
+          isButtonDisabled: true,
+        });
+      }
+
+      if (imdbId === '') {
+        this.setState({
+          isImdbIdValid: false,
+          isButtonDisabled: true,
+        });
+      }
+
+      if (!isTitleValid
+        || !isImgUrlValid
+        || !isImdbUrlValid
+        || !isImdbIdValid) {
+        return;
+      }
     }
 
-    if (imgUrl === '') {
+    if (isTitleValid
+      && isImgUrlValid
+      && isImdbUrlValid
+      && isImdbIdValid) {
       this.setState({
-        isImgUrlValid: false,
-        isButtonDisabled: true,
+        isButtonDisabled: false,
       });
-
-      return;
-    }
-
-    if (imdbUrl === '') {
-      this.setState({
-        isImdbUrlValid: false,
-        isButtonDisabled: true,
-      });
-
-      return;
-    }
-
-    if (imdbId === '') {
-      this.setState({
-        isImdbIdValid: false,
-        isButtonDisabled: true,
-      });
-
-      return;
     }
 
     const currentMovie = {
