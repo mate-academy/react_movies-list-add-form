@@ -1,0 +1,18 @@
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  position: absolute;
+  right: 10px;
+  left: 10px;
+  top:50px;
+}
+.form__input {
+  position: relative;
+}
+.form__phrase {
+  position: relative;
+  color:green;
+  top:-3px;
+}
