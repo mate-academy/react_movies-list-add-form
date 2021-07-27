@@ -1,0 +1,23 @@
+.FormInput {
+  width: 100%;
+  margin: 5px 0;
+
+  &__info {
+    display: inline-block;
+    width: 30%;
+    text-transform: capitalize;
+  }
+}
+
+input {
+  width: 70%;
+  padding: 5px 3px;
+}
+
+button {
+  margin-top: 15px;
+  align-self: center;
+  width: 50%;
+  background-color: rgb(169, 196, 52);
+  border: 2px solid rgb(105, 107, 96);
+}
