@@ -1,3 +1,7 @@
+* {
+  box-sizing: border-box;
+}
+
 .page {
   display: grid;
   grid-template: auto / 1fr 400px;
@@ -12,4 +16,9 @@
 .sidebar {
   padding: 20px;
   border-left: 1px solid lightgray;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
 }
