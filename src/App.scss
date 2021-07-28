@@ -13,3 +13,28 @@
   padding: 20px;
   border-left: 1px solid lightgray;
 }
+
+.create-movie {
+  width: 300px;
+}
+
+.addMovieForm__label {
+  display: flex;
+  justify-content: space-between;
+  text-transform: capitalize;
+}
+
+input,
+textarea {
+  width: 170px;
+  margin-bottom: 15px;
+}
+
+input {
+  height: 25px;
+}
+
+textarea {
+  resize: none;
+  height: 125px;
+}
