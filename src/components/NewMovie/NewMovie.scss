@@ -1,0 +1,26 @@
+.new-movie {
+  display: flex;
+  flex-direction: column;
+
+  &__description {
+    height: 90px;
+    resize: none;
+  }
+}
+
+.hideError {
+  opacity: 0;
+  cursor: default;
+  transition: opacity 500ms;
+}
+
+.showError {
+  opacity: 1;
+  color: #f00;
+  cursor: default;
+  transition: opacity 500ms;
+}
+
+.showInputError {
+  border-color: #f00;
+}
