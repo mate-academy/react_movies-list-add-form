@@ -1,16 +1,13 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
-export class InputText extends Component {
-  state = {
-  }
-
+export class InputText extends React.PureComponent {
   render() {
     const { name, value, change, required, validate, onBlur, blured, valid }
       = this.props;
 
-    const requir = (required && !value.length && blured);
-    const invalid = (validate && !valid && blured);
+    const requiredMessage = (required && !value.length && blured);
+    const invalidMessage = (validate && !valid && blured);
 
     return (
       <div>
@@ -22,21 +19,21 @@ export class InputText extends Component {
           }
           className={
             `form-control mb-4 input
-            ${requir || invalid ? 'warning-input' : ''}`
+            ${requiredMessage || invalidMessage ? 'warning-input' : ''}`
           }
           value={value}
           onChange={event => change(event)}
           onBlur={event => onBlur(event)}
           autoComplete="off"
         />
-        {requir
+        {requiredMessage
           && (
             <span className="error-message">
               {`${name} is required`}
               <br />
             </span>
           )}
-        {invalid
+        {invalidMessage
           && (
             <span className="error-message">
               {`${name} is invalid`}
