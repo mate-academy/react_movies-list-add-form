@@ -19,9 +19,9 @@ export class NewMovie extends Component {
     switch (name) {
       case 'description':
         return key.match('^[a-zA-Z]+$');
-      case 'imdbld':
       case 'title':
         return key.match('^[A-Za-z0-9]+$');
+      case 'imdbld':
       case 'imgUrl':
       case 'imdbUrl':
         return key.match(reg);
