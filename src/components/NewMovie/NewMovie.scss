@@ -1,0 +1,57 @@
+* {
+  box-sizing: border-box;
+}
+
+h3 {
+  color: black;
+  font-size: 2em;
+  margin: 10px 0 20px;
+  text-align: center;
+}
+
+form {
+  width: 360px;
+  padding: 10px 20px;
+  background-color: white;
+  box-shadow: 0 0.5em 1em -0.13em rgba(10, 10, 10, 0.1),
+    0 0 0 1px rgba(10, 10, 10, 0.02);
+  color: #4a4a4a;
+}
+
+label {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+input {
+  width: 200px;
+}
+
+textarea {
+  width: 200px;
+  height: 100px;
+  resize: none;
+}
+
+button {
+  display: block;
+  margin: 20px auto 0;
+  padding: 8px 32px;
+  border: none;
+  border-radius: 4px;
+  background-color: rgb(37, 102, 241);
+  color: white;
+  text-transform: uppercase;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: rgb(10, 61, 173);
+  }
+}
+
+.error {
+  border: 1px solid red;
+}
