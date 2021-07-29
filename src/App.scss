@@ -13,3 +13,39 @@
   padding: 20px;
   border-left: 1px solid lightgray;
 }
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.label {
+  display: flex;
+  justify-content: space-between;
+}
+
+.input {
+  width: 250px;
+}
+
+.textArea {
+  padding: 7px;
+  width: 250px;
+  height: 200px;
+  outline: none;
+}
+
+.buttonError {
+  font-size: 20px;
+  color: azure;
+  height: 50px;
+  background-color: red;
+}
+
+.button {
+  height: 50px;
+  font-size: 20px;
+  color: azure;
+  background-color:yellowgreen;
+}
