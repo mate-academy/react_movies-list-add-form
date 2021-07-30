@@ -19,7 +19,7 @@ export class App extends Component {
     };
 
     this.setState(state => ({
-      movies: [...moviesFromServer, movie],
+      movies: [...state.movies, movie],
     }));
   };
 
