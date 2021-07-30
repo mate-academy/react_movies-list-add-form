@@ -23,6 +23,7 @@ export class NewMovie extends Component {
       case 'imdbId':
         return (this.setState({
           [name]: value,
+          error: '',
         }));
       default: return 'SomethigWrong';
     }
