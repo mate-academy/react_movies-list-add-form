@@ -62,11 +62,7 @@ export class NewMovie extends Component {
       // eslint-disable-next-line
       const regexp = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
 
-      if (regexp.test(value)) {
-        this.setState({ [`${name}Validate`]: true });
-      } else {
-        this.setState({ [`${name}Validate`]: false });
-      }
+      this.setState({ [`${name}Validate`]: regexp.test(value) });
     }
   }
 
@@ -93,7 +89,7 @@ export class NewMovie extends Component {
         <InputText
           name="title"
           value={title}
-          change={this.handleChange}
+          onChange={this.handleChange}
           required
           onBlur={this.onBlur}
           blured={titleBlur}
@@ -101,13 +97,13 @@ export class NewMovie extends Component {
         <InputText
           name="description"
           value={description}
-          change={this.handleChange}
+          onChange={this.handleChange}
           onBlur={this.onBlur}
         />
         <InputText
           name="imgUrl"
           value={imgUrl}
-          change={this.handleChange}
+          onChange={this.handleChange}
           required
           validate
           valid={imgUrlValidate}
@@ -117,7 +113,7 @@ export class NewMovie extends Component {
         <InputText
           name="imdbUrl"
           value={imdbUrl}
-          change={this.handleChange}
+          onChange={this.handleChange}
           required
           validate
           valid={imdbUrlValidate}
@@ -127,7 +123,7 @@ export class NewMovie extends Component {
         <InputText
           name="imdbId"
           value={imdbId}
-          change={this.handleChange}
+          onChange={this.handleChange}
           required
           onBlur={this.onBlur}
           blured={imdbIdBlur}
