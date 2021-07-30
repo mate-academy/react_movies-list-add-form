@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
+import './NewMovie.scss';
+
 export class NewMovie extends Component {
   state = {
     title: '',
@@ -48,13 +50,16 @@ export class NewMovie extends Component {
         <input
           type="text"
           name="title"
+          className="form__field"
           placeholder="Title"
           value={title}
           onChange={changeHandler}
         />
         <textarea
           type="text"
+          rows="15"
           name="description"
+          className="form__field"
           placeholder="Description..."
           value={description}
           onChange={changeHandler}
@@ -62,6 +67,7 @@ export class NewMovie extends Component {
         <input
           type="text"
           name="imgUrl"
+          className="form__field"
           placeholder="img url"
           value={imgUrl}
           onChange={changeHandler}
@@ -69,6 +75,7 @@ export class NewMovie extends Component {
         <input
           type="text"
           name="imdbUrl"
+          className="form__field"
           placeholder="imdb url"
           value={imdbUrl}
           onChange={changeHandler}
@@ -76,11 +83,19 @@ export class NewMovie extends Component {
         <input
           type="text"
           name="imdbId"
+          className="form__field"
           placeholder="imdb id"
           value={imdbId}
           onChange={changeHandler}
         />
-        <button type="submit">Add movie</button>
+        <div className="form__submit">
+          <button
+            type="submit"
+            className="form__submit-button"
+          >
+            Add movie
+          </button>
+        </div>
       </form>
     );
   }
