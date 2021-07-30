@@ -3,74 +3,105 @@ import PropTypes from 'prop-types';
 
 export class NewMovie extends Component {
   state = {
-    title: '',
-    description: '',
-    imgUrl: '',
-    imdbUrl: '',
-    imdbId: '',
-    titleError: '',
-    imgUrlError: '',
-    imdbUrlError: '',
-    imdbIdError: '',
+    movieCard: {
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    },
+    error: {
+      title: false,
+      imgUrl: false,
+      imdbUrl: false,
+      imdbId: false,
+      invalidUrl: false,
+    },
   };
 
   handleChange = (event) => {
-    const { name, value } = event.target;
+    const { value, name } = event.target;
 
-    this.setState({
-      [name]: value,
-      titleError: '',
-      imgUrlError: '',
-      imdbUrlError: '',
-      imdbIdError: '',
-    });
-  }
+    this.setState(state => ({
+      movieCard: {
+        ...state.movieCard,
+        [name]: value,
+      },
+      error: {
+        ...state.error,
+        [name]: false,
+      },
+    }));
+  };
+
+  handleChangeUrl = (event) => {
+    const { value, name } = event.target;
+    /* eslint-disable-next-line */
+    const validationInput  = new RegExp('^((([A-Za-z]{3,9}:(?://)?)'
+    + '(?:[-;:&=+$,\\w]+@)?[A-Za-z0-9.-]+|'
+    + '(?:www\\.|[-;:&=+$,\\w]+@)[A-Za-z0-9.-]+)'
+    + '((?:/[+~%/.\\w-_]*)?\\??(?:[-+=&;%@.\\w_]*)'
+    + '#?(?:[.!/\\\\w]*))?)$');
+
+    this.setState(state => ({
+      movieCard: {
+        ...state.movieCard,
+        [name]: value,
+      },
+      error: {
+        ...state.error,
+        [name]: false,
+      },
+    }));
+
+    if (!validationInput.test(value)) {
+      this.setState(state => ({
+        error: {
+          ...state.error,
+          [name]: true,
+        },
+      }));
+    }
+  };
 
   handleSubmit = (event) => {
     event.preventDefault();
 
-    const {
-      title,
+    const { title,
       description,
       imgUrl,
       imdbUrl,
-      imdbId,
-    } = this.state;
+      imdbId } = this.state.movieCard;
 
-    // eslint-disable-next-line max-len
-    const validationInput = new RegExp(/^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/);
+    if (!title.trim() || !imgUrl || !imdbUrl || !imdbId.trim()) {
+      this.setState(state => ({
+        error: {
+          ...state.errors,
+          title: !state.movieCard.title.trim(),
+          imgUrl: !state.movieCard.imgUrl,
+          imdbUrl: !state.movieCard.imdbUrl,
+          imdbId: !state.movieCard.imdbId.trim(),
+        },
+      }));
 
-    switch (true) {
-      case !title:
-        this.setState({
-          titleError: 'Please enter correct title',
-        });
-
-        return;
-
-      case !validationInput.test(imgUrl):
-        this.setState({
-          imgUrlError: 'Please enter correct imgUrl',
-        });
-
-        return;
-
-      case !validationInput.test(imdbUrl):
-        this.setState({
-          imdbUrlError: 'Please enter correct imdbUrl',
-        });
-
-        return;
-
-      case !validationInput.test(imdbId):
-        this.setState({
-          imdbIdError: 'Please enter correct imdbId',
-        });
-
-        return;
-      default:
-        break;
+      return;
     }
+
+    this.setState({
+      movieCard: {
+        title: '',
+        description: '',
+        imgUrl: '',
+        imdbUrl: '',
+        imdbId: '',
+      },
+      error: {
+        title: false,
+        imgUrl: false,
+        imdbUrl: false,
+        imdbId: false,
+      },
+    });
 
     const addNewMovie = {
       title,
@@ -81,88 +112,94 @@ export class NewMovie extends Component {
     };
 
     this.props.addMovie(addNewMovie);
-
-    this.setState({
-      title: '',
-      description: '',
-      imgUrl: '',
-      imdbUrl: '',
-      imdbId: '',
-    });
-  }
+  };
 
   render() {
-    const {
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-      titleError,
-      imgUrlError,
-      imdbUrlError,
-      imdbIdError,
-    } = this.state;
+    const { movieCard, error } = this.state;
 
     return (
-      <>
-        <h1>Add a movie to your collection</h1>
-        <form
-          onSubmit={this.handleSubmit}
+      <form
+        onSubmit={this.handleSubmit}
+      >
+        <div>Title</div>
+        <input
+          value={movieCard.title}
+          type="text"
+          name="title"
+          onChange={this.handleChange}
+          placeholder="write a title"
+        />
+        <br />
+        {error.title && (
+          <span>
+            Please enter a title
+          </span>
+        )}
+        <br />
+
+        <div>Description</div>
+        <textarea
+          value={movieCard.description}
+          name="description"
+          onChange={this.handleChange}
+          placeholder="write a description"
+        />
+        <br />
+        <br />
+        <div>imgUrl</div>
+        <input
+          type="text"
+          value={movieCard.imgUrl}
+          name="imgUrl"
+          onChange={this.handleChangeUrl}
+          placeholder="write a imgUrl"
+        />
+        <br />
+        {error.imgUrl && (
+          <span>
+            Please enter correct imgUrl
+          </span>
+        )}
+        <br />
+        <div>imdbUrl</div>
+        <input
+          value={movieCard.imdbUrl}
+          type="text"
+          name="imdbUrl"
+          onChange={this.handleChangeUrl}
+          placeholder="write a imdbUrl"
+        />
+        <br />
+        {error.imdbUrl && (
+          <span>
+            Please enter correct imdbUrl
+          </span>
+        )}
+        <br />
+        <div>imdbId</div>
+        <input
+          value={movieCard.imdbId}
+          type="text"
+          name="imdbId"
+          onChange={this.handleChange}
+          placeholder="write a imdbId"
+        />
+        <br />
+        {error.imdbId && (
+          <span>
+            Please enter a imdbId
+          </span>
+        )}
+        <br />
+
+        <button
+          type="submit"
+          disabled={error.imgUrl || error.imdbUrl}
         >
-          <div>Title</div>
-          <input
-            value={title}
-            type="text"
-            name="title"
-            onChange={this.handleChange}
-            placeholder="write a title"
-          />
-          <span>{titleError}</span>
+          Add movie
+        </button>
 
-          <div>Description</div>
-          <textarea
-            value={description}
-            name="description"
-            onChange={this.handleChange}
-            placeholder="write a description"
-          />
-          <div>imgUrl</div>
-          <input
-            type="text"
-            value={imgUrl}
-            name="imgUrl"
-            onChange={this.handleChange}
-            placeholder="write a imgUrl"
-          />
-
-          <span>{imgUrlError}</span>
-          <div>imdbUrl</div>
-          <input
-            value={imdbUrl}
-            type="text"
-            name="imdbUrl"
-            onChange={this.handleChange}
-            placeholder="write a imdbUrl"
-          />
-          <span>{imdbUrlError}</span>
-          <div>imdbId</div>
-          <input
-            value={imdbId}
-            type="text"
-            name="imdbId"
-            onChange={this.handleChange}
-            placeholder="write a imdbId"
-          />
-          <span>{imdbIdError}</span>
-          <div />
-          <button
-            type="submit"
-          >
-            Add movie
-          </button>
-        </form>
-      </>
+      </form>
     );
   }
 }
