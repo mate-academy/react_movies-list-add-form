@@ -15,7 +15,6 @@ export class NewMovie extends Component {
       imgUrl: false,
       imdbUrl: false,
       imdbId: false,
-      invalidUrl: false,
     },
   };
 
