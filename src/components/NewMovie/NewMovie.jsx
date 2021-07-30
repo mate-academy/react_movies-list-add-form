@@ -36,12 +36,15 @@ export class NewMovie extends Component {
   render() {
     return (
       <>
-        <p>Add new movie</p>
-        <form onSubmit={this.handleSubmit}>
+        <p className="mb-4">Add new movie</p>
+        <form
+          onSubmit={this.handleSubmit}
+          className="d-flex flex-column gap-2"
+        >
           <input
             type="text"
             name="title"
-            placeholder="title"
+            placeholder="Title"
             value={this.state.title}
             onChange={this.handleChange}
             required
@@ -49,7 +52,7 @@ export class NewMovie extends Component {
           <input
             type="text"
             name="description"
-            placeholder="description"
+            placeholder="Description"
             value={this.state.description}
             onChange={this.handleChange}
             required
@@ -57,7 +60,7 @@ export class NewMovie extends Component {
           <input
             type="text"
             name="imgUrl"
-            placeholder="imgUrl"
+            placeholder="ImgUrl"
             value={this.state.imgUrl}
             onChange={this.handleChange}
             required
@@ -65,7 +68,7 @@ export class NewMovie extends Component {
           <input
             type="text"
             name="imdbUrl"
-            placeholder="imdbUrl"
+            placeholder="ImdbUrl"
             value={this.state.imdbUrl}
             onChange={this.handleChange}
             required
@@ -73,12 +76,17 @@ export class NewMovie extends Component {
           <input
             type="text"
             name="imdbId"
-            placeholder="imdbId"
+            placeholder="ImdbId"
             value={this.state.imdbId}
             onChange={this.handleChange}
             required
           />
-          <button type="submit">Add</button>
+          <button
+            type="submit"
+            className="btn btn-dark"
+          >
+            Add
+          </button>
         </form>
       </>
     );
