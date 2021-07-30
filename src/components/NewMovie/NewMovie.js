@@ -42,6 +42,7 @@ export class NewMovie extends Component {
           placeholder="title"
           value={this.state.title}
           onChange={this.handleChange}
+          required
         />
         <br />
 
@@ -51,6 +52,7 @@ export class NewMovie extends Component {
           placeholder="description"
           value={this.state.description}
           onChange={this.handleChange}
+          required
         />
         <br />
 
@@ -60,6 +62,7 @@ export class NewMovie extends Component {
           placeholder="imgUrl"
           value={this.state.imgUrl}
           onChange={this.handleChange}
+          required
         />
         <br />
 
@@ -69,6 +72,7 @@ export class NewMovie extends Component {
           placeholder="imdbUrl"
           value={this.state.imdbUrl}
           onChange={this.handleChange}
+          required
         />
         <br />
 
@@ -78,6 +82,7 @@ export class NewMovie extends Component {
           placeholder="imdbId"
           value={this.state.imdbId}
           onChange={this.handleChange}
+          required
         />
         <br />
 
