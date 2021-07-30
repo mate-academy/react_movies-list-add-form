@@ -4,13 +4,30 @@ import { MoviesList } from './components/MoviesList';
 import { NewMovie } from './components/NewMovie';
 import moviesFromServer from './api/movies.json';
 
+const moviesKey = 'movies';
+
 export class App extends Component {
+  moviesFromServer = JSON.parse(window.localStorage.getItem(moviesKey));
+
   state = {
-    movies: moviesFromServer,
+    movies: this.moviesFromServer || moviesFromServer,
   };
 
   addMovie = (movie) => {
-    // put your code here
+    this.setState(
+      prevState => ({
+        movies: [
+          ...prevState.movies,
+          {
+            ...movie,
+            id: prevState.movies.length + 1,
+          },
+        ],
+      }),
+    );
+    const stringifiedMovies = JSON.stringify([...this.state.movies, movie]);
+
+    window.localStorage.setItem(moviesKey, stringifiedMovies);
   };
 
   render() {
@@ -22,7 +39,7 @@ export class App extends Component {
           <MoviesList movies={movies} />
         </div>
         <div className="sidebar">
-          <NewMovie />
+          <NewMovie addMovie={this.addMovie} />
         </div>
       </div>
     );
