@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.scss';
 import { MoviesList } from './components/MoviesList';
-import { NewMovie } from './components/NewMovie';
+import { NewMovie } from './components/NewMovie/NewMovie';
 import moviesFromServer from './api/movies.json';
 
 export class App extends Component {
@@ -10,7 +10,17 @@ export class App extends Component {
   };
 
   addMovie = (movie) => {
-    // put your code here
+    const newMovie = {
+      title: movie.title,
+      description: movie.description,
+      imgUrl: movie.imgUrl,
+      imdbUrl: movie.imdbUrl,
+      imdbId: movie.imdbId,
+    };
+
+    this.setState(state => ({
+      movies: [...state.movies, newMovie],
+    }));
   };
 
   render() {
@@ -19,10 +29,14 @@ export class App extends Component {
     return (
       <div className="page">
         <div className="page-content">
-          <MoviesList movies={movies} />
+          <MoviesList
+            movies={movies}
+          />
         </div>
         <div className="sidebar">
-          <NewMovie />
+          <NewMovie
+            onAdd={this.addMovie}
+          />
         </div>
       </div>
     );
