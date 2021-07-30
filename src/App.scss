@@ -13,3 +13,17 @@
   padding: 20px;
   border-left: 1px solid lightgray;
 }
+
+.input {
+  position: relative;
+}
+
+.error-message {
+  color: red;
+  position: relative;
+  top: -10px;
+}
+
+.warning-input {
+  border-color: red !important;
+}
