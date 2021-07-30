@@ -54,6 +54,7 @@ export class NewMovie extends Component {
           placeholder="Title"
           value={title}
           onChange={this.handleChanges}
+          required
         />
         <input
           type="text"
@@ -61,24 +62,28 @@ export class NewMovie extends Component {
           placeholder="Description"
           value={description}
           onChange={this.handleChanges}
+          required
         />
         <input
           name="imgUrl"
           placeholder="Image"
           value={imgUrl}
           onChange={this.handleChanges}
+          required
         />
         <input
           name="imdbId"
           placeholder="Film IMDB URL"
           value={imdbId}
           onChange={this.handleChanges}
+          required
         />
         <input
           name="imdbUrl"
           placeholder="Film IMDB ID"
           value={imdbUrl}
           onChange={this.handleChanges}
+          required
         />
         <button
           type="submit"
