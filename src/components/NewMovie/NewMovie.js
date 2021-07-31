@@ -82,7 +82,6 @@ export class NewMovie extends Component {
           required
           cols="50"
           rows="5"
-          style={{ resize: 'none' }}
           className="textarea"
         />
         <input
