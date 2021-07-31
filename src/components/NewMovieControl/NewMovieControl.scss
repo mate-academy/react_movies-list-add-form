@@ -1,0 +1,19 @@
+.error-message {
+  color: red;
+  opacity: 0;
+
+  &--visible {
+    opacity: 1;
+  }
+}
+
+.form-control {
+
+  &--invalid {
+    border-color: red;
+
+    &:focus {
+      border-color: red;
+    }
+  }
+}
