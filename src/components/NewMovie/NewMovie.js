@@ -43,15 +43,7 @@ export class NewMovie extends Component {
       return;
     }
 
-    const movie = {
-      description: this.state.description,
-      imdbId: this.state.imdbId,
-      imdbUrl: this.state.imdbUrl,
-      imgUrl: this.state.imgUrl,
-      title: this.state.title,
-    };
-
-    this.props.addMovie(movie);
+    this.props.addMovie(this.state);
 
     this.setState({
       title: '',
