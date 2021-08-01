@@ -1,0 +1,20 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  &__input {
+    border-radius: 10px;
+    border: 1px solid currentColor;
+    &::placeholder {
+      padding-left: 10px;
+    }
+  }
+
+  &__button {
+    width: 20%;
+    align-self: flex-end;
+    border-radius: 10px;
+    font-weight: bold;
+  }
+}
