@@ -36,18 +36,19 @@ export class NewMovie extends Component {
 
   render() {
     const { title, description, imdbId, imgUrl, imdbUrl } = this.state;
+    const { handleChange, handleSubmit } = this;
 
     return (
       <form
         className="form sticky-top"
-        onSubmit={this.handleSubmit}
+        onSubmit={handleSubmit}
       >
         <input
           type="text"
           className="form-control"
           name="title"
           placeholder="title*"
-          onChange={this.handleChange}
+          onChange={handleChange}
           value={title}
           required
         />
@@ -56,7 +57,7 @@ export class NewMovie extends Component {
           className="form-control"
           name="description"
           placeholder="description*"
-          onChange={this.handleChange}
+          onChange={handleChange}
           value={description}
           required
         />
@@ -65,7 +66,7 @@ export class NewMovie extends Component {
           className="form-control"
           name="imgUrl"
           placeholder="imgUrl"
-          onChange={this.handleChange}
+          onChange={handleChange}
           value={imgUrl}
         />
         <input
@@ -73,7 +74,7 @@ export class NewMovie extends Component {
           className="form-control"
           name="imdbUrl"
           placeholder="imdbUrl*"
-          onChange={this.handleChange}
+          onChange={handleChange}
           value={imdbUrl}
           required
         />
@@ -82,7 +83,7 @@ export class NewMovie extends Component {
           className="form-control"
           name="imdbId"
           placeholder="imdbId"
-          onChange={this.handleChange}
+          onChange={handleChange}
           value={imdbId}
         />
         <button type="submit" className="btn btn-primary">Add movie</button>
