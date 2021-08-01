@@ -1,16 +1,23 @@
 import React, { Component } from 'react';
-import './App.scss';
 import { MoviesList } from './components/MoviesList';
 import { NewMovie } from './components/NewMovie';
+
 import moviesFromServer from './api/movies.json';
+
+import './App.scss';
 
 export class App extends Component {
   state = {
     movies: moviesFromServer,
   };
 
-  addMovie = (movie) => {
-    // put your code here
+  onAdd = (movie) => {
+    this.setState({
+      movies: [
+        ...moviesFromServer,
+        movie,
+      ],
+    });
   };
 
   render() {
@@ -22,7 +29,7 @@ export class App extends Component {
           <MoviesList movies={movies} />
         </div>
         <div className="sidebar">
-          <NewMovie />
+          <NewMovie onAdd={this.onAdd} />
         </div>
       </div>
     );
