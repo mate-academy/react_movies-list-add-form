@@ -5,16 +5,16 @@ export class NewMovie extends PureComponent {
   state = {
     inputTitle: '',
     inputDescription: '',
-    inputImgUrl: '#',
-    inputImdbUrl: '#',
+    inputImgUrl: '',
+    inputImdbUrl: '',
   };
 
   clearState = () => {
     this.setState({
       inputTitle: '',
       inputDescription: '',
-      inputImgUrl: '#',
-      inputImdbUrl: '#',
+      inputImgUrl: '',
+      inputImdbUrl: '',
     });
   }
 
@@ -47,6 +47,14 @@ export class NewMovie extends PureComponent {
   }
 
   render() {
+    const
+      {
+        inputTitle,
+        inputDescription,
+        inputImdbUrl,
+        inputImgUrl,
+      } = this.state;
+
     return (
       <form
         onSubmit={this.handleSubmit}
@@ -63,6 +71,7 @@ export class NewMovie extends PureComponent {
               type="text"
               name="inputTitle"
               onChange={this.handleChange}
+              value={inputTitle}
               className="form-control"
               id="inputTitle"
               placeholder="input title here"
@@ -78,6 +87,7 @@ export class NewMovie extends PureComponent {
               type="text"
               name="inputDescription"
               onChange={this.handleChange}
+              value={inputDescription}
               className="form-control"
               id="inputDescription"
               placeholder="input description here"
@@ -93,6 +103,7 @@ export class NewMovie extends PureComponent {
               type="text"
               name="inputImgUrl"
               onChange={this.handleChange}
+              value={inputImgUrl}
               className="form-control"
               id="inputImgUrl"
               placeholder="input ImgUrl here"
@@ -106,8 +117,9 @@ export class NewMovie extends PureComponent {
           <div className="col-sm-10">
             <input
               type="text"
-              name="inputImgUrl"
+              name="inputImdbUrl"
               onChange={this.handleChange}
+              value={inputImdbUrl}
               className="form-control"
               id="inputImdbUrl"
               placeholder="input ImdbUrl here"
