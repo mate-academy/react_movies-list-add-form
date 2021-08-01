@@ -13,24 +13,19 @@ export class NewMovie extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
+    const { addMovie } = this.props;
 
-    const {
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    } = this.state;
+    const newMovie = this.state;
 
-    const newMovie = {
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    };
+    this.setState({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
 
-    this.props.addMovie(newMovie);
+    addMovie(newMovie);
   };
 
   onChange = (event) => {
