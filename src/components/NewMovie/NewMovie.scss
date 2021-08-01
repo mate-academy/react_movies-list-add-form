@@ -1,0 +1,11 @@
+.newMovie {
+
+  &__input {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+  }
+  &__button {
+    width: 300px;
+  }
+}
