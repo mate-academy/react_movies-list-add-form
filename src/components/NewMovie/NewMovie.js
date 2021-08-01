@@ -13,10 +13,7 @@ export class NewMovie extends Component {
   };
 
   handleSubmit = (event) => {
-    const { title, description, imgUrl, imdbUrl, imdbId } = this.state;
-    const movie = {
-      title, description, imgUrl, imdbUrl, imdbId,
-    };
+    const movie = this.state;
 
     event.preventDefault();
     this.setState({
