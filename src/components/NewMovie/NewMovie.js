@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 import PropTypes from 'prop-types';
 
 export class NewMovie extends PureComponent {
@@ -31,7 +32,7 @@ export class NewMovie extends PureComponent {
       description: inputDescription,
       imgUrl: inputImgUrl,
       imdbUrl: inputImdbUrl,
-      imdbId: (this.props.moviesLength + 1).toString(10),
+      imdbId: uuidv4(),
     };
 
     this.props.onAdd(newMovie);
@@ -143,5 +144,4 @@ export class NewMovie extends PureComponent {
 
 NewMovie.propTypes = {
   onAdd: PropTypes.func.isRequired,
-  moviesLength: PropTypes.number.isRequired,
 };
