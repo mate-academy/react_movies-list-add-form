@@ -17,6 +17,20 @@
 .form {
   font-family: Verdana, Geneva, Tahoma, sans-serif;
 
+  &-span {
+    display: none;
+  }
+
+  &-error {
+    display: inline;
+    color: red;
+    font-size: 14px;
+  }
+
+  &-input-error {
+    border: 1px solid red;
+  }
+
   &-control {
     width: 100%;
     padding: 5px;
