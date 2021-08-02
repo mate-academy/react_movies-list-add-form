@@ -1,0 +1,49 @@
+.form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.button {
+  position: relative;
+  padding: 20px;
+  border-top: solid 2px black;
+  border-bottom: solid 2px black;
+  font-weight: bold;
+  color: #55b4e4;
+}
+
+.button:before,
+.button:after {
+  content: "";
+  position: absolute;
+  top: -7px;
+  width: 2px;
+  height: calc(100% + 14px);
+  background-color: black;
+  transition: 0.3s;
+}
+
+.button:before {
+  left: 7px;
+}
+
+.button:after {
+  right: 7px;
+}
+
+.button:hover:before {
+  top: 0;
+  left: 0;
+  height: 100%;
+}
+
+.button:hover:after {
+  top: 0;
+  right: 0;
+  height: 100%;
+}
+
+input {
+  padding: 20px;
+}
