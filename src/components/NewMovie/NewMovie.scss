@@ -22,16 +22,21 @@
     &-button {
       background-color: #fff;
       border: 1px solid #aaa;
+      border-radius: 10px;
       color: #000;
       cursor: pointer;
       font-size: 20px;
-      font-weight: 200;
       letter-spacing: 1px;
       outline: 0;
       padding: 13px 20px;
+      transition: background-color 0.3s ease;
+
+      &:focus {
+        border-color: #000;
+      }
 
       &:hover {
-        background-color: #eee;
+        background-color: #dbffe1;
         border-color: #000;
       }
     }
