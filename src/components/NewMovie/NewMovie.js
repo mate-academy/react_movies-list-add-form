@@ -72,6 +72,20 @@ export class NewMovie extends Component {
     }
   }
 
+  addNewMovie = (event) => {
+    event.preventDefault();
+    if (this.state.title
+        && this.state.imdbUrl
+        && this.state.imgUrl
+        && this.state.imdbId
+    ) {
+      this.props.onAdd(this.state);
+      this.clearForm();
+    } else {
+      this.findInvalidInputs();
+    }
+  }
+
   clearForm = () => {
     this.setState({
       title: '',
@@ -87,7 +101,6 @@ export class NewMovie extends Component {
   }
 
   render() {
-    const { onAdd } = this.props;
     const {
       title,
       isTitleValid,
@@ -103,15 +116,7 @@ export class NewMovie extends Component {
     return (
       <form
         className="form"
-        onSubmit={(event) => {
-          event.preventDefault();
-          if (title && imdbUrl && imgUrl && imdbId) {
-            onAdd(this.state);
-            this.clearForm();
-          } else {
-            this.findInvalidInputs();
-          }
-        }}
+        onSubmit={this.addNewMovie}
       >
         <InputField
           title="title"
