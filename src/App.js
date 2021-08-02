@@ -9,7 +9,7 @@ export class App extends Component {
     movies: moviesFromServer,
   };
 
-  addMovie = (title, description, imgUrl, imdbUrl, imdbId) => {
+  createMovie = (title, description, imgUrl, imdbUrl, imdbId) => {
     const movie = {
       title,
       description,
@@ -18,6 +18,10 @@ export class App extends Component {
       imdbId,
     };
 
+    return movie;
+  }
+
+  addMovie = (movie) => {
     this.setState(state => ({
       movies: [...state.movies, movie],
     }));
@@ -32,7 +36,10 @@ export class App extends Component {
           <MoviesList movies={movies} />
         </div>
         <div className="sidebar">
-          <NewMovie onAdd={this.addMovie} />
+          <NewMovie
+            onAdd={this.addMovie}
+            onCreate={this.createMovie}
+          />
         </div>
       </div>
     );

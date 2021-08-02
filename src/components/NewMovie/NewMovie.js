@@ -21,17 +21,15 @@ export class NewMovie extends Component {
       movieImdbId,
     } = this.state;
 
-    this.props.onAdd(
+    const { onAdd, onCreate } = this.props;
+
+    const newMovie = onCreate(
       movieTitle, movieDescription, movieImgUrl, movieImdbUrl, movieImdbId,
     );
 
-    this.setState({
-      movieTitle: '',
-      movieDescription: '',
-      movieImgUrl: '',
-      movieImdbUrl: '',
-      movieImdbId: '',
-    });
+    onAdd(newMovie);
+
+    this.clearForm();
   }
 
   handleChange = (event) => {
@@ -39,6 +37,16 @@ export class NewMovie extends Component {
 
     this.setState({
       [name]: value,
+    });
+  }
+
+  clearForm = () => {
+    this.setState({
+      movieTitle: '',
+      movieDescription: '',
+      movieImgUrl: '',
+      movieImdbUrl: '',
+      movieImdbId: '',
     });
   }
 
@@ -106,4 +114,5 @@ export class NewMovie extends Component {
 
 NewMovie.propTypes = {
   onAdd: PropTypes.func.isRequired,
+  onCreate: PropTypes.func.isRequired,
 };
