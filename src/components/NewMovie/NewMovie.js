@@ -42,7 +42,7 @@ export class NewMovie extends Component {
           onChange={this.handleChange}
           required
         />
-        <textarea
+        <input
           className="input"
           placeholder="description"
           type="text"
