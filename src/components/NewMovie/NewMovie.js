@@ -11,6 +11,12 @@ export class NewMovie extends Component {
     imdbId: '',
   };
 
+  addValueStateTarget = (event) => {
+    const { name } = event.target;
+
+    this.setState({ [name]: event.target.value });
+  };
+
   render() {
     const { addMovie } = this.props;
     const { state } = this;
@@ -27,9 +33,9 @@ export class NewMovie extends Component {
           <span className="">title</span>
           <input
             type="text"
-            onChange={(event) => {
-              this.setState({ title: event.target.value });
-            }}
+            name="title"
+            required
+            onChange={this.addValueStateTarget}
             value={this.state.title}
           />
         </p>
@@ -37,9 +43,9 @@ export class NewMovie extends Component {
           <span>description</span>
           <input
             type="text"
-            onChange={(event) => {
-              this.setState({ description: event.target.value });
-            }}
+            name="description"
+            required
+            onChange={this.addValueStateTarget}
             value={this.state.description}
           />
         </p>
@@ -47,9 +53,9 @@ export class NewMovie extends Component {
           <span>imgUrl</span>
           <input
             type="text"
-            onChange={(event) => {
-              this.setState({ imgUrl: event.target.value });
-            }}
+            name="imgUrl"
+            required
+            onChange={this.addValueStateTarget}
             value={this.state.imgUrl}
           />
         </p>
@@ -57,9 +63,9 @@ export class NewMovie extends Component {
           <span>imdbUrl</span>
           <input
             type="text"
-            onChange={(event) => {
-              this.setState({ imdbUrl: event.target.value });
-            }}
+            name="imdbUrl"
+            required
+            onChange={this.addValueStateTarget}
             value={this.state.imdbUrl}
           />
         </p>
@@ -67,9 +73,9 @@ export class NewMovie extends Component {
           <span>imdbId</span>
           <input
             type="text"
-            onChange={(event) => {
-              this.setState({ imdbId: event.target.value });
-            }}
+            name="imdbId"
+            required
+            onChange={this.addValueStateTarget}
             value={this.state.imdbId}
           />
         </p>
