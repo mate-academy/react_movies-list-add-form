@@ -1,0 +1,44 @@
+.form {
+  display: flex;
+  flex-direction: column;
+
+  &__field {
+    border: 1px solid #aaa;
+    border-radius: 10px;
+    display: block;
+    margin-bottom: 20px;
+    padding: 20px;
+    width: 100%;
+
+    &:focus {
+      border: 1px solid #000;
+      outline: none;
+    }
+  }
+
+  &__submit {
+    text-align: center;
+
+    &-button {
+      background-color: #fff;
+      border: 1px solid #aaa;
+      border-radius: 10px;
+      color: #000;
+      cursor: pointer;
+      font-size: 20px;
+      letter-spacing: 1px;
+      outline: 0;
+      padding: 13px 20px;
+      transition: background-color 0.3s ease;
+
+      &:focus {
+        border-color: #000;
+      }
+
+      &:hover {
+        background-color: #dbffe1;
+        border-color: #000;
+      }
+    }
+  }
+}
