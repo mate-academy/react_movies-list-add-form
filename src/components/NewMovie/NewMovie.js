@@ -17,7 +17,7 @@ export class NewMovie extends Component {
     this.setState({ [name]: value });
   };
 
-  changeOnDefaultState = () => {
+  clearForm = () => {
     this.setState({
       title: '',
       description: '',
@@ -30,9 +30,17 @@ export class NewMovie extends Component {
   handleSubmit = (event) => {
     const { addMovie } = this.props;
 
+    const newMovie = {
+      title: this.state.title,
+      description: this.state.description,
+      imgUrl: this.state.imgUrl,
+      imdbUrl: this.state.imdbUrl,
+      imdbId: this.state.imdbId,
+    };
+
     event.preventDefault();
-    addMovie(this.state);
-    this.changeOnDefaultState();
+    addMovie(newMovie);
+    this.clearForm();
   }
 
   render() {
