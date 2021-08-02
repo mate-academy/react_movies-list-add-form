@@ -44,6 +44,7 @@ export class NewMovie extends Component {
     return (
       <form onSubmit={handleSubmit}>
         <input
+          required
           placeholder="Title"
           type="text"
           name="title"
@@ -51,6 +52,7 @@ export class NewMovie extends Component {
           onChange={handleChange}
         />
         <textarea
+          required
           placeholder="Description"
           type="text"
           name="description"
@@ -59,6 +61,7 @@ export class NewMovie extends Component {
         />
         <input
           type="text"
+          required
           placeholder="Image url"
           name="imgUrl"
           value={imgUrl}
@@ -66,6 +69,7 @@ export class NewMovie extends Component {
         />
         <input
           type="text"
+          required
           placeholder="Imdb Url"
           name="imdbUrl"
           value={imdbUrl}
@@ -73,6 +77,7 @@ export class NewMovie extends Component {
         />
         <input
           type="text"
+          required
           placeholder="Imdb Id"
           name="imdbId"
           value={imdbId}
