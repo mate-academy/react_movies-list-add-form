@@ -16,7 +16,6 @@ export class NewMovie extends Component {
     isImdbUrlValid: true,
     imdbId: '',
     isImdbIdValid: true,
-    isFormValid: true,
   };
 
   makeInputValid = (input) => {
@@ -31,7 +30,7 @@ export class NewMovie extends Component {
     });
   }
 
-  addInput = (event) => {
+  fillInput = (event) => {
     this.setState({
       [event.target.name]: event.target.value,
     });
@@ -54,7 +53,7 @@ export class NewMovie extends Component {
     }
   }
 
-  findInvalidInputs = () => {
+  checkInputValidity = () => {
     if (this.state.title === '') {
       this.makeInputInValid('isTitleValid');
     }
@@ -79,10 +78,16 @@ export class NewMovie extends Component {
         && this.state.imgUrl
         && this.state.imdbId
     ) {
-      this.props.onAdd(this.state);
+      this.props.onAdd({
+        title: this.state.title,
+        description: this.state.description,
+        imdbUrl: this.state.imdbUrl,
+        imgUrl: this.state.imgUrl,
+        imdbId: this.state.imdbId,
+      });
       this.clearForm();
     } else {
-      this.findInvalidInputs();
+      this.checkInputValidity();
     }
   }
 
@@ -121,33 +126,33 @@ export class NewMovie extends Component {
         <InputField
           title="title"
           value={title}
-          onChange={this.addInput}
+          onChange={this.fillInput}
           isRequired
           isValid={this.state.isTitleValid}
         />
         <InputField
           title="description"
           value={description}
-          onChange={this.addInput}
+          onChange={this.fillInput}
         />
         <InputField
           title="imgUrl"
           value={imgUrl}
-          onChange={this.addInput}
+          onChange={this.fillInput}
           isRequired
           isValid={this.state.isImgUrlValid}
         />
         <InputField
           title="imdbUrl"
           value={imdbUrl}
-          onChange={this.addInput}
+          onChange={this.fillInput}
           isRequired
           isValid={this.state.isImdbUrlValid}
         />
         <InputField
           title="imdbId"
           value={imdbId}
-          onChange={this.addInput}
+          onChange={this.fillInput}
           isRequired
           isValid={this.state.isImdbIdValid}
         />
