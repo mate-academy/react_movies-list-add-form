@@ -12,13 +12,16 @@ export class NewMovie extends Component {
   };
 
   handleChange = (event) => {
+    const { name, value } = event.target;
+
     this.setState({
-      [event.target.name]: event.target.value,
+      [name]: value,
     });
   }
 
   handleSubmit = (event) => {
     event.preventDefault();
+
     const { title, description, imgUrl, imdbUrl, imdbId } = this.state;
     const newMovie = {
       title,
