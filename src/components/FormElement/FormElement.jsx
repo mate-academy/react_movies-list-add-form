@@ -13,7 +13,7 @@ export const FormElement = ({ type, getLabelInfo, name, text, value }) => {
     <>
       <label className="addMovieForm__label">
         {name}
-        {type ? (
+        {type === 'text' ? (
           <input
             className={validation ? 'incorrect' : ''}
             value={value}
