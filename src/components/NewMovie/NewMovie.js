@@ -14,14 +14,14 @@ export class NewMovie extends Component {
     imdbId: '',
   };
 
-  addNewMovie = (name, value) => {
+  onFieldChange = (name, value) => {
     this.setState({
       [name]: value,
     });
   }
 
   getLabelInfo = (event) => {
-    this.addNewMovie(event.target.name, event.target.value);
+    this.onFieldChange(event.target.name, event.target.value);
   }
 
   setDefaultState = () => {
@@ -34,30 +34,31 @@ export class NewMovie extends Component {
     });
   }
 
+  submitHandler = (event) => {
+    event.preventDefault();
+
+    const { title, description, imgUrl, imdbUrl, imdbId } = this.state;
+
+    const newMovie = {
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    };
+
+    this.props.addMovie(newMovie);
+
+    this.setDefaultState();
+  }
+
   render() {
-    const { addMovie } = this.props;
-    const { getLabelInfo, setDefaultState } = this;
+    const { getLabelInfo, submitHandler } = this;
     const { title, description, imgUrl, imdbUrl, imdbId } = this.state;
 
     return (
       <form
-        onSubmit={(event) => {
-          event.preventDefault();
-
-          if (pattern.test(imgUrl) && pattern.test(imdbUrl)) {
-            const newMovie = {
-              title,
-              description,
-              imgUrl,
-              imdbUrl,
-              imdbId,
-            };
-
-            addMovie(newMovie);
-
-            setDefaultState();
-          }
-        }}
+        onSubmit={submitHandler}
       >
         <div className="create-movie">
           <FormElement
