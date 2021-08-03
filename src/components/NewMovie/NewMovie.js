@@ -4,11 +4,14 @@ import './NewMovie.scss';
 
 export class NewMovie extends Component {
   state = {
-    title: '',
-    description: '',
-    imgUrl: '',
-    imdbUrl: '',
-    imdbId: '',
+    movie: {
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    },
+
   };
 
   handleChange = (event) => {
@@ -17,10 +20,13 @@ export class NewMovie extends Component {
     this.setState({ [name]: value });
   }
 
+  createTodo = () => {
+    this.props.onAdd(this.state.movie);
+  }
+
   submitMovie = (event) => {
     event.preventDefault();
-    this.props.onAdd(this.state);
-
+    this.createTodo();
     this.setState(state => ({
       title: '',
       description: '',
@@ -42,20 +48,19 @@ export class NewMovie extends Component {
           <strong>
             Title:
           </strong>
-          {' '}
           <input
             name="title"
             value={title}
             placeholder="Title"
             onChange={this.handleChange}
             className="form-control"
+            required
           />
         </div>
         <div>
           <strong>
             Describe:
           </strong>
-          {' '}
           <input
             name="description"
             value={description}
@@ -68,39 +73,39 @@ export class NewMovie extends Component {
           <strong>
             ImgUrl:
           </strong>
-          {' '}
           <input
             name="imgUrl"
             value={imgUrl}
             placeholder="https://"
             onChange={this.handleChange}
             className="form-control"
+            required
           />
         </div>
         <div>
           <strong>
             ImdbUrl:
           </strong>
-          {' '}
           <input
             name="imdbUrl"
             value={imdbUrl}
             placeholder="https://"
             onChange={this.handleChange}
             className="form-control"
+            required
           />
         </div>
         <div>
           <strong>
             ImdbId:
           </strong>
-          {' '}
           <input
             name="imdbId"
             value={imdbId}
             placeholder="unique ID"
             onChange={this.handleChange}
             className="form-control"
+            required
           />
         </div>
         <button
