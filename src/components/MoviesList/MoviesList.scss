@@ -3,3 +3,14 @@
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 20px;
 }
+
+.wrong {
+  margin-bottom: 10px;
+  position: relative;
+  left: 43%;
+}
+
+.incorrect {
+  border: 2px solid red;
+  outline: none;
+}
