@@ -30,16 +30,19 @@ export class NewMovie extends Component {
   }
 
   render() {
+    const { handleChange, handleSubmit } = this;
+    const { title, description, imgUrl, imdbUrl, imdbld } = this.state;
+
     return (
 
-      <form onSubmit={this.handleSubmit} className="form">
+      <form onSubmit={handleSubmit} className="form">
         <input
           className="input"
           placeholder="title"
           type="text"
           name="title"
-          value={this.state.title}
-          onChange={this.handleChange}
+          value={title}
+          onChange={handleChange}
           required
         />
         <input
@@ -47,8 +50,8 @@ export class NewMovie extends Component {
           placeholder="description"
           type="text"
           name="description"
-          value={this.state.description}
-          onChange={this.handleChange}
+          value={description}
+          onChange={handleChange}
           required
         />
         <input
@@ -56,8 +59,8 @@ export class NewMovie extends Component {
           placeholder="imgUrl"
           type="text"
           name="imgUrl"
-          value={this.state.imgUrl}
-          onChange={this.handleChange}
+          value={imgUrl}
+          onChange={handleChange}
           required
         />
         <input
@@ -65,8 +68,8 @@ export class NewMovie extends Component {
           placeholder="imdbUrl"
           type="text"
           name="imdbUrl"
-          value={this.state.imdbUrl}
-          onChange={this.handleChange}
+          value={imdbUrl}
+          onChange={handleChange}
           required
         />
         <input
@@ -74,8 +77,8 @@ export class NewMovie extends Component {
           placeholder="imdbld"
           type="text"
           name="imdbld"
-          value={this.state.imdbld}
-          onChange={this.handleChange}
+          value={imdbld}
+          onChange={handleChange}
           required
         />
         <button
