@@ -1,15 +1,19 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './App.scss';
 import { MoviesList } from './components/MoviesList';
 import { NewMovie } from './components/NewMovie';
 import moviesFromServer from './api/movies.json';
 
-export class App extends Component {
-  state = {
+interface State {
+  movies: Movie[];
+}
+
+export class App extends React.Component<{}, State> {
+  state: State = {
     movies: moviesFromServer,
   };
 
-  addMovie = (movie) => {
+  addMovie = (/* movie: Movie */) => {
     // put your code here
   };
 
