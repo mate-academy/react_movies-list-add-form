@@ -18,6 +18,7 @@ type State = {
   noImdbIdError: string;
   invalidUrlError: string;
   submitDisabled: boolean;
+  wasAttempted: boolean;
 };
 
 const regEx = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
@@ -29,12 +30,13 @@ export class NewMovie extends Component<Props, State> {
     imgUrl: '',
     imdbUrl: '',
     imdbId: '',
-    noTitleError: '',
-    noImageError: '',
-    noImdbLinkError: '',
-    noImdbIdError: '',
-    invalidUrlError: '',
+    noTitleError: 'Title is required',
+    noImageError: 'Image url is required',
+    noImdbLinkError: 'IMDB url is required',
+    noImdbIdError: 'IMDB id is required',
+    invalidUrlError: 'Invalid url',
     submitDisabled: false,
+    wasAttempted: false,
   };
 
   handleChange = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
@@ -55,43 +57,13 @@ export class NewMovie extends Component<Props, State> {
     } = this.state;
     let isValid = true;
 
-    if (!title.trim()) {
-      this.setState({
-        noTitleError: 'Title is required',
-      });
-
-      isValid = false;
-    }
-
-    if (!imgUrl.trim()) {
-      this.setState({
-        noImageError: 'Image url is required',
-      });
-
-      isValid = false;
-    }
-
-    if (!imdbUrl.trim()) {
-      this.setState({
-        noImdbLinkError: 'IMDB url is required',
-      });
-
-      isValid = false;
-    }
-
-    if (!imdbId.trim()) {
-      this.setState({
-        noImdbIdError: 'IMDB id is required',
-      });
-
-      isValid = false;
-    }
-
-    if (!imdbUrl.match(regEx) || !imgUrl.match(regEx)) {
-      this.setState({
-        invalidUrlError: 'Invalid url',
-      });
-
+    if (!title.trim()
+      || !imgUrl.trim()
+      || !imdbUrl.trim()
+      || !imdbId.trim()
+      || !imdbUrl.match(regEx)
+      || !imgUrl.match(regEx)
+    ) {
       isValid = false;
     }
 
@@ -109,12 +81,8 @@ export class NewMovie extends Component<Props, State> {
       imgUrl: '',
       imdbUrl: '',
       imdbId: '',
-      noTitleError: '',
-      noImageError: '',
-      noImdbLinkError: '',
-      noImdbIdError: '',
-      invalidUrlError: '',
       submitDisabled: false,
+      wasAttempted: false,
     });
   };
 
@@ -131,14 +99,17 @@ export class NewMovie extends Component<Props, State> {
       noImdbIdError,
       invalidUrlError,
       submitDisabled,
+      wasAttempted,
     } = this.state;
     const { onAdd } = this.props;
 
     return (
       <form
+        autoComplete="off"
         className="Form"
         onSubmit={(event => {
           event.preventDefault();
+          this.setState({ wasAttempted: true });
           if (this.validate()) {
             onAdd(this.state);
             this.resetState();
@@ -153,10 +124,11 @@ export class NewMovie extends Component<Props, State> {
           value={title}
           onChange={this.handleChange}
           className={classNames('Form__input', {
-            'Form__input--invalid': noTitleError && !title,
+            'Form__input--invalid': wasAttempted && noTitleError && !title,
           })}
         />
-        {!title && noTitleError && (
+
+        {!title && wasAttempted && (
           <p className="Form__error-message">
             {noTitleError}
           </p>
@@ -165,7 +137,6 @@ export class NewMovie extends Component<Props, State> {
         <textarea
           name="description"
           placeholder="Description"
-          rows={5}
           value={description}
           onChange={this.handleChange}
           className="Form__input"
@@ -178,16 +149,18 @@ export class NewMovie extends Component<Props, State> {
           value={imgUrl}
           onChange={this.handleChange}
           className={classNames('Form__input', {
-            'Form__input--invalid': (noImageError && !imgUrl) || (invalidUrlError && !imgUrl.match(regEx)),
+            'Form__input--invalid': wasAttempted
+            && (!imgUrl || !imgUrl.match(regEx)),
           })}
         />
-        {!imgUrl && noImageError && (
+
+        {!imgUrl && wasAttempted && (
           <p className="Form__error-message">
             {noImageError}
           </p>
         )}
 
-        {imgUrl && !imgUrl.match(regEx) && invalidUrlError && (
+        {imgUrl && !imgUrl.match(regEx) && (
           <p className="Form__error-message">
             {invalidUrlError}
           </p>
@@ -200,17 +173,18 @@ export class NewMovie extends Component<Props, State> {
           value={imdbUrl}
           onChange={this.handleChange}
           className={classNames('Form__input', {
-            'Form__input--invalid': (noImdbLinkError && !imdbUrl) || (invalidUrlError && !imdbUrl.match(regEx)),
+            'Form__input--invalid': wasAttempted
+            && (!imgUrl || !imgUrl.match(regEx)),
           })}
         />
 
-        {!imdbUrl && noImdbLinkError && (
+        {!imdbUrl && wasAttempted && (
           <p className="Form__error-message">
             {noImdbLinkError}
           </p>
         )}
 
-        {imdbUrl && !imdbUrl.match(regEx) && invalidUrlError && (
+        {imdbUrl && !imdbUrl.match(regEx) && (
           <p className="Form__error-message">
             {invalidUrlError}
           </p>
@@ -223,11 +197,11 @@ export class NewMovie extends Component<Props, State> {
           value={imdbId}
           onChange={this.handleChange}
           className={classNames('Form__input', {
-            'Form__input--invalid': noImdbIdError && !imdbId,
+            'Form__input--invalid': wasAttempted && noImdbIdError && !imdbId,
           })}
         />
 
-        {!imdbId && noImdbIdError && (
+        {!imdbId && wasAttempted && (
           <p className="Form__error-message">
             {noImdbIdError}
           </p>
@@ -235,7 +209,7 @@ export class NewMovie extends Component<Props, State> {
 
         <button
           type="submit"
-          disabled={submitDisabled && (!imgUrl || !title || !imdbUrl || !imdbId)}
+          disabled={(submitDisabled && (!imgUrl || !title || !imdbUrl || !imdbId))}
           className="Form__button"
         >
           Add movie
