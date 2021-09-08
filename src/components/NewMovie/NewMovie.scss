@@ -1,0 +1,37 @@
+.input {
+ margin: 20px 5px;
+};
+
+p {
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.button {
+  width: 100%;
+  color: white;
+  font-weight: bold;
+  background-color: blue;
+}
+
+.button:hover, .button:focus {
+  background-color: rgb(7, 7, 163);
+  color: white;
+}
+
+.button:disabled {
+  background-color: rgb(67, 67, 153);
+  color: white;
+}
+
+.notification {
+  padding: 5px;
+  margin: 5px;
+  box-shadow: 22px 10px 58px 2px rgba(34, 60, 80, 0.13);
+  background-color: rgb(233, 233, 233);
+}
+
+.input.error {
+  border: 2px solid red;
+}
