@@ -209,7 +209,14 @@ export class NewMovie extends Component<Props, State> {
 
         <button
           type="submit"
-          disabled={(submitDisabled && (!imgUrl || !title || !imdbUrl || !imdbId))}
+          disabled={submitDisabled
+            && (!title
+              || !imgUrl
+              || !imdbUrl
+              || !imdbId
+              || !imdbUrl.match(regEx)
+              || !imgUrl.match(regEx)
+            )}
           className="Form__button"
         >
           Add movie
