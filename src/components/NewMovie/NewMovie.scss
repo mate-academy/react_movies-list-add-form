@@ -2,4 +2,25 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
+
+  &__error-message {
+    padding: 10px;
+    background-color: #ffd7d7;
+    border: 1px #ff6c6c solid;
+    border-radius: 2px;
+  }
+
+  &__input {
+    padding: 5px;
+    font-size: 16px;
+
+    &--invalid {
+      border: 1px solid #e00;
+    }
+  }
+
+  &__button {
+    padding: 5px;
+    font-size: 16px;
+  }
 }
