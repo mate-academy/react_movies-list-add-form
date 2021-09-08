@@ -4,8 +4,8 @@
 - Follow the [React task guideline](https://github.com/mate-academy/react_task-guideline#react-tasks-guideline)
 
 ## Task
-1. Implement form inside `NewMovie` component
-1. Form state should be inside `NewMovie`
+1. Implement form inside `NewMovie` component.
+1. Form state should be inside `NewMovie`.
 1. Form should have next fields:
     - title
     - description
