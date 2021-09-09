@@ -10,11 +10,27 @@ interface State {
 
 export class App extends React.Component<{}, State> {
   state: State = {
-    movies: moviesFromServer,
+    movies: [...moviesFromServer],
   };
 
-  addMovie = (/* movie: Movie */) => {
-    // put your code here
+  addMovie = (
+    title: string,
+    description: string,
+    imgUrl: string,
+    imdbUrl: string,
+    imdbId: string,
+  ) => {
+    this.setState((currentState) => ({
+      movies: [{
+        title,
+        description,
+        imgUrl,
+        imdbUrl,
+        imdbId,
+      },
+      ...currentState.movies,
+      ],
+    }));
   };
 
   render() {
@@ -26,7 +42,7 @@ export class App extends React.Component<{}, State> {
           <MoviesList movies={movies} />
         </div>
         <div className="sidebar">
-          <NewMovie />
+          <NewMovie onAdd={this.addMovie} />
         </div>
       </div>
     );
