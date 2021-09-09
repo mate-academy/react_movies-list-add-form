@@ -55,16 +55,16 @@ export class NewMovie extends Component<Props, State> {
       imdbUrl,
       imdbId,
     } = this.state;
-    let isValid = true;
+    let isValid = false;
 
-    if (!title.trim()
-      || !imgUrl.trim()
-      || !imdbUrl.trim()
-      || !imdbId.trim()
-      || !imdbUrl.match(regEx)
-      || !imgUrl.match(regEx)
+    if (title.trim()
+      && imgUrl.trim()
+      && imdbUrl.trim()
+      && imdbId.trim()
+      && imdbUrl.match(regEx)
+      && imgUrl.match(regEx)
     ) {
-      isValid = false;
+      isValid = true;
     }
 
     if (!isValid) {
@@ -214,8 +214,6 @@ export class NewMovie extends Component<Props, State> {
               || !imgUrl
               || !imdbUrl
               || !imdbId
-              || !imdbUrl.match(regEx)
-              || !imgUrl.match(regEx)
             )}
           className="Form__button"
         >
