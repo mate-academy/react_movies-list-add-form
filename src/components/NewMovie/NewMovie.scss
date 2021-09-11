@@ -32,7 +32,7 @@ button {
     transition: 0.3s;
 
     &:disabled {
-      opacity: 40%;
+      opacity: 0.4;
 
       &:hover {
         background-color: goldenrod;
