@@ -17,7 +17,6 @@ type State = {
   noImdbLinkError: string;
   noImdbIdError: string;
   invalidUrlError: string;
-  submitDisabled: boolean;
   wasAttempted: boolean;
 };
 
@@ -35,7 +34,6 @@ export class NewMovie extends Component<Props, State> {
     noImdbLinkError: 'IMDB url is required',
     noImdbIdError: 'IMDB id is required',
     invalidUrlError: 'Invalid url',
-    submitDisabled: false,
     wasAttempted: false,
   };
 
@@ -46,6 +44,28 @@ export class NewMovie extends Component<Props, State> {
       ...state,
       [name]: value,
     }));
+  };
+
+  disableSubmit = () => {
+    const {
+      title,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+      wasAttempted,
+    } = this.state;
+    let shouldBeDisabled = false;
+
+    if (wasAttempted && (!title
+      || !imgUrl
+      || !imdbUrl
+      || !imdbId
+      || !imgUrl.match(regEx)
+      || !imdbUrl.match(regEx))) {
+      shouldBeDisabled = true;
+    }
+
+    return shouldBeDisabled;
   };
 
   validate = () => {
@@ -67,10 +87,6 @@ export class NewMovie extends Component<Props, State> {
       isValid = true;
     }
 
-    if (!isValid) {
-      this.setState({ submitDisabled: true });
-    }
-
     return isValid;
   };
 
@@ -81,9 +97,19 @@ export class NewMovie extends Component<Props, State> {
       imgUrl: '',
       imdbUrl: '',
       imdbId: '',
-      submitDisabled: false,
       wasAttempted: false,
     });
+  };
+
+  submitChanges = (event: React.FormEvent<HTMLFormElement>) => {
+    const { onAdd } = this.props;
+
+    event.preventDefault();
+    this.setState({ wasAttempted: true });
+    if (this.validate()) {
+      onAdd(this.state);
+      this.resetState();
+    }
   };
 
   render() {
@@ -98,24 +124,14 @@ export class NewMovie extends Component<Props, State> {
       noImdbLinkError,
       noImdbIdError,
       invalidUrlError,
-      submitDisabled,
       wasAttempted,
     } = this.state;
-    const { onAdd } = this.props;
 
     return (
       <form
         autoComplete="off"
         className="Form"
-        onSubmit={(event => {
-          event.preventDefault();
-          this.setState({ wasAttempted: true });
-          if (this.validate()) {
-            onAdd(this.state);
-            this.resetState();
-          }
-        }
-        )}
+        onSubmit={this.submitChanges}
       >
         <input
           type="text"
@@ -174,7 +190,7 @@ export class NewMovie extends Component<Props, State> {
           onChange={this.handleChange}
           className={classNames('Form__input', {
             'Form__input--invalid': wasAttempted
-            && (!imgUrl || !imgUrl.match(regEx)),
+            && (!imdbUrl || !imdbUrl.match(regEx)),
           })}
         />
 
@@ -209,12 +225,7 @@ export class NewMovie extends Component<Props, State> {
 
         <button
           type="submit"
-          disabled={submitDisabled
-            && (!title
-              || !imgUrl
-              || !imdbUrl
-              || !imdbId
-            )}
+          disabled={this.disableSubmit()}
           className="Form__button"
         >
           Add movie

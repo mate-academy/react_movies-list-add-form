@@ -1,3 +1,7 @@
+button {
+  border: none;
+}
+
 .Form {
   display: flex;
   flex-direction: column;
@@ -20,7 +24,23 @@
   }
 
   &__button {
-    padding: 5px;
+    padding: 10px;
     font-size: 16px;
+    color: black;
+    border-radius: 2px;
+    background-color: goldenrod;
+    transition: 0.3s;
+
+    &:disabled {
+      opacity: 40%;
+
+      &:hover {
+        background-color: goldenrod;
+      }
+    }
+
+    &:hover {
+      background-color: chocolate;
+    }
   }
 }
