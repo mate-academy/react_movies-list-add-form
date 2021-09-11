@@ -1,0 +1,46 @@
+button {
+  border: none;
+}
+
+.Form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  &__error-message {
+    padding: 10px;
+    background-color: #ffd7d7;
+    border: 1px #ff6c6c solid;
+    border-radius: 2px;
+  }
+
+  &__input {
+    padding: 5px;
+    font-size: 16px;
+
+    &--invalid {
+      border: 1px solid #e00;
+    }
+  }
+
+  &__button {
+    padding: 10px;
+    font-size: 16px;
+    color: black;
+    border-radius: 2px;
+    background-color: goldenrod;
+    transition: 0.3s;
+
+    &:disabled {
+      opacity: 0.4;
+
+      &:hover {
+        background-color: goldenrod;
+      }
+    }
+
+    &:hover {
+      background-color: chocolate;
+    }
+  }
+}
