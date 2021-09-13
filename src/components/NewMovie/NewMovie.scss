@@ -1,0 +1,39 @@
+.form {
+  padding: 20px;
+  height: max-content;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border: 2px solid rgb(233, 205, 205);
+  border-radius: 15px;
+  box-sizing: border-box;
+
+  &__label {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+    border-radius: 15px;
+  }
+
+  &__input {
+    outline: none;
+    border: 1px solid lightcoral;
+    border-radius: 15px;
+
+    &:focus {
+      box-shadow: 2px 2px 2px lightcoral;
+    }
+  }
+
+  &__button {
+    border: 1px solid lightcoral;
+    background-color: lightcoral;
+    border-radius: 15px;
+  }
+}
+
+textarea {
+  resize: none;
+  min-height: 150px;
+}
+
