@@ -1,6 +1,8 @@
 import { Component } from 'react';
 import './NewMovie.scss';
 
+type Inputs = HTMLInputElement | HTMLTextAreaElement;
+
 type Props = {
   addMovie: (movie: Movie) => void;
 };
@@ -15,15 +17,10 @@ export class NewMovie extends Component<Props, State> {
     imdbId: '',
   };
 
-  handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  handleChange = (event: React.ChangeEvent<Inputs>) => {
     const { value, name } = event.target;
 
-    this.setState(state => (
-      {
-        ...state,
-        [name]: value,
-      }
-    ));
+    this.setState({ [name]: value } as Pick<State, keyof State>);
   };
 
   resetState = () => {
@@ -37,33 +34,23 @@ export class NewMovie extends Component<Props, State> {
   };
 
   newMovie = () => {
-    const {
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    } = this.state;
+    const newMovie = { ...this.state };
 
     this.resetState();
 
-    return {
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    };
+    return newMovie;
+  };
+
+  handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    this.props.addMovie(this.newMovie());
   };
 
   render() {
     return (
       <form
         className="form"
-        onSubmit={(event) => {
-          event.preventDefault();
-          this.props.addMovie(this.newMovie());
-        }}
+        onSubmit={this.handleSubmit}
       >
         <label htmlFor="movie__title" className="form__label">
           Title
@@ -74,6 +61,7 @@ export class NewMovie extends Component<Props, State> {
             id="movie__title"
             value={this.state.title}
             onChange={this.handleChange}
+            required
           />
         </label>
 
@@ -85,6 +73,7 @@ export class NewMovie extends Component<Props, State> {
             id="movie__description"
             value={this.state.description}
             onChange={this.handleChange}
+            required
           />
         </label>
 
@@ -97,6 +86,7 @@ export class NewMovie extends Component<Props, State> {
             id="movie__imgUrl"
             value={this.state.imgUrl}
             onChange={this.handleChange}
+            required
           />
         </label>
 
