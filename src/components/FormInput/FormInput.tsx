@@ -16,10 +16,6 @@ export class FormInput extends React.Component<Props, {}> {
     const { addError } = this.props;
     const { name, value } = event.target;
 
-    if (name === 'description') {
-      return;
-    }
-
     if (!value) {
       addError(name as keyof State);
     }

@@ -54,35 +54,13 @@ export class NewMovie extends Component<Props, State> {
   };
 
   formValidation = () => {
-    const {
-      title,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    } = this.state;
+    // eslint-disable-next-line
+    for (const key in this.state) {
+      if (!this.state[key as keyof State]) {
+        this.addError(key as keyof State);
 
-    if (!title) {
-      this.addError('title');
-
-      return false;
-    }
-
-    if (!imgUrl) {
-      this.addError('imgUrl');
-
-      return false;
-    }
-
-    if (!imdbUrl) {
-      this.addError('imdbUrl');
-
-      return false;
-    }
-
-    if (!imdbId) {
-      this.addError('imdbId');
-
-      return false;
+        return false;
+      }
     }
 
     return true;
