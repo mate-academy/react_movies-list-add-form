@@ -45,7 +45,7 @@ export class NewMovie extends Component<Props, State> {
     const { value, name } = event.target;
     const key: keyof State = name as keyof State;
 
-    this.setState({ [key]: value } as any);
+    this.setState({ [key]: value } as Pick<State, keyof State>);
   };
 
   handleSubmit = (event: React.FormEvent) => {
