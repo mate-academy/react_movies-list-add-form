@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import React, { Component } from 'react';
 import './NewMovie.scss';
 
@@ -54,6 +55,17 @@ export class NewMovie extends Component<Props, State> {
     this.setState({ imdbId: event.target.value });
   };
 
+  getDisableButton = () => {
+    const {
+      title,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    } = this.state;
+
+    return !title || !imgUrl || !imdbId || !imdbUrl;
+  };
+
   render() {
     return (
       <form
@@ -104,8 +116,14 @@ export class NewMovie extends Component<Props, State> {
           onChange={this.imdbIdHandleChange}
         />
         <button
-          className="NewMovie__element NewMovie__element--button"
+          className={classNames(
+            'NewMovie__element NewMovie__element--button',
+            {
+              'NewMovie__element--button--disabled': this.getDisableButton(),
+            },
+          )}
           type="submit"
+          disabled={this.getDisableButton()}
         >
           ADd MOVIe
         </button>

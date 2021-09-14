@@ -23,9 +23,18 @@
       font-size: 20px;
       font-family: Impact;
       transition: transform 0.3s;
-
+      cursor: pointer;
+ 
       &:hover {
         transform: scale(1.05);
+      }
+      
+      &--disabled {
+        cursor: not-allowed;
+        
+        &:hover {
+          transform: none;
+        }
       }
     }
   }
