@@ -13,3 +13,16 @@
   padding: 20px;
   border-left: 1px solid lightgray;
 }
+
+.App {
+  &__new-movie {
+    font-size: 26px;
+    text-align: center;
+    line-height: 250%;
+    font-weight: 700;
+  }
+}
+
+.btn-success {
+  width: 100%;
+}
