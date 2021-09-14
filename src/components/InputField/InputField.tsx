@@ -4,12 +4,13 @@ import classNames from 'classnames';
 interface Props {
   name: string;
   value: string;
+  valid: boolean;
   handleChange: (event: InputAndTextareaEvent) => void;
 }
 
 export const InputField: React.FC<Props> = React.memo((props) => {
   const {
-    name, value, handleChange,
+    name, value, handleChange, valid,
   } = props;
 
   return (
@@ -21,8 +22,8 @@ export const InputField: React.FC<Props> = React.memo((props) => {
         placeholder={name}
         className={classNames(
           'form-control',
-          { 'is-invalid': !value },
-          { 'is-valid': value },
+          { 'is-invalid': !valid },
+          { 'is-valid': valid && value },
         )}
         value={value}
         onChange={handleChange}

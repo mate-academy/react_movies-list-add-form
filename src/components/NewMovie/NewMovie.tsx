@@ -6,7 +6,14 @@ type Props = {
   onAdd: (newMovie: Movie) => void;
 };
 
-type State = Movie;
+type Validate = {
+  titleValid: boolean;
+  imgUrlValid: boolean;
+  imdbIdValid: boolean;
+  imdbUrlValid: boolean;
+};
+
+type State = Movie & Validate;
 
 const defaultState = {
   title: '',
@@ -14,6 +21,10 @@ const defaultState = {
   imgUrl: '',
   imdbUrl: '',
   imdbId: '',
+  titleValid: true,
+  imgUrlValid: true,
+  imdbIdValid: true,
+  imdbUrlValid: true,
 };
 
 export class NewMovie extends Component<Props, State> {
@@ -26,13 +37,36 @@ export class NewMovie extends Component<Props, State> {
 
     this.setState({
       [name]: value,
+      [`${name}Valid`]: true,
     } as Pick<State, keyof State>);
+  };
+
+  validate = (values: string[]) => {
+    return values.every(item => item);
   };
 
   onSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    this.props.onAdd({ ...this.state });
+    const {
+      title, description, imgUrl, imdbId, imdbUrl,
+    } = this.state;
+    const movieRequiredData = {
+      title, imgUrl, imdbUrl, imdbId,
+    };
+
+    if (!this.validate(Object.values(movieRequiredData))) {
+      this.setState({
+        titleValid: !!title,
+        imgUrlValid: !!imgUrl,
+        imdbIdValid: !!imdbId,
+        imdbUrlValid: !!imdbUrl,
+      });
+
+      return;
+    }
+
+    this.props.onAdd({ ...movieRequiredData, description });
     this.setState({
       ...defaultState,
     });
@@ -45,6 +79,10 @@ export class NewMovie extends Component<Props, State> {
       imgUrl,
       imdbId,
       imdbUrl,
+      titleValid,
+      imgUrlValid,
+      imdbIdValid,
+      imdbUrlValid,
     } = this.state;
 
     return (
@@ -58,6 +96,7 @@ export class NewMovie extends Component<Props, State> {
           <InputField
             name="title"
             value={title}
+            valid={titleValid}
             handleChange={this.handleChange}
           />
           <textarea
@@ -71,22 +110,24 @@ export class NewMovie extends Component<Props, State> {
           <InputField
             name="imgUrl"
             value={imgUrl}
+            valid={imgUrlValid}
             handleChange={this.handleChange}
           />
           <InputField
             name="imdbId"
             value={imdbId}
+            valid={imdbIdValid}
             handleChange={this.handleChange}
           />
           <InputField
             name="imdbUrl"
             value={imdbUrl}
+            valid={imdbUrlValid}
             handleChange={this.handleChange}
           />
           <button
             type="submit"
             className="btn btn-primary"
-            disabled={!title || !imgUrl || !imdbId || !imdbUrl}
           >
             Add
           </button>
