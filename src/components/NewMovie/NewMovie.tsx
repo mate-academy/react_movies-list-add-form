@@ -167,7 +167,7 @@ export class NewMovie extends React.Component<Props, State> {
           <button
             type="submit"
             className="btn btn-success"
-            disabled={!title || !imgUrl || !imdbId || !imdbUrl}
+            disabled={!title || !imgUrl || !imdbId || !imdbUrl || !isValidImgUrl || !isValidImdbUrl}
           >
             Add film
           </button>
