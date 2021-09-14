@@ -9,23 +9,58 @@ type Props = {
   addMovie: (movie: Movie) => void;
 };
 
+interface StateProperty {
+  value: string;
+  isValid: boolean;
+  isTouched: boolean;
+}
+
 interface State {
-  title: [string, boolean];
-  description: [string, boolean];
-  imgUrl: [string, boolean];
-  imdbUrl: [string, boolean];
-  imdbId: [string, boolean];
+  title: StateProperty;
+
+  description: StateProperty;
+
+  imgUrl: StateProperty;
+
+  imdbUrl: StateProperty;
+
+  imdbId: StateProperty;
 }
 
 const movieKeys: (keyof Movie)[] = ['title', 'description', 'imgUrl', 'imdbUrl', 'imdbId'];
+const urlValidator = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
 
 export class NewMovie extends Component<Props, State> {
   state: State = {
-    title: ['', false],
-    description: ['', false],
-    imgUrl: ['', false],
-    imdbUrl: ['', false],
-    imdbId: ['', false],
+    title: {
+      value: '',
+      isValid: false,
+      isTouched: false,
+    },
+
+    description: {
+      value: '',
+      isValid: false,
+      isTouched: false,
+    },
+
+    imgUrl: {
+      value: '',
+      isValid: false,
+      isTouched: false,
+    },
+
+    imdbUrl: {
+      value: '',
+      isValid: false,
+      isTouched: false,
+    },
+
+    imdbId: {
+      value: '',
+      isValid: false,
+      isTouched: false,
+    },
   };
 
   handleChange: ChangeEventHandler<HTMLInputElement> = (event) => {
@@ -33,7 +68,11 @@ export class NewMovie extends Component<Props, State> {
     const value = event.target.value;
 
     this.setState(currentState => ({
-      [name]: [value, currentState[name][1]],
+      [name]: {
+        value,
+        isValid: currentState[name].isValid,
+        isTouched: currentState[name].isTouched,
+      },
     } as Pick<State, keyof State>));
   };
 
@@ -51,26 +90,54 @@ export class NewMovie extends Component<Props, State> {
     event.preventDefault();
 
     addMovie({
-      title: title[0],
-      description: description[0],
-      imgUrl: imgUrl[0],
-      imdbUrl: imdbUrl[0],
-      imdbId: imdbId[0],
+      title: title.value,
+      description: description.value,
+      imgUrl: imgUrl.value,
+      imdbUrl: imdbUrl.value,
+      imdbId: imdbId.value,
     });
   };
 
-  validateInput: FocusEventHandler<HTMLInputElement> = (event) => {
-    const name = event.target.name as keyof State;
-    const [value] = this.state[name];
+  setInputInvalid = (name: keyof State) => {
+    const { value } = this.state[name];
 
-    if (!value) {
-      this.setState(currentState => ({
-        [name]: [currentState[name][0], false],
-      } as Pick<State, keyof State>));
-    } else {
-      this.setState(currentState => ({
-        [name]: [currentState[name][0], true],
-      } as Pick<State, keyof State>));
+    this.setState(currentState => ({
+      [name]: {
+        value: currentState[name].value,
+        isValid: !!value,
+        isTouched: true,
+      },
+    } as Pick<State, keyof State>));
+  };
+
+  handleOnBlur: FocusEventHandler<HTMLInputElement> = (event) => {
+    const name = event.target.name as keyof State;
+    const { value } = this.state[name];
+
+    switch (name) {
+      case 'title':
+      case 'imdbId':
+        this.setInputInvalid(name);
+        break;
+
+      case 'imdbUrl':
+      case 'imgUrl':
+        this.setInputInvalid(name);
+
+        if (!urlValidator.test(value)) {
+          this.setState(currentState => ({
+            [name]: {
+              value: currentState[name].value,
+              isValid: false,
+              isTouched: true,
+            },
+          } as Pick<State, keyof State>));
+        }
+
+        break;
+
+      default:
+        break;
     }
   };
 
@@ -86,18 +153,24 @@ export class NewMovie extends Component<Props, State> {
               <label htmlFor={key} className="label">{key}</label>
               <div className="control">
                 <input
-                  className="input"
+                  className={`input ${!this.state[key].isValid && this.state[key].isTouched ? 'is-danger' : ''}`}
                   id={key}
                   name={key}
                   type="text"
-                  value={this.state[key][0]}
+                  value={this.state[key].value}
                   onChange={this.handleChange}
-                  onBlur={this.validateInput}
+                  onBlur={this.handleOnBlur}
                 />
               </div>
 
               {
-                !this.state[key][1] && <span>This field is required</span>
+                !this.state[key].isValid
+                && this.state[key].isTouched
+                && (
+                  <p className="help is-danger">
+                    {`${key} is not valid`}
+                  </p>
+                )
               }
             </div>
           ))
