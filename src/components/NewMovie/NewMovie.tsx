@@ -41,21 +41,8 @@ export class NewMovie extends React.Component<Props, State> {
 
   getNewMovie = (event: React.FormEvent) => {
     event.preventDefault();
-    const {
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    } = this.state;
 
-    const newMovie = {
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    };
+    const newMovie = { ...this.state };
 
     this.props.onAddMovie(newMovie);
     this.clearState();
