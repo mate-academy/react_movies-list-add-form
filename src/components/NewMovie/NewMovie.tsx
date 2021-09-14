@@ -57,16 +57,13 @@ export class NewMovie extends Component<Props, State> {
     return (
       <form onSubmit={this.handleSubmit} className="mb-3">
         <input
-          className={`form-control ${title ? 'is-valid mb-3' : 'is-invalid'}`}
+          className="form-control mb-3"
           type="text"
           name="title"
           onChange={this.handleInputChange}
           value={title}
           placeholder="Enter the title"
         />
-        <div className="invalid-feedback">
-          This is required field!
-        </div>
         <input
           className="form-control mb-3"
           type="text"
@@ -76,38 +73,30 @@ export class NewMovie extends Component<Props, State> {
           placeholder="Enter the description"
         />
         <input
-          className={`form-control ${imgUrl ? 'is-valid mb-3' : 'is-invalid'}`}
+          className="form-control mb-3"
           type="text"
           name="imgUrl"
           onChange={this.handleInputChange}
           value={imgUrl}
           placeholder="Enter the imgUrl"
         />
-        <div className="invalid-feedback">
-          This is required field!
-        </div>
         <input
-          className={`form-control ${imdbUrl ? 'is-valid mb-3' : 'is-invalid'}`}
+          className="form-control mb-3"
           type="text"
           name="imdbUrl"
           onChange={this.handleInputChange}
           value={imdbUrl}
           placeholder="Enter the imdbUrl"
         />
-        <div className="invalid-feedback">
-          This is required field!
-        </div>
         <input
-          className={`form-control ${imdbId ? 'is-valid mb-3' : 'is-invalid'}`}
+          className="form-control mb-3"
           type="text"
           name="imdbId"
           onChange={this.handleInputChange}
           value={imdbId}
           placeholder="Enter the imdbId"
         />
-        <div className="invalid-feedback">
-          This is required field!
-        </div>
+
         <button
           type="submit"
           className="btn btn-success mt-3"
