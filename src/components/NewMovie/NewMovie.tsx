@@ -23,9 +23,7 @@ export class NewMovie extends Component<Props, State> {
     imdbId: '',
   };
 
-  addMovie = (state: any) => {
-    const newMov = { ...state };
-
+  clearState = () => {
     this.setState({
       title: '',
       description: '',
@@ -33,6 +31,12 @@ export class NewMovie extends Component<Props, State> {
       imdbUrl: '',
       imdbId: '',
     });
+  };
+
+  getMovie = (state: any) => {
+    const newMov = { ...state };
+
+    this.clearState();
 
     return newMov;
   };
@@ -44,13 +48,13 @@ export class NewMovie extends Component<Props, State> {
     this.setState({ [key]: value } as any);
   };
 
-  handleSubmit = (event: any) => {
+  handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    const movie = this.addMovie(this.state);
+    const movie = this.getMovie(this.state);
 
     if (!this.props.movies.find(m => m.imdbId === movie.imdbId)) {
-      this.props.addMov(this.addMovie(this.state));
+      this.props.addMov(this.getMovie(this.state));
     }
   };
 

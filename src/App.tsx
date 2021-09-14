@@ -20,12 +20,6 @@ export class App extends React.Component<{}, State> {
           movies: [...state.movies, newMov],
         });
       });
-    } else {
-      this.setState(state => {
-        return ({
-          movies: [...state.movies],
-        });
-      });
     }
   };
 
