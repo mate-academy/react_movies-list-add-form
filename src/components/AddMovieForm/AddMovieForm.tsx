@@ -58,7 +58,7 @@ export const AddMovieForm: React.FC<Props> = (props) => {
 
       <Input
         isRequired={false}
-        pattern="^[A-Za-z0-9]+$"
+        pattern="/^[a-zA-Z0-9!@#\$%\^\&*\)\(+=._-]+$/g"
         className="rounded border border-secondary mb-2 py-2 w-100"
         placeholder="Description"
         type="text"
