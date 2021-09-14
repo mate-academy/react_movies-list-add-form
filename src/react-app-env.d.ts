@@ -7,3 +7,5 @@ interface Movie {
   imdbUrl: string;
   imdbId: string;
 }
+
+type InputAndTextareaEvent = React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>;
