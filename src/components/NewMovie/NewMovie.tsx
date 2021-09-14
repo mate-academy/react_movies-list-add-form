@@ -24,9 +24,20 @@ export class NewMovie extends React.Component<Props, State> {
   handleInputChange = ({ target }: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = target;
 
-    this.setState({
+    this.setState(prevState => ({
+      ...prevState,
       [name]: value,
-    } as Pick<State, keyof State>);
+    }));
+  };
+
+  resetForm = () => {
+    this.setState({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
   };
 
   handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -50,13 +61,7 @@ export class NewMovie extends React.Component<Props, State> {
 
     this.props.onAdd(newFilm);
 
-    this.setState({
-      title: '',
-      description: '',
-      imgUrl: '',
-      imdbUrl: '',
-      imdbId: '',
-    });
+    this.resetForm();
   };
 
   render() {
@@ -70,7 +75,7 @@ export class NewMovie extends React.Component<Props, State> {
 
     return (
       <form onSubmit={this.handleSubmit}>
-        <h3 className="title is-3">Fill free to add your favorite film</h3>
+        <h3 className="title is-3">Fill free to add your favorite movie</h3>
 
         <div className="field">
           <label className="label" htmlFor="title">
