@@ -62,6 +62,14 @@ export class NewMovie extends React.Component<Props, State> {
   };
 
   render() {
+    const {
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    } = this.state;
+
     return (
       <>
         <h1 className="App__new-movie">Add a Movie</h1>
@@ -72,7 +80,7 @@ export class NewMovie extends React.Component<Props, State> {
               name="title"
               className="form-control"
               placeholder="Please enter a title"
-              value={this.state.title}
+              value={title}
               onChange={this.handleChange}
               required
             />
@@ -84,7 +92,7 @@ export class NewMovie extends React.Component<Props, State> {
               name="description"
               className="form-control"
               placeholder="Please enter a description"
-              value={this.state.description}
+              value={description}
               onChange={this.handleChange}
               required
             />
@@ -97,7 +105,7 @@ export class NewMovie extends React.Component<Props, State> {
               className="form-control"
               placeholder="Please enter a imgUrl (https://***.*)imgUrl"
               pattern="[Hh][Tt][Tt][Pp][Ss]?:\/\/(?:(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)(?:\.(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)*(?:\.(?:[a-zA-Z\u00a1-\uffff]{2,}))(?::\d{2,5})?(?:\/[^\s]*)?"
-              value={this.state.imgUrl}
+              value={imgUrl}
               onChange={this.handleChange}
               required
             />
@@ -110,7 +118,7 @@ export class NewMovie extends React.Component<Props, State> {
               className="form-control"
               placeholder="Please enter a imdbUrl (https://***.*)imdbUrl"
               pattern="[Hh][Tt][Tt][Pp][Ss]?:\/\/(?:(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)(?:\.(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)*(?:\.(?:[a-zA-Z\u00a1-\uffff]{2,}))(?::\d{2,5})?(?:\/[^\s]*)?"
-              value={this.state.imdbUrl}
+              value={imdbUrl}
               onChange={this.handleChange}
               required
             />
@@ -123,7 +131,7 @@ export class NewMovie extends React.Component<Props, State> {
               className="form-control"
               placeholder="Please enter an imdbId (tt1234567-9)"
               pattern="^[t][t][0-9]{7,9}"
-              value={this.state.imdbId}
+              value={imdbId}
               onChange={this.handleChange}
               required
             />
