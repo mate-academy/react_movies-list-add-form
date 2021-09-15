@@ -59,6 +59,7 @@ export class NewMovie extends Component<Props, State> {
           <label htmlFor="title" className="form-label">
             Title
             <input
+              required
               className="form-control"
               id="title"
               name="title"
@@ -73,6 +74,7 @@ export class NewMovie extends Component<Props, State> {
           <label htmlFor="description" className="form-label">
             Description
             <input
+              required
               className="form-control"
               id="description"
               name="description"
@@ -87,6 +89,7 @@ export class NewMovie extends Component<Props, State> {
           <label htmlFor="imdbId" className="form-label">
             ImdbId
             <input
+              required
               className="form-control"
               id="imdbId"
               name="imdbId"
@@ -101,6 +104,7 @@ export class NewMovie extends Component<Props, State> {
           <label htmlFor="imdbUrl" className="form-label">
             ImdbUrl
             <input
+              required
               className="form-control"
               id="imdbUrl"
               name="imdbUrl"
@@ -115,6 +119,7 @@ export class NewMovie extends Component<Props, State> {
           <label htmlFor="imgUrl" className="form-label">
             ImgUrl
             <input
+              required
               className="form-control"
               id="imgUrl"
               name="imgUrl"
