@@ -17,50 +17,51 @@ interface StateProperty {
 
 interface State {
   title: StateProperty;
-
   description: StateProperty;
-
   imgUrl: StateProperty;
-
   imdbUrl: StateProperty;
-
   imdbId: StateProperty;
 }
 
 const movieKeys: (keyof Movie)[] = ['title', 'description', 'imgUrl', 'imdbUrl', 'imdbId'];
 const urlValidator = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
+const clearState: State = {
+  title: {
+    value: '',
+    isValid: false,
+    isTouched: false,
+  },
+
+  description: {
+    value: '',
+    isValid: false,
+    isTouched: false,
+  },
+
+  imgUrl: {
+    value: '',
+    isValid: false,
+    isTouched: false,
+  },
+
+  imdbUrl: {
+    value: '',
+    isValid: false,
+    isTouched: false,
+  },
+
+  imdbId: {
+    value: '',
+    isValid: false,
+    isTouched: false,
+  },
+};
 
 export class NewMovie extends Component<Props, State> {
-  state: State = {
-    title: {
-      value: '',
-      isValid: false,
-      isTouched: false,
-    },
+  state: State = { ...clearState };
 
-    description: {
-      value: '',
-      isValid: false,
-      isTouched: false,
-    },
-
-    imgUrl: {
-      value: '',
-      isValid: false,
-      isTouched: false,
-    },
-
-    imdbUrl: {
-      value: '',
-      isValid: false,
-      isTouched: false,
-    },
-
-    imdbId: {
-      value: '',
-      isValid: false,
-      isTouched: false,
-    },
+  clearForm = () => {
+    this.setState(clearState);
   };
 
   handleChange: ChangeEventHandler<HTMLInputElement> = (event) => {
@@ -96,6 +97,8 @@ export class NewMovie extends Component<Props, State> {
       imdbUrl: imdbUrl.value,
       imdbId: imdbId.value,
     });
+
+    this.clearForm();
   };
 
   setInputInvalid = (name: keyof State) => {
@@ -142,18 +145,27 @@ export class NewMovie extends Component<Props, State> {
   };
 
   render() {
+    const {
+      title,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    } = this.state;
+
     return (
       <form
         onSubmit={this.handleSubmit}
       >
-
         {
           movieKeys.map(key => (
-            <div className="field">
+            <div className="field" key={key}>
               <label htmlFor={key} className="label">{key}</label>
               <div className="control">
                 <input
-                  className={`input ${!this.state[key].isValid && this.state[key].isTouched ? 'is-danger' : ''}`}
+                  className={
+                    `input ${!this.state[key].isValid
+                      && this.state[key].isTouched ? 'is-danger' : ''}`
+                  }
                   id={key}
                   name={key}
                   type="text"
@@ -179,6 +191,12 @@ export class NewMovie extends Component<Props, State> {
         <button
           type="submit"
           className="button is-link"
+          disabled={
+            !title.isValid
+            || !imgUrl.isValid
+            || !imdbUrl.isValid
+            || !imdbId.isValid
+          }
         >
           Add
         </button>
