@@ -29,9 +29,32 @@ export class NewMovie extends Component<Props, State> {
     } as Pick<State, keyof State>);
   };
 
+  reset = () => {
+    this.setState({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
+  };
+
+  validate = () => {
+    const {
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    } = this.state;
+
+    return !title || !description || !imgUrl || !imdbId || !imdbUrl;
+  };
+
   handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     this.props.add(this.state);
+    this.reset();
   };
 
   render() {
@@ -98,6 +121,7 @@ export class NewMovie extends Component<Props, State> {
           <button
             className="button"
             type="submit"
+            disabled={this.validate()}
           >
             Add New Film
           </button>
