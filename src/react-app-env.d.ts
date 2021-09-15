@@ -7,3 +7,5 @@ interface Movie {
   imdbUrl: string;
   imdbId: string;
 }
+
+type InputOrTextArea = HTMLInputElement | HTMLTextAreaElement;
