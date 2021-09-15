@@ -1,0 +1,29 @@
+.NewMovie {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  &__description {
+    height: 100px;
+    margin-bottom: 10px;
+    text-align: center;
+    width: 100%;
+  }
+
+  &__button {
+    position: absolute;
+    bottom: 10%;
+    width: 80px;
+    height: 60px;
+    border: transparent;
+    border-radius: 10px;
+    background-color: rgb(247, 226, 43);
+  }
+}
+
+.forms {
+  margin-bottom: 10px;
+  text-align: center;
+  height: 30px;
+  width: 100%;
+}
