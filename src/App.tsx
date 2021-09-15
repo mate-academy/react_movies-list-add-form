@@ -4,6 +4,8 @@ import { MoviesList } from './components/MoviesList';
 import { NewMovie } from './components/NewMovie';
 import moviesFromServer from './api/movies.json';
 
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 interface State {
   movies: Movie[];
 }
@@ -13,8 +15,10 @@ export class App extends React.Component<{}, State> {
     movies: moviesFromServer,
   };
 
-  addMovie = (/* movie: Movie */) => {
-    // put your code here
+  addMovie = (movie: Movie) => {
+    this.setState(currentState => ({
+      movies: [movie, ...currentState.movies],
+    }));
   };
 
   render() {
@@ -26,7 +30,8 @@ export class App extends React.Component<{}, State> {
           <MoviesList movies={movies} />
         </div>
         <div className="sidebar">
-          <NewMovie />
+          <h1 className="mb-4">Add new movie</h1>
+          <NewMovie onAdd={this.addMovie} />
         </div>
       </div>
     );
