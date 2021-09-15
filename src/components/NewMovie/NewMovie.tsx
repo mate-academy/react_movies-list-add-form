@@ -19,7 +19,7 @@ export class NewMovie extends Component<Props, State> {
     imdbId: '',
   };
 
-  getDefaultState = () => {
+  clearForm = () => {
     this.setState({
       title: '',
       description: '',
@@ -32,27 +32,7 @@ export class NewMovie extends Component<Props, State> {
   handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     this.props.onAdd(this.state);
-    this.getDefaultState();
-  };
-
-  titleHandleChange = (event: Event) => {
-    this.setState({ title: event.target.value });
-  };
-
-  descriptionHandleChange = (event: Event) => {
-    this.setState({ description: event.target.value });
-  };
-
-  imgUrlHandleChange = (event: Event) => {
-    this.setState({ imgUrl: event.target.value });
-  };
-
-  imdbUrlHandleChange = (event: Event) => {
-    this.setState({ imdbUrl: event.target.value });
-  };
-
-  imdbIdHandleChange = (event: Event) => {
-    this.setState({ imdbId: event.target.value });
+    this.clearForm();
   };
 
   getDisableButton = () => {
@@ -64,6 +44,16 @@ export class NewMovie extends Component<Props, State> {
     } = this.state;
 
     return !title || !imgUrl || !imdbId || !imdbUrl;
+  };
+
+  handleChange = (event: Event) => {
+    const { name, value } = event.target;
+
+    this.setState(
+      {
+        [name]: value,
+      } as Pick<State, keyof State>,
+    );
   };
 
   render() {
@@ -79,14 +69,14 @@ export class NewMovie extends Component<Props, State> {
           type="text"
           required
           value={this.state.title}
-          onChange={this.titleHandleChange}
+          onChange={this.handleChange}
         />
         <textarea
           className="NewMovie__element NewMovie__element--textarea"
           placeholder="Description"
           name="description"
           value={this.state.description}
-          onChange={this.descriptionHandleChange}
+          onChange={this.handleChange}
         />
         <input
           className="NewMovie__element"
@@ -95,7 +85,7 @@ export class NewMovie extends Component<Props, State> {
           required
           value={this.state.imgUrl}
           type="text"
-          onChange={this.imgUrlHandleChange}
+          onChange={this.handleChange}
         />
         <input
           className="NewMovie__element"
@@ -104,7 +94,7 @@ export class NewMovie extends Component<Props, State> {
           required
           value={this.state.imdbUrl}
           type="text"
-          onChange={this.imdbUrlHandleChange}
+          onChange={this.handleChange}
         />
         <input
           className="NewMovie__element"
@@ -113,7 +103,7 @@ export class NewMovie extends Component<Props, State> {
           required
           value={this.state.imdbId}
           type="text"
-          onChange={this.imdbIdHandleChange}
+          onChange={this.handleChange}
         />
         <button
           className={classNames(
