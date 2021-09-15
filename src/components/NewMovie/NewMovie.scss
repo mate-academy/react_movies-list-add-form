@@ -1,0 +1,41 @@
+.NewMovie {
+  display: flex;
+  flex-direction: column;
+
+  &__element {
+    margin-bottom: 20px;
+    height: 2rem;
+    padding: 5px;
+
+    &--textarea {
+      height: 5rem;
+      resize: none;
+    }
+
+    &--button {
+      margin: 0;
+      align-self: center;
+      width: 40%;
+      background-color: #dba606df;
+      border: none;
+      border-radius: 3px;
+      font-weight: bold;
+      font-size: 20px;
+      font-family: Impact;
+      transition: transform 0.3s;
+      cursor: pointer;
+ 
+      &:hover {
+        transform: scale(1.05);
+      }
+      
+      &--disabled {
+        cursor: not-allowed;
+        
+        &:hover {
+          transform: none;
+        }
+      }
+    }
+  }
+}
