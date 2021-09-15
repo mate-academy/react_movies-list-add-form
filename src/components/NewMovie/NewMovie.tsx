@@ -22,6 +22,24 @@ export class NewMovie extends Component<Props, State> {
     imdbId: '',
   };
 
+  handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+
+    this.setState({
+      [name]: value,
+    } as Pick<State, keyof State>);
+  };
+
+  reset = () => {
+    this.setState({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
+  };
+
   handleSubmit = (event: React.FormEvent) => {
     const { onAdd } = this.props;
 
@@ -30,13 +48,7 @@ export class NewMovie extends Component<Props, State> {
     const newMovie = { ...this.state };
 
     onAdd(newMovie);
-    this.setState({
-      title: '',
-      description: '',
-      imgUrl: '',
-      imdbUrl: '',
-      imdbId: '',
-    });
+    this.reset();
   };
 
   render() {
@@ -59,11 +71,7 @@ export class NewMovie extends Component<Props, State> {
           className="NewMovie__title forms"
           placeholder="write title"
           value={title}
-          onChange={event => {
-            this.setState({
-              title: event.target.value,
-            });
-          }}
+          onChange={this.handleInput}
           required
         />
         <input
@@ -72,11 +80,7 @@ export class NewMovie extends Component<Props, State> {
           className="NewMovie__description"
           placeholder="write description"
           value={description}
-          onChange={event => {
-            this.setState({
-              description: event.target.value,
-            });
-          }}
+          onChange={this.handleInput}
           required
         />
         <input
@@ -85,11 +89,7 @@ export class NewMovie extends Component<Props, State> {
           className="NewMovie__imgUrl forms"
           placeholder="write imgUrl"
           value={imgUrl}
-          onChange={event => {
-            this.setState({
-              imgUrl: event.target.value,
-            });
-          }}
+          onChange={this.handleInput}
           required
         />
         <input
@@ -98,11 +98,7 @@ export class NewMovie extends Component<Props, State> {
           className="NewMovie__imdbUrl forms"
           placeholder="write imdbUrl"
           value={imdbUrl}
-          onChange={event => {
-            this.setState({
-              imdbUrl: event.target.value,
-            });
-          }}
+          onChange={this.handleInput}
           required
         />
         <input
@@ -111,11 +107,7 @@ export class NewMovie extends Component<Props, State> {
           className="NewMovie__imdbId forms"
           placeholder="write imdbId"
           value={imdbId}
-          onChange={event => {
-            this.setState({
-              imdbId: event.target.value,
-            });
-          }}
+          onChange={this.handleInput}
           required
         />
         <button
