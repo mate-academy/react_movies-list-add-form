@@ -13,3 +13,9 @@
   padding: 20px;
   border-left: 1px solid lightgray;
 }
+
+.App {
+  &__form {
+    padding: 30px;
+  }
+}
