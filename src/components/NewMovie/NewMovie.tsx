@@ -64,6 +64,7 @@ export class NewMovie extends Component<Props, State> {
               title: event.target.value,
             });
           }}
+          required
         />
         <input
           type="text"
@@ -76,6 +77,7 @@ export class NewMovie extends Component<Props, State> {
               description: event.target.value,
             });
           }}
+          required
         />
         <input
           type="text"
@@ -88,6 +90,7 @@ export class NewMovie extends Component<Props, State> {
               imgUrl: event.target.value,
             });
           }}
+          required
         />
         <input
           type="text"
@@ -100,6 +103,7 @@ export class NewMovie extends Component<Props, State> {
               imdbUrl: event.target.value,
             });
           }}
+          required
         />
         <input
           type="text"
@@ -112,6 +116,7 @@ export class NewMovie extends Component<Props, State> {
               imdbId: event.target.value,
             });
           }}
+          required
         />
         <button
           type="submit"
