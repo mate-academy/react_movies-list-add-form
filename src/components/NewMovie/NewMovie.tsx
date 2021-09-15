@@ -33,7 +33,7 @@ export class NewMovie extends Component<Props, State> {
     });
   };
 
-  getMovie = (state: any) => {
+  getMovie = (state: State) => {
     const newMov = { ...state };
 
     this.clearState();
@@ -43,9 +43,8 @@ export class NewMovie extends Component<Props, State> {
 
   handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { value, name } = event.target;
-    const key: keyof State = name as keyof State;
 
-    this.setState({ [key]: value } as Pick<State, keyof State>);
+    this.setState({ [name]: value } as Pick<State, keyof State>);
   };
 
   handleSubmit = (event: React.FormEvent) => {
@@ -105,7 +104,6 @@ export class NewMovie extends Component<Props, State> {
           onChange={this.handleChange}
           required
         />
-        <br />
         <button type="submit" className="form__button">Add</button>
       </form>
     );

@@ -13,13 +13,11 @@ export class App extends React.Component<{}, State> {
     movies: moviesFromServer,
   };
 
-  addMov = (newMov: any) => {
+  addMov = (newMov: Movie) => {
     if (newMov) {
-      this.setState(state => {
-        return ({
-          movies: [...state.movies, newMov],
-        });
-      });
+      this.setState(state => ({
+        movies: [...state.movies, newMov],
+      }));
     }
   };
 
