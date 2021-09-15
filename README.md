@@ -16,7 +16,7 @@
   Also, form should be cleared. Page should not be reloaded.
 
 ## Advanced tasks (Add validation)
-> Do it only if you understand everything 
+> Do it only if you understand everything
 
 1. validate controls values on blur
 1. `title`, `imgUrl`, `imdbUrl`, `imdbId` should be required
