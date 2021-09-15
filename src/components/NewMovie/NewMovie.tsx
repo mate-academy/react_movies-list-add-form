@@ -30,6 +30,16 @@ export class NewMovie extends Component<Props, State> {
     } as Pick<State, keyof State>);
   };
 
+  resetState = () => {
+    this.setState({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
+  };
+
   handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
@@ -51,9 +61,8 @@ export class NewMovie extends Component<Props, State> {
       imdbId,
     };
 
-    if (title !== '') {
-      onAdd(newMovie);
-    }
+    onAdd(newMovie);
+    this.resetState();
   };
 
   render() {
@@ -76,6 +85,7 @@ export class NewMovie extends Component<Props, State> {
         >
           Title
           <input
+            required
             className="form-control"
             type="text"
             id="movie__title"
@@ -92,6 +102,7 @@ export class NewMovie extends Component<Props, State> {
         >
           Description
           <input
+            required
             className="form-control"
             type="text"
             id="movie__description"
@@ -108,6 +119,7 @@ export class NewMovie extends Component<Props, State> {
         >
           Add imgUrl
           <input
+            required
             className="form-control"
             type="text"
             id="movie__imgUrl"
@@ -124,6 +136,7 @@ export class NewMovie extends Component<Props, State> {
         >
           Add imdbUrl
           <input
+            required
             className="form-control"
             type="text"
             id="movie__imdbUrl"
@@ -140,6 +153,7 @@ export class NewMovie extends Component<Props, State> {
         >
           Add imdbId
           <input
+            required
             className="form-control"
             type="text"
             id="movie__imdbId"
