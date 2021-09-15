@@ -11,8 +11,6 @@ type State = {
   imdbId: string,
 };
 
-type Event = React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>;
-
 export class NewMovie extends Component<Props, State> {
   state: State = {
     title: '',
@@ -22,24 +20,12 @@ export class NewMovie extends Component<Props, State> {
     imdbId: '',
   };
 
-  titleHandleChange = (event: Event) => {
-    this.setState({ title: event.target.value });
-  };
+  handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
 
-  descriptionHandleChange = (event: Event) => {
-    this.setState({ description: event.target.value });
-  };
-
-  imgUrlHandleChange = (event: Event) => {
-    this.setState({ imgUrl: event.target.value });
-  };
-
-  imdbUrlHandleChange = (event: Event) => {
-    this.setState({ imdbUrl: event.target.value });
-  };
-
-  imdbIdHandleChange = (event: Event) => {
-    this.setState({ imdbId: event.target.value });
+    this.setState({
+      [name]: value,
+    } as Pick<State, keyof State>);
   };
 
   resetForm = () => {
@@ -54,23 +40,8 @@ export class NewMovie extends Component<Props, State> {
 
   handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    const {
-      title,
-      description,
-      imdbUrl,
-      imgUrl,
-      imdbId,
-    } = this.state;
 
-    const newMovie = {
-      title,
-      description,
-      imdbUrl,
-      imgUrl,
-      imdbId,
-    };
-
-    this.props.addMovie(newMovie);
+    this.props.addMovie({ ...this.state });
     this.resetForm();
   };
 
@@ -93,20 +64,20 @@ export class NewMovie extends Component<Props, State> {
             className="w-75"
             placeholder="Title"
             name="title"
-            id="title"
             type="text"
             required
             value={title}
-            onChange={this.titleHandleChange}
+            onChange={this.handleInput}
           />
         </div>
         <div className="mb-3">
-          <textarea
+          <input
             className="w-75"
             placeholder="Description"
             name="description"
+            type="text"
             value={description}
-            onChange={this.descriptionHandleChange}
+            onChange={this.handleInput}
           />
         </div>
         <div className="mb-3">
@@ -117,7 +88,7 @@ export class NewMovie extends Component<Props, State> {
             required
             value={imgUrl}
             type="text"
-            onChange={this.imgUrlHandleChange}
+            onChange={this.handleInput}
           />
         </div>
         <div className="mb-3">
@@ -128,7 +99,7 @@ export class NewMovie extends Component<Props, State> {
             required
             value={imdbUrl}
             type="text"
-            onChange={this.imdbUrlHandleChange}
+            onChange={this.handleInput}
           />
         </div>
         <div className="mb-3">
@@ -139,7 +110,7 @@ export class NewMovie extends Component<Props, State> {
             required
             value={imdbId}
             type="text"
-            onChange={this.imdbIdHandleChange}
+            onChange={this.handleInput}
           />
         </div>
         <button
