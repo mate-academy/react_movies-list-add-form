@@ -1,0 +1,18 @@
+.NewMovie {
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__input {
+    width: 360px;
+    margin-bottom: 20px;
+  }
+}
+
+.button {
+  width: 160px;
+}
