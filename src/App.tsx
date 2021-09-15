@@ -13,22 +13,10 @@ export class App extends React.Component<{}, State> {
     movies: [...moviesFromServer],
   };
 
-  addMovie = (
-    title: string,
-    description: string,
-    imgUrl: string,
-    imdbUrl: string,
-    imdbId: string,
-  ) => {
+  addMovie = (movie: Movie) => {
     this.setState((currentState) => ({
-      movies: [{
-        title,
-        description,
-        imgUrl,
-        imdbUrl,
-        imdbId,
-      },
-      ...currentState.movies,
+      movies: [movie,
+        ...currentState.movies,
       ],
     }));
   };

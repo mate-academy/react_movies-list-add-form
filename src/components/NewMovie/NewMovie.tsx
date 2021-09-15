@@ -1,12 +1,7 @@
 import React from 'react';
 
 type Props = {
-  onAdd: (
-    title: string,
-    description: string,
-    imgUrl: string,
-    imdbUrl: string,
-    imdbId: string,) => void;
+  onAdd: (movie: Movie) => void;
 };
 type State = {
   errorMessage: string;
@@ -33,7 +28,7 @@ export class NewMovie extends React.Component<Props, State> {
 
     this.setState({
       [name]: value,
-    });
+    } as Pick<State, keyof State>);
   };
 
   render() {
@@ -54,7 +49,9 @@ export class NewMovie extends React.Component<Props, State> {
         <div className="error">{errorMessage && 'Enter correct url'}</div>
         <form onSubmit={(event) => {
           event.preventDefault();
-          if (/^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/.test(imgUrl) === false) {
+          const regexPattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
+
+          if (regexPattern.test(imgUrl) === false) {
             this.setState({
               errorMessage: 'imgUrl',
             });
@@ -62,7 +59,7 @@ export class NewMovie extends React.Component<Props, State> {
             return;
           }
 
-          if (/^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/.test(imdbUrl) === false) {
+          if (regexPattern.test(imdbUrl) === false) {
             this.setState({
               errorMessage: 'imdbUrl',
             });
@@ -70,13 +67,15 @@ export class NewMovie extends React.Component<Props, State> {
             return;
           }
 
-          onAdd(
+          const newMovie: Movie = {
             title,
             description,
             imgUrl,
             imdbUrl,
             imdbId,
-          );
+          };
+
+          onAdd(newMovie);
           this.setState({
             title: '',
             description: '',
