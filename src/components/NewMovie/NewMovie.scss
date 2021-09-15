@@ -1,0 +1,7 @@
+.new-movie-form {
+  &__input-container {
+    &.invalid {
+      color: red;
+    }
+  }
+}

@@ -1,24 +1,37 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { Component } from 'react';
+import React from 'react';
+import classNames from 'classnames';
+import './NewMovie.scss';
 
 type Props = {
   onAdd: (movie: Movie) => void;
 };
+
 type State = {
   title: string,
   description: string,
   imgUrl: string,
   imdbUrl: string,
   imdbId: string,
+  titleIsInvalid: boolean,
+  descriptionIsInvalid: boolean,
+  imgUrlIsInvalid: boolean,
+  imdbIdIsInvalid: boolean,
+  imdbUrlIsInvalid: boolean,
 };
 
-export class NewMovie extends Component<Props, State> {
+export class NewMovie extends React.Component<Props, State> {
   state: State = {
     title: '',
     description: '',
     imgUrl: '',
     imdbUrl: '',
     imdbId: '',
+    titleIsInvalid: false,
+    descriptionIsInvalid: false,
+    imgUrlIsInvalid: false,
+    imdbIdIsInvalid: false,
+    imdbUrlIsInvalid: false,
   };
 
   handleChange = (
@@ -29,23 +42,28 @@ export class NewMovie extends Component<Props, State> {
 
     if (name === 'title') {
       this.setState({
+        titleIsInvalid: false,
         title: value,
       });
     } else if (name === 'description') {
       this.setState({
         description: value,
+        descriptionIsInvalid: false,
       });
     } else if (name === 'imgUrl') {
       this.setState({
         imgUrl: value,
+        imgUrlIsInvalid: false,
       });
     } else if (name === 'imdbUrl') {
       this.setState({
         imdbUrl: value,
+        imdbUrlIsInvalid: false,
       });
     } else if (name === 'imdbId') {
       this.setState({
         imdbId: value,
+        imdbIdIsInvalid: false,
       });
     }
   };
@@ -62,12 +80,20 @@ export class NewMovie extends Component<Props, State> {
 
   onSubmitHandler = (event: React.FormEvent) => {
     event.preventDefault();
+    const {
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    } = this.state;
+
     if (
-      this.state.title
-      && this.state.description
-      && this.state.imgUrl
-      && this.state.imdbUrl
-      && this.state.imdbId) {
+      title
+      && description
+      && imgUrl
+      && imdbUrl
+      && imdbId) {
       const newMovie = this.createMovie();
 
       this.props.onAdd(newMovie);
@@ -77,6 +103,41 @@ export class NewMovie extends Component<Props, State> {
         imgUrl: '',
         imdbUrl: '',
         imdbId: '',
+        titleIsInvalid: false,
+        descriptionIsInvalid: false,
+        imgUrlIsInvalid: false,
+        imdbIdIsInvalid: false,
+        imdbUrlIsInvalid: false,
+      });
+    }
+
+    if (!title) {
+      this.setState({
+        titleIsInvalid: true,
+      });
+    }
+
+    if (!description) {
+      this.setState({
+        descriptionIsInvalid: true,
+      });
+    }
+
+    if (!imgUrl) {
+      this.setState({
+        imgUrlIsInvalid: true,
+      });
+    }
+
+    if (!imdbId) {
+      this.setState({
+        imdbIdIsInvalid: true,
+      });
+    }
+
+    if (!imdbUrl) {
+      this.setState({
+        imdbUrlIsInvalid: true,
       });
     }
   };
@@ -88,12 +149,26 @@ export class NewMovie extends Component<Props, State> {
       imgUrl,
       imdbUrl,
       imdbId,
+      titleIsInvalid,
+      descriptionIsInvalid,
+      imgUrlIsInvalid,
+      imdbIdIsInvalid,
+      imdbUrlIsInvalid,
     } = this.state;
 
     return (
-      <form className="row" onSubmit={this.onSubmitHandler}>
+      <form className="row new-movie-form" onSubmit={this.onSubmitHandler}>
         <h3 className="text-center mb-3">Add a movie Form</h3>
-        <div className="form-floating mb-3">
+        <div
+          className={
+            classNames(
+              'form-floating mb-3 new-movie-form__input-container',
+              {
+                invalid: titleIsInvalid,
+              },
+            )
+          }
+        >
           <input
             type="text"
             className="form-control"
@@ -105,7 +180,16 @@ export class NewMovie extends Component<Props, State> {
           />
           <label htmlFor="floatingTitle">Title</label>
         </div>
-        <div className="form-floating mb-3">
+        <div
+          className={
+            classNames(
+              'form-floating mb-3 new-movie-form__input-container',
+              {
+                invalid: descriptionIsInvalid,
+              },
+            )
+          }
+        >
           <textarea
             className="form-control"
             id="floatingDescription"
@@ -116,7 +200,16 @@ export class NewMovie extends Component<Props, State> {
           />
           <label htmlFor="floatingDescription">Description</label>
         </div>
-        <div className="form-floating mb-3">
+        <div
+          className={
+            classNames(
+              'form-floating mb-3 new-movie-form__input-container',
+              {
+                invalid: imgUrlIsInvalid,
+              },
+            )
+          }
+        >
           <input
             type="text"
             className="form-control"
@@ -128,7 +221,16 @@ export class NewMovie extends Component<Props, State> {
           />
           <label htmlFor="floatingImgUrl">ImgUrl</label>
         </div>
-        <div className="form-floating mb-3">
+        <div
+          className={
+            classNames(
+              'form-floating mb-3 new-movie-form__input-container',
+              {
+                invalid: imdbUrlIsInvalid,
+              },
+            )
+          }
+        >
           <input
             type="text"
             className="form-control"
@@ -140,7 +242,14 @@ export class NewMovie extends Component<Props, State> {
           />
           <label htmlFor="floatingImdbUrl">ImdbUrl</label>
         </div>
-        <div className="form-floating mb-3">
+        <div
+          className={classNames(
+            'form-floating mb-3 new-movie-form__input-container',
+            {
+              invalid: imdbIdIsInvalid,
+            },
+          )}
+        >
           <input
             type="text"
             className="form-control"
