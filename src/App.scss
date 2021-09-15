@@ -13,3 +13,33 @@
   padding: 20px;
   border-left: 1px solid lightgray;
 }
+
+.warning__message {
+  color: rgb(255, 0, 0);
+}
+
+.accepted__message {
+  color: rgb(0, 126, 0);
+}
+
+.Add__film__title {
+  font-weight: bold;
+  font-size: 30px;
+  text-align: center;
+}
+
+.form__container {
+  margin: 10px;
+}
+
+.input {
+  margin: 10px 0;
+}
+
+.button__addMovie {
+  margin-top: 10px;
+  font-size: 16px;
+  font-weight: 500;
+  padding: 10px;
+  background-color: rgb(157, 202, 171);
+}
