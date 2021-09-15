@@ -23,9 +23,20 @@ export class NewMovie extends Component<Props, State> {
     } as Pick<State, keyof State>);
   };
 
+  clearState = () => {
+    this.setState({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
+  };
+
   handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     this.props.onAddMovie(this.state);
+    this.clearState();
   };
 
   render() {
