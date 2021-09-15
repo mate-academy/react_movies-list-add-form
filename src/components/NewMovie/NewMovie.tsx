@@ -15,6 +15,16 @@ export class NewMovie extends Component<Props, State> {
     imdbId: '',
   };
 
+  clearState = () => {
+    this.setState({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
+  };
+
   handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
 
@@ -26,6 +36,7 @@ export class NewMovie extends Component<Props, State> {
   handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     this.props.onAddMovie(this.state);
+    this.clearState();
   };
 
   render() {
