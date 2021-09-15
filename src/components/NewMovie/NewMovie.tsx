@@ -1,16 +1,159 @@
 import { Component } from 'react';
+import { MoviesList } from '../MoviesList/MoviesList';
+import './NewMovie.scss';
 
-type Props = {};
-type State = {};
+interface Props {
+  movies: Movie[];
+}
+
+interface State {
+  movies: Movie[];
+  title: string;
+  description: string;
+  imgUrl: string;
+  imdbUrl: string;
+  imdbId: string;
+}
 
 export class NewMovie extends Component<Props, State> {
-  state: State = {};
+  state: State = {
+    movies: this.props.movies,
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  };
+
+  addMovie = () => {
+    const {
+      title, description, imgUrl, imdbUrl, imdbId,
+    } = this.state;
+
+    if (!title || !description || !imgUrl || !imdbUrl || !imdbId) {
+      return;
+    }
+
+    const newFilm: Movie = {
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    };
+
+    this.setState(prevState => ({
+      movies: [{ ...newFilm }, ...prevState.movies],
+    }));
+
+    this.state.title = '';
+    this.state.description = '';
+    this.state.imgUrl = '';
+    this.state.imdbUrl = '';
+    this.state.imdbId = '';
+  };
+
+  onAdd = (event: React.FormEvent) => {
+    event.preventDefault();
+  };
 
   render() {
+    const { movies } = this.state;
+
     return (
-      <form>
-        Put the form here
-      </form>
+      <>
+        <div className="page-content">
+          <MoviesList movies={movies} />
+        </div>
+
+        <div className="sidebar">
+          <form onSubmit={this.onAdd} className="sidebar__form">
+
+            <label htmlFor="title">
+              <p className="input__name">Title</p>
+              <input
+                className="form-control"
+                type="text"
+                name="Title"
+                id="Title"
+                required
+                value={this.state.title}
+                onChange={(event) => {
+                  this.setState({ title: event.target.value });
+                }}
+              />
+            </label>
+
+            <label htmlFor="description">
+              <p className="input__name">Description</p>
+              <input
+                className="form-control"
+                type="text"
+                name="description"
+                id="description"
+                required
+                value={this.state.description}
+                onChange={(event) => {
+                  this.setState({ description: event.target.value });
+                }}
+              />
+            </label>
+
+            <label htmlFor="imgUrl">
+              <p className="input__name">ImgUrl</p>
+              <input
+                className="form-control"
+                type="text"
+                name="imgUrl"
+                id="imgUrl"
+                required
+                value={this.state.imgUrl}
+                onChange={(event) => {
+                  this.setState({ imgUrl: event.target.value });
+                }}
+              />
+            </label>
+
+            <label htmlFor="imdbUrl">
+              <p className="input__name">ImdbUrl</p>
+              <input
+                className="form-control"
+                type="text"
+                name="imdbUrl"
+                id="imdbUrl"
+                required
+                value={this.state.imdbUrl}
+                onChange={(event) => {
+                  this.setState({ imdbUrl: event.target.value });
+                }}
+              />
+            </label>
+
+            <label htmlFor="imdbId">
+              <p className="input__name">ImdbId</p>
+              <input
+                className="form-control"
+                type="text"
+                name="imdbId"
+                id="imdbId"
+                required
+                value={this.state.imdbId}
+                onChange={(event) => {
+                  this.setState({ imdbId: event.target.value });
+                }}
+              />
+            </label>
+
+            <button
+              type="submit"
+              onClick={this.addMovie}
+              className="sidebar__button btn btn-outline-warning"
+            >
+              Add film
+            </button>
+          </form>
+        </div>
+      </>
     );
   }
 }
