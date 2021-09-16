@@ -23,7 +23,7 @@ export class NewMovie extends Component<Props, State> {
     imdbId: '',
   };
 
-  resetState = () => {
+  resetForm = () => {
     this.setState({
       title: '',
       description: '',
@@ -49,7 +49,7 @@ export class NewMovie extends Component<Props, State> {
     };
 
     this.props.onAdd(newMovie);
-    this.resetState();
+    this.resetForm();
   };
 
   render() {
