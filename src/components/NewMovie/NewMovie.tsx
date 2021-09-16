@@ -33,6 +33,14 @@ export class NewMovie extends Component<Props, State> {
     });
   };
 
+  handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+
+    this.setState({
+      [name]: value,
+    } as Pick<State, keyof State>);
+  };
+
   handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
@@ -80,9 +88,7 @@ export class NewMovie extends Component<Props, State> {
               name="description"
               value={description}
               type="text"
-              onChange={(event) => {
-                this.setState({ description: event.target.value });
-              }}
+              onChange={this.handleChange}
             />
           </label>
 
@@ -95,9 +101,7 @@ export class NewMovie extends Component<Props, State> {
               name="imdbId"
               value={imdbId}
               type="text"
-              onChange={(event) => {
-                this.setState({ imdbId: event.target.value });
-              }}
+              onChange={this.handleChange}
             />
           </label>
 
@@ -110,9 +114,7 @@ export class NewMovie extends Component<Props, State> {
               name="imdbUrl"
               value={imdbUrl}
               type="text"
-              onChange={(event) => {
-                this.setState({ imdbUrl: event.target.value });
-              }}
+              onChange={this.handleChange}
             />
           </label>
 
@@ -125,9 +127,7 @@ export class NewMovie extends Component<Props, State> {
               name="imgUrl"
               value={imgUrl}
               type="text"
-              onChange={(event) => {
-                this.setState({ imgUrl: event.target.value });
-              }}
+              onChange={this.handleChange}
             />
           </label>
         </div>
