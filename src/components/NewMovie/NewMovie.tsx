@@ -11,15 +11,17 @@ type State = {
 
 const inputItems = ['title', 'description', 'imgUrl', 'imdbUrl', 'imdbId'];
 
+const movieBody = {
+  title: '',
+  description: '',
+  imgUrl: '',
+  imdbUrl: '',
+  imdbId: '',
+};
+
 export class NewMovie extends React.PureComponent<Props, State> {
   state: State = {
-    movie: {
-      title: '',
-      description: '',
-      imgUrl: '',
-      imdbUrl: '',
-      imdbId: '',
-    },
+    movie: movieBody,
   };
 
   handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -37,9 +39,12 @@ export class NewMovie extends React.PureComponent<Props, State> {
     });
   };
 
-  handleSubmit = (event: React.FormEvent<EventTarget>) => {
+  handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     this.props.addMovie(this.state.movie);
+    this.setState({
+      movie: movieBody,
+    });
   };
 
   render() {
