@@ -41,6 +41,18 @@ export class NewMovie extends Component<Props, State> {
     });
   };
 
+  validate = () => {
+    const {
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    } = this.state;
+
+    return !title || !description || !imgUrl || !imdbId || !imdbUrl;
+  };
+
   handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
@@ -92,6 +104,7 @@ export class NewMovie extends Component<Props, State> {
               className="NewMovie__input form-control"
               id="title"
               placeholder="title"
+              required
             />
           </label>
 
@@ -104,6 +117,7 @@ export class NewMovie extends Component<Props, State> {
               className="NewMovie__input form-control"
               id="description"
               placeholder="description"
+              required
             />
           </label>
 
@@ -116,6 +130,7 @@ export class NewMovie extends Component<Props, State> {
               className="NewMovie__input form-control"
               id="imgUrl"
               placeholder="imgUrl"
+              required
             />
           </label>
 
@@ -128,6 +143,7 @@ export class NewMovie extends Component<Props, State> {
               className="NewMovie__input form-control"
               id="imdbUrl"
               placeholder="imdbUrl"
+              required
             />
           </label>
 
@@ -140,6 +156,7 @@ export class NewMovie extends Component<Props, State> {
               className="NewMovie__input form-control"
               id="imdbId"
               placeholder="imdbId"
+              required
             />
           </label>
 
@@ -147,6 +164,7 @@ export class NewMovie extends Component<Props, State> {
             type="submit"
             name="add"
             className="button btn btn-primary"
+            disabled={this.validate()}
           >
             Add
           </button>
