@@ -30,6 +30,16 @@ export class NewMovie extends Component<Props, State> {
     } as Pick<State, keyof State>);
   };
 
+  reset = () => {
+    this.setState({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
+  };
+
   handleSubmit = (event: React.FormEvent) => {
     const { onAdd } = this.props;
     const newMovie = { ...this.state };
@@ -37,14 +47,7 @@ export class NewMovie extends Component<Props, State> {
     event.preventDefault();
 
     onAdd(newMovie);
-
-    return {
-      title: '',
-      description: '',
-      imgUrl: '',
-      imdbUrl: '',
-      imdbId: '',
-    };
+    this.reset();
   };
 
   render() {
