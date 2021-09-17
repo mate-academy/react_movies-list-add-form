@@ -31,9 +31,47 @@ export class NewMovie extends React.Component<Props, State> {
     } as Pick<State, keyof State>);
   };
 
-  render() {
+  handleSubmit = (event: React.FormEvent) => {
     const { onAdd } = this.props;
+    const {title, description, imgUrl, imdbUrl, imdbId} = this.state
+    event.preventDefault();
+    const regexPattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
 
+    if (regexPattern.test(imgUrl) === false) {
+      this.setState({
+        errorMessage: 'imgUrl',
+      });
+
+      return;
+    }
+
+    if (regexPattern.test(imdbUrl) === false) {
+      this.setState({
+        errorMessage: 'imdbUrl',
+      });
+
+      return;
+    }
+
+    const newMovie: Movie = {
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    };
+
+    onAdd(newMovie);
+    this.setState({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
+  }
+
+  render() {
     const {
       title,
       description,
@@ -47,43 +85,7 @@ export class NewMovie extends React.Component<Props, State> {
       <>
         <h2 className="display-6 text-decoration-underline">Add Movie here</h2>
         <div className="error">{errorMessage && 'Enter correct url'}</div>
-        <form onSubmit={(event) => {
-          event.preventDefault();
-          const regexPattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
-
-          if (regexPattern.test(imgUrl) === false) {
-            this.setState({
-              errorMessage: 'imgUrl',
-            });
-
-            return;
-          }
-
-          if (regexPattern.test(imdbUrl) === false) {
-            this.setState({
-              errorMessage: 'imdbUrl',
-            });
-
-            return;
-          }
-
-          const newMovie: Movie = {
-            title,
-            description,
-            imgUrl,
-            imdbUrl,
-            imdbId,
-          };
-
-          onAdd(newMovie);
-          this.setState({
-            title: '',
-            description: '',
-            imgUrl: '',
-            imdbUrl: '',
-            imdbId: '',
-          });
-        }}
+        <form onSubmit={this.handleSubmit}
         >
           <div className="col-auto">
             <label className="form-label" htmlFor="title">
