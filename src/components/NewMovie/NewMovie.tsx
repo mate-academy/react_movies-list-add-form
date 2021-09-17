@@ -25,7 +25,7 @@ export class NewMovie extends Component<Props, Movie> {
     });
   };
 
-  hundleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = event.target;
 
     this.setState((state) => ({
