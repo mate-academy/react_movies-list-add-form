@@ -97,6 +97,7 @@ export class NewMovie extends React.Component<Props, State> {
           this.setState({
             [actionType]: '',
             showImdbUrlError: true,
+            showImdbValidateUrlError: false,
           });
         } else {
           this.setState({
