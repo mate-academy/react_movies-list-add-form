@@ -23,10 +23,15 @@ export class NewMovie extends Component<Props, State> {
 
   handleSubmit = (event: React.FormEvent) => {
     const {
-      title, description, imgUrl, imdbUrl, imdbId,
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
     } = this.state;
 
     event.preventDefault();
+
     const newMovie = {
       title,
       description,
@@ -54,7 +59,7 @@ export class NewMovie extends Component<Props, State> {
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
+      <form action="" onSubmit={this.handleSubmit}>
 
         <div className="mb-3">
           <input
@@ -88,21 +93,21 @@ export class NewMovie extends Component<Props, State> {
           />
 
           <input
-            name="imbdUrl"
+            name="imdbUrl"
             type="text"
             onChange={this.handleChange}
             value={this.state.imdbUrl}
-            id="imbdUrl"
+            id="imdbUrl"
             placeholder="Enter imbdUrl"
             className="form-control form-control--bot"
           />
 
           <input
-            name="imbdId"
+            name="imdbId"
             type="text"
             onChange={this.handleChange}
             value={this.state.imdbId}
-            id="imbdId"
+            id="imdbId"
             placeholder="Enter imbdId"
             className="form-control form-control--bot"
           />
