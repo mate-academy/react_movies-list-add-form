@@ -18,11 +18,13 @@ export class NewMovie extends Component<Props, Movie> {
     event.preventDefault();
     this.props.addMovie(this.state);
 
-    this.state.title = '';
-    this.state.description = '';
-    this.state.imgUrl = '';
-    this.state.imdbUrl = '';
-    this.state.imdbId = '';
+    this.setState({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
   };
 
   render() {
