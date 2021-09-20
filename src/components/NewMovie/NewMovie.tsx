@@ -91,6 +91,14 @@ export class NewMovie extends Component<Props, State> {
   };
 
   render() {
+    const {
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    } = this.state;
+
     return (
       <form
         onSubmit={this.onAdd}
@@ -107,7 +115,7 @@ export class NewMovie extends Component<Props, State> {
             <input
               type="text"
               id="title"
-              value={this.state.title}
+              value={title}
               onChange={this.handleChange}
               placeholder="place movie title"
               required
@@ -121,7 +129,7 @@ export class NewMovie extends Component<Props, State> {
           <div className="control">
             <textarea
               id="description"
-              value={this.state.description}
+              value={description}
               onChange={this.handleChangeTextarea}
               placeholder="write description"
               required
@@ -136,7 +144,7 @@ export class NewMovie extends Component<Props, State> {
             <input
               type="text"
               id="imgUrl"
-              value={this.state.imgUrl}
+              value={imgUrl}
               onChange={this.handleChange}
               placeholder="place image link"
               required
@@ -151,7 +159,7 @@ export class NewMovie extends Component<Props, State> {
             <input
               type="text"
               id="imdbUrl"
-              value={this.state.imdbUrl}
+              value={imdbUrl}
               onChange={this.handleChange}
               placeholder="place imdb link"
               required
@@ -166,7 +174,7 @@ export class NewMovie extends Component<Props, State> {
             <input
               type="text"
               id="imdbId"
-              value={this.state.imdbId}
+              value={imdbId}
               onChange={this.handleChange}
               placeholder="enter imdb id"
               required
