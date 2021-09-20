@@ -14,8 +14,8 @@ export class App extends React.Component<{}, State> {
   };
 
   addMovie = (movie: Movie) => {
-    this.setState((previousValue) => ({
-      movies: [movie, ...previousValue.movies],
+    this.setState((previousState) => ({
+      movies: [movie, ...previousState.movies],
     }));
   };
 
@@ -29,7 +29,6 @@ export class App extends React.Component<{}, State> {
         </div>
         <div className="sidebar">
           <NewMovie
-            movies={moviesFromServer}
             addMovie={this.addMovie}
           />
         </div>

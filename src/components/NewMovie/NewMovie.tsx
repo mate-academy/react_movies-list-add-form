@@ -1,7 +1,6 @@
 import { Component } from 'react';
 
 type Props = {
-  movies: Movie[];
   addMovie: (movie: Movie) => void;
 };
 
@@ -24,7 +23,9 @@ export class NewMovie extends Component<Props, State> {
 
   handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
+
     this.props.addMovie({ ...this.state });
+
     this.setState({
       title: '',
       description: '',
@@ -34,60 +35,66 @@ export class NewMovie extends Component<Props, State> {
     });
   };
 
+  handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+
+    this.setState({
+      [name]: value,
+    } as Pick<State, keyof State>);
+  };
+
   render() {
+    const {
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    } = this.state;
+
     return (
       <form onSubmit={this.handleSubmit}>
         <input
-          value={this.state.title}
+          name="title"
+          value={title}
           className="input form-control"
           placeholder="Title"
-          onChange={(event) => {
-            this.setState({
-              title: event.target.value,
-            });
-          }}
+          onChange={this.handleChange}
         />
         <input
-          value={this.state.description}
+          name="description"
+          value={description}
           className="input form-control"
           placeholder="Description"
-          onChange={(event) => {
-            this.setState({
-              description: event.target.value,
-            });
-          }}
+          onChange={this.handleChange}
         />
         <input
-          value={this.state.imgUrl}
+          name="imgUrl"
+          value={imgUrl}
           className="input form-control"
           placeholder="imgUrl"
-          onChange={(event) => {
-            this.setState({
-              imgUrl: event.target.value,
-            });
-          }}
+          onChange={this.handleChange}
         />
         <input
-          value={this.state.imdbUrl}
+          name="imdbUrl"
+          value={imdbUrl}
           className="input form-control"
           placeholder="imdbUrl"
-          onChange={(event) => {
-            this.setState({
-              imdbUrl: event.target.value,
-            });
-          }}
+          onChange={this.handleChange}
         />
         <input
-          value={this.state.imdbId}
+          name="imdbId"
+          value={imdbId}
           className="input form-control"
           placeholder="imdbId"
-          onChange={(event) => {
-            this.setState({
-              imdbId: event.target.value,
-            });
-          }}
+          onChange={this.handleChange}
         />
-        <button type="submit" className="btn btn-outline-info w-100">Submit</button>
+        <button
+          type="submit"
+          className="btn btn-outline-info w-100"
+        >
+          Submit
+        </button>
       </form>
     );
   }
