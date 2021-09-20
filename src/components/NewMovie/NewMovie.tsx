@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import React, { Component } from 'react';
 
 type Props = {
   addMovie: (movie: Movie) => void;
@@ -42,24 +42,13 @@ export class NewMovie extends Component<Props, State> {
     this.clearState();
   };
 
-  addTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ title: event.target.value });
-  };
+  handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    const key: keyof State = name as keyof State;
 
-  addDescription = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ description: event.target.value });
-  };
-
-  addImgUrl = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ imgUrl: event.target.value });
-  };
-
-  addImdUrl = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ imdbUrl: event.target.value });
-  };
-
-  addImdbId = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ imdbId: event.target.value });
+    this.setState({
+      [key]: value,
+    } as Pick<State, keyof State>);
   };
 
   clearState() {
@@ -84,36 +73,41 @@ export class NewMovie extends Component<Props, State> {
         <input
           type="text"
           placeholder="Enter you title"
+          name="title"
           value={title}
-          onChange={this.addTitle}
+          onChange={this.handleChange}
         />
 
         <input
           type="text"
+          name="description"
           placeholder="Enter you description"
           value={description}
-          onChange={this.addDescription}
+          onChange={this.handleChange}
         />
 
         <input
           type="text"
           placeholder="Enter you imgUrl"
+          name="imgUrl"
           value={imgUrl}
-          onChange={this.addImgUrl}
+          onChange={this.handleChange}
         />
 
         <input
           type="text"
           placeholder="Enter you imdUrl"
           value={imdbUrl}
-          onChange={this.addImdUrl}
+          name="imdbUrl"
+          onChange={this.handleChange}
         />
 
         <input
           type="text"
           placeholder="Enter you imdbld"
           value={imdbId}
-          onChange={this.addImdbId}
+          name="imdbId"
+          onChange={this.handleChange}
         />
 
         <button type="submit">add</button>
