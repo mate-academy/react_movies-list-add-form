@@ -81,7 +81,7 @@ export class NewMovie extends Component<Props, State> {
         && <div className="error-message">Please enter a title</div>}
         <textarea
           className="form-input"
-          name="Description"
+          name="description"
           placeholder="description"
           cols={10}
           rows={5}
@@ -92,7 +92,7 @@ export class NewMovie extends Component<Props, State> {
           className="form-input"
           required
           type="text"
-          name="mgUrl"
+          name="imgUrl"
           placeholder="ImgUrl"
           value={this.state.imgUrl}
           onChange={this.handleChange}
