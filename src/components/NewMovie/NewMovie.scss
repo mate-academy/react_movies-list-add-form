@@ -1,0 +1,28 @@
+* {
+  box-sizing: border-box;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+
+  &-input {
+    margin: 5px;
+    padding: 5px;
+    border: 2px solid darkblue;
+  }
+}
+
+.error-message {
+  color: red;
+  border: 1px solid darkred;
+  margin: 0 5px 5px;
+  font-weight: bold;
+  font-size: 12px;
+}
+
+.button {
+  margin: 5px;
+  padding: 5px;
+  background-color: cornflowerblue;
+}
