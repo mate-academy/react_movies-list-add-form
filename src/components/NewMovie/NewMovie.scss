@@ -1,0 +1,11 @@
+.movie {
+  &__input {
+    display: block;
+    margin-bottom: 10px;
+  }
+}
+
+.warning {
+  padding: 15px;
+  color: red;
+}
