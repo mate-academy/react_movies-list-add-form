@@ -1,0 +1,26 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  height: 500px;
+
+  &__title {
+    font-weight: bold;
+  }
+
+  &__button {
+    margin-top: 40px;
+    height: 50px;
+    width: 200px;
+    background-color: #00BFFF;
+    border-color: #1E90FF;
+    font-size: 15px;
+    font-weight: bold;
+    color: white;
+  }
+
+  &__textarea {
+    resize: none;
+    height: 150px;
+  }
+}
