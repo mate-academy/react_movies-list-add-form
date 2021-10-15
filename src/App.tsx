@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import './App.scss';
 import { MoviesList } from './components/MoviesList';
 import { NewMovie } from './components/NewMovie';
@@ -13,8 +13,10 @@ export class App extends React.Component<{}, State> {
     movies: moviesFromServer,
   };
 
-  addMovie = (/* movie: Movie */) => {
-    // put your code here
+  addMovie = (movie: Movie) => {
+    this.setState(currentState => ({
+      movies: [...currentState.movies, movie],
+    }));
   };
 
   render() {
@@ -26,7 +28,7 @@ export class App extends React.Component<{}, State> {
           <MoviesList movies={movies} />
         </div>
         <div className="sidebar">
-          <NewMovie />
+          <NewMovie addMovie={this.addMovie} />
         </div>
       </div>
     );
