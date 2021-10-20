@@ -21,6 +21,19 @@ export class NewMovie extends React.Component<Props, State> {
     imdbId: '',
   };
 
+  sendMovie = () => {
+    if ((Object.values(this.state)).every(item => item !== '')) {
+      this.props.addMovie(this.state);
+      this.setState({
+        title: '',
+        description: '',
+        imgUrl: '',
+        imdbUrl: '',
+        imdbId: '',
+      });
+    }
+  };
+
   render() {
     const {
       title, description, imdbId, imdbUrl, imgUrl,
@@ -49,6 +62,7 @@ export class NewMovie extends React.Component<Props, State> {
               type="text"
               name="description"
               value={description}
+              required
               id="description"
               onChange={(event) => {
                 this.setState({ description: event.target.value });
@@ -101,18 +115,10 @@ export class NewMovie extends React.Component<Props, State> {
           <button
             type="submit"
             onClick={() => {
-              this.props.addMovie(this.state);
-              this.setState({
-                title: '',
-                description: '',
-                imgUrl: '',
-                imdbUrl: '',
-                imdbId: '',
-              });
+              this.sendMovie();
             }}
           >
             Add movie
-
           </button>
         </form>
       </>
