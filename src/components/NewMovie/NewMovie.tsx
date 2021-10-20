@@ -132,32 +132,36 @@ export class NewMovie extends Component<Props, State> {
           value={description}
           onChange={(e) => this.setState({ description: e.target.value })}
         />
-        <input
-          className={classNames({
-            'newMovie-form__input': true,
-            'newMovie-form__element': true,
-            'newMovie-form__input--error': !isImgUrlValid,
-          })}
-          required
-          type="text"
-          placeholder="Enter URL of image"
-          value={imgUrl}
-          onChange={(e) => this.changeHandler(e.target.value, 'imgUrl')}
-        />
-        {!isImgUrlValid && (<span className="error-message">Wrong format!</span>)}
-        <input
-          className={classNames({
-            'newMovie-form__input': true,
-            'newMovie-form__element': true,
-            'newMovie-form__input--error': !isImdbUrlValid,
-          })}
-          required
-          type="text"
-          placeholder="Enter URL of IMDB"
-          value={imdbUrl}
-          onChange={(e) => this.changeHandler(e.target.value, 'imdbUrl')}
-        />
-        {!isImdbUrlValid && (<span className="error-message">Wrong format!</span>)}
+        <div className="input-set">
+          <input
+            className={classNames({
+              'newMovie-form__input': true,
+              'newMovie-form__element': true,
+              'newMovie-form__input--error': !isImgUrlValid,
+            })}
+            required
+            type="text"
+            placeholder="Enter URL of image"
+            value={imgUrl}
+            onChange={(e) => this.changeHandler(e.target.value, 'imgUrl')}
+          />
+          {!isImgUrlValid && (<span className="error-message">Wrong format!</span>)}
+        </div>
+        <div className="input-set">
+          <input
+            className={classNames({
+              'newMovie-form__input': true,
+              'newMovie-form__element': true,
+              'newMovie-form__input--error': !isImdbUrlValid,
+            })}
+            required
+            type="text"
+            placeholder="Enter URL of IMDB"
+            value={imdbUrl}
+            onChange={(e) => this.changeHandler(e.target.value, 'imdbUrl')}
+          />
+          {!isImdbUrlValid && (<span className="error-message">Wrong format!</span>)}
+        </div>
         <input
           className="newMovie-form__input newMovie-form__element"
           required
