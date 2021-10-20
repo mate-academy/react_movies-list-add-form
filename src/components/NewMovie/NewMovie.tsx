@@ -22,7 +22,11 @@ export class NewMovie extends React.Component<Props, State> {
   };
 
   sendMovie = () => {
-    if ((Object.values(this.state)).every(item => item !== '')) {
+    const {
+      title, imdbId, imdbUrl, imgUrl,
+    } = this.state;
+
+    if (title !== '' && imdbId !== '' && imdbUrl !== '' && imgUrl !== '') {
       this.props.addMovie(this.state);
       this.setState({
         title: '',
@@ -40,88 +44,86 @@ export class NewMovie extends React.Component<Props, State> {
     } = this.state;
 
     return (
-      <>
-        <form>
-          <label htmlFor="title" className="input">
-            Title
-            <input
-              type="text"
-              name="title"
-              id="title"
-              value={title}
-              required
-              onChange={(event) => {
-                this.setState({ title: event.target.value });
-              }}
-            />
-          </label>
-
-          <label htmlFor="description" className="input">
-            Description
-            <input
-              type="text"
-              name="description"
-              value={description}
-              required
-              id="description"
-              onChange={(event) => {
-                this.setState({ description: event.target.value });
-              }}
-            />
-          </label>
-
-          <label htmlFor="imgUrl" className="input">
-            Img Url
-            <input
-              type="text"
-              name="imgUrl"
-              id="imgUrl"
-              value={imgUrl}
-              required
-              onChange={(event) => {
-                this.setState({ imgUrl: event.target.value });
-              }}
-            />
-          </label>
-
-          <label htmlFor="imdbUrl" className="input">
-            IMBD Url
-            <input
-              type="text"
-              name="imdbUrl"
-              id="imdbUrl"
-              value={imdbUrl}
-              required
-              onChange={(event) => {
-                this.setState({ imdbUrl: event.target.value });
-              }}
-            />
-          </label>
-
-          <label htmlFor="imdbId" className="input">
-            IMBD Id
-            <input
-              type="text"
-              name="imdbId"
-              id="imdbId"
-              value={imdbId}
-              required
-              onChange={(event) => {
-                this.setState({ imdbId: event.target.value });
-              }}
-            />
-          </label>
-
-          <button
-            type="submit"
-            onClick={() => {
-              this.sendMovie();
+      <form>
+        <label htmlFor="title" className="input">
+          Title
+          <input
+            type="text"
+            name="title"
+            id="title"
+            value={title}
+            required
+            onChange={(event) => {
+              this.setState({ title: event.target.value });
             }}
-          >
-            Add movie
-          </button>
-        </form>
-      </>
+          />
+        </label>
+
+        <label htmlFor="description" className="input">
+          Description
+          <input
+            type="text"
+            name="description"
+            value={description}
+            id="description"
+            onChange={(event) => {
+              this.setState({ description: event.target.value });
+            }}
+          />
+        </label>
+
+        <label htmlFor="imgUrl" className="input">
+          Img Url
+          <input
+            type="text"
+            name="imgUrl"
+            id="imgUrl"
+            value={imgUrl}
+            required
+            onChange={(event) => {
+              this.setState({ imgUrl: event.target.value });
+            }}
+          />
+        </label>
+
+        <label htmlFor="imdbUrl" className="input">
+          IMBD Url
+          <input
+            type="text"
+            name="imdbUrl"
+            id="imdbUrl"
+            value={imdbUrl}
+            required
+            onChange={(event) => {
+              this.setState({ imdbUrl: event.target.value });
+            }}
+          />
+        </label>
+
+        <label htmlFor="imdbId" className="input">
+          IMBD Id
+          <input
+            type="text"
+            name="imdbId"
+            id="imdbId"
+            value={imdbId}
+            required
+            onChange={(event) => {
+              this.setState({ imdbId: event.target.value });
+            }}
+          />
+        </label>
+
+        <button
+          type="submit"
+          onClick={() => {
+            this.sendMovie();
+          }}
+        >
+          Add movie
+        </button>
+      </form>
+
     );
   }
 }
