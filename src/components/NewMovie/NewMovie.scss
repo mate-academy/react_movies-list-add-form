@@ -1,0 +1,35 @@
+.NewMovie {
+  display: flex;
+  flex-direction: column;
+
+  &__input {
+    height: 30px;
+    margin-bottom: 10px;
+
+    border: 1px solid #aaa;
+    border-radius: 3px;
+    &--error {
+      border: 2px solid #f00;
+    }
+  }
+
+  &__error {
+    margin: -7px 0 5px;
+    text-align: center;
+    font-size: 14px;
+    color: #f00;
+  }
+
+  &__button {
+    height: 30px;
+
+    border: none;
+    border-radius: 3px;
+
+    cursor: pointer;
+
+    &:disabled {
+      cursor: not-allowed;
+    }
+  }
+}
