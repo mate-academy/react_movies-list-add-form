@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './NewMovie.scss';
-import classnames from 'classnames';
+import { TextInput } from '../TextInput';
+import { TextAreaInput } from '../TextAreaInput';
 
 type Props = {
   onAdd: (movie: Movie) => void,
@@ -20,6 +21,13 @@ type State = {
   },
 };
 type InputEvents = React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>;
+enum FieldNames {
+  title = 'title',
+  description = 'description',
+  imgUrl = 'imgUrl',
+  imdbUrl = 'imdbUrl',
+  imdbId = 'imdbId',
+}
 
 const IMAGE_URL = 'https://via.placeholder.com/600x1000';
 const IMDB_URL = 'https://www.imdb.com/';
@@ -114,135 +122,65 @@ export class NewMovie extends Component<Props, State> {
 
     return (
       <form className="form">
-        <label
-          htmlFor="title-input"
-          className="form__input"
-        >
-          <span className="form__label-text">
-            Title
-          </span>
-          <input
-            id="title-input"
-            type="text"
-            name="title"
-            className={classnames(
-              'form__input-field',
-              { 'form__input-field--invalid': errors.title },
-            )}
-            onChange={this.handleInputChange}
-            value={title}
-            onBlur={this.validateTextInput}
-          />
-          <br />
-          {errors.title && 'Required field'}
-        </label>
+        <TextInput
+          fieldName={FieldNames.title}
+          fieldId="title-input"
+          fieldValue={title}
+          labelText="Title"
+          onInputChange={this.handleInputChange}
+          validateField={this.validateTextInput}
+          onSetSpecialValue={this.setSpecialValue}
+          error={errors.title}
+          isLink={false}
+        />
 
-        <label
-          htmlFor="description-input"
-          className="form__input"
-        >
-          <span className="form__label-text">
-            Description
-          </span>
-          <textarea
-            id="description-input"
-            name="description"
-            className={classnames(
-              'form__input-field',
-              { 'form__input-field--invalid': errors.description },
-            )}
-            value={description}
-            onChange={this.handleInputChange}
-            onBlur={this.validateTextInput}
-          />
-          <br />
-          {errors.description && 'Required field'}
-        </label>
+        <TextAreaInput
+          fieldName={FieldNames.description}
+          fieldId="description-input"
+          fieldValue={description}
+          labelText="Description"
+          onInputChange={this.handleInputChange}
+          validateField={this.validateTextInput}
+          error={errors.description}
+        />
 
-        <label
-          htmlFor="img-url-input"
-          className="form__input"
-        >
-          <span className="form__label-text">
-            Image URL
-          </span>
-          <button
-            type="button"
-            onClick={() => {
-              this.setSpecialValue('imgUrl', IMAGE_URL);
-            }}
-          >
-            Use Placeholder
-          </button>
-          <input
-            id="img-url-input"
-            type="text"
-            name="imgUrl"
-            className={classnames(
-              'form__input-field',
-              { 'form__input-field--invalid': errors.imgUrl },
-            )}
-            value={imgUrl}
-            onChange={this.handleInputChange}
-            onBlur={this.validateLink}
-          />
-          <br />
-          {errors.imgUrl && 'Must be a link'}
-        </label>
+        <TextInput
+          fieldName={FieldNames.imgUrl}
+          fieldId="img-url-input"
+          fieldValue={imgUrl}
+          labelText="Image URL"
+          onInputChange={this.handleInputChange}
+          validateField={this.validateLink}
+          onSetSpecialValue={this.setSpecialValue}
+          error={errors.imgUrl}
+          specialValue={IMAGE_URL}
+          isLink
+        />
 
-        <label
-          htmlFor="imdb-url-input"
-          className="form__input"
-        >
-          <span className="form__label-text">
-            IMDB URL
-          </span>
-          <button
-            type="button"
-            onClick={() => {
-              this.setSpecialValue('imdbUrl', IMDB_URL);
-            }}
-          >
-            Default IMDB link
-          </button>
-          <input
-            id="imdb-url-input"
-            type="text"
-            name="imdbUrl"
-            className={classnames(
-              'form__input-field',
-              { 'form__input-field--invalid': errors.imdbUrl },
-            )}
-            value={imdbUrl}
-            onChange={this.handleInputChange}
-            onBlur={this.validateLink}
-          />
-          <br />
-          {errors.imdbUrl && 'Must be a link'}
-        </label>
+        <TextInput
+          fieldName={FieldNames.imdbUrl}
+          fieldId="imdb-url-input"
+          fieldValue={imdbUrl}
+          labelText="IMDB URL"
+          onInputChange={this.handleInputChange}
+          validateField={this.validateLink}
+          onSetSpecialValue={this.setSpecialValue}
+          error={errors.imdbUrl}
+          specialValue={IMDB_URL}
+          isLink
+        />
 
-        <label
-          htmlFor="imdb-id-input"
-          className="form__input"
-        >
-          <span className="form__label-text">
-            IMDB ID
-          </span>
-          <input
-            id="imdb-id-input"
-            type="text"
-            name="imdbId"
-            className={classnames(
-              'form__input-field',
-              { 'form__input-field--invalid': errors.imdbId },
-            )}
-            value={imdbId}
-            onChange={this.handleInputChange}
-            onBlur={this.validateTextInput}
-          />
-          <br />
-          {errors.imdbId && 'Required field'}
-        </label>
+        <TextInput
+          fieldName={FieldNames.imdbId}
+          fieldId="imdb-id-input"
+          fieldValue={imdbId}
+          labelText="IMDB ID"
+          onInputChange={this.handleInputChange}
+          validateField={this.validateTextInput}
+          onSetSpecialValue={this.setSpecialValue}
+          error={errors.imdbId}
+          isLink={false}
+        />
 
         <button
           type="button"
