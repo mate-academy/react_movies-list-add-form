@@ -1,0 +1,11 @@
+form input {
+  display: block;
+}
+
+input.field-with-error{
+  border: 2px solid red;
+}
+
+.form-error-message {
+  color: red;
+}
