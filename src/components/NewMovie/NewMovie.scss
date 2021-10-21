@@ -1,0 +1,68 @@
+.NewMovie {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  &-Title {
+    align-self: center;
+    text-align: center;
+    margin: 0;
+    color: #fb4a4a;
+    font-size: 32px;
+    font-weight: bold;
+    letter-spacing: 2px;
+  }
+
+  &-Input {
+    padding: 8px 16px;
+    border: 1px solid #0004;
+    border-radius: 10px;
+    box-shadow: 4px 4px 8px #0004;
+    text-align: center;
+    font-size: 20px;
+    transition-duration: 0.3s;
+
+    &:focus {
+      transform: translateY(-5px);
+      box-shadow: 8px 8px 16px #0004;
+      outline: none;
+      border-color: #e4b622;
+      border-width: 2px;
+    }
+  }
+
+  &-Textarea {
+    height: 200px;
+    padding: 8px 16px;
+    border: 1px solid #0004;
+    border-radius: 10px;
+    box-shadow: 4px 4px 8px #0004;
+    text-align: center;
+    font-size: 20px;
+    resize: vertical;
+    transition-duration: 0.3s;
+
+    &:focus {
+      transform: translateY(-5px);
+      box-shadow: 8px 8px 16px #0004;
+      outline: none;
+      border-color: #e4b622;
+      border-width: 2px;
+    }
+  }
+
+  &-Button {
+    padding: 8px 16px;
+    border: 1px solid #0004;
+    border-radius: 10px;
+    box-shadow: 4px 4px 8px #0004;
+    font-size: 20px;
+    background-color: #e4b622;
+    transition-duration: 0.3s;
+
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 8px 8px 16px #0004;
+    }
+  }
+}
