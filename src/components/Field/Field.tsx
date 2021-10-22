@@ -1,4 +1,6 @@
-import React from 'react';
+/* eslint-disable react/require-default-props */
+import React, { useState } from 'react';
+import classNames from 'classnames';
 
 interface Props {
   id: string;
@@ -7,6 +9,7 @@ interface Props {
   type: string;
   required?: boolean;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onValidate?: (key: string, value: string) => boolean;
 }
 
 export const Field: React.FC<Props> = ({
@@ -14,13 +17,16 @@ export const Field: React.FC<Props> = ({
   value,
   label,
   type,
-  required,
+  required = false,
   onChange,
+  onValidate = null,
 }) => {
+  const [isValidated, setIsValidated] = useState(true);
+
   return (
     <div className="field">
       <label htmlFor={id}>
-        {label}
+        {`${label}${required ? '*' : ''}`}
         <div className="control">
           <input
             id={id}
@@ -28,15 +34,24 @@ export const Field: React.FC<Props> = ({
             className="input"
             value={value}
             onChange={onChange}
+            onBlur={() => {
+              if (onValidate) {
+                setIsValidated(onValidate(id, value));
+              }
+            }}
             required={required}
           />
         </div>
-        <p className="help is-danger is-invisible">This field is invalid</p>
+        <p className={classNames(
+          'help is-danger',
+          {
+            'is-invisible': isValidated,
+          },
+        )}
+        >
+          This field is invalid
+        </p>
       </label>
     </div>
   );
-};
-
-Field.defaultProps = {
-  required: false,
 };

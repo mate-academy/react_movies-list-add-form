@@ -6,7 +6,7 @@ type Props = {
 };
 
 type State = {
-  [key: string]: string;
+  [key in keyof Movie]: string;
 };
 
 export class NewMovie extends Component<Props, State> {
@@ -24,7 +24,7 @@ export class NewMovie extends Component<Props, State> {
       value,
     } = e.currentTarget;
 
-    this.setState({ [key]: value });
+    this.setState(state => ({ ...state, [key]: value }));
   };
 
   handleSubmit: React.FormEventHandler = (e) => {
@@ -59,6 +59,21 @@ export class NewMovie extends Component<Props, State> {
     });
   };
 
+  handleValidate = (key: string, value: string): boolean => {
+    switch (key) {
+      case 'title':
+      case 'imdbId':
+        return !!value.trim();
+
+      case 'imgUrl':
+      case 'imdbUrl':
+        return value.match(/^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/) !== null;
+
+      default:
+        return true;
+    }
+  };
+
   render() {
     const {
       title,
@@ -68,14 +83,18 @@ export class NewMovie extends Component<Props, State> {
       imdbId,
     } = this.state;
 
+    const isValid = Object.entries(this.state)
+      .every(keyPair => this.handleValidate(...keyPair));
+
     return (
-      <form onSubmit={this.handleSubmit} className="container box">
+      <form noValidate onSubmit={this.handleSubmit} className="container box">
         <Field
           type="text"
           id="title"
           value={title}
           label="Title"
           onChange={this.handleChange}
+          onValidate={this.handleValidate}
           required
         />
         <Field
@@ -84,7 +103,6 @@ export class NewMovie extends Component<Props, State> {
           value={description}
           label="Description"
           onChange={this.handleChange}
-          required
         />
         <Field
           type="text"
@@ -92,6 +110,8 @@ export class NewMovie extends Component<Props, State> {
           value={imgUrl}
           label="Image Link"
           onChange={this.handleChange}
+          onValidate={this.handleValidate}
+          required
         />
         <Field
           type="text"
@@ -99,6 +119,8 @@ export class NewMovie extends Component<Props, State> {
           value={imdbUrl}
           label="IMDB Link"
           onChange={this.handleChange}
+          onValidate={this.handleValidate}
+          required
         />
         <Field
           type="text"
@@ -106,9 +128,17 @@ export class NewMovie extends Component<Props, State> {
           value={imdbId}
           label="IMDB id"
           onChange={this.handleChange}
+          onValidate={this.handleValidate}
+          required
         />
         <div className="control">
-          <button type="submit" className="button is-link">Submit</button>
+          <button
+            type="submit"
+            className="button is-link"
+            disabled={!isValid}
+          >
+            Submit
+          </button>
         </div>
       </form>
     );
