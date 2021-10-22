@@ -86,6 +86,7 @@ export class NewMovie extends Component<Props, State> {
             onChange={(event) => (
               this.handleChange(event.currentTarget.value, 'title')
             )}
+            required
           />
         </label>
         <label
@@ -114,6 +115,7 @@ export class NewMovie extends Component<Props, State> {
             onChange={(event) => (
               this.handleChange(event.currentTarget.value, 'imgUrl')
             )}
+            required
           />
         </label>
         <label
@@ -128,6 +130,7 @@ export class NewMovie extends Component<Props, State> {
             onChange={(event) => (
               this.handleChange(event.currentTarget.value, 'imdbUrl')
             )}
+            required
           />
         </label>
         <label
@@ -142,6 +145,7 @@ export class NewMovie extends Component<Props, State> {
             onChange={(event) => (
               this.handleChange(event.currentTarget.value, 'imdbId')
             )}
+            required
           />
         </label>
         <button
