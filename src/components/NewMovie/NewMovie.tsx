@@ -129,7 +129,7 @@ export class NewMovie extends Component<Props, State> {
               name="imdbId"
               type="text"
               id="imdbId"
-              placeholder="Enter an IMDb id..."
+              placeholder="Enter an IMDb id"
               value={imdbId}
               onChange={handleChangeInput}
               required
