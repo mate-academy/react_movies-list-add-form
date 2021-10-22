@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import { Component } from 'react';
+import React from 'react';
 import './NewMovie.scss';
 
 type Props = {
@@ -14,10 +14,7 @@ type State = {
   imdbId: string,
 };
 
-// const rightLink = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
-// console.log(rightLink);
-
-export class NewMovie extends Component<Props, State> {
+export class NewMovie extends React.PureComponent<Props, State> {
   state = {
     title: '',
     description: '',
@@ -26,9 +23,34 @@ export class NewMovie extends Component<Props, State> {
     imdbId: '',
   };
 
-  onAddMovie = (event: React.FormEvent) => {
+  onAddMovie = (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
-    this.props.addMovie(this.state);
+
+    const {
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    } = this.state;
+
+    const newMovie = {
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    };
+
+    if (!title
+      || !imgUrl
+      || !imdbUrl
+      || !imdbId
+    ) {
+      return;
+    }
+
+    this.props.addMovie(newMovie);
     this.setState({
       title: '',
       description: '',
@@ -38,58 +60,72 @@ export class NewMovie extends Component<Props, State> {
     });
   };
 
-  addValue = (key: string, value: string) => {
-    this.setState({
-      [key]: value,
-    } as Pick<Movie, keyof Movie>);
-  };
-
   render() {
+    const {
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    } = this.state;
+
     return (
       <form onSubmit={this.onAddMovie}>
         <div className="form">
-          {Object.entries(this.state).map(([key, value]) => (
-            <>
-              <p className="form__title">
-                {key}
-                {': '}
-              </p>
-              {(key !== 'description')
-                ? (
-                  <input
-                    className="form__put"
-                    type="text"
-                    name={key}
-                    key={key}
-                    value={value}
-                    onChange={event => {
-                      // console.log(event.target);
-                      // Try to do Advanced level of task
-                      if (event.target.name === 'imgUrl'
-                      || event.target.name === 'imdbUrl') {
-                        // console.log('imgUrl or imdbUrl');
-                        // if (!event.target.value.match(rightLink)) {
-                        //   // console.log('Alert!');
-                        // }
-                        this.addValue(key, event.target.value);
-                      } else {
-                        this.addValue(key, event.target.value);
-                      }
-                    }}
-                    required
-                  />
-                )
-                : (
-                  <textarea
-                    className="form__area"
-                    key={key}
-                    value={value}
-                    onChange={event => this.addValue(key, event.target.value)}
-                    required
-                  />
-                )}
-            </>
-          ))}
+          <h2 className="form__title">Title:</h2>
+          <input
+            className="form__put"
+            type="text"
+            value={title}
+            onChange={event => {
+              this.setState({
+                title: event.target.value,
+              });
+            }}
+          />
+          <h2 className="form__title">Description:</h2>
+          <textarea
+            className="form__area"
+            value={description}
+            onChange={event => {
+              this.setState({
+                description: event.target.value,
+              });
+            }}
+          />
+          <h2 className="form__title">ImgUrl:</h2>
+          <input
+            className="form__put"
+            type="text"
+            value={imgUrl}
+            onChange={event => {
+              this.setState({
+                imgUrl: event.target.value,
+              });
+            }}
+          />
+          <h2 className="form__title">ImdbUrl</h2>
+          <input
+            className="form__put"
+            type="text"
+            value={imdbUrl}
+            onChange={event => {
+              this.setState({
+                imdbUrl: event.target.value,
+              });
+            }}
+          />
+          <h2 className="form__title">ImdbId</h2>
+          <input
+            className="form__put"
+            type="text"
+            value={imdbId}
+            onChange={event => {
+              this.setState({
+                imdbId: event.target.value,
+              });
+            }}
+          />
 
           <button
             type="submit"
