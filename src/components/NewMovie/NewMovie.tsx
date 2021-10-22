@@ -1,24 +1,14 @@
 import React, { Component } from 'react';
 import classnames from 'classnames';
 
+import {
+  Props,
+  State,
+  MovieAtribut,
+  MovieAtributState,
+} from './Types';
+
 import './NewMovie.scss';
-
-type Props = {
-  addMovie: (movie: Movie) => void,
-};
-
-type State = {
-  title: string,
-  description: string,
-  imgUrl: string,
-  imdbUrl: string,
-  imdbId: string,
-  isTitleEmpty: boolean,
-  isDescriptionEmpty: boolean,
-  isimgUrlEmpty: boolean,
-  isimdbUrlEmpty: boolean,
-  isimdbIdEmpty: boolean,
-};
 
 export class NewMovie extends Component<Props, State> {
   state: State = {
@@ -27,59 +17,23 @@ export class NewMovie extends Component<Props, State> {
     imgUrl: '',
     imdbUrl: '',
     imdbId: '',
-    isTitleEmpty: false,
-    isDescriptionEmpty: false,
+    istitleEmpty: false,
+    isdescriptionEmpty: false,
     isimgUrlEmpty: false,
     isimdbUrlEmpty: false,
     isimdbIdEmpty: false,
   };
 
   clickOnTextarea = (event: React.MouseEvent<HTMLTextAreaElement>) => {
-    if (event.currentTarget.name === 'title') {
-      return this.setState({ isTitleEmpty: false });
-    }
+    const movieAtributState = `is${event.currentTarget.name}Empty`;
 
-    if (event.currentTarget.name === 'description') {
-      return this.setState({ isDescriptionEmpty: false });
-    }
-
-    if (event.currentTarget.name === 'imgUrl') {
-      return this.setState({ isimgUrlEmpty: false });
-    }
-
-    if (event.currentTarget.name === 'imdbUrl') {
-      return this.setState({ isimdbUrlEmpty: false });
-    }
-
-    if (event.currentTarget.name === 'imdbId') {
-      return this.setState({ isimdbIdEmpty: false });
-    }
-
-    return '';
+    return this.setState({ [movieAtributState]: false } as MovieAtributState);
   };
 
   addMovieInfo = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    if (event.target.name === 'title') {
-      return this.setState({ [event.target.name]: event.target.value });
-    }
+    const movieAtribut: string = event.target.name;
 
-    if (event.currentTarget.name === 'description') {
-      return this.setState({ description: event.currentTarget.value });
-    }
-
-    if (event.currentTarget.name === 'imgUrl') {
-      return this.setState({ imgUrl: event.currentTarget.value });
-    }
-
-    if (event.currentTarget.name === 'imdbUrl') {
-      return this.setState({ imdbUrl: event.currentTarget.value });
-    }
-
-    if (event.currentTarget.name === 'imdbId') {
-      return this.setState({ imdbId: event.currentTarget.value });
-    }
-
-    return '';
+    return this.setState({ [movieAtribut]: event.target.value } as MovieAtribut);
   };
 
   onSubmit = (event: React.ChangeEvent<HTMLFormElement>) => {
@@ -95,11 +49,11 @@ export class NewMovie extends Component<Props, State> {
 
     if (!title || !description || !imgUrl || !imdbUrl || !imdbId) {
       if (!title) {
-        this.setState({ isTitleEmpty: true });
+        this.setState({ istitleEmpty: true });
       }
 
       if (!description) {
-        this.setState({ isDescriptionEmpty: true });
+        this.setState({ isdescriptionEmpty: true });
       }
 
       if (!imgUrl) {
@@ -134,8 +88,8 @@ export class NewMovie extends Component<Props, State> {
         imgUrl: '',
         imdbUrl: '',
         imdbId: '',
-        isTitleEmpty: false,
-        isDescriptionEmpty: false,
+        istitleEmpty: false,
+        isdescriptionEmpty: false,
         isimgUrlEmpty: false,
         isimdbUrlEmpty: false,
         isimdbIdEmpty: false,
@@ -150,8 +104,8 @@ export class NewMovie extends Component<Props, State> {
       imgUrl,
       imdbUrl,
       imdbId,
-      isTitleEmpty,
-      isDescriptionEmpty,
+      istitleEmpty,
+      isdescriptionEmpty,
       isimgUrlEmpty,
       isimdbUrlEmpty,
       isimdbIdEmpty,
@@ -166,10 +120,10 @@ export class NewMovie extends Component<Props, State> {
           <textarea
             onChange={this.addMovieInfo}
             onClick={this.clickOnTextarea}
-            className={classnames('form__input', { 'form--error': isTitleEmpty })}
+            className={classnames('form__input', { 'form--error': istitleEmpty })}
             name="title"
             id="title"
-            value={!isTitleEmpty ? title : 'Enter movie title'}
+            value={!istitleEmpty ? title : 'Enter movie title'}
             placeholder="Enter movie title"
           />
           <span className="form__item--title">
@@ -184,12 +138,12 @@ export class NewMovie extends Component<Props, State> {
             className={
               classnames(
                 'form__input form__input--descr',
-                { 'form--error': isDescriptionEmpty },
+                { 'form--error': isdescriptionEmpty },
               )
             }
             name="description"
             id="description"
-            value={!isDescriptionEmpty ? description : 'Enter movie description'}
+            value={!isdescriptionEmpty ? description : 'Enter movie description'}
             placeholder="Enter movie description"
           />
           <span className="form__item--title">
