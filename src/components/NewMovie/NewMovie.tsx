@@ -43,35 +43,19 @@ export class NewMovie extends Component<Props, State> {
   };
 
   checkTitle = (value: string) => {
-    if (value.length === 0) {
-      this.setState({ invalidTitle: true });
-    }
+    this.setState({ invalidTitle: !value });
   };
 
   checkImg = (value: string) => {
-    if (value.length === 0) {
-      this.setState({ invalidImgUrl: true });
-    }
-
-    if (!regex.test(value)) {
-      this.setState({ invalidImgUrl: true });
-    }
+    this.setState({ invalidImgUrl: !value || !regex.test(value) });
   };
 
   checkUrl = (value: string) => {
-    if (value.length === 0) {
-      this.setState({ invalidImdbUrl: true });
-    }
-
-    if (!regex.test(value)) {
-      this.setState({ invalidImgUrl: true });
-    }
+    this.setState({ invalidImdbUrl: !value || !regex.test(value) });
   };
 
   checkId = (value: string) => {
-    if (value.length === 0) {
-      this.setState({ invalidImdbId: true });
-    }
+    this.setState({ invalidImdbId: !value });
   };
 
   render() {
@@ -98,6 +82,7 @@ export class NewMovie extends Component<Props, State> {
           this.clearState();
         }}
       >
+
         <input
           className={classNames(
             'NewMovie__input',
@@ -106,6 +91,7 @@ export class NewMovie extends Component<Props, State> {
           type="text"
           value={title}
           placeholder="enter title"
+          required
           onChange={event => {
             this.setState({
               title: event.target.value,
@@ -116,9 +102,11 @@ export class NewMovie extends Component<Props, State> {
             this.checkTitle(event.target.value);
           }}
         />
+
         <p className="NewMovie__error">
           {invalidTitle && 'please enter title'}
         </p>
+
         <input
           className="NewMovie__input"
           type="text"
@@ -128,6 +116,7 @@ export class NewMovie extends Component<Props, State> {
             this.setState({ description: event.target.value });
           }}
         />
+
         <input
           className={classNames(
             'NewMovie__input',
@@ -136,6 +125,7 @@ export class NewMovie extends Component<Props, State> {
           type="text"
           value={imgUrl}
           placeholder="add image url"
+          required
           onChange={event => {
             this.setState({
               imgUrl: event.target.value,
@@ -146,9 +136,11 @@ export class NewMovie extends Component<Props, State> {
             this.checkImg(event.target.value);
           }}
         />
+
         <p className="NewMovie__error">
           {invalidImgUrl && 'please enter valid image url'}
         </p>
+
         <input
           className={classNames(
             'NewMovie__input',
@@ -157,6 +149,7 @@ export class NewMovie extends Component<Props, State> {
           type="text"
           value={imdbUrl}
           placeholder="enter imdb url"
+          required
           onChange={event => {
             this.setState({
               imdbUrl: event.target.value,
@@ -167,9 +160,11 @@ export class NewMovie extends Component<Props, State> {
             this.checkUrl(event.target.value);
           }}
         />
+
         <p className="NewMovie__error">
           {invalidImdbUrl && 'please enter valid imdb url'}
         </p>
+
         <input
           className={classNames(
             'NewMovie__input',
@@ -178,6 +173,7 @@ export class NewMovie extends Component<Props, State> {
           type="text"
           value={imdbId}
           placeholder="enter imdb id"
+          required
           onChange={event => {
             this.setState({
               imdbId: event.target.value,
@@ -188,9 +184,11 @@ export class NewMovie extends Component<Props, State> {
             this.checkId(event.target.value);
           }}
         />
+
         <p className="NewMovie__error">
           {invalidImdbId && 'please enter valid ID'}
         </p>
+
         <button
           className="NewMovie__button"
           type="submit"
