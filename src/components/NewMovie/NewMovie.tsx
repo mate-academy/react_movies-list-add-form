@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './NewMovie.scss';
 
 type Props = {
@@ -12,7 +12,7 @@ type State = {
   imdbId: string;
 };
 
-export class NewMovie extends Component<Props, State> {
+export class NewMovie extends React.PureComponent<Props, State> {
   state: State = {
     title: '',
     description: '',
