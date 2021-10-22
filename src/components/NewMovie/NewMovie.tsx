@@ -38,6 +38,8 @@ export class NewMovie extends Component<Props, State> {
       imdbId,
     } = this.state;
 
+    const { handleChangeInput } = this;
+
     return (
       <form
         className="movie-form"
@@ -70,7 +72,7 @@ export class NewMovie extends Component<Props, State> {
               id="title"
               placeholder="Enter the film title"
               value={title}
-              onChange={this.handleChangeInput}
+              onChange={handleChangeInput}
               required
             />
             *
@@ -86,7 +88,7 @@ export class NewMovie extends Component<Props, State> {
               id="description"
               placeholder="Enter the film description"
               value={description}
-              onChange={this.handleChangeInput}
+              onChange={handleChangeInput}
             />
           </label>
         </div>
@@ -99,7 +101,7 @@ export class NewMovie extends Component<Props, State> {
               id="imgUrl"
               placeholder="Enter the film image URL"
               value={imgUrl}
-              onChange={this.handleChangeInput}
+              onChange={handleChangeInput}
               required
             />
             *
@@ -114,7 +116,7 @@ export class NewMovie extends Component<Props, State> {
               id="imdbUrl"
               placeholder="Enter the film IMDb URL"
               value={imdbUrl}
-              onChange={this.handleChangeInput}
+              onChange={handleChangeInput}
               required
             />
             *
@@ -129,7 +131,7 @@ export class NewMovie extends Component<Props, State> {
               id="imdbId"
               placeholder="Enter an IMDb id..."
               value={imdbId}
-              onChange={this.handleChangeInput}
+              onChange={handleChangeInput}
               required
             />
             *
