@@ -74,6 +74,7 @@ export class NewMovie extends Component<Props, State> {
           value={title}
           placeholder="please enter title"
           className="NewMovieForm__item"
+          required
           onChange={(event) => {
             this.setState({ title: event.currentTarget.value });
           }}
@@ -84,6 +85,7 @@ export class NewMovie extends Component<Props, State> {
           value={description}
           placeholder="please enter description"
           className="NewMovieForm__item"
+          required
           onChange={(event) => {
             this.setState({ description: event.currentTarget.value });
           }}
@@ -94,6 +96,7 @@ export class NewMovie extends Component<Props, State> {
           value={imgUrl}
           placeholder="please enter imgUrl"
           className="NewMovieForm__item"
+          required
           onChange={(event) => {
             this.setState({ imgUrl: event.currentTarget.value });
           }}
@@ -104,6 +107,7 @@ export class NewMovie extends Component<Props, State> {
           value={imdbUrl}
           placeholder="please enter imdbUrl"
           className="NewMovieForm__item"
+          required
           onChange={(event) => {
             this.setState({ imdbUrl: event.currentTarget.value });
           }}
@@ -114,6 +118,7 @@ export class NewMovie extends Component<Props, State> {
           value={imdbId}
           placeholder="please enter imdbId"
           className="NewMovieForm__item"
+          required
           onChange={(event) => {
             this.setState({ imdbId: event.currentTarget.value });
           }}
