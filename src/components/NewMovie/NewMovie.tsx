@@ -4,7 +4,6 @@ type Props = {
   onAdd: (movie: Movie) => void;
 };
 
-
 type State = {
   title: string,
   description: string,
@@ -69,24 +68,23 @@ export class NewMovie extends Component<Props, State> {
             placeholder="description"
             value={description}
             onChange={this.handleChange}
-          >
-          </textarea>
+          />
           <input
-            type="text" 
+            type="text"
             placeholder="imgUrl"
             value={imgUrl}
             name="imgUrl"
             onChange={this.handleChange}
           />
           <input
-            type="text" 
+            type="text"
             placeholder="imdbUrl"
             value={imdbUrl}
             name="imdbUrl"
             onChange={this.handleChange}
           />
           <input
-            type="text" 
+            type="text"
             placeholder="imdbId"
             value={imdbId}
             name="imdbId"
