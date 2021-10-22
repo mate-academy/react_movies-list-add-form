@@ -13,12 +13,3 @@
   padding: 20px;
   border-left: 1px solid lightgray;
 }
-
-.NewMovieForm {
-  display: flex;
-  flex-direction: column;
-
-  &__item {
-    width: 100%;
-  }
-}

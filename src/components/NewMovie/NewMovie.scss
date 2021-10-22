@@ -1,0 +1,8 @@
+.NewMovieForm {
+  display: flex;
+  flex-direction: column;
+
+  &__item {
+    width: 100%;
+  }
+}

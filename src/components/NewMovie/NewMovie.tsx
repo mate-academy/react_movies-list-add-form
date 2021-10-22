@@ -1,4 +1,6 @@
 import { Component } from 'react';
+import './NewMovie.scss';
+
 import { Movie } from '../../types/Movie';
 
 type Props = {
