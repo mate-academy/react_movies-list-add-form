@@ -1,0 +1,52 @@
+.newMovie-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+
+  &__element {
+    background-color: #eee;
+    width: 250px;
+    height: 25px;
+    outline: none;
+    padding: 5px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+
+    &:hover {
+      border-color: black;
+    }
+  }
+
+  &__input {
+    &--error {
+      border-color: red;
+    }
+  }
+
+  &__textarea {
+    height: 50px;
+    resize: none;
+  }
+}
+
+.input-set {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  height: 46px;
+}
+
+.error-message {
+  font-size: 12px;
+  color: red;
+  font-weight: bold;
+}
+
+.submit-button {
+  margin-top: 20px;
+  border: 1px solid black;
+  border-radius: 10px;
+  padding: 5px;
+}
