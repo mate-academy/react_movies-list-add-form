@@ -1,0 +1,8 @@
+.new-movie {
+  display: flex;
+  flex-direction: column;
+
+  &__item {
+    margin-bottom: 10px;
+  }
+}
