@@ -13,12 +13,28 @@ export class App extends React.Component<{}, State> {
     movies: moviesFromServer,
   };
 
-  addMovie = (/* movie: Movie */) => {
-    // put your code here
+  addMovie = (movie: Movie) => {
+    this.setState((prevState: State) => {
+      const newMovie: Movie = {
+        title: movie.title,
+        description: movie.description,
+        imgUrl: movie.imgUrl,
+        imdbUrl: movie.imdbUrl,
+        imdbId: movie.imdbId,
+      };
+
+      return {
+        movies: [
+          newMovie,
+          ...prevState.movies,
+        ],
+      };
+    });
   };
 
   render() {
     const { movies } = this.state;
+    const { addMovie } = this;
 
     return (
       <div className="page">
@@ -26,7 +42,7 @@ export class App extends React.Component<{}, State> {
           <MoviesList movies={movies} />
         </div>
         <div className="sidebar">
-          <NewMovie />
+          <NewMovie onAdd={addMovie} />
         </div>
       </div>
     );
