@@ -31,23 +31,27 @@ export class NewMovie extends Component<Props, State> {
     isImdbUrlValid: true,
   };
 
-  isUrlValid = (urlType?: 'imgUrl' | 'imdbUrl') => {
+  isUrlValid = (urlType: 'imgUrl' | 'imdbUrl') => {
     const { imgUrl, imdbUrl } = this.state;
     const imgTest = re.test(imgUrl);
     const imdbTest = re.test(imdbUrl);
 
     switch (urlType) {
       case 'imgUrl':
-        this.setState({ isImgUrlValid: imgTest, isFormValid: imgTest });
+        this.setState({
+          isImgUrlValid: imgTest,
+          isFormValid: imgTest,
+        });
         break;
       case 'imdbUrl':
-        this.setState({ isImdbUrlValid: imdbTest, isFormValid: imdbTest });
+        this.setState({
+          isImdbUrlValid: imdbTest,
+          isFormValid: imdbTest,
+        });
         break;
       default:
         break;
     }
-
-    return imgTest && imdbTest;
   };
 
   submitForm = () => {
@@ -57,11 +61,14 @@ export class NewMovie extends Component<Props, State> {
       imdbId,
       imdbUrl,
       imgUrl,
+      isImdbUrlValid,
+      isImgUrlValid,
+      isFormValid,
     } = this.state;
 
-    this.setState({ isFormValid: this.isUrlValid() });
+    this.setState({ isFormValid: isImgUrlValid && isImdbUrlValid });
 
-    if (this.isUrlValid()) {
+    if (isFormValid) {
       this.props.addMovie({
         title,
         description,
@@ -80,21 +87,6 @@ export class NewMovie extends Component<Props, State> {
         isImgUrlValid: true,
         isImdbUrlValid: true,
       });
-    }
-  };
-
-  changeHandler = (content: string, input: 'imgUrl' | 'imdbUrl') => {
-    switch (input) {
-      case 'imdbUrl':
-        this.setState({ imdbUrl: content });
-        this.isUrlValid('imdbUrl');
-        break;
-      case 'imgUrl':
-        this.setState({ imgUrl: content });
-        this.isUrlValid('imgUrl');
-        break;
-      default:
-        break;
     }
   };
 
@@ -143,7 +135,8 @@ export class NewMovie extends Component<Props, State> {
             type="text"
             placeholder="Enter URL of image"
             value={imgUrl}
-            onChange={(e) => this.changeHandler(e.target.value, 'imgUrl')}
+            onChange={event => this.setState({ imgUrl: event.target.value })}
+            onBlur={() => this.isUrlValid('imgUrl')}
           />
           {!isImgUrlValid && (<span className="error-message">Wrong format!</span>)}
         </div>
@@ -158,7 +151,8 @@ export class NewMovie extends Component<Props, State> {
             type="text"
             placeholder="Enter URL of IMDB"
             value={imdbUrl}
-            onChange={(e) => this.changeHandler(e.target.value, 'imdbUrl')}
+            onChange={event => this.setState({ imdbUrl: event.target.value })}
+            onBlur={() => this.isUrlValid('imdbUrl')}
           />
           {!isImdbUrlValid && (<span className="error-message">Wrong format!</span>)}
         </div>
