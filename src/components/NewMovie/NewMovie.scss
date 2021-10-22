@@ -1,0 +1,73 @@
+$ruler: 16px;
+$color-red: #AE1100;
+$color-bg: #EBECF0;
+$color-shadow: #BABECC;
+$color-white: #FFF;
+
+.form {
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+
+  &__input {
+    text-align: center;
+    border: 0;
+    outline: 0;
+    font-size: $ruler;
+    border-radius: 8px;
+    padding: $ruler;
+    background-color:$color-bg;
+    text-shadow: 1px 1px 0 $color-white;
+    margin-right: $ruler/2;
+    box-shadow:  inset 2px 2px 5px $color-shadow, inset -5px -5px 10px $color-white;
+    width: 100%;
+    box-sizing: border-box;
+    transition: all 0.2s ease-in-out;
+    appearance: none;
+    -webkit-appearance: none;
+    
+    &::placeholder {
+      color: #c2a501;
+      font-weight: 500;
+    }
+  
+    &:focus {
+      box-shadow:  inset 1px 1px 2px $color-shadow, inset -1px -1px 2px $color-white;
+    }
+  }
+
+  &__button {
+    border: 0;
+    outline: 0;
+    font-size: $ruler;
+    border-radius: 8px;
+    padding: $ruler;
+    background-color: #e2c000;
+    text-shadow: 1px 1px 0 $color-white;
+    color: rgb(53, 53, 53);
+    font-weight: bold;
+    box-shadow: -5px -5px 20px $color-white,  5px 5px 20px $color-shadow;
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+    font-weight: 600;
+    
+    &:hover {
+      box-shadow: -2px -2px 5px $color-white, 2px 2px 5px $color-shadow;
+    }
+    
+    &:active {
+      box-shadow: inset 1px 1px 2px $color-shadow, inset -1px -1px 2px $color-white;
+    }
+  }
+}
+
+.title {
+  margin-bottom: 0;
+  text-align: center;
+  padding: $ruler*2 0;
+
+  &:not(:last-child) {
+    margin: 0;
+  }
+}
