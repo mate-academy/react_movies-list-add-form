@@ -34,6 +34,13 @@ export class NewMovie extends Component<Props, State> {
     }
 
     this.props.onAdd(this.state);
+    this.setState({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
   };
 
   render() {
