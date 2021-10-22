@@ -24,17 +24,13 @@ export class NewMovie extends Component<Props, State> {
     isimdbIdEmpty: false,
   };
 
-  clickOnTextarea = (event: React.MouseEvent<HTMLTextAreaElement>) => {
-    const movieAtributState = `is${event.currentTarget.name}Empty`;
+  clickOnTextarea = (event: React.MouseEvent<HTMLTextAreaElement>) => (
+    this.setState({ [`is${event.currentTarget.name}Empty`]: false } as MovieAtributState)
+  );
 
-    return this.setState({ [movieAtributState]: false } as MovieAtributState);
-  };
-
-  addMovieInfo = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const movieAtribut: string = event.target.name;
-
-    return this.setState({ [movieAtribut]: event.target.value } as MovieAtribut);
-  };
+  addMovieInfo = (event: React.ChangeEvent<HTMLTextAreaElement>) => (
+    this.setState({ [event.target.name]: event.target.value } as MovieAtribut)
+  );
 
   onSubmit = (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
