@@ -28,6 +28,8 @@ export class NewMovie extends Component<Props, State> {
   };
 
   handleSubmit: React.FormEventHandler = (e) => {
+    e.preventDefault();
+
     const {
       title,
       description,
@@ -46,7 +48,6 @@ export class NewMovie extends Component<Props, State> {
 
     this.props.addMovie(newMovie);
     this.clearForm();
-    e.preventDefault();
   };
 
   clearForm = () => {
@@ -87,7 +88,7 @@ export class NewMovie extends Component<Props, State> {
       .every(keyPair => this.handleValidate(...keyPair));
 
     return (
-      <form noValidate onSubmit={this.handleSubmit} className="container box">
+      <form onSubmit={this.handleSubmit} className="container box">
         <Field
           type="text"
           id="title"
