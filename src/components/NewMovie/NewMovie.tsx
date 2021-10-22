@@ -27,21 +27,7 @@ export class NewMovie extends Component<Props, State> {
   formHandler = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const {
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    } = this.state;
-
-    const newMovie: Movie = {
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    };
+    const newMovie: Movie = { ...this.state };
 
     this.setState({
       title: '',
