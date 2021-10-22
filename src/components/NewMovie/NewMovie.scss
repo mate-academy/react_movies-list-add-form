@@ -1,0 +1,13 @@
+.new-movie {
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+  gap: 20px;
+  border: 1px solid black;
+  border-radius: 10px;
+
+  &__label {
+    display: flex;
+    flex-direction: column;
+  }
+}
