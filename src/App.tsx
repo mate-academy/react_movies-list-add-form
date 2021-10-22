@@ -6,6 +6,7 @@ import moviesFromServer from './api/movies.json';
 
 interface State {
   movies: Movie[];
+
 }
 
 export class App extends React.Component<{}, State> {

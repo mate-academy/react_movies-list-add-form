@@ -13,3 +13,35 @@
   padding: 20px;
   border-left: 1px solid lightgray;
 }
+
+.form {
+  display: flex;
+  flex-direction: column;
+  margin-top: 12px;
+
+  &__field {
+    margin-bottom: 12px;
+    padding: 5px 15px;
+
+    &--error {
+      border: 1px solid rgb(238, 14, 14);
+    }
+  }
+}
+
+.error-message {
+  visibility: hidden;
+  text-align: center;
+  color: rgb(236, 27, 27);
+  padding: 5px;
+
+  &--active {
+    visibility: visible;
+    border: 1px solid rgb(238, 14, 14);
+  }
+}
+
+button {
+  height: 34px;
+  margin-bottom: 16px;
+}

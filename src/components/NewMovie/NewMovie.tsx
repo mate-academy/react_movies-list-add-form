@@ -1,17 +1,26 @@
-import React, { Component } from 'react';
+import React from 'react';
+import ClassNames from 'classnames';
 
 type Props = {
   onAdd: (newMovie: Movie) => void;
 };
-type State = Movie;
+type State = {
+  title: string,
+  description: string,
+  imgUrl: string,
+  imdbUrl: string,
+  imdbId: string,
+  inputErr: boolean,
+};
 
-export class NewMovie extends Component<Props, State> {
+export class NewMovie extends React.Component<Props, State> {
   state: State = {
     title: '',
     description: '',
     imgUrl: '',
     imdbUrl: '',
     imdbId: '',
+    inputErr: false,
   };
 
   formInputChanger = (value: string, key: string) => {
@@ -36,7 +45,11 @@ export class NewMovie extends Component<Props, State> {
       imdbId,
     };
 
-    if (!title || !description || !imgUrl || !imdbUrl || !imdbId) {
+    if (!title || !imgUrl || !imdbUrl || !imdbId) {
+      this.setState({
+        inputErr: true,
+      });
+
       return;
     }
 
@@ -48,12 +61,13 @@ export class NewMovie extends Component<Props, State> {
       imgUrl: '',
       imdbUrl: '',
       imdbId: '',
+      inputErr: false,
     });
   };
 
   render() {
     const {
-      title, description, imgUrl, imdbUrl, imdbId,
+      title, description, imgUrl, imdbUrl, imdbId, inputErr,
     } = this.state;
 
     return (
@@ -64,43 +78,65 @@ export class NewMovie extends Component<Props, State> {
           <input
             type="text"
             placeholder="title"
-            className="form__field"
+            className={ClassNames(
+              'form__field',
+              { 'form__field--error': inputErr },
+            )}
             value={title}
             onChange={(event) => this.formInputChanger(event.target.value, 'title')}
           />
           <input
             type="text"
             placeholder="description"
-            className="form__field form__field--description"
+            className="form__field"
             value={description}
             onChange={(event) => this.formInputChanger(event.target.value, 'description')}
           />
           <input
             type="text"
             placeholder="imgUrl"
-            className="form__field"
+            className={ClassNames(
+              'form__field',
+              { 'form__field--error': inputErr },
+            )}
             value={imgUrl}
             onChange={(event) => this.formInputChanger(event.target.value, 'imgUrl')}
           />
           <input
             type="text"
             placeholder="imdbUrl"
-            className="form__field"
+            className={ClassNames(
+              'form__field',
+              { 'form__field--error': inputErr },
+            )}
             value={imdbUrl}
             onChange={(event) => this.formInputChanger(event.target.value, 'imdbUrl')}
           />
           <input
-            type="text"
+            type="number"
+            min="1"
+            max="99999"
             placeholder="imdbId"
-            className="form__field"
+            className={ClassNames(
+              'form__field',
+              { 'form__field--error': inputErr },
+            )}
             value={imdbId}
             onChange={(event) => this.formInputChanger(event.target.value, 'imdbId')}
           />
           <button type="submit">
             Submit
           </button>
+          <p
+            className={ClassNames(
+              'error-message',
+              { 'error-message--active': inputErr },
+            )}
+          >
+            Нужно заполнить обязательные поля
+          </p>
         </form>
       </div>
     );
-  }
-}
+  };
+};
