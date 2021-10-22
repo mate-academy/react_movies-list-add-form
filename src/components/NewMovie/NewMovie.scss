@@ -1,0 +1,37 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+
+  &__input {
+    height: 35px;
+    padding: 5px 15px;
+    border: 1px solid gainsboro;
+    border-radius: 5px;
+
+    &:focus {
+      outline: none;
+      border: 1px solid rgb(33, 216, 155);
+    }
+  }
+
+  &__textarea {
+    height: 150px;
+    resize: none;
+    border: 1px solid gainsboro;
+    border-radius: 5px;
+    padding: 5px 15px;
+
+    &:focus {
+      outline: none;
+      border: 1px solid rgb(33, 216, 155);
+    }
+  }
+
+  &__button {
+    height: 35px;
+    border: 1px solid rgba(65, 207, 250, 0.86);
+    background-color: rgb(27, 233, 240);
+    border-radius: 15px;
+  }
+}
