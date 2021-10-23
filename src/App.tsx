@@ -13,8 +13,8 @@ export class App extends React.Component<{}, State> {
     movies: moviesFromServer,
   };
 
-  addMovie = ( movie: Movie ) => {
-    this.setState( ({ movies }) => ({ movies: [movie, ...movies] }));
+  addMovie = (movie: Movie) => {
+    this.setState(({ movies }) => ({ movies: [movie, ...movies] }));
   };
 
   render() {

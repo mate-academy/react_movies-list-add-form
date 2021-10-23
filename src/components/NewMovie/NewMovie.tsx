@@ -113,7 +113,7 @@ export class NewMovie extends Component<Props, MovieState> {
         </div>
         <input
           className="button"
-          type="button"
+          type="submit"
           value="Add New Movie"
         />
       </form>
