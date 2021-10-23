@@ -1,0 +1,13 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+
+  &__error-text {
+    color: #f00;
+  }
+
+  &__error-field {
+    border: 1px solid #f00;
+  }
+}
