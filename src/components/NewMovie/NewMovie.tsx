@@ -22,12 +22,40 @@ export class NewMovie extends Component<Props, State> {
     imdbId: '',
   };
 
-  inputHandleChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
+  handleChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
     const { name, value } = event.target;
 
     this.setState(() => ({
       [name]: value,
     } as Pick<State, keyof State>));
+  };
+
+  handleSubmit: React.FormEventHandler<HTMLFormElement> = (event) => {
+    const {
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    } = this.state;
+
+    event.preventDefault();
+
+    this.props.onAdd({
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    });
+
+    this.setState({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
   };
 
   render() {
@@ -40,26 +68,7 @@ export class NewMovie extends Component<Props, State> {
     } = this.state;
 
     return (
-      <form onSubmit={(event) => {
-        event.preventDefault();
-
-        this.props.onAdd({
-          title,
-          description,
-          imgUrl,
-          imdbUrl,
-          imdbId,
-        });
-
-        this.setState({
-          title: '',
-          description: '',
-          imgUrl: '',
-          imdbUrl: '',
-          imdbId: '',
-        });
-      }}
-      >
+      <form onSubmit={this.handleSubmit}>
         <div className="movieForm">
           <label htmlFor="title">
             *Title:
@@ -70,7 +79,7 @@ export class NewMovie extends Component<Props, State> {
             id="title"
             placeholder="Enter a title..."
             value={title}
-            onChange={this.inputHandleChange}
+            onChange={this.handleChange}
             required
           />
         </div>
@@ -84,7 +93,7 @@ export class NewMovie extends Component<Props, State> {
             id="description"
             placeholder="Enter a description..."
             value={description}
-            onChange={this.inputHandleChange}
+            onChange={this.handleChange}
           />
         </div>
         <div className="movieForm">
@@ -97,7 +106,7 @@ export class NewMovie extends Component<Props, State> {
             id="imgUrl"
             placeholder="Enter an image url..."
             value={imgUrl}
-            onChange={this.inputHandleChange}
+            onChange={this.handleChange}
             required
           />
         </div>
@@ -111,7 +120,7 @@ export class NewMovie extends Component<Props, State> {
             id="imdbUrl"
             placeholder="Enter an IMDb url..."
             value={imdbUrl}
-            onChange={this.inputHandleChange}
+            onChange={this.handleChange}
             required
           />
         </div>
@@ -125,7 +134,7 @@ export class NewMovie extends Component<Props, State> {
             id="imdbId"
             placeholder="Enter an IMDb id..."
             value={imdbId}
-            onChange={this.inputHandleChange}
+            onChange={this.handleChange}
             required
           />
         </div>
