@@ -13,3 +13,8 @@
   padding: 20px;
   border-left: 1px solid lightgray;
 }
+
+.movieForm {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
