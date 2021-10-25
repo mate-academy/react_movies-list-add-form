@@ -62,6 +62,7 @@ export class NewMovie extends Component<Props, State> {
             placeholder="title"
             value={title}
             onChange={this.handleChange}
+            required
           />
           <textarea
             name="description"
@@ -75,6 +76,7 @@ export class NewMovie extends Component<Props, State> {
             value={imgUrl}
             name="imgUrl"
             onChange={this.handleChange}
+            required
           />
           <input
             type="text"
@@ -82,6 +84,7 @@ export class NewMovie extends Component<Props, State> {
             value={imdbUrl}
             name="imdbUrl"
             onChange={this.handleChange}
+            required
           />
           <input
             type="text"
@@ -89,6 +92,7 @@ export class NewMovie extends Component<Props, State> {
             value={imdbId}
             name="imdbId"
             onChange={this.handleChange}
+            required
           />
           <button
             type="submit"
