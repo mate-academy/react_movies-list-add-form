@@ -36,7 +36,7 @@ export class NewMovie extends Component<Props, State> {
 
     this.setState({
       submited: true,
-    })
+    });
 
     const movie = {
       title,
@@ -55,7 +55,7 @@ export class NewMovie extends Component<Props, State> {
         imdbUrl: '',
         imdbId: '',
         submited: false,
-      })
+      });
     }
   };
 
@@ -116,7 +116,7 @@ export class NewMovie extends Component<Props, State> {
             }}
           />
           {imgUrl.trim().length === 0 && submited && (
-            <p className="form__error">title too short</p>
+            <p className="form__error">imgUrl too short</p>
           )}
           <input
             className="input"
@@ -129,7 +129,7 @@ export class NewMovie extends Component<Props, State> {
             }}
           />
           {imdbUrl.trim().length === 0 && submited && (
-            <p className="form__error">title too short</p>
+            <p className="form__error">imdbUrl too short</p>
           )}
           <input
             className="input"
@@ -142,7 +142,7 @@ export class NewMovie extends Component<Props, State> {
             }}
           />
           {imdbId.trim().length === 0 && submited && (
-            <p className="form__error">title too short</p>
+            <p className="form__error">imdbId too short</p>
           )}
           <button
             type="submit"
