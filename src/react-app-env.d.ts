@@ -1,5 +1,3 @@
-/// <reference types="react-scripts" />
-
 interface Movie {
   title: string;
   description: string;
