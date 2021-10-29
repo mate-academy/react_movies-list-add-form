@@ -21,47 +21,50 @@ export class NewMovie extends Component<Props, State> {
     imdbId: '',
   };
 
+  submitHandler = () => {
+    const {
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    } = this.state;
+
+    if (title === ''
+    || description === ''
+    || imgUrl === ''
+    || imdbUrl === ''
+    || imdbId === ''
+    ) {
+      return;
+    }
+
+    const movie = {
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    };
+
+    this.props.addMovie(movie);
+
+    this.setState({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
+  };
+
   render() {
     return (
       <form
         className="movieAddForm"
         onSubmit={(event) => {
           event.preventDefault();
-
-          const {
-            title,
-            description,
-            imgUrl,
-            imdbUrl,
-            imdbId,
-          } = this.state;
-
-          if (title === ''
-          || description === ''
-          || imgUrl === ''
-          || imdbUrl === ''
-          || imdbId === ''
-          ) {
-            return;
-          }
-
-          const movie = {
-            title,
-            description,
-            imgUrl,
-            imdbUrl,
-            imdbId,
-          };
-
-          this.props.addMovie(movie);
-
-          this.setState({
-            title: '',
-            description: '',
-            imgUrl: '',
-            imdbUrl: '',
-            imdbId: '',
-          });
+          this.submitHandler();
         }}
       >
         <input
