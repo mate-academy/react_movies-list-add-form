@@ -14,8 +14,7 @@ export class App extends React.Component<{}, State> {
   };
 
   addMovie = (movie: Movie) => {
-    // eslint-disable-next-line react/no-access-state-in-setstate
-    this.setState({ movies: [...this.state.movies, movie] });
+    this.setState((state) => ({ movies: [...state.movies, movie] }));
   };
 
   render() {

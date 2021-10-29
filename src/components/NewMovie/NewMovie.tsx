@@ -36,6 +36,15 @@ export class NewMovie extends Component<Props, State> {
             imdbId,
           } = this.state;
 
+          if (title === ''
+          || description === ''
+          || imgUrl === ''
+          || imdbUrl === ''
+          || imdbId === ''
+          ) {
+            return;
+          }
+
           const movie = {
             title,
             description,
