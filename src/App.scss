@@ -13,3 +13,12 @@
   padding: 20px;
   border-left: 1px solid lightgray;
 }
+
+.movieAddForm {
+  display: flex;
+  flex-direction: column;
+}
+
+input {
+  margin-bottom: 20px;
+}

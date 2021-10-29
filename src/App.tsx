@@ -13,8 +13,9 @@ export class App extends React.Component<{}, State> {
     movies: moviesFromServer,
   };
 
-  addMovie = (/* movie: Movie */) => {
-    // put your code here
+  addMovie = (movie: Movie) => {
+    // eslint-disable-next-line react/no-access-state-in-setstate
+    this.setState({ movies: [...this.state.movies, movie] });
   };
 
   render() {
@@ -26,7 +27,7 @@ export class App extends React.Component<{}, State> {
           <MoviesList movies={movies} />
         </div>
         <div className="sidebar">
-          <NewMovie />
+          <NewMovie addMovie={this.addMovie} />
         </div>
       </div>
     );
