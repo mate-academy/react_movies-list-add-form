@@ -1,0 +1,12 @@
+.new-movie-form {
+  display: flex;
+  flex-direction: column;
+
+  &__input {
+    display: flex;
+  }
+
+  &__title {
+    font-size: larger;
+  }
+}
