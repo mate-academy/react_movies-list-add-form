@@ -4,9 +4,18 @@
 
   &__input {
     display: flex;
+    margin: 5px;
   }
 
   &__title {
     font-size: larger;
+    font-weight: bolder;
   }
+}
+
+.error-text {
+  font-size: smaller;
+  padding-left: 10px;
+  font-weight: bolder;
+  color: #9b2226;
 }
