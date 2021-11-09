@@ -8,7 +8,7 @@ type Props = {
 type State = {
   movie: Movie,
   isValid: {
-    title?: boolean | string,
+    title?: boolean,
     imgUrl?: boolean,
     imdbUrl?: boolean,
     imdbId?: boolean,
@@ -20,12 +20,12 @@ export class NewMovie extends Component<Props, State> {
     movie: {
       title: '',
       description: '',
-      imgUrl: 'https://_imgUrl_',
-      imdbUrl: 'https://www.imdb.com/title/_imdbId_',
+      imgUrl: '',
+      imdbUrl: '',
       imdbId: '',
     },
     isValid: {
-      title: '',
+      title: true,
       imgUrl: true,
       imdbUrl: true,
       imdbId: true,
@@ -97,8 +97,8 @@ export class NewMovie extends Component<Props, State> {
     const initialState = {
       title: '',
       description: '',
-      imgUrl: '_imgUrl_',
-      imdbUrl: 'https://www.imdb.com/title/_imdbId_',
+      imgUrl: '',
+      imdbUrl: '',
       imdbId: '',
     };
 
@@ -146,7 +146,7 @@ export class NewMovie extends Component<Props, State> {
             className="new-movie-form__input"
             style={!imgValid ? errorStyle : {}}
             type="text"
-            placeholder="imgUrl"
+            placeholder="image url (https://_imgUrl_)"
             name="imgUrl"
             value={imgUrl}
             onChange={this.handleChange}
@@ -163,7 +163,7 @@ export class NewMovie extends Component<Props, State> {
             className="new-movie-form__input"
             style={!imdbValid ? errorStyle : {}}
             type="text"
-            placeholder="imdbUrl"
+            placeholder="imdb url (https://www.imdb.com/title/_imdbId_)"
             name="imdbUrl"
             value={imdbUrl}
             onChange={this.handleChange}
@@ -180,7 +180,7 @@ export class NewMovie extends Component<Props, State> {
             className="new-movie-form__input"
             style={!idValid ? errorStyle : {}}
             type="text"
-            placeholder="imdbId"
+            placeholder="imdb id"
             name="imdbId"
             value={imdbId}
             onChange={this.handleChange}
@@ -213,7 +213,6 @@ export class NewMovie extends Component<Props, State> {
         </form>
 
         <hr />
-        <pre>{JSON.stringify(this.state, null, 2)}</pre>
       </>
     );
   }
