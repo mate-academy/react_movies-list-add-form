@@ -14,9 +14,6 @@ export class App extends React.Component<{}, State> {
   };
 
   addMovie = (movie: Movie) => {
-    // eslint-disable-next-line no-console
-    console.log(movie);
-
     this.setState(state => ({
       movies: [
         ...state.movies,

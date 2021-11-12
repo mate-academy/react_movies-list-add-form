@@ -242,7 +242,7 @@ export class NewMovie extends Component<Props, State> {
           <button
             type="submit"
             className="button"
-            disabled={Object.values(this.state.touched).some(el => el === true)}
+            disabled={Object.values({ ...touched, ...validFieldLink }).some(el => el === true)}
           >
             Add movie
           </button>
