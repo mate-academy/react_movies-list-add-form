@@ -1,0 +1,48 @@
+.NewMovie {
+  &__label {
+    font-size: large;
+  }
+
+  &__container {
+    margin-bottom: 10px;
+  }
+
+  &__input {
+    height: 40px;
+
+    border: 1px solid black;
+    border-radius: 10px;
+
+    padding: 5px;
+
+    &--decription {
+      height: 100px;
+      width: 300px;
+
+      resize: none;
+    }
+
+    &:focus {
+      border-color: rgb(233, 177, 37);
+      outline: none;
+    }
+  }
+
+  &__button {
+    width: 130px;
+    height: 40px;
+
+    margin-top: 30px;
+
+    border-radius: 20px;
+
+    background-color: rgb(233, 177, 37);
+
+    transition: transform 0.5s;
+
+    &:hover {
+      transform: scale(1.1);
+      cursor: pointer;
+    }
+  }
+}
