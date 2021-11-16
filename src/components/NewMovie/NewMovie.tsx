@@ -76,6 +76,7 @@ export class NewMovie extends Component<Props, State> {
   render() {
     const requiredFields = [true, true, true, true, false];
     const hasErrors = this.state.imgUrlError || this.state.imdbUrlError;
+    const isAllCompleted = Object.values(this.state.movie).every(text => text.length);
     const isInvalidCheck = (tab: keyof Movie) => {
       if (tab === 'imgUrl' || tab === 'imdbUrl') {
         return this.state[`${tab}Error`];
@@ -114,7 +115,7 @@ export class NewMovie extends Component<Props, State> {
         })}
         <button
           className="form__submit"
-          disabled={hasErrors}
+          disabled={hasErrors || !isAllCompleted}
           type="submit"
         >
           Add movie
