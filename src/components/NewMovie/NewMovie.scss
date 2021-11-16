@@ -1,0 +1,27 @@
+.form {
+  font-size: 1.5rem;
+  &__item {
+    display: block;
+    margin-bottom: 1rem;
+  }
+
+  &__field {
+    display: block;
+    height: 3em;
+    width: 100%;
+
+    &--invalid {
+      outline: solid red;
+    }
+  }
+
+  &__submit {
+    display: block;
+    width: fit-content;
+    margin: auto;
+    margin-top: 2rem;
+    padding: 1rem;
+    box-shadow: 0 0.5em 1em -0.125em rgba(10, 10, 10, 0.1), 0 0px 0 1px rgba(10, 10, 10, 0.02);
+    font-size: 1.1rem;
+  }
+}
