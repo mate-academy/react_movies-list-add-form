@@ -2,4 +2,14 @@
   &__label {
     display: block;
   }
+
+  &__field--invalid {
+    border-color: rgb(202, 12, 12);
+  }
+}
+
+.error-msg {
+  text-align: left;
+  color: rgb(202, 12, 12);
+  font-size: 16px;
 }
