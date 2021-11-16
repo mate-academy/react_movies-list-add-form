@@ -23,8 +23,9 @@ export class NewMovie extends Component<Props, State> {
 
   handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-    this.setState({ [name]: value } as Pick<State, keyof State>)
-  }
+
+    this.setState({ [name]: value } as Pick<State, keyof State>);
+  };
 
   clearForm = () => {
     this.setState({
@@ -33,17 +34,18 @@ export class NewMovie extends Component<Props, State> {
       imgUrl: '',
       imdbUrl: '',
       imdbId: '',
-    })
-  }
+    });
+  };
 
   render() {
     const { onAdd } = this.props;
+
     return (
       <form
         onSubmit={(event) => {
           event.preventDefault();
           onAdd(this.state);
-          this.clearForm()
+          this.clearForm();
         }}
         className="form"
       >
@@ -80,7 +82,7 @@ export class NewMovie extends Component<Props, State> {
           onChange={this.handleChange}
         />
         <input
-        className="form__input"
+          className="form__input"
           name="imdbId"
           value={this.state.imdbId}
           type="text"
