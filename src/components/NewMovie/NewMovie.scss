@@ -1,15 +1,20 @@
+$error-color: rgb(202, 12, 12);
+
 .form {
+  display: flex;
+  flex-direction: column;
+
   &__label {
     display: block;
   }
 
   &__field--invalid {
-    border-color: rgb(202, 12, 12);
+    border-color: $error-color;
   }
 }
 
 .error-msg {
   text-align: left;
-  color: rgb(202, 12, 12);
+  color: $error-color;
   font-size: 16px;
 }
