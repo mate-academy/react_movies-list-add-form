@@ -1,0 +1,17 @@
+.form {
+  display: grid;
+  gap: 20px;
+
+  &__input {
+    height: 30px;
+    border-radius: 12px;
+    padding-left: 10px;
+  }
+
+  &__button {
+    height: 30px;
+    width: 140px;
+    background-color: white;
+    border-radius: 12px;
+  }
+}
