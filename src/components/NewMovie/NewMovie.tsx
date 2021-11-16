@@ -33,7 +33,7 @@ export class NewMovie extends Component<Props, State> {
     const { name, value } = e.target;
 
     if (name === 'imgUrl' || name === 'imdbUrl') {
-      this.errorChecker(name);
+      this.errorChecker(name, value);
     }
 
     this.setState((prevState) => {
@@ -57,9 +57,9 @@ export class NewMovie extends Component<Props, State> {
     });
   };
 
-  errorChecker = (name: keyof Movie) => {
+  errorChecker = (name: keyof Movie, value: string) => {
     const sitePattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
-    const tempError = !this.state.movie[name].match(sitePattern);
+    const tempError = value.length && !value.match(sitePattern);
 
     this.setState({
       [`${name}Error`]: tempError,
