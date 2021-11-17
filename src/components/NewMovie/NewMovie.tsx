@@ -14,11 +14,15 @@ type State = {
 };
 
 type Errors = {
-  [key in keyof Pick<Movie, 'imgUrl' | 'imdbUrl'>]: boolean
+  title?: boolean;
+  description?: boolean;
+  imgUrl: boolean;
+  imdbUrl: boolean;
+  imdbId?: boolean;
 };
 
 export class NewMovie extends Component<Props, State> {
-  initialMovie = {
+  initialMovie: Movie = {
     title: '',
     description: '',
     imgUrl: '',
@@ -26,19 +30,20 @@ export class NewMovie extends Component<Props, State> {
     imdbId: '',
   };
 
+  initialErrors: Errors = {
+    imgUrl: false,
+    imdbUrl: false,
+  };
+
   state: State = {
     movie: { ...this.initialMovie },
-    errors: {
-      imgUrl: false,
-      imdbUrl: false,
-    },
+    errors: { ...this.initialErrors },
   };
 
   changeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    const { errors } = this.state;
 
-    if (Object.keys(errors).includes(name)) {
+    if (Object.keys(this.state.errors).includes(name)) {
       this.errorChecker(name, value);
     }
 
@@ -86,15 +91,8 @@ export class NewMovie extends Component<Props, State> {
 
   render() {
     const requiredFields = [true, true, true, true, false];
-    const hasErrors = this.state.errors.imgUrl || this.state.errors.imdbUrl;
+    const hasErrors = Object.values(this.state.errors).some(value => value);
     const isAllCompleted = Object.values(this.state.movie).every(text => text.length);
-    const isInvalidCheck = (field: keyof Movie) => {
-      if (Object.keys(this.state.errors).includes(field)) {
-        return this.state.errors[field as keyof Errors];
-      }
-
-      return false;
-    };
 
     return (
       <form
@@ -114,7 +112,7 @@ export class NewMovie extends Component<Props, State> {
                 name={field}
                 className={classNames({
                   'form__field': true,
-                  'form__field--invalid': isInvalidCheck(field),
+                  'form__field--invalid': this.state.errors[field],
                 })}
                 type="text"
                 value={fieldValue}
