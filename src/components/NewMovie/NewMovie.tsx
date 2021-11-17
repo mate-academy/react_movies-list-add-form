@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import { Component, ChangeEvent } from 'react';
 import './NewMovie.scss';
 
 type Props = {
@@ -22,12 +22,13 @@ export class NewMovie extends Component<Props, State> {
     imdbId: '',
   };
 
-  changeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+  changeHandler = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
 
-    this.setState({
+    this.setState(prevState => ({
+      ...prevState,
       [name]: value,
-    } as Pick<State, keyof State>);
+    }));
   };
 
   clearForm = () => {
@@ -106,7 +107,7 @@ export class NewMovie extends Component<Props, State> {
             />
           </label>
           <label className="form__label" htmlFor="imdbId">
-            ImdbId *
+            ImdbId*
             <input
               type="text"
               name="imdbId"
