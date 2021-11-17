@@ -112,10 +112,7 @@ export class NewMovie extends Component<Props, State> {
             };
 
             return (
-              <label
-                className="form__item"
-                htmlFor={field}
-              >
+              <label className="form__item" htmlFor={field} >
                 <span className="form__title">{field}</span>
 
                 {field === 'description' ? (
