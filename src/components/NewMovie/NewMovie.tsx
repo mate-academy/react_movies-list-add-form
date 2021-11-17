@@ -22,7 +22,7 @@ export class NewMovie extends Component<Props, State> {
     imdbId: '',
   };
 
-  changeHandler = (event: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) => {
+  changeHandler = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = event.target;
 
     this.setState(prevState => ({
