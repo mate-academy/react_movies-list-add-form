@@ -1,6 +1,6 @@
 /// <reference types="react-scripts" />
 
-interface Movie {
+export interface Movie {
   title: string;
   description: string;
   imgUrl: string;
