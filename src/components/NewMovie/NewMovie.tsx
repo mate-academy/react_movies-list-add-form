@@ -95,7 +95,20 @@ export class NewMovie extends Component<Props, State> {
         onSubmit={this.sumbitHandler}
       >
         {(Object.keys(this.state.movie) as Array<keyof Movie>).map((field, i) => {
-          const fieldValue = this.state.movie[field];
+          const fieldProps = (extraClass: (string | null) = null) => {
+            return {
+              name: field,
+              class: classNames(
+                'form__field',
+                extraClass,
+                { 'form__field--invalid': this.state.errors[field] },
+              ),
+              value: this.state.movie[field],
+              required: requiredFields[i],
+              onChange: this.changeHandler,
+              placeholder: `Please, enter ${field}`,
+            };
+          };
 
           return (
             <label
@@ -106,31 +119,12 @@ export class NewMovie extends Component<Props, State> {
 
               {field === 'description' ? (
                 <textarea
-                  name={field}
-                  className={classNames(
-                    'form__field',
-                    'form__field--textarea',
-                    {
-                      'form__field--invalid': this.state.errors[field],
-                    },
-                  )}
-                  value={fieldValue}
-                  required={requiredFields[i]}
-                  onChange={this.changeHandler}
-                  placeholder={`Please, enter ${field}`}
+                  {...fieldProps('form__field--textarea')}
                 />
               ) : (
                 <input
-                  name={field}
-                  className={classNames({
-                    'form__field': true,
-                    'form__field--invalid': this.state.errors[field],
-                  })}
+                  {...fieldProps()}
                   type="text"
-                  value={fieldValue}
-                  required={requiredFields[i]}
-                  onChange={this.changeHandler}
-                  placeholder={`Please, enter ${field}`}
                 />
               )}
 
