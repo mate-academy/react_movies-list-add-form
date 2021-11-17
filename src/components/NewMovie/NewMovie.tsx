@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import classNames from 'classnames';
 import './NewMovie.scss';
 
 type Props = {
@@ -175,7 +176,8 @@ export class NewMovie extends Component<Props, State> {
             {' '}
             <input
               required
-              className={isTitleEntered ? 'input error' : 'input'}
+              className={classNames('input',
+                { 'input error': isTitleEntered })}
               name="title"
               placeholder="Enter title here"
               value={title}
@@ -195,7 +197,8 @@ export class NewMovie extends Component<Props, State> {
             {' '}
             <input
               required
-              className={isImgUrlValid ? 'input error' : 'input'}
+              className={classNames('input',
+                { 'input error': isImgUrlValid })}
               name="imgUrl"
               type="text"
               value={imgUrl}
@@ -215,7 +218,8 @@ export class NewMovie extends Component<Props, State> {
             {' '}
             <input
               required
-              className={isImdbUrlValid ? 'input error' : 'input'}
+              className={classNames('input',
+                { 'input error': isImdbUrlValid })}
               name="imdbUrl"
               type="text"
               value={imdbUrl}
@@ -235,7 +239,8 @@ export class NewMovie extends Component<Props, State> {
             {' '}
             <input
               required
-              className={isImdbIdEntered ? 'input error' : 'input'}
+              className={classNames('input',
+                { 'input error': isImdbIdEntered })}
               name="imdbId"
               type="text"
               value={imdbId}
