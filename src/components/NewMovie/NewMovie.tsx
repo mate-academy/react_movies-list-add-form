@@ -1,16 +1,15 @@
 /* eslint-disable quote-props */
-import { ChangeEvent, Component, FormEvent } from 'react';
+import { Component } from 'react';
+import { ChangesEvent, SubmitEvent } from '../../types/types';
 import classNames from 'classnames';
 import './NewMovie.scss';
+import { FormField } from './FormField/FormField';
 
 type Props = {
   onAdd: (movie: Movie) => void;
 };
 
 type MovieErrors = RequireAtLeastOne<FormFieldErrors<Movie>, 'imgUrl' | 'imdbUrl'>;
-
-type ChangesEvent = ChangeEvent<HTMLInputElement | HTMLTextAreaElement>;
-type SubmitEvent = FormEvent<HTMLFormElement>;
 
 type State = {
   movie: Movie;
@@ -82,7 +81,7 @@ export class NewMovie extends Component<Props, State> {
     field: keyof Movie,
     isFieldRequired: boolean,
   ) => {
-    return (extraClass: (string | null) = null) => {
+    return (extraClass?: (string | null)) => {
       return {
         name: field,
         class: classNames(
@@ -113,24 +112,11 @@ export class NewMovie extends Component<Props, State> {
             const fieldProps = this.getFieldProps(field, requiredFields[i]);
 
             return (
-              <label className="form__item" htmlFor={field}>
-                <span className="form__title">{field}</span>
-
-                {field === 'description' ? (
-                  <textarea
-                    {...fieldProps('form__field--textarea')}
-                  />
-                ) : (
-                  <input
-                    {...fieldProps()}
-                    type="text"
-                  />
-                )}
-
-                {this.state.errors[field] && (
-                  <span className="form__warning">Incorrect URL</span>
-                )}
-              </label>
+              <FormField
+                field={field}
+                fieldProps={fieldProps}
+                hasFieldError={this.state.errors[field] || false}
+              />
             );
           })
         }
