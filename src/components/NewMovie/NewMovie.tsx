@@ -62,7 +62,7 @@ export class NewMovie extends Component<Props, State> {
       title, description, imgUrl, imdbUrl, imdbId,
     } = this.state;
 
-    const isValidInputs = !!title && !!imgUrl && !!imdbUrl && !!imdbId;
+    const areValidInputs = !!title && !!imgUrl && !!imdbUrl && !!imdbId;
 
     return (
       <form
@@ -146,7 +146,7 @@ export class NewMovie extends Component<Props, State> {
         <button
           type="submit"
           className="newMovieForm__btn"
-          disabled={!isValidInputs}
+          disabled={!areValidInputs}
         >
           Add movie
         </button>
