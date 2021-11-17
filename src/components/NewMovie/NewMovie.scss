@@ -1,0 +1,20 @@
+$error-color: rgb(202, 12, 12);
+
+.form {
+  display: flex;
+  flex-direction: column;
+
+  &__label {
+    display: block;
+  }
+
+  &__field--invalid {
+    border-color: $error-color;
+  }
+}
+
+.error-msg {
+  text-align: left;
+  color: $error-color;
+  font-size: 16px;
+}
