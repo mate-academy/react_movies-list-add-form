@@ -41,7 +41,7 @@ export class NewMovie extends Component<Props, State> {
         movie: {
           ...prevState.movie,
           [name]: value,
-        } as unknown as Movie,
+        },
       };
     });
   };
