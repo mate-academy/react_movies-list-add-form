@@ -40,7 +40,7 @@ export class NewMovie extends Component<Props, State> {
     const { name, value } = e.target;
 
     if (Object.keys(this.state.errors).includes(name)) {
-      this.errorChecker(name, value);
+      this.checkError(name, value);
     }
 
     this.setState((prevState) => {
@@ -64,7 +64,7 @@ export class NewMovie extends Component<Props, State> {
     });
   };
 
-  errorChecker = (name: string, value: string) => {
+  checkError = (name: string, value: string) => {
     const sitePattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
     const tempError: boolean = value.length ? !value.match(sitePattern) : false;
 
@@ -76,6 +76,26 @@ export class NewMovie extends Component<Props, State> {
         },
       };
     });
+  };
+
+  getFieldProps = (
+    field: keyof Movie,
+    isFieldRequired: boolean,
+  ) => {
+    return (extraClass: (string | null) = null) => {
+      return {
+        name: field,
+        class: classNames(
+          'form__field',
+          extraClass,
+          { 'form__field--invalid': this.state.errors[field] },
+        ),
+        value: this.state.movie[field],
+        required: isFieldRequired,
+        onChange: this.changeHandler,
+        placeholder: `Please, enter ${field}`,
+      };
+    };
   };
 
   render() {
@@ -90,20 +110,7 @@ export class NewMovie extends Component<Props, State> {
       >
         {
           (Object.keys(this.state.movie) as Array<keyof Movie>).map((field, i) => {
-            const fieldProps = (extraClass: (string | null) = null) => {
-              return {
-                name: field,
-                class: classNames(
-                  'form__field',
-                  extraClass,
-                  { 'form__field--invalid': this.state.errors[field] },
-                ),
-                value: this.state.movie[field],
-                required: requiredFields[i],
-                onChange: this.changeHandler,
-                placeholder: `Please, enter ${field}`,
-              };
-            };
+            const fieldProps = this.getFieldProps(field, requiredFields[i]);
 
             return (
               <label className="form__item" htmlFor={field}>
