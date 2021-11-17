@@ -10,29 +10,35 @@ type Props = {
 
 type State = {
   movie: Movie;
-  imgUrlError: boolean;
-  imdbUrlError: boolean;
+  errors: Errors;
 };
 
-const initialMovie = {
-  title: '',
-  description: '',
-  imgUrl: '',
-  imdbUrl: '',
-  imdbId: '',
+type Errors = {
+  [key in keyof Pick<Movie, 'imgUrl' | 'imdbUrl'>]: boolean
 };
 
 export class NewMovie extends Component<Props, State> {
+  initialMovie = {
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  };
+
   state: State = {
-    movie: { ...initialMovie },
-    imgUrlError: false,
-    imdbUrlError: false,
+    movie: { ...this.initialMovie },
+    errors: {
+      imgUrl: false,
+      imdbUrl: false,
+    },
   };
 
   changeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
+    const { errors } = this.state;
 
-    if (name === 'imgUrl' || name === 'imdbUrl') {
+    if (Object.keys(errors).includes(name)) {
       this.errorChecker(name, value);
     }
 
@@ -53,17 +59,22 @@ export class NewMovie extends Component<Props, State> {
     onAdd(this.state.movie);
 
     this.setState({
-      movie: { ...initialMovie },
+      movie: { ...this.initialMovie },
     });
   };
 
-  errorChecker = (name: keyof Movie, value: string) => {
+  errorChecker = (name: string, value: string) => {
     const sitePattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
     const tempError = value.length && !value.match(sitePattern);
 
-    this.setState({
-      [`${name}Error`]: tempError,
-    } as unknown as Pick<State, keyof State>);
+    this.setState((prevState) => {
+      return {
+        errors: {
+          ...prevState.errors,
+          [name]: tempError,
+        },
+      };
+    });
   };
 
   formatLabel = (label: string) => {
@@ -75,11 +86,11 @@ export class NewMovie extends Component<Props, State> {
 
   render() {
     const requiredFields = [true, true, true, true, false];
-    const hasErrors = this.state.imgUrlError || this.state.imdbUrlError;
+    const hasErrors = this.state.errors.imgUrl || this.state.errors.imdbUrl;
     const isAllCompleted = Object.values(this.state.movie).every(text => text.length);
-    const isInvalidCheck = (tab: keyof Movie) => {
-      if (tab === 'imgUrl' || tab === 'imdbUrl') {
-        return this.state[`${tab}Error`];
+    const isInvalidCheck = (field: keyof Movie) => {
+      if (Object.keys(this.state.errors).includes(field)) {
+        return this.state.errors[field as keyof Errors];
       }
 
       return false;
@@ -90,8 +101,8 @@ export class NewMovie extends Component<Props, State> {
         className="form"
         onSubmit={this.sumbitHandler}
       >
-        {Object.keys(this.state.movie).map((field, i) => {
-          const fieldValue = this.state.movie[field as keyof Movie];
+        {(Object.keys(this.state.movie) as Array<keyof Movie>).map((field, i) => {
+          const fieldValue = this.state.movie[field];
 
           return (
             <label
@@ -103,7 +114,7 @@ export class NewMovie extends Component<Props, State> {
                 name={field}
                 className={classNames({
                   'form__field': true,
-                  'form__field--invalid': isInvalidCheck(field as keyof Movie),
+                  'form__field--invalid': isInvalidCheck(field),
                 })}
                 type="text"
                 value={fieldValue}
