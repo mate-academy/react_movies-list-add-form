@@ -13,4 +13,9 @@
     background-color: #595680;
     border-radius: 10px;
   }
+
+  &__description {
+    resize: none;
+    height: 150px;
+  }
 }

@@ -21,34 +21,11 @@ export class NewMovie extends Component<Props, State> {
     imdbId: '',
   };
 
-  handleMovieTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({
-      title: event.target.value,
-    });
-  };
+  handleFormDataChange =
+  (event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
+    const { name, value } = event.target;
 
-  handleDescription = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({
-      description: event.target.value,
-    });
-  };
-
-  handleImgUrl = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({
-      imgUrl: event.target.value,
-    });
-  };
-
-  handleImdbUrl = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({
-      imdbUrl: event.target.value,
-    });
-  };
-
-  handleImdbId = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({
-      imdbId: event.target.value,
-    });
+    this.setState({ [name]: value } as Pick<State, keyof State>);
   };
 
   clearForm = () => {
@@ -75,36 +52,40 @@ export class NewMovie extends Component<Props, State> {
         <input
           className="form__input"
           type="text"
+          name="title"
           value={this.state.title}
-          onChange={this.handleMovieTitle}
+          onChange={this.handleFormDataChange}
           placeholder="Enter the movie title"
         />
-        <input
-          className="form__input"
-          type="text"
+        <textarea
+          className="form__description"
+          name="description"
           value={this.state.description}
-          onChange={this.handleDescription}
+          onChange={this.handleFormDataChange}
           placeholder="Movie Description"
         />
         <input
           className="form__input"
           type="text"
+          name="imgUrl"
           value={this.state.imgUrl}
-          onChange={this.handleImgUrl}
+          onChange={this.handleFormDataChange}
           placeholder="imgUrl"
         />
         <input
           className="form__input"
           type="text"
+          name="imdbUrl"
           value={this.state.imdbUrl}
-          onChange={this.handleImdbUrl}
+          onChange={this.handleFormDataChange}
           placeholder="imdbUrl"
         />
         <input
           className="form__input"
           type="text"
+          name="imdbId"
           value={this.state.imdbId}
-          onChange={this.handleImdbId}
+          onChange={this.handleFormDataChange}
           placeholder="imdbId"
         />
         <button type="submit" className="form__submit">
