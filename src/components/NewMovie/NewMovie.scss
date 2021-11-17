@@ -1,0 +1,15 @@
+.form {
+
+  &__item {
+    margin-bottom: 10px;
+  }
+}
+
+.error-message {
+  color: red;
+}
+
+
+.input.error {
+  border-color: tomato;
+}
