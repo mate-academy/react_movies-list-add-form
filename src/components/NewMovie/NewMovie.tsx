@@ -7,20 +7,14 @@ type Props = {
   onAdd: (movie: Movie) => void;
 };
 
-type Errors = {
-  title?: boolean;
-  description?: boolean;
-  imgUrl: boolean;
-  imdbUrl: boolean;
-  imdbId?: boolean;
-};
+type MovieErrors = RequireAtLeastOne<FormFieldErrors<Movie>, 'imgUrl' | 'imdbUrl'>;
 
 type ChangesEvent = ChangeEvent<HTMLInputElement | HTMLTextAreaElement>;
 type SubmitEvent = FormEvent<HTMLFormElement>;
 
 type State = {
   movie: Movie;
-  errors: Errors;
+  errors: MovieErrors;
 };
 
 export class NewMovie extends Component<Props, State> {
@@ -32,7 +26,7 @@ export class NewMovie extends Component<Props, State> {
     imdbId: '',
   };
 
-  initialErrors: Errors = {
+  initialErrors: MovieErrors = {
     imgUrl: false,
     imdbUrl: false,
   };
