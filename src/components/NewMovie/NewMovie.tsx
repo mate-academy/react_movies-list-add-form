@@ -1,4 +1,3 @@
-/* eslint-disable react/no-access-state-in-setstate */
 /* eslint-disable quote-props */
 import { ChangeEvent, Component, FormEvent } from 'react';
 import classNames from 'classnames';
@@ -8,17 +7,20 @@ type Props = {
   onAdd: (movie: Movie) => void;
 };
 
-type State = {
-  movie: Movie;
-  errors: Errors;
-};
-
 type Errors = {
   title?: boolean;
   description?: boolean;
   imgUrl: boolean;
   imdbUrl: boolean;
   imdbId?: boolean;
+};
+
+type ChangesEvent = ChangeEvent<HTMLInputElement | HTMLTextAreaElement>;
+type SubmitEvent = FormEvent<HTMLFormElement>;
+
+type State = {
+  movie: Movie;
+  errors: Errors;
 };
 
 export class NewMovie extends Component<Props, State> {
@@ -40,7 +42,7 @@ export class NewMovie extends Component<Props, State> {
     errors: { ...this.initialErrors },
   };
 
-  changeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+  changeHandler = (e: ChangesEvent) => {
     const { name, value } = e.target;
 
     if (Object.keys(this.state.errors).includes(name)) {
@@ -57,7 +59,7 @@ export class NewMovie extends Component<Props, State> {
     });
   };
 
-  sumbitHandler = (e: FormEvent<HTMLFormElement>) => {
+  sumbitHandler = (e: SubmitEvent) => {
     e.preventDefault();
     const { onAdd } = this.props;
 
@@ -70,7 +72,7 @@ export class NewMovie extends Component<Props, State> {
 
   errorChecker = (name: string, value: string) => {
     const sitePattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
-    const tempError = value.length && !value.match(sitePattern);
+    const tempError: boolean = value.length ? !value.match(sitePattern) : false;
 
     this.setState((prevState) => {
       return {
@@ -80,13 +82,6 @@ export class NewMovie extends Component<Props, State> {
         },
       };
     });
-  };
-
-  formatLabel = (label: string) => {
-    const capitalizeFirstLetter = label.slice(0, 1).toUpperCase();
-    const restWord = label.slice(1);
-
-    return `${capitalizeFirstLetter}${restWord}:`;
   };
 
   render() {
@@ -107,18 +102,41 @@ export class NewMovie extends Component<Props, State> {
               className="form__item"
               htmlFor={field}
             >
-              {this.formatLabel(field)}
-              <input
-                name={field}
-                className={classNames({
-                  'form__field': true,
-                  'form__field--invalid': this.state.errors[field],
-                })}
-                type="text"
-                value={fieldValue}
-                required={requiredFields[i]}
-                onChange={this.changeHandler}
-              />
+              <span className="form__title">{field}</span>
+
+              {field === 'description' ? (
+                <textarea
+                  name={field}
+                  className={classNames(
+                    'form__field',
+                    'form__field--textarea',
+                    {
+                      'form__field--invalid': this.state.errors[field],
+                    },
+                  )}
+                  value={fieldValue}
+                  required={requiredFields[i]}
+                  onChange={this.changeHandler}
+                  placeholder={`Please, enter ${field}`}
+                />
+              ) : (
+                <input
+                  name={field}
+                  className={classNames({
+                    'form__field': true,
+                    'form__field--invalid': this.state.errors[field],
+                  })}
+                  type="text"
+                  value={fieldValue}
+                  required={requiredFields[i]}
+                  onChange={this.changeHandler}
+                  placeholder={`Please, enter ${field}`}
+                />
+              )}
+
+              {this.state.errors[field] && (
+                <span className="form__warning">Incorrect URL</span>
+              )}
             </label>
           );
         })}

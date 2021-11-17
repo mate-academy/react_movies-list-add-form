@@ -1,19 +1,47 @@
 .form {
-  font-size: 1.5rem;
+  position: relative;
+  font-size: 1.2rem;
 
   &__item {
     display: block;
-    margin-bottom: 1rem;
+    margin-bottom: 1.7rem;
+  }
+
+  &__title {
+    display: block;
+    text-transform: capitalize;
+    margin-bottom: 0.3em;
+
+    &::after {
+      content: ":";
+    }
   }
 
   &__field {
     display: block;
-    height: 3em;
+    padding: 10px;
+    height: 2.4em;
     width: 100%;
+    border: 1px solid lightgrey;
+    border-radius: 5px;
+    font-size: 1.15rem;
+
+    &--textarea {
+      height: 10em;
+    }
 
     &--invalid {
-      outline: solid red;
+      outline: 1px solid red;
     }
+  }
+
+  &__warning {
+    display: block;
+    position: absolute;
+    right: 0;
+
+    font-size: 0.85em;
+    color: red;
   }
 
   &__submit {
