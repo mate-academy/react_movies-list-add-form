@@ -1,4 +1,4 @@
-import { Component, ChangeEvent } from 'react';
+import { Component, ChangeEvent, FormEvent } from 'react';
 import './NewMovie.scss';
 
 type Props = {
@@ -41,7 +41,7 @@ export class NewMovie extends Component<Props, State> {
     });
   };
 
-  submitHandler = (event: React.FormEvent) => {
+  submitHandler = (event: FormEvent) => {
     event.preventDefault();
     this.props.onAdd(this.state);
     this.clearForm();
