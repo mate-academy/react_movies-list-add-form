@@ -1,21 +1,27 @@
+$borderRadius: 10px;
+$paddingFormInput: 10px 0 10px 5px;
+
 .form {
   display: flex;
   flex-direction: column;
   &__input {
     margin-bottom: 30px;
-    padding: 10px 0 10px 5px;
-    border-radius: 10px;
+    padding: $paddingFormInput;
+    border-radius: $borderRadius;
   }
   &__submit {
-    padding: 10px 0 10px 5px;
     display: block;
+    padding: $paddingFormInput;
+    border-radius: $borderRadius;
     color: wheat;
     background-color: #595680;
-    border-radius: 10px;
   }
 
   &__description {
     resize: none;
     height: 150px;
+    margin-bottom: 30px;
+    padding: $paddingFormInput;
+    border-radius: $borderRadius;
   }
 }
