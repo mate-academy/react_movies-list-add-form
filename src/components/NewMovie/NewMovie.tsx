@@ -64,6 +64,12 @@ export class NewMovie extends Component<Props, State> {
 
     const { onNewMovie } = this.props;
 
+    const checkText = !title.length
+      || !description.length
+      || !imgUrl.length
+      || !imdbUrl.length
+      || !imdbId.length;
+
     return (
       <form>
         <h1><strong>Create a new Movie:</strong></h1>
@@ -124,13 +130,9 @@ export class NewMovie extends Component<Props, State> {
         <br />
         <label htmlFor="button">
           <input
-            disabled={title.length === 0
-            || description.length === 0
-            || imgUrl.length === 0
-            || imdbUrl.length === 0
-            || imdbId.length === 0}
+            disabled={checkText}
             id="button"
-            type="submit"
+            type="button"
             value="Add Movie"
             onClick={(event) => {
               event.preventDefault();
@@ -140,14 +142,10 @@ export class NewMovie extends Component<Props, State> {
           />
           <input
             className={classNames({
-              submit: !title.length
-                || !description.length
-                || !imgUrl.length
-                || !imdbUrl.length
-                || !imdbId.length,
+              submit: checkText,
             })}
             id="button"
-            type="submit"
+            type="reset"
             value="Clear"
             onClick={(event) => {
               event.preventDefault();
