@@ -59,7 +59,7 @@ export class NewMovie extends Component<Props, State> {
       <form className="form" onSubmit={this.submitHandler}>
         <div className="form__container">
           <label className="form__label" htmlFor="title">
-            Title
+            Title *
             <input
               type="text"
               name="title"
@@ -82,7 +82,7 @@ export class NewMovie extends Component<Props, State> {
             />
           </label>
           <label className="form__label" htmlFor="imgUrl">
-            ImgUrl
+            ImgUrl *
             <input
               type="text"
               name="imgUrl"
@@ -94,7 +94,7 @@ export class NewMovie extends Component<Props, State> {
             />
           </label>
           <label className="form__label" htmlFor="imdbUrl">
-            ImdbUrl
+            ImdbUrl *
             <input
               type="text"
               name="imdbUrl"
@@ -106,7 +106,7 @@ export class NewMovie extends Component<Props, State> {
             />
           </label>
           <label className="form__label" htmlFor="imdbId">
-            ImdbId
+            ImdbId *
             <input
               type="text"
               name="imdbId"
