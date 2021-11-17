@@ -1,0 +1,25 @@
+.newMovieForm {
+
+  &__label {
+    display: block;
+    &:not(:first-child) {
+      margin-top: 10px;
+    }
+  }
+
+  &__input {
+    display: block;
+
+    &--textarea {
+      resize: none;
+    }
+  }
+
+  &__btn {
+    margin-top: 25px;
+  }
+}
+
+.error {
+  border: 1px solid red;
+}
