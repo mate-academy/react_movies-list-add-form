@@ -85,9 +85,9 @@ export class NewMovie extends Component<Props, State> {
   };
 
   render() {
-    const requiredFields = [true, true, true, true, false];
-    const hasErrors = Object.values(this.state.errors).some(value => value);
-    const isAllCompleted = Object.values(this.state.movie).every(text => text.length);
+    const requiredFields: boolean[] = [true, true, true, true, false];
+    const hasErrors: boolean = Object.values(this.state.errors).some(value => value);
+    const isAllCompleted: boolean = Object.values(this.state.movie).every(text => text.length);
 
     return (
       <form
@@ -112,7 +112,7 @@ export class NewMovie extends Component<Props, State> {
             };
 
             return (
-              <label className="form__item" htmlFor={field} >
+              <label className="form__item" htmlFor={field}>
                 <span className="form__title">{field}</span>
 
                 {field === 'description' ? (
