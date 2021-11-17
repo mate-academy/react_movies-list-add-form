@@ -1,3 +1,6 @@
-.card-image img {
-  object-fit: contain;
+.card {
+  border-radius: 15px;
+  &-image img {
+    object-fit: contain;
+  }
 }
