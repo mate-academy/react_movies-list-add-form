@@ -94,46 +94,49 @@ export class NewMovie extends Component<Props, State> {
         className="form"
         onSubmit={this.sumbitHandler}
       >
-        {(Object.keys(this.state.movie) as Array<keyof Movie>).map((field, i) => {
-          const fieldProps = (extraClass: (string | null) = null) => {
-            return {
-              name: field,
-              class: classNames(
-                'form__field',
-                extraClass,
-                { 'form__field--invalid': this.state.errors[field] },
-              ),
-              value: this.state.movie[field],
-              required: requiredFields[i],
-              onChange: this.changeHandler,
-              placeholder: `Please, enter ${field}`,
+        {
+          (Object.keys(this.state.movie) as Array<keyof Movie>).map((field, i) => {
+            const fieldProps = (extraClass: (string | null) = null) => {
+              return {
+                name: field,
+                class: classNames(
+                  'form__field',
+                  extraClass,
+                  { 'form__field--invalid': this.state.errors[field] },
+                ),
+                value: this.state.movie[field],
+                required: requiredFields[i],
+                onChange: this.changeHandler,
+                placeholder: `Please, enter ${field}`,
+              };
             };
-          };
 
-          return (
-            <label
-              className="form__item"
-              htmlFor={field}
-            >
-              <span className="form__title">{field}</span>
+            return (
+              <label
+                className="form__item"
+                htmlFor={field}
+              >
+                <span className="form__title">{field}</span>
 
-              {field === 'description' ? (
-                <textarea
-                  {...fieldProps('form__field--textarea')}
-                />
-              ) : (
-                <input
-                  {...fieldProps()}
-                  type="text"
-                />
-              )}
+                {field === 'description' ? (
+                  <textarea
+                    {...fieldProps('form__field--textarea')}
+                  />
+                ) : (
+                  <input
+                    {...fieldProps()}
+                    type="text"
+                  />
+                )}
 
-              {this.state.errors[field] && (
-                <span className="form__warning">Incorrect URL</span>
-              )}
-            </label>
-          );
-        })}
+                {this.state.errors[field] && (
+                  <span className="form__warning">Incorrect URL</span>
+                )}
+              </label>
+            );
+          })
+        }
+
         <button
           className="form__submit"
           disabled={hasErrors || !isAllCompleted}
