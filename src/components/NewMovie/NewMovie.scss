@@ -1,0 +1,54 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+
+  &__label {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__input {
+    padding: 8px;
+    border: 1px solid black;
+    border-radius: 5px;
+  }
+
+  &__button {
+    height: 35px;
+    width: 50%;
+    margin: 0 auto;
+    background-color: transparent;
+    box-shadow: 1px 1px 1px 0;
+    border: 1px solid black;
+    cursor: pointer;
+    transition: box-shadow ease-in 0.3s;
+
+    &:hover {
+      box-shadow: 5px 5px 2px 0;
+    }
+  }
+}
+
+.form .textarea {
+  min-height: 4em;
+  min-width: 100px;
+  max-width: 200px;
+  resize: none;
+  word-wrap: normal;
+
+  &:hover {
+    border-color: inherit;
+  }
+
+  &::placeholder {
+    color: gray;
+  }
+
+  &:active,
+  &:focus {
+    border-color: inherit;
+    box-shadow: none;
+    border-width: 2px;
+  }
+}
