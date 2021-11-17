@@ -50,3 +50,20 @@ $hl-color: #2196f3;
     color: mix(white, $hl-color, 85%);
   }
 }
+
+.form__textarea {
+  width: 300px;
+  height: 150px;
+  background: none;
+  color: #fff;
+  font-size: 18px;
+  padding: 10px 10px 10px 5px;
+  border-radius: 0;
+  border: none;
+  border-bottom: 1px solid $muted-color;
+  resize: none;
+
+  &:focus {
+    outline: none;
+  }
+}

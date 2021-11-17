@@ -22,7 +22,7 @@ export class NewMovie extends Component<Props, State> {
     imdbId: '',
   };
 
-  changeHandler = (event: ChangeEvent<HTMLInputElement>) => {
+  changeHandler = (event: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) => {
     const { name, value } = event.target;
 
     this.setState(prevState => ({
@@ -71,17 +71,6 @@ export class NewMovie extends Component<Props, State> {
               onChange={this.changeHandler}
             />
           </label>
-          <label className="form__label" htmlFor="description">
-            Description
-            <input
-              type="text"
-              name="description"
-              className="form__input"
-              id="description"
-              value={description}
-              onChange={this.changeHandler}
-            />
-          </label>
           <label className="form__label" htmlFor="imgUrl">
             ImgUrl *
             <input
@@ -115,6 +104,17 @@ export class NewMovie extends Component<Props, State> {
               id="imdbId"
               required
               value={imdbId}
+              onChange={this.changeHandler}
+            />
+          </label>
+          <label className="form__label" htmlFor="description">
+            Description
+            <textarea
+              name="description"
+              className="form__textarea"
+              id="description"
+              value={description}
+              placeholder="Enter description"
               onChange={this.changeHandler}
             />
           </label>
