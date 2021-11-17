@@ -4,7 +4,10 @@ import './MovieCard.scss';
 type Props = Movie;
 
 export const MovieCard: React.FC<Props> = ({
-  title, description, imgUrl, imdbUrl,
+  title,
+  description,
+  imgUrl,
+  imdbUrl,
 }) => (
   <div className="card">
     <div className="card-image">
