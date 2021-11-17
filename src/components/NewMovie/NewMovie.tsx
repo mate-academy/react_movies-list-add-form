@@ -35,7 +35,10 @@ export class NewMovie extends Component<Props, State> {
   handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = event.target;
 
-    this.setState({ [name]: value } as unknown as Pick<State, keyof State>);
+    this.setState(prevState => ({
+      ...prevState,
+      [name]: value,
+    }));
   };
 
   handleBlur = (event: React.ChangeEvent<HTMLInputElement>) => {
