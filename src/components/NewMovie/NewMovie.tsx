@@ -14,7 +14,7 @@ export class NewMovie extends Component<Props, Movie> {
     imdbId: '',
   };
 
-  handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = event.target;
 
     this.setState(state => ({
@@ -49,21 +49,9 @@ export class NewMovie extends Component<Props, Movie> {
             type="text"
             id="title"
             name="title"
+            className="form__input"
             placeholder="Enter film name"
             value={this.state.title}
-            onChange={this.handleChange}
-          />
-        </label>
-
-        <label htmlFor="description" className="form__label">
-          Movie description:
-          <input
-            type="text"
-            id="description"
-            name="description"
-            className="form__input"
-            placeholder="Enter film description"
-            value={this.state.description}
             onChange={this.handleChange}
           />
         </label>
@@ -103,6 +91,18 @@ export class NewMovie extends Component<Props, Movie> {
             className="form__input"
             placeholder="Enter ID"
             value={this.state.imdbId}
+            onChange={this.handleChange}
+          />
+        </label>
+
+        <label htmlFor="description" className="form__label">
+          Movie description:
+          <textarea
+            id="description"
+            name="description"
+            className="form__input textarea"
+            placeholder="Enter film description"
+            value={this.state.description}
             onChange={this.handleChange}
           />
         </label>
