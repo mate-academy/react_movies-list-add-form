@@ -1,0 +1,22 @@
+.newMovie {
+  display: flex;
+  flex-direction: column;
+
+  &__input {
+    width: 100%;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    padding: 5px 0 5px 5px;
+  }
+
+  &__button {
+    border-radius: 5px;
+    padding: 5px 0;
+    text-transform: capitalize;
+    background-color: rgb(76, 201, 113);
+
+    &:hover {
+      background-color: rgb(127, 223, 156);
+    }
+  }
+}
