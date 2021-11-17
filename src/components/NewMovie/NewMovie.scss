@@ -1,0 +1,41 @@
+.Form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  align-items: baseline;
+  gap: 40px;
+
+  &__heading {
+    font-size: 1.4rem;
+    font-weight: bold;
+  }
+
+  &__title {
+    font-weight: bold;
+  }
+
+  &__input {
+    margin-top: 10px;
+    resize: none;
+    width: 320px;
+    border: 2px solid darkgoldenrod;
+    border-radius: 4px;
+  }
+
+  &__button {
+    font-size: 1.2rem;
+    height: 40px;
+    width: 100%;
+    border: 2px solid darkgoldenrod;
+    border-radius: 4px;
+    outline: none;
+    cursor: pointer;
+    text-transform: uppercase;
+    background-color: linen;
+
+    &:hover {
+      background-color: ivory;
+    }
+  }
+}

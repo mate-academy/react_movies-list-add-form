@@ -1,4 +1,5 @@
 import { Component } from 'react';
+import './NewMovie.scss';
 
 type Props = {
   onAdd: (newMovie: Movie) => void,
@@ -12,7 +13,7 @@ type State = {
   imdbId: string,
 };
 
-type Event = React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>;
+type InputEvent = React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>;
 
 export class NewMovie extends Component<Props, State> {
   state: State = {
@@ -23,7 +24,7 @@ export class NewMovie extends Component<Props, State> {
     imdbId: '',
   };
 
-  inputHandler = (event: Event) => {
+  inputHandler = (event: InputEvent) => {
     const { name, value } = event.target;
 
     this.setState((prevState) => (
@@ -34,32 +35,37 @@ export class NewMovie extends Component<Props, State> {
     ));
   };
 
+  submitHandler = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    this.props.onAdd(this.state);
+
+    this.setState({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
+  };
+
   render() {
     return (
       <form
-        onSubmit={(event) => {
-          event.preventDefault();
-
-          this.props.onAdd(this.state);
-
-          this.setState({
-            title: '',
-            description: '',
-            imgUrl: '',
-            imdbUrl: '',
-            imdbId: '',
-          });
-        }}
+        className="Form"
+        onSubmit={this.submitHandler}
       >
-        <p>You can add new movie here</p>
+        <h2 className="Form__heading">You can add new movie here</h2>
 
         <div>
           <label htmlFor="new-movie-title">
-            <span>Enter title: </span>
+            <p className="Form__title">Enter title: </p>
             <input
               id="new-movie-title"
               type="text"
               name="title"
+              placeholder="Movie title"
+              className="Form__input"
               value={this.state.title}
               onChange={this.inputHandler}
             />
@@ -67,10 +73,13 @@ export class NewMovie extends Component<Props, State> {
         </div>
 
         <div>
-          <span>Add description here: </span>
+          <p className="Form__title">Add description here: </p>
           <textarea
             id="new-movie-description"
             name="description"
+            placeholder="Movie description"
+            className="Form__input"
+            rows={10}
             value={this.state.description}
             onChange={this.inputHandler}
           />
@@ -78,11 +87,13 @@ export class NewMovie extends Component<Props, State> {
 
         <div>
           <label htmlFor="new-movie-imgUrl">
-            <span>Add link to movie poster: </span>
+            <p className="Form__title">Add link to movie poster: </p>
             <input
               id="new-movie-imgUrl"
               type="text"
               name="imgUrl"
+              className="Form__input"
+              placeholder="Link to movie poster"
               value={this.state.imgUrl}
               onChange={this.inputHandler}
             />
@@ -91,11 +102,13 @@ export class NewMovie extends Component<Props, State> {
 
         <div>
           <label htmlFor="new-movie-imdbUrl">
-            <span>Add link to movie on IMDB: </span>
+            <p className="Form__title">Add link to movie on IMDB: </p>
             <input
               id="new-movie-imdbUrl"
               type="text"
               name="imdbUrl"
+              className="Form__input"
+              placeholder="Link to movie on IMDB"
               value={this.state.imdbUrl}
               onChange={this.inputHandler}
             />
@@ -104,18 +117,20 @@ export class NewMovie extends Component<Props, State> {
 
         <div>
           <label htmlFor="new-movie-imdbId">
-            <span>Enter movie ID from IMDB: </span>
+            <p className="Form__title">Enter movie ID from IMDB: </p>
             <input
               id="new-movie-imdbId"
               type="text"
               name="imdbId"
+              className="Form__input"
+              placeholder="IMDB ID"
               value={this.state.imdbId}
               onChange={this.inputHandler}
             />
           </label>
         </div>
 
-        <button type="submit">
+        <button type="submit" className="Form__button">
           Add movie
         </button>
       </form>
