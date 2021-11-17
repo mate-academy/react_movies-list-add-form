@@ -57,7 +57,11 @@ export class NewMovie extends Component<Props, State> {
     } = this.state;
 
     return (
-      <form className="form" onSubmit={this.submitHandler}>
+      <form
+        className="form"
+        autoComplete="off"
+        onSubmit={this.submitHandler}
+      >
         <div className="form__container">
           <label className="form__label" htmlFor="title">
             Title *

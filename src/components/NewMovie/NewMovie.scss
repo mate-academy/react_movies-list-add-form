@@ -10,10 +10,11 @@ $hl-color: #2196f3;
 }
 
 .form__label {
-  color: $muted-color;
+  color: mix(white, $hl-color, 50%);
   display: flex;
   flex-direction: column;
   margin: 20px 0;
+  position: relative;
 }
 
 .form__input {
@@ -28,6 +29,7 @@ $hl-color: #2196f3;
 
   &:focus {
     outline: none;
+    border-bottom: 1px solid $hl-color;
   }
 }
 
