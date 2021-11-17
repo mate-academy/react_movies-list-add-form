@@ -1,0 +1,16 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  &__input {
+    margin-bottom: 30px;
+    padding: 10px 0 10px 5px;
+    border-radius: 10px;
+  }
+  &__submit {
+    padding: 10px 0 10px 5px;
+    display: block;
+    color: wheat;
+    background-color: #595680;
+    border-radius: 10px;
+  }
+}
