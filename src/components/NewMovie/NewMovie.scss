@@ -1,0 +1,71 @@
+$bg-color: #424242;
+$muted-color: mix(white, $bg-color, 70%);
+$hl-color: #2196f3;
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.form__label {
+  color: mix(white, $hl-color, 50%);
+  display: flex;
+  flex-direction: column;
+  margin: 20px 0;
+  position: relative;
+}
+
+.form__input {
+  width: 300px;
+  background: none;
+  color: #fff;
+  font-size: 18px;
+  padding: 10px 10px 10px 5px;
+  border-radius: 0;
+  border: none;
+  border-bottom: 1px solid $muted-color;
+
+  &:focus {
+    outline: none;
+    border-bottom: 1px solid $hl-color;
+  }
+}
+
+.form__button {
+  margin-top: 40px;
+  background: $hl-color;
+  color: mix(white, $hl-color, 80%);
+  border: none;
+  padding: 10px 20px;
+  border-radius: 3px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  outline: none;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+
+  &:hover {
+    background: darken($hl-color, 5%);
+    color: mix(white, $hl-color, 85%);
+  }
+}
+
+.form__textarea {
+  width: 300px;
+  height: 150px;
+  background: none;
+  color: #fff;
+  font-size: 18px;
+  padding: 10px 10px 10px 5px;
+  border-radius: 0;
+  border: none;
+  border-bottom: 1px solid $muted-color;
+  resize: none;
+
+  &:focus {
+    outline: none;
+  }
+}
