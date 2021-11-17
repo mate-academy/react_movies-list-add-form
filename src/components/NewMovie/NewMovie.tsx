@@ -43,7 +43,21 @@ export class NewMovie extends Component<Props, State> {
 
   submitHandler = (event: FormEvent) => {
     event.preventDefault();
-    this.props.onAdd(this.state);
+    const {
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    } = this.state;
+
+    this.props.onAdd({
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    });
     this.clearForm();
   };
 
