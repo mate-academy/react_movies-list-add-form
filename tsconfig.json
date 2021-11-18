@@ -3,5 +3,7 @@
   "suppressImplicitAnyIndexErrors": true,
   "include": [
     "src"
-  ]
+  ],
+  "esModuleInterop": true,
+  "allowSyntheticDefaultImports": true
 }

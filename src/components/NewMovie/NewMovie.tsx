@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import classNames from 'classnames';
-import { ChangesEvent, SubmitEvent } from '../../types/types';
+import { ChangesEvent, SubmitEvent, HtmlPropsForMovieForm } from '../../types/types';
 import './NewMovie.scss';
 import { FormField } from './FormField/FormField';
 
@@ -88,7 +88,7 @@ export class NewMovie extends Component<Props, State> {
     field: keyof Movie,
     isFieldRequired: boolean,
   ) => {
-    return (extraClass?: (string | null)) => {
+    return (extraClass?: (string | null)): HtmlPropsForMovieForm => {
       return {
         name: field,
         class: classNames(
@@ -98,8 +98,8 @@ export class NewMovie extends Component<Props, State> {
         ),
         value: this.state.movie[field],
         required: isFieldRequired,
-        onChange: this.changeHandler,
         placeholder: `Please, enter ${field}`,
+        onChange: this.changeHandler,
       };
     };
   };
