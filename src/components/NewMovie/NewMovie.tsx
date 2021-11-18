@@ -22,7 +22,7 @@ export class NewMovie extends React.Component<Props, State> {
   };
 
   // eslint-disable-next-line max-len
-  inputHandler = (event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
+  inputHandler = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = event.target;
 
     this.setState(prevState => ({
@@ -32,7 +32,21 @@ export class NewMovie extends React.Component<Props, State> {
 
   submitHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    this.props.onAdd(this.state);
+    const {
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    } = this.state;
+
+    this.props.onAdd({
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    });
     this.clearAll();
   };
 
