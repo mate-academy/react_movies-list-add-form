@@ -118,7 +118,6 @@ export class NewMovie extends Component<Props, State> {
 
             return (
               <FormField
-                field={field}
                 fieldProps={fieldProps}
                 hasFieldError={this.state.errors[field] || false}
               />
