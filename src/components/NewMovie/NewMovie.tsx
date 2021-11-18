@@ -1,15 +1,14 @@
-/* eslint-disable quote-props */
 import { Component } from 'react';
-import { ChangesEvent, SubmitEvent } from '../../types/types';
 import classNames from 'classnames';
+import { ChangesEvent, SubmitEvent } from '../../types/types';
 import './NewMovie.scss';
 import { FormField } from './FormField/FormField';
+
+type MovieErrors = RequireAtLeastOne<FormFieldErrors<Movie>, 'imgUrl' | 'imdbUrl'>;
 
 type Props = {
   onAdd: (movie: Movie) => void;
 };
-
-type MovieErrors = RequireAtLeastOne<FormFieldErrors<Movie>, 'imgUrl' | 'imdbUrl'>;
 
 type State = {
   movie: Movie;
@@ -33,6 +32,14 @@ export class NewMovie extends Component<Props, State> {
   state: State = {
     movie: { ...this.initialMovie },
     errors: { ...this.initialErrors },
+  };
+
+  hasErrors = () => {
+    return Object.values(this.state.errors).some(value => value);
+  };
+
+  isAllCompleted = () => {
+    return Object.values(this.state.movie).every(text => text.length);
   };
 
   changeHandler = (e: ChangesEvent) => {
@@ -99,8 +106,6 @@ export class NewMovie extends Component<Props, State> {
 
   render() {
     const requiredFields: boolean[] = [true, true, true, true, false];
-    const hasErrors: boolean = Object.values(this.state.errors).some(value => value);
-    const isAllCompleted: boolean = Object.values(this.state.movie).every(text => text.length);
 
     return (
       <form
@@ -123,7 +128,7 @@ export class NewMovie extends Component<Props, State> {
 
         <button
           className="form__submit"
-          disabled={hasErrors || !isAllCompleted}
+          disabled={this.hasErrors() || !this.isAllCompleted()}
           type="submit"
         >
           Add movie
