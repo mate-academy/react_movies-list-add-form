@@ -1,0 +1,40 @@
+.form {
+  display: flex;
+  flex-direction: column;
+
+  label {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 12px;
+  }
+}
+
+.error {
+  position: relative;
+
+  input {
+    border: 2px solid red;
+  }
+
+  &::before {
+    position: absolute;
+    color: red;
+    right: 0;
+  }
+}
+
+.error_title::before {
+  content: "Enter movie title";
+}
+
+.error_description::before {
+  content: "Enter movie description";
+}
+
+.error_imgUrl::before {
+  content: "Enter movie imgUrl";
+}
+
+.error_imdbId::before {
+  content: "Enter movie imdbId";
+}
