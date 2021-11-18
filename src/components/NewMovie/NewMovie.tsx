@@ -52,7 +52,7 @@ export class NewMovie extends Component<Props, State> {
       <form
         onSubmit={(event) => {
           event.preventDefault();
-          addMovie(this.state);
+          addMovie({ ...this.state });
           this.clearForm();
         }}
       >
