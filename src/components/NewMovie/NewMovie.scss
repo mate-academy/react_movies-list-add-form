@@ -35,8 +35,8 @@
       border: 3px solid red;
 
       &:focus {
-        border: 3px solid red;
         outline: none;
+        border-radius: 6px;
       }
     }
   }
