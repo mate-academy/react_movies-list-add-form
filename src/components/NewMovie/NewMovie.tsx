@@ -34,15 +34,15 @@ export class NewMovie extends Component<Props, State> {
     errors: { ...this.initialErrors },
   };
 
-  hasErrors = () => {
+  hasErrors = (): boolean => {
     return Object.values(this.state.errors).some(value => value);
   };
 
-  isAllCompleted = () => {
+  isAllCompleted = (): boolean => {
     return Object.values(this.state.movie).every(text => text.length);
   };
 
-  changeHandler = (e: ChangesEvent) => {
+  changeHandler = (e: ChangesEvent): void => {
     const { name, value } = e.target;
 
     if (Object.keys(this.state.errors).includes(name)) {
@@ -59,7 +59,7 @@ export class NewMovie extends Component<Props, State> {
     });
   };
 
-  sumbitHandler = (e: SubmitEvent) => {
+  sumbitHandler = (e: SubmitEvent): void => {
     e.preventDefault();
     const { onAdd } = this.props;
 
@@ -92,8 +92,8 @@ export class NewMovie extends Component<Props, State> {
       return {
         name: field,
         class: classNames(
-          'form__field',
           extraClass,
+          'form__field',
           { 'form__field--invalid': this.state.errors[field] },
         ),
         value: this.state.movie[field],
