@@ -1,0 +1,44 @@
+.NewMovie {
+  &__label {
+    font-size: 22px;
+  }
+
+  &__container {
+    margin-bottom: 10px;
+  }
+
+  &__input {
+    height: 35px;
+    width: 27vw;
+    border: 1px solid #3a3a3a;
+    padding: 5px;
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25), 0 5px 5px rgba(0,0,0, 0.22);
+    border-color: transparent;
+
+    &--decription {
+      height: 120px;
+      width: 27vw;
+      resize: none;
+    }
+
+    &:focus {
+      border-color: #1707ff;
+      outline: none;
+    }
+  }
+
+  &__button {
+    width: 130px;
+    height: 35px;
+    margin-top: 30px;
+    color: #fff;
+    box-shadow: 0 8px 18px rgba(0,0,0, 0.25), 0 5px 5px rgba(0,0,0, 0.22);
+    background-color: #1707ff;
+    transition: transform 0.5s;
+
+    &:hover {
+      transform: scale(1.1);
+      cursor: pointer;
+    }
+  }
+}
