@@ -35,6 +35,7 @@ export class NewMovie extends Component<Props> {
       imdbUrl,
       imdbId,
     });
+
     this.setState({
       title: '',
       description: '',

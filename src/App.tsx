@@ -15,19 +15,8 @@ export class App extends React.Component<{}, State> {
 
   addMovie = (movie: Movie) => {
     this.setState(prevState => {
-      const {
-        title, description, imgUrl, imdbUrl, imdbId,
-      } = movie;
-      const newMovie = {
-        title,
-        description,
-        imgUrl,
-        imdbUrl,
-        imdbId,
-      };
-
       return {
-        movies: [...prevState.movies, newMovie],
+        movies: [...prevState.movies, movie],
       };
     });
   };
