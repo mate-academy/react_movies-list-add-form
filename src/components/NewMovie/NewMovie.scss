@@ -1,0 +1,35 @@
+.newMovieForm {
+  display: flex;
+  flex-direction: column;
+  font-family: sans-serif;
+
+  &__label {
+    display: block;
+    padding-bottom: 16px;
+  }
+
+  &__input {
+    display: block;
+    width: 100%;
+    border: 1px solid black;
+    transition: all 0.3s;
+
+    &:hover {
+      border: 1px solid rgb(203, 226, 255);
+      box-shadow: 2px 2px 2px 2px rgb(158, 182, 211);
+    }
+
+    &--textarea {
+      resize: none;
+    }
+  }
+
+  &__button {
+    width: 100px;
+    align-self: center;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
