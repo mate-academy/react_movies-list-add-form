@@ -38,21 +38,7 @@ export class NewMovie extends React.Component<Props, State> {
   submitHandler = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const {
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    } = this.state;
-
-    this.props.onAdd({
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    });
+    this.props.onAdd(this.state);
 
     this.setState({
       title: '',
@@ -90,8 +76,8 @@ export class NewMovie extends React.Component<Props, State> {
           Description
         </div>
         <textarea
-          name="decription"
-          placeholder="Movie decription..."
+          name="description"
+          placeholder="Movie description..."
           value={description}
           onChange={this.inputHandler}
           className="form__input"
