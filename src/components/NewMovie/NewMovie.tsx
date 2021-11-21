@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import classNames from 'classnames';
-import { ChangesEvent, SubmitEvent, HtmlPropsForMovieForm } from '../../types/types';
+import { Movie, ChangesEvent, SubmitEvent, HtmlPropsForMovieForm } from '../../types/types';
 import './NewMovie.scss';
 import { FormField } from './FormField/FormField';
 
@@ -86,18 +86,18 @@ export class NewMovie extends Component<Props, State> {
 
   getFieldProps = (
     field: keyof Movie,
-    isFieldRequired: boolean,
   ) => {
-    return (extraClass?: (string | null)): HtmlPropsForMovieForm => {
+    return (extraClass?: string): HtmlPropsForMovieForm => {
+      const classes = classNames(
+        extraClass,
+        'form__field',
+        { 'form__field--invalid': this.state.errors[field] },
+      );
+
       return {
         name: field,
-        class: classNames(
-          extraClass,
-          'form__field',
-          { 'form__field--invalid': this.state.errors[field] },
-        ),
+        class: classes,
         value: this.state.movie[field],
-        required: isFieldRequired,
         placeholder: `Please, enter ${field}`,
         onChange: this.changeHandler,
       };
@@ -105,16 +105,14 @@ export class NewMovie extends Component<Props, State> {
   };
 
   render() {
-    const requiredFields: boolean[] = [true, true, true, true, false];
-
     return (
       <form
         className="form"
         onSubmit={this.sumbitHandler}
       >
         {
-          (Object.keys(this.state.movie) as Array<keyof Movie>).map((field, i) => {
-            const fieldProps = this.getFieldProps(field, requiredFields[i]);
+          (Object.keys(this.state.movie) as Array<keyof Movie>).map((field) => {
+            const fieldProps = this.getFieldProps(field);
 
             return (
               <FormField

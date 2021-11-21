@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent } from 'react';
+import { ChangeEvent, FormEvent, HTMLProps } from 'react';
 
 export interface Movie {
   title: string;
@@ -21,13 +21,11 @@ export type FormFieldErrors<T> = {
 export type ExtraProps = {
   name: keyof Movie;
   class: string;
-  onChange: ((e: ChangesEvent) => void);
+  onChange: (e: ChangesEvent) => void;
 };
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export type HtmlPropsForMovieForm = (
-  (React.HTMLProps<HTMLInputElement> & React.HTMLProps<HTMLTextAreaElement>) | ExtraProps
-);
+export type HtmlPropsForMovieForm
+  = (HTMLProps<HTMLTextAreaElement> & HTMLProps<HTMLInputElement>) | ExtraProps;
 
 export type ChangesEvent = ChangeEvent<HTMLInputElement | HTMLTextAreaElement>;
 export type SubmitEvent = FormEvent<HTMLFormElement>;
