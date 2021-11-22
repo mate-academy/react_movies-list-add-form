@@ -71,6 +71,7 @@ export class NewMovie extends Component<Props> {
             placeholder="Enter title"
             value={this.state.title}
             onChange={this.handleInputChange}
+            required
           />
         </label>
         <br />
@@ -87,6 +88,7 @@ export class NewMovie extends Component<Props> {
                 description: event.target.value,
               });
             }}
+            required
           />
         </label>
         <br />
@@ -104,6 +106,7 @@ export class NewMovie extends Component<Props> {
                 imgUrl: event.target.value,
               });
             }}
+            required
           />
         </label>
 
@@ -122,6 +125,7 @@ export class NewMovie extends Component<Props> {
                 imdbUrl: event.target.value,
               });
             }}
+            required
           />
         </label>
         <br />
@@ -139,6 +143,7 @@ export class NewMovie extends Component<Props> {
                 imdbId: event.target.value,
               });
             }}
+            required
           />
         </label>
         <div>
