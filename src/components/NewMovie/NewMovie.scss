@@ -1,0 +1,62 @@
+.form {
+  position: relative;
+  font-size: 1.2rem;
+
+  &__item {
+    display: block;
+    margin-bottom: 1.7rem;
+  }
+
+  &__title {
+    display: block;
+    text-transform: capitalize;
+    margin-bottom: 0.3em;
+
+    &::after {
+      content: ":";
+    }
+  }
+
+  &__field {
+    display: block;
+    padding: 10px;
+    height: 2.4em;
+    width: 100%;
+    border: 1px solid lightgrey;
+    border-radius: 5px;
+    font-size: 1.15rem;
+
+    &--textarea {
+      height: 10em;
+      resize: vertical;
+    }
+
+    &--invalid {
+      border: 3px solid red;
+
+      &:focus {
+        outline: none;
+        border-radius: 6px;
+      }
+    }
+  }
+
+  &__warning {
+    display: block;
+    position: absolute;
+    right: 0;
+
+    font-size: 0.85em;
+    color: red;
+  }
+
+  &__submit {
+    display: block;
+    width: fit-content;
+    margin: auto;
+    margin-top: 2rem;
+    padding: 1rem;
+    box-shadow: 0 0.5em 1em -0.13em rgba(10, 10, 10, 0.1);
+    font-size: 1.1rem;
+  }
+}
