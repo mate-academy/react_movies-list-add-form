@@ -11,7 +11,7 @@ export interface Movie {
 export type RequireAtLeastOne<T, Keys extends keyof T = keyof T> =
     Pick<T, Exclude<keyof T, Keys>>
     & {
-      [K in Keys]-?: Required<Pick<T, K>> & Partial<Pick<T, Exclude<Keys, K>>>
+      [K in Keys]: Required<Pick<T, K>> & Partial<Pick<T, Exclude<Keys, K>>>
     }[Keys];
 
 export type FormFieldErrors<T> = {
@@ -24,8 +24,7 @@ export type ExtraProps = {
   onChange: (e: ChangesEvent) => void;
 };
 
-export type HtmlPropsForMovieForm
-  = (HTMLProps<HTMLTextAreaElement> & HTMLProps<HTMLInputElement>) | ExtraProps;
+export type HtmlProps = (HTMLProps<HTMLTextAreaElement> & HTMLProps<HTMLInputElement>) | ExtraProps;
 
 export type ChangesEvent = ChangeEvent<HTMLInputElement | HTMLTextAreaElement>;
 export type SubmitEvent = FormEvent<HTMLFormElement>;

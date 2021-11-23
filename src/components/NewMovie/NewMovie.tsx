@@ -1,6 +1,8 @@
 import { Component } from 'react';
 import classNames from 'classnames';
-import { Movie, ChangesEvent, SubmitEvent, HtmlPropsForMovieForm } from '../../types/types';
+import {
+  Movie, ChangesEvent, SubmitEvent, HtmlProps,
+} from '../../types/types';
 import './NewMovie.scss';
 import { FormField } from './FormField/FormField';
 
@@ -84,10 +86,8 @@ export class NewMovie extends Component<Props, State> {
     });
   };
 
-  getFieldProps = (
-    field: keyof Movie,
-  ) => {
-    return (extraClass?: string): HtmlPropsForMovieForm => {
+  getFieldProps = (field: keyof Movie) => {
+    return (extraClass?: string): HtmlProps => {
       const classes = classNames(
         extraClass,
         'form__field',
@@ -110,18 +110,30 @@ export class NewMovie extends Component<Props, State> {
         className="form"
         onSubmit={this.sumbitHandler}
       >
-        {
-          (Object.keys(this.state.movie) as Array<keyof Movie>).map((field) => {
-            const fieldProps = this.getFieldProps(field);
+        <FormField
+          fieldProps={this.getFieldProps('title')}
+          hasFieldError={this.state.errors.title || false}
+        />
 
-            return (
-              <FormField
-                fieldProps={fieldProps}
-                hasFieldError={this.state.errors[field] || false}
-              />
-            );
-          })
-        }
+        <FormField
+          fieldProps={this.getFieldProps('description')}
+          hasFieldError={this.state.errors.description || false}
+        />
+
+        <FormField
+          fieldProps={this.getFieldProps('imgUrl')}
+          hasFieldError={this.state.errors.imgUrl || false}
+        />
+
+        <FormField
+          fieldProps={this.getFieldProps('imdbUrl')}
+          hasFieldError={this.state.errors.imdbUrl || false}
+        />
+
+        <FormField
+          fieldProps={this.getFieldProps('imdbId')}
+          hasFieldError={this.state.errors.imdbId || false}
+        />
 
         <button
           className="form__submit"

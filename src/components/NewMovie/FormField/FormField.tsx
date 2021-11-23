@@ -1,7 +1,7 @@
-import { HtmlPropsForMovieForm } from '../../../types/types';
+import { HtmlProps } from '../../../types/types';
 
 type Props = {
-  fieldProps: (extraClass?: string) => HtmlPropsForMovieForm;
+  fieldProps: (extraClass?: string) => HtmlProps;
   hasFieldError: boolean;
 };
 

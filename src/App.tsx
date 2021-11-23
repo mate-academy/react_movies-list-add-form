@@ -14,14 +14,12 @@ export class App extends React.Component<{}, State> {
   };
 
   addMovie = (movie: Movie) => {
-    this.setState((prevState) => {
-      return {
-        movies: [
-          ...prevState.movies,
-          movie,
-        ],
-      };
-    });
+    this.setState((prevState) => ({
+      movies: [
+        ...prevState.movies,
+        movie,
+      ],
+    }));
   };
 
   render() {
