@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import React from 'react';
+import './NewMovie.scss';
 
 type Props = {
   onAdd: any,
@@ -42,7 +43,9 @@ export class NewMovie extends React.Component<Props, State> {
       newTitle, newDescription, newImbdId, newImbdUrl, newImgUrl, newTitleValid,
       newImgUrlValid, newImbdUrlValid, newImbdIdValid,
     } = this.state;
-    const invalidSubmit = !newImbdIdValid || !newTitleValid || !newImgUrlValid || !newImbdUrlValid;
+    const invalidSubmit = !newImbdIdValid || !newTitleValid || !newImgUrlValid
+      || !newImbdUrlValid || !newTitle || !newImbdId || !newImbdUrl
+      || !newImgUrl;
 
     return (
       <form
