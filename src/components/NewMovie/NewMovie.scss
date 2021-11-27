@@ -1,0 +1,28 @@
+.form {
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.new-description {
+  padding-bottom: 24px;
+}
+
+.error {
+  visibility: hidden;
+  color: rgb(94, 0, 0);
+  font-weight: bold;
+}
+
+.error-visible {
+  visibility: visible;
+}
+
+.error-input {
+  border-color: red;
+}
+
+.add-button {
+  margin-top: 15px;
+}
