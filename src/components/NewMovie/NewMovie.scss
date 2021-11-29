@@ -62,5 +62,9 @@
     &:hover {
       background-color: #145ce4;
     }
+
+    &:disabled {
+      background-color: #98b3e6;
+    }
   }
 }

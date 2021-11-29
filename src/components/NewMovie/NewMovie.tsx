@@ -84,12 +84,12 @@ export class NewMovie extends React.Component<Props, State> {
     });
   };
 
-  isSubmittedDataValid = () => {
+  isDataValid = () => {
     return (
-      this.state.hasTitle
-      && this.state.hasImgUrl
-      && this.state.hasImdbUrl
-      && this.state.hasImdbId
+      this.state.newMovie.title
+      && this.state.newMovie.imgUrl
+      && this.state.newMovie.imdbUrl
+      && this.state.newMovie.imdbId
     );
   };
 
@@ -98,10 +98,6 @@ export class NewMovie extends React.Component<Props, State> {
 
     const { onAdd } = this.props;
     const { newMovie } = this.state;
-
-    if (!this.isSubmittedDataValid()) {
-      return;
-    }
 
     onAdd(newMovie);
     this.clearForm();
@@ -223,7 +219,11 @@ export class NewMovie extends React.Component<Props, State> {
           </div>
         </div>
 
-        <button type="submit" className="NewMovie__button">
+        <button
+          type="submit"
+          disabled={!this.isDataValid()}
+          className="NewMovie__button"
+        >
           Add movie
         </button>
       </form>
