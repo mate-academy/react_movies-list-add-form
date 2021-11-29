@@ -1,0 +1,70 @@
+.NewMovie {
+  &__fields {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+
+  &__field-label {
+    display: inline-block;
+    margin-bottom: 6px;
+
+    font-weight: bold;
+  }
+
+  &__field {
+    width: 100%;
+    padding: 10px 8px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+
+    background-color: #cdd5e0;
+    color: rgb(41, 44, 85);
+
+    &:hover {
+      border-color: rgba(14, 47, 97, 0.589);
+    }
+
+    &:focus {
+      outline: none;
+      border-color: rgb(45, 31, 177);
+    }
+
+    &--description {
+      padding: 8px 0 0 8px;
+      border: 1px solid #c6c9cc;
+
+      background-color: initial;
+
+      resize: none;
+    }
+
+    &--error {
+      border-color: rgba(255, 76, 45, 0.473);
+    }
+  }
+
+  &__button {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    border: 0;
+    border-radius: 4px;
+
+    background-color: #4283ff;
+    color: #fff;
+
+    cursor: pointer;
+
+    transition: background-color 0.1s ease;
+
+    &:hover {
+      background-color: #145ce4;
+    }
+
+    &:disabled {
+      background-color: #98b3e6;
+    }
+  }
+}
