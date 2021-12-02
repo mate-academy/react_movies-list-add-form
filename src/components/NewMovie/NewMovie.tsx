@@ -42,14 +42,43 @@ export class NewMovie extends Component<Props, State> {
     this.setState(state => ({
       ...state,
       [name]: value,
-      formErrors: {
-        ...state.formErrors,
-        isTitleValid: true,
-        isImgUrlValid: true,
-        isImdbUrlValid: true,
-        isImdbIdValid: true,
-      },
     }));
+
+    if (name === 'newTitle' && value) {
+      this.setState(state => ({
+        formErrors: {
+          ...state.formErrors,
+          isTitleValid: true,
+        },
+      }));
+    }
+
+    if (name === 'newImgUrl' && value.match(this.regExp)) {
+      this.setState(state => ({
+        formErrors: {
+          ...state.formErrors,
+          isImgUrlValid: true,
+        },
+      }));
+    }
+
+    if (name === 'newImdbUrl' && value.match(this.regExp)) {
+      this.setState(state => ({
+        formErrors: {
+          ...state.formErrors,
+          isImdbUrlValid: true,
+        },
+      }));
+    }
+
+    if (name === 'newImdbId' && value) {
+      this.setState(state => ({
+        formErrors: {
+          ...state.formErrors,
+          isImdbIdValid: true,
+        },
+      }));
+    }
   };
 
   checkForErrors = (event: FocusEvent<HTMLInputElement>) => {
