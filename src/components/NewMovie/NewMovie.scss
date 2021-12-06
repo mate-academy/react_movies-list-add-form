@@ -1,0 +1,48 @@
+.Add_Movie {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  padding-bottom: 40px;
+  border-bottom: 1px dotted black;
+
+  &__card {
+    border: 1px solid black;
+    padding: 5px;
+    box-sizing: border-box;
+
+    &--error {
+      padding: 5px;
+      border: 1px solid red;
+    }
+  }
+}
+
+.card-description {
+  margin-bottom: 40px;
+  resize: vertical;
+}
+
+.Error_Container {
+  height: 40px;
+
+  &--message {
+    color: red;
+    font-weight: bold;
+  }
+}
+
+button {
+  margin-top: 20px;
+  padding: 5px;
+  background-color: rgb(165, 165, 165);
+
+  &:hover:enabled {
+    cursor: pointer;
+    font-weight: bold;
+    background-color: rgb(97, 97, 97);
+  }
+
+  &:active:enabled {
+    background-color: salmon;
+  }
+}
