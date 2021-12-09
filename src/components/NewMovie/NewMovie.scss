@@ -1,0 +1,20 @@
+.add-movie-form {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  &__title {
+    font-size: 30px;
+  }
+  &__field-title {
+    margin-bottom: 5px;
+  }
+  &__field {
+    margin-bottom: 10px;
+  }
+  &__field--error {
+    border: 2px solid red;
+  }
+  &__error-message {
+    color: red;
+  }
+}
