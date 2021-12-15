@@ -1,0 +1,43 @@
+%pad {
+  padding: 5px 10px;
+
+  margin-bottom: 10px;
+
+  border: 2px solid;
+
+  &:hover {
+    border-color: blue;
+  }
+}
+
+.form {
+  &__helper {
+    font-size: 10px;
+  }
+
+  &__input {
+    display: block;
+
+    @extend %pad;
+  }
+
+  &__textarea {
+    display: block;
+
+    @extend %pad;
+    resize: none;
+  }
+}
+
+.button {
+  background-color: mediumspringgreen;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &:disabled {
+    background-color: mediumspringgreen;
+    cursor: not-allowed;
+  }
+}
