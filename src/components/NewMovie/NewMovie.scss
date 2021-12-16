@@ -1,0 +1,15 @@
+.newMovie {
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  &__item {
+    &-wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+  }
+}
