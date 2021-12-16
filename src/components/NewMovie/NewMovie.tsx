@@ -5,12 +5,13 @@ import './NewMovie.scss';
 type Props = {
   addMovie: (movie: Movie) => void
 };
+
 type State = {
-  title?: string,
-  description?: string,
-  imgUrl?: string,
-  imdbUrl?: string,
-  imdbId?: string,
+  title: string,
+  description: string,
+  imgUrl: string,
+  imdbUrl: string,
+  imdbId: string,
 };
 
 export class NewMovie extends Component<Props, State> {
@@ -26,7 +27,7 @@ export class NewMovie extends Component<Props, State> {
   | React.ChangeEvent<HTMLTextAreaElement>) => {
     const { name, value } = event.target;
 
-    this.setState({ [name]: value });
+    this.setState({ [name]: value } as { [key in keyof State]: string });
   };
 
   createMovie = (event: { preventDefault: () => void; }) => {
@@ -40,11 +41,11 @@ export class NewMovie extends Component<Props, State> {
     } = this.state;
 
     this.props.addMovie({
-      title: title || '',
-      description: description || '',
-      imgUrl: imgUrl || '',
-      imdbUrl: imdbUrl || '',
-      imdbId: imdbId || '',
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
     });
 
     this.clearState();
