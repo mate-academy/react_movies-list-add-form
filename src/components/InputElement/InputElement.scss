@@ -1,0 +1,20 @@
+.form {
+
+  &__field {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+    font-size: 20px;
+  }
+
+  &__input {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    outline: none;
+
+    &:focus {
+      background-color: rgb(88, 91, 255);
+    }
+  }
+}
