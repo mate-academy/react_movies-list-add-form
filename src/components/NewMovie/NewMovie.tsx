@@ -6,11 +6,11 @@ type Props = {
   addMovie: (movie: Movie) => void
 };
 type State = {
-  title: string,
-  description: string,
-  imgUrl: string,
-  imdbUrl: string,
-  imdbId: string,
+  title?: string,
+  description?: string,
+  imgUrl?: string,
+  imdbUrl?: string,
+  imdbId?: string,
 };
 
 export class NewMovie extends Component<Props, State> {
@@ -20,6 +20,13 @@ export class NewMovie extends Component<Props, State> {
     imgUrl: '',
     imdbUrl: '',
     imdbId: '',
+  };
+
+  handleChange = (event: React.ChangeEvent<HTMLInputElement>
+  | React.ChangeEvent<HTMLTextAreaElement>) => {
+    const { name, value } = event.target;
+
+    this.setState({ [name]: value });
   };
 
   createMovie = (event: { preventDefault: () => void; }) => {
@@ -33,13 +40,17 @@ export class NewMovie extends Component<Props, State> {
     } = this.state;
 
     this.props.addMovie({
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
+      title: title || '',
+      description: description || '',
+      imgUrl: imgUrl || '',
+      imdbUrl: imdbUrl || '',
+      imdbId: imdbId || '',
     });
 
+    this.clearState();
+  };
+
+  clearState = () => {
     this.setState({
       title: '',
       description: '',
@@ -74,9 +85,7 @@ export class NewMovie extends Component<Props, State> {
             name="title"
             required
             value={title}
-            onChange={(event) => {
-              this.setState({ title: event.target.value });
-            }}
+            onChange={this.handleChange}
           />
           <label htmlFor="description" className="Form__label">
             Description
@@ -86,9 +95,7 @@ export class NewMovie extends Component<Props, State> {
             id="description"
             name="description"
             value={description}
-            onChange={(event) => {
-              this.setState({ description: event.target.value });
-            }}
+            onChange={this.handleChange}
           />
           <label htmlFor="imgUrl" className="Form__label">
             imgUrl
@@ -100,9 +107,7 @@ export class NewMovie extends Component<Props, State> {
             name="imgUrl"
             required
             value={imgUrl}
-            onChange={(event) => {
-              this.setState({ imgUrl: event.target.value });
-            }}
+            onChange={this.handleChange}
           />
           <label htmlFor="imdbUrl" className="Form__label">
             imdbUrl
@@ -114,9 +119,7 @@ export class NewMovie extends Component<Props, State> {
             name="imdbUrl"
             required
             value={imdbUrl}
-            onChange={(event) => {
-              this.setState({ imdbUrl: event.target.value });
-            }}
+            onChange={this.handleChange}
           />
           <label htmlFor="imdbId" className="Form__label">
             imdbId
@@ -128,9 +131,7 @@ export class NewMovie extends Component<Props, State> {
             required
             name="imdbId"
             value={imdbId}
-            onChange={(event) => {
-              this.setState({ imdbId: event.target.value });
-            }}
+            onChange={this.handleChange}
           />
           <button type="submit" className="Form__button">
             Add
