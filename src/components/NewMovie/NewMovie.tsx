@@ -7,13 +7,7 @@ type Props = {
 };
 
 type State = {
-  movie: {
-    title: string,
-    description: string,
-    imgUrl: string,
-    imdbUrl: string,
-    imdbId: string,
-  }
+  movie: Movie,
 
   isValid: {
     title: boolean,
