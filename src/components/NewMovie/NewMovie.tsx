@@ -21,6 +21,15 @@ export class NewMovie extends Component<Props, State> {
     imdbId: '',
   };
 
+  changeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+
+    this.setState(state => ({
+      ...state,
+      [name]: value,
+    }));
+  };
+
   handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -58,45 +67,35 @@ export class NewMovie extends Component<Props, State> {
             type="text"
             placeholder="title"
             value={title}
-            onChange={(event) => {
-              this.setState({ title: event.target.value });
-            }}
+            onChange={this.changeHandler}
           />
 
           <input
             type="text"
             placeholder="description"
             value={description}
-            onChange={(event) => {
-              this.setState({ description: event.target.value });
-            }}
+            onChange={this.changeHandler}
           />
 
           <input
             type="text"
             placeholder="imdbUrl"
             value={imdbUrl}
-            onChange={(event) => {
-              this.setState({ imdbUrl: event.target.value });
-            }}
+            onChange={this.changeHandler}
           />
 
           <input
             type="text"
             placeholder="imgUrl"
             value={imgUrl}
-            onChange={(event) => {
-              this.setState({ imgUrl: event.target.value });
-            }}
+            onChange={this.changeHandler}
           />
 
           <input
             type="text"
             placeholder="imdbId"
             value={imdbId}
-            onChange={(event) => {
-              this.setState({ imdbId: event.target.value });
-            }}
+            onChange={this.changeHandler}
           />
 
           <button type="submit">
