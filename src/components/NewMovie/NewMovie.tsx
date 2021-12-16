@@ -33,14 +33,16 @@ export class NewMovie extends Component<Props, State> {
     }));
   };
 
+  onSubmit = (event:React.ChangeEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    this.props.onAdd(this.state.movie);
+    this.setState({ movie: { ...movie } });
+  };
+
   render() {
     return (
       <form
-        onSubmit={(event) => {
-          event.preventDefault();
-          this.props.onAdd(this.state.movie);
-          this.setState({ movie: { ...movie } });
-        }}
+        onSubmit={this.onSubmit}
       >
         <input
           type="text"
