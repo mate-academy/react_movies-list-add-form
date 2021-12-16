@@ -48,6 +48,7 @@ export class NewMovie extends Component<Props, State> {
           placeholder="title"
           value={this.state.movie.title}
           onChange={this.setValue}
+          required
         />
         <input
           type="text"
@@ -55,6 +56,7 @@ export class NewMovie extends Component<Props, State> {
           value={this.state.movie.description}
           placeholder="description"
           onChange={this.setValue}
+          required
         />
         <input
           type="text"
@@ -62,6 +64,7 @@ export class NewMovie extends Component<Props, State> {
           value={this.state.movie.imgUrl}
           placeholder="imgUrl"
           onChange={this.setValue}
+          required
         />
         <input
           type="text"
@@ -69,6 +72,7 @@ export class NewMovie extends Component<Props, State> {
           value={this.state.movie.imdbUrl}
           placeholder="imgUrl"
           onChange={this.setValue}
+          required
         />
         <input
           type="text"
@@ -76,6 +80,7 @@ export class NewMovie extends Component<Props, State> {
           value={this.state.movie.imdbId}
           placeholder="imdbId"
           onChange={this.setValue}
+          required
         />
 
         <button type="submit">Submit</button>
