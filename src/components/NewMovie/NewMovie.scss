@@ -1,0 +1,12 @@
+.newMovie__form {
+  display: flex;
+  flex-direction: column;
+
+  &--description {
+    resize: none;
+  }
+
+  .input {
+    margin-bottom: 20px;
+  }
+}
