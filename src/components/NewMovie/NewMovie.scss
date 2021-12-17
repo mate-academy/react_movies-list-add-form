@@ -1,0 +1,10 @@
+.addMovieForm {
+  display: flex;
+  flex-direction: column;
+
+  &__input {
+    display: block;
+    margin-bottom: 15px;
+    border-radius: 5px;
+  }
+}
