@@ -1,0 +1,23 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  &__item {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-bottom: 10px;
+  }
+
+  &__btn {
+    height: 50px;
+    background-color: rgb(240, 240, 99);
+    cursor: pointer;
+    border-radius: 20px;
+  
+    &:hover {
+      background-color: rgb(255, 192, 203);
+    }
+  }
+}
