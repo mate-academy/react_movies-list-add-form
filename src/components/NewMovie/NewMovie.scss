@@ -5,7 +5,7 @@ $radius-value: 4px;
 $grey-shadow: 5px 5px 5px $color-grey;
 
 %hover-animation {
-  &:hover {  box-shadow: $grey-shadow; };
+  &:hover { box-shadow: $grey-shadow; };
 }
 
 .newMovie-form {
