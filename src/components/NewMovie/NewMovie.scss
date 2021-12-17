@@ -1,0 +1,15 @@
+.Form {
+  display: flex;
+  flex-direction: column;
+
+  &__label {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  &__input {
+    margin-bottom: 20px;
+    resize: none;
+  }
+}
