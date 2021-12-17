@@ -6,11 +6,11 @@ type Props = {
   addMovie: (movie: Movie) => void,
 };
 type State = {
-  title?: string,
-  description?: string,
-  imgUrl?: string,
-  imdbUrl?: string,
-  imdbId?: string,
+  title: string,
+  description: string,
+  imgUrl: string,
+  imdbUrl: string,
+  imdbId: string,
 };
 
 export class NewMovie extends Component<Props, State> {
@@ -25,7 +25,9 @@ export class NewMovie extends Component<Props, State> {
   handleCHange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
 
-    this.setState({ [name]: value });
+    this.setState({
+      [name]: value.trimLeft(),
+    } as Pick<State, keyof State>);
   };
 
   clearForm = () => {
@@ -38,24 +40,25 @@ export class NewMovie extends Component<Props, State> {
     });
   };
 
+  handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    this.clearForm();
+    this.props.addMovie({
+      title: this.state.title,
+      description: this.state.description,
+      imgUrl: this.state.imgUrl,
+      imdbUrl: this.state.imdbUrl,
+      imdbId: this.state.imdbId,
+    });
+  };
+
   render() {
     return (
       <form
         className="sidebar__form"
-        onSubmit={(event) => {
-          event.preventDefault();
-          this.clearForm();
-          this.props.addMovie({
-            title: this.state.title || '',
-            description: this.state.description || '',
-            imgUrl: this.state.imgUrl || '',
-            imdbUrl: this.state.imdbUrl || '',
-            imdbId: this.state.imdbId || '',
-          });
-        }}
+        onSubmit={this.handleSubmit}
       >
         Title
-        {' '}
         <input
           required
           type="text"
@@ -65,7 +68,6 @@ export class NewMovie extends Component<Props, State> {
           onChange={this.handleCHange}
         />
         imgUrl
-        {' '}
         <input
           required
           type="text"
@@ -75,7 +77,6 @@ export class NewMovie extends Component<Props, State> {
           onChange={this.handleCHange}
         />
         imdbUrl
-        {' '}
         <input
           required
           type="text"
@@ -85,7 +86,6 @@ export class NewMovie extends Component<Props, State> {
           onChange={this.handleCHange}
         />
         imdbId
-        {' '}
         <input
           required
           type="text"
@@ -95,7 +95,6 @@ export class NewMovie extends Component<Props, State> {
           onChange={this.handleCHange}
         />
         Description
-        {' '}
         <textarea
           name="description"
           value={this.state.description}
