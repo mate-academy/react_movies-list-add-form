@@ -34,10 +34,6 @@ export class NewMovie extends Component<Props, State> {
     }));
   };
 
-  addMovie = () => {
-
-  };
-
   clearForm = () => {
     this.setState({
       newMovie: {
@@ -50,6 +46,13 @@ export class NewMovie extends Component<Props, State> {
     });
   };
 
+  handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    this.props.onAdd(this.state.newMovie);
+    this.clearForm();
+  }
+
   render() {
     const {
       title, description, imgUrl, imdbUrl, imdbId,
@@ -59,12 +62,7 @@ export class NewMovie extends Component<Props, State> {
       <div className="NewMovie">
         <form
           className="NewMovie__form Form"
-          onSubmit={(event) => {
-            event.preventDefault();
-
-            this.props.onAdd(this.state.newMovie);
-            this.clearForm();
-          }}
+          onSubmit={this.handleSubmit}
         >
           <div className="Form__title">
             <label
