@@ -73,6 +73,7 @@ export class NewMovie extends Component<Props, State> {
           title
         </div>
         <input
+          required
           className="NewMovie__title"
           name="title"
           placeholder="title"
@@ -84,6 +85,7 @@ export class NewMovie extends Component<Props, State> {
           description
         </div>
         <textarea
+          required
           name="description"
           placeholder="description"
           value={this.state.description}
@@ -95,6 +97,7 @@ export class NewMovie extends Component<Props, State> {
           imgUrl
         </div>
         <input
+          required
           name="imgUrl"
           placeholder="imgUrl"
           value={this.state.imgUrl}
@@ -106,6 +109,7 @@ export class NewMovie extends Component<Props, State> {
           imdbUrl
         </div>
         <input
+          required
           name="imdbUrl"
           placeholder="imdbUrl"
           value={this.state.imdbUrl}
@@ -118,6 +122,7 @@ export class NewMovie extends Component<Props, State> {
         </div>
 
         <input
+          required
           name="imdbId"
           placeholder="imdbId"
           value={this.state.imdbId}
