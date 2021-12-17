@@ -90,6 +90,7 @@ export class NewMovie extends React.Component<Props, State> {
             onChange={this.handleChange}
           />
         </div>
+
         <div className="form-newMovie__wrap">
           <label htmlFor="imgUrl">ImgUrl</label>
           <input
@@ -102,6 +103,7 @@ export class NewMovie extends React.Component<Props, State> {
             onChange={this.handleChange}
           />
         </div>
+
         <div className="form-newMovie__wrap">
           <label htmlFor="imdbUrl">ImdbUrl</label>
           <input
@@ -114,6 +116,7 @@ export class NewMovie extends React.Component<Props, State> {
             onChange={this.handleChange}
           />
         </div>
+
         <div className="form-newMovie__wrap">
           <label htmlFor="imdbId">ImdbId</label>
           <input
@@ -126,6 +129,7 @@ export class NewMovie extends React.Component<Props, State> {
             onChange={this.handleChange}
           />
         </div>
+
         <button
           type="submit"
           className="button is-info"
