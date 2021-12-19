@@ -14,13 +14,13 @@ export class App extends React.Component<{}, State> {
     movies: moviesFromServer,
   };
 
-  addMovie = (event: React.ChangeEvent<HTMLInputElement>) => {
+  addMovie = (movie: Movie) => {
+    this.setState(state => ({
+      movies: [...state.movies, movie],
+    }));
   };
 
   render() {
-    // eslint-disable-next-line no-console
-    console.log(this.state.movies);
-
     const { movies } = this.state;
 
     return (
@@ -29,7 +29,7 @@ export class App extends React.Component<{}, State> {
           <MoviesList movies={movies} />
         </div>
         <div className="sidebar">
-          <NewMovie />
+          <NewMovie onAdd={this.addMovie} />
         </div>
       </div>
     );
