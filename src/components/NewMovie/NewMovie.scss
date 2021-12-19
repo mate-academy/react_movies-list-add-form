@@ -1,0 +1,28 @@
+@import url("https://fonts.googleapis.com/css2?family=Dosis:wght@700&family=Readex+Pro&family=Roboto:wght@400;700&display=swap");
+
+.newMovie {
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    font-family: "Readex Pro", sans-serif;
+  }
+}
+
+.form {
+  &__button {
+    height: 40px;
+    border-radius: 10px;
+    border: 1px solid transparent;
+    font-family: "Readex Pro", sans-serif;
+    font-weight: bold;
+    color: #fff;
+    background-color: #839d83;
+    transition: 0.3s;
+
+    &:hover {
+      background-color: #688668;
+      cursor: pointer;
+    }
+  }
+}
