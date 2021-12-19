@@ -2,7 +2,13 @@
 import { Component } from 'react';
 import './NewMovie.scss';
 
-type Props = {};
+type Props = {
+  title: string,
+  description: string,
+  imgUrl: string,
+  imdbUrl: string,
+  imdbId: string,
+};
 type State = {
   title: string,
   description: string,

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react';
 import './App.scss';
 import { MoviesList } from './components/MoviesList';
@@ -13,11 +14,13 @@ export class App extends React.Component<{}, State> {
     movies: moviesFromServer,
   };
 
-  addMovie = (/* movie: Movie */) => {
-    // put your code here
+  addMovie = (event: React.ChangeEvent<HTMLInputElement>) => {
   };
 
   render() {
+    // eslint-disable-next-line no-console
+    console.log(this.state.movies);
+
     const { movies } = this.state;
 
     return (
