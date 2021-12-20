@@ -27,7 +27,7 @@ export class NewMovie extends Component<Props, State> {
   | React.ChangeEvent<HTMLTextAreaElement>) => {
     const { name, value } = event.target;
 
-    this.setState({ [name]: value } as { [key in keyof State]: string });
+    this.setState({ [name]: value.trimLeft() } as { [key in keyof State]: string });
   };
 
   createMovie = (event: { preventDefault: () => void; }) => {
