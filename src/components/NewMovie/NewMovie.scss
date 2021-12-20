@@ -1,13 +1,9 @@
 %pad {
   padding: 5px 10px;
 
+  border-radius: 5px;
+
   margin-bottom: 10px;
-
-  border: 2px solid;
-
-  &:hover {
-    border-color: blue;
-  }
 }
 
 .form {
@@ -18,7 +14,16 @@
   &__input {
     display: block;
 
+    margin: 0;
+
     @extend %pad;
+
+    &--invalid {
+      display: block;
+
+      color: red;
+      margin-left: 30px;
+    }
   }
 
   &__textarea {

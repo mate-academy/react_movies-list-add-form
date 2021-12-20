@@ -3,11 +3,17 @@ import { Component } from 'react';
 
 import './NewMovie.scss';
 
+type Validation = {
+  imgUrl: boolean;
+  imdbUrl: boolean;
+};
+
 type Props = {
   onAdd: (newFilm: Movie) => void;
 };
 type State = {
   newFilm: Movie;
+  isValid: Validation;
 };
 
 export class NewMovie extends Component<Props, State> {
@@ -19,15 +25,24 @@ export class NewMovie extends Component<Props, State> {
       imdbUrl: '',
       imdbId: '',
     },
+    isValid: {
+      imgUrl: false,
+      imdbUrl: false,
+    },
+  };
+
+  urlValidation = (link: string) => {
+    const regex = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
+
+    return regex.test(link);
   };
 
   onChange = (event: React.ChangeEvent<HTMLInputElement>
   | React.ChangeEvent<HTMLTextAreaElement>) => {
-    const { name } = event.target;
-    let { value } = event.target;
+    const { name, value } = event.target;
 
-    if (name === 'imgUrl' || name === 'imdbUrl') {
-      value = value.replace(/^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/g, '');
+    if (value.trim() === '' && value.length !== 0) {
+      return;
     }
 
     this.setState(state => ({
@@ -50,6 +65,24 @@ export class NewMovie extends Component<Props, State> {
     });
   };
 
+  onBlur = (event: React.FocusEvent<HTMLInputElement, Element>) => {
+    const { name, value } = event.target;
+
+    switch (name) {
+      case 'imgUrl':
+      case 'imdbUrl':
+        this.setState(state => ({
+          isValid: {
+            ...state.isValid,
+            [name]: this.urlValidation(value),
+          },
+        }));
+        break;
+      default:
+        break;
+    }
+  };
+
   render() {
     const {
       title,
@@ -58,6 +91,7 @@ export class NewMovie extends Component<Props, State> {
       imdbUrl,
       imdbId,
     } = this.state.newFilm;
+    const { isValid } = this.state;
 
     return (
       <form onSubmit={(event) => {
@@ -73,11 +107,11 @@ export class NewMovie extends Component<Props, State> {
           <input
             className="form__input"
             value={title}
-            style={{ borderColor: title ? 'green' : 'red' }}
             type="text"
             name="title"
             placeholder="Title of the movie"
             onChange={this.onChange}
+            style={{ borderColor: (title.length > 0) ? '' : 'red' }}
           />
         </label>
 
@@ -98,45 +132,55 @@ export class NewMovie extends Component<Props, State> {
           *Image URL adress:
           <input
             className="form__input"
-            style={{ borderColor: imgUrl ? 'green' : 'red' }}
             value={imgUrl}
             name="imgUrl"
             type="text"
             placeholder="https://..."
             onChange={this.onChange}
+            onBlur={this.onBlur}
+            style={{ borderColor: (!isValid.imgUrl) ? 'red' : '' }}
           />
         </label>
+        {!isValid.imgUrl && (
+          <p className="form__input--invalid">Value is invalid</p>
+        )}
 
         <label>
           *Film URL adress:
           <input
             className="form__input"
-            style={{ borderColor: imdbUrl ? 'green' : 'red' }}
             value={imdbUrl}
             name="imdbUrl"
             type="text"
             placeholder="https://..."
             onChange={this.onChange}
+            onBlur={this.onBlur}
+            style={{ borderColor: (!isValid.imdbUrl) ? 'red' : '' }}
           />
         </label>
+        {!isValid.imdbUrl && (
+          <p className="form__input--invalid">Value is invalid</p>
+        )}
 
         <label>
           *Film id:
           <input
             className="form__input"
-            style={{ borderColor: imdbId ? 'green' : 'red' }}
             value={imdbId}
             name="imdbId"
             type="text"
             placeholder="Enter a new ID"
             onChange={this.onChange}
+            style={{ borderColor: (imdbId.length === 0) ? 'red' : '' }}
           />
         </label>
 
         <button
           className="button"
           type="submit"
-          disabled={!(title && imgUrl && imdbUrl && imdbId)}
+          disabled={
+            !(title && isValid.imgUrl && isValid.imdbUrl && imdbId)
+          }
         >
           Add film
         </button>
