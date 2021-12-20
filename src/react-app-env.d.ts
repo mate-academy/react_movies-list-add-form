@@ -7,3 +7,12 @@ interface Movie {
   imdbUrl: string;
   imdbId: string;
 }
+
+interface Validation {
+  isTitleFilled: boolean,
+  isImdbIdFilled: boolean,
+  isImgUrlFilled: boolean,
+  isImdbUrlFilled: boolean,
+  isImgUrlValid: boolean,
+  isImdbUrlValid: boolean,
+}
