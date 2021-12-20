@@ -1,25 +1,43 @@
-import { Component, ChangeEvent, FormEvent } from 'react';
+import { Component, ChangeEvent } from 'react';
 import './NewMovie.scss';
+import classNames from 'classnames';
 
 type Props = {
   onAdd: (movie: Movie) => void;
 };
 
 type State = {
-  title: string;
-  description: string;
-  imgUrl: string;
-  imdbUrl: string;
-  imdbId: string;
+  movie: Movie,
+
+  isValid: {
+    title: boolean,
+    imdbUrl: boolean,
+    imdbId: boolean,
+    imgUrl: boolean,
+  },
 };
 
 export class NewMovie extends Component<Props, State> {
   state: State = {
-    title: '',
-    description: '',
-    imgUrl: '',
-    imdbUrl: '',
-    imdbId: '',
+    movie: {
+      title: '',
+      description: '',
+      imdbUrl: '',
+      imdbId: '',
+      imgUrl: '',
+    },
+    isValid: {
+      title: true,
+      imdbUrl: true,
+      imdbId: true,
+      imgUrl: true,
+    },
+  };
+
+  linkValidation = (link: string) => {
+    const linkRegExp = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
+
+    return linkRegExp.test(link);
   };
 
   changeHandler = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -33,48 +51,80 @@ export class NewMovie extends Component<Props, State> {
 
   clearForm = () => {
     this.setState({
-      title: '',
-      description: '',
-      imgUrl: '',
-      imdbUrl: '',
-      imdbId: '',
+      movie: {
+        title: '',
+        description: '',
+        imgUrl: '',
+        imdbUrl: '',
+        imdbId: '',
+      },
     });
   };
 
-  submitHandler = (event: FormEvent) => {
+  handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    const {
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    } = this.state;
 
-    this.props.onAdd({
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    });
+    this.props.onAdd({ ...this.state.movie });
     this.clearForm();
   };
 
+  handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { value, name } = event.target;
+
+    this.setState((state) => ({
+      movie: {
+        ...state.movie,
+        [name]: value,
+      },
+      isValid: {
+        ...state.isValid,
+        [name]: true,
+      },
+    }));
+  };
+
+  handleBlur = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value, name } = event.target;
+
+    switch (name) {
+      case ('title'):
+      case ('imdbId'):
+        this.setState(state => (
+          {
+            isValid: {
+              ...state.isValid,
+              [name]: !(value.trim() === ''),
+            },
+          }
+        ));
+        break;
+      case ('imdbUrl'):
+      case ('imgUrl'):
+        this.setState(state => (
+          {
+            isValid: {
+              ...state.isValid,
+              [name]: this.linkValidation(value),
+            },
+          }
+        ));
+        break;
+      default:
+        break;
+    }
+  };
+
   render() {
-    const {
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    } = this.state;
+    const { movie, isValid } = this.state;
+    const isButtonDisabled = !movie.title
+    || !movie.imdbId
+    || !this.linkValidation(movie.imdbUrl)
+    || !this.linkValidation(movie.imgUrl);
 
     return (
       <form
-        className="form"
-        autoComplete="off"
-        onSubmit={this.submitHandler}
+        onSubmit={this.handleSubmit}
+        className="new-movie"
       >
         <div className="form__container">
           <label className="form__label" htmlFor="title">
@@ -85,49 +135,59 @@ export class NewMovie extends Component<Props, State> {
               className="form__input"
               id="title"
               required
-              value={title}
+              value={movie.title}
               placeholder="Enter title"
-              onChange={this.changeHandler}
+              onChange={this.handleChange}
             />
           </label>
+
           <label className="form__label" htmlFor="imgUrl">
             ImgUrl *
             <input
               type="text"
               name="imgUrl"
-              className="form__input"
+              className={classNames('form__input', { 'form__input--invalid': !isValid.imgUrl })}
               id="imgUrl"
               required
-              value={imgUrl}
+              value={movie.imgUrl}
               placeholder="Enter IMG URL"
-              onChange={this.changeHandler}
+              onChange={this.handleChange}
+              onBlur={this.handleBlur}
             />
+            {isValid.imgUrl || <p className="new-movie__error">Url is invalid</p>}
           </label>
+
           <label className="form__label" htmlFor="imdbUrl">
             ImdbUrl *
             <input
               type="text"
               name="imdbUrl"
-              className="form__input"
+              className={classNames('form__input', { 'form__input--invalid': !isValid.imdbUrl })}
               id="imdbUrl"
               required
-              value={imdbUrl}
+              value={movie.imdbUrl}
               placeholder="Enter IMDB URL"
-              onChange={this.changeHandler}
+              onChange={this.handleChange}
+              onBlur={this.handleBlur}
             />
+            {isValid.imdbUrl || <p className="new-movie__error">Url is invalid</p>}
+
           </label>
           <label className="form__label" htmlFor="imdbId">
             ImdbId*
             <input
               type="text"
               name="imdbId"
-              className="form__input"
+              className={classNames('form__input', { 'form__input--invalid': !isValid.imdbId })}
               id="imdbId"
               required
-              value={imdbId}
+              value={movie.imdbId}
               placeholder="Enter IMDB id"
-              onChange={this.changeHandler}
+              onChange={this.handleChange}
+              onBlur={this.handleBlur}
             />
+            {isValid.imdbId || <p className="new-movie__error">Add IMDB Id</p>}
+
           </label>
           <label className="form__label" htmlFor="description">
             Description
@@ -135,13 +195,20 @@ export class NewMovie extends Component<Props, State> {
               name="description"
               className="form__textarea"
               id="description"
-              value={description}
+              value={movie.description}
               placeholder="Enter description"
-              onChange={this.changeHandler}
+              onChange={this.handleChange}
             />
           </label>
         </div>
-        <button type="submit" className="form__button">Add movie</button>
+
+        <button
+          type="submit"
+          className="form__button"
+          disabled={isButtonDisabled}
+        >
+          Add movie
+        </button>
       </form>
     );
   }

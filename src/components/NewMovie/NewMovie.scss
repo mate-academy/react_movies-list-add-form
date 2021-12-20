@@ -44,9 +44,10 @@ $hl-color: #ffc400;
   text-decoration: none;
   outline: none;
 
-  &:hover {
-    background: #ffc400;
-    color: mix(white, $hl-color, 85%);
+  &:active {
+    background-color: #f7db80;
+    outline: none;
+    border-bottom: 1px solid $hl-color;
   }
 }
 
