@@ -5,19 +5,13 @@ type Props = {
   onAdd: (newMovie: Movie) => void;
 };
 
-type State = {
-  newMovie: Movie;
-};
-
-export class NewMovie extends Component<Props, State> {
-  state: State = {
-    newMovie: {
-      title: '',
-      description: '',
-      imgUrl: '',
-      imdbUrl: '',
-      imdbId: '',
-    },
+export class NewMovie extends Component<Props, Movie> {
+  state: Movie = {
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
   };
 
   handleChange = (
@@ -26,35 +20,31 @@ export class NewMovie extends Component<Props, State> {
     const { name, value } = event.target;
 
     this.setState(state => ({
-      newMovie: {
-        ...state.newMovie,
-        [name]: value,
-      },
+      ...state,
+      [name]: value,
     }));
   };
 
   clearForm = () => {
     this.setState({
-      newMovie: {
-        title: '',
-        description: '',
-        imgUrl: '',
-        imdbUrl: '',
-        imdbId: '',
-      },
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
     });
   };
 
   handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    this.props.onAdd(this.state.newMovie);
+    this.props.onAdd(this.state);
     this.clearForm();
   };
 
   render() {
     const {
       title, description, imgUrl, imdbUrl, imdbId,
-    } = this.state.newMovie;
+    } = this.state;
 
     return (
       <form onSubmit={this.handleSubmit} className="form">
