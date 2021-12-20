@@ -3,6 +3,7 @@
   grid-template: auto / 1fr 400px;
   column-gap: 20px;
   min-height: 100vh;
+  overflow: hidden;
 }
 
 .page-content {
@@ -12,4 +13,5 @@
 .sidebar {
   padding: 20px;
   border-left: 1px solid lightgray;
+  background-color: #1f1e1e;
 }
