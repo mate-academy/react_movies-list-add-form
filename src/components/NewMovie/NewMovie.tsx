@@ -84,7 +84,7 @@ export class NewMovie extends Component<Props, State> {
           {
             isValid: {
               ...state.isValid,
-              [name]: !(value === ''),
+              [name]: !(value.trim() === ''),
             },
           }
         ));
@@ -107,6 +107,11 @@ export class NewMovie extends Component<Props, State> {
 
   render() {
     const { movie, isValid } = this.state;
+
+    const isButtonDisabled = !movie.title
+      || !movie.imdbId
+      || !this.linkValidation(movie.imdbUrl)
+      || !this.linkValidation(movie.imgUrl);
 
     return (
       <form
@@ -190,12 +195,7 @@ export class NewMovie extends Component<Props, State> {
         <button
           type="submit"
           className="new-movie__button"
-          disabled={
-            !movie.title
-              || !movie.imdbId
-              || !this.linkValidation(movie.imdbUrl)
-              || !this.linkValidation(movie.imgUrl)
-          }
+          disabled={isButtonDisabled}
         >
           Add movie
         </button>
