@@ -1,0 +1,38 @@
+.form {
+
+  &__input-box {
+    margin-bottom: 10px;
+  }
+
+  &__error {
+    visibility: hidden;
+    color: red;
+    font-weight: 700;
+
+    &--active {
+      visibility: visible;
+    }
+  }
+
+  &__field {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 5px;
+    font-size: 20px;
+  }
+
+  &__input {
+    padding: 5px 10px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    outline: none;
+
+    &:focus {
+      background-color: rgb(88, 91, 255);
+    }
+
+    &--touched {
+      border-color: red;
+    }
+  }
+}
