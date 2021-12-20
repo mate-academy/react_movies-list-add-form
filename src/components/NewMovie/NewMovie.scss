@@ -1,0 +1,47 @@
+.new-movie {
+  padding: 20px;
+
+  &__title {
+    margin-bottom: 16px;
+    font-size: 24px;
+  }
+
+  &__field {
+    margin-bottom: 16px;
+    display: block;
+  }
+
+  &__input {
+    width: 100%;
+    margin-bottom: 8px;
+    padding: 10px;
+
+    &--invalid {
+      border: 1px solid #d62b58;
+    }
+  }
+
+  &__error {
+    color: #d62b58;
+  }
+
+  &__button {
+    padding: 12px 24px;
+    border: none;
+    background-color: #727bed;
+    color: #fff;
+
+    transition: background-color 0.3s;
+
+    &:hover {
+      cursor: pointer;
+      background-color: #5563ce;
+    }
+
+    &:disabled {
+      cursor: auto;
+      background-color: #929dea;
+      color: #bbc1ea;
+    }
+  }
+}
