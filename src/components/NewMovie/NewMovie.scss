@@ -1,15 +1,28 @@
 .Form {
   display: flex;
   flex-direction: column;
+  gap: 10px;
 
   &__label {
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: 3px;
+    font-weight: bold;
   }
 
   &__input {
-    margin-bottom: 20px;
     resize: none;
+
+    &--error {
+      border-color: red;
+    }
+  }
+
+  &__error {
+    height: 24px;
+    font-size: 14px;
+    color: red;
+    font-style: italic;
+    font-weight: normal;
   }
 }
