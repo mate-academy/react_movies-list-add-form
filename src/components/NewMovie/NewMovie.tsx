@@ -7,32 +7,27 @@ type Props = {
 };
 
 type State = {
-  title: string,
-  description: string,
-  imgUrl: string,
-  imdbUrl: string,
-  imdbId: string,
-  isTitleFilled: boolean,
-  isImdbIdFilled: boolean,
-  isImgUrlFilled: boolean,
-  isImdbUrlFilled: boolean,
-  isImgUrlValid: boolean,
-  isImdbUrlValid: boolean,
+  newMovie: Movie,
+  validation: Validation,
 };
 
 export class NewMovie extends Component<Props, State> {
   state: State = {
-    title: '',
-    description: '',
-    imgUrl: '',
-    imdbUrl: '',
-    imdbId: '',
-    isTitleFilled: true,
-    isImdbIdFilled: true,
-    isImgUrlFilled: true,
-    isImdbUrlFilled: true,
-    isImgUrlValid: true,
-    isImdbUrlValid: true,
+    newMovie: {
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    },
+    validation: {
+      isTitleFilled: true,
+      isImdbIdFilled: true,
+      isImgUrlFilled: true,
+      isImdbUrlFilled: true,
+      isImgUrlValid: true,
+      isImdbUrlValid: true,
+    },
   };
 
   validateInput = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -47,8 +42,10 @@ export class NewMovie extends Component<Props, State> {
     }
 
     this.setState(state => ({
-      ...state,
-      [validationName]: Boolean(value),
+      validation: {
+        ...state.validation,
+        [validationName]: Boolean(value),
+      },
     }));
   };
 
@@ -57,66 +54,83 @@ export class NewMovie extends Component<Props, State> {
     const urlValidationName = `is${name[0].toUpperCase() + name.slice(1)}Valid`;
 
     this.setState(state => ({
-      ...state,
-      [validationName]: Boolean(value),
-      [urlValidationName]: value ? regExp.test(value) : true,
+      validation: {
+        ...state.validation,
+        [validationName]: Boolean(value),
+        [urlValidationName]: value ? regExp.test(value) : true,
+      },
     }));
   };
 
   changeInputValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     this.setState(state => ({
-      ...state,
-      [e.target.name]: e.target.value,
+      newMovie: {
+        ...state.newMovie,
+        [e.target.name]: e.target.value,
+      },
     }));
   };
 
   changeTextAreaValue = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    this.setState({ description: e.target.value });
+    this.setState(state => ({
+      newMovie: {
+        ...state.newMovie,
+        description: e.target.value,
+      },
+    }));
   };
 
   clearForm = () => {
     this.setState({
-      title: '',
-      description: '',
-      imgUrl: '',
-      imdbUrl: '',
-      imdbId: '',
+      newMovie: {
+        title: '',
+        description: '',
+        imgUrl: '',
+        imdbUrl: '',
+        imdbId: '',
+      },
     });
+  };
+
+  checkFormIsValid = () => {
+    const { newMovie, validation } = this.state;
+
+    const isFormValid = newMovie.title
+      && newMovie.imgUrl
+      && newMovie.imdbUrl
+      && newMovie.imdbId
+      && validation.isImdbUrlValid
+      && validation.isImgUrlValid;
+
+    return isFormValid;
   };
 
   sendForm = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    this.props.addMovie(this.state);
+    this.props.addMovie(this.state.newMovie);
     this.clearForm();
   };
 
   render() {
     const {
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-      isTitleFilled,
-      isImdbIdFilled,
-      isImgUrlFilled,
-      isImdbUrlFilled,
-      isImdbUrlValid,
-      isImgUrlValid,
+      newMovie,
+      validation,
     } = this.state;
 
     const {
       validateInput,
       changeInputValue,
       changeTextAreaValue,
+      checkFormIsValid,
       sendForm,
     } = this;
 
-    const isFormValid = title && imgUrl && imdbUrl
-       && imdbId && isImdbUrlValid && isImgUrlValid;
-
     return (
-      <form onSubmit={sendForm} className="form">
+      <form
+        onSubmit={sendForm}
+        onChange={checkFormIsValid}
+        className="form"
+      >
         <label htmlFor="movie-title" className="form__field">
           <div>
             Movie title:
@@ -125,16 +139,16 @@ export class NewMovie extends Component<Props, State> {
             id="movie-title"
             type="text"
             name="title"
-            value={title}
+            value={newMovie.title}
             onChange={changeInputValue}
             onBlur={validateInput}
             placeholder="Enter movie title"
             className={classNames(
               'form__input',
-              { 'form__input--not-valid': !isTitleFilled },
+              { 'form__input--not-valid': !validation.isTitleFilled },
             )}
           />
-          {isTitleFilled || (
+          {validation.isTitleFilled || (
             <div className="error">
               This field is required
             </div>
@@ -148,7 +162,7 @@ export class NewMovie extends Component<Props, State> {
           <textarea
             id="movie-description"
             name="description"
-            value={description}
+            value={newMovie.description}
             onChange={changeTextAreaValue}
             placeholder="Enter movie description..."
             className="form__description form__input"
@@ -163,18 +177,18 @@ export class NewMovie extends Component<Props, State> {
             id="movie-imgUrl"
             type="text"
             name="imgUrl"
-            value={imgUrl}
+            value={newMovie.imgUrl}
             onChange={changeInputValue}
             onBlur={validateInput}
             placeholder="Enter image url"
             className={classNames(
               'form__input',
-              { 'form__input--not-valid': !isImgUrlFilled || !isImgUrlValid },
+              { 'form__input--not-valid': !validation.isImgUrlFilled || !validation.isImgUrlValid },
             )}
           />
-          {(isImgUrlFilled && isImgUrlValid) || (
+          {(validation.isImgUrlFilled && validation.isImgUrlValid) || (
             <div className="error">
-              {!isImgUrlValid ? 'Url is not valid' : 'This field is required'}
+              {!validation.isImgUrlValid ? 'Url is not valid' : 'This field is required'}
             </div>
           )}
         </label>
@@ -187,18 +201,18 @@ export class NewMovie extends Component<Props, State> {
             id="movie-imdb-url"
             type="text"
             name="imdbUrl"
-            value={imdbUrl}
+            value={newMovie.imdbUrl}
             onChange={changeInputValue}
             onBlur={validateInput}
             placeholder="Enter imdb url"
             className={classNames(
               'form__input',
-              { 'form__input--not-valid': !isImdbUrlFilled || !isImdbUrlValid },
+              { 'form__input--not-valid': !validation.isImdbUrlFilled || !validation.isImdbUrlValid },
             )}
           />
-          {(isImdbUrlFilled && isImdbUrlValid) || (
+          {(validation.isImdbUrlFilled && validation.isImdbUrlValid) || (
             <div className="error">
-              {!isImdbUrlValid ? 'Url is not valid' : 'This field is required'}
+              {!validation.isImdbUrlValid ? 'Url is not valid' : 'This field is required'}
             </div>
           )}
         </label>
@@ -211,16 +225,16 @@ export class NewMovie extends Component<Props, State> {
             id="movie-imdb-id"
             type="text"
             name="imdbId"
-            value={imdbId}
+            value={newMovie.imdbId}
             onChange={changeInputValue}
             onBlur={validateInput}
             placeholder="Enter imdb"
             className={classNames(
               'form__input',
-              { 'form__input--not-valid': !isImdbIdFilled },
+              { 'form__input--not-valid': !validation.isImdbIdFilled },
             )}
           />
-          {isImdbIdFilled || (
+          {validation.isImdbIdFilled || (
             <div className="error">
               This field is required
             </div>
@@ -229,10 +243,10 @@ export class NewMovie extends Component<Props, State> {
 
         <button
           type="submit"
-          disabled={!isFormValid}
+          disabled={!checkFormIsValid()}
           className={classNames(
             'form__submit-button',
-            { 'form__submit-button--disabled': !isFormValid },
+            { 'form__submit-button--disabled': !checkFormIsValid() },
           )}
         >
           Add movie
