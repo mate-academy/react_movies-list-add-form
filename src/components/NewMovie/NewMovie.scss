@@ -21,15 +21,24 @@ $hl-color: #ffc400;
   background: none;
   color: #fff;
   font-size: 18px;
+  margin-top: 5px;
   padding: 10px 10px 10px 5px;
   border-radius: 0;
   border: none;
   border-bottom: 1px solid $muted-color;
 
+  &--invalid {
+    border: 1px solid #d62b58;
+  }
+  
   &:focus {
     outline: none;
     border-bottom: 1px solid $hl-color;
   }
+}
+
+.form__error {
+  color: #d62b58;
 }
 
 .form__button {

@@ -124,7 +124,7 @@ export class NewMovie extends Component<Props, State> {
     return (
       <form
         onSubmit={this.handleSubmit}
-        className="new-movie"
+        className="form__label"
       >
         <div className="form__container">
           <label className="form__label" htmlFor="title">
@@ -132,14 +132,16 @@ export class NewMovie extends Component<Props, State> {
             <input
               type="text"
               name="title"
-              className="form__input"
+              className={classNames('form__input', { 'form__input--invalid': !isValid.title })}
               id="title"
               required
               value={movie.title}
               placeholder="Enter title"
               onChange={this.handleChange}
+              onBlur={this.handleBlur}
             />
           </label>
+          {isValid.title || <p className="form__error">Add title</p>}
 
           <label className="form__label" htmlFor="imgUrl">
             ImgUrl *
@@ -154,7 +156,7 @@ export class NewMovie extends Component<Props, State> {
               onChange={this.handleChange}
               onBlur={this.handleBlur}
             />
-            {isValid.imgUrl || <p className="new-movie__error">Url is invalid</p>}
+            {isValid.imgUrl || <p className="form__error">Url is invalid</p>}
           </label>
 
           <label className="form__label" htmlFor="imdbUrl">
@@ -170,7 +172,7 @@ export class NewMovie extends Component<Props, State> {
               onChange={this.handleChange}
               onBlur={this.handleBlur}
             />
-            {isValid.imdbUrl || <p className="new-movie__error">Url is invalid</p>}
+            {isValid.imdbUrl || <p className="form__error">Url is invalid</p>}
 
           </label>
           <label className="form__label" htmlFor="imdbId">
@@ -186,7 +188,7 @@ export class NewMovie extends Component<Props, State> {
               onChange={this.handleChange}
               onBlur={this.handleBlur}
             />
-            {isValid.imdbId || <p className="new-movie__error">Add IMDB Id</p>}
+            {isValid.imdbId || <p className="form__error">Add IMDB Id</p>}
 
           </label>
           <label className="form__label" htmlFor="description">
