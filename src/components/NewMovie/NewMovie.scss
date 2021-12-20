@@ -1,0 +1,28 @@
+.Form {
+  width: 300px;
+
+  &__title {
+    margin-bottom: 10px;
+    font-size: 28px;
+    font-weight: bold;
+  }
+
+  &__button {
+    height: 40px;
+    width: 50%;
+    background-color: black;
+    color: cornsilk;
+  }
+
+  &__label {
+    display: block;
+    margin-bottom: 10px;
+  }
+
+  &__input {
+    width: 100%;
+    padding: 10px;
+    display: block;
+    margin-bottom: 20px;
+  }
+}
