@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import classNames from 'classnames';
 import { InputElement } from '../InputElement';
 
 import './NewMovie.scss';
@@ -13,6 +14,7 @@ type State = {
   imgUrl: string,
   imdbUrl: string,
   imdbId: string,
+  isValid: boolean,
 };
 
 export class NewMovie extends Component<Props, State> {
@@ -22,6 +24,15 @@ export class NewMovie extends Component<Props, State> {
     imgUrl: '',
     imdbUrl: '',
     imdbId: '',
+    isValid: true,
+  };
+
+  validation = () => {
+    const {
+      title, imgUrl, imdbUrl, imdbId,
+    } = this.state;
+
+    return !!title.trim() && !!imgUrl.trim() && !!imdbUrl.trim() && !!imdbId.trim();
   };
 
   handleAddTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -57,6 +68,14 @@ export class NewMovie extends Component<Props, State> {
   onAdd = (event: React.SyntheticEvent<HTMLFormElement>) => {
     event.preventDefault();
 
+    if (!this.validation()) {
+      this.setState({
+        isValid: false,
+      });
+
+      return;
+    }
+
     this.props.add(this.state);
 
     this.setState({
@@ -65,16 +84,25 @@ export class NewMovie extends Component<Props, State> {
       imgUrl: '',
       imdbUrl: '',
       imdbId: '',
+      isValid: true,
     });
   };
 
   render() {
     const {
-      title, description, imgUrl, imdbUrl, imdbId,
+      title, description, imgUrl, imdbUrl, imdbId, isValid,
     } = this.state;
 
     return (
       <form className="form" onSubmit={this.onAdd}>
+        <span className={classNames(
+          'form__error',
+          { 'form__error--active': !isValid },
+        )}
+        >
+          Required fields must be filled
+        </span>
+
         <InputElement
           label="Enter title of the film:"
           title={title}
