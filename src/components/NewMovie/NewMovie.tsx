@@ -22,7 +22,7 @@ export class NewMovie extends Component<Props, State> {
     newMovie: movie,
   };
 
-  handleCange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
     this.setState(state => ({
@@ -54,7 +54,7 @@ export class NewMovie extends Component<Props, State> {
             name="title"
             placeholder="Enter title"
             value={title}
-            onChange={this.handleCange}
+            onChange={this.handleChange}
           />
           <input
             className="Input"
@@ -62,7 +62,7 @@ export class NewMovie extends Component<Props, State> {
             name="description"
             placeholder="Enter description"
             value={description}
-            onChange={this.handleCange}
+            onChange={this.handleChange}
           />
           <input
             className="Input"
@@ -70,7 +70,7 @@ export class NewMovie extends Component<Props, State> {
             name="imdbId"
             placeholder="Enter imdbId"
             value={imdbId}
-            onChange={this.handleCange}
+            onChange={this.handleChange}
           />
           <input
             className="Input"
@@ -78,7 +78,7 @@ export class NewMovie extends Component<Props, State> {
             name="imdbUrl"
             placeholder="Enter imdbUrl"
             value={imdbUrl}
-            onChange={this.handleCange}
+            onChange={this.handleChange}
           />
           <input
             type="text"
@@ -86,7 +86,7 @@ export class NewMovie extends Component<Props, State> {
             name="imgUrl"
             placeholder="Enter imgUrl"
             value={imgUrl}
-            onChange={this.handleCange}
+            onChange={this.handleChange}
           />
           <button
             type="submit"
