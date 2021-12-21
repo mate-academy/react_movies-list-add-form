@@ -220,11 +220,3 @@ export class NewMovie extends Component<Props, State> {
     );
   }
 }
-
-// this.setState((state) => {
-//   return {
-//     title: state.title?.trim(),
-//     description: state.description?.trim(),
-//     imdbId: state.imdbId?.trim(),
-//   };
-// });
