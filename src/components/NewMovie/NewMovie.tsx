@@ -27,7 +27,7 @@ export class NewMovie extends Component<Props, State> {
     this.setState(state => ({
       newMovie: {
         ...state.newMovie,
-        [name]: value,
+        [name]: value.trim(),
       },
     }));
   };
@@ -70,6 +70,7 @@ export class NewMovie extends Component<Props, State> {
             placeholder="Add title"
             onChange={this.handleChange}
             value={title}
+            required
           />
         </div>
 
@@ -80,6 +81,7 @@ export class NewMovie extends Component<Props, State> {
             placeholder="Add description"
             onChange={this.handleChange}
             value={description}
+            required
           />
         </div>
 
@@ -91,17 +93,19 @@ export class NewMovie extends Component<Props, State> {
             placeholder="Add imgUrl"
             onChange={this.handleChange}
             value={imgUrl}
+            required
           />
         </div>
 
         <div className="wrap">
-          <span>Movie imdbUrl </span>
+          <span>Movie imdbUrl</span>
           <input
             type="text"
             name="imdbUrl"
             placeholder="Add imdbUrl"
             onChange={this.handleChange}
             value={imdbUrl}
+            required
           />
         </div>
 
@@ -113,6 +117,7 @@ export class NewMovie extends Component<Props, State> {
             placeholder="Add imdbId"
             onChange={this.handleChange}
             value={imdbId}
+            required
           />
         </div>
 
