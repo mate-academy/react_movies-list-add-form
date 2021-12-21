@@ -1,0 +1,45 @@
+$color-blue: #005ecc;
+$color-white: #fff;
+$color-grey: rgb(236, 235, 235);
+$radius-value: 4px;
+$grey-shadow: 5px 5px 5px $color-grey;
+
+%hover-animation {
+  &:hover { box-shadow: $grey-shadow; };
+}
+
+.newMovie-form {
+  padding: 20px;
+  background-color: $color-white;
+  border: 1px solid $color-grey;
+  border-radius: $radius-value;
+  box-shadow: $grey-shadow;
+
+  &__wrapper{
+    margin-bottom: 12px;
+  }
+}
+
+.input {
+  @extend %hover-animation;
+}
+
+.textarea {
+  @extend %hover-animation;
+}
+
+.button {
+  color: $color-white;
+  cursor: pointer;
+  border: 2px solid $color-blue;
+  border-radius: $radius-value;
+  background-color: $color-blue;
+  transition: color, border-color, background-color, box-shadow 0.3s;
+
+  &:hover {
+    color: $color-white;
+    border-color: $color-blue;
+    background-color: $color-blue;
+    box-shadow: 0px 10px 27px rgba(0, 83, 181, 0.46);
+  }
+}
