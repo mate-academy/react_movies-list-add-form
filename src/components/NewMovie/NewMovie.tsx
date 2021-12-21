@@ -30,7 +30,7 @@ export class NewMovie extends React.Component<Props, State> {
     this.setState((state) => ({
       newMovie: {
         ...state.newMovie,
-        [name]: value,
+        [name]: value.trimLeft(),
       },
     }));
   };
