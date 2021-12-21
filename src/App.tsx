@@ -14,11 +14,9 @@ export class App extends React.Component<{}, State> {
   };
 
   addMovie = (movie: Movie) => {
-    this.setState(state => {
-      return {
-        movies: [...state.movies, movie],
-      };
-    });
+    this.setState(state => ({
+      movies: [...state.movies, movie],
+    }));
   };
 
   render() {
@@ -30,7 +28,7 @@ export class App extends React.Component<{}, State> {
           <MoviesList movies={movies} />
         </div>
         <div className="sidebar">
-          <NewMovie addMovie={this.addMovie} />
+          <NewMovie addNewMovie={this.addMovie} />
         </div>
       </div>
     );

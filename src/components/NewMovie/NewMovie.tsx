@@ -1,61 +1,46 @@
 import React, { Component } from 'react';
+import './NewMovie.scss';
 
 type Props = {
-  addMovie: (movies: Movie) => void
+  addNewMovie: (newMovie: Movie) => void,
 };
 
 type State = {
-  title: string,
-  description: string,
-  imgUrl: string,
-  imdbUrl: string,
-  imdbId: string
+  newMovie: Movie,
 };
 
 export class NewMovie extends Component<Props, State> {
   state: State = {
-    title: '',
-    description: '',
-    imgUrl: '',
-    imdbUrl: '',
-    imdbId: '',
+    newMovie: {
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    },
   };
 
   changeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
 
     this.setState(state => ({
-      ...state,
-      [name]: value,
+      newMovie: {
+        ...state.newMovie,
+        [name]: value.trimLeft(),
+      },
     }));
   };
 
   handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    this.setState({
-      title: '',
-      description: '',
-      imgUrl: '',
-      imdbUrl: '',
-      imdbId: '',
-    });
-
-    const {
-      title, description, imdbUrl, imgUrl, imdbId,
-    } = this.state;
-
-    const newMovie = {
-      title, description, imdbUrl, imgUrl, imdbId,
-    };
-
-    this.props.addMovie(newMovie);
+    this.props.addNewMovie(this.state.newMovie);
   };
 
   render() {
     const {
       title, description, imdbUrl, imgUrl, imdbId,
-    } = this.state;
+    } = this.state.newMovie;
 
     return (
       <div>
@@ -64,7 +49,9 @@ export class NewMovie extends Component<Props, State> {
           onSubmit={this.handleSubmit}
         >
           <input
+            className="form__input"
             type="text"
+            name="title"
             placeholder="title"
             value={title}
             onChange={this.changeHandler}
@@ -72,14 +59,18 @@ export class NewMovie extends Component<Props, State> {
           />
 
           <input
+            className="form__input"
             type="text"
+            name="description"
             placeholder="description"
             value={description}
             onChange={this.changeHandler}
           />
 
           <input
+            className="form__input"
             type="text"
+            name="imdbUrl"
             placeholder="imdbUrl"
             value={imdbUrl}
             onChange={this.changeHandler}
@@ -87,7 +78,9 @@ export class NewMovie extends Component<Props, State> {
           />
 
           <input
+            className="form__input"
             type="text"
+            name="imgUrl"
             placeholder="imgUrl"
             value={imgUrl}
             onChange={this.changeHandler}
@@ -95,7 +88,9 @@ export class NewMovie extends Component<Props, State> {
           />
 
           <input
+            className="form__input"
             type="text"
+            name="imdbId"
             placeholder="imdbId"
             value={imdbId}
             onChange={this.changeHandler}
