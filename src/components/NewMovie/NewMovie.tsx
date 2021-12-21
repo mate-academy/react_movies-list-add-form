@@ -1,3 +1,6 @@
+/* eslint-disable no-console */
+/* eslint-disable @typescript-eslint/no-unused-expressions */
+/* eslint-disable max-len */
 import { Component } from 'react';
 
 type Props = {
@@ -16,7 +19,14 @@ type State = {
   imgUrl?: string,
   imdbUrl?: string,
   imdbId?: string,
+  imdbUrlErr?: boolean,
+  imgUrlErr?: boolean,
+  titleErr?: boolean,
+  descriptionErr?: boolean,
+  imdbIdErr?: boolean,
 };
+
+const regexUrl = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
 
 export class NewMovie extends Component<Props, State> {
   state: State = {
@@ -25,6 +35,11 @@ export class NewMovie extends Component<Props, State> {
     imgUrl: '',
     imdbUrl: '',
     imdbId: '',
+    imdbUrlErr: false,
+    imgUrlErr: false,
+    titleErr: false,
+    descriptionErr: false,
+    imdbIdErr: false,
   };
 
   handleCHange = (
@@ -47,6 +62,7 @@ export class NewMovie extends Component<Props, State> {
   };
 
   handleSubmit = (event: React.ChangeEvent<HTMLFormElement>) => {
+    event.preventDefault();
     const {
       title,
       description,
@@ -55,15 +71,48 @@ export class NewMovie extends Component<Props, State> {
       imgUrl,
     } = this.state;
 
-    event.preventDefault();
     if (title && description && imdbId && imdbUrl && imgUrl) {
       this.props.addMovie(title, description, imdbId, imdbUrl, imgUrl);
     }
 
     this.clearForm();
+
+    return true;
+  };
+
+  validator = (
+    event: React.ChangeEvent<HTMLInputElement>
+    | React.ChangeEvent<HTMLTextAreaElement>,
+  ) => {
+    const { name, value } = event.target;
+
+    if (name === 'imdbUrl' || name === 'imgUrl') {
+      value.search(regexUrl) === 0
+        ? this.setState({ [`${name}Err`]: false })
+        : this.setState({ [`${name}Err`]: true });
+    }
+
+    if (name === 'title' || name === 'description' || name === 'imdbId') {
+      value.length === value.trim().length
+        ? this.setState({ [`${name}Err`]: false })
+        : this.setState({ [`${name}Err`]: true });
+    }
   };
 
   render() {
+    const {
+      title,
+      description,
+      imdbId,
+      imdbUrl,
+      imgUrl,
+      imdbUrlErr,
+      imgUrlErr,
+      titleErr,
+      descriptionErr,
+      imdbIdErr,
+    } = this.state;
+
     return (
       <form
         className="NewMovie"
@@ -71,68 +120,99 @@ export class NewMovie extends Component<Props, State> {
       >
         <div>
           title
+          {titleErr && (
+            <div className="error-label">
+              remove extra spaces
+            </div>
+          )}
         </div>
         <input
           required
-          className="NewMovie__title"
+          className={titleErr ? 'input error' : 'input'}
           name="title"
           placeholder="title"
-          value={this.state.title}
+          value={title}
           onChange={this.handleCHange}
+          onBlur={this.validator}
         />
 
         <div>
           description
+          {descriptionErr && (
+            <div className="error-label">
+              remove extra spaces
+            </div>
+          )}
         </div>
         <textarea
           required
           name="description"
           placeholder="description"
-          value={this.state.description}
+          value={description}
           onChange={this.handleCHange}
-          className="NewMovie__description"
+          className={descriptionErr ? 'input error' : 'input'}
+          onBlur={this.validator}
         />
 
         <div>
           imgUrl
+          {imgUrlErr && (
+            <div className="error-label">
+              Invalid link
+            </div>
+          )}
         </div>
         <input
           required
           name="imgUrl"
           placeholder="imgUrl"
-          value={this.state.imgUrl}
+          value={imgUrl}
           onChange={this.handleCHange}
-          className="NewMovie__imgUrl"
+          className={imgUrlErr ? 'input error' : 'input'}
+          onBlur={this.validator}
         />
 
         <div>
           imdbUrl
+          {imdbUrlErr && (
+            <div className="error-label">
+              Invalid link
+            </div>
+          )}
         </div>
         <input
           required
           name="imdbUrl"
           placeholder="imdbUrl"
-          value={this.state.imdbUrl}
+          value={imdbUrl}
           onChange={this.handleCHange}
-          className="NewMovie__imdbUrl"
+          className={imdbUrlErr ? 'input error' : 'input'}
+          onBlur={this.validator}
         />
 
         <div>
           imdbId
+          {imdbIdErr && (
+            <div className="error-label">
+              remove extra spaces
+            </div>
+          )}
         </div>
 
         <input
           required
           name="imdbId"
           placeholder="imdbId"
-          value={this.state.imdbId}
+          value={imdbId}
           onChange={this.handleCHange}
-          className="NewMovie__imdbId"
+          className={imdbIdErr ? 'input error' : 'input'}
+          onBlur={this.validator}
         />
 
         <button
           type="submit"
-          className="NewMovie__button"
+          disabled={imdbUrlErr || imgUrlErr || titleErr || descriptionErr || imdbIdErr}
+          className="button"
         >
           Add movie
         </button>
@@ -140,3 +220,11 @@ export class NewMovie extends Component<Props, State> {
     );
   }
 }
+
+// this.setState((state) => {
+//   return {
+//     title: state.title?.trim(),
+//     description: state.description?.trim(),
+//     imdbId: state.imdbId?.trim(),
+//   };
+// });
