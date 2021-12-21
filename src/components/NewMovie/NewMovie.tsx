@@ -19,7 +19,7 @@ export class NewMovie extends Component<Props, State> {
     const { name, value } = event.target;
 
     this.setState({
-      [name]: value,
+      [name]: value.trimLeft(),
     } as Pick<State, keyof State>);
   };
 
