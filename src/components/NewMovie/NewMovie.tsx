@@ -64,6 +64,7 @@ export class NewMovie extends Component<Props, State> {
             value={title}
             onChange={this.changeHandler}
             placeholder="Title"
+            required
           />
         </label>
 
@@ -76,6 +77,7 @@ export class NewMovie extends Component<Props, State> {
             value={description}
             onChange={this.changeHandler}
             placeholder="Description"
+            required
           />
         </label>
 
@@ -88,6 +90,7 @@ export class NewMovie extends Component<Props, State> {
             value={imgUrl}
             onChange={this.changeHandler}
             placeholder="Img Url"
+            required
           />
         </label>
 
@@ -100,6 +103,7 @@ export class NewMovie extends Component<Props, State> {
             value={imdbUrl}
             onChange={this.changeHandler}
             placeholder="IMDB Url"
+            required
           />
         </label>
 
@@ -112,6 +116,7 @@ export class NewMovie extends Component<Props, State> {
             value={imdbId}
             onChange={this.changeHandler}
             placeholder="IMDB ID"
+            required
           />
         </label>
 
