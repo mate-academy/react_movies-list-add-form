@@ -24,37 +24,19 @@ export class NewMovie extends Component<Props, State> {
     imdbId: '',
   };
 
-  titleChanged = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({
-      title: event.target.value,
-    });
+  handleChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+    | React.ChangeEvent<HTMLTextAreaElement>,
+  ) => {
+    const { name, value } = event.target;
+
+    this.setState((state) => ({
+      ...state,
+      [name]: value,
+    }));
   };
 
-  descriptionChanged = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    this.setState({
-      description: event.target.value,
-    });
-  };
-
-  imgUrlChanged = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({
-      imgUrl: event.target.value,
-    });
-  };
-
-  imdbUrlChanged = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({
-      imdbUrl: event.target.value,
-    });
-  };
-
-  imdbIdChanged = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({
-      imdbId: event.target.value,
-    });
-  };
-
-  add = (event: React.SyntheticEvent<HTMLFormElement>) => {
+  addMovieForm = (event: React.SyntheticEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     this.props.onAdd(this.state);
@@ -78,21 +60,23 @@ export class NewMovie extends Component<Props, State> {
     } = this.state;
 
     return (
-      <form onSubmit={this.add}>
+      <form onSubmit={this.addMovieForm}>
         <input
           className="input"
           type="text"
           name="title"
           value={title}
           placeholder="Enter title"
-          onChange={this.titleChanged}
+          onChange={this.handleChange}
+          required
         />
         <textarea
           className="input"
           name="description"
           value={description}
           placeholder="Enter description"
-          onChange={this.descriptionChanged}
+          onChange={this.handleChange}
+          required
         />
         <input
           type="text"
@@ -100,7 +84,8 @@ export class NewMovie extends Component<Props, State> {
           name="imgUrl"
           placeholder="Enter URL for image"
           value={imgUrl}
-          onChange={this.imgUrlChanged}
+          onChange={this.handleChange}
+          required
         />
         <input
           className="input"
@@ -108,7 +93,8 @@ export class NewMovie extends Component<Props, State> {
           name="imdbUrl"
           placeholder="Enter URL for IMDB"
           value={imdbUrl}
-          onChange={this.imdbUrlChanged}
+          onChange={this.handleChange}
+          required
         />
         <input
           className="input"
@@ -116,7 +102,8 @@ export class NewMovie extends Component<Props, State> {
           type="text"
           placeholder="Enter IMBD Id"
           value={imdbId}
-          onChange={this.imdbIdChanged}
+          onChange={this.handleChange}
+          required
         />
         <button type="submit" className="button">
           Add
