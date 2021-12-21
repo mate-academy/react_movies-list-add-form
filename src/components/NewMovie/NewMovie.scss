@@ -1,0 +1,27 @@
+.newMovie {
+  display: flex;
+  flex-direction: column;
+
+  &__input {
+    width: 100%;
+    margin-bottom: 10px;
+    border: 1px solid #f5c518;
+    border-radius: 5px;
+    padding: 5px;
+  }
+
+  &__button {
+    font-size: 15px;
+    font-weight: bold;
+    border: 1px solid #e4b622;
+    text-transform: capitalize;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #e4b622;
+    cursor: pointer;
+
+    &:hover {
+      border-color: gold;
+    }
+  }
+}
