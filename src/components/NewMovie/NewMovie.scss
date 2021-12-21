@@ -1,0 +1,22 @@
+.input {
+  margin-bottom: 16px;
+
+  transition-duration: 0.4ms;
+  &:hover {
+    transform: scale(102%);
+  }
+}
+
+.button {
+  width: 100%;
+  background-color: rgb(177, 190, 202);
+  font-size: 20px;
+  font-weight: 600;
+
+  transition-duration: 0.4ms;
+  &:hover {
+    transform: scale(103%);
+    color: whitesmoke;
+    background-color: rgb(121, 130, 138);
+  }
+}
