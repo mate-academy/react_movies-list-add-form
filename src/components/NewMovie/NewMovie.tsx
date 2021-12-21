@@ -43,24 +43,35 @@ export class NewMovie extends React.Component<Props, State> {
       },
     }));
 
-    if (name === 'title') {
-      this.setState({ invalidTitle: false });
-    }
+    switch (name) {
+      case 'title': {
+        this.setState({ invalidTitle: false });
+        break;
+      }
 
-    if (name === 'description') {
-      this.setState({ invalidDescription: false });
-    }
+      case 'description': {
+        this.setState({ invalidDescription: false });
+        break;
+      }
 
-    if (name === 'imgUrl') {
-      this.setState({ invalidImgUrl: false });
-    }
+      case 'imgUrl': {
+        this.setState({ invalidImgUrl: false });
+        break;
+      }
 
-    if (name === 'imdbUrl') {
-      this.setState({ invalidImdbUrl: false });
-    }
+      case 'imdbUrl': {
+        this.setState({ invalidImdbUrl: false });
+        break;
+      }
 
-    if (name === 'imdbId') {
-      this.setState({ invalidImdbId: false });
+      case 'imdbId': {
+        this.setState({ invalidImdbId: false });
+        break;
+      }
+
+      default: {
+        break;
+      }
     }
   };
 
@@ -126,6 +137,8 @@ export class NewMovie extends React.Component<Props, State> {
       invalidImdbUrl,
       invalidImdbId,
     } = this.state;
+    const disabledButton = invalidTitle || invalidDescription || invalidImgUrl
+    || invalidImdbUrl || invalidImdbId;
 
     return (
       <form onSubmit={this.onSubmit} className="sidebar__form Form">
@@ -208,8 +221,7 @@ export class NewMovie extends React.Component<Props, State> {
         <button
           className="Form__btn"
           type="submit"
-          disabled={invalidTitle || invalidDescription || invalidImgUrl
-          || invalidImdbUrl || invalidImdbId}
+          disabled={disabledButton}
         >
           Add film
         </button>
