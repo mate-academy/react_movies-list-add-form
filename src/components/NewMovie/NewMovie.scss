@@ -1,8 +1,22 @@
 .form {
   &__field {
     display: block;
-    margin-bottom: 20px;
+    margin-bottom: 40px;
   }
 
-}
+  &__label {
+    position: relative;
+  }
 
+  &__error {
+    position: absolute;
+    bottom: 36px;
+    width: 80px;
+    color: red;
+  }
+
+  &__invalid {
+    border: 2px solid red;
+    border-radius: 2px;
+  }
+}
