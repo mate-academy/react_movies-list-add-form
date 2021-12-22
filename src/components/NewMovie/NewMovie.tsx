@@ -1,7 +1,7 @@
 import { Component } from 'react';
 import './NewMovie.scss';
 import classNames from 'classnames';
-import { InvalidLink } from '../Invalid/Invalid';
+import { InvalidField } from '../Invalid/InvalidField';
 import { Movie } from '../../interfaces/Movie';
 
 type Props = {
@@ -11,8 +11,10 @@ type Props = {
 type State = {
   newMovie: Movie;
   validation: boolean | null;
-  imgUrlValid: boolean | null,
-  imdbUrlValid: boolean | null,
+  imgUrlValid: boolean | null;
+  imdbUrlValid: boolean | null;
+  titleValid: boolean | null;
+  imdbIdValid: boolean | null;
 };
 
 export class NewMovie extends Component<Props, State> {
@@ -27,6 +29,8 @@ export class NewMovie extends Component<Props, State> {
     validation: false,
     imgUrlValid: null,
     imdbUrlValid: null,
+    titleValid: null,
+    imdbIdValid: null,
   };
 
   validation = (fieldName: string) => {
@@ -53,8 +57,29 @@ export class NewMovie extends Component<Props, State> {
       }
     }
 
+    if (fieldName === 'title') {
+      if (this.state.newMovie.title.trim().length > 0) {
+        this.setState({ titleValid: true });
+      } else {
+        this.setState({ titleValid: false });
+      }
+    }
+
+    if (fieldName === 'imdbId') {
+      if (this.state.newMovie.imdbId.trim().length > 0) {
+        this.setState({ imdbIdValid: true });
+      } else {
+        this.setState({ imdbIdValid: false });
+      }
+    }
+
     this.setState(state => {
-      const isValid = state.imdbUrlValid && state.imgUrlValid;
+      const isValid = (
+        state.imdbUrlValid
+        && state.imgUrlValid
+        && state.titleValid
+        && state.imdbIdValid
+      );
 
       return {
         validation: isValid,
@@ -63,7 +88,21 @@ export class NewMovie extends Component<Props, State> {
   };
 
   movieCreate = () => {
-    this.props.addMovie(this.state.newMovie);
+    const {
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    } = this.state.newMovie;
+
+    this.props.addMovie({
+      title: title.trim(),
+      description: description.trim().length > 0 ? description : 'No description',
+      imgUrl: imgUrl.trim(),
+      imdbUrl: imdbUrl.trim(),
+      imdbId: imdbId.trim(),
+    });
     this.clearState();
   };
 
@@ -91,9 +130,17 @@ export class NewMovie extends Component<Props, State> {
   };
 
   render() {
-    const { imdbUrlValid, imgUrlValid } = this.state;
+    const {
+      imdbUrlValid,
+      imgUrlValid,
+      imdbIdValid,
+      titleValid,
+    } = this.state;
+
     const invalidImdbUrl = imdbUrlValid === false;
     const invalidImgUrl = imgUrlValid === false;
+    const invalidImdbId = imdbIdValid === false;
+    const invalidTitle = titleValid === false;
 
     return (
       <form
@@ -108,13 +155,17 @@ export class NewMovie extends Component<Props, State> {
           {' '}
           <input
             required
-            className="form__field"
+            className={classNames('form__field', { form__invalid: invalidTitle })}
             type="text"
             name="title"
             id="title"
             value={this.state.newMovie.title}
             onChange={this.handleChange}
+            onBlur={() => {
+              this.validation('title');
+            }}
           />
+          {invalidTitle && <InvalidField field="title" />}
         </label>
 
         <label htmlFor="description" className="form__label">
@@ -126,7 +177,6 @@ export class NewMovie extends Component<Props, State> {
             name="description"
             id="description"
             value={this.state.newMovie.description}
-            onChange={this.handleChange}
           />
         </label>
 
@@ -145,7 +195,7 @@ export class NewMovie extends Component<Props, State> {
               this.validation('imgUrl');
             }}
           />
-          {invalidImgUrl && <InvalidLink />}
+          {invalidImgUrl && <InvalidField field="link" />}
         </label>
 
         <label htmlFor="imdbUrl" className="form__label">
@@ -163,7 +213,7 @@ export class NewMovie extends Component<Props, State> {
               this.validation('imdbUrl');
             }}
           />
-          {invalidImdbUrl && <InvalidLink />}
+          {invalidImdbUrl && <InvalidField field="link" />}
         </label>
 
         <label htmlFor="imdbId" className="form__label">
@@ -171,13 +221,17 @@ export class NewMovie extends Component<Props, State> {
           {' '}
           <input
             required
-            className="form__field"
+            className={classNames('form__field', { form__invalid: invalidImdbId })}
             type="text"
             name="imdbId"
             id="imdbId"
             value={this.state.newMovie.imdbId}
             onChange={this.handleChange}
+            onBlur={() => {
+              this.validation('imdbId');
+            }}
           />
+          {invalidImdbId && <InvalidField field="imdbId" />}
         </label>
 
         <button
