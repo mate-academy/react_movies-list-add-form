@@ -15,16 +15,12 @@ export class App extends React.Component<{}, State> {
   };
 
   addMovie = (movie:Movie) => {
-    const newMovie = { ...movie };
-
-    this.setState(state => {
-      return {
-        movies: [
-          ...state.movies,
-          newMovie,
-        ],
-      };
-    });
+    this.setState(state => ({
+      movies: [
+        ...state.movies,
+        movie,
+      ],
+    }));
   };
 
   render() {

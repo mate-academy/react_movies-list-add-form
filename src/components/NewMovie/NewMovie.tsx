@@ -11,10 +11,10 @@ type Props = {
 type State = {
   newMovie: Movie;
   validation: boolean | null;
-  imgUrlValid: boolean | null;
-  imdbUrlValid: boolean | null;
-  titleValid: boolean | null;
-  imdbIdValid: boolean | null;
+  isImgUrlValid: boolean | null;
+  isImdbUrlValid: boolean | null;
+  isTitleValid: boolean | null;
+  isImdbIdValid: boolean | null;
 };
 
 export class NewMovie extends Component<Props, State> {
@@ -27,58 +27,64 @@ export class NewMovie extends Component<Props, State> {
       imdbId: '',
     },
     validation: false,
-    imgUrlValid: null,
-    imdbUrlValid: null,
-    titleValid: null,
-    imdbIdValid: null,
+    isImgUrlValid: null,
+    isImdbUrlValid: null,
+    isTitleValid: null,
+    isImdbIdValid: null,
   };
 
   validation = (fieldName: string) => {
     // eslint-disable-next-line no-useless-escape
     const regExp = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
+    const {
+      imgUrl,
+      imdbUrl,
+      title,
+      imdbId,
+    } = this.state.newMovie;
 
     if (fieldName === 'imgUrl') {
-      const isValidField = regExp.test(this.state.newMovie.imgUrl);
+      const isValidField = regExp.test(imgUrl);
 
       if (isValidField) {
-        this.setState({ imgUrlValid: true });
+        this.setState({ isImgUrlValid: true });
       } else {
-        this.setState({ imgUrlValid: false });
+        this.setState({ isImgUrlValid: false });
       }
     }
 
     if (fieldName === 'imdbUrl') {
-      const isValidField = regExp.test(this.state.newMovie.imdbUrl);
+      const isValidField = regExp.test(imdbUrl);
 
       if (isValidField) {
-        this.setState({ imdbUrlValid: true });
+        this.setState({ isImdbUrlValid: true });
       } else {
-        this.setState({ imdbUrlValid: false });
+        this.setState({ isImdbUrlValid: false });
       }
     }
 
     if (fieldName === 'title') {
-      if (this.state.newMovie.title.trim().length > 0) {
-        this.setState({ titleValid: true });
+      if (title.trim().length) {
+        this.setState({ isTitleValid: true });
       } else {
-        this.setState({ titleValid: false });
+        this.setState({ isTitleValid: false });
       }
     }
 
     if (fieldName === 'imdbId') {
-      if (this.state.newMovie.imdbId.trim().length > 0) {
-        this.setState({ imdbIdValid: true });
+      if (imdbId.trim().length) {
+        this.setState({ isImdbIdValid: true });
       } else {
-        this.setState({ imdbIdValid: false });
+        this.setState({ isImdbIdValid: false });
       }
     }
 
     this.setState(state => {
       const isValid = (
-        state.imdbUrlValid
-        && state.imgUrlValid
-        && state.titleValid
-        && state.imdbIdValid
+        state.isImdbUrlValid
+        && state.isImgUrlValid
+        && state.isTitleValid
+        && state.isImdbIdValid
       );
 
       return {
@@ -103,6 +109,7 @@ export class NewMovie extends Component<Props, State> {
       imdbUrl: imdbUrl.trim(),
       imdbId: imdbId.trim(),
     });
+
     this.clearState();
   };
 
@@ -126,21 +133,27 @@ export class NewMovie extends Component<Props, State> {
         imdbId: '',
         title: '',
       },
+
+      validation: false,
+      isImgUrlValid: null,
+      isImdbUrlValid: null,
+      isTitleValid: null,
+      isImdbIdValid: null,
     });
   };
 
   render() {
     const {
-      imdbUrlValid,
-      imgUrlValid,
-      imdbIdValid,
-      titleValid,
+      isImdbUrlValid,
+      isImgUrlValid,
+      isImdbIdValid,
+      isTitleValid,
     } = this.state;
 
-    const invalidImdbUrl = imdbUrlValid === false;
-    const invalidImgUrl = imgUrlValid === false;
-    const invalidImdbId = imdbIdValid === false;
-    const invalidTitle = titleValid === false;
+    const invalidImdbUrl = isImdbUrlValid === false;
+    const invalidImgUrl = isImgUrlValid === false;
+    const invalidImdbId = isImdbIdValid === false;
+    const invalidTitle = isTitleValid === false;
 
     return (
       <form
@@ -176,6 +189,7 @@ export class NewMovie extends Component<Props, State> {
             type="text"
             name="description"
             id="description"
+            onChange={this.handleChange}
             value={this.state.newMovie.description}
           />
         </label>
