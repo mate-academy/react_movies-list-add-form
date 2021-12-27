@@ -25,6 +25,15 @@ export class NewMovie extends Component<Props, State> {
     event.preventDefault();
 
     this.props.onAdd(this.state.newMovie);
+    this.setState({
+      newMovie: {
+        title: '',
+        description: '',
+        imdbId: '',
+        imdbUrl: '',
+        imgUrl: '',
+      },
+    });
   };
 
   handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
