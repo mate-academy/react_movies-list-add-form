@@ -1,0 +1,10 @@
+.form {
+  &__fields {
+    display: flex;
+    flex-direction: column;
+
+    &--field {
+      margin-bottom: 6px;
+    }
+  }
+}
