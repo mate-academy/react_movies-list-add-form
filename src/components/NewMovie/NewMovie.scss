@@ -1,0 +1,14 @@
+.new-movie {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  & input {
+    padding: 5px 10px;
+  }
+
+  & button {
+    padding: 5px 0;
+    cursor: pointer;
+  }
+}
