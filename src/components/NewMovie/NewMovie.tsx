@@ -21,10 +21,12 @@ export class NewMovie extends Component<Props, State> {
     imdbId: '',
   };
 
-  handleChange = (value: string, key: string) => {
+  handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value, name } = event.target;
+
     this.setState(state => ({
       ...state,
-      [key]: value,
+      [name]: value,
     }));
   };
 
@@ -39,67 +41,68 @@ export class NewMovie extends Component<Props, State> {
     } = this.state;
 
     return (
-      <form className="new-movie">
+      <form
+        className="new-movie"
+        onSubmit={(event) => {
+          event.preventDefault();
+          addMovie({
+            title,
+            description,
+            imgUrl,
+            imdbUrl,
+            imdbId,
+          });
+          this.setState({
+            title: '',
+            description: '',
+            imgUrl: '',
+            imdbUrl: '',
+            imdbId: '',
+          });
+        }}
+      >
         <input
           type="text"
           placeholder="title"
           name="title"
           value={title}
-          onChange={(event) => {
-            this.handleChange(event.target.value, event.target.name);
-          }}
+          onChange={this.handleChange}
+          required
         />
         <input
           type="text"
           placeholder="description"
+          name="description"
           value={description}
-          onChange={(event) => {
-            this.handleChange(event.target.value, 'description');
-          }}
+          onChange={this.handleChange}
+          required
         />
         <input
           type="text"
           placeholder="imgUrl"
+          name="imgUrl"
           value={imgUrl}
-          onChange={(event) => {
-            this.handleChange(event.target.value, 'imgUrl');
-          }}
+          onChange={this.handleChange}
+          required
         />
         <input
           type="text"
           placeholder="imdbUrl"
+          name="imdbUrl"
           value={imdbUrl}
-          onChange={(event) => {
-            this.handleChange(event.target.value, 'imdbUrl');
-          }}
+          onChange={this.handleChange}
+          required
         />
         <input
           type="text"
           placeholder="imdbId"
+          name="imdbId"
           value={imdbId}
-          onChange={(event) => {
-            this.handleChange(event.target.value, 'imdbId');
-          }}
+          onChange={this.handleChange}
+          required
         />
         <button
           type="submit"
-          onClick={(event) => {
-            event.preventDefault();
-            addMovie({
-              title,
-              description,
-              imgUrl,
-              imdbUrl,
-              imdbId,
-            });
-            this.setState({
-              title: '',
-              description: '',
-              imgUrl: '',
-              imdbUrl: '',
-              imdbId: '',
-            });
-          }}
         >
           Add
         </button>
