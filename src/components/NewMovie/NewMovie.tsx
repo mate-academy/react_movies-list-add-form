@@ -41,7 +41,7 @@ export class NewMovie extends Component<Props, State> {
 
   handleChange = (
     event: React.ChangeEvent<HTMLInputElement>
-    | React.ChangeEvent<HTMLTextAreaElement>,
+    	| React.ChangeEvent<HTMLTextAreaElement>,
   ) => {
     const { name, value } = event.target;
 
