@@ -1,0 +1,21 @@
+.Form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.Form__input--error {
+  border: 1px solid red;
+}
+
+.Title {
+  text-align: center;
+  font-weight: bold;
+  font-size: 30px;
+  padding-bottom: 10px;
+}
+
+.Form__input--message-error {
+  color: red;
+  padding: 0;
+}
