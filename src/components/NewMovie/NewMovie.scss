@@ -1,0 +1,41 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+
+  &__title {
+    font-size: 25px;
+    font-weight: bold;
+  }
+
+  &__input {
+    padding: 10px 15px;
+    border: 1px solid grey;
+    border-radius: 5px;
+    outline: none;
+    transition: box-shadow 0.3s;
+   
+    &:hover {
+      box-shadow: 2px 2px 2px black;
+    }
+
+    &--error {
+      border: 1px solid red;
+    }
+  }
+
+  &__btn {
+    background-color: #6d8493;
+    box-shadow: 2px 2px 2px black;
+    padding: 15px 20px;
+    color: #fff;
+    font-weight: bold;
+    text-transform: uppercase;
+
+    &:active {
+      box-shadow: 1px 1px 1px black inset;
+    }
+  }
+}
