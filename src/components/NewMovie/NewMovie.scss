@@ -1,0 +1,48 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 2px solid rgb(236, 192, 48);
+  padding: 20px;
+
+  &__title {
+    font-size: 32px;
+    font-weight: bold;
+    margin-bottom: 30px;
+  }
+
+  &__item {
+    width: 100%;
+    margin-bottom: 10px;
+    border: 1px solid lightgray;
+    padding: 5px;
+   
+
+    &::placeholder {
+      opacity: 0.5;
+    }
+    
+
+    &:focus {
+      outline: none;
+      border: 1px solid rgb(236, 192, 48);
+    }
+  }
+
+  &__button {
+    font-weight: bold;
+    background-color: rgb(236, 192, 48);
+    border: none;
+    padding: 5px 10px;
+  }
+}
+
+.invalid {
+  border-color: red;
+}
+
+.error {
+  align-self: flex-start;
+  font-size: 10px;
+  color: red;
+}
