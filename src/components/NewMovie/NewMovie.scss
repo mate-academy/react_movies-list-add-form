@@ -37,5 +37,21 @@
     &:active {
       box-shadow: 1px 1px 1px black inset;
     }
+
+    &[disabled] {
+      background-color: rgb(145, 29, 29);
+      opacity: 0.5;
+    }
+  }
+}
+
+.error {
+  font-size: 12px;
+  font-weight: bold;
+  color: red;
+  text-align: left;
+
+  &--example {
+    color: grey;
   }
 }
