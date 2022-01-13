@@ -29,6 +29,7 @@ export class NewMovie extends Component<Props, State> {
     imgUrlError: false,
     imdbUrlError: false,
     imdbIdError: false,
+
   };
 
   handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -41,8 +42,6 @@ export class NewMovie extends Component<Props, State> {
       },
       titleError: false,
       descriptionError: false,
-      imgUrlError: false,
-      imdbUrlError: false,
       imdbIdError: false,
     }));
   };
@@ -74,9 +73,13 @@ export class NewMovie extends Component<Props, State> {
     const { imgUrl } = this.state.newMovie;
     const res = this.validateUrl(imgUrl);
 
-    if (!this.state.newMovie.imgUrl.trim() || !res) {
+    if (!res) {
       this.setState(() => ({
         imgUrlError: true,
+      }));
+    } else {
+      this.setState(() => ({
+        imgUrlError: false,
       }));
     }
   };
@@ -85,9 +88,13 @@ export class NewMovie extends Component<Props, State> {
     const { imdbUrl } = this.state.newMovie;
     const res = this.validateUrl(imdbUrl);
 
-    if (!this.state.newMovie.imdbUrl.trim() || !res) {
+    if (!res) {
       this.setState(() => ({
         imdbUrlError: true,
+      }));
+    } else {
+      this.setState(() => ({
+        imdbUrlError: false,
       }));
     }
   };
@@ -97,11 +104,24 @@ export class NewMovie extends Component<Props, State> {
       this.setState(() => ({
         imdbIdError: true,
       }));
+
+      return false;
     }
+
+    return true;
   };
 
   handleSubmitForm = (e: { preventDefault: () => void; }) => {
     e.preventDefault();
+
+    if (this.state.imdbUrlError === true) {
+      return;
+    }
+
+    if (this.state.imgUrlError === true) {
+      return;
+    }
+
     this.props.addFilm(this.state.newMovie);
     this.clearForm();
   };
