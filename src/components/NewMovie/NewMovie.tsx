@@ -178,7 +178,7 @@ export class NewMovie extends Component<Props, State> {
           placeholder="Enter title"
           name="title"
           value={title}
-          onChange={(event) => this.handleChange(event)}
+          onChange={this.handleChange}
           onBlur={this.checkFormTitle}
         />
         {this.state.titleError && (
@@ -196,7 +196,7 @@ export class NewMovie extends Component<Props, State> {
           placeholder="Enter description"
           name="description"
           value={description}
-          onChange={(event) => this.handleChange(event)}
+          onChange={this.handleChange}
           onBlur={this.checkFormDescription}
         />
         {this.state.descriptionError && (
@@ -214,7 +214,7 @@ export class NewMovie extends Component<Props, State> {
           placeholder="Enter imgUrl"
           name="imgUrl"
           value={imgUrl}
-          onChange={(event) => this.handleChange(event)}
+          onChange={this.handleChange}
           onBlur={this.checkFormImgUrl}
         />
         {this.state.imgUrlError && (
@@ -234,7 +234,7 @@ export class NewMovie extends Component<Props, State> {
           placeholder="Enter imdbUrl"
           name="imdbUrl"
           value={imdbUrl}
-          onChange={(event) => this.handleChange(event)}
+          onChange={this.handleChange}
           onBlur={this.checkFormImdbUrl}
         />
         {this.state.imdbUrlError && (
@@ -252,7 +252,7 @@ export class NewMovie extends Component<Props, State> {
           placeholder="Enter imdbId"
           name="imdbId"
           value={imdbId}
-          onChange={(event) => this.handleChange(event)}
+          onChange={this.handleChange}
           onBlur={this.checkFormImdbId}
         />
         {this.state.imdbIdError && (
