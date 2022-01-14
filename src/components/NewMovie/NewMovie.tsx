@@ -47,22 +47,20 @@ export class NewMovie extends Component<Props, State> {
   };
 
   checkFormTitle = () => {
-    if (!this.state.newMovie.title.trim()) {
-      this.setState(() => ({
-        titleError: true,
-      }));
-    }
+    this.setState((state) => ({
+      titleError: !state.newMovie.title.trim(),
+    }));
   };
 
   checkFormDescription = () => {
     if (!this.state.newMovie.description.trim()) {
-      this.setState(() => ({
-        descriptionError: true,
+      this.setState((state) => ({
+        descriptionError: !state.newMovie.description.trim(),
       }));
     }
   };
 
-  validateUrl = (imgUrl: string) => {
+  isValidUrl = (imgUrl: string) => {
     // eslint-disable-next-line
     const reg = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
 
@@ -71,32 +69,18 @@ export class NewMovie extends Component<Props, State> {
 
   checkFormImgUrl = () => {
     const { imgUrl } = this.state.newMovie;
-    const res = this.validateUrl(imgUrl);
 
-    if (!res) {
-      this.setState(() => ({
-        imgUrlError: true,
-      }));
-    } else {
-      this.setState(() => ({
-        imgUrlError: false,
-      }));
-    }
+    this.setState(() => ({
+      imgUrlError: !this.isValidUrl(imgUrl),
+    }));
   };
 
   checkFormImdbUrl = () => {
     const { imdbUrl } = this.state.newMovie;
-    const res = this.validateUrl(imdbUrl);
 
-    if (!res) {
-      this.setState(() => ({
-        imdbUrlError: true,
-      }));
-    } else {
-      this.setState(() => ({
-        imdbUrlError: false,
-      }));
-    }
+    this.setState(() => ({
+      imdbUrlError: !this.isValidUrl(imdbUrl),
+    }));
   };
 
   checkFormImdbId = () => {
@@ -104,21 +88,15 @@ export class NewMovie extends Component<Props, State> {
       this.setState(() => ({
         imdbIdError: true,
       }));
-
-      return false;
     }
-
-    return true;
   };
 
   handleSubmitForm = (e: { preventDefault: () => void; }) => {
     e.preventDefault();
 
-    if (this.state.imdbUrlError === true) {
-      return;
-    }
+    const { imdbUrlError, imgUrlError } = this.state;
 
-    if (this.state.imgUrlError === true) {
+    if (imdbUrlError || imgUrlError) {
       return;
     }
 
@@ -182,11 +160,13 @@ export class NewMovie extends Component<Props, State> {
           onBlur={this.checkFormTitle}
         />
         {this.state.titleError && (
-          <p className="error">
-            Title must contains at least one letter
-            <br />
-            <span className="error--example">For example: Angels and Demons</span>
-          </p>
+          <div className="errorContainer">
+            <p className="error">
+              Title must contains at least one letter
+              <br />
+              <span className="error--example">For example: Angels and Demons</span>
+            </p>
+          </div>
         )}
 
         <input
@@ -200,11 +180,13 @@ export class NewMovie extends Component<Props, State> {
           onBlur={this.checkFormDescription}
         />
         {this.state.descriptionError && (
-          <p className="error">
-            Description must contains at least one word
-            <br />
-            <span className="error--example">For example: Harvard symbologist Robert Langdon</span>
-          </p>
+          <div className="errorContainer">
+            <p className="error">
+              Description must contains at least one word
+              <br />
+              <span className="error--example">For example: Harvard symbologist Robert Langdon</span>
+            </p>
+          </div>
         )}
 
         <input
@@ -218,13 +200,15 @@ export class NewMovie extends Component<Props, State> {
           onBlur={this.checkFormImgUrl}
         />
         {this.state.imgUrlError && (
-          <p className="error">
-            Image Url must be filled with URL
-            <br />
-            <span className="error--example">
-              For example: http://surl.li/bcsiz
-            </span>
-          </p>
+          <div className="errorContainer">
+            <p className="error">
+              Image Url must be filled with URL
+              <br />
+              <span className="error--example">
+                For example: http://surl.li/bcsiz
+              </span>
+            </p>
+          </div>
         )}
 
         <input
@@ -238,11 +222,13 @@ export class NewMovie extends Component<Props, State> {
           onBlur={this.checkFormImdbUrl}
         />
         {this.state.imdbUrlError && (
-          <p className="error">
-            Imdb Url must be filled with URL
-            <br />
-            <span className="error--example">For example: https://www.imdb.com/title/tt0808151</span>
-          </p>
+          <div className="errorContainer">
+            <p className="error">
+              Imdb Url must be filled with URL
+              <br />
+              <span className="error--example">For example: https://www.imdb.com/title/tt0808151</span>
+            </p>
+          </div>
         )}
 
         <input
@@ -256,11 +242,13 @@ export class NewMovie extends Component<Props, State> {
           onBlur={this.checkFormImdbId}
         />
         {this.state.imdbIdError && (
-          <p className="error">
-            ImdbId must be filled with URL
-            <br />
-            <span className="error--example">For example: tt0808151</span>
-          </p>
+          <div className="errorContainer">
+            <p className="error">
+              ImdbId must be filled with URL
+              <br />
+              <span className="error--example">For example: tt0808151</span>
+            </p>
+          </div>
         )}
 
         <button

@@ -1,3 +1,5 @@
+$main-width: 90%;
+
 .form {
   display: flex;
   flex-direction: column;
@@ -11,6 +13,7 @@
   }
 
   &__input {
+    width: $main-width;
     padding: 10px 15px;
     border: 1px solid grey;
     border-radius: 5px;
@@ -43,6 +46,11 @@
       opacity: 0.5;
     }
   }
+}
+
+.errorContainer {
+  width: $main-width;
+  padding-left: 10px;
 }
 
 .error {
