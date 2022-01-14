@@ -46,46 +46,6 @@ export class NewMovie extends Component<Props, State> {
     event.preventDefault();
 
     const { onAdd } = this.props;
-    const regex = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
-
-    const {
-      title,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    } = this.state.movie;
-
-    if (title === '') {
-      this.setState(state => ({
-        ...state,
-        titleIsValid: false,
-      }
-      ));
-    }
-
-    if (!regex.test(imgUrl.toLocaleLowerCase())) {
-      this.setState(state => ({
-        ...state,
-        imgUrlIsValid: false,
-      }
-      ));
-    }
-
-    if (!regex.test(imdbUrl.toLocaleLowerCase())) {
-      this.setState(state => ({
-        ...state,
-        imdbUrIsValid: false,
-      }
-      ));
-    }
-
-    if (imdbId === '') {
-      this.setState(state => ({
-        ...state,
-        imdbIdIsValid: false,
-      }
-      ));
-    }
 
     const {
       titleIsValid,
@@ -135,6 +95,49 @@ export class NewMovie extends Component<Props, State> {
         [name]: value,
       },
     }));
+  };
+
+  btnClick = () => {
+    const regex = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
+
+    const {
+      title,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    } = this.state.movie;
+
+    if (title === '') {
+      this.setState(state => ({
+        ...state,
+        titleIsValid: false,
+      }
+      ));
+    }
+
+    if (!regex.test(imgUrl.toLocaleLowerCase())) {
+      this.setState(state => ({
+        ...state,
+        imgUrlIsValid: false,
+      }
+      ));
+    }
+
+    if (!regex.test(imdbUrl.toLocaleLowerCase())) {
+      this.setState(state => ({
+        ...state,
+        imdbUrIsValid: false,
+      }
+      ));
+    }
+
+    if (imdbId === '') {
+      this.setState(state => ({
+        ...state,
+        imdbIdIsValid: false,
+      }
+      ));
+    }
   };
 
   handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
@@ -320,6 +323,7 @@ export class NewMovie extends Component<Props, State> {
         <button
           className="form-btn"
           type="submit"
+          onClick={this.btnClick}
           disabled={btnIsDisabled}
         >
           SUBMIT
