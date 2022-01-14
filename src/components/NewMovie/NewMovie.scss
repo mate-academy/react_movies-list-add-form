@@ -1,0 +1,59 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  &__field {
+    height: 40px;
+    width: 100%;
+    padding-bottom: 16px;
+    box-sizing: border-box;
+    border: none;
+    outline: none;
+    border-bottom: 1px solid rgba(146, 128, 24, 0.58);
+    color: rgb(37, 0, 0);
+    opacity: 0.7;
+    font-size: 16px;
+
+    &:focus {
+      background-color: rgb(255, 255, 255);
+      border-bottom: 1px solid rgb(146, 128, 24);
+      opacity: 1;
+    }
+
+    &--not-valid {
+      background-color: rgba(146, 24, 24, 0.12);
+      border-bottom: 2px solid rgb(146, 24, 24);
+    }
+  }
+
+  &__button {
+    height: 40px;
+    font-size: 16px;
+    border: none;
+    outline: none;
+    background-color: rgb(146, 128, 24);
+    color: rgb(37, 0, 0);
+    cursor: pointer;
+    transition: 0.5s;
+
+    &:hover {
+      font-weight: bold;
+    }
+  }
+
+  &__error-message {
+    background-color: rgba(146, 24, 24, 0.6);
+    border: 2px solid rgb(146, 24, 24);
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    height: 80px;
+    width: 250px;
+    font-size: 20px;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
