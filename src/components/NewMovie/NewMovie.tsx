@@ -149,7 +149,16 @@ export class NewMovie extends Component<Props, State> {
       imdbId,
     } = this.state.newFilm;
 
+    const {
+      imgUrlError,
+      imdbUrlError,
+    } = this.state;
+
     if (title.length < 1 || imgUrl.length < 1 || imdbUrl.length < 1 || imdbId.length < 1) {
+      return true;
+    }
+
+    if (imdbUrlError === true || imgUrlError === true) {
       return true;
     }
 
