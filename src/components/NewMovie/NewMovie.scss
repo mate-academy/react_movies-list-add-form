@@ -1,0 +1,32 @@
+.form {
+  &-title {
+    font-size: 18px;
+    margin-bottom: 30px;
+    text-align: center;
+  }
+
+  &-input {
+    display: block;
+    width: 90%;
+    margin: 0 auto 10px;
+    padding: 10px 5px;
+    outline: none;
+
+    &--error {
+      border: 1px solid red;
+    }
+
+    &__error-message {
+      color: red;
+      width: 90%;
+      margin: 0 auto 10px;
+    }
+  }
+
+  &-btn {
+    display: block;
+    padding: 5px 15px;
+    margin: 30px auto;
+    cursor: pointer;
+  }
+}
