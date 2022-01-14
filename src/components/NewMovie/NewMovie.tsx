@@ -14,17 +14,12 @@ type State = {
     imdbId: string,
   },
 
-  titleIsVisited: boolean,
-  imdbUrIsVisited: boolean,
-  imdbIdIsVisited: boolean,
-  imgUrlIsVisited: boolean,
-
   titleIsValid: boolean,
   imdbUrIsValid: boolean,
   imdbIdIsValid: boolean,
   imgUrlIsValid: boolean,
 
-  formIsValid: boolean,
+  btnIsDisabled: boolean,
 
 };
 
@@ -38,23 +33,60 @@ export class NewMovie extends Component<Props, State> {
       imdbId: '',
     },
 
-    titleIsVisited: false,
-    imgUrlIsVisited: false,
-    imdbUrIsVisited: false,
-    imdbIdIsVisited: false,
+    titleIsValid: true,
+    imgUrlIsValid: true,
+    imdbUrIsValid: true,
+    imdbIdIsValid: true,
 
-    titleIsValid: false,
-    imgUrlIsValid: false,
-    imdbUrIsValid: false,
-    imdbIdIsValid: false,
+    btnIsDisabled: false,
 
-    formIsValid: true,
   };
 
   handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const { onAdd } = this.props;
+    const regex = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
+
+    const {
+      title,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    } = this.state.movie;
+
+    if (title === '') {
+      this.setState(state => ({
+        ...state,
+        titleIsValid: false,
+      }
+      ));
+    }
+
+    if (!regex.test(imgUrl.toLocaleLowerCase())) {
+      this.setState(state => ({
+        ...state,
+        imgUrlIsValid: false,
+      }
+      ));
+    }
+
+    if (!regex.test(imdbUrl.toLocaleLowerCase())) {
+      this.setState(state => ({
+        ...state,
+        imdbUrIsValid: false,
+      }
+      ));
+    }
+
+    if (imdbId === '') {
+      this.setState(state => ({
+        ...state,
+        imdbIdIsValid: false,
+      }
+      ));
+    }
+
     const {
       titleIsValid,
       imgUrlIsValid,
@@ -62,35 +94,34 @@ export class NewMovie extends Component<Props, State> {
       imdbIdIsValid,
     } = this.state;
 
-    if (titleIsValid && imgUrlIsValid && imdbUrIsValid && imdbIdIsValid) {
-      if (this.state.formIsValid === true) {
-        onAdd(this.state.movie);
+    if (titleIsValid === true
+        && imgUrlIsValid === true
+        && imdbUrIsValid === true
+        && imdbIdIsValid === true
+    ) {
+      onAdd(this.state.movie);
 
-        this.setState({
-          movie: {
-            title: '',
-            description: '',
-            imgUrl: '',
-            imdbUrl: '',
-            imdbId: '',
-          },
-          titleIsVisited: false,
-          imgUrlIsVisited: false,
-          imdbUrIsVisited: false,
-          imdbIdIsVisited: false,
+      this.setState({
+        movie: {
+          title: '',
+          description: '',
+          imgUrl: '',
+          imdbUrl: '',
+          imdbId: '',
+        },
 
-          titleIsValid: false,
-          imgUrlIsValid: false,
-          imdbUrIsValid: false,
-          imdbIdIsValid: false,
+        titleIsValid: true,
+        imgUrlIsValid: true,
+        imdbUrIsValid: true,
+        imdbIdIsValid: true,
 
-          formIsValid: true,
-        });
-      }
+        btnIsDisabled: false,
+
+      });
     } else {
       this.setState(state => ({
         ...state,
-        formIsValid: false,
+        btnIsDisabled: true,
       }));
     }
   };
@@ -121,9 +152,8 @@ export class NewMovie extends Component<Props, State> {
         if (title !== '') {
           this.setState(state => ({
             ...state,
-            titleIsVisited: true,
             titleIsValid: true,
-            formIsValid: true,
+            btnIsDisabled: false,
           }
           ));
         }
@@ -131,8 +161,8 @@ export class NewMovie extends Component<Props, State> {
         if (title === '') {
           this.setState(state => ({
             ...state,
-            titleIsVisited: true,
             titleIsValid: false,
+            btnIsDisabled: false,
           }
           ));
         }
@@ -144,9 +174,8 @@ export class NewMovie extends Component<Props, State> {
         if (regex.test(imgUrl.toLocaleLowerCase())) {
           this.setState(state => ({
             ...state,
-            imgUrlIsVisited: true,
             imgUrlIsValid: true,
-            formIsValid: true,
+            btnIsDisabled: false,
           }
           ));
         }
@@ -154,8 +183,8 @@ export class NewMovie extends Component<Props, State> {
         if (!regex.test(imgUrl.toLocaleLowerCase())) {
           this.setState(state => ({
             ...state,
-            imgUrlIsVisited: true,
             imgUrlIsValid: false,
+            btnIsDisabled: false,
           }
           ));
         }
@@ -167,9 +196,8 @@ export class NewMovie extends Component<Props, State> {
         if (regex.test(imdbUrl.toLocaleLowerCase())) {
           this.setState(state => ({
             ...state,
-            imdbUrIsVisited: true,
             imdbUrIsValid: true,
-            formIsValid: true,
+            btnIsDisabled: false,
           }
           ));
         }
@@ -177,8 +205,8 @@ export class NewMovie extends Component<Props, State> {
         if (!regex.test(imdbUrl.toLocaleLowerCase())) {
           this.setState(state => ({
             ...state,
-            imdbUrIsVisited: true,
             imdbUrIsValid: false,
+            btnIsDisabled: false,
           }
           ));
         }
@@ -190,9 +218,8 @@ export class NewMovie extends Component<Props, State> {
         if (imdbId !== '') {
           this.setState(state => ({
             ...state,
-            imdbIdIsVisited: true,
             imdbIdIsValid: true,
-            formIsValid: true,
+            btnIsDisabled: false,
           }
           ));
         }
@@ -200,8 +227,8 @@ export class NewMovie extends Component<Props, State> {
         if (imdbId === '') {
           this.setState(state => ({
             ...state,
-            imdbIdIsVisited: true,
             imdbIdIsValid: false,
+            btnIsDisabled: false,
           }
           ));
         }
@@ -225,15 +252,11 @@ export class NewMovie extends Component<Props, State> {
     } = this.state.movie;
 
     const {
-      titleIsVisited,
-      imgUrlIsVisited,
-      imdbUrIsVisited,
-      imdbIdIsVisited,
       titleIsValid,
       imgUrlIsValid,
       imdbUrIsValid,
       imdbIdIsValid,
-      formIsValid,
+      btnIsDisabled,
     } = this.state;
 
     return (
@@ -242,7 +265,7 @@ export class NewMovie extends Component<Props, State> {
       >
         <h2 className="form-title">Enter the details of the new movie</h2>
         <input
-          className={classNames('form-input', { 'form-input--error': (titleIsVisited && !titleIsValid) })}
+          className={classNames('form-input', { 'form-input--error': (!titleIsValid) })}
           type="text"
           name="title"
           placeholder="Title"
@@ -250,7 +273,7 @@ export class NewMovie extends Component<Props, State> {
           onChange={this.handleChange}
           onBlur={this.handleBlur}
         />
-        {((titleIsVisited && !titleIsValid)) && <p className="form-input__error-message">Enter data in the field above</p>}
+        {(!titleIsValid) && <p className="form-input__error-message">Enter data in the field above</p>}
 
         <input
           className="form-input"
@@ -262,7 +285,7 @@ export class NewMovie extends Component<Props, State> {
         />
 
         <input
-          className={classNames('form-input', { 'form-input--error': (imgUrlIsVisited && !imgUrlIsValid) })}
+          className={classNames('form-input', { 'form-input--error': (!imgUrlIsValid) })}
           type="text"
           name="imgUrl"
           placeholder="imgUrl"
@@ -270,10 +293,10 @@ export class NewMovie extends Component<Props, State> {
           onChange={this.handleChange}
           onBlur={this.handleBlur}
         />
-        {((imgUrlIsVisited && !imgUrlIsValid)) && <p className="form-input__error-message">Enter data in the field above</p>}
+        {(!imgUrlIsValid) && <p className="form-input__error-message">Enter data in the field above</p>}
 
         <input
-          className={classNames('form-input', { 'form-input--error': (imdbUrIsVisited && !imdbUrIsValid) })}
+          className={classNames('form-input', { 'form-input--error': (!imdbUrIsValid) })}
           type="text"
           name="imdbUrl"
           placeholder="imdbUrl"
@@ -281,10 +304,10 @@ export class NewMovie extends Component<Props, State> {
           onChange={this.handleChange}
           onBlur={this.handleBlur}
         />
-        {((imdbUrIsVisited && !imdbUrIsValid)) && <p className="form-input__error-message">Enter data in the field above</p>}
+        {(!imdbUrIsValid) && <p className="form-input__error-message">Enter data in the field above</p>}
 
         <input
-          className={classNames('form-input', { 'form-input--error': (imdbIdIsVisited && !imdbIdIsValid) })}
+          className={classNames('form-input', { 'form-input--error': (!imdbIdIsValid) })}
           type="text"
           name="imdbId"
           placeholder="imdbId"
@@ -292,12 +315,12 @@ export class NewMovie extends Component<Props, State> {
           onChange={this.handleChange}
           onBlur={this.handleBlur}
         />
-        {((imdbIdIsVisited && !imdbIdIsValid)) && <p className="form-input__error-message">Enter data in the field above</p>}
+        {(!imdbIdIsValid) && <p className="form-input__error-message">Enter data in the field above</p>}
 
         <button
           className="form-btn"
           type="submit"
-          disabled={!formIsValid}
+          disabled={btnIsDisabled}
         >
           SUBMIT
         </button>
