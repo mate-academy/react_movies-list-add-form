@@ -22,6 +22,7 @@ input,
 textarea {
   width: 70%;
   margin: 0 auto;
+  padding-left: 8px;
   border-radius: 8px;
   border: 1px solid #000;
   box-shadow: 4px 4px 4px 1px #14141466;
@@ -33,6 +34,7 @@ input {
 
 textarea {
   height: 72px;
+  padding-top: 8px;
 }
 
 button {
