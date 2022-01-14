@@ -138,7 +138,7 @@ export class NewMovie extends Component<Props, State> {
     });
   };
 
-  controlButton = () => {
+  isButtonDisabled = () => {
     const {
       title,
       description,
@@ -148,11 +148,11 @@ export class NewMovie extends Component<Props, State> {
     } = this.state.newMovie;
 
     switch (true) {
-      case title.length < 1:
-      case description.length < 1:
-      case imgUrl.length < 1:
-      case imdbUrl.length < 1:
-      case imdbId.length < 1:
+      case !title.length:
+      case !description.length:
+      case !imgUrl.length:
+      case !imdbUrl.length:
+      case !imdbId.length:
         return true;
       default:
         return false;
@@ -266,7 +266,7 @@ export class NewMovie extends Component<Props, State> {
         <button
           type="submit"
           className="form__input form__btn"
-          disabled={this.controlButton()}
+          disabled={this.isButtonDisabled()}
         >
           Add new film
         </button>
