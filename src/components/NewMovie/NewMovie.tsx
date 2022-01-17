@@ -85,12 +85,7 @@ export class NewMovie extends Component<Props, State> {
         onSubmit={this.handleSubmit}
       >
         <h1
-          className="title"
-          style={{
-            textAlign: 'center',
-            fontSize: '24px',
-            marginBottom: '16px',
-          }}
+          className="newMovie__heading"
         >
           Add a new movie
         </h1>

@@ -8,6 +8,12 @@ $white-color: #fff;
   max-width: 300px;
   margin: 0 auto;
 
+  &__heading {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 16px;
+  }
+
   &__detail {
     margin-bottom: 8px;
     height: 40px;
