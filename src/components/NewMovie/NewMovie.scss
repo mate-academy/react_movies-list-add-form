@@ -1,0 +1,40 @@
+$gray-color: #363636;
+$hover-color: #363636ea;
+$white-color: #fff;
+
+.newMovie {
+  display: flex;
+  flex-direction: column;
+  max-width: 300px;
+  margin: 0 auto;
+
+  &__heading {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 16px;
+  }
+
+  &__detail {
+    margin-bottom: 8px;
+    height: 40px;
+    padding-left: 8px;
+    font-size: 16px;
+  }
+
+  &__button {
+    height: 40px;
+    margin-top: 8px;
+    background-color: $gray-color;
+    border: 1px solid $gray-color;
+    border-radius: 5px;
+    color: $white-color;
+    font-size: 16px;
+    font-weight: 500;
+    transition: background-color 0.5s, color 0.5s;
+
+    &:hover {
+      cursor: pointer;
+      background-color: $hover-color;
+    }
+  }
+}
