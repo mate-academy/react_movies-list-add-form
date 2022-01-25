@@ -1,0 +1,38 @@
+.NewMovie {
+  &__form {
+    padding: 0 30px 20px;
+    box-shadow: 10px 5px 5px -1px rgb(230, 230, 230);
+  }
+
+  &__form-title {
+    text-align: center;
+    color: #3f3f3f;
+    font-size: 34px;
+    font-weight: 500;
+    margin-bottom: 20px;
+  }
+
+  &__input-container {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+  }
+}
+
+.error {
+  z-index: 1;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 25px;
+  right: 0;
+  color: white;
+  width: 150px;
+  height: 75px;
+  background-color: rgba(233, 1, 1, 0.8);
+  font-weight: bold;
+  border: 2px solid rgb(165, 0, 0);
+  border-radius: 5px;
+}
