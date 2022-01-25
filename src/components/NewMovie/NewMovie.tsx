@@ -43,6 +43,12 @@ export class NewMovie extends Component<Props, State> {
     }));
   };
 
+  checkInputsFilling = () => {
+    const values = Object.values(this.state);
+
+    return values.findIndex(value => value.length === 0);
+  };
+
   clearTheForm = () => {
     this.setState({
       title: '',
@@ -228,7 +234,7 @@ export class NewMovie extends Component<Props, State> {
         </div>
         <button
           type="submit"
-          disabled={this.state.validationPassed.length > 0}
+          disabled={this.checkInputsFilling() !== 5}
         >
           SUBMIT
         </button>
