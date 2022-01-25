@@ -41,22 +41,29 @@ export class NewMovie extends Component<Props, Movie> {
     const keys: string[] = Object.keys(this.state);
 
     return (
-      <form className="new-movie__form" onSubmit={this.handleSubmit}>
-        {keys.map((key: string) => (
-          <label htmlFor={key} key={key + 1}>
-            {key}
-            <input
-              name={key}
-              type="text"
-              key={key}
-              id={key}
-              value={this.state[key as keyof Movie]}
-              onChange={this.setInfo}
-            />
-          </label>
-        ))}
-        <button type="submit">Add new movie</button>
-      </form>
+      <>
+        <h1>Please enter all the data</h1>
+        <form className="new-movie__form" onSubmit={this.handleSubmit}>
+          {keys.map((key: string) => {
+            const prettyName = key.replace(key[0], key[0].toUpperCase());
+
+            return (
+              <label htmlFor={key} key={key + 1}>
+                {`${prettyName}: `}
+                <input
+                  name={key}
+                  type="text"
+                  key={key}
+                  id={key}
+                  value={this.state[key as keyof Movie]}
+                  onChange={this.setInfo}
+                />
+              </label>
+            );
+          })}
+          <button type="submit">Add new movie</button>
+        </form>
+      </>
     );
   }
 }
