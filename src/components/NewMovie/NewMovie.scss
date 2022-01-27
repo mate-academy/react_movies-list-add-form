@@ -1,0 +1,10 @@
+.add-movie {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+
+  &__input {
+    box-shadow: 0 0.5px 6px -0.125px rgb(10, 10, 10 / 10%), 0 0px 0 1px rgb(10, 10, 10 / 2%);
+    border: 0;
+  }
+}
