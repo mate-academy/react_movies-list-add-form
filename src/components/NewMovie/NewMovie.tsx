@@ -50,29 +50,26 @@ export class NewMovie extends Component<Props, State> {
     return (
       <form onSubmit={this.handleSubmit}>
         {Object.keys(this.state).map(item => (
-          <div key={item}>
-            <label htmlFor={item} key={item}>
-              <span
+          <label htmlFor={item}>
+            <span
+              key={item}
+              style={{ color: 'blueviolet' }}
+            >
+              {item.toUpperCase()}
+            </span>
+            <br />
+            <div className="ui inverted segment">
+              <input
                 key={item}
-                className="item_key"
-                style={{ color: 'blueviolet' }}
-              >
-                {item.toUpperCase()}
-              </span>
-              <br />
-              <div className="ui inverted segment">
-                <input
-                  key={item}
-                  id={item}
-                  type="text"
-                  name={item}
-                  value={this.state[item as keyof State]}
-                  placeholder={`Enter ${item}`}
-                  onChange={this.handleChange}
-                />
-              </div>
-            </label>
-          </div>
+                id={item}
+                type="text"
+                name={item}
+                value={this.state[item as keyof State]}
+                placeholder={`Enter ${item}`}
+                onChange={this.handleChange}
+              />
+            </div>
+          </label>
         ))}
         <br />
         <button
