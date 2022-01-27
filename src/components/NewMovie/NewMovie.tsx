@@ -40,86 +40,25 @@ export class NewMovie extends React.Component<Props, State> {
   };
 
   render() {
-    const {
-      title,
-      description,
-      imgUrl,
-      imdbId,
-      imdbUrl,
-    } = this.state;
-
     return (
       <form onSubmit={this.handleSubmit}>
-        <div>
-          <label htmlFor="title">
-            Title
-            <br />
-            <input
-              type="text"
-              id="title"
-              value={title}
-              name="title"
-              onChange={this.handleChange}
-              required
-            />
-          </label>
-        </div>
-        <div>
-          <label htmlFor="description">
-            Description
-            <br />
-            <input
-              type="text"
-              id="description"
-              value={description}
-              name="description"
-              onChange={this.handleChange}
-              required
-            />
-          </label>
-        </div>
-        <div>
-          <label htmlFor="imgUrl">
-            imgUrl
-            <br />
-            <input
-              type="email"
-              id="imgUrl"
-              value={imgUrl}
-              name="imgUrl"
-              onChange={this.handleChange}
-              required
-            />
-          </label>
-        </div>
-        <div>
-          <label htmlFor="imdbUrl">
-            imdbUrl
-            <br />
-            <input
-              type="email"
-              value={imdbUrl}
-              id="imdbUrl"
-              name="imdbUrl"
-              onChange={this.handleChange}
-              required
-            />
-          </label>
-        </div>
-        <div>
-          <label htmlFor="imdbId">
-            imdbId
-            <br />
-            <input
-              type="text"
-              value={imdbId}
-              id="imdbId"
-              name="imdbId"
-              onChange={this.handleChange}
-              required
-            />
-          </label>
-        </div>
+        {Object.keys(this.state).map(item => (
+          <div>
+            <label htmlFor={item}>
+              {item}
+              <br />
+              <input
+                key={item}
+                id={item}
+                type="text"
+                name={item}
+                value={this.state[item as keyof State]}
+                placeholder={item}
+                onChange={this.handleChange}
+              />
+            </label>
+          </div>
+        ))}
         <button type="submit">Add Movie</button>
       </form>
     );
