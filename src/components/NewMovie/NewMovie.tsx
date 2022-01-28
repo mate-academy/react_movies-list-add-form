@@ -1,6 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-import { getPropertyName, getPropertyNameOnBlur } from '../../helpers';
+import { getInputNameOnValidate, getInputNameOnBlur, getInputNameOnTouch } from '../../helpers';
 import './NewMovie.scss';
 
 enum Fields {
@@ -25,6 +25,10 @@ type State = Movie & {
   isImgUrlValidOnBlur: boolean;
   isImdbUrlValidOnBlur: boolean;
   isImdbIdValidOnBlur: boolean;
+  wasTitleTouched: boolean;
+  wasImgUrlTouched: boolean;
+  wasImdbUrlTouched: boolean;
+  wasImdbIdTouched: boolean;
 };
 
 export class NewMovie extends React.Component<Props, State> {
@@ -42,13 +46,17 @@ export class NewMovie extends React.Component<Props, State> {
     isImgUrlValidOnBlur: false,
     isImdbUrlValidOnBlur: false,
     isImdbIdValidOnBlur: false,
+    wasTitleTouched: false,
+    wasImgUrlTouched: false,
+    wasImdbUrlTouched: false,
+    wasImdbIdTouched: false,
   };
 
   handleChange = (event: React.ChangeEvent<HTMLInputElement>
   | React.ChangeEvent<HTMLTextAreaElement>) => {
     const { name, value } = event.target;
-    const InputName = getPropertyName(name);
-    const InputNameOnBlur = getPropertyNameOnBlur(name);
+    const inputNameOnValidate = getInputNameOnValidate(name);
+    const inputNameOnBlur = getInputNameOnBlur(name);
 
     if (name === Fields.Description) {
       this.setState((currentState) => ({
@@ -59,19 +67,19 @@ export class NewMovie extends React.Component<Props, State> {
       this.setState((currentState) => ({
         ...currentState,
         [name]: value,
-        [InputName]: true,
-        [InputNameOnBlur]: this.validateOnBlur(event),
+        [inputNameOnValidate]: true,
+        [inputNameOnBlur]: this.validateOnBlur(event),
       }));
     }
   };
 
   handleOnBlur = (event: React.FocusEvent<HTMLInputElement, Element>) => {
     const { name } = event.target;
-    const InputNameOnBlur = getPropertyNameOnBlur(name);
+    const inputNameOnBlur = getInputNameOnBlur(name);
 
     this.setState((currentState) => ({
       ...currentState,
-      [InputNameOnBlur]: this.validateOnBlur(event),
+      [inputNameOnBlur]: this.validateOnBlur(event),
     }));
   };
 
@@ -90,15 +98,25 @@ export class NewMovie extends React.Component<Props, State> {
 
     if (isFormValid) {
       this.props.onAdd({
-        title,
-        description,
-        imgUrl,
-        imdbUrl,
-        imdbId,
+        title: title.trim(),
+        description: description.trim(),
+        imgUrl: imgUrl.trim(),
+        imdbUrl: imdbUrl.trim(),
+        imdbId: imdbId.trim(),
       });
 
       this.clearState();
     }
+  };
+
+  handleFocus = (event: React.FocusEvent<HTMLInputElement, Element>) => {
+    const { name } = event.target;
+    const inputNameOnTouch = getInputNameOnTouch(name);
+
+    this.setState((state) => ({
+      ...state,
+      [inputNameOnTouch]: true,
+    }));
   };
 
   validateForm = () => {
@@ -177,6 +195,10 @@ export class NewMovie extends React.Component<Props, State> {
       isImgUrlValidOnBlur: false,
       isImdbUrlValidOnBlur: false,
       isImdbIdValidOnBlur: false,
+      wasTitleTouched: false,
+      wasImgUrlTouched: false,
+      wasImdbUrlTouched: false,
+      wasImdbIdTouched: false,
     });
   };
 
@@ -195,149 +217,183 @@ export class NewMovie extends React.Component<Props, State> {
       isImgUrlValidOnBlur,
       isImdbUrlValidOnBlur,
       isImdbIdValidOnBlur,
+      wasTitleTouched,
+      wasImgUrlTouched,
+      wasImdbUrlTouched,
+      wasImdbIdTouched,
     } = this.state;
 
     return (
-      <form onSubmit={this.handleSubmit} className="form">
-        <div className="field">
-          <label className="label" htmlFor={Fields.Title}>
-            Title
-          </label>
-          <div className="control has-icons-right">
-            <input
-              className={classNames(
-                'input',
-                { 'is-success': isTitleValidOnBlur },
-                { 'is-danger': !isTitleValid || !isTitleValidOnBlur },
+      <>
+        <h3 className="title">Add new movie</h3>
+        <form onSubmit={this.handleSubmit} className="form">
+          <div className="field">
+            <label className="label" htmlFor={Fields.Title}>
+              Title
+            </label>
+            <div className="control has-icons-right">
+              <input
+                className={classNames(
+                  'input',
+                  { 'is-success': wasTitleTouched && isTitleValidOnBlur },
+                  {
+                    'is-danger': (
+                      !isTitleValid
+                      || (wasTitleTouched && title && !isTitleValidOnBlur)),
+                  },
+                )}
+                type="text"
+                id={Fields.Title}
+                name={Fields.Title}
+                value={title}
+                onChange={this.handleChange}
+                onBlur={this.handleOnBlur}
+                onFocus={this.handleFocus}
+              />
+              {wasTitleTouched && isTitleValidOnBlur && (
+                <span className="icon is-small is-right">
+                  <i className="fas fa-check has-text-success" />
+                </span>
               )}
-              type="text"
-              id={Fields.Title}
-              name={Fields.Title}
-              value={title}
-              onChange={this.handleChange}
-              onBlur={this.handleOnBlur}
-            />
-            {isTitleValidOnBlur && (
-              <span className="icon is-small is-right">
-                <i className="fas fa-check has-text-success" />
-              </span>
+            </div>
+            {(!isTitleValid || (wasTitleTouched && title && !isTitleValidOnBlur)) && (
+              <p className="help is-danger">This title is invalid</p>
             )}
           </div>
-          {(!isTitleValid || !isTitleValidOnBlur) && (
-            <p className="help is-danger">This title is invalid</p>
-          )}
-        </div>
 
-        <div className="field">
-          <label className="label" htmlFor={Fields.Description}>
-            Description
-            <textarea
-              className="textarea"
-              id={Fields.Description}
-              name={Fields.Description}
-              value={description}
-              onChange={this.handleChange}
-            />
-          </label>
-        </div>
+          <div className="field">
+            <label className="label" htmlFor={Fields.Description}>
+              Description
+            </label>
+            <div className="control">
+              <textarea
+                className="textarea"
+                id={Fields.Description}
+                name={Fields.Description}
+                value={description}
+                onChange={this.handleChange}
+              />
+            </div>
+          </div>
 
-        <div className="field">
-          <label className="label" htmlFor={Fields.ImdbUrl}>
-            ImdbUrl
-          </label>
-          <div className="control has-icons-right">
-            <input
-              className={classNames(
-                'input',
-                { 'is-success': isImdbUrlValidOnBlur },
-                { 'is-danger': !isImdbUrlValid || !isImdbUrlValidOnBlur },
+          <div className="field">
+            <label className="label" htmlFor={Fields.ImdbUrl}>
+              ImdbUrl
+            </label>
+            <div className="control has-icons-right">
+              <input
+                className={classNames(
+                  'input',
+                  { 'is-success': wasImdbUrlTouched && isImdbUrlValidOnBlur },
+                  {
+                    'is-danger': (
+                      !isImdbUrlValid
+                      || (wasImdbUrlTouched && imdbUrl && !isImdbUrlValidOnBlur)),
+                  },
+                )}
+                type="text"
+                id={Fields.ImdbUrl}
+                name={Fields.ImdbUrl}
+                value={imdbUrl}
+                onChange={this.handleChange}
+                onBlur={this.handleOnBlur}
+                onFocus={this.handleFocus}
+              />
+              {wasImdbUrlTouched && isImdbUrlValidOnBlur && (
+                <span className="icon is-small is-right">
+                  <i className="fas fa-check has-text-success" />
+                </span>
               )}
-              type="text"
-              id={Fields.ImdbUrl}
-              name={Fields.ImdbUrl}
-              value={imdbUrl}
-              onChange={this.handleChange}
-              onBlur={this.handleOnBlur}
-            />
-            {isImdbUrlValidOnBlur && (
-              <span className="icon is-small is-right">
-                <i className="fas fa-check has-text-success" />
-              </span>
+            </div>
+            {(!isImdbUrlValid || (wasImdbUrlTouched && imdbUrl && !isImdbUrlValidOnBlur)) && (
+              <p className="help is-danger">This imdb url is invalid</p>
             )}
           </div>
-          {(!isImdbUrlValid || !isImdbUrlValidOnBlur) && (
-            <p className="help is-danger">This imdb url is invalid</p>
-          )}
-        </div>
 
-        <div className="field">
-          <label className="label" htmlFor={Fields.ImgUrl}>
-            ImgUrl
-          </label>
-          <div className="control has-icons-right">
-            <input
-              className={classNames(
-                'input',
-                { 'is-success': isImgUrlValidOnBlur },
-                { 'is-danger': !isImgUrlValid || !isImgUrlValidOnBlur },
+          <div className="field">
+            <label className="label" htmlFor={Fields.ImgUrl}>
+              ImgUrl
+            </label>
+            <div className="control has-icons-right">
+              <input
+                className={classNames(
+                  'input',
+                  { 'is-success': wasImgUrlTouched && isImgUrlValidOnBlur },
+                  {
+                    'is-danger': (
+                      !isImgUrlValid
+                      || (wasImgUrlTouched && imgUrl && !isImgUrlValidOnBlur)),
+                  },
+                )}
+                type="text"
+                id={Fields.ImgUrl}
+                name={Fields.ImgUrl}
+                value={imgUrl}
+                onChange={this.handleChange}
+                onBlur={this.handleOnBlur}
+                onFocus={this.handleFocus}
+              />
+              {wasImgUrlTouched && isImgUrlValidOnBlur && (
+                <span className="icon is-small is-right">
+                  <i className="fas fa-check has-text-success" />
+                </span>
               )}
-              type="text"
-              id={Fields.ImgUrl}
-              name={Fields.ImgUrl}
-              value={imgUrl}
-              onChange={this.handleChange}
-              onBlur={this.handleOnBlur}
-            />
-            {isImgUrlValidOnBlur && (
-              <span className="icon is-small is-right">
-                <i className="fas fa-check has-text-success" />
-              </span>
+            </div>
+            {(!isImgUrlValid || (wasImgUrlTouched && imgUrl && !isImgUrlValidOnBlur)) && (
+              <p className="help is-danger">This img url is invalid</p>
             )}
           </div>
-          {(!isImgUrlValid || !isImgUrlValidOnBlur) && (
-            <p className="help is-danger">This img url is invalid</p>
-          )}
-        </div>
 
-        <div className="field">
-          <label className="label" htmlFor={Fields.ImdbId}>
-            ImdbId
-          </label>
-          <div className="control has-icons-right">
-            <input
-              className={classNames(
-                'input',
-                { 'is-success': isImdbIdValidOnBlur },
-                { 'is-danger': !isImdbIdValid || !isImdbIdValidOnBlur },
+          <div className="field">
+            <label className="label" htmlFor={Fields.ImdbId}>
+              ImdbId
+            </label>
+            <div className="control has-icons-right">
+              <input
+                className={classNames(
+                  'input',
+                  { 'is-success': wasImdbIdTouched && isImdbIdValidOnBlur },
+                  {
+                    'is-danger': (
+                      !isImdbIdValid
+                      || (wasImdbIdTouched && imdbId && !isImdbIdValidOnBlur)),
+                  },
+                )}
+                type="text"
+                id={Fields.ImdbId}
+                name={Fields.ImdbId}
+                value={imdbId}
+                onChange={this.handleChange}
+                onBlur={this.handleOnBlur}
+                onFocus={this.handleFocus}
+              />
+              {wasImdbIdTouched && isImdbIdValidOnBlur && (
+                <span className="icon is-small is-right">
+                  <i className="fas fa-check has-text-success" />
+                </span>
               )}
-              type="text"
-              id={Fields.ImdbId}
-              name={Fields.ImdbId}
-              value={imdbId}
-              onChange={this.handleChange}
-              onBlur={this.handleOnBlur}
-            />
-            {isImdbIdValidOnBlur && (
-              <span className="icon is-small is-right">
-                <i className="fas fa-check has-text-success" />
-              </span>
+            </div>
+            {(!isImdbIdValid || (wasImdbIdTouched && imdbId && !isImdbIdValidOnBlur)) && (
+              <p className="help is-danger">This imdb url is invalid</p>
             )}
           </div>
-          {(!isImdbIdValid || !isImdbIdValidOnBlur) && (
-            <p className="help is-danger">This imdb url is invalid</p>
-          )}
-        </div>
 
-        <div className="control">
-          <button
-            className="button ui submit is-success"
-            type="submit"
-            disabled={!isTitleValid || !isImdbUrlValid || !isImgUrlValid || !isImdbIdValid}
-          >
-            Add movie
-          </button>
-        </div>
-      </form>
+          <div className="control">
+            <button
+              className="button ui submit is-success"
+              type="submit"
+              disabled={
+                !isTitleValid
+                || !isImdbUrlValid
+                || !isImgUrlValid
+                || !isImdbIdValid
+              }
+            >
+              Add movie
+            </button>
+          </div>
+        </form>
+      </>
     );
   }
 }
