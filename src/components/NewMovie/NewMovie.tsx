@@ -88,6 +88,18 @@ export class NewMovie extends React.Component<Props, State> {
   handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
+    this.showInvalidInputs();
+
+    const isFormValid = this.validateForm();
+
+    if (isFormValid) {
+      this.props.onAdd(this.getNewMovie());
+
+      this.clearState();
+    }
+  };
+
+  showInvalidInputs = () => {
     this.setState({
       wasImdbIdFocused: true,
       wasImdbUrlFocused: true,
@@ -95,7 +107,9 @@ export class NewMovie extends React.Component<Props, State> {
       wasTitleFocused: true,
       wasSubmitButtonPressed: true,
     });
+  };
 
+  getNewMovie = () => {
     const {
       title,
       description,
@@ -104,19 +118,13 @@ export class NewMovie extends React.Component<Props, State> {
       imdbId,
     } = this.state;
 
-    const isFormValid = this.validateForm();
-
-    if (isFormValid) {
-      this.props.onAdd({
-        title: title.trim(),
-        description: description.trim(),
-        imgUrl: imgUrl.trim(),
-        imdbUrl: imdbUrl.trim(),
-        imdbId: imdbId.trim(),
-      });
-
-      this.clearState();
-    }
+    return {
+      title: title.trim(),
+      description: description.trim(),
+      imgUrl: imgUrl.trim(),
+      imdbUrl: imdbUrl.trim(),
+      imdbId: imdbId.trim(),
+    };
   };
 
   validateForm = () => {
@@ -144,12 +152,9 @@ export class NewMovie extends React.Component<Props, State> {
         return value.trim();
       }
 
+      case Fields.ImdbUrl:
       case Fields.ImgUrl: {
-        return value.trim() && !!value.match(regex);
-      }
-
-      case Fields.ImdbUrl: {
-        return value.trim() && !!value.match(regex);
+        return value.trim() && regex.test(value);
       }
 
       case Fields.ImdbId: {
@@ -159,6 +164,22 @@ export class NewMovie extends React.Component<Props, State> {
       default:
         throw new Error('enter valid data');
     }
+  };
+
+  disableButton = () => {
+    const {
+      wasSubmitButtonPressed,
+      isTitleValid,
+      isImgUrlValid,
+      isImdbUrlValid,
+      isImdbIdValid,
+    } = this.state;
+
+    return wasSubmitButtonPressed
+    && (!isTitleValid
+    || !isImgUrlValid
+    || !isImdbUrlValid
+    || !isImdbIdValid);
   };
 
   clearState = () => {
@@ -195,7 +216,6 @@ export class NewMovie extends React.Component<Props, State> {
       wasImgUrlFocused,
       wasImdbUrlFocused,
       wasImdbIdFocused,
-      wasSubmitButtonPressed,
     } = this.state;
 
     return (
@@ -341,13 +361,7 @@ export class NewMovie extends React.Component<Props, State> {
             <button
               className="button is-success"
               type="submit"
-              disabled={
-                wasSubmitButtonPressed
-                && (!isTitleValid
-                || !isImgUrlValid
-                || !isImdbUrlValid
-                || !isImdbIdValid)
-              }
+              disabled={this.disableButton()}
             >
               Add movie
             </button>
