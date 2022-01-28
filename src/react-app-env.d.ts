@@ -8,10 +8,9 @@ interface Movie {
   imdbId: string;
 }
 
-type ForHandleChange = {
-  inputTitle: string;
-  inputDescription: string;
-  inputImgUrl: string;
-  inputImdbUrl: string;
-  inputImdbId: string;
+type OnBlurHasError = {
+  hasTitleError: boolean;
+  hasImgUrlError: boolean;
+  hasImdbUrlError: boolean;
+  hasImdbIdError: boolean;
 };

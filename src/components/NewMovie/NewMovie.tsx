@@ -11,9 +11,9 @@ type State = {
   inputImdbUrl: string;
   inputImdbId: string;
   hasTitleError: boolean;
-  hasImgUrlitleError: boolean;
-  hasImdbUrlitleError: boolean;
-  hasImbdIdError: boolean;
+  hasImgUrlError: boolean;
+  hasImdbUrlError: boolean;
+  hasImdbIdError: boolean;
 };
 
 export class NewMovie extends Component<Props, State> {
@@ -24,9 +24,9 @@ export class NewMovie extends Component<Props, State> {
     inputImdbUrl: '',
     inputImdbId: '',
     hasTitleError: false,
-    hasImgUrlitleError: false,
-    hasImdbUrlitleError: false,
-    hasImbdIdError: false,
+    hasImgUrlError: false,
+    hasImdbUrlError: false,
+    hasImdbIdError: false,
   };
 
   validateUrl = (url: string) => {
@@ -39,9 +39,25 @@ export class NewMovie extends Component<Props, State> {
     event.preventDefault();
   };
 
+  getErrorName = (name: string) => {
+    return `has${name.slice(5)}Error`;
+  };
+
   handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-    const newState = { [name]: value } as Pick<ForHandleChange, keyof ForHandleChange>;
+    const newState = {
+      [name]: value,
+      [this.getErrorName(name)]: false,
+    } as Pick<State, keyof State>;
+
+    this.setState(newState);
+  };
+
+  handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
+    const { name } = event.target;
+    const newState = {
+      [this.getErrorName(name)]: !!name,
+    } as Pick<OnBlurHasError, keyof OnBlurHasError>;
 
     this.setState(newState);
   };
@@ -58,9 +74,9 @@ export class NewMovie extends Component<Props, State> {
       || !inputImdbId.trim() || !this.validateUrl(inputImgUrl)) {
       this.setState({
         hasTitleError: !inputTitle.trim(),
-        hasImdbUrlitleError: !this.validateUrl(inputImdbUrl),
-        hasImgUrlitleError: !this.validateUrl(inputImgUrl),
-        hasImbdIdError: !inputImdbId.trim(),
+        hasImdbUrlError: !this.validateUrl(inputImdbUrl),
+        hasImgUrlError: !this.validateUrl(inputImgUrl),
+        hasImdbIdError: !inputImdbId.trim(),
       });
 
       return false;
@@ -72,13 +88,13 @@ export class NewMovie extends Component<Props, State> {
   disabledButton = () => {
     const {
       hasTitleError,
-      hasImbdIdError,
-      hasImdbUrlitleError,
-      hasImgUrlitleError,
+      hasImdbIdError,
+      hasImdbUrlError,
+      hasImgUrlError,
     } = this.state;
 
-    return hasTitleError || hasImbdIdError
-      || hasImgUrlitleError || hasImdbUrlitleError;
+    return hasTitleError || hasImdbIdError
+      || hasImgUrlError || hasImdbUrlError;
   };
 
   getNewFilm = () => {
@@ -107,9 +123,9 @@ export class NewMovie extends Component<Props, State> {
       inputImgUrl: '',
       inputImdbId: '',
       hasTitleError: false,
-      hasImgUrlitleError: false,
-      hasImdbUrlitleError: false,
-      hasImbdIdError: false,
+      hasImgUrlError: false,
+      hasImdbUrlError: false,
+      hasImdbIdError: false,
     });
   };
 
@@ -130,9 +146,9 @@ export class NewMovie extends Component<Props, State> {
       inputImgUrl,
       inputImdbId,
       hasTitleError,
-      hasImbdIdError,
-      hasImdbUrlitleError,
-      hasImgUrlitleError,
+      hasImdbIdError,
+      hasImdbUrlError,
+      hasImgUrlError,
     } = this.state;
 
     return (
@@ -144,6 +160,7 @@ export class NewMovie extends Component<Props, State> {
           placeholder="title"
           className="input is-rounded"
           onChange={this.handleChange}
+          onBlur={(event) => this.handleBlur(event)}
         />
         {hasTitleError && <div className="has-text-danger">write a title</div>}
         <input
@@ -153,6 +170,7 @@ export class NewMovie extends Component<Props, State> {
           placeholder="description"
           className="input is-rounded mt-3"
           onChange={this.handleChange}
+          onBlur={(event) => this.handleBlur(event)}
         />
         <input
           type="text"
@@ -161,8 +179,9 @@ export class NewMovie extends Component<Props, State> {
           placeholder="imgUrl"
           className="input is-rounded mt-3"
           onChange={this.handleChange}
+          onBlur={(event) => this.handleBlur(event)}
         />
-        {hasImgUrlitleError && <div className="has-text-danger">write a imgUrl</div>}
+        {hasImgUrlError && <div className="has-text-danger">write a imgUrl</div>}
         <input
           type="text"
           name="inputImdbUrl"
@@ -170,8 +189,9 @@ export class NewMovie extends Component<Props, State> {
           placeholder="imdbUrl"
           className="input is-rounded mt-3"
           onChange={this.handleChange}
+          onBlur={(event) => this.handleBlur(event)}
         />
-        {hasImdbUrlitleError && <div className="has-text-danger">write a imdbUrl</div>}
+        {hasImdbUrlError && <div className="has-text-danger">write a imdbUrl</div>}
         <input
           type="text"
           name="inputImdbId"
@@ -179,8 +199,9 @@ export class NewMovie extends Component<Props, State> {
           placeholder="imdbId"
           className="input is-rounded mt-3"
           onChange={this.handleChange}
+          onBlur={(event) => this.handleBlur(event)}
         />
-        {hasImbdIdError && <div className="has-text-danger">write a imdbId</div>}
+        {hasImdbIdError && <div className="has-text-danger">write a imdbId</div>}
         <button
           type="button"
           className="button is-dark mt-6"
