@@ -34,11 +34,12 @@ export class NewMovie extends Component<Props, State> {
 
   handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = event.target;
+    const inputName = this.getValidInput(name);
 
     this.setState(state => ({
       ...state,
       [name]: value,
-      [this.getValidInput(name)]: false,
+      [inputName]: false,
     }));
   };
 
@@ -53,9 +54,9 @@ export class NewMovie extends Component<Props, State> {
   };
 
   getValidInput = (name: string) => {
-    const correctName = name[0].toUpperCase() + name.slice(1);
+    const inputName = name[0].toUpperCase() + name.slice(1);
 
-    return `is${correctName}Valid`;
+    return `is${inputName}Valid`;
   };
 
   createMovie = () => {
