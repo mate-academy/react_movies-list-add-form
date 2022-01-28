@@ -7,3 +7,11 @@ interface Movie {
   imdbUrl: string;
   imdbId: string;
 }
+
+type ForHandleChange = {
+  inputTitle: string;
+  inputDescription: string;
+  inputImgUrl: string;
+  inputImdbUrl: string;
+  inputImdbId: string;
+};
