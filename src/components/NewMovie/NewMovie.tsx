@@ -48,7 +48,7 @@ export class NewMovie extends Component<Props, State> {
     const newState = {
       [name]: value,
       [this.getErrorName(name)]: false,
-    } as Pick<State, keyof State>;
+    } as State;
 
     this.setState(newState);
   };
@@ -57,7 +57,7 @@ export class NewMovie extends Component<Props, State> {
     const { name } = event.target;
     const newState = {
       [this.getErrorName(name)]: !!name,
-    } as Pick<OnBlurHasError, keyof OnBlurHasError>;
+    } as OnBlurHasError;
 
     this.setState(newState);
   };
