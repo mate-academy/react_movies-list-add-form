@@ -133,7 +133,7 @@ export class NewMovie extends Component<Props, State> {
             />
           </div>
           {isTitleValid
-          && <p className="help is-danger">Please fill out the field</p>}
+          && <p className="help is-danger">Please fill in the field</p>}
         </div>
 
         <div className="field">
@@ -162,7 +162,7 @@ export class NewMovie extends Component<Props, State> {
             />
           </div>
           {isImgUrlValid
-          && <p className="help is-danger">Please fill out the field</p>}
+          && <p className="help is-danger">Please fill in the field</p>}
         </div>
 
         <div className="field">
@@ -178,7 +178,7 @@ export class NewMovie extends Component<Props, State> {
             />
           </div>
           {isImdbUrlValid
-          && <p className="help is-danger">Please fill out the field</p>}
+          && <p className="help is-danger">Please fill in the field</p>}
         </div>
 
         <div className="field">
@@ -194,7 +194,7 @@ export class NewMovie extends Component<Props, State> {
             />
           </div>
           {isImdbIdValid
-          && <p className="help is-danger">Please fill out the field</p>}
+          && <p className="help is-danger">Please fill in the field</p>}
         </div>
 
         <div className="control">
