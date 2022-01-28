@@ -13,12 +13,15 @@ export class App extends React.Component<{}, State> {
     movies: moviesFromServer,
   };
 
-  addMovie = (/* movie: Movie */) => {
-    // put your code here
+  addMovie = (newMovie: Movie) => {
+    this.setState((state) => ({
+      movies: [...state.movies, newMovie],
+    }));
   };
 
   render() {
     const { movies } = this.state;
+    const imdbIds = movies.map(movie => movie.imdbId);
 
     return (
       <div className="page">
@@ -26,7 +29,10 @@ export class App extends React.Component<{}, State> {
           <MoviesList movies={movies} />
         </div>
         <div className="sidebar">
-          <NewMovie />
+          <NewMovie
+            onAdd={this.addMovie}
+            imdbIds={imdbIds}
+          />
         </div>
       </div>
     );
