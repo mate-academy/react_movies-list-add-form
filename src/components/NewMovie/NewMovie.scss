@@ -14,8 +14,11 @@
     box-shadow: inset 0 0 5px 2px rgba(0, 119, 255, 0.24);
     border: 1px solid grey;
     border-radius: 7px;
-    outline: none;
     font-size: 16px;
+
+    &:focus {
+      outline: 2px ridge rgba(50, 53, 220, 0.6);
+    }
   }
 
   &__button {
