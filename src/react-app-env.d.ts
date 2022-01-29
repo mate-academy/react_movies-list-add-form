@@ -7,3 +7,10 @@ interface Movie {
   imdbUrl: string;
   imdbId: string;
 }
+
+type OnBlurHasError = {
+  hasTitleError: boolean;
+  hasImgUrlError: boolean;
+  hasImdbUrlError: boolean;
+  hasImdbIdError: boolean;
+};
