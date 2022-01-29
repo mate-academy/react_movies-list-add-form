@@ -1,0 +1,31 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  &__title {
+    text-decoration: underline;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+
+  &__input {
+    padding: 10px;
+    box-shadow: inset 0 0 5px 2px rgba(0, 119, 255, 0.24);
+    border: 1px solid grey;
+    border-radius: 7px;
+    font-size: 16px;
+
+    &:focus {
+      outline: 2px ridge rgba(50, 53, 220, 0.6);
+    }
+  }
+
+  &__button {
+    padding: 7px;
+    box-shadow: 0 0 5px 3px rgba(0, 119, 255, 0.24);
+    text-transform: uppercase;
+    width: 150px;
+    margin-top: 10px;
+  }
+}
