@@ -5,11 +5,11 @@ type Props = {
   onAdd: (newFilm: Movie) => void
 };
 type State = {
-  inputTitle: string;
-  inputDescription: string;
-  inputImgUrl: string;
-  inputImdbUrl: string;
-  inputImdbId: string;
+  title: string;
+  description: string;
+  imgUrl: string;
+  imdbUrl: string;
+  imdbId: string;
   hasTitleError: boolean;
   hasImgUrlError: boolean;
   hasImdbUrlError: boolean;
@@ -18,11 +18,11 @@ type State = {
 
 export class NewMovie extends Component<Props, State> {
   state: State = {
-    inputTitle: '',
-    inputDescription: '',
-    inputImgUrl: '',
-    inputImdbUrl: '',
-    inputImdbId: '',
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
     hasTitleError: false,
     hasImgUrlError: false,
     hasImdbUrlError: false,
@@ -30,24 +30,45 @@ export class NewMovie extends Component<Props, State> {
   };
 
   validateUrl = (url: string) => {
-    const validate = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&= +$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#? (?:[.!/\\\w]*))?)$/;
+    const validate = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
 
     return validate.test(url);
   };
 
+  validateInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+
+    switch (name) {
+      case 'title':
+      case 'imdbId':
+        return value.trim();
+      case 'imgUrl':
+      case 'imdbUrl':
+        return this.validateUrl(value);
+      default:
+        return false;
+    }
+  };
+
   handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
+    const isFormValid = this.validateForm();
+
+    if (isFormValid) {
+      this.props.onAdd(this.getNewFilm());
+      this.clearState();
+    }
   };
 
   getErrorName = (name: string) => {
-    return `has${name.slice(5)}Error`;
+    return `has${name[0].toUpperCase()}${name.slice(1)}Error`;
   };
 
   handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     const newState = {
       [name]: value,
-      [this.getErrorName(name)]: false,
+      [this.getErrorName(name)]: !this.validateInput(event),
     } as State;
 
     this.setState(newState);
@@ -55,28 +76,31 @@ export class NewMovie extends Component<Props, State> {
 
   handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
     const { name } = event.target;
-    const newState = {
-      [this.getErrorName(name)]: !!name,
-    } as OnBlurHasError;
+    const hasErrorName = this.getErrorName(name);
+    let newState;
 
-    this.setState(newState);
+    if (name !== 'description') {
+      newState = { [hasErrorName]: !this.validateInput(event) } as
+        OnBlurHasError;
+      this.setState(newState);
+    }
   };
 
   validateForm = () => {
     const {
-      inputTitle,
-      inputImdbUrl,
-      inputImgUrl,
-      inputImdbId,
+      title,
+      imdbUrl,
+      imgUrl,
+      imdbId,
     } = this.state;
 
-    if (!inputTitle.trim() || !this.validateUrl(inputImdbUrl)
-      || !inputImdbId.trim() || !this.validateUrl(inputImgUrl)) {
+    if (!title.trim() || !this.validateUrl(imdbUrl)
+      || !imdbId.trim() || !this.validateUrl(imgUrl)) {
       this.setState({
-        hasTitleError: !inputTitle.trim(),
-        hasImdbUrlError: !this.validateUrl(inputImdbUrl),
-        hasImgUrlError: !this.validateUrl(inputImgUrl),
-        hasImdbIdError: !inputImdbId.trim(),
+        hasTitleError: !title.trim(),
+        hasImdbUrlError: !this.validateUrl(imdbUrl),
+        hasImgUrlError: !this.validateUrl(imgUrl),
+        hasImdbIdError: !imdbId.trim(),
       });
 
       return false;
@@ -99,29 +123,29 @@ export class NewMovie extends Component<Props, State> {
 
   getNewFilm = () => {
     const {
-      inputTitle,
-      inputDescription,
-      inputImdbUrl,
-      inputImgUrl,
-      inputImdbId,
+      title,
+      description,
+      imdbUrl,
+      imgUrl,
+      imdbId,
     } = this.state;
 
     return {
-      title: inputTitle,
-      description: inputDescription,
-      imdbUrl: inputImdbUrl,
-      imgUrl: inputImgUrl,
-      imdbId: inputImdbId,
+      title: title.trim(),
+      description: description.trim(),
+      imdbUrl: imdbUrl.trim(),
+      imgUrl: imgUrl.trim(),
+      imdbId: imdbId.trim(),
     };
   };
 
   clearState = () => {
     this.setState({
-      inputTitle: '',
-      inputDescription: '',
-      inputImdbUrl: '',
-      inputImgUrl: '',
-      inputImdbId: '',
+      title: '',
+      description: '',
+      imdbUrl: '',
+      imgUrl: '',
+      imdbId: '',
       hasTitleError: false,
       hasImgUrlError: false,
       hasImdbUrlError: false,
@@ -129,22 +153,13 @@ export class NewMovie extends Component<Props, State> {
     });
   };
 
-  handleSubmitFilm = () => {
-    const isFormValid = this.validateForm();
-
-    if (isFormValid) {
-      this.props.onAdd(this.getNewFilm());
-      this.clearState();
-    }
-  };
-
   render() {
     const {
-      inputTitle,
-      inputDescription,
-      inputImdbUrl,
-      inputImgUrl,
-      inputImdbId,
+      title,
+      description,
+      imdbUrl,
+      imgUrl,
+      imdbId,
       hasTitleError,
       hasImdbIdError,
       hasImdbUrlError,
@@ -155,57 +170,56 @@ export class NewMovie extends Component<Props, State> {
       <form onSubmit={this.handleSubmit} className="box mt-5">
         <input
           type="text"
-          name="inputTitle"
-          value={inputTitle}
+          name="title"
+          value={title}
           placeholder="title"
           className="input is-rounded"
           onChange={this.handleChange}
-          onBlur={(event) => this.handleBlur(event)}
+          onBlur={this.handleBlur}
         />
         {hasTitleError && <div className="has-text-danger">write a title</div>}
         <input
           type="text"
-          name="inputDescription"
-          value={inputDescription}
+          name="description"
+          value={description}
           placeholder="description"
           className="input is-rounded mt-3"
           onChange={this.handleChange}
-          onBlur={(event) => this.handleBlur(event)}
+          onBlur={this.handleBlur}
         />
         <input
           type="text"
-          name="inputImgUrl"
-          value={inputImgUrl}
+          name="imgUrl"
+          value={imgUrl}
           placeholder="imgUrl"
           className="input is-rounded mt-3"
           onChange={this.handleChange}
-          onBlur={(event) => this.handleBlur(event)}
+          onBlur={this.handleBlur}
         />
         {hasImgUrlError && <div className="has-text-danger">write a imgUrl</div>}
         <input
           type="text"
-          name="inputImdbUrl"
-          value={inputImdbUrl}
+          name="imdbUrl"
+          value={imdbUrl}
           placeholder="imdbUrl"
           className="input is-rounded mt-3"
           onChange={this.handleChange}
-          onBlur={(event) => this.handleBlur(event)}
+          onBlur={this.handleBlur}
         />
         {hasImdbUrlError && <div className="has-text-danger">write a imdbUrl</div>}
         <input
           type="text"
-          name="inputImdbId"
-          value={inputImdbId}
+          name="imdbId"
+          value={imdbId}
           placeholder="imdbId"
           className="input is-rounded mt-3"
           onChange={this.handleChange}
-          onBlur={(event) => this.handleBlur(event)}
+          onBlur={this.handleBlur}
         />
         {hasImdbIdError && <div className="has-text-danger">write a imdbId</div>}
         <button
-          type="button"
+          type="submit"
           className="button is-dark mt-6"
-          onClick={this.handleSubmitFilm}
           disabled={this.disabledButton()}
         >
           Submit
