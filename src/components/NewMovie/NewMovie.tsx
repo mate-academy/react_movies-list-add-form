@@ -32,34 +32,12 @@ export class NewMovie extends Component<Props, State> {
     messageImdbId: '',
   };
 
-  handleInputTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({
-      title: event?.target.value,
-    });
-  };
-
-  handleTextAreaDescription = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    this.setState({
-      description: event?.target.value,
-    });
-  };
-
-  handleInputImgUrl = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({
-      imgUrl: event?.target.value,
-    });
-  };
-
-  handleInputImdbUrl = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({
-      imdbUrl: event?.target.value,
-    });
-  };
-
-  handleInputImdbId = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({
-      imdbId: event?.target.value,
-    });
+  handleFormItemChange = (event: React.ChangeEvent<HTMLInputElement>
+  | React.ChangeEvent<HTMLTextAreaElement>) => {
+    this.setState(prevState => ({
+      ...prevState,
+      [event.target.name]: event.target.value,
+    }));
   };
 
   handleOnBlurtTitle() {
@@ -185,7 +163,7 @@ export class NewMovie extends Component<Props, State> {
               id="title-input"
               placeholder="Enter title of movie here"
               value={title}
-              onChange={this.handleInputTitle}
+              onChange={this.handleFormItemChange}
               onBlur={this.handleOnBlurtTitle.bind(this)}
             />
             {messageTitle && (
@@ -204,7 +182,7 @@ export class NewMovie extends Component<Props, State> {
               id="description-input"
               placeholder="Enter description of movie here"
               value={description}
-              onChange={this.handleTextAreaDescription}
+              onChange={this.handleFormItemChange}
             />
           </label>
         </div>
@@ -219,7 +197,7 @@ export class NewMovie extends Component<Props, State> {
               id="imgUrl-input"
               placeholder="Put link for avatar here"
               value={imgUrl}
-              onChange={this.handleInputImgUrl}
+              onChange={this.handleFormItemChange}
               onBlur={this.handleOnBlurtImgUrl.bind(this)}
             />
             {messageImgUrl && (
@@ -240,7 +218,7 @@ export class NewMovie extends Component<Props, State> {
               id="imdbUrl-input"
               placeholder="Put link of movie from IMDb here"
               value={imdbUrl}
-              onChange={this.handleInputImdbUrl}
+              onChange={this.handleFormItemChange}
               onBlur={this.handleOnBlurtImdbUrl.bind(this)}
             />
             {messageImdbUrl && (
@@ -261,7 +239,7 @@ export class NewMovie extends Component<Props, State> {
               id="imdbId-input"
               placeholder="Enter id of movie from IMDb here"
               value={imdbId}
-              onChange={this.handleInputImdbId}
+              onChange={this.handleFormItemChange}
               onBlur={this.handleOnBlurtImdbId.bind(this)}
             />
             {messageImdbId && (
