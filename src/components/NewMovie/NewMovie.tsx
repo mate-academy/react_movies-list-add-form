@@ -39,13 +39,13 @@ export class NewMovie extends Component<Props, State> {
     });
   };
 
-  changeImbdUrl = (event: React.ChangeEvent<HTMLInputElement>) => {
+  changeImdbUrl = (event: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({
       imdbUrl: event.target.value,
     });
   };
 
-  changeImbdId = (event: React.ChangeEvent<HTMLInputElement>) => {
+  changeImdbId = (event: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({
       imdbId: event.target.value,
     });
@@ -124,14 +124,14 @@ export class NewMovie extends Component<Props, State> {
           type="text"
           placeholder="IMDB URL"
           value={imdbUrl}
-          onChange={this.changeImbdUrl}
+          onChange={this.changeImdbUrl}
         />
         <input
           className="form__input"
           type="text"
           placeholder="IMDB id"
           value={imdbId}
-          onChange={this.changeImbdId}
+          onChange={this.changeImdbId}
         />
         <button className="form__button" type="submit">Add</button>
       </form>
