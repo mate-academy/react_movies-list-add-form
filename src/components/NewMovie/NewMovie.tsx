@@ -170,12 +170,12 @@ export class NewMovie extends Component<Props, State> {
       messageImdbId,
     } = this.state;
 
-    const isFormValid = title && !messageTitle
+    const isFormValid = title && imgUrl && imdbUrl && imdbId && !messageTitle
       && !messageImgUrl && !messageImdbUrl && !messageImdbId;
 
     return (
-      <form onSubmit={this.onSubmitNewMovieForm}>
-        <div className="form-item">
+      <form className="form" onSubmit={this.onSubmitNewMovieForm}>
+        <div className="form__item">
           <label htmlFor="title-input">
             New movie title&nbsp;
             <input
@@ -196,7 +196,7 @@ export class NewMovie extends Component<Props, State> {
           </label>
         </div>
 
-        <div className="form-item">
+        <div className="form__item">
           <label htmlFor="description-input">
             Description of new movie&nbsp;
             <textarea
@@ -209,7 +209,7 @@ export class NewMovie extends Component<Props, State> {
           </label>
         </div>
 
-        <div className="form-item">
+        <div className="form__item">
           <label htmlFor="imgUrl-input">
             Link for avatar of movie&nbsp;
             <input
@@ -230,7 +230,7 @@ export class NewMovie extends Component<Props, State> {
           </label>
         </div>
 
-        <div className="form-item">
+        <div className="form__item">
           <label htmlFor="imdbUrl-input">
             Link for movie from IMDb&nbsp;
             <input
@@ -251,7 +251,7 @@ export class NewMovie extends Component<Props, State> {
           </label>
         </div>
 
-        <div className="form-item">
+        <div className="form__item">
           <label htmlFor="imdbId-input">
             ID from Internet Movie Database&nbsp;
             <input
@@ -273,7 +273,7 @@ export class NewMovie extends Component<Props, State> {
         </div>
 
         <button
-          className="form-item"
+          className="form__item"
           type="submit"
           disabled={!isFormValid}
         >

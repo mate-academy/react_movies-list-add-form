@@ -1,12 +1,17 @@
-input, textarea {
+input,
+textarea {
   width: 100%;
   padding: 12px 20px;
   margin: 8px 0;
   display: inline-block;
-  border: 1px solid #ccc;
+  border: 1px solid #bbb;
   border-radius: 4px;
   box-sizing: border-box;
-  box-shadow: 3px 2px 2px #eee;
+  box-shadow: 3px 2px 2px #ccc;
+
+  &:focus {
+    outline: none;
+  }
 }
 
 button {
@@ -17,28 +22,29 @@ button {
   margin: 8px 0;
   border: none;
   border-radius: 4px;
-  box-shadow: 3px 2px 2px #eee;
+  box-shadow: 3px 2px 2px #ccc;
 
   &:hover {
     background-color: #45a049;
   }
 
   &:disabled {
-    background-color: #ccc;
+    background-color: #bbb;
     cursor: not-allowed;
 
     &:hover {
-      background-color: #bbb;
+      background-color: #aaa;
     }
   }
-
 }
 
-.form-item {
-  margin-bottom: 20px;
+.form {
+  background-color: #eee;
+  border-radius: 4px;
+  padding: 20px;
 
-  &:last-child {
-    margin-bottom: 0;
+  &__item:not(:last-child) {
+    margin-bottom: 20px;
   }
 }
 
@@ -48,5 +54,9 @@ button {
 
 .message-error {
   font-size: 12px;
-  color:red;
+  color: red;
+}
+
+.content {
+  word-wrap: break-word;
 }
