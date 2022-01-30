@@ -92,8 +92,8 @@ export class NewMovie extends Component<Props, State> {
       title,
       description,
       imgUrl,
-      imdbUrl: imbdUrl,
-      imdbId: imbdId,
+      imdbUrl,
+      imdbId,
     } = this.state;
 
     return (
@@ -123,14 +123,14 @@ export class NewMovie extends Component<Props, State> {
           className="form__input"
           type="text"
           placeholder="IMDB URL"
-          value={imbdUrl}
+          value={imdbUrl}
           onChange={this.changeImbdUrl}
         />
         <input
           className="form__input"
           type="text"
           placeholder="IMDB id"
-          value={imbdId}
+          value={imdbId}
           onChange={this.changeImbdId}
         />
         <button className="form__button" type="submit">Add</button>
