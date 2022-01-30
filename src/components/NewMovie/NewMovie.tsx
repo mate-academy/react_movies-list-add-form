@@ -69,11 +69,22 @@ export class NewMovie extends Component<Props, State> {
     });
   };
 
+  clearForm = () => {
+    this.setState({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
+  };
+
   submit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const newMovie = this.getNewMovie();
 
     this.props.addMovie(newMovie);
+    this.clearForm();
   };
 
   render() {
