@@ -9,7 +9,7 @@ type State = {
   description: string,
   imgUrl: string,
   imdbUrl: string,
-  imbdId: string,
+  imdbId: string,
 };
 
 export class NewMovie extends Component<Props, State> {
@@ -18,7 +18,7 @@ export class NewMovie extends Component<Props, State> {
     description: '',
     imgUrl: '',
     imdbUrl: '',
-    imbdId: '',
+    imdbId: '',
   };
 
   changeTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -47,17 +47,25 @@ export class NewMovie extends Component<Props, State> {
 
   changeImbdId = (event: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({
-      imbdId: event.target.value,
+      imdbId: event.target.value,
     });
   };
 
   getNewMovie = () => {
+    const {
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    } = this.state;
+
     return ({
-      title: this.state.title,
-      description: this.state.description,
-      imgUrl: this.state.imgUrl,
-      imdbUrl: this.state.imdbUrl,
-      imdbId: this.state.imbdId,
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
     });
   };
 
@@ -74,7 +82,7 @@ export class NewMovie extends Component<Props, State> {
       description,
       imgUrl,
       imdbUrl: imbdUrl,
-      imbdId,
+      imdbId: imbdId,
     } = this.state;
 
     return (
