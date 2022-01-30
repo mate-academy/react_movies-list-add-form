@@ -130,6 +130,17 @@ export class NewMovie extends Component<Props, State> {
     event.preventDefault();
 
     this.props.addMovie(this.state);
+
+    this.setState({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+      activeInputs: [],
+      isUrlValid: true,
+      isImgUrlValid: true,
+    });
   };
 
   render() {
