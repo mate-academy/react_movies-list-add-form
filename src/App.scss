@@ -13,3 +13,46 @@
   padding: 20px;
   border-left: 1px solid lightgray;
 }
+
+.addMovie-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: left;
+
+  &__title {
+    font-size: 20px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+  }
+
+  &__text {
+    text-transform: uppercase;
+    font-size: 14px;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    margin: 3px 10px;
+  }
+
+  &__input {
+    margin-left: 10px;
+    padding: 2px;
+    flex-grow: 1;
+  }
+
+  &__submit {
+    border: 2px solid rgba(65, 65, 194, 0.644);
+    background-color: rgb(65, 65, 194);
+    border-radius: 5px;
+    margin: 20px auto;
+    padding: 5px;
+    width: 50%;
+    text-transform: uppercase;
+
+    &:active {
+      border: 2px solid rgb(47, 47, 190);
+      background-color: rgb(47, 47, 190);
+    }
+  }
+}
