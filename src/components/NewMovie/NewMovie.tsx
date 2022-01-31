@@ -22,35 +22,14 @@ export class NewMovie extends Component<Props, State> {
     movieId: '',
   };
 
-  handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({
-      newMovieName: event.target.value,
-    });
-  };
+  handleChange(event: React.ChangeEvent<HTMLInputElement>) {
+    const { id, value } = event.target;
 
-  handleDescriptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({
-      movieDescription: event.target.value,
-    });
-  };
-
-  handlePictureChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({
-      imgLink: event.target.value,
-    });
-  };
-
-  handleSiteChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({
-      siteLink: event.target.value,
-    });
-  };
-
-  handleIdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({
-      movieId: event.target.value,
-    });
-  };
+    this.setState(prevState => ({
+      ...prevState,
+      [id]: value,
+    }));
+  }
 
   clearState = () => {
     this.setState({
@@ -102,8 +81,11 @@ export class NewMovie extends Component<Props, State> {
             type="text"
             placeholder="Title"
             className="form"
+            id="newMovieName"
             value={newMovieName}
-            onChange={this.handleNameChange}
+            onChange={(event) => (
+              this.handleChange(event)
+            )}
             required
           />
         </section>
@@ -113,8 +95,11 @@ export class NewMovie extends Component<Props, State> {
             type="text"
             placeholder="Description"
             className="form"
+            id="movieDescription"
             value={movieDescription}
-            onChange={this.handleDescriptionChange}
+            onChange={(event) => (
+              this.handleChange(event)
+            )}
             required
           />
         </section>
@@ -124,8 +109,11 @@ export class NewMovie extends Component<Props, State> {
             type="text"
             placeholder="imgUrl"
             className="form"
+            id="imgLink"
             value={imgLink}
-            onChange={this.handlePictureChange}
+            onChange={(event) => (
+              this.handleChange(event)
+            )}
             required
           />
         </section>
@@ -135,8 +123,11 @@ export class NewMovie extends Component<Props, State> {
             type="text"
             placeholder="imdbUrl"
             className="form"
+            id="siteLink"
             value={siteLink}
-            onChange={this.handleSiteChange}
+            onChange={(event) => (
+              this.handleChange(event)
+            )}
             required
           />
         </section>
@@ -146,8 +137,11 @@ export class NewMovie extends Component<Props, State> {
             type="text"
             placeholder="imdbId"
             className="form"
+            id="movieId"
             value={movieId}
-            onChange={this.handleIdChange}
+            onChange={(event) => (
+              this.handleChange(event)
+            )}
             required
           />
         </section>
