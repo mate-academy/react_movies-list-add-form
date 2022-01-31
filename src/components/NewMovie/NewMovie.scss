@@ -1,0 +1,35 @@
+.form {
+  margin: 4px auto;
+  max-width: 95%;
+  font-size: 16px;
+  box-sizing: border-box;
+  padding: 8px;
+  border-radius: 5px;
+  color: rgb(153, 151, 151);
+  background-color: white;
+  -webkit-box-shadow: 0 0 4px rgba(88, 88, 88, 0.45);
+  box-shadow: 0 0 4px rgba(88, 88, 88, 0.45);
+  cursor: pointer;
+  transition: 0.5s;
+
+  &:hover {
+    background-color: rgb(172, 171, 171);
+    color: white;
+    scale: 102%;
+  }
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.button {
+  background-color: #e4b622;
+  color: black;
+  font-weight: bold;
+
+  &:hover {
+    background-color: #ffd037;
+    color: white;
+  }
+}
