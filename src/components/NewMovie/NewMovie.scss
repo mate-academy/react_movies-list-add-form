@@ -1,0 +1,51 @@
+.Form {
+  display: flex;
+  flex-direction: column;
+  font-family: Georgia, "Times New Roman", Times, serif;
+
+  &__input {
+    box-sizing: border-box;
+    padding: 10px;
+    margin-bottom: 15px;
+
+    outline: 0;
+    border: none;
+    border-radius: 4px;
+
+    font-size: 15px;
+    background-color: #e8eeef;
+    color:#607483;
+
+    transition: all 0.3s ease-in-out;
+
+    &:focus {
+      background: #d2d9dd;
+    }
+  }
+
+  &__button {
+    position: relative;
+    padding: 19px 39px 18px 39px;
+    margin-bottom: 10px;
+
+    color: #FFF;
+    background-color: #1abc9c;
+    font-size: 18px;
+    text-align: center;
+    font-weight: bold;
+
+    border: 1px solid #16a085;
+    border-width: 1px 1px 3px;
+
+    transition: 0.4s;
+
+    &:hover {
+      background: #109177;
+    }
+
+    &:active {
+      top: 2px;
+    }
+  }
+}
+
