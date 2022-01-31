@@ -29,8 +29,7 @@ export class NewMovie extends Component<Props, State> {
     isDisabledButton: false,
   };
 
-  handlerOnChange = (event: React.ChangeEvent<HTMLInputElement>
-  | React.ChangeEvent<HTMLTextAreaElement>) => {
+  handlerOnChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = event.target;
 
     switch (name) {
@@ -84,7 +83,10 @@ export class NewMovie extends Component<Props, State> {
     };
 
     this.props.onAdd(movie);
+    this.resetInputs();
+  };
 
+  resetInputs = () => {
     this.setState({
       title: '',
       description: '',
