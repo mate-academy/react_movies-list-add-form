@@ -1,0 +1,18 @@
+.form {
+  &__input {
+    width: 359px;
+  }
+
+  &__input-label {
+    display: inline-block;
+    margin-bottom: 30px;
+
+    &__error {
+      margin-bottom: 6px;
+    }
+  }
+
+  &__error {
+    font-size: 12px;
+  }
+}

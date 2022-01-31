@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import classNames from 'classnames/bind';
 
+import './NewMovie.scss';
+
 type Props = {
   onAdd: (movie: Movie) => void;
 };
@@ -10,8 +12,9 @@ type State = {
   imgUrl: string;
   imdbUrl: string;
   imdbId: string;
-  hasimgUrlError: boolean,
-  hasimdbUrlError: boolean,
+  hasImgUrlError: boolean,
+  hasImdbUrlError: boolean,
+  isDisabledButton: boolean,
 };
 
 export class NewMovie extends Component<Props, State> {
@@ -21,31 +24,43 @@ export class NewMovie extends Component<Props, State> {
     imgUrl: '',
     imdbUrl: '',
     imdbId: '',
-    hasimgUrlError: false,
-    hasimdbUrlError: false,
+    hasImgUrlError: false,
+    hasImdbUrlError: false,
+    isDisabledButton: false,
   };
 
   handlerOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
+
+    switch (name) {
+      case 'imgUrl':
+        this.setState((state) => ({
+          ...state,
+          hasImgUrlError: this.validationUrl(value),
+          isDisabledButton: this.validationUrl(value),
+          [name]: value,
+        }));
+        break;
+      case 'imdbUrl':
+        this.setState((state) => ({
+          ...state,
+          hasImdbUrlError: this.validationUrl(value),
+          isDisabledButton: this.validationUrl(value),
+          [name]: value,
+        }));
+        break;
+      default:
+        this.setState((state) => ({
+          ...state,
+          [name]: value,
+        }));
+    }
+  };
+
+  validationUrl = (value: string) => {
     const regex = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
 
-    if (name === 'imgUrl' || name === 'imdbUrl') {
-      this.setState((state) => ({
-        [`has${[name]}Error`]: regex.test(value),
-        ...state,
-        [name]: value,
-      }));
-
-      // eslint-disable-next-line no-console
-      console.log(`${!regex.test(value)} ffsd`);
-      // eslint-disable-next-line no-console
-      console.log([`has${[name]}Error`]);
-    }
-
-    this.setState((state) => ({
-      ...state,
-      [name]: value,
-    }));
+    return !regex.test(value);
   };
 
   handlerFormSubmit = (event: React.MouseEvent<HTMLFormElement>) => {
@@ -75,8 +90,8 @@ export class NewMovie extends Component<Props, State> {
       imgUrl: '',
       imdbUrl: '',
       imdbId: '',
-      hasimgUrlError: false,
-      hasimdbUrlError: false,
+      hasImgUrlError: false,
+      hasImdbUrlError: false,
     });
   };
 
@@ -87,16 +102,20 @@ export class NewMovie extends Component<Props, State> {
       imgUrl,
       imdbUrl,
       imdbId,
-      hasimgUrlError,
-      hasimdbUrlError,
+      hasImgUrlError,
+      hasImdbUrlError,
+      isDisabledButton,
     } = this.state;
 
-    // eslint-disable-next-line no-console
-    console.log(hasimgUrlError);
-
     return (
-      <form onSubmit={this.handlerFormSubmit}>
-        <label htmlFor="title">
+      <form
+        onSubmit={this.handlerFormSubmit}
+        className="form"
+      >
+        <label
+          htmlFor="title"
+          className="form__input-label"
+        >
           Title&nbsp;
           <input
             type="text"
@@ -105,10 +124,13 @@ export class NewMovie extends Component<Props, State> {
             value={title}
             onChange={this.handlerOnChange}
             required
-            className="input"
+            className="input form__input"
           />
         </label>
-        <label htmlFor="description">
+        <label
+          htmlFor="description"
+          className="form__input-label"
+        >
           Description&nbsp;
           <input
             type="text"
@@ -116,10 +138,16 @@ export class NewMovie extends Component<Props, State> {
             id="description"
             value={description}
             onChange={this.handlerOnChange}
-            className="input"
+            className="input form__input"
           />
         </label>
-        <label htmlFor="imgUrl">
+        <label
+          htmlFor="imgUrl"
+          className={
+            classNames('form__input-label',
+              { 'form__input-label__error': hasImgUrlError })
+          }
+        >
           ImgUrl&nbsp;
           <input
             type="text"
@@ -128,13 +156,27 @@ export class NewMovie extends Component<Props, State> {
             value={imgUrl}
             onChange={this.handlerOnChange}
             className={
-              classNames('input',
-                { 'is-danger': hasimgUrlError })
+              classNames('input form__input',
+                { 'is-danger': hasImgUrlError })
             }
             required
           />
+          {
+            hasImgUrlError
+            && (
+              <span className="has-text-danger form__error">
+                Please enter correct image URL
+              </span>
+            )
+          }
         </label>
-        <label htmlFor="imdbUrl">
+        <label
+          htmlFor="imdbUrl"
+          className={
+            classNames('form__input-label',
+              { 'form__input-label__error': hasImdbUrlError })
+          }
+        >
           ImdbUrl&nbsp;
           <input
             type="text"
@@ -143,13 +185,24 @@ export class NewMovie extends Component<Props, State> {
             value={imdbUrl}
             onChange={this.handlerOnChange}
             className={
-              classNames('input',
-                { 'is-danger': hasimdbUrlError })
+              classNames('input form__input',
+                { 'is-danger': hasImdbUrlError })
             }
             required
           />
+          {
+            hasImdbUrlError
+            && (
+              <span className="has-text-danger form__error">
+                Please enter correct IMDd
+              </span>
+            )
+          }
         </label>
-        <label htmlFor="imdbId">
+        <label
+          htmlFor="imdbId"
+          className="form__input-label"
+        >
           ImdbId&nbsp;
           <input
             type="text"
@@ -157,11 +210,15 @@ export class NewMovie extends Component<Props, State> {
             id="imdbId"
             value={imdbId}
             onChange={this.handlerOnChange}
-            className="input"
+            className="input form__input"
             required
           />
         </label>
-        <button type="submit">
+        <button
+          type="submit"
+          className="button"
+          disabled={isDisabledButton}
+        >
           Add Movie
         </button>
       </form>
