@@ -29,23 +29,24 @@ export class NewMovie extends Component<Props, State> {
     isDisabledButton: false,
   };
 
-  handlerOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  handlerOnChange = (event: React.ChangeEvent<HTMLInputElement>
+  | React.ChangeEvent<HTMLTextAreaElement>) => {
     const { name, value } = event.target;
 
     switch (name) {
       case 'imgUrl':
         this.setState((state) => ({
           ...state,
-          hasImgUrlError: this.validationUrl(value),
-          isDisabledButton: this.validationUrl(value),
+          hasImgUrlError: this.isValidationUrl(value),
+          isDisabledButton: this.isValidationUrl(value),
           [name]: value,
         }));
         break;
       case 'imdbUrl':
         this.setState((state) => ({
           ...state,
-          hasImdbUrlError: this.validationUrl(value),
-          isDisabledButton: this.validationUrl(value),
+          hasImdbUrlError: this.isValidationUrl(value),
+          isDisabledButton: this.isValidationUrl(value),
           [name]: value,
         }));
         break;
@@ -57,7 +58,7 @@ export class NewMovie extends Component<Props, State> {
     }
   };
 
-  validationUrl = (value: string) => {
+  isValidationUrl = (value: string) => {
     const regex = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
 
     return !regex.test(value);
@@ -125,6 +126,7 @@ export class NewMovie extends Component<Props, State> {
             onChange={this.handlerOnChange}
             required
             className="input form__input"
+            placeholder="Title"
           />
         </label>
         <label
@@ -132,13 +134,13 @@ export class NewMovie extends Component<Props, State> {
           className="form__input-label"
         >
           Description&nbsp;
-          <input
-            type="text"
+          <textarea
             name="description"
             id="description"
             value={description}
             onChange={this.handlerOnChange}
-            className="input form__input"
+            className="textarea form__input"
+            placeholder="Description"
           />
         </label>
         <label
@@ -160,6 +162,7 @@ export class NewMovie extends Component<Props, State> {
                 { 'is-danger': hasImgUrlError })
             }
             required
+            placeholder="ImgUrl"
           />
           {
             hasImgUrlError
@@ -189,6 +192,7 @@ export class NewMovie extends Component<Props, State> {
                 { 'is-danger': hasImdbUrlError })
             }
             required
+            placeholder="ImdbUrl"
           />
           {
             hasImdbUrlError
@@ -212,6 +216,7 @@ export class NewMovie extends Component<Props, State> {
             onChange={this.handlerOnChange}
             className="input form__input"
             required
+            placeholder="ImdbId"
           />
         </label>
         <button
