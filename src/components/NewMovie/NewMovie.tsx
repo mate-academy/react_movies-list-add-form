@@ -4,6 +4,7 @@ import './NewMovie.scss';
 type Props = {
   addMovie: (movie: Movie) => void,
 };
+
 type State = {
   title: string,
   description: string,
@@ -21,34 +22,12 @@ export class NewMovie extends Component<Props, State> {
     imdbId: '',
   };
 
-  changeTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({
-      title: event.target.value,
-    });
-  };
+  changeInfo = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value, name } = event.target;
 
-  changeDescription = (event: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({
-      description: event.target.value,
-    });
-  };
-
-  changeImg = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({
-      imgUrl: event.target.value,
-    });
-  };
-
-  changeImdbUrl = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({
-      imdbUrl: event.target.value,
-    });
-  };
-
-  changeImdbId = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({
-      imdbId: event.target.value,
-    });
+      [name]: value,
+    } as unknown as Omit<State, 'hasErrors'>);
   };
 
   getNewMovie = () => {
@@ -79,7 +58,7 @@ export class NewMovie extends Component<Props, State> {
     });
   };
 
-  submit = (event: React.FormEvent<HTMLFormElement>) => {
+  handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const newMovie = this.getNewMovie();
 
@@ -97,41 +76,46 @@ export class NewMovie extends Component<Props, State> {
     } = this.state;
 
     return (
-      <form className="form" onSubmit={this.submit}>
+      <form className="form" onSubmit={this.handleSubmit}>
         <input
+          name="title"
           className="form__input"
           type="text"
           placeholder="Title"
           value={title}
-          onChange={this.changeTitle}
+          onChange={this.changeInfo}
         />
         <input
+          name="description"
           className="form__input"
           type="text"
           placeholder="Description"
           value={description}
-          onChange={this.changeDescription}
+          onChange={this.changeInfo}
         />
         <input
+          name="imgUrl"
           className="form__input"
           type="text"
           placeholder="Image URL"
           value={imgUrl}
-          onChange={this.changeImg}
+          onChange={this.changeInfo}
         />
         <input
+          name="imdbUrl"
           className="form__input"
           type="text"
           placeholder="IMDB URL"
           value={imdbUrl}
-          onChange={this.changeImdbUrl}
+          onChange={this.changeInfo}
         />
         <input
+          name="imdbId"
           className="form__input"
           type="text"
           placeholder="IMDB id"
           value={imdbId}
-          onChange={this.changeImdbId}
+          onChange={this.changeInfo}
         />
         <button className="form__button" type="submit">Add</button>
       </form>
