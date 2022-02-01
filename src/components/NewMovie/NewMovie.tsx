@@ -2,8 +2,9 @@ import React from 'react';
 import classNames from 'classnames';
 
 type Props = {
-  onMovie: (movie: Movie) => void;
+  onAddMovie: (movie: Movie) => void;
 };
+
 type HasError = {
   imgUrl: boolean,
   imdbUrl: boolean,
@@ -36,10 +37,15 @@ export class NewMovie extends React.Component<Props, State> {
   handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = event.target;
 
-    this.setState((prevState) => ({
-      ...prevState,
-      [name as keyof State]: value,
-    }));
+    //   this.setState((state) => ({
+    //     ...state,
+    //     [name as keyof State]: value,
+    //   }));
+    // };
+
+    this.setState({
+      [name]: value,
+    } as Pick<State, keyof State>);
   };
 
   clearState = () => {
@@ -56,7 +62,7 @@ export class NewMovie extends React.Component<Props, State> {
     event.preventDefault();
 
     if (this.validateForm()) {
-      this.props.onMovie(this.state);
+      this.props.onAddMovie(this.state);
       this.clearState();
     }
   };
@@ -74,7 +80,6 @@ export class NewMovie extends React.Component<Props, State> {
     }
 
     this.setState((state) => ({
-      ...state,
       hasErrors: {
         ...state.hasErrors,
         [name]: !isValid,
@@ -96,8 +101,7 @@ export class NewMovie extends React.Component<Props, State> {
       return false;
     }
 
-    if (hasErrors.imgUrl === true
-      || hasErrors.imdbUrl === true) {
+    if (hasErrors.imgUrl || hasErrors.imdbUrl) {
       return false;
     }
 
