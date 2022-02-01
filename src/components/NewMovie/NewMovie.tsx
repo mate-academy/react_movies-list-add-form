@@ -21,25 +21,27 @@ export class NewMovie extends Component<Props, State> {
     imdbId: '',
   };
 
-  handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => (
-    this.setState({ title: event.target.value })
-  );
+  handleFieldChange = (
+    event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>,
+  ) => {
+    this.setState({
+      [event.target.name]: event.target.value,
+    } as { [K in keyof State]: State[K] });
+  };
 
-  handleDescriptionChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => (
-    this.setState({ description: event.target.value })
-  );
+  formSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const newMovie = {
+      title: this.state.title,
+      description: this.state.description,
+      imgUrl: this.state.imgUrl,
+      imdbUrl: this.state.imdbUrl,
+      imdbId: this.state.imdbId,
+    };
 
-  handleImgUrlChange = (event: React.ChangeEvent<HTMLInputElement>) => (
-    this.setState({ imgUrl: event.target.value })
-  );
-
-  handleImdbUrlChange = (event: React.ChangeEvent<HTMLInputElement>) => (
-    this.setState({ imdbUrl: event.target.value })
-  );
-
-  handleImdbIdChange = (event: React.ChangeEvent<HTMLInputElement>) => (
-    this.setState({ imdbId: event.target.value })
-  );
+    event.preventDefault();
+    this.props.onAdd(newMovie);
+    this.clearForm();
+  };
 
   clearForm = () => (
     this.setState({
@@ -52,56 +54,48 @@ export class NewMovie extends Component<Props, State> {
   );
 
   render() {
-    const newMovie = {
-      title: this.state.title,
-      description: this.state.description,
-      imgUrl: this.state.imgUrl,
-      imdbUrl: this.state.imdbUrl,
-      imdbId: this.state.imdbId,
-    };
-
     return (
-      <form onSubmit={(event) => {
-        event.preventDefault();
-        this.props.onAdd(newMovie);
-        this.clearForm();
-      }}
-      >
+      <form onSubmit={this.formSubmit}>
         <input
           placeholder="Title"
+          name="title"
           value={this.state.title}
-          onChange={this.handleTitleChange}
+          onChange={this.handleFieldChange}
           type="text"
           className="input m-1"
         />
 
         <textarea
           placeholder="Description"
+          name="description"
           value={this.state.description}
-          onChange={this.handleDescriptionChange}
+          onChange={this.handleFieldChange}
           className="textarea m-1"
         />
 
         <input
           placeholder="Image URL"
+          name="imgUrl"
           value={this.state.imgUrl}
-          onChange={this.handleImgUrlChange}
+          onChange={this.handleFieldChange}
           type="text"
           className="input m-1"
         />
 
         <input
           placeholder="IMDB URL"
+          name="imdbUrl"
           value={this.state.imdbUrl}
-          onChange={this.handleImdbUrlChange}
+          onChange={this.handleFieldChange}
           type="text"
           className="input m-1"
         />
 
         <input
           placeholder="IMDB ID"
+          name="imdbId"
           value={this.state.imdbId}
-          onChange={this.handleImdbIdChange}
+          onChange={this.handleFieldChange}
           type="text"
           className="input m-1"
         />
