@@ -34,11 +34,10 @@ export class NewMovie extends Component<Props, State> {
     const { name, value } = event.target;
     const inputName = this.getValidInput(name);
 
-    this.setState(state => ({
-      ...state,
+    this.setState({
       [name]: value,
       [inputName]: false,
-    }));
+    } as unknown as Omit<State, 'hasErrors'>);
   };
 
   handleSumbit = (event: React.FormEvent<HTMLButtonElement>) => {
