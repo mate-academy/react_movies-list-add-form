@@ -37,15 +37,9 @@ export class NewMovie extends React.Component<Props, State> {
   handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = event.target;
 
-    //   this.setState((state) => ({
-    //     ...state,
-    //     [name as keyof State]: value,
-    //   }));
-    // };
-
     this.setState({
       [name]: value,
-    } as Pick<State, keyof State>);
+    } as unknown as Omit<State, 'hasErrors'>);
   };
 
   clearState = () => {
