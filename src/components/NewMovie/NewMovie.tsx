@@ -90,6 +90,16 @@ export class NewMovie extends Component<Props, State> {
 
   createNewMovie = (): Movie => ({ ...this.state });
 
+  clearForm = () => {
+    this.setState({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
+  };
+
   handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
 
@@ -105,6 +115,7 @@ export class NewMovie extends Component<Props, State> {
       const newMovie = this.createNewMovie();
 
       this.props.onAdd(newMovie);
+      this.clearForm();
     }
   };
 
