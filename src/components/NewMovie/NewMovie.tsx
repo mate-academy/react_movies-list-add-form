@@ -84,6 +84,7 @@ export class NewMovie extends Component<Props, State> {
             className="input is-small"
             placeholder="Title"
             onChange={this.handleInputChange}
+            required
           />
         </section>
 
@@ -106,6 +107,7 @@ export class NewMovie extends Component<Props, State> {
             className="input is-small"
             placeholder="imgUrl"
             onChange={this.handleInputChange}
+            required
           />
         </section>
 
@@ -117,6 +119,7 @@ export class NewMovie extends Component<Props, State> {
             className="input is-small"
             placeholder="imdbUrl"
             onChange={this.handleInputChange}
+            required
           />
         </section>
 
@@ -128,6 +131,7 @@ export class NewMovie extends Component<Props, State> {
             className="input is-small"
             placeholder="imdbId"
             onChange={this.handleInputChange}
+            required
           />
         </section>
 
