@@ -7,11 +7,11 @@ type Props = {
 };
 
 type State = {
-  title: string;
-  imgUrl: string;
-  imdbUrl: string;
-  imdbId: string;
-  description: string;
+  title?: string;
+  imgUrl?: string;
+  imdbUrl?: string;
+  imdbId?: string;
+  description?: string;
 };
 
 export class NewMovie extends React.Component<Props, State> {
@@ -42,23 +42,22 @@ export class NewMovie extends React.Component<Props, State> {
   addValue = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = event.target;
 
-    this.setState((state) => ({
-      ...state,
-      [name]: value,
-    }));
+    this.setState({ [name]: value })
   };
+
+  formSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+
+    const newMovie = this.createMovie(this.state);
+
+    this.props.onAdd(newMovie);
+
+    this.clearForm();
+  }
 
   render() {
     return (
-      <form onSubmit={(event) => {
-        event.preventDefault();
-
-        const newMovie = this.createMovie(this.state);
-
-        this.props.onAdd(newMovie);
-
-        this.clearForm();
-      }}
+      <form onSubmit={this.formSubmit}
       >
         {Object.keys(this.state).map(passkey => (
           <div className="field">
@@ -89,7 +88,6 @@ export class NewMovie extends React.Component<Props, State> {
                     onChange={this.addValue}
                   />
                 )}
-
             </label>
           </div>
         ))}
