@@ -91,11 +91,11 @@ export class NewMovie extends React.Component<Props, State> {
       hasErrors,
     } = this.state;
 
-    if (!title || !imdbId || !description) {
-      return false;
-    }
-
-    if (hasErrors.imgUrl || hasErrors.imdbUrl) {
+    if (!title
+      || !imdbId
+      || !description
+      || hasErrors.imgUrl
+      || hasErrors.imdbUrl) {
       return false;
     }
 
