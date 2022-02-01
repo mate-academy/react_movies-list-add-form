@@ -43,7 +43,7 @@ export class NewMovie extends Component<Props, State> {
     this.clearState();
   };
 
-  handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     this.setState(prev => ({
       ...prev,
       [event.target.id]: event.target.value,
@@ -87,15 +87,14 @@ export class NewMovie extends Component<Props, State> {
 
         <label className="label" htmlFor="description">
           Description
-          <input
-            type="text"
+          <textarea
             placeholder="Add movie description"
             id="movieDescription"
             value={movieDescription}
             onChange={(event) => {
               this.handleChange(event);
             }}
-            className="input is-primary"
+            className="textarea is-primary"
           />
         </label>
 
