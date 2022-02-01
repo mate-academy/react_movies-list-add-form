@@ -15,7 +15,6 @@ type State = {
   isImgUrlValid: boolean;
   isImdbUrlValid: boolean;
   isImdbIdValid: boolean;
-  isFormValid: boolean;
 };
 
 export class NewMovie extends Component<Props, State> {
@@ -29,7 +28,6 @@ export class NewMovie extends Component<Props, State> {
     isImgUrlValid: false,
     isImdbUrlValid: false,
     isImdbIdValid: false,
-    isFormValid: false,
   };
 
   handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -59,15 +57,13 @@ export class NewMovie extends Component<Props, State> {
     return `is${inputName}Valid`;
   };
 
-  createMovie = () => {
-    return {
-      title: this.state.title,
-      description: this.state.description,
-      imgUrl: this.state.imdbUrl,
-      imdbUrl: this.state.imdbUrl,
-      imdbId: this.state.imdbId,
-    };
-  };
+  createMovie = () => ({
+    title: this.state.title,
+    description: this.state.description,
+    imgUrl: this.state.imdbUrl,
+    imdbUrl: this.state.imdbUrl,
+    imdbId: this.state.imdbId,
+  });
 
   formValidation = () => {
     const {
@@ -132,8 +128,9 @@ export class NewMovie extends Component<Props, State> {
               onChange={this.handleChange}
             />
           </div>
-          {isTitleValid
-          && <p className="help is-danger">Please fill in the field</p>}
+          {isTitleValid && (
+            <p className="help is-danger">Please fill in the field</p>
+          )}
         </div>
 
         <div className="field">
@@ -161,8 +158,9 @@ export class NewMovie extends Component<Props, State> {
               onChange={this.handleChange}
             />
           </div>
-          {isImgUrlValid
-          && <p className="help is-danger">Please fill in the field</p>}
+          {isImgUrlValid && (
+            <p className="help is-danger">Please fill in the field</p>
+          )}
         </div>
 
         <div className="field">
@@ -177,8 +175,9 @@ export class NewMovie extends Component<Props, State> {
               onChange={this.handleChange}
             />
           </div>
-          {isImdbUrlValid
-          && <p className="help is-danger">Please fill in the field</p>}
+          {isImdbUrlValid && (
+            <p className="help is-danger">Please fill in the field</p>
+          )}
         </div>
 
         <div className="field">
@@ -193,8 +192,9 @@ export class NewMovie extends Component<Props, State> {
               onChange={this.handleChange}
             />
           </div>
-          {isImdbIdValid
-          && <p className="help is-danger">Please fill in the field</p>}
+          {isImdbIdValid && (
+            <p className="help is-danger">Please fill in the field</p>
+          )}
         </div>
 
         <div className="control">
