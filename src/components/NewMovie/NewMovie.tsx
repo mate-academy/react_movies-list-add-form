@@ -1,4 +1,5 @@
 import { Component } from 'react';
+import './NewMovie.scss';
 
 type Props = {
   onAdd: (movie: Movie) => void;
@@ -24,13 +25,12 @@ export class NewMovie extends Component<Props, State> {
   handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
 
-    this.setState(state => ({
-      ...state,
+    this.setState({
       [name]: value,
-    }));
+    } as Omit<State, ''>);
   };
 
-  handleClear = () => {
+  clearForm = () => {
     this.setState({
       title: '',
       description: '',
@@ -43,38 +43,35 @@ export class NewMovie extends Component<Props, State> {
   handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     this.props.onAdd(this.state);
-    this.handleClear();
+    this.clearForm();
   };
 
   render() {
     return (
       <form onSubmit={this.handleSubmit}>
         {Object.keys(this.state).map(item => (
-          <label htmlFor={item}>
-            <span
-              key={item}
-              style={{ color: 'blueviolet' }}
-            >
-              {item.toUpperCase()}
-            </span>
-            <br />
-            <div className="ui inverted segment">
-              <input
-                key={item}
-                id={item}
-                type="text"
-                name={item}
-                value={this.state[item as keyof State]}
-                placeholder={`Enter ${item}`}
-                onChange={this.handleChange}
-              />
-            </div>
-          </label>
+          <div key={item}>
+            {item.toUpperCase()}
+            <label htmlFor={item} key={item}>
+              <div>
+                <input
+                  className="ui focus input"
+                  key={item}
+                  id={item}
+                  name={item}
+                  type="text"
+                  value={this.state[item as keyof State]}
+                  placeholder={`Enter ${item}`}
+                  autoComplete="off"
+                  onChange={this.handleChange}
+                />
+              </div>
+            </label>
+          </div>
         ))}
-        <br />
         <button
           type="submit"
-          className="positive ui button"
+          className="ui black basic button"
         >
           Add Movie
         </button>
