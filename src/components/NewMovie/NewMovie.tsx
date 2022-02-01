@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import './NewMovie.scss';
 
-const imgLinkValidationRegEx = /https?:\/\/(www\.)?([\dA-zЁ-я]+-?[\dA-zЁ-я]+)+\.([A-zЁ-я]{2,3})(\.[A-zЁ-я]{2})?\/[&(?)\-(_)(=)\dA-zЁ-я/]+(\.jpg|\.jpeg|\.png)$/;
-const linkValidationRegEx = /https?:\/\/(www\.)?([\dA-zЁ-я]+-?[\dA-zЁ-я]+)+\.([A-zЁ-я]{2,3})(\.[A-zЁ-я]{2})?\/[&(?)\-(_)(=)\dA-zЁ-я/]+$/;
+import cn from 'classnames';
+
+const imgLinkValidationRegEx = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)(\.jpg|\.jpeg|\.png)$/;
+const linkValidationRegEx = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
 
 type Props = {
   addMovie: (movie: Movie) => void,
@@ -159,12 +161,16 @@ export class NewMovie extends Component<Props, State> {
       <form onSubmit={this.onSubmitHandler}>
         <p>Title</p>
         <input
+          className={cn({ warning: !title && activeInputs.includes('title') })}
           type="text"
           name="title"
           value={title}
+          onFocus={this.selectInputHandler}
           onChange={this.changeTitleHandler}
-          required
         />
+        {(title.length === 0 && activeInputs.includes('title')) && (
+          <span>Enter a title!</span>
+        )}
         <p>Description</p>
         <textarea
           className="description"
@@ -175,6 +181,7 @@ export class NewMovie extends Component<Props, State> {
         />
         <p>imgUrl</p>
         <input
+          className={cn({ warning: !isImgUrlValid && activeInputs.includes('imgUrl') })}
           type="text"
           name="imgUrl"
           value={imgUrl}
@@ -187,6 +194,7 @@ export class NewMovie extends Component<Props, State> {
         )}
         <p>imdbUrl</p>
         <input
+          className={cn({ warning: !isUrlValid && activeInputs.includes('imdbUrl') })}
           type="text"
           name="imdbUrl"
           value={imdbUrl}
@@ -199,12 +207,17 @@ export class NewMovie extends Component<Props, State> {
         )}
         <p>imdbId</p>
         <input
+          className={cn({ warning: !imdbId && activeInputs.includes('imdbId') })}
           type="text"
           name="imdbId"
           value={imdbId}
+          onFocus={this.selectInputHandler}
           onChange={this.changeimdbIdHandler}
           required
         />
+        {(!imdbId && activeInputs.includes('imdbId')) && (
+          <span>Enter an imdbId!</span>
+        )}
         <div>
           <button
             disabled={!(isImgUrlValid && isUrlValid && title.length && imdbId.length)}

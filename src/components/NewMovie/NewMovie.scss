@@ -3,3 +3,12 @@
   width: 100%;
   height: 80px;
 }
+
+.warning:not(span) {
+  outline-color: red;
+  border: 2px solid red;
+}
+
+.warning, span {
+  color: red;
+}
