@@ -4,11 +4,7 @@ import './NewMovie.scss';
 
 type Props = {
   onMovieCreate: (
-    title: string,
-    description: string,
-    imgUrl: string,
-    imdbUrl: string,
-    imdbId: string
+    movie: Movie
   ) => void
 };
 type State = {
@@ -28,24 +24,10 @@ export class NewMovie extends Component<Props, State> {
     imdbId: '',
   };
 
-  handleTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ title: event.target.value });
-  };
+  handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
 
-  handleDescription = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ description: event.target.value });
-  };
-
-  handleImgUrl = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ imgUrl: event.target.value });
-  };
-
-  handleImdbUrl = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ imdbUrl: event.target.value });
-  };
-
-  handleImdbId = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ imdbId: event.target.value });
+    this.setState({ [name]: value } as { [I in keyof State]: State[I] });
   };
 
   render() {
@@ -53,15 +35,15 @@ export class NewMovie extends Component<Props, State> {
       <form
         onSubmit={(event) => {
           event.preventDefault();
-          const {
-            title,
-            description,
-            imgUrl,
-            imdbUrl,
-            imdbId,
-          } = this.state;
+          const movie = {
+            title: this.state.title,
+            description: this.state.description,
+            imgUrl: this.state.imgUrl,
+            imdbUrl: this.state.imdbUrl,
+            imdbId: this.state.imdbId,
+          };
 
-          this.props.onMovieCreate(title, description, imgUrl, imdbUrl, imdbId);
+          this.props.onMovieCreate(movie);
 
           this.setState({
             title: '',
@@ -78,7 +60,7 @@ export class NewMovie extends Component<Props, State> {
           placeholder="Title"
           name="title"
           value={this.state.title}
-          onChange={this.handleTitle}
+          onChange={this.handleChange}
           className="add-movie__input"
         />
         <input
@@ -86,7 +68,7 @@ export class NewMovie extends Component<Props, State> {
           placeholder="Description"
           name="description"
           value={this.state.description}
-          onChange={this.handleDescription}
+          onChange={this.handleChange}
           className="add-movie__input"
         />
         <input
@@ -94,7 +76,7 @@ export class NewMovie extends Component<Props, State> {
           placeholder="ImgUrl"
           name="imgUrl"
           value={this.state.imgUrl}
-          onChange={this.handleImgUrl}
+          onChange={this.handleChange}
           className="add-movie__input"
         />
         <input
@@ -102,7 +84,7 @@ export class NewMovie extends Component<Props, State> {
           placeholder="ImdbUrl"
           name="imdbUrl"
           value={this.state.imdbUrl}
-          onChange={this.handleImdbUrl}
+          onChange={this.handleChange}
           className="add-movie__input"
         />
         <input
@@ -110,7 +92,7 @@ export class NewMovie extends Component<Props, State> {
           placeholder="ImdbId"
           name="imdbId"
           value={this.state.imdbId}
-          onChange={this.handleImdbId}
+          onChange={this.handleChange}
           className="add-movie__input"
         />
         <button
