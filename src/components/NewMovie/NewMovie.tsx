@@ -5,11 +5,11 @@ type Props = {
 };
 
 type State = {
-  title: string,
-  description: string,
-  imgUrl: string,
-  imdbUrl: string,
-  imdbId: string,
+  title?: string,
+  description?: string,
+  imgUrl?: string,
+  imdbUrl?: string,
+  imdbId?: string,
 };
 
 export class NewMovie extends Component<Props, State> {
@@ -22,38 +22,39 @@ export class NewMovie extends Component<Props, State> {
   };
 
   handlerChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target;
+    const { value, name } = event.target;
 
-    // eslint-disable-next-line no-console
-    console.log(event);
-
-    this.setState({ title: value });
+    this.setState({ [name]: value });
   };
 
   handleSubmit = (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    this.props.addMovie({ ...this.state });
+    this.props.addMovie(this.state);
     this.setState({
-      title: '12',
-      description: '2',
-      imgUrl: '3',
-      imdbUrl: '4',
-      imdbId: '5',
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
     });
   };
 
   render() {
     const {
       title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
     } = this.state;
 
     return (
       <div>
-        <h1>{title}</h1>
         <form
-          onSubmit={() => this.handleSubmit}
+          onSubmit={this.handleSubmit}
         >
+          <h1>{title}</h1>
           <input
             name="title"
             type="text"
@@ -61,34 +62,38 @@ export class NewMovie extends Component<Props, State> {
             value={title}
             onChange={(event) => this.handlerChange(event)}
           />
-          {/* <input
-            name={description}
+          <h1>{description}</h1>
+          <input
+            name="description"
             type="text"
             placeholder="Please input description"
             value={description}
             onChange={this.handlerChange}
           />
+          <h1>{imgUrl}</h1>
           <input
-            name={imgUrl}
+            name="imgUrl"
             type="text"
             placeholder="input smth"
             value={imgUrl}
             onChange={this.handlerChange}
           />
+          <h1>{imdbUrl}</h1>
           <input
-            name={imdbUrl}
+            name="imdbUrl"
             type="text"
             placeholder="input smth"
             value={imdbUrl}
             onChange={this.handlerChange}
           />
+          <h1>{imdbId}</h1>
           <input
-            name={imdbId}
+            name="imdbId"
             type="text"
             placeholder="input smth"
             value={imdbId}
             onChange={this.handlerChange}
-          /> */}
+          />
           <button
             type="submit"
           >
