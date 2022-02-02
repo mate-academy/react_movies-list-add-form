@@ -1,0 +1,12 @@
+.form {
+  width: 300px;
+
+  &__input {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 5px;
+
+    outline: none;
+  }
+}
