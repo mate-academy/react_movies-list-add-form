@@ -34,9 +34,6 @@ export class NewMovie extends Component<Props, State> {
   handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { value, name } = event.target;
 
-    // eslint-disable-next-line no-console
-    console.log(name, value.length, value);
-
     const nameErrorFlag = `showError${name[0].toUpperCase() + name.slice(1)}`;
     const showErrorFlag = !value.length;
 
