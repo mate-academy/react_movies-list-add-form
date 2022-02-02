@@ -1,5 +1,4 @@
 import { Component } from 'react';
-import classNames from 'classnames';
 
 type Props = {
   onAdd: (movie: Movie) => void,
@@ -10,7 +9,6 @@ type State = {
   imgUrl: string,
   imdbUrl: string,
   imdbId: string,
-  isValidLink: boolean,
   hasTitleError: boolean,
   hasImgUrlError: boolean,
   hasImdbUrlError: boolean,
@@ -24,99 +22,28 @@ export class NewMovie extends Component<Props, State> {
     imgUrl: '',
     imdbUrl: '',
     imdbId: '',
-    isValidLink: true,
     hasTitleError: false,
     hasImgUrlError: false,
     hasImdbUrlError: false,
     hasImdbIdError: false,
   };
 
-  handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({
-      title: event.target.value,
-      hasTitleError: false,
-    });
+  hasError = (name: string) => {
+    const ErrorName = name[0].toUpperCase() + name.slice(1);
+
+    return `has${ErrorName}Error`;
   };
 
-  handleDescriptionChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    this.setState({
-      description: event.target.value,
-    });
-  };
+  handleChange = (event: React.ChangeEvent<HTMLInputElement>
+  | React.ChangeEvent<HTMLTextAreaElement>) => {
+    const { name, value } = event.target;
+    const errorName = this.hasError(name);
 
-  handleImgUrlChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({
-      imgUrl: event.target.value,
-      hasImgUrlError: false,
-    });
-  };
-
-  handleImdbUrlChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({
-      imdbUrl: event.target.value,
-      hasImdbUrlError: false,
-    });
-  };
-
-  handleImdbIdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({
-      imdbId: event.target.value,
-      hasImdbIdError: false,
-    });
-  };
-
-  isValidTitle = () => {
-    const { title } = this.state;
-
-    if (!title) {
-      this.setState({ hasTitleError: !title });
-
-      return false;
-    }
-
-    return true;
-  };
-
-  linkCheck = (url: string) => {
-    return url.match(/^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/);
-  };
-
-  isValidImgUrl = () => {
-    const { imgUrl } = this.state;
-    const correctImgUrl = imgUrl && this.linkCheck(imgUrl);
-
-    if (!correctImgUrl) {
-      this.setState({ hasImgUrlError: !correctImgUrl });
-
-      return false;
-    }
-
-    return true;
-  };
-
-  isValidImdbUrl = () => {
-    const { imdbUrl } = this.state;
-    const correctImdbUrl = imdbUrl && this.linkCheck(imdbUrl);
-
-    if (!correctImdbUrl) {
-      this.setState({ hasImdbUrlError: !correctImdbUrl });
-
-      return false;
-    }
-
-    return true;
-  };
-
-  isValidImdbId = () => {
-    const { imdbId } = this.state;
-
-    if (!imdbId) {
-      this.setState({ hasImdbIdError: !imdbId });
-
-      return false;
-    }
-
-    return true;
+    this.setState(state => ({
+      ...state,
+      [name]: value,
+      [errorName]: false,
+    }));
   };
 
   validateForm = () => {
@@ -182,7 +109,6 @@ export class NewMovie extends Component<Props, State> {
       imdbId,
       imdbUrl,
       imgUrl,
-      isValidLink,
       hasTitleError,
       hasImgUrlError,
       hasImdbUrlError,
@@ -197,8 +123,7 @@ export class NewMovie extends Component<Props, State> {
           placeholder="title"
           value={title}
           className="input"
-          onChange={this.handleTitleChange}
-          onBlur={this.isValidTitle}
+          onChange={this.handleChange}
         />
 
         {hasTitleError && (
@@ -210,21 +135,20 @@ export class NewMovie extends Component<Props, State> {
           value={description}
           className="textarea"
           placeholder="description"
-          onChange={this.handleDescriptionChange}
+          onChange={this.handleChange}
         />
 
         <input
           name="imgUrl"
           type="text"
-          className={classNames('input', { invalid: !isValidLink })}
+          className="input"
           value={imgUrl}
           placeholder="imgUrl"
-          onChange={this.handleImgUrlChange}
-          onBlur={this.isValidImgUrl}
+          onChange={this.handleChange}
         />
 
         {hasImgUrlError && (
-          <span className="error">Please, enter a valid imgUrl</span>
+          <span className="error">Please, enter a imgUrl</span>
         )}
 
         <input
@@ -233,12 +157,11 @@ export class NewMovie extends Component<Props, State> {
           className="input"
           placeholder="imdbUrl"
           value={imdbUrl}
-          onChange={this.handleImdbUrlChange}
-          onBlur={this.isValidImdbUrl}
+          onChange={this.handleChange}
         />
 
         {hasImdbUrlError && (
-          <span className="error">Please, enter a valid imdbUrl</span>
+          <span className="error">Please, enter a imdbUrl</span>
         )}
 
         <input
@@ -247,12 +170,11 @@ export class NewMovie extends Component<Props, State> {
           placeholder="imdbId"
           className="input"
           value={imdbId}
-          onChange={this.handleImdbIdChange}
-          onBlur={this.isValidImdbId}
+          onChange={this.handleChange}
         />
 
         {hasImdbIdError && (
-          <span className="error">Please, enter a valid imdbId</span>
+          <span className="error">Please, enter a imdbId</span>
         )}
 
         <button
