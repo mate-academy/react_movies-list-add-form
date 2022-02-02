@@ -55,6 +55,7 @@ export class NewMovie extends Component<Props, State> {
           value={title}
           name="title"
           onChange={this.handleChange}
+          required
         />
         <p>Description</p>
         <input
@@ -62,6 +63,7 @@ export class NewMovie extends Component<Props, State> {
           value={description}
           name="description"
           onChange={this.handleChange}
+          required
         />
         <p>imgUrl</p>
         <input
@@ -69,6 +71,7 @@ export class NewMovie extends Component<Props, State> {
           value={imgUrl}
           name="imgUrl"
           onChange={this.handleChange}
+          required
         />
         <p>imdbUrl</p>
         <input
@@ -76,6 +79,7 @@ export class NewMovie extends Component<Props, State> {
           value={imdbUrl}
           name="imdbUrl"
           onChange={this.handleChange}
+          required
         />
         <p>imdbId</p>
         <input
@@ -83,6 +87,7 @@ export class NewMovie extends Component<Props, State> {
           value={imdbId}
           name="imdbId"
           onChange={this.handleChange}
+          required
         />
         <button type="submit">Add Movie</button>
       </form>
