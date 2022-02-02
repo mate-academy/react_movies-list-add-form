@@ -6,11 +6,11 @@ type Props = {
 };
 
 type State = {
-  title: string,
-  description: string,
-  imgUrl: string,
-  imdbUrl: string,
-  imdbId: string,
+  title?: string,
+  description?: string,
+  imgUrl?: string,
+  imdbUrl?: string,
+  imdbId?: string,
 };
 
 export class NewMovie extends Component<Props, State> {
@@ -27,7 +27,7 @@ export class NewMovie extends Component<Props, State> {
 
     this.setState({
       [name]: value,
-    } as unknown as Omit<State, 'hasErrors'>);
+    });
   };
 
   getNewMovie = () => {
