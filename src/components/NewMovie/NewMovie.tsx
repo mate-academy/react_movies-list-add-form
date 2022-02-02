@@ -65,6 +65,7 @@ export class NewMovie extends Component<Props, State> {
         >
           title:
           <input
+            required
             type="text"
             id="title"
             className="addMovie-form__input"
@@ -80,6 +81,7 @@ export class NewMovie extends Component<Props, State> {
         >
           description:
           <input
+            required
             type="text"
             id="description"
             className="addMovie-form__input"
@@ -95,6 +97,7 @@ export class NewMovie extends Component<Props, State> {
         >
           imgUrl:
           <input
+            required
             type="text"
             id="imgUrl"
             className="addMovie-form__input"
@@ -110,6 +113,7 @@ export class NewMovie extends Component<Props, State> {
         >
           imdbUrl:
           <input
+            required
             type="text"
             id="imdbUrl"
             className="addMovie-form__input"
@@ -125,6 +129,7 @@ export class NewMovie extends Component<Props, State> {
         >
           imdbId:
           <input
+            required
             type="text"
             id="imdbId"
             className="addMovie-form__input"
