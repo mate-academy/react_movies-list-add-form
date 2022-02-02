@@ -7,11 +7,11 @@ type Props = {
 };
 
 type State = {
-  title?: string;
-  imgUrl?: string;
-  imdbUrl?: string;
-  imdbId?: string;
-  description?: string;
+  title: string;
+  imgUrl: string;
+  imdbUrl: string;
+  imdbId: string;
+  description: string;
 };
 
 export class NewMovie extends React.Component<Props, State> {
@@ -23,9 +23,9 @@ export class NewMovie extends React.Component<Props, State> {
     description: '',
   };
 
-  createMovie = (props: Movie) => (
+  createMovie = (movie: Movie) => (
     {
-      ...props,
+      ...movie,
     }
   );
 
@@ -42,7 +42,9 @@ export class NewMovie extends React.Component<Props, State> {
   addValue = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = event.target;
 
-    this.setState({ [name]: value })
+    this.setState({
+      [name]: value
+    } as { [K in keyof State]: State[K] })
   };
 
   formSubmit = (event: React.FormEvent) => {
@@ -93,7 +95,6 @@ export class NewMovie extends React.Component<Props, State> {
         ))}
 
         <button type="submit" className="button is-link">Add Movie</button>
-
       </form>
     );
   }
