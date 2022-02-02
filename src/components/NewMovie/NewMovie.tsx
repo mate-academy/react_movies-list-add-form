@@ -1,6 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-import { getInputValidationName, getInputFocusedName } from '../../helpers';
+import { getInputValidationName, getInputFilledName, getValidationLoadingName } from '../../helpers';
 import './NewMovie.scss';
 
 enum Fields {
@@ -18,14 +18,21 @@ type Props = {
 
 type State = Movie & {
   isTitleValid: boolean;
+  isDescriptionValid: boolean;
   isImgUrlValid: boolean;
   isImdbUrlValid: boolean;
   isImdbIdValid: boolean;
-  wasTitleFocused: boolean;
-  wasImgUrlFocused: boolean;
-  wasImdbUrlFocused: boolean;
-  wasImdbIdFocused: boolean;
-  wasSubmitButtonPressed: boolean
+  isDescriptionFilled: boolean;
+  isTitleFilled: boolean;
+  isImgUrlFilled: boolean;
+  isImdbUrlFilled: boolean;
+  isImdbIdFilled: boolean;
+  wasSubmitButtonPressed: boolean;
+  titleValidationLoading: boolean;
+  descriptionValidationLoading: boolean;
+  imgUrlValidationLoading: boolean;
+  imdbUrlValidationLoading: boolean;
+  imdbIdValidationLoading: boolean;
 };
 
 export class NewMovie extends React.Component<Props, State> {
@@ -36,53 +43,48 @@ export class NewMovie extends React.Component<Props, State> {
     imdbUrl: '',
     imdbId: '',
     isTitleValid: false,
+    isDescriptionValid: true,
     isImgUrlValid: false,
     isImdbUrlValid: false,
     isImdbIdValid: false,
-    wasTitleFocused: false,
-    wasImgUrlFocused: false,
-    wasImdbUrlFocused: false,
-    wasImdbIdFocused: false,
+    isTitleFilled: false,
+    isDescriptionFilled: false,
+    isImgUrlFilled: false,
+    isImdbUrlFilled: false,
+    isImdbIdFilled: false,
     wasSubmitButtonPressed: false,
+    descriptionValidationLoading: false,
+    titleValidationLoading: false,
+    imgUrlValidationLoading: false,
+    imdbUrlValidationLoading: false,
+    imdbIdValidationLoading: false,
   };
 
-  handleChange = (event: React.ChangeEvent<HTMLInputElement>
-  | React.ChangeEvent<HTMLTextAreaElement>) => {
-    const { name, value } = event.target;
-    const isInputValid = getInputValidationName(name);
-
-    if (name === Fields.Description) {
-      this.setState((prevState) => ({
-        ...prevState,
-        [name]: value,
-      }));
-    } else {
-      this.setState((prevState) => ({
-        ...prevState,
-        [name]: value,
-        [isInputValid]: this.validateInput(event),
-      }));
-    }
-  };
-
-  handleBlur = (event: React.FocusEvent<HTMLInputElement, Element>) => {
-    const { name } = event.target;
-    const isInputValid = getInputValidationName(name);
+  handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.currentTarget;
+    const isInputFilled = getInputFilledName(name);
 
     this.setState((prevState) => ({
       ...prevState,
-      [isInputValid]: this.validateInput(event),
+      [name]: value,
+      [isInputFilled]: false,
     }));
   };
 
-  handleFocus = (event: React.FocusEvent<HTMLInputElement, Element>) => {
-    const { name } = event.target;
-    const wasInputFocused = getInputFocusedName(name);
+  handleChangeDescription = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const { value } = event.currentTarget;
 
-    this.setState((state) => ({
-      ...state,
-      [wasInputFocused]: true,
-    }));
+    this.setState({
+      description: value,
+    });
+  };
+
+  handleBlur = (event: React.FocusEvent<HTMLInputElement>
+  | React.FocusEvent<HTMLTextAreaElement>
+  | React.KeyboardEvent<HTMLInputElement>) => {
+    const { name, value } = event.currentTarget;
+
+    this.validateInput(name, value);
   };
 
   handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -101,10 +103,11 @@ export class NewMovie extends React.Component<Props, State> {
 
   showInvalidInputs = () => {
     this.setState({
-      wasImdbIdFocused: true,
-      wasImdbUrlFocused: true,
-      wasImgUrlFocused: true,
-      wasTitleFocused: true,
+      isImdbIdFilled: true,
+      isImdbUrlFilled: true,
+      isImgUrlFilled: true,
+      isTitleFilled: true,
+      isDescriptionFilled: true,
       wasSubmitButtonPressed: true,
     });
   };
@@ -141,28 +144,73 @@ export class NewMovie extends React.Component<Props, State> {
     && isImdbIdValid;
   };
 
-  validateInput = (event: React.FocusEvent<HTMLInputElement, Element>
-  | React.ChangeEvent<HTMLInputElement>
-  | React.ChangeEvent<HTMLTextAreaElement>) => {
-    const { name, value } = event.target;
+  validateInput = (name: string, value: string) => {
     const regex = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
+    const isInputValid = getInputValidationName(name);
+    const isInputFilled = getInputFilledName(name);
+    const isInputValidationLoading = getValidationLoadingName(name);
 
     switch (name) {
       case Fields.Title: {
-        return value.trim();
+        this.setState((state) => ({
+          ...state,
+          [isInputValid]: !!value.trim(),
+          [isInputFilled]: !!value.trim(),
+          [isInputValidationLoading]: false,
+        }));
+        break;
+      }
+
+      case Fields.Description: {
+        this.setState((state) => ({
+          ...state,
+          [isInputValid]: true,
+          [isInputFilled]: true,
+          [isInputValidationLoading]: false,
+        }));
+        break;
       }
 
       case Fields.ImdbUrl:
       case Fields.ImgUrl: {
-        return value.trim() && regex.test(value);
+        this.setState((state) => ({
+          ...state,
+          [isInputValid]: regex.test(value),
+          [isInputFilled]: !!value.trim(),
+          [isInputValidationLoading]: false,
+        }));
+        break;
       }
 
       case Fields.ImdbId: {
-        return value.trim() && !this.props.imdbIds.includes(value);
+        this.setState((state) => ({
+          ...state,
+          isImdbIdValid: !!value.trim() && !this.props.imdbIds.includes(value),
+          [isInputFilled]: !!value.trim(),
+          [isInputValidationLoading]: false,
+        }));
+        break;
       }
 
       default:
         throw new Error('enter valid data');
+    }
+  };
+
+  onKeyUp = (event: React.KeyboardEvent<HTMLInputElement>
+  | React.KeyboardEvent<HTMLTextAreaElement>) => {
+    const { name, value } = event.currentTarget;
+    const isInputValidationLoading = getValidationLoadingName(name);
+    const isInputFilled = getInputFilledName(name);
+
+    if (value.trim()) {
+      this.setState((state) => ({
+        ...state,
+        [isInputValidationLoading]: true,
+        [isInputFilled]: false,
+      }));
+
+      setTimeout(() => this.validateInput(name, value), 500);
     }
   };
 
@@ -190,14 +238,21 @@ export class NewMovie extends React.Component<Props, State> {
       imdbUrl: '',
       imdbId: '',
       isTitleValid: false,
+      isDescriptionValid: true,
       isImgUrlValid: false,
       isImdbUrlValid: false,
       isImdbIdValid: false,
-      wasTitleFocused: false,
-      wasImgUrlFocused: false,
-      wasImdbUrlFocused: false,
-      wasImdbIdFocused: false,
+      isTitleFilled: false,
+      isDescriptionFilled: false,
+      isImgUrlFilled: false,
+      isImdbUrlFilled: false,
+      isImdbIdFilled: false,
       wasSubmitButtonPressed: false,
+      descriptionValidationLoading: false,
+      titleValidationLoading: false,
+      imgUrlValidationLoading: false,
+      imdbUrlValidationLoading: false,
+      imdbIdValidationLoading: false,
     });
   };
 
@@ -209,13 +264,20 @@ export class NewMovie extends React.Component<Props, State> {
       imgUrl,
       imdbId,
       isTitleValid,
+      isDescriptionValid,
       isImgUrlValid,
       isImdbUrlValid,
       isImdbIdValid,
-      wasTitleFocused,
-      wasImgUrlFocused,
-      wasImdbUrlFocused,
-      wasImdbIdFocused,
+      isTitleFilled,
+      isDescriptionFilled,
+      isImgUrlFilled,
+      isImdbUrlFilled,
+      isImdbIdFilled,
+      titleValidationLoading,
+      descriptionValidationLoading,
+      imgUrlValidationLoading,
+      imdbUrlValidationLoading,
+      imdbIdValidationLoading,
     } = this.state;
 
     return (
@@ -230,8 +292,8 @@ export class NewMovie extends React.Component<Props, State> {
               <input
                 className={classNames(
                   'input',
-                  { 'is-success': wasTitleFocused && isTitleValid },
-                  { 'is-danger': wasTitleFocused && !isTitleValid },
+                  { 'is-success': isTitleFilled && isTitleValid },
+                  { 'is-danger': isTitleFilled && !isTitleValid },
                 )}
                 type="text"
                 id={Fields.Title}
@@ -239,16 +301,19 @@ export class NewMovie extends React.Component<Props, State> {
                 value={title}
                 onChange={this.handleChange}
                 onBlur={this.handleBlur}
-                onFocus={this.handleFocus}
+                onKeyUp={this.onKeyUp}
               />
-              {wasTitleFocused && isTitleValid && (
+              {isTitleFilled && isTitleValid && (
                 <span className="icon is-small is-right">
                   <i className="fas fa-check has-text-success" />
                 </span>
               )}
             </div>
-            {wasTitleFocused && !isTitleValid && (
+            {isTitleFilled && !isTitleValid && (
               <p className="help is-danger">This title is invalid</p>
+            )}
+            {titleValidationLoading && (
+              <p className="help">Validating...</p>
             )}
           </div>
 
@@ -256,14 +321,28 @@ export class NewMovie extends React.Component<Props, State> {
             <label className="label" htmlFor={Fields.Description}>
               Description
             </label>
-            <div className="control">
+            <div className="control has-icons-right">
               <textarea
-                className="textarea"
+                className={classNames(
+                  'textarea',
+                  { 'is-success': isDescriptionFilled && isDescriptionValid },
+                  { 'is-danger': isDescriptionFilled && !isDescriptionValid },
+                )}
                 id={Fields.Description}
                 name={Fields.Description}
                 value={description}
-                onChange={this.handleChange}
+                onChange={this.handleChangeDescription}
+                onBlur={this.handleBlur}
+                onKeyUp={this.onKeyUp}
               />
+              {isDescriptionFilled && isDescriptionValid && (
+                <span className="icon is-small is-right">
+                  <i className="fas fa-check has-text-success" />
+                </span>
+              )}
+              {descriptionValidationLoading && (
+                <p className="help">Validating...</p>
+              )}
             </div>
           </div>
 
@@ -275,8 +354,8 @@ export class NewMovie extends React.Component<Props, State> {
               <input
                 className={classNames(
                   'input',
-                  { 'is-success': wasImdbUrlFocused && isImdbUrlValid },
-                  { 'is-danger': wasImdbUrlFocused && !isImdbUrlValid },
+                  { 'is-success': isImdbUrlFilled && isImdbUrlValid },
+                  { 'is-danger': isImdbUrlFilled && !isImdbUrlValid },
                 )}
                 type="text"
                 id={Fields.ImdbUrl}
@@ -284,16 +363,19 @@ export class NewMovie extends React.Component<Props, State> {
                 value={imdbUrl}
                 onChange={this.handleChange}
                 onBlur={this.handleBlur}
-                onFocus={this.handleFocus}
+                onKeyUp={this.onKeyUp}
               />
-              {wasImdbUrlFocused && isImdbUrlValid && (
+              {isImdbUrlFilled && isImdbUrlValid && (
                 <span className="icon is-small is-right">
                   <i className="fas fa-check has-text-success" />
                 </span>
               )}
             </div>
-            {wasImdbUrlFocused && !isImdbUrlValid && (
+            {isImdbUrlFilled && !isImdbUrlValid && (
               <p className="help is-danger">This imdb url is invalid</p>
+            )}
+            {imdbUrlValidationLoading && (
+              <p className="help">Validating...</p>
             )}
           </div>
 
@@ -305,8 +387,8 @@ export class NewMovie extends React.Component<Props, State> {
               <input
                 className={classNames(
                   'input',
-                  { 'is-success': wasImgUrlFocused && isImgUrlValid },
-                  { 'is-danger': wasImgUrlFocused && !isImgUrlValid },
+                  { 'is-success': isImgUrlFilled && isImgUrlValid },
+                  { 'is-danger': isImgUrlFilled && !isImgUrlValid },
                 )}
                 type="text"
                 id={Fields.ImgUrl}
@@ -314,16 +396,19 @@ export class NewMovie extends React.Component<Props, State> {
                 value={imgUrl}
                 onChange={this.handleChange}
                 onBlur={this.handleBlur}
-                onFocus={this.handleFocus}
+                onKeyUp={this.onKeyUp}
               />
-              {wasImgUrlFocused && isImgUrlValid && (
+              {isImgUrlFilled && isImgUrlValid && (
                 <span className="icon is-small is-right">
                   <i className="fas fa-check has-text-success" />
                 </span>
               )}
             </div>
-            {wasImgUrlFocused && !isImgUrlValid && (
+            {isImgUrlFilled && !isImgUrlValid && (
               <p className="help is-danger">This img url is invalid</p>
+            )}
+            {imgUrlValidationLoading && (
+              <p className="help">Validating...</p>
             )}
           </div>
 
@@ -335,8 +420,8 @@ export class NewMovie extends React.Component<Props, State> {
               <input
                 className={classNames(
                   'input',
-                  { 'is-success': wasImdbIdFocused && isImdbIdValid },
-                  { 'is-danger': wasImdbIdFocused && !isImdbIdValid },
+                  { 'is-success': isImdbIdFilled && isImdbIdValid },
+                  { 'is-danger': isImdbIdFilled && !isImdbIdValid },
                 )}
                 type="text"
                 id={Fields.ImdbId}
@@ -344,16 +429,19 @@ export class NewMovie extends React.Component<Props, State> {
                 value={imdbId}
                 onChange={this.handleChange}
                 onBlur={this.handleBlur}
-                onFocus={this.handleFocus}
+                onKeyUp={this.onKeyUp}
               />
-              {wasImdbIdFocused && isImdbIdValid && (
+              {isImdbIdFilled && isImdbIdValid && (
                 <span className="icon is-small is-right">
                   <i className="fas fa-check has-text-success" />
                 </span>
               )}
             </div>
-            {wasImdbIdFocused && !isImdbIdValid && (
+            {isImdbIdFilled && !isImdbIdValid && (
               <p className="help is-danger">This imdb url is invalid</p>
+            )}
+            {imdbIdValidationLoading && (
+              <p className="help">Validating...</p>
             )}
           </div>
 
