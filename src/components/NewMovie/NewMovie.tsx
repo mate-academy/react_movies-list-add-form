@@ -22,7 +22,7 @@ export class NewMovie extends Component<Props, State> {
     newImdbId: '',
   };
 
-  handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  /* handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({
       newTitle: event.target.value,
     });
@@ -50,6 +50,15 @@ export class NewMovie extends Component<Props, State> {
     this.setState({
       newImdbId: event.target.value,
     });
+  }; */
+
+  handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value, name } = event.target;
+
+    this.setState((currentState) => ({
+      ...currentState,
+      [name]: value,
+    }));
   };
 
   getNewMovie = () => {
@@ -107,9 +116,10 @@ export class NewMovie extends Component<Props, State> {
         <form onSubmit={this.handleSubmit} className="form">
           <div className="title-change">
             <input
+              name="newTitle"
               type="text"
               value={newTitle}
-              onChange={this.handleTitleChange}
+              onChange={this.handleChange}
               placeholder="Title"
               className="input"
               required
@@ -118,9 +128,10 @@ export class NewMovie extends Component<Props, State> {
 
           <div className="description-change">
             <input
+              name="newDescription"
               type="text"
               value={newDescription}
-              onChange={this.handleDescriptionChange}
+              onChange={this.handleChange}
               placeholder="Description"
               className="input"
               required
@@ -129,9 +140,10 @@ export class NewMovie extends Component<Props, State> {
 
           <div className="imgUrl-change">
             <input
+              name="newImgUrl"
               type="text"
               value={newImgUrl}
-              onChange={this.handleImgUrlChange}
+              onChange={this.handleChange}
               placeholder="ImgUrl"
               className="input"
               required
@@ -140,9 +152,10 @@ export class NewMovie extends Component<Props, State> {
 
           <div className="imdbUrl-change">
             <input
+              name="newImdbUrl"
               type="text"
               value={newImdbUrl}
-              onChange={this.handleImdbUrlChange}
+              onChange={this.handleChange}
               placeholder="imdbUrl"
               className="input"
               required
@@ -151,9 +164,10 @@ export class NewMovie extends Component<Props, State> {
 
           <div className="imdbId-change">
             <input
+              name="newImdbId"
               type="text"
               value={newImdbId}
-              onChange={this.handleImdbIdChange}
+              onChange={this.handleChange}
               placeholder="ImdbId"
               className="input"
               required
