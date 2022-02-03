@@ -31,37 +31,20 @@ export class NewMovie extends React.Component<Props, State> {
     hasImdbIdError: false,
   };
 
-  handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({
-      title: event.target.value,
-      hasTitleError: false,
-    });
+  handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    const capitalizedName = name.charAt(0).toUpperCase() + name.slice(1);
+
+    this.setState(state => ({
+      ...state,
+      [name]: value,
+      [`has${capitalizedName}Error`]: false,
+    }));
   };
 
   handleDescriptionChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     this.setState({
       description: event.target.value,
-    });
-  };
-
-  handleImgUrlChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({
-      imgUrl: event.target.value,
-      hasImgUrlError: false,
-    });
-  };
-
-  handleImdbUrlChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({
-      imdbUrl: event.target.value,
-      hasImdbUrlError: false,
-    });
-  };
-
-  handleImdbIdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({
-      imdbId: event.target.value,
-      hasImdbIdError: false,
     });
   };
 
@@ -162,9 +145,10 @@ export class NewMovie extends React.Component<Props, State> {
           Title:
           <input
             type="text"
+            name="title"
             id="title"
             value={title}
-            onChange={this.handleTitleChange}
+            onChange={this.handleChange}
             onBlur={this.isValidTitle}
             className={classNames('input', {
               'is-danger': hasTitleError,
@@ -181,15 +165,17 @@ export class NewMovie extends React.Component<Props, State> {
           imgUrl:
           <input
             type="text"
+            name="imgUrl"
             id="imgUrl"
             value={imgUrl}
-            onChange={this.handleImgUrlChange}
+            onChange={this.handleChange}
             onBlur={this.isValidImgUrl}
             className={classNames('input', {
               'is-danger': hasImgUrlError,
             })}
           />
         </label>
+
         {hasImgUrlError && (
           <span className="is-size-7 has-text-danger-dark">
             Please enter correct URL
@@ -200,9 +186,10 @@ export class NewMovie extends React.Component<Props, State> {
           imdbUrl:
           <input
             type="text"
+            name="imdbUrl"
             id="imdbUrl"
             value={imdbUrl}
-            onChange={this.handleImdbUrlChange}
+            onChange={this.handleChange}
             onBlur={this.isValidImdbUrl}
             className={classNames('input', {
               'is-danger': hasImgUrlError,
@@ -219,9 +206,10 @@ export class NewMovie extends React.Component<Props, State> {
           imdbId:
           <input
             type="text"
+            name="imdbId"
             id="imdbId"
             value={imdbId}
-            onChange={this.handleImdbIdChange}
+            onChange={this.handleChange}
             onBlur={this.isValidImdbId}
             className={classNames('input', {
               'is-danger': hasImdbIdError,
