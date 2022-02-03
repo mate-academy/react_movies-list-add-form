@@ -110,7 +110,7 @@ export class NewMovie extends Component<Props, State> {
               className={classNames(
                 'form__input',
                 'card',
-                showErrorTitle && 'form__input--error',
+                { 'form__input--error': showErrorTitle },
               )}
               name="title"
               type="text"
@@ -134,7 +134,7 @@ export class NewMovie extends Component<Props, State> {
               className={classNames(
                 'form__input',
                 'card',
-                showErrorTitle && 'form__input--error',
+                { 'form__input--error': showErrorTitle },
               )}
               name="imgUrl"
               type="text"
@@ -149,7 +149,7 @@ export class NewMovie extends Component<Props, State> {
               className={classNames(
                 'form__input',
                 'card',
-                showErrorTitle && 'form__input--error',
+                { 'form__input--error': showErrorTitle },
               )}
               name="imdbUrl"
               type="text"
@@ -164,7 +164,7 @@ export class NewMovie extends Component<Props, State> {
               className={classNames(
                 'form__input',
                 'card',
-                showErrorTitle && 'form__input--error',
+                { 'form__input--error': showErrorTitle },
               )}
               name="imdbId"
               type="text"
