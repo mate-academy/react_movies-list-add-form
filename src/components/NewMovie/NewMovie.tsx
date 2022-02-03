@@ -40,61 +40,164 @@ export class NewMovie extends Component<Props, State> {
     }));
   };
 
-  handleOnBlurtTitle() {
-    let messageTitle = '';
+  // handleInputTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   this.setState({
+  //     title: event?.target.value,
+  //   });
+  // };
 
-    if (!this.state.title) {
-      messageTitle = 'Title required';
+  // handleTextAreaDescription = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+  //   this.setState({
+  //     description: event?.target.value,
+  //   });
+  // };
+
+  // handleInputImgUrl = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   this.setState({
+  //     imgUrl: event?.target.value,
+  //   });
+  // };
+
+  // handleInputImdbUrl = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   this.setState({
+  //     imdbUrl: event?.target.value,
+  //   });
+  // };
+
+  // handleInputImdbId = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   this.setState({
+  //     imdbId: event?.target.value,
+  //   });
+  // };
+
+  // handleOnBlurtTitle() {
+  //   let messageTitle = '';
+
+  //   if (!this.state.title) {
+  //     messageTitle = 'Title required';
+  //   }
+
+  //   this.setState({
+  //     messageTitle,
+  //   });
+  // }
+
+  // handleOnBlurtImgUrl() {
+  //   let messageImgUrl = '';
+
+  //   if (!this.checkUrl(this.state.imgUrl)) {
+  //     messageImgUrl = 'ImgUrl isn\'t valid';
+  //   }
+
+  //   if (!this.state.imgUrl) {
+  //     messageImgUrl = 'ImgUrl required';
+  //   }
+
+  //   this.setState({
+  //     messageImgUrl,
+  //   });
+  // }
+
+  // handleOnBlurtImdbUrl() {
+  //   let messageImdbUrl = '';
+
+  //   if (!this.checkUrl(this.state.imdbUrl)) {
+  //     messageImdbUrl = 'ImdbUrl isn\'t valid';
+  //   }
+
+  //   if (!this.state.imdbUrl) {
+  //     messageImdbUrl = 'ImdbUrl required';
+  //   }
+
+  //   this.setState({
+  //     messageImdbUrl,
+  //   });
+  // }
+
+  // handleOnBlurtImdbId(event: React.ChangeEvent<HTMLInputElement>) {
+  //   // eslint-disable-next-line no-console
+  //   console.log(event, event.target.name);
+  //   let messageImdbId = '';
+
+  //   if (!this.state.imdbId) {
+  //     messageImdbId = 'ImdbId required';
+  //   }
+
+  //   this.setState({
+  //     messageImdbId,
+  //   });
+  // }
+
+  handleOnBlur = (event: React.ChangeEvent<HTMLInputElement>) => {
+    switch (event.target.name) {
+      case 'title':
+        if (!this.state.title) {
+          this.setState({
+            messageTitle: 'Title required',
+          });
+        } else {
+          this.setState({
+            messageTitle: '',
+          });
+        }
+
+        break;
+
+      case 'imgUrl':
+        if (this.state.imgUrl) {
+          if (!this.checkUrl(this.state.imgUrl)) {
+            this.setState({
+              messageImgUrl: 'ImgUrl isn\'t valid',
+            });
+          } else {
+            this.setState({
+              messageImgUrl: '',
+            });
+          }
+        } else {
+          this.setState({
+            messageImgUrl: 'ImgUrl required',
+          });
+        }
+
+        break;
+
+      case 'imdbUrl':
+        if (this.state.imdbUrl) {
+          if (!this.checkUrl(this.state.imdbUrl)) {
+            this.setState({
+              messageImdbUrl: 'ImdbUrl isn\'t valid',
+            });
+          } else {
+            this.setState({
+              messageImdbUrl: '',
+            });
+          }
+        } else {
+          this.setState({
+            messageImdbUrl: 'ImdbUrl required',
+          });
+        }
+
+        break;
+
+      case 'imdbId':
+        if (!this.state.imdbId) {
+          this.setState({
+            messageImdbId: 'ImdbId required',
+          });
+        } else {
+          this.setState({
+            messageImdbId: '',
+          });
+        }
+
+        break;
+
+      default:
+        break;
     }
-
-    this.setState({
-      messageTitle,
-    });
-  }
-
-  handleOnBlurtImgUrl() {
-    let messageImgUrl = '';
-
-    if (!this.checkUrl(this.state.imgUrl)) {
-      messageImgUrl = 'ImgUrl isn\'t valid';
-    }
-
-    if (!this.state.imgUrl) {
-      messageImgUrl = 'ImgUrl required';
-    }
-
-    this.setState({
-      messageImgUrl,
-    });
-  }
-
-  handleOnBlurtImdbUrl() {
-    let messageImdbUrl = '';
-
-    if (!this.checkUrl(this.state.imdbUrl)) {
-      messageImdbUrl = 'ImdbUrl isn\'t valid';
-    }
-
-    if (!this.state.imdbUrl) {
-      messageImdbUrl = 'ImdbUrl required';
-    }
-
-    this.setState({
-      messageImdbUrl,
-    });
-  }
-
-  handleOnBlurtImdbId() {
-    let messageImdbId = '';
-
-    if (!this.state.imdbId) {
-      messageImdbId = 'ImdbId required';
-    }
-
-    this.setState({
-      messageImdbId,
-    });
-  }
+  };
 
   checkUrl = (url: string) => {
     const regex = /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&//=]*)/g;
@@ -155,7 +258,7 @@ export class NewMovie extends Component<Props, State> {
       <form className="form" onSubmit={this.onSubmitNewMovieForm}>
         <div className="form__item">
           <label htmlFor="title-input">
-            New movie title&nbsp;
+            New movie title *&nbsp;
             <input
               className={classNames('', { 'input-error': messageTitle })}
               name="title"
@@ -164,7 +267,7 @@ export class NewMovie extends Component<Props, State> {
               placeholder="Enter title of movie here"
               value={title}
               onChange={this.handleFormItemChange}
-              onBlur={this.handleOnBlurtTitle.bind(this)}
+              onBlur={this.handleOnBlur}
             />
             {messageTitle && (
               <div className="message-error">
@@ -189,7 +292,7 @@ export class NewMovie extends Component<Props, State> {
 
         <div className="form__item">
           <label htmlFor="imgUrl-input">
-            Link for avatar of movie&nbsp;
+            Link for avatar of movie *&nbsp;
             <input
               className={classNames('', { 'input-error': messageImgUrl })}
               name="imgUrl"
@@ -198,7 +301,7 @@ export class NewMovie extends Component<Props, State> {
               placeholder="Put link for avatar here"
               value={imgUrl}
               onChange={this.handleFormItemChange}
-              onBlur={this.handleOnBlurtImgUrl.bind(this)}
+              onBlur={this.handleOnBlur}
             />
             {messageImgUrl && (
               <div className="message-error">
@@ -210,7 +313,7 @@ export class NewMovie extends Component<Props, State> {
 
         <div className="form__item">
           <label htmlFor="imdbUrl-input">
-            Link for movie from IMDb&nbsp;
+            Link for movie from IMDb *&nbsp;
             <input
               className={classNames('', { 'input-error': messageImdbUrl })}
               name="imdbUrl"
@@ -219,7 +322,7 @@ export class NewMovie extends Component<Props, State> {
               placeholder="Put link of movie from IMDb here"
               value={imdbUrl}
               onChange={this.handleFormItemChange}
-              onBlur={this.handleOnBlurtImdbUrl.bind(this)}
+              onBlur={this.handleOnBlur}
             />
             {messageImdbUrl && (
               <div className="message-error">
@@ -231,7 +334,7 @@ export class NewMovie extends Component<Props, State> {
 
         <div className="form__item">
           <label htmlFor="imdbId-input">
-            ID from Internet Movie Database&nbsp;
+            ID from Internet Movie Database *&nbsp;
             <input
               className={classNames('', { 'input-error': messageImdbId })}
               name="imdbId"
@@ -240,7 +343,7 @@ export class NewMovie extends Component<Props, State> {
               placeholder="Enter id of movie from IMDb here"
               value={imdbId}
               onChange={this.handleFormItemChange}
-              onBlur={this.handleOnBlurtImdbId.bind(this)}
+              onBlur={this.handleOnBlur}
             />
             {messageImdbId && (
               <div className="message-error">
@@ -257,6 +360,11 @@ export class NewMovie extends Component<Props, State> {
         >
           Add new movie
         </button>
+        {!isFormValid && (
+          <div className="message-error">
+            Please fill all fields with *
+          </div>
+        )}
       </form>
     );
   }
