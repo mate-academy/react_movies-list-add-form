@@ -1,0 +1,62 @@
+input,
+textarea {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #bbb;
+  border-radius: 4px;
+  box-sizing: border-box;
+  box-shadow: 3px 2px 2px #ccc;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+button {
+  width: 100%;
+  background-color: #4caf50;
+  color: #fff;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  box-shadow: 3px 2px 2px #ccc;
+
+  &:hover {
+    background-color: #45a049;
+  }
+
+  &:disabled {
+    background-color: #bbb;
+    cursor: not-allowed;
+
+    &:hover {
+      background-color: #aaa;
+    }
+  }
+}
+
+.form {
+  background-color: #eee;
+  border-radius: 4px;
+  padding: 20px;
+
+  &__item:not(:last-child) {
+    margin-bottom: 20px;
+  }
+}
+
+.input-error {
+  border-color: red;
+}
+
+.message-error {
+  font-size: 12px;
+  color: red;
+}
+
+.content {
+  word-wrap: break-word;
+}
