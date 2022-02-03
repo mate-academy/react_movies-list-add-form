@@ -1,6 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-import { getInputValidationName, getInputFilledName, getValidationLoadingName } from '../../helpers';
+import { getInputValidationName, getInputFilledName } from '../../helpers';
 import './NewMovie.scss';
 
 enum Fields {
@@ -28,11 +28,7 @@ type State = Movie & {
   isImdbUrlFilled: boolean;
   isImdbIdFilled: boolean;
   wasSubmitButtonPressed: boolean;
-  titleValidationLoading: boolean;
-  descriptionValidationLoading: boolean;
-  imgUrlValidationLoading: boolean;
-  imdbUrlValidationLoading: boolean;
-  imdbIdValidationLoading: boolean;
+  typingTimeout: NodeJS.Timeout;
 };
 
 export class NewMovie extends React.Component<Props, State> {
@@ -53,11 +49,7 @@ export class NewMovie extends React.Component<Props, State> {
     isImdbUrlFilled: false,
     isImdbIdFilled: false,
     wasSubmitButtonPressed: false,
-    descriptionValidationLoading: false,
-    titleValidationLoading: false,
-    imgUrlValidationLoading: false,
-    imdbUrlValidationLoading: false,
-    imdbIdValidationLoading: false,
+    typingTimeout: setTimeout(() => {}, 0),
   };
 
   handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -148,7 +140,6 @@ export class NewMovie extends React.Component<Props, State> {
     const regex = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
     const isInputValid = getInputValidationName(name);
     const isInputFilled = getInputFilledName(name);
-    const isInputValidationLoading = getValidationLoadingName(name);
 
     switch (name) {
       case Fields.Title: {
@@ -156,7 +147,6 @@ export class NewMovie extends React.Component<Props, State> {
           ...state,
           [isInputValid]: !!value.trim(),
           [isInputFilled]: !!value.trim(),
-          [isInputValidationLoading]: false,
         }));
         break;
       }
@@ -166,7 +156,6 @@ export class NewMovie extends React.Component<Props, State> {
           ...state,
           [isInputValid]: true,
           [isInputFilled]: true,
-          [isInputValidationLoading]: false,
         }));
         break;
       }
@@ -177,7 +166,6 @@ export class NewMovie extends React.Component<Props, State> {
           ...state,
           [isInputValid]: regex.test(value),
           [isInputFilled]: !!value.trim(),
-          [isInputValidationLoading]: false,
         }));
         break;
       }
@@ -187,7 +175,6 @@ export class NewMovie extends React.Component<Props, State> {
           ...state,
           isImdbIdValid: !!value.trim() && !this.props.imdbIds.includes(value),
           [isInputFilled]: !!value.trim(),
-          [isInputValidationLoading]: false,
         }));
         break;
       }
@@ -200,18 +187,18 @@ export class NewMovie extends React.Component<Props, State> {
   onKeyUp = (event: React.KeyboardEvent<HTMLInputElement>
   | React.KeyboardEvent<HTMLTextAreaElement>) => {
     const { name, value } = event.currentTarget;
-    const isInputValidationLoading = getValidationLoadingName(name);
     const isInputFilled = getInputFilledName(name);
+    const { typingTimeout } = this.state;
 
-    if (value.trim()) {
-      this.setState((state) => ({
-        ...state,
-        [isInputValidationLoading]: true,
-        [isInputFilled]: false,
-      }));
+    clearTimeout(typingTimeout);
 
-      setTimeout(() => this.validateInput(name, value), 500);
-    }
+    this.setState((state) => ({
+      ...state,
+      [isInputFilled]: false,
+      typingTimeout: setTimeout(() => {
+        this.validateInput(name, value);
+      }, 700),
+    }));
   };
 
   disableButton = () => {
@@ -248,11 +235,6 @@ export class NewMovie extends React.Component<Props, State> {
       isImdbUrlFilled: false,
       isImdbIdFilled: false,
       wasSubmitButtonPressed: false,
-      descriptionValidationLoading: false,
-      titleValidationLoading: false,
-      imgUrlValidationLoading: false,
-      imdbUrlValidationLoading: false,
-      imdbIdValidationLoading: false,
     });
   };
 
@@ -273,11 +255,6 @@ export class NewMovie extends React.Component<Props, State> {
       isImgUrlFilled,
       isImdbUrlFilled,
       isImdbIdFilled,
-      titleValidationLoading,
-      descriptionValidationLoading,
-      imgUrlValidationLoading,
-      imdbUrlValidationLoading,
-      imdbIdValidationLoading,
     } = this.state;
 
     return (
@@ -312,9 +289,6 @@ export class NewMovie extends React.Component<Props, State> {
             {isTitleFilled && !isTitleValid && (
               <p className="help is-danger">This title is invalid</p>
             )}
-            {titleValidationLoading && (
-              <p className="help">Validating...</p>
-            )}
           </div>
 
           <div className="field">
@@ -339,9 +313,6 @@ export class NewMovie extends React.Component<Props, State> {
                 <span className="icon is-small is-right">
                   <i className="fas fa-check has-text-success" />
                 </span>
-              )}
-              {descriptionValidationLoading && (
-                <p className="help">Validating...</p>
               )}
             </div>
           </div>
@@ -374,9 +345,6 @@ export class NewMovie extends React.Component<Props, State> {
             {isImdbUrlFilled && !isImdbUrlValid && (
               <p className="help is-danger">This imdb url is invalid</p>
             )}
-            {imdbUrlValidationLoading && (
-              <p className="help">Validating...</p>
-            )}
           </div>
 
           <div className="field">
@@ -407,9 +375,6 @@ export class NewMovie extends React.Component<Props, State> {
             {isImgUrlFilled && !isImgUrlValid && (
               <p className="help is-danger">This img url is invalid</p>
             )}
-            {imgUrlValidationLoading && (
-              <p className="help">Validating...</p>
-            )}
           </div>
 
           <div className="field">
@@ -439,9 +404,6 @@ export class NewMovie extends React.Component<Props, State> {
             </div>
             {isImdbIdFilled && !isImdbIdValid && (
               <p className="help is-danger">This imdb url is invalid</p>
-            )}
-            {imdbIdValidationLoading && (
-              <p className="help">Validating...</p>
             )}
           </div>
 
