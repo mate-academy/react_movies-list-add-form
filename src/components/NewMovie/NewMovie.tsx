@@ -7,15 +7,15 @@ type Props = {
 };
 
 type State = {
-  title?: string,
+  title: string,
   description?: string,
-  imgUrl?: string,
-  imdbUrl?: string,
-  imdbId?: string,
-  showErrorTitle?: boolean,
-  showErrorImgUrl?: boolean,
-  showErrorImdbUrl?: boolean,
-  showErrorImdbId?: boolean,
+  imgUrl: string,
+  imdbUrl: string,
+  imdbId: string,
+  showErrorTitle: boolean,
+  showErrorImgUrl: boolean,
+  showErrorImdbUrl: boolean,
+  showErrorImdbId: boolean,
 };
 
 export class NewMovie extends Component<Props, State> {
@@ -37,10 +37,11 @@ export class NewMovie extends Component<Props, State> {
     const nameErrorFlag = `showError${name[0].toUpperCase() + name.slice(1)}`;
     const showErrorFlag = !value.length;
 
-    this.setState({
+    this.setState(prevState => ({
+      ...prevState,
       [name]: value,
       [nameErrorFlag]: showErrorFlag,
-    });
+    }));
   };
 
   handleSubmit = (event: React.ChangeEvent<HTMLFormElement>) => {
@@ -48,7 +49,6 @@ export class NewMovie extends Component<Props, State> {
 
     const {
       title,
-      description,
       imgUrl,
       imdbUrl,
       imdbId,
@@ -70,7 +70,7 @@ export class NewMovie extends Component<Props, State> {
       this.setState({ showErrorImdbId: true });
     }
 
-    if (!title || !description || !imgUrl || !imdbUrl || !imdbId) {
+    if (!title || !imgUrl || !imdbUrl || !imdbId) {
       return;
     }
 
@@ -110,7 +110,7 @@ export class NewMovie extends Component<Props, State> {
               className={classNames(
                 'form__input',
                 'card',
-                (showErrorTitle && 'form__input--error'),
+                showErrorTitle && 'form__input--error',
               )}
               name="title"
               type="text"
@@ -134,7 +134,7 @@ export class NewMovie extends Component<Props, State> {
               className={classNames(
                 'form__input',
                 'card',
-                (showErrorTitle && 'form__input--error'),
+                showErrorTitle && 'form__input--error',
               )}
               name="imgUrl"
               type="text"
@@ -149,7 +149,7 @@ export class NewMovie extends Component<Props, State> {
               className={classNames(
                 'form__input',
                 'card',
-                (showErrorTitle && 'form__input--error'),
+                showErrorTitle && 'form__input--error',
               )}
               name="imdbUrl"
               type="text"
@@ -164,7 +164,7 @@ export class NewMovie extends Component<Props, State> {
               className={classNames(
                 'form__input',
                 'card',
-                (showErrorTitle && 'form__input--error'),
+                showErrorTitle && 'form__input--error',
               )}
               name="imdbId"
               type="text"
