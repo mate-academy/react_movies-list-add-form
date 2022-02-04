@@ -28,16 +28,16 @@ export class NewMovie extends Component<Props, State> {
     hasImdbIdError: false,
   };
 
-  hasError = (name: string) => {
-    const ErrorName = name[0].toUpperCase() + name.slice(1);
+  getErrorName = (name: string) => {
+    const errorName = name[0].toUpperCase() + name.slice(1);
 
-    return `has${ErrorName}Error`;
+    return `has${errorName}Error`;
   };
 
   handleChange = (event: React.ChangeEvent<HTMLInputElement>
   | React.ChangeEvent<HTMLTextAreaElement>) => {
     const { name, value } = event.target;
-    const errorName = this.hasError(name);
+    const errorName = this.getErrorName(name);
 
     this.setState(state => ({
       ...state,
@@ -49,13 +49,12 @@ export class NewMovie extends Component<Props, State> {
   validateForm = () => {
     const {
       title,
-      description,
       imgUrl,
       imdbUrl,
       imdbId,
     } = this.state;
 
-    if (!title || !description || !imgUrl || !imdbUrl || !imdbId) {
+    if (!title || !imgUrl || !imdbUrl || !imdbId) {
       this.setState({
         hasTitleError: !title,
         hasImgUrlError: !imgUrl,
