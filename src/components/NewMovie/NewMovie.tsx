@@ -20,14 +20,8 @@ export class NewMovie extends Component<Props, State> {
     imdbId: '',
   };
 
-  handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState(state => ({
-      ...state,
-      [event.target.name]: event.target.value,
-    }));
-  };
-
-  hadnleTextareaChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+  handleChange = (event: React.ChangeEvent<HTMLInputElement>
+  | React.ChangeEvent<HTMLTextAreaElement>) => {
     this.setState(state => ({
       ...state,
       [event.target.name]: event.target.value,
@@ -70,6 +64,13 @@ export class NewMovie extends Component<Props, State> {
   };
 
   render() {
+    const {
+      title,
+      description,
+      imgUrl,
+      imdbId,
+    } = this.state;
+
     return (
 
       <>
@@ -80,16 +81,18 @@ export class NewMovie extends Component<Props, State> {
             type="text"
             name="title"
             placeholder="Title"
+            value={title}
             className="input"
-            onChange={this.handleInputChange}
+            onChange={this.handleChange}
             required
           />
 
           <textarea
             name="description"
             placeholder="Description"
+            value={description}
             className="textarea"
-            onChange={this.hadnleTextareaChange}
+            onChange={this.handleChange}
             required
           />
 
@@ -97,8 +100,9 @@ export class NewMovie extends Component<Props, State> {
             type="text"
             name="imgUrl"
             placeholder="Image Url"
+            value={imgUrl}
             className="input"
-            onChange={this.handleInputChange}
+            onChange={this.handleChange}
             required
           />
 
@@ -106,8 +110,9 @@ export class NewMovie extends Component<Props, State> {
             type="text"
             name="imdbId"
             placeholder="IMDB Id"
+            value={imdbId}
             className="input"
-            onChange={this.handleInputChange}
+            onChange={this.handleChange}
             required
           />
 
