@@ -28,7 +28,7 @@ export class App extends React.Component<{}, State> {
           <MoviesList movies={movies} />
         </div>
         <div className="sidebar">
-          <NewMovie addMovie={(movie: Movie) => this.addMovie(movie)} />
+          <NewMovie addMovie={this.addMovie} />
         </div>
       </div>
     );

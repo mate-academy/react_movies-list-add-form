@@ -3,7 +3,6 @@ import './NewMovie.scss';
 
 import cn from 'classnames';
 
-const imgLinkValidationRegEx = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)(\.jpg|\.jpeg|\.png)$/;
 const linkValidationRegEx = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
 
 type Props = {
@@ -16,9 +15,8 @@ type State = {
   imgUrl: string,
   imdbUrl: string,
   imdbId: string,
-  activeInputs: string[],
-  isUrlValid: boolean,
-  isImgUrlValid: boolean,
+  invalidInputs: string[],
+  touchedInputs: string[],
 };
 
 export class NewMovie extends Component<Props, State> {
@@ -28,104 +26,52 @@ export class NewMovie extends Component<Props, State> {
     imgUrl: '',
     imdbUrl: '',
     imdbId: '',
-    activeInputs: [],
-    isUrlValid: true,
-    isImgUrlValid: true,
+    invalidInputs: [],
+    touchedInputs: [],
   };
 
-  changeTitleHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target;
+  inputTextHandler = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { value, name } = event.target;
 
-    this.setState({
-      title: value,
-    });
+    this.setState(prevState => ({
+      ...prevState,
+      [name]: value,
+    }));
   };
 
-  changeDescriptionHandler = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const { value } = event.target;
-
-    this.setState({
-      description: String(value),
-    });
-  };
-
-  changeimgUrlHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target;
-
-    if (imgLinkValidationRegEx.test(value)) {
-      this.setState({
-        isImgUrlValid: true,
-      });
-    } else {
-      this.setState({
-        isImgUrlValid: false,
-      });
-    }
-
-    this.setState({
-      imgUrl: value,
-    });
-  };
-
-  changeimdbUrlHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target;
-
-    if (linkValidationRegEx.test(value)) {
-      this.setState({
-        isUrlValid: true,
-      });
-    } else {
-      this.setState({
-        isUrlValid: false,
-      });
-    }
-
-    this.setState({
-      imdbUrl: value,
-    });
-  };
-
-  selectInputHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+  inputValidation = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-    const { activeInputs } = this.state;
 
-    if ((name === 'imgUrl') && !imgLinkValidationRegEx.test(value)) {
-      this.setState({ isImgUrlValid: false });
-    }
-
-    if ((name === 'imdbUrl') && !linkValidationRegEx.test(value)) {
-      this.setState({ isUrlValid: false });
-    }
-
-    if (!activeInputs.includes(name)) {
+    if (
+      value.length === 0
+      || (name.includes('Url') && !linkValidationRegEx.test(value))
+    ) {
       this.setState(prevState => ({
-        activeInputs: [...prevState.activeInputs, name],
+        invalidInputs: prevState.invalidInputs.includes(name)
+          ? prevState.invalidInputs
+          : [...prevState.invalidInputs, name],
+      }));
+    } else {
+      this.setState(prevState => ({
+        invalidInputs: prevState.invalidInputs.filter(item => item !== name),
       }));
     }
   };
 
-  changeimdbIdHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target;
+  addTouchedInputs = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name } = event.target;
 
-    this.setState({
-      imdbId: value,
-    });
-  };
-
-  imgUrlOnBlur = () => {
-    if (!this.state.isImgUrlValid) {
-      this.setState({
-        imgUrl: '',
-      });
+    if (!this.state.touchedInputs.includes(name)) {
+      this.setState(prevState => ({
+        touchedInputs: [...prevState.touchedInputs, name],
+      }));
     }
   };
 
-  urlOnBlur = () => {
-    if (!this.state.isUrlValid) {
-      this.setState({
-        imdbUrl: '',
-      });
-    }
+  submitButtonStatus = () => {
+    const { invalidInputs, touchedInputs } = this.state;
+
+    return !(!invalidInputs.length && touchedInputs.length === 4);
   };
 
   onSubmitHandler = (event: React.ChangeEvent<HTMLFormElement>) => {
@@ -139,9 +85,7 @@ export class NewMovie extends Component<Props, State> {
       imgUrl: '',
       imdbUrl: '',
       imdbId: '',
-      activeInputs: [],
-      isUrlValid: true,
-      isImgUrlValid: true,
+      invalidInputs: [],
     });
   };
 
@@ -152,24 +96,63 @@ export class NewMovie extends Component<Props, State> {
       imgUrl,
       imdbUrl,
       imdbId,
-      activeInputs,
-      isUrlValid,
-      isImgUrlValid,
+      invalidInputs,
     } = this.state;
 
     return (
       <form onSubmit={this.onSubmitHandler}>
         <p>Title</p>
         <input
-          className={cn({ warning: !title && activeInputs.includes('title') })}
+          className={cn({ warning: invalidInputs.includes('title') })}
           type="text"
           name="title"
           value={title}
-          onFocus={this.selectInputHandler}
-          onChange={this.changeTitleHandler}
+          onFocus={this.addTouchedInputs}
+          onChange={this.inputTextHandler}
+          onBlur={this.inputValidation}
         />
-        {(title.length === 0 && activeInputs.includes('title')) && (
+        {invalidInputs.includes('title') && (
           <span>Enter a title!</span>
+        )}
+        <p>imgUrl</p>
+        <input
+          className={cn({ warning: invalidInputs.includes('imgUrl') })}
+          type="text"
+          name="imgUrl"
+          value={imgUrl}
+          onFocus={this.addTouchedInputs}
+          onChange={this.inputTextHandler}
+          onBlur={this.inputValidation}
+        />
+        {(invalidInputs.includes('imgUrl')) && (
+          <span>Invalid url!</span>
+        )}
+        <p>imdbUrl</p>
+        <input
+          className={cn({ warning: invalidInputs.includes('imdbUrl') })}
+          type="text"
+          name="imdbUrl"
+          value={imdbUrl}
+          onFocus={this.addTouchedInputs}
+          onChange={this.inputTextHandler}
+          onBlur={this.inputValidation}
+        />
+        {invalidInputs.includes('imdbUrl') && (
+          <span>Invalid url!</span>
+        )}
+        <p>imdbId</p>
+        <input
+          className={cn({ warning: invalidInputs.includes('imdbId') })}
+          type="text"
+          name="imdbId"
+          value={imdbId}
+          onFocus={this.addTouchedInputs}
+          onChange={this.inputTextHandler}
+          onBlur={this.inputValidation}
+          required
+        />
+        {invalidInputs.includes('imdbId') && (
+          <span>Enter an imdbId!</span>
         )}
         <p>Description</p>
         <textarea
@@ -177,50 +160,11 @@ export class NewMovie extends Component<Props, State> {
           name="description"
           id="description"
           value={description}
-          onChange={this.changeDescriptionHandler}
+          onChange={this.inputTextHandler}
         />
-        <p>imgUrl</p>
-        <input
-          className={cn({ warning: !isImgUrlValid && activeInputs.includes('imgUrl') })}
-          type="text"
-          name="imgUrl"
-          value={imgUrl}
-          onFocus={this.selectInputHandler}
-          onChange={this.changeimgUrlHandler}
-          onBlur={this.imgUrlOnBlur}
-        />
-        {(!isImgUrlValid && activeInputs.includes('imgUrl')) && (
-          <span>Invalid url!</span>
-        )}
-        <p>imdbUrl</p>
-        <input
-          className={cn({ warning: !isUrlValid && activeInputs.includes('imdbUrl') })}
-          type="text"
-          name="imdbUrl"
-          value={imdbUrl}
-          onFocus={this.selectInputHandler}
-          onChange={this.changeimdbUrlHandler}
-          onBlur={this.urlOnBlur}
-        />
-        {(!isUrlValid && activeInputs.includes('imdbUrl')) && (
-          <span>Invalid url!</span>
-        )}
-        <p>imdbId</p>
-        <input
-          className={cn({ warning: !imdbId && activeInputs.includes('imdbId') })}
-          type="text"
-          name="imdbId"
-          value={imdbId}
-          onFocus={this.selectInputHandler}
-          onChange={this.changeimdbIdHandler}
-          required
-        />
-        {(!imdbId && activeInputs.includes('imdbId')) && (
-          <span>Enter an imdbId!</span>
-        )}
         <div>
           <button
-            disabled={!(isImgUrlValid && isUrlValid && title.length && imdbId.length)}
+            disabled={this.submitButtonStatus()}
             type="submit"
           >
             Add movie
