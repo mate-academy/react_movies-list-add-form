@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './NewMovie.scss';
 import className from 'classnames';
 
@@ -7,22 +7,22 @@ type Props = {
 };
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
-  const [title, addTitle] = React.useState('');
-  const [imgUrl, addImgUrl] = React.useState('');
-  const [imdbUrl, addimdbUrl] = React.useState('');
-  const [imdbId, addimdbId] = React.useState('');
-  const [description, addDescription] = React.useState('');
-  const [imgUrlDirty, setImgUrlDirty] = React.useState(false);
-  const [errorImgUrl, setErrorImgUrl] = React.useState('Required field');
-  const [imdbUrlDirty, setImdbUrlDirty] = React.useState(false);
-  const [errorImdbUrl, setErrorImdbUrl] = React.useState('Required field');
+  const [title, setTitle] = useState('');
+  const [imgUrl, setImgUrl] = useState('');
+  const [imdbUrl, setimdbUrl] = useState('');
+  const [imdbId, setimdbId] = useState('');
+  const [description, setDescription] = useState('');
+  const [imgUrlDirty, setImgUrlDirty] = useState(false);
+  const [errorImgUrl, setErrorImgUrl] = useState('Required field');
+  const [imdbUrlDirty, setImdbUrlDirty] = useState(false);
+  const [errorImdbUrl, setErrorImdbUrl] = useState('Required field');
 
   const clearForm = () => {
-    addTitle('');
-    addImgUrl('');
-    addimdbId('');
-    addimdbUrl('');
-    addDescription('');
+    setTitle('');
+    setImgUrl('');
+    setimdbId('');
+    setimdbUrl('');
+    setDescription('');
     setImgUrlDirty(false);
     setImdbUrlDirty(false);
   };
@@ -80,7 +80,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="title"
         required
         value={title}
-        onChange={event => addTitle(event.target.value)}
+        onChange={event => setTitle(event.target.value)}
       />
       <input
         className={className('MoviesForm__place', { error: imgUrlDirty && errorImgUrl })}
@@ -91,7 +91,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={imgUrl}
         onBlur={urlHandler}
         onChange={event => {
-          addImgUrl(event.target.value);
+          setImgUrl(event.target.value);
           placeHandlerValidate(event, setErrorImgUrl);
         }}
       />
@@ -105,7 +105,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={imdbUrl}
         onBlur={urlHandler}
         onChange={event => {
-          addimdbUrl(event.target.value);
+          setimdbUrl(event.target.value);
           placeHandlerValidate(event, setErrorImdbUrl);
         }}
       />
@@ -117,14 +117,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbId"
         required
         value={imdbId}
-        onChange={event => addimdbId(event.target.value)}
+        onChange={event => setimdbId(event.target.value)}
       />
       <textarea
         className="MoviesForm__place MoviesForm__place--description"
         placeholder="Add description"
         name="description"
         value={description}
-        onChange={event => addDescription(event.target.value)}
+        onChange={event => setDescription(event.target.value)}
       />
       <button
         type="submit"
@@ -134,7 +134,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
           || (imdbUrlDirty && !!errorImdbUrl)
           || !imdbId}
       >
-        Submit
+        Add movie
       </button>
     </form>
   );
