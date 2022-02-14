@@ -1,0 +1,64 @@
+.MoviesForm {
+  display: flex;
+  flex-direction: column;
+  &__title {
+    font-size: 25px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  &__place {
+    padding: 5px;
+    width: 100%;
+    margin-bottom: 8px;
+    box-shadow: 0 0 5px 2px lightgray;
+    border: 2px solid lightgray;
+    &:focus {
+      border: 2px solid gray;
+      border-radius: 3px;
+      box-shadow: none;
+      outline: none;
+    }
+    &--description {
+      resize: vertical;
+      max-height: 300px;
+      min-height: 30px;
+    }
+  }
+  &__button {
+    cursor: pointer;
+    padding: 10px;
+    border: 1px solid lightblue;
+    font-size: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 5px 2px lightblue;
+    border: 2px solid transparent;
+    border-radius: 3px;
+    transition: background-color 0.3s, box-shadow 0.3s;
+    margin-top: 30px;
+    &:hover {
+      background-color: lightblue;
+      box-shadow: none;
+    }
+    &:focus {
+      border: 2px solid lightslategray;
+      outline: none;
+    }
+  }
+}
+.error{
+  border: 1px solid red;
+}
+
+button:disabled,
+button[disabled]{
+  border: 1px solid #999999;
+  background-color: #cccccc;
+  color: #666666;
+  box-shadow: none;
+  &:hover{
+    cursor: not-allowed;
+    background-color: #cccccc;
+    color: #666666;
+  }
+}
