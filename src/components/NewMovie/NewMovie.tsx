@@ -7,25 +7,31 @@ type Props = {
 };
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
-  const [title, setTitle] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setimdbUrl] = useState('');
-  const [imdbId, setimdbId] = useState('');
-  const [description, setDescription] = useState('');
-  const [imgUrlDirty, setImgUrlDirty] = useState(false);
-  const [errorImgUrl, setErrorImgUrl] = useState('Required field');
-  const [imdbUrlDirty, setImdbUrlDirty] = useState(false);
-  const [errorImdbUrl, setErrorImdbUrl] = useState('Required field');
+  const [state, setState] = useState({
+    title: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+    description: '',
+  });
 
   const clearForm = () => {
-    setTitle('');
-    setImgUrl('');
-    setimdbId('');
-    setimdbUrl('');
-    setDescription('');
-    setImgUrlDirty(false);
-    setImdbUrlDirty(false);
+    setState({
+      title: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+      description: '',
+    });
   };
+
+  const {
+    title,
+    imgUrl,
+    imdbUrl,
+    imdbId,
+    description,
+  } = state;
 
   const newMovie = {
     title,
@@ -40,6 +46,11 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     clearForm();
   };
 
+  const [imgUrlDirty, setImgUrlDirty] = useState(false);
+  const [errorImgUrl, setErrorImgUrl] = useState('Required field');
+  const [imdbUrlDirty, setImdbUrlDirty] = useState(false);
+  const [errorImdbUrl, setErrorImdbUrl] = useState('Required field');
+
   const urlHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     switch (event.target.name) {
       case 'imgUrl': setImgUrlDirty(true);
@@ -52,15 +63,16 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     }
   };
 
-  const placeHandlerValidate = (
-    event: React.ChangeEvent<HTMLInputElement>, state: (str: string) => void,
-  ) => {
-    const regExp = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
+  const regExp = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
 
+  const placeHandlerValidate = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    setErrorMessage: React.Dispatch<React.SetStateAction<string>>,
+  ): void | undefined => {
     if (!regExp.test(event.target.value.toLowerCase())) {
-      state('Invalid input format');
+      setErrorMessage('Not validate format');
     } else {
-      state('');
+      setErrorMessage('');
     }
   };
 
@@ -80,7 +92,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="title"
         required
         value={title}
-        onChange={event => setTitle(event.target.value)}
+        onChange={event => setState(prevState => ({ ...prevState, title: event.target.value }))}
       />
       <input
         className={className('MoviesForm__place', { error: imgUrlDirty && errorImgUrl })}
@@ -91,7 +103,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={imgUrl}
         onBlur={urlHandler}
         onChange={event => {
-          setImgUrl(event.target.value);
+          setState(prevState => ({ ...prevState, imgUrl: event.target.value }));
           placeHandlerValidate(event, setErrorImgUrl);
         }}
       />
@@ -105,7 +117,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={imdbUrl}
         onBlur={urlHandler}
         onChange={event => {
-          setimdbUrl(event.target.value);
+          setState(prevState => ({ ...prevState, imdbUrl: event.target.value }));
           placeHandlerValidate(event, setErrorImdbUrl);
         }}
       />
@@ -117,14 +129,16 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbId"
         required
         value={imdbId}
-        onChange={event => setimdbId(event.target.value)}
+        onChange={event => setState(prevState => ({ ...prevState, imdbId: event.target.value }))}
       />
       <textarea
         className="MoviesForm__place MoviesForm__place--description"
         placeholder="Add description"
         name="description"
         value={description}
-        onChange={event => setDescription(event.target.value)}
+        onChange={event => setState(prevState => ({
+          ...prevState, description: event.target.value,
+        }))}
       />
       <button
         type="submit"
