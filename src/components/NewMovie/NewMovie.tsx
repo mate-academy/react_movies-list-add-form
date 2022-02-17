@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 type Props = {
   addMovie: (movie: Movie) => void
@@ -6,13 +6,15 @@ type Props = {
 
 export const NewMovie: React.FC<Props> = ({ addMovie }) => {
   const [title, setTitle] = useState('');
+  // const [titleValidation, setTitleValidation] = useState(false);
   const [description, setDescription] = useState('');
   const [imgUrl, setImgUrl] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
-  // const [validationDataFields,
-  //   setIvalidationDataFields
-  // ] = useState(false);
+  const [validationDataFields,
+    setIvalidationDataFields,
+  ] = useState('');
+  const regex = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
 
   const enterTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
@@ -45,8 +47,22 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
       imdbId,
     };
 
-    addMovie(movie);
+    if (validationDataFields === 'valid') {
+      addMovie(movie);
+      setTitle('');
+      setDescription('');
+      setImgUrl('');
+      setImdbUrl('');
+      setImdbId('');
+      setIvalidationDataFields('');
+    }
   };
+
+  useEffect(() => {
+    if ([imgUrl, imdbUrl].every((item) => regex.test(item))) {
+      setIvalidationDataFields('valid');
+    }
+  }, [title, description, imgUrl, imdbUrl, imdbId]);
 
   return (
     <form
