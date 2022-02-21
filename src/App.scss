@@ -13,3 +13,23 @@
   padding: 20px;
   border-left: 1px solid lightgray;
 }
+
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+
+  &__lable {
+    display: grid;
+    grid-template-columns: repeat(2, 50%);
+  }
+
+  &__input {
+    outline-color: red;
+
+    &--valid {
+      outline-color: lime;
+    }
+  }
+}
