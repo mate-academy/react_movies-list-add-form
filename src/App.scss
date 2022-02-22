@@ -13,3 +13,24 @@
   padding: 20px;
   border-left: 1px solid lightgray;
 }
+
+input {
+  width: 100%;
+  margin: 20px 0 0;
+}
+
+button {
+  display: block;
+  margin: 20px auto;
+}
+
+input:active, input:focus, input:hover {
+  input:invalid {
+    background-color: #ffdddd;
+  }
+}
+
+input:valid {
+  background-color: #ddffdd;
+}
+
