@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import classNames from 'classnames';
 import React, { useState } from 'react';
 
@@ -22,15 +21,15 @@ const initialValidation: Validation = {
   imdbId: false,
 };
 
+const regex = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
+
 export const NewMovie: React.FC<Props> = ({ addMovie }) => {
   const [title, setTitle] = useState('');
-  // const [titleValidation, setTitleValidation] = useState(false);
   const [description, setDescription] = useState('');
   const [imgUrl, setImgUrl] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
   const [isInputValid, setIsInputValid] = useState(initialValidation);
-  const regex = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
 
   const enterTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
@@ -125,7 +124,7 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
         <div className="input__validation-text">
           {isInputValid.title
             ? '💪'
-            : 'Please enter some text'}
+            : <span>Please enter some text</span>}
         </div>
       </div>
 
@@ -207,7 +206,7 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
             id="imdbId"
             value={imdbId}
             className={setInputClass('imdbId')}
-            onBlur={checkUrl}
+            onBlur={checkText}
             onChange={enterImdbId}
           />
         </label>
