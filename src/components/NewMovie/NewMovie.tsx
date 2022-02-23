@@ -57,23 +57,25 @@ export const NewMovie:React.FC<Props> = ({ onAdd }) => {
 
   const isEnabled = !Object.keys(errors).some(x => errors[x as keyof Errors]);
 
+  const onFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const newMovie = {
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    };
+
+    clearInputs();
+    clearErrors();
+    onAdd(newMovie);
+  };
+
   return (
     <form
       className="form"
-      onSubmit={(event) => {
-        event.preventDefault();
-        const newMovie = {
-          title,
-          description,
-          imgUrl,
-          imdbUrl,
-          imdbId,
-        };
-
-        clearInputs();
-        clearErrors();
-        onAdd(newMovie);
-      }}
+      onSubmit={onFormSubmit}
     >
       <label
         className={classNames(
