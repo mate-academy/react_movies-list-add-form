@@ -6,6 +6,8 @@ type Props = {
   onAdd: (movie: Movie) => void,
 };
 
+const urlRegex = new RegExp(/^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w_-]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/);
+
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -23,30 +25,87 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrlIsDirty, setImdbUrlIsDirty] = useState(false);
   const [imdbIdIsDirty, setImdbIdIsDirty] = useState(false);
 
-  const urlRegex = new RegExp(/^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w_-]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/);
+  const addIsDisabled = (
+    titleIsInvalid
+    || imgUrlIsInvalid
+    || imdbIdIsInvalid
+    || imdbUrlIsInvalid
+  );
+
+  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const newMovie = {
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    };
+
+    setTitle('');
+    setDescription('');
+    setImgUrl('');
+    setImdbUrl('');
+    setImdbId('');
+
+    setTitleIsInvalid(true);
+    setImgUrlIsInvalid(true);
+    setImdbUrlIsInvalid(true);
+    setImdbIdIsInvalid(true);
+
+    setTitleIsDirty(false);
+    setImgUrlIsDirty(false);
+    setImdbUrlIsDirty(false);
+    setImdbIdIsDirty(false);
+
+    onAdd(newMovie);
+  };
+
+  const validateTitle = () => {
+    if (!titleIsDirty) {
+      setTitleIsDirty(true);
+    }
+
+    if (!title) {
+      setTitleIsInvalid(true);
+    }
+  };
+
+  const validateImgUrl = () => {
+    if (!imgUrlIsDirty) {
+      setImgUrlIsDirty(true);
+    }
+
+    if (!imgUrl.match(urlRegex)) {
+      setImgUrlIsInvalid(true);
+    }
+  };
+
+  const validateImdbUrl = () => {
+    if (!imdbUrlIsDirty) {
+      setImdbUrlIsDirty(true);
+    }
+
+    if (!imdbUrl.match(urlRegex)) {
+      setImdbUrlIsInvalid(true);
+    }
+  };
+
+  const validateImdbId = () => {
+    if (!imdbIdIsDirty) {
+      setImdbIdIsDirty(true);
+    }
+
+    if (!imdbId) {
+      setImdbIdIsInvalid(true);
+    }
+  };
 
   return (
     <form
       className="add-movie"
-      onSubmit={(event) => {
-        event.preventDefault();
-
-        const newMovie = {
-          title,
-          description,
-          imgUrl,
-          imdbUrl,
-          imdbId,
-        };
-
-        setTitle('');
-        setDescription('');
-        setImgUrl('');
-        setImdbUrl('');
-        setImdbId('');
-
-        onAdd(newMovie);
-      }}
+      onSubmit={onSubmit}
     >
       <div>
         <input
@@ -55,15 +114,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
           name="title"
           value={title}
           placeholder="Title"
-          onBlur={() => {
-            if (!titleIsDirty) {
-              setTitleIsDirty(true);
-            }
-
-            if (!title) {
-              setTitleIsInvalid(true);
-            }
-          }}
+          onBlur={validateTitle}
           onChange={(event) => {
             setTitleIsInvalid(false);
             setTitle(event.target.value);
@@ -79,9 +130,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
           name="description"
           value={description}
           placeholder="Description"
-          onChange={(event) => {
-            setDescription(event.target.value);
-          }}
+          onChange={(event) => setDescription(event.target.value)}
         />
       </div>
 
@@ -92,15 +141,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
           name="imgUrl"
           value={imgUrl}
           placeholder="Image URL"
-          onBlur={() => {
-            if (!imgUrlIsDirty) {
-              setImgUrlIsDirty(true);
-            }
-
-            if (!imgUrl.match(urlRegex)) {
-              setImgUrlIsInvalid(true);
-            }
-          }}
+          onBlur={validateImgUrl}
           onChange={(event) => {
             setImgUrlIsInvalid(false);
             setImgUrl(event.target.value);
@@ -116,15 +157,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
           name="imdbUrl"
           value={imdbUrl}
           placeholder="IMDB URL"
-          onBlur={() => {
-            if (!imdbUrlIsDirty) {
-              setImdbUrlIsDirty(true);
-            }
-
-            if (!imdbUrl.match(urlRegex)) {
-              setImdbUrlIsInvalid(true);
-            }
-          }}
+          onBlur={validateImdbUrl}
           onChange={(event) => {
             setImdbUrlIsInvalid(false);
             setImdbUrl(event.target.value);
@@ -140,15 +173,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
           name="imdbId"
           value={imdbId}
           placeholder="IMDB ID"
-          onBlur={() => {
-            if (!imdbIdIsDirty) {
-              setImdbIdIsDirty(true);
-            }
-
-            if (!imdbId) {
-              setImdbIdIsInvalid(true);
-            }
-          }}
+          onBlur={validateImdbId}
           onChange={(event) => {
             setImdbIdIsInvalid(false);
             setImdbId(event.target.value);
@@ -159,10 +184,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
       <button
         type="submit"
-        disabled={titleIsInvalid
-          || imgUrlIsInvalid
-          || imdbIdIsInvalid
-          || imdbUrlIsInvalid}
+        disabled={addIsDisabled}
       >
         Add movie
       </button>
