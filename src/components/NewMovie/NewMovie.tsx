@@ -30,8 +30,8 @@ export const NewMovie:React.FC<Props> = ({ addMovies }) => {
       imdbId,
     };
 
-    clearInputs();
     addMovies(newMovie);
+    clearInputs();
   };
 
   return (
