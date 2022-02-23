@@ -1,0 +1,22 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+
+  &__input {
+    width: 180px;
+
+    &--error {
+      &::after {
+        content: 'Invalid input';
+        color: red;
+      }
+    }
+  }
+}
+
+.error {
+  position: relative;
+  border: 2px solid red;
+}
