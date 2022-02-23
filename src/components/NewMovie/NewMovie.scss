@@ -1,0 +1,14 @@
+.add-movie {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+
+  margin: 0 auto;
+
+  text-align: center;
+
+  &__error {
+    color: red;
+  }
+}
