@@ -31,13 +31,21 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       onSubmit={(event) => {
         event.preventDefault();
 
-        onAdd({
+        const newMovie = {
           title,
           description,
           imgUrl,
           imdbUrl,
           imdbId,
-        });
+        };
+
+        setTitle('');
+        setDescription('');
+        setImgUrl('');
+        setImdbUrl('');
+        setImdbId('');
+
+        onAdd(newMovie);
       }}
     >
       <div>
