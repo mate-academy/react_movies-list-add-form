@@ -75,7 +75,13 @@ export const NewMovie:React.FC<Props> = ({ onAdd }) => {
         onAdd(newMovie);
       }}
     >
-      <label className="form__input" htmlFor="title">
+      <label
+        className={classNames(
+          'form__input',
+          { 'form__input--error': errors.title && touched.title },
+        )}
+        htmlFor="title"
+      >
         Title:
         <input
           type="text"
@@ -88,7 +94,7 @@ export const NewMovie:React.FC<Props> = ({ onAdd }) => {
           className={classNames({ error: errors.title && touched.title })}
         />
       </label>
-      <label className="form__input" htmlFor="description">
+      <label htmlFor="description" className="form__input">
         Description:
         <input
           type="text"
@@ -98,7 +104,13 @@ export const NewMovie:React.FC<Props> = ({ onAdd }) => {
           onChange={event => setDescription(event.target.value)}
         />
       </label>
-      <label className="form__input" htmlFor="imgUrl">
+      <label
+        className={classNames(
+          'form__input',
+          { 'form__input--error': errors.imgUrl && touched.imgUrl },
+        )}
+        htmlFor="imgUrl"
+      >
         Image Url:
         <input
           type="text"
@@ -111,7 +123,13 @@ export const NewMovie:React.FC<Props> = ({ onAdd }) => {
           className={classNames({ error: errors.imgUrl && touched.imgUrl })}
         />
       </label>
-      <label className="form__input" htmlFor="imdbUrl">
+      <label
+        className={classNames(
+          'form__input',
+          { 'form__input--error': errors.imdbUrl && touched.imdbUrl },
+        )}
+        htmlFor="imdbUrl"
+      >
         IMDB Url:
         <input
           type="text"
@@ -124,7 +142,13 @@ export const NewMovie:React.FC<Props> = ({ onAdd }) => {
           className={classNames({ error: errors.imdbUrl && touched.imdbUrl })}
         />
       </label>
-      <label className="form__input" htmlFor="imdbId">
+      <label
+        className={classNames(
+          'form__input',
+          { 'form__input--error': errors.imdbId && touched.imdbId },
+        )}
+        htmlFor="imdbId"
+      >
         IMDB Id:
         <input
           type="text"
