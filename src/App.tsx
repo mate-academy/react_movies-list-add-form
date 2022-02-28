@@ -17,7 +17,7 @@ export const App: React.FC = () => {
         <MoviesList movies={movies} />
       </div>
       <div className="sidebar">
-        <NewMovie addMovies={addMovie} />
+        <NewMovie onAdd={addMovie} />
       </div>
     </div>
   );
