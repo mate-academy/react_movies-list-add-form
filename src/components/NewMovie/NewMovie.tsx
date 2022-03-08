@@ -33,11 +33,44 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
 
   return (
     <form onSubmit={(event) => addNewFilm(event)}>
-      <input type="text" placeholder="title" value={title} onChange={(event) => setTitle(event.target.value)} required minLength={5} />
-      <input type="text" placeholder="description" value={description} onChange={(event) => setDescription(event.target.value)} required minLength={15} />
-      <input type="url" placeholder="imgUrl" pattern={regexForUrl} value={imgUrl} onChange={(event) => setimgUrl(event.target.value)} required />
-      <input type="url" placeholder="imdbUrl" pattern={regexForUrl} value={imdbUrl} onChange={(event) => setimdbUrl(event.target.value)} required />
-      <input type="text" placeholder="imdbId" value={imdbId} onChange={(event) => setimdbId(event.target.value)} required />
+      <input
+        type="text"
+        placeholder="title"
+        value={title}
+        onChange={(event) => setTitle(event.target.value)}
+        required
+        minLength={5}
+      />
+      <input
+        type="text"
+        placeholder="description"
+        value={description}
+        onChange={(event) => setDescription(event.target.value)}
+        minLength={15}
+      />
+      <input
+        type="url"
+        placeholder="imgUrl"
+        pattern={regexForUrl}
+        value={imgUrl}
+        onChange={(event) => setimgUrl(event.target.value)}
+        required
+      />
+      <input
+        type="url"
+        placeholder="imdbUrl"
+        pattern={regexForUrl}
+        value={imdbUrl}
+        onChange={(event) => setimdbUrl(event.target.value)}
+        required
+      />
+      <input
+        type="text"
+        placeholder="imdbId"
+        value={imdbId}
+        onChange={(event) => setimdbId(event.target.value)}
+        required
+      />
       <button type="submit" disabled={values.some(a => a.length === 0) || undefined}>Add</button>
     </form>
   );
