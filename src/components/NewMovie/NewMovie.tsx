@@ -6,6 +6,13 @@ type Props = {
   onAdd: (movie: Movie) => void,
 };
 
+type Errors = {
+  title: boolean,
+  imgUrl: boolean,
+  imdbUrl: boolean,
+  imdbId: boolean,
+};
+
 const urlRegex = new RegExp(/^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w_-]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/);
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
@@ -15,22 +22,21 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const [titleIsInvalid, setTitleIsInvalid] = useState(true);
-  const [imgUrlIsInvalid, setImgUrlIsInvalid] = useState(true);
-  const [imdbUrlIsInvalid, setImdbUrlIsInvalid] = useState(true);
-  const [imdbIdIsInvalid, setImdbIdIsInvalid] = useState(true);
+  const [isInvalid, setIsInvalid] = useState({
+    title: true,
+    imgUrl: true,
+    imdbUrl: true,
+    imdbId: true,
+  });
 
-  const [titleIsDirty, setTitleIsDirty] = useState(false);
-  const [imgUrlIsDirty, setImgUrlIsDirty] = useState(false);
-  const [imdbUrlIsDirty, setImdbUrlIsDirty] = useState(false);
-  const [imdbIdIsDirty, setImdbIdIsDirty] = useState(false);
+  const [isDirty, setIsDirty] = useState({
+    title: false,
+    imgUrl: false,
+    imdbUrl: false,
+    imdbId: false,
+  });
 
-  const addIsDisabled = (
-    titleIsInvalid
-    || imgUrlIsInvalid
-    || imdbIdIsInvalid
-    || imdbUrlIsInvalid
-  );
+  const submitIsDisabled = Object.values(isInvalid).some(value => value);
 
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -49,56 +55,53 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setImdbUrl('');
     setImdbId('');
 
-    setTitleIsInvalid(true);
-    setImgUrlIsInvalid(true);
-    setImdbUrlIsInvalid(true);
-    setImdbIdIsInvalid(true);
+    setIsInvalid({
+      title: true,
+      imgUrl: true,
+      imdbUrl: true,
+      imdbId: true,
+    });
 
-    setTitleIsDirty(false);
-    setImgUrlIsDirty(false);
-    setImdbUrlIsDirty(false);
-    setImdbIdIsDirty(false);
+    setIsDirty({
+      title: false,
+      imgUrl: false,
+      imdbUrl: false,
+      imdbId: false,
+    });
 
     onAdd(newMovie);
   };
 
-  const validateTitle = () => {
-    if (!titleIsDirty) {
-      setTitleIsDirty(true);
+  const validateField = (event: React.FocusEvent<HTMLInputElement>) => {
+    const field = event.target.name as keyof Errors;
+    const input = event.target.value;
+
+    if (!isDirty[field]) {
+      setIsDirty({
+        ...isDirty,
+        [field]: true,
+      });
     }
 
-    if (!title) {
-      setTitleIsInvalid(true);
-    }
-  };
+    switch (field) {
+      case 'imgUrl':
+      case 'imdbUrl':
+        if (!input.match(urlRegex)) {
+          setIsInvalid({
+            ...isInvalid,
+            [field]: true,
+          });
+        }
 
-  const validateImgUrl = () => {
-    if (!imgUrlIsDirty) {
-      setImgUrlIsDirty(true);
-    }
+        break;
 
-    if (!imgUrl.match(urlRegex)) {
-      setImgUrlIsInvalid(true);
-    }
-  };
-
-  const validateImdbUrl = () => {
-    if (!imdbUrlIsDirty) {
-      setImdbUrlIsDirty(true);
-    }
-
-    if (!imdbUrl.match(urlRegex)) {
-      setImdbUrlIsInvalid(true);
-    }
-  };
-
-  const validateImdbId = () => {
-    if (!imdbIdIsDirty) {
-      setImdbIdIsDirty(true);
-    }
-
-    if (!imdbId) {
-      setImdbIdIsInvalid(true);
+      default:
+        if (!input) {
+          setIsInvalid({
+            ...isInvalid,
+            [field]: true,
+          });
+        }
     }
   };
 
@@ -114,13 +117,13 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
           name="title"
           value={title}
           placeholder="Title"
-          onBlur={validateTitle}
+          onBlur={validateField}
           onChange={(event) => {
-            setTitleIsInvalid(false);
+            setIsInvalid({ ...isInvalid, title: false });
             setTitle(event.target.value);
           }}
         />
-        {titleIsDirty && titleIsInvalid && <p className="add-movie__error">Please enter a title</p>}
+        {isDirty.title && isInvalid.title && <p className="add-movie__error">Please enter a title</p>}
       </div>
 
       <div>
@@ -141,13 +144,13 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
           name="imgUrl"
           value={imgUrl}
           placeholder="Image URL"
-          onBlur={validateImgUrl}
+          onBlur={validateField}
           onChange={(event) => {
-            setImgUrlIsInvalid(false);
+            setIsInvalid({ ...isInvalid, imgUrl: false });
             setImgUrl(event.target.value);
           }}
         />
-        {imgUrlIsDirty && imgUrlIsInvalid && <p className="add-movie__error">Please enter a valid URL</p>}
+        {isDirty.imgUrl && isInvalid.imgUrl && <p className="add-movie__error">Please enter a valid URL</p>}
       </div>
 
       <div>
@@ -157,13 +160,13 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
           name="imdbUrl"
           value={imdbUrl}
           placeholder="IMDB URL"
-          onBlur={validateImdbUrl}
+          onBlur={validateField}
           onChange={(event) => {
-            setImdbUrlIsInvalid(false);
+            setIsInvalid({ ...isInvalid, imdbUrl: false });
             setImdbUrl(event.target.value);
           }}
         />
-        {imdbUrlIsDirty && imdbUrlIsInvalid && <p className="add-movie__error">Please enter a valid URL</p>}
+        {isDirty.imdbUrl && isInvalid.imdbUrl && <p className="add-movie__error">Please enter a valid URL</p>}
       </div>
 
       <div>
@@ -173,18 +176,18 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
           name="imdbId"
           value={imdbId}
           placeholder="IMDB ID"
-          onBlur={validateImdbId}
+          onBlur={validateField}
           onChange={(event) => {
-            setImdbIdIsInvalid(false);
+            setIsInvalid({ ...isInvalid, imdbId: false });
             setImdbId(event.target.value);
           }}
         />
-        {imdbIdIsDirty && imdbIdIsInvalid && <p className="add-movie__error">Please enter an IMDB ID</p>}
+        {isDirty.imdbId && isInvalid.imdbId && <p className="add-movie__error">Please enter an IMDB ID</p>}
       </div>
 
       <button
         type="submit"
-        disabled={addIsDisabled}
+        disabled={submitIsDisabled}
       >
         Add movie
       </button>
