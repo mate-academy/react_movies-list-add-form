@@ -38,40 +38,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
   const submitIsDisabled = Object.values(isInvalid).some(value => value);
 
-  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-    const newMovie = {
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    };
-
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
-
-    setIsInvalid({
-      title: true,
-      imgUrl: true,
-      imdbUrl: true,
-      imdbId: true,
-    });
-
-    setIsDirty({
-      title: false,
-      imgUrl: false,
-      imdbUrl: false,
-      imdbId: false,
-    });
-
-    onAdd(newMovie);
-  };
-
   const validateField = (event: React.FocusEvent<HTMLInputElement>) => {
     const field = event.target.name as keyof Errors;
     const input = event.target.value;
@@ -103,6 +69,43 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
           });
         }
     }
+  };
+
+  const resetForm = () => {
+    setTitle('');
+    setDescription('');
+    setImgUrl('');
+    setImdbUrl('');
+    setImdbId('');
+
+    setIsInvalid({
+      title: true,
+      imgUrl: true,
+      imdbUrl: true,
+      imdbId: true,
+    });
+
+    setIsDirty({
+      title: false,
+      imgUrl: false,
+      imdbUrl: false,
+      imdbId: false,
+    });
+  };
+
+  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const newMovie = {
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    };
+
+    resetForm();
+    onAdd(newMovie);
   };
 
   return (
