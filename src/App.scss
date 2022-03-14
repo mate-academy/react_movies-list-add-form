@@ -13,3 +13,10 @@
   padding: 20px;
   border-left: 1px solid lightgray;
 }
+
+.sidebar__form {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  gap: 20px;
+}
