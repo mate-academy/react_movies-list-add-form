@@ -12,4 +12,39 @@
 .sidebar {
   padding: 20px;
   border-left: 1px solid lightgray;
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+}
+
+.label {
+
+  &--error {
+    &::after {
+      content: 'Please enter data in correct format';
+      color: red;
+      font-weight: normal;
+    }
+  }
+}
+
+.input {
+
+  &--error {
+    position: relative;
+    display: block;
+    border-color: red;
+
+    &::after {
+      position: absolute;
+      content: "Please enter correct data";
+    }
+  }
+}
+
+.button {
+  width: 100%;
 }
