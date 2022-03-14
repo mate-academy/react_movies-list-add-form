@@ -37,11 +37,6 @@
     position: relative;
     display: block;
     border-color: red;
-
-    &::after {
-      position: absolute;
-      content: "Please enter correct data";
-    }
   }
 }
 
