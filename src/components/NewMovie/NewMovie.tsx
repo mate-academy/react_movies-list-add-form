@@ -24,24 +24,32 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbId, setImdbId] = useState('');
   const [hasImdbIdError, setImdbIdError] = useState(false);
 
+  const clearInputs = () => {
+    setTitle('');
+    setDescription('');
+    setImgUrl('');
+    setImdbUrl('');
+    setImdbId('');
+  };
+
+  const checkErrors = () => {
+    setTitileError(!title);
+    setDescriptionError(!description);
+    setImgUrlError(!imgUrl);
+    setImdbUrlError(!imdbUrl);
+    setImdbIdError(!imdbId);
+  };
+
   return (
     <form
       onSubmit={(event) => {
         event.preventDefault();
 
-        setTitileError(!title);
-        setDescriptionError(!description);
-        setImgUrlError(!imgUrl);
-        setImdbUrlError(!imdbUrl);
-        setImdbIdError(!imdbId);
+        checkErrors();
 
         if (title && description && imgUrl && imdbUrl && imdbId) {
           onAdd(title, description, imgUrl, imdbUrl, imdbId);
-          setTitle('');
-          setDescription('');
-          setImgUrl('');
-          setImdbUrl('');
-          setImdbId('');
+          clearInputs();
         }
       }}
     >
