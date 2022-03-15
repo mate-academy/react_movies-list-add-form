@@ -1,0 +1,13 @@
+.add {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 20px;
+
+  margin: 0 auto;
+}
+
+.error {
+  border: 1px solid red;
+}
