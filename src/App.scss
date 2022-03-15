@@ -20,6 +20,16 @@
   }
 }
 
+.message {
+  color: red;
+  font-weight: normal;
+  background: white;
+
+  &--hidden {
+    display: none;
+  }
+}
+
 .label {
 
   &--error {

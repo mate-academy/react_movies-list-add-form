@@ -5,6 +5,8 @@ type Props = {
   onAdd: (movie: Movie) => void,
 };
 
+const regex = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
+
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -12,13 +14,20 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const [isTitleError, setIsTitleError] = useState(false);
-  const [isImgUrlError, setIsImgUrlError] = useState(false);
-  const [isImdbUrlError, setIsImdbUrlError] = useState(false);
-  const [isImdbIdError, setIsImdbIdError] = useState(false);
+  const [isTitleTouched, setIsTitleTouched] = useState(false);
+  const [isImgUrlTouched, setIsImgUrlTouched] = useState(false);
+  const [isImdbUrlTouched, setIsImdbUrlTouched] = useState(false);
+  const [isImdbIdTouched, setIsImdbIdTouched] = useState(false);
 
   const isUrl = (url: string) => {
-    return /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/.test(url);
+    return regex.test(url);
+  };
+
+  const errors = {
+    title: title.trim().length === 0,
+    imgUrl: imgUrl.trim().length === 0 || !isUrl(imgUrl),
+    imdbUrl: imdbUrl.trim().length === 0 || !isUrl(imdbUrl),
+    imdbId: imdbId.trim().length === 0,
   };
 
   const isButtonDisabled = () => {
@@ -29,11 +38,11 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     return true;
   };
 
-  const resetErrors = () => {
-    setIsTitleError(false);
-    setIsImgUrlError(false);
-    setIsImdbUrlError(false);
-    setIsImdbIdError(false);
+  const resetTouchInfo = () => {
+    setIsTitleTouched(false);
+    setIsImgUrlTouched(false);
+    setIsImdbUrlTouched(false);
+    setIsImdbIdTouched(false);
   };
 
   const resetInputs = () => {
@@ -46,6 +55,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
   const onSubmitForm = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
     onAdd({
       title,
       description,
@@ -55,7 +65,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     });
 
     resetInputs();
-    resetErrors();
+    resetTouchInfo();
   };
 
   return (
@@ -63,29 +73,36 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       className="form"
       onSubmit={onSubmitForm}
     >
-      <label
-        htmlFor="title"
-        className={classNames('label', { 'label--error': isTitleError })}
-      >
+
+      <label htmlFor="title" className="label">
         <input
-          className={classNames('input', { 'input--error': isTitleError })}
+          className={classNames(
+            'input',
+            { 'input--error': isTitleTouched && errors.title },
+          )}
           type="text"
-          id="title"
+          id={title}
           placeholder="Title"
           value={title}
           onChange={(event) => setTitle(event.target.value)}
-          onBlur={() => setIsTitleError(!title.trim())}
+          onBlur={() => setIsTitleTouched(true)}
         />
+
+        <div
+          className={classNames(
+            'message',
+            { 'message--hidden': !isTitleTouched || !errors.title },
+          )}
+        >
+          Please enter data in correct format
+        </div>
       </label>
 
-      <label
-        htmlFor="description"
-        className="label"
-      >
+      <label htmlFor="description" className="label">
         <input
           className="input"
           type="text"
-          id="description"
+          id={description}
           placeholder="Description"
           value={description}
           onChange={(event) => setDescription(event.target.value)}
@@ -94,47 +111,80 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
       <label
         htmlFor="imgUrl"
-        className={classNames('label', { 'label--error': isImgUrlError })}
+        className="label"
       >
         <input
-          className={classNames('input', { 'input--error': isImgUrlError })}
+          className={classNames(
+            'input',
+            { 'input--error': isImgUrlTouched && errors.imgUrl },
+          )}
           type="text"
           id="imgUrl"
           placeholder="Image Url"
           value={imgUrl}
           onChange={(event) => setImgUrl(event.target.value)}
-          onBlur={() => setIsImgUrlError(!isUrl(imgUrl))}
+          onBlur={() => setIsImgUrlTouched(true)}
         />
+
+        <div
+          className={classNames(
+            'message',
+            { 'message--hidden': !isImgUrlTouched || !errors.imgUrl },
+          )}
+        >
+          Please enter data in correct format
+        </div>
       </label>
 
-      <label
-        htmlFor="title"
-        className={classNames('label', { 'label--error': isImdbUrlError })}
-      >
+      <label htmlFor="imdbUrl" className="label">
         <input
-          className={classNames('input', { 'input--error': isImdbUrlError })}
+          className={classNames(
+            'input',
+            { 'input--error': isImdbUrlTouched && errors.imdbUrl },
+          )}
           type="text"
           id="imdbUrl"
           placeholder="IMDB Url"
           value={imdbUrl}
           onChange={event => setImdbUrl(event.target.value)}
-          onBlur={() => setIsImdbUrlError(!isUrl(imdbUrl))}
+          onBlur={() => setIsImdbUrlTouched(true)}
         />
+
+        <div
+          className={classNames(
+            'message',
+            { 'message--hidden': !isImdbUrlTouched || !errors.imdbUrl },
+          )}
+        >
+          Please enter data in correct format
+        </div>
       </label>
 
       <label
         htmlFor="imdbId"
-        className={classNames('label', { 'label--error': isImdbIdError })}
+        className="label"
       >
         <input
-          className={classNames('input', { 'input--error': isImdbIdError })}
+          className={classNames(
+            'input',
+            { 'input--error': isImdbIdTouched && errors.imdbId },
+          )}
           type="text"
           id="imdbId"
           placeholder="IMDB Id"
           value={imdbId}
           onChange={(event) => setImdbId(event.target.value)}
-          onBlur={() => setIsImdbIdError(!imdbId.trim())}
+          onBlur={() => setIsImdbIdTouched(true)}
         />
+
+        <div
+          className={classNames(
+            'message',
+            { 'message--hidden': !isImdbIdTouched || !errors.imdbId },
+          )}
+        >
+          Please enter data in correct format
+        </div>
       </label>
 
       <button
