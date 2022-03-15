@@ -12,4 +12,33 @@
 .sidebar {
   padding: 20px;
   border-left: 1px solid lightgray;
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+}
+
+.message {
+  color: red;
+  font-weight: normal;
+  background: white;
+
+  &--hidden {
+    display: none;
+  }
+}
+
+.input {
+
+  &--error {
+    position: relative;
+    display: block;
+    border-color: red;
+  }
+}
+
+.button {
+  width: 100%;
 }
