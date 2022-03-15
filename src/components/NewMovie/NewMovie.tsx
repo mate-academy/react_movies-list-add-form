@@ -11,7 +11,8 @@ type State = {
   imgUrl: string;
   imdbUrl: string;
   imdbId: string;
-  isValid: boolean;
+  isValidImgUrl: boolean;
+  isValidImdbUrl: boolean;
 };
 
 export class NewMovie extends Component<Props, State> {
@@ -21,7 +22,8 @@ export class NewMovie extends Component<Props, State> {
     imgUrl: '',
     imdbUrl: '',
     imdbId: '',
-    isValid: true,
+    isValidImgUrl: true,
+    isValidImdbUrl: true,
   };
 
   validUrl = (str: string) => {
@@ -66,11 +68,19 @@ export class NewMovie extends Component<Props, State> {
     });
   };
 
-  blurHandler = (event: string) => {
-    if (this.validUrl(event)) {
-      this.setState({ isValid: true });
+  blurHandlerImgUrl = () => {
+    if (this.validUrl(this.state.imgUrl)) {
+      this.setState({ isValidImgUrl: true });
     } else {
-      this.setState({ isValid: false });
+      this.setState({ isValidImgUrl: false });
+    }
+  };
+
+  blurHandlerImdbUrl = () => {
+    if (this.validUrl(this.state.imdbUrl)) {
+      this.setState({ isValidImdbUrl: true });
+    } else {
+      this.setState({ isValidImdbUrl: false });
     }
   };
 
@@ -104,11 +114,9 @@ export class NewMovie extends Component<Props, State> {
             onChange={(event) => this.setState({
               imgUrl: event.target.value,
             })}
-            onBlur={(event) => this.blurHandler(event.target.value)}
+            onBlur={this.blurHandlerImgUrl}
           />
-          {!this.state.isValid
-            && !this.validUrl(this.state.imgUrl)
-            && <span className="error">Enter valid URL!</span>}
+          {!this.state.isValidImgUrl && <span className="error">Enter valid URL!</span>}
         </label>
         <label className="form__input" htmlFor="imdbUrl">
           Imdb URL:
@@ -121,11 +129,9 @@ export class NewMovie extends Component<Props, State> {
             onChange={(event) => this.setState({
               imdbUrl: event.target.value,
             })}
-            onBlur={(event) => this.blurHandler(event.target.value)}
+            onBlur={this.blurHandlerImdbUrl}
           />
-          {!this.state.isValid
-            && !this.validUrl(this.state.imdbUrl)
-            && <span className="error">Enter valid URL!</span>}
+          {!this.state.isValidImdbUrl && <span className="error">Enter valid URL!</span>}
         </label>
         <label className="form__input" htmlFor="imdbId">
           Imdb ID:
@@ -154,6 +160,11 @@ export class NewMovie extends Component<Props, State> {
         </label>
         <button
           type="submit"
+          disabled={!this.state.title
+            || !this.state.description
+            || !this.state.imdbId
+            || !this.state.imdbUrl
+            || !this.state.imgUrl}
         >
           Add
         </button>
