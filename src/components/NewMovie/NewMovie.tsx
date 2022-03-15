@@ -14,11 +14,11 @@ type Validation = {
 };
 
 const initialValidation: Validation = {
-  title: false,
+  title: true,
   description: true,
-  imgUrl: false,
-  imdbUrl: false,
-  imdbId: false,
+  imgUrl: true,
+  imdbUrl: true,
+  imdbId: true,
 };
 
 const regex = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
@@ -122,9 +122,7 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
         </label>
 
         <div className="input__validation-text">
-          {isInputValid.title
-            ? '💪'
-            : <span>Please enter some text</span>}
+          {!isInputValid.title && <span>Please enter some text</span>}
         </div>
       </div>
 
@@ -143,9 +141,7 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
         </label>
 
         <div className="input__validation-text">
-          {isInputValid.description
-            ? '💪'
-            : 'Please enter some text'}
+          {!isInputValid.description && 'Please enter some text'}
         </div>
 
       </div>
@@ -166,9 +162,7 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
         </label>
 
         <div className="input__validation-text">
-          {isInputValid.imgUrl
-            ? '💪'
-            : 'please enter valid URL'}
+          {!isInputValid.imgUrl && 'please enter valid URL'}
         </div>
       </div>
 
@@ -189,9 +183,7 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
         </label>
 
         <div className="input__validation-text">
-          {isInputValid.imdbUrl
-            ? '💪'
-            : 'please enter valid URL'}
+          {!isInputValid.imdbUrl && 'please enter valid URL'}
         </div>
 
       </div>
@@ -212,9 +204,7 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
         </label>
 
         <div className="input__validation-text">
-          {isInputValid.imdbId
-            ? '💪'
-            : 'please enter valid URL'}
+          {!isInputValid.imdbId && 'please enter valid URL'}
         </div>
 
       </div>
