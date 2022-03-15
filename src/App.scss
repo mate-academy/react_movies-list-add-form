@@ -30,17 +30,6 @@
   }
 }
 
-.label {
-
-  &--error {
-    &::after {
-      content: 'Please enter data in correct format';
-      color: red;
-      font-weight: normal;
-    }
-  }
-}
-
 .input {
 
   &--error {
