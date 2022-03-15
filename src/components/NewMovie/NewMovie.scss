@@ -1,0 +1,17 @@
+.addTitle {
+  font-size: 44px;
+  text-align: center;
+  padding-bottom: 20px;
+}
+
+.addForm {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  gap: 25px;
+  width: 75%;
+}
+
+.error {
+  border: solid 2px red;
+}
