@@ -11,8 +11,8 @@ const isInvalid = (value: string, name = '') => {
   switch (name) {
     case 'imgUrl':
     case 'imdbUrl':
-      return !/^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/
-        .test(name);
+      return !(/^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/
+        .test(value));
 
     default:
       return value === '';
@@ -33,14 +33,6 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
     isImgUrlInvalid: false,
     isImdbUrlInvalid: false,
     isImdbIdInvalid: false,
-  });
-
-  const [wereInputsTouched, setWereInputsTouched] = useState({
-    wasTitleTouched: false,
-    wasDescriptionTouched: false,
-    wasImgUrlTouched: false,
-    wasImdbUrlTouched: false,
-    wasImdbIdTouched: false,
   });
 
   const clearForm = () => {
@@ -66,6 +58,17 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
     clearForm();
   };
 
+  const onInputBlur = (
+    isInvalidName: string,
+    value: string,
+    name: string,
+  ) => {
+    setInputsValidations({
+      ...inputsValidations,
+      [isInvalidName]: isInvalid(value, name),
+    });
+  };
+
   const {
     isTitleInvalid,
     isImgUrlInvalid,
@@ -85,17 +88,11 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
         onChange={event => {
           setTitle(event.target.value);
         }}
-        onBlur={() => {
-          setInputsValidations({
-            ...inputsValidations,
-            isTitleInvalid: isInvalid(title),
-          });
-
-          setWereInputsTouched({
-            ...wereInputsTouched,
-            wasTitleTouched: true,
-          });
-        }}
+        onBlur={() => onInputBlur(
+          'isTitleInvalid',
+          title,
+          'title',
+        )}
         className={
           classNames(
             'form__input',
@@ -106,7 +103,6 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
         }
         placeholder="title"
         autoComplete="off"
-        required
       />
 
       <p className="error">{isTitleInvalid && errorMessage}</p>
@@ -128,17 +124,11 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
         onChange={event => {
           setImgUrl(event.target.value);
         }}
-        onBlur={(event) => {
-          setInputsValidations({
-            ...inputsValidations,
-            isImgUrlInvalid: isInvalid(imgUrl, event.target.name),
-          });
-
-          setWereInputsTouched({
-            ...wereInputsTouched,
-            wasImgUrlTouched: true,
-          });
-        }}
+        onBlur={() => onInputBlur(
+          'isImgUrlInvalid',
+          imgUrl,
+          'imgUrl',
+        )}
         className={
           classNames(
             'form__input',
@@ -149,7 +139,6 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
         }
         placeholder="img url"
         autoComplete="off"
-        required
       />
 
       <p className="error">{isImgUrlInvalid && errorMessage}</p>
@@ -159,17 +148,11 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
         name="imdbUrl"
         value={imdbUrl}
         onChange={event => setImdbUrl(event.target.value)}
-        onBlur={(event) => {
-          setInputsValidations({
-            ...inputsValidations,
-            isImdbUrlInvalid: isInvalid(imdbUrl, event.target.name),
-          });
-
-          setWereInputsTouched({
-            ...wereInputsTouched,
-            wasImdbUrlTouched: true,
-          });
-        }}
+        onBlur={() => onInputBlur(
+          'isImdbUrlInvalid',
+          imdbUrl,
+          'imdbUrl',
+        )}
         className={
           classNames(
             'form__input',
@@ -180,7 +163,6 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
         }
         placeholder="imdb url"
         autoComplete="off"
-        required
       />
 
       <p className="error">{isImdbUrlInvalid && errorMessage}</p>
@@ -190,17 +172,11 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
         name="imdbId"
         value={imdbId}
         onChange={event => setImdbId(event.target.value)}
-        onBlur={() => {
-          setInputsValidations({
-            ...inputsValidations,
-            isImdbIdInvalid: isInvalid(imdbId),
-          });
-
-          setWereInputsTouched({
-            ...wereInputsTouched,
-            wasImdbIdTouched: true,
-          });
-        }}
+        onBlur={() => onInputBlur(
+          'isImdbIdInvalid',
+          imdbId,
+          'imdbId',
+        )}
         className={
           classNames(
             'form__input',
@@ -211,7 +187,6 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
         }
         placeholder="imdb id"
         autoComplete="off"
-        required
       />
 
       <p className="error">{isImdbIdInvalid && errorMessage}</p>
