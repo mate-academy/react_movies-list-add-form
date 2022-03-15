@@ -1,11 +1,7 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 type Props = {
-  onAdd: (newTitle: string,
-    newDesctiption: string,
-    newImgUrl: string,
-    newImdbUrl: string,
-    newImdbId: string,) => void
+  onAdd: (movie: Movie) => void
 };
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
@@ -13,7 +9,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [hasTitileError, setTitileError] = useState(false);
 
   const [description, setDescription] = useState('');
-  const [hasDescriptionError, setDescriptionError] = useState(false);
 
   const [imgUrl, setImgUrl] = useState('');
   const [hasImgUrlError, setImgUrlError] = useState(false);
@@ -34,24 +29,28 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
   const checkErrors = () => {
     setTitileError(!title);
-    setDescriptionError(!description);
     setImgUrlError(!imgUrl);
     setImdbUrlError(!imdbUrl);
     setImdbIdError(!imdbId);
   };
 
+  const haldleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    checkErrors();
+
+    if (title && imgUrl && imdbUrl && imdbId) {
+      onAdd({
+        title, description, imgUrl, imdbUrl, imdbId,
+      });
+
+      clearInputs();
+    }
+  };
+
   return (
     <form
-      onSubmit={(event) => {
-        event.preventDefault();
-
-        checkErrors();
-
-        if (title && description && imgUrl && imdbUrl && imdbId) {
-          onAdd(title, description, imgUrl, imdbUrl, imdbId);
-          clearInputs();
-        }
-      }}
+      onSubmit={haldleSubmit}
     >
       <input
         type="text"
@@ -66,12 +65,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
       <input
         type="text"
-        className={hasDescriptionError ? 'error' : ''}
         placeholder="Description"
         value={description}
         onChange={(event) => {
           setDescription(event.target.value);
-          setDescriptionError(false);
         }}
       />
 
