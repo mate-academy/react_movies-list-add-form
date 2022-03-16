@@ -11,6 +11,10 @@ export const NewMovie: React.FC<Props> = ({ addNewMovie }) => {
   const [imgUrl, setImgUrl] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
+  const [titleCheck, setTitleCheck] = useState(false);
+  const [imgUrlCheck, setImgUrlCheck] = useState(false);
+  const [imdbUrlCheck, setImdbUrlCheck] = useState(false);
+  const [imdbIdCheck, setImdbIdCheck] = useState(false);
 
   const clear = () => {
     setTitle('');
@@ -18,6 +22,24 @@ export const NewMovie: React.FC<Props> = ({ addNewMovie }) => {
     setImgUrl('');
     setImdbUrl('');
     setImdbId('');
+  };
+
+  const inputError = () => {
+    if (title === '') {
+      setTitleCheck(true);
+    }
+
+    if (imgUrl === '') {
+      setImgUrlCheck(true);
+    }
+
+    if (imdbUrl === '') {
+      setImdbUrlCheck(true);
+    }
+
+    if (imdbId === '') {
+      setImdbIdCheck(true);
+    }
   };
 
   const onAdd = (event: React.FormEvent) => {
@@ -31,8 +53,12 @@ export const NewMovie: React.FC<Props> = ({ addNewMovie }) => {
       imdbId,
     };
 
-    addNewMovie(newMovie);
-    clear();
+    inputError();
+
+    if (title && imgUrl && imdbUrl && imdbId) {
+      addNewMovie(newMovie);
+      clear();
+    }
   };
 
   return (
@@ -46,9 +72,10 @@ export const NewMovie: React.FC<Props> = ({ addNewMovie }) => {
         value={title}
         onChange={event => {
           setTitle(event.target.value);
+          setTitleCheck(false);
         }}
-        required
       />
+      {titleCheck && <p className="error">This field cannot be empty!</p>}
       <input
         type="text"
         placeholder="Description"
@@ -63,27 +90,30 @@ export const NewMovie: React.FC<Props> = ({ addNewMovie }) => {
         value={imgUrl}
         onChange={event => {
           setImgUrl(event.target.value);
+          setImgUrlCheck(false);
         }}
-        required
       />
+      {imgUrlCheck && <p className="error">This field cannot be empty!</p>}
       <input
         type="text"
         placeholder="imdbUrl"
         value={imdbUrl}
         onChange={event => {
           setImdbUrl(event.target.value);
+          setImdbUrlCheck(false);
         }}
-        required
       />
+      {imdbUrlCheck && <p className="error">This field cannot be empty!</p>}
       <input
         type="text"
         placeholder="imdbId"
         value={imdbId}
         onChange={event => {
           setImdbId(event.target.value);
+          setImdbIdCheck(false);
         }}
-        required
       />
+      {imdbIdCheck && <p className="error">This field cannot be empty!</p>}
       <button type="submit">Add</button>
     </form>
   );
