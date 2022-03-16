@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import React, { useState } from 'react';
 import './NewMovie.scss';
 
@@ -13,14 +14,12 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbId, setImdbId] = useState('');
 
   const [titleError, setTitleError] = useState(false);
-  const [descriptionError, setDescriptionError] = useState(false);
   const [imgUrlError, setImgUrlError] = useState(false);
-  const [ImdbUrlError, setImdbUrlError] = useState(false);
+  const [imdbUrlError, setImdbUrlError] = useState(false);
   const [imdbIdError, setImdbIdError] = useState(false);
 
   const checkErrors = () => {
     setTitleError(!title);
-    setDescriptionError(!description);
     setImgUrlError(!imgUrl);
     setImdbUrlError(!imdbUrl);
     setImdbIdError(!imdbId);
@@ -38,7 +37,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     event.preventDefault();
 
     checkErrors();
-    if (title && description && imgUrl && imdbUrl && imdbId) {
+    if (title && imgUrl && imdbUrl && imdbId) {
       onAdd({
         title,
         description,
@@ -61,7 +60,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         onSubmit={onSubmit}
       >
         <input
-          className={titleError ? 'error' : ''}
+          className={classNames({ error: titleError })}
           type="text"
           id="title"
           name="title"
@@ -73,7 +72,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
           }}
         />
         <input
-          className={descriptionError ? 'error' : ''}
           type="text"
           id="description"
           name="description"
@@ -81,11 +79,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
           placeholder="Description"
           onChange={(event) => {
             setDescription(event.target.value);
-            setDescriptionError(false);
           }}
         />
         <input
-          className={imgUrlError ? 'error' : ''}
+          className={classNames({ error: imgUrlError })}
           type="text"
           id="imgUrl"
           name="imgUrl"
@@ -93,11 +90,11 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
           placeholder="Img Url"
           onChange={(event) => {
             setImgUrl(event.target.value);
-            setImdbUrlError(false);
+            setImgUrlError(false);
           }}
         />
         <input
-          className={ImdbUrlError ? 'error' : ''}
+          className={classNames({ error: imdbUrlError })}
           type="text"
           id="imdbUrl"
           name="imdbUrl"
@@ -109,7 +106,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
           }}
         />
         <input
-          className={imdbIdError ? 'error' : ''}
+          className={classNames({ error: imdbIdError })}
           type="text"
           id="imdbId"
           name="imdbId"
