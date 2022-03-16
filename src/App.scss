@@ -13,3 +13,24 @@
   padding: 20px;
   border-left: 1px solid lightgray;
 }
+
+.message {
+  &--error {
+    color: red;
+    font-weight: normal;
+    background: white;
+  }
+}
+
+.input {
+
+  &--error {
+    position: relative;
+    display: block;
+    border-color: red;
+  }
+}
+
+.button {
+  width: 100%;
+}
