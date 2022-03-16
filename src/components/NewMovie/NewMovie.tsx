@@ -1,13 +1,7 @@
 import React, { useState } from 'react';
 
 type NewMovieProps = {
-  onAdd: (
-    title: string,
-    description: string,
-    imgUrl: string,
-    imdbUrl: string,
-    imdbId: string,
-  ) => void,
+  onAdd: (movie: Movie) => void,
 };
 
 export const NewMovie: React.FC<NewMovieProps> = ({
@@ -19,12 +13,26 @@ export const NewMovie: React.FC<NewMovieProps> = ({
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const reset = () => {
+  const resetInputs = () => {
     setTitle('');
     setDescription('');
     setImdbId('');
     setImdbUrl('');
     setImgUrl('');
+  };
+
+  const onSubmitForm = (check: string[]) => {
+    if (check.every(el => el)) {
+      onAdd({
+        title,
+        description,
+        imgUrl,
+        imdbUrl,
+        imdbId,
+      });
+
+      resetInputs();
+    }
   };
 
   return (
@@ -33,19 +41,9 @@ export const NewMovie: React.FC<NewMovieProps> = ({
       onSubmit={(event) => {
         event.preventDefault();
 
-        const check: string[] = [title, description, imdbId, imgUrl, imdbUrl];
+        const check: string[] = [title, imdbId, imgUrl, imdbUrl];
 
-        if (check.every(el => el)) {
-          onAdd(
-            title,
-            description,
-            imgUrl,
-            imdbUrl,
-            imdbId,
-          );
-
-          reset();
-        }
+        onSubmitForm(check);
       }}
     >
       Put the form here

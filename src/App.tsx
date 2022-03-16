@@ -11,22 +11,8 @@ interface State {
 export const App: React.FC<State> = () => {
   const [movies, setMovies] = useState([...moviesFromServer]);
 
-  const addMovie = (
-    title: string,
-    description: string,
-    imgUrl: string,
-    imdbUrl: string,
-    imdbId: string,
-  ) => {
-    const newMovie: Movie = {
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    };
-
-    setMovies([...movies, newMovie]);
+  const addMovie = (movie: Movie) => {
+    setMovies([...movies, movie]);
   };
 
   return (
