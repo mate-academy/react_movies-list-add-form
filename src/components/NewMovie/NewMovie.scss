@@ -1,0 +1,14 @@
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.form button,
+.form input {
+  display: block;
+  margin: 5px 0;
+}
+
+.error::placeholder {
+  color: red;
+}
