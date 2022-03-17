@@ -1,0 +1,17 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  & > input {
+    width: 70%;
+  }
+  & > button {
+    width: 30%;
+  }
+}
+
+.error {
+  font-size: 11px;
+  color: #f52626;
+  margin: 0;
+}
