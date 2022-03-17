@@ -102,7 +102,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
           placeholder="Imdb Url"
           onChange={(event) => {
             setImdbUrl(event.target.value);
-            setImdbIdError(false);
+            setImdbUrlError(false);
           }}
         />
         <input
