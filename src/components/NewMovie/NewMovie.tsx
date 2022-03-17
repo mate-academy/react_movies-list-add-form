@@ -124,7 +124,7 @@ export const NewMovie: React.FC<Props> = (props) => {
         }}
       />
       <button type="submit">
-        Add
+        Add Film
       </button>
     </form>
   );
