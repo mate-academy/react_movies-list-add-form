@@ -35,7 +35,7 @@ export const NewMovie: React.FC<Props> = (props) => {
     );
   };
 
-  const chekErrors = () => {
+  const cheсkErrors = () => {
     setMovieErr({
       title: !(movie.title),
       imdbId: !(movie.imdbId),
