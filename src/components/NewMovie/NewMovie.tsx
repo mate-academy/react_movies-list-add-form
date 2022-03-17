@@ -69,8 +69,8 @@ export const NewMovie: React.FC<Props> = (props) => {
       className="form"
       onSubmit={
         (event) => {
-          onFormSubmit();
           event.preventDefault();
+          onFormSubmit();
         }
       }
     >
