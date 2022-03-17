@@ -13,42 +13,35 @@ type Validation = {
   imdbId: boolean,
 };
 
-const initialValidation: Validation = {
-  title: true,
-  description: true,
-  imgUrl: true,
-  imdbUrl: true,
-  imdbId: true,
-};
-
 const regex = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
 
 export const NewMovie: React.FC<Props> = ({ addMovie }) => {
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
+  const initialValidation: Validation = {
+    title: true,
+    description: true,
+    imgUrl: true,
+    imdbUrl: true,
+    imdbId: true,
+  };
+
+  const initialMovieState: Movie = {
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  };
+
   const [isInputValid, setIsInputValid] = useState(initialValidation);
+  const [newMovie, setNewMovie] = useState(initialMovieState);
 
-  const enterTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(event.target.value);
-  };
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
 
-  const enterDescription = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setDescription(event.target.value);
-  };
-
-  const enterImgUrl = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setImgUrl(event.target.value);
-  };
-
-  const enterImdbUrl = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setImdbUrl(event.target.value);
-  };
-
-  const enterImdbId = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setImdbId(event.target.value);
+    setNewMovie({
+      ...newMovie,
+      [name]: value,
+    });
   };
 
   const checkText = (event: React.FocusEvent<HTMLInputElement>) => {
@@ -75,26 +68,14 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
   };
 
   const resetForm = () => {
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
+    setNewMovie(initialMovieState);
   };
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    const movie = {
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    };
-
     if (Object.values(isInputValid).every((item: boolean) => item === true)) {
-      addMovie(movie);
+      addMovie(newMovie);
       resetForm();
       setIsInputValid(initialValidation);
     }
@@ -114,9 +95,9 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
             name="title"
             placeholder="Title"
             id="title"
-            value={title}
+            value={newMovie.title}
             className={setInputClass('title')}
-            onChange={enterTitle}
+            onChange={handleChange}
             onBlur={checkText}
           />
         </label>
@@ -134,9 +115,9 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
             name="description"
             placeholder="description"
             id="description"
-            value={description}
+            value={newMovie.description}
             className={setInputClass('description')}
-            onChange={enterDescription}
+            onChange={handleChange}
           />
         </label>
 
@@ -154,10 +135,10 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
             name="imgUrl"
             placeholder="imgUrl"
             id="imgUrl"
-            value={imgUrl}
+            value={newMovie.imgUrl}
             className={setInputClass('imgUrl')}
             onBlur={checkUrl}
-            onChange={enterImgUrl}
+            onChange={handleChange}
           />
         </label>
 
@@ -175,10 +156,10 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
             name="imdbUrl"
             placeholder="imdbUrl"
             id="imdbUrl"
-            value={imdbUrl}
+            value={newMovie.imdbUrl}
             className={setInputClass('imdbUrl')}
             onBlur={checkUrl}
-            onChange={enterImdbUrl}
+            onChange={handleChange}
           />
         </label>
 
@@ -196,10 +177,10 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
             name="imdbId"
             placeholder="imdbId"
             id="imdbId"
-            value={imdbId}
+            value={newMovie.imdbId}
             className={setInputClass('imdbId')}
             onBlur={checkText}
-            onChange={enterImdbId}
+            onChange={handleChange}
           />
         </label>
 
