@@ -8,11 +8,12 @@ type Props = {
 };
 
 const isInvalid = (value: string, name = '') => {
+  const linkSymbols = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
+
   switch (name) {
     case 'imgUrl':
     case 'imdbUrl':
-      return !(/^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/
-        .test(value));
+      return !linkSymbols.test(value);
 
     default:
       return value === '';
@@ -46,16 +47,20 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
   const onAdd = (event: React.FormEvent) => {
     event.preventDefault();
 
-    const newMovie = {
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    };
+    const areAllInputsValid = Object.values(inputsValidations).every(v => !v);
 
-    addMovie(newMovie);
-    clearForm();
+    if (areAllInputsValid) {
+      const newMovie = {
+        title,
+        description,
+        imgUrl,
+        imdbUrl,
+        imdbId,
+      };
+
+      addMovie(newMovie);
+      clearForm();
+    }
   };
 
   const onInputBlur = (
@@ -63,6 +68,19 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
     value: string,
     name: string,
   ) => {
+    setInputsValidations({
+      ...inputsValidations,
+      [isInvalidName]: isInvalid(value, name),
+    });
+  };
+
+  const onInputChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    isInvalidName: string,
+    name: string,
+  ) => {
+    const { value } = event.target;
+
     setInputsValidations({
       ...inputsValidations,
       [isInvalidName]: isInvalid(value, name),
@@ -87,6 +105,11 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
         value={title}
         onChange={event => {
           setTitle(event.target.value);
+          onInputChange(
+            event,
+            'isTitleInvalid',
+            'title',
+          );
         }}
         onBlur={() => onInputBlur(
           'isTitleInvalid',
@@ -123,6 +146,11 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
         value={imgUrl}
         onChange={event => {
           setImgUrl(event.target.value);
+          onInputChange(
+            event,
+            'isImgUrlInvalid',
+            'imgUrl',
+          );
         }}
         onBlur={() => onInputBlur(
           'isImgUrlInvalid',
@@ -147,7 +175,14 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
         type="text"
         name="imdbUrl"
         value={imdbUrl}
-        onChange={event => setImdbUrl(event.target.value)}
+        onChange={event => {
+          setImdbUrl(event.target.value);
+          onInputChange(
+            event,
+            'isImdbUrlInvalid',
+            'imdbUrl',
+          );
+        }}
         onBlur={() => onInputBlur(
           'isImdbUrlInvalid',
           imdbUrl,
@@ -171,7 +206,14 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
         type="text"
         name="imdbId"
         value={imdbId}
-        onChange={event => setImdbId(event.target.value)}
+        onChange={event => {
+          setImdbId(event.target.value);
+          onInputChange(
+            event,
+            'isImdbIdInvalid',
+            'imdbId',
+          );
+        }}
         onBlur={() => onInputBlur(
           'isImdbIdInvalid',
           imdbId,
@@ -191,9 +233,7 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
 
       <p className="error">{isImdbIdInvalid && errorMessage}</p>
 
-      <button
-        type="submit"
-      >
+      <button type="submit">
         Add movie
       </button>
     </form>
