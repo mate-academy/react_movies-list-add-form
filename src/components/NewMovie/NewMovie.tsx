@@ -24,7 +24,7 @@ export const NewMovie: React.FC<Props> = ({ addNewMovie }) => {
     setImdbId('');
   };
 
-  const inputError = () => {
+  const validateForm = () => {
     if (title === '') {
       setTitleCheck(true);
     }
