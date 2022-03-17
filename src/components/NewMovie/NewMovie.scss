@@ -1,0 +1,18 @@
+.movie__form {
+  display: flex;
+  flex-direction: column;
+
+  &-input {
+    height: 35px;
+    margin-bottom: 10px;
+  }
+
+  &-button {
+    background-color: #00d9ff;
+    font-size: 18px;
+    text-transform: uppercase;
+    border-color: transparent;
+    border-radius: 10px;
+  }
+}
+
