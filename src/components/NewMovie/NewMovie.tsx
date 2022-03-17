@@ -14,20 +14,20 @@ interface Movie {
   imdbId: string;
 }
 
-export const NewMovie: React.FC<Props> = ({ onAdd }) => {
-  const regex = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
+const regex = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
 
+export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [imgUrl, setImgUrl] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const [titleEror, setTitleEror] = useState(false);
-  const [descriptionEror, setDescriptionEror] = useState(false);
-  const [imgUrlEror, setImgUrlEror] = useState(false);
-  const [imdbUrlEror, setImdbUrlEror] = useState(false);
-  const [imdbIdEror, setImdbIdEror] = useState(false);
+  const [titleError, setTitleError] = useState(false);
+  const [descriptionError, setDescriptionError] = useState(false);
+  const [imgUrlError, setImgUrlError] = useState(false);
+  const [imdbUrlError, setImdbUrlError] = useState(false);
+  const [imdbIdError, setImdbIdError] = useState(false);
 
   const resetInput = () => {
     setTitle('');
@@ -37,12 +37,12 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setImdbId('');
   };
 
-  const resetfalse = () => {
-    setTitleEror(false);
-    setDescriptionEror(false);
-    setImgUrlEror(false);
-    setImdbUrlEror(false);
-    setImdbIdEror(false);
+  const resetError = () => {
+    setTitleError(false);
+    setDescriptionError(false);
+    setImgUrlError(false);
+    setImdbUrlError(false);
+    setImdbIdError(false);
   };
 
   const checkedUrl = (url: string) => regex.test(url);
@@ -67,7 +67,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     });
 
     resetInput();
-    resetfalse();
+    resetError();
   };
 
   return (
@@ -78,112 +78,142 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         Title
         <input
           type="text"
-          className={classNames('input', { 'input--error': titleEror && !title })}
+          className={classNames(
+            'input',
+            { 'input--error': titleError && !title },
+          )}
           placeholder="Plz enter a title"
           value={title}
           onChange={event => setTitle(event.target.value.trim())}
           onBlur={() => {
             if (!title) {
-              setTitleEror(true);
+              setTitleError(true);
             }
           }}
         />
       </label>
 
       <p
-        className={classNames('message', { 'message--error': titleEror && !title })}
+        className={classNames(
+          'message',
+          { 'message--error': titleError && !title },
+        )}
       >
-        {titleEror && !title && 'required'}
+        {titleError && !title && 'required'}
       </p>
 
       <label>
         Description
         <input
           type="text"
-          className={classNames('input', { 'input--error': descriptionEror && !description })}
+          className={classNames(
+            'input',
+            { 'input--error': descriptionError && !description },
+          )}
           placeholder="Plz enter a description"
           value={description}
           onChange={event => setDescription(event.target.value.trim())}
           onBlur={() => {
             if (!description) {
-              setDescriptionEror(true);
+              setDescriptionError(true);
             }
           }}
         />
       </label>
 
       <p
-        className={classNames('message', { 'message--error': descriptionEror && !description })}
+        className={classNames(
+          'message',
+          { 'message--error': descriptionError && !description },
+        )}
       >
-        {descriptionEror && !description && 'required'}
+        {descriptionError && !description && 'required'}
       </p>
 
       <label>
         Image Url
         <input
           type="text"
-          className={classNames('input', { 'input--error': imgUrlEror && !checkedUrl(imgUrl) })}
+          className={classNames(
+            'input',
+            { 'input--error': imgUrlError && !checkedUrl(imgUrl) },
+          )}
           placeholder="Plz enter a imgUrl"
           id="imgUrl"
           value={imgUrl}
           onChange={event => setImgUrl(event.target.value.trim())}
           onBlur={() => {
             if (!checkedUrl(imgUrl)) {
-              setImgUrlEror(true);
+              setImgUrlError(true);
             }
           }}
         />
       </label>
 
       <p
-        className={classNames('message', { 'message--error': imgUrlEror && !checkedUrl(imgUrl) })}
+        className={classNames(
+          'message',
+          { 'message--error': imgUrlError && !checkedUrl(imgUrl) },
+        )}
       >
-        {imgUrlEror && !checkedUrl(imgUrl) && 'required'}
+        {imgUrlError && !checkedUrl(imgUrl) && 'required URL'}
       </p>
 
       <label>
         Imdb Url
         <input
           type="text"
-          className={classNames('input', { 'input--error': imdbUrlEror && !checkedUrl(imdbUrl) })}
+          className={classNames(
+            'input',
+            { 'input--error': imdbUrlError && !checkedUrl(imdbUrl) },
+          )}
           placeholder="Plz enter a imdbUrl"
           value={imdbUrl}
           id="imdbUrl"
           onChange={event => setImdbUrl(event.target.value.trim())}
           onBlur={() => {
             if (!checkedUrl(imdbUrl)) {
-              setImdbUrlEror(true);
+              setImdbUrlError(true);
             }
           }}
         />
       </label>
 
       <p
-        className={classNames('message', { 'message--error': imdbUrlEror && !checkedUrl(imdbUrl) })}
+        className={classNames(
+          'message',
+          { 'message--error': imdbUrlError && !checkedUrl(imdbUrl) },
+        )}
       >
-        {imdbUrlEror && !checkedUrl(imdbUrl) && 'required'}
+        {imdbUrlError && !checkedUrl(imdbUrl) && 'required URL'}
       </p>
 
       <label>
         Imdb ID
         <input
           type="text"
-          className={classNames('input', { 'input--error': imdbIdEror && !imdbId })}
+          className={classNames(
+            'input',
+            { 'input--error': imdbIdError && !imdbId },
+          )}
           placeholder="Plz enter a imdbId"
           value={imdbId}
           onChange={event => setImdbId(event.target.value)}
           onBlur={() => {
             if (!imdbId) {
-              setImdbIdEror(true);
+              setImdbIdError(true);
             }
           }}
         />
       </label>
 
       <p
-        className={classNames('message', { 'message--error': imdbIdEror && !imdbId })}
+        className={classNames(
+          'message',
+          { 'message--error': imdbIdError && !imdbId },
+        )}
       >
-        {imdbIdEror && !imdbId && 'required'}
+        {imdbIdError && !imdbId && 'required'}
       </p>
 
       <button

@@ -8,15 +8,7 @@ export const App: React.FC = () => {
   const [movies, setMovies] = useState(moviesFromServer);
 
   const addMovie = (movie: Movie) => {
-    const newMovies = {
-      title: movie.title,
-      description: movie.description,
-      imgUrl: movie.imgUrl,
-      imdbUrl: movie.imdbUrl,
-      imdbId: movie.imdbId,
-    };
-
-    setMovies([...movies, newMovies]);
+    setMovies([...movies, movie]);
   };
 
   return (

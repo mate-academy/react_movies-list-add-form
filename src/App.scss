@@ -28,6 +28,14 @@
     position: relative;
     display: block;
     border-color: red;
+
+    &:hover {
+      border-color: red;
+    }
+
+    &:focus-visible {
+      border-color: red;
+    }
   }
 }
 
