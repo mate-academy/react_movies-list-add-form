@@ -11,10 +11,10 @@ export const NewMovie: React.FC<Props> = ({ addNewMovie }) => {
   const [imgUrl, setImgUrl] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
-  const [titleCheck, setTitleCheck] = useState(false);
-  const [imgUrlCheck, setImgUrlCheck] = useState(false);
-  const [imdbUrlCheck, setImdbUrlCheck] = useState(false);
-  const [imdbIdCheck, setImdbIdCheck] = useState(false);
+  const [titleError, setTitleError] = useState(false);
+  const [imgUrlError, setImgUrlError] = useState(false);
+  const [imdbUrlError, setImdbUrlError] = useState(false);
+  const [imdbIdError, setImdbIdError] = useState(false);
 
   const clear = () => {
     setTitle('');
