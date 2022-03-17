@@ -16,7 +16,7 @@ export const NewMovie: React.FC<Props> = ({ addNewMovie }) => {
   const [imdbUrlError, setImdbUrlError] = useState(false);
   const [imdbIdError, setImdbIdError] = useState(false);
 
-  const clear = () => {
+  const clearForm = () => {
     setTitle('');
     setDescription('');
     setImgUrl('');
