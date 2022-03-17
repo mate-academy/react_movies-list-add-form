@@ -77,7 +77,7 @@ export const NewMovie: React.FC<Props> = (props) => {
       <input
         className={classNames({ error: movieErr.title })}
         type="text"
-        placeholder="title"
+        placeholder={!movieErr.title ? 'title' : 'Please enter title'}
         name="title"
         value={movie.title}
         onChange={(event) => {
@@ -96,7 +96,7 @@ export const NewMovie: React.FC<Props> = (props) => {
       <input
         className={classNames({ error: movieErr.imgUrl })}
         type="text"
-        placeholder="imgUrl"
+        placeholder={!movieErr.title ? 'imgUrl' : 'Please enter imgUrl'}
         name="imgUrl"
         value={movie.imgUrl}
         onChange={(event) => {
@@ -106,7 +106,7 @@ export const NewMovie: React.FC<Props> = (props) => {
       <input
         className={classNames({ error: movieErr.imdbUrl })}
         type="text"
-        placeholder="imdbUrl"
+        placeholder={!movieErr.title ? 'imdbUrl' : 'Please enter imdbUrl'}
         name="imdbUrl"
         value={movie.imdbUrl}
         onChange={(event) => {
@@ -116,7 +116,7 @@ export const NewMovie: React.FC<Props> = (props) => {
       <input
         className={classNames({ error: movieErr.imdbId })}
         type="text"
-        placeholder="imdbId"
+        placeholder={!movieErr.title ? 'imdbId' : 'Please enter imdbId'}
         name="imdbId"
         value={movie.imdbId}
         onChange={(event) => {
