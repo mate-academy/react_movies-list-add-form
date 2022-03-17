@@ -63,23 +63,11 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
     }
   };
 
-  const onInputBlur = (
-    isInvalidName: string,
-    value: string,
-    name: string,
-  ) => {
-    setInputsValidations({
-      ...inputsValidations,
-      [isInvalidName]: isInvalid(value, name),
-    });
-  };
-
   const onInputChange = (
     event: React.ChangeEvent<HTMLInputElement>,
     isInvalidName: string,
-    name: string,
   ) => {
-    const { value } = event.target;
+    const { value, name } = event.target;
 
     setInputsValidations({
       ...inputsValidations,
@@ -108,14 +96,8 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
           onInputChange(
             event,
             'isTitleInvalid',
-            'title',
           );
         }}
-        onBlur={() => onInputBlur(
-          'isTitleInvalid',
-          title,
-          'title',
-        )}
         className={
           classNames(
             'form__input',
@@ -149,14 +131,8 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
           onInputChange(
             event,
             'isImgUrlInvalid',
-            'imgUrl',
           );
         }}
-        onBlur={() => onInputBlur(
-          'isImgUrlInvalid',
-          imgUrl,
-          'imgUrl',
-        )}
         className={
           classNames(
             'form__input',
@@ -180,14 +156,8 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
           onInputChange(
             event,
             'isImdbUrlInvalid',
-            'imdbUrl',
           );
         }}
-        onBlur={() => onInputBlur(
-          'isImdbUrlInvalid',
-          imdbUrl,
-          'imdbUrl',
-        )}
         className={
           classNames(
             'form__input',
@@ -211,14 +181,8 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
           onInputChange(
             event,
             'isImdbIdInvalid',
-            'imdbId',
           );
         }}
-        onBlur={() => onInputBlur(
-          'isImdbIdInvalid',
-          imdbId,
-          'imdbId',
-        )}
         className={
           classNames(
             'form__input',
