@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 type Props = { addNew: (movie: Movie) => void };
 
@@ -23,7 +23,7 @@ export const NewMovie: React.FC<Props> = (props) => {
     },
   );
 
-  function clearForm() {
+  const clearForm = () => {
     setMovie(
       {
         title: '',
@@ -33,7 +33,7 @@ export const NewMovie: React.FC<Props> = (props) => {
         imdbId: '',
       },
     );
-  }
+  };
 
   const chekErrors = () => {
     setMovieErr({
@@ -44,22 +44,32 @@ export const NewMovie: React.FC<Props> = (props) => {
     });
   };
 
+  const onFormSubmit = () => {
+    chekErrors();
+    if (
+      !movieErr.title
+      && !movieErr.imdbId
+      && !movieErr.imdbUrl
+      && !movieErr.imgUrl
+    ) {
+      props.addNew(movie);
+      clearForm();
+    }
+  };
+
+  // const atEvent = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   const { name, value } = event.target;
+
+  //   setMovie({ ...movie, [name]: value });
+  //   setMovieErr({ ...movieErr, [name]: false });
+  // };
+
   return (
     <form
       className="form"
       onSubmit={
         (event) => {
-          chekErrors();
-          if (
-            !movieErr.title
-            && !movieErr.imdbId
-            && !movieErr.imdbUrl
-            && !movieErr.imgUrl
-          ) {
-            props.addNew(movie);
-            clearForm();
-          }
-
+          onFormSubmit();
           event.preventDefault();
         }
       }
@@ -68,6 +78,7 @@ export const NewMovie: React.FC<Props> = (props) => {
         className={classNames({ error: movieErr.title })}
         type="text"
         placeholder="title"
+        name="title"
         value={movie.title}
         onChange={(event) => {
           setMovie({ ...movie, title: event.target.value });
@@ -113,9 +124,7 @@ export const NewMovie: React.FC<Props> = (props) => {
           setMovieErr({ ...movieErr, imdbId: false });
         }}
       />
-      <button
-        type="submit"
-      >
+      <button type="submit">
         Add
       </button>
     </form>
