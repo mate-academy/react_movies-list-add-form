@@ -47,22 +47,22 @@ export const NewMovie: React.FC<Props> = (props) => {
   const onFormSubmit = () => {
     chekErrors();
     if (
-      !movieErr.title
-      && !movieErr.imdbId
-      && !movieErr.imdbUrl
-      && !movieErr.imgUrl
+      movie.title
+      && movie.imdbId
+      && movie.imdbUrl
+      && movie.imgUrl
     ) {
       props.addNew(movie);
       clearForm();
     }
   };
 
-  // const atEvent = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   const { name, value } = event.target;
+  const atEvent = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
 
-  //   setMovie({ ...movie, [name]: value });
-  //   setMovieErr({ ...movieErr, [name]: false });
-  // };
+    setMovie({ ...movie, [name]: value });
+    setMovieErr({ ...movieErr, [name]: false });
+  };
 
   return (
     <form
@@ -81,14 +81,13 @@ export const NewMovie: React.FC<Props> = (props) => {
         name="title"
         value={movie.title}
         onChange={(event) => {
-          setMovie({ ...movie, title: event.target.value });
-          setMovieErr({ ...movieErr, title: false });
-          chekErrors();
+          atEvent(event);
         }}
       />
       <input
         type="text"
         placeholder="description"
+        name="description"
         value={movie.description}
         onChange={(event) => {
           setMovie({ ...movie, description: event.target.value });
@@ -98,30 +97,30 @@ export const NewMovie: React.FC<Props> = (props) => {
         className={classNames({ error: movieErr.imgUrl })}
         type="text"
         placeholder="imgUrl"
+        name="imgUrl"
         value={movie.imgUrl}
         onChange={(event) => {
-          setMovie({ ...movie, imgUrl: event.target.value });
-          setMovieErr({ ...movieErr, imgUrl: false });
+          atEvent(event);
         }}
       />
       <input
         className={classNames({ error: movieErr.imdbUrl })}
         type="text"
         placeholder="imdbUrl"
+        name="imdbUrl"
         value={movie.imdbUrl}
         onChange={(event) => {
-          setMovie({ ...movie, imdbUrl: event.target.value });
-          setMovieErr({ ...movieErr, imdbUrl: false });
+          atEvent(event);
         }}
       />
       <input
         className={classNames({ error: movieErr.imdbId })}
         type="text"
         placeholder="imdbId"
+        name="imdbId"
         value={movie.imdbId}
         onChange={(event) => {
-          setMovie({ ...movie, imdbId: event.target.value });
-          setMovieErr({ ...movieErr, imdbId: false });
+          atEvent(event);
         }}
       />
       <button type="submit">
