@@ -1,0 +1,16 @@
+.form {
+  display: flex;
+  flex-direction: column;
+
+  &__input {
+    margin-top: 10px;
+  }
+}
+
+.invalid {
+  border: 2px solid red;
+}
+
+.error {
+  color: red;
+}
