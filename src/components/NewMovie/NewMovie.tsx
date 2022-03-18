@@ -32,8 +32,17 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
     imdbId: '',
   };
 
+  const initialInputWasChanged: Validation = {
+    title: false,
+    description: true,
+    imgUrl: false,
+    imdbUrl: false,
+    imdbId: false,
+  };
+
   const [isInputValid, setIsInputValid] = useState(initialValidation);
   const [newMovie, setNewMovie] = useState(initialMovieState);
+  const [inputWasChanged, setInputWasChanged] = useState(initialInputWasChanged);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -42,20 +51,34 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
       ...newMovie,
       [name]: value,
     });
+
+    setInputWasChanged({
+      ...inputWasChanged,
+      [name]: true,
+    });
   };
 
-  const checkText = (event: React.FocusEvent<HTMLInputElement>) => {
+  const checkText = (event: React.ChangeEvent<HTMLInputElement>) => {
     setIsInputValid({
       ...isInputValid,
       [event.target.name]: event.target.value.length !== 0,
     });
   };
 
-  const checkUrl = (event: React.FocusEvent<HTMLInputElement>) => {
+  const checkUrl = (event: React.ChangeEvent<HTMLInputElement>) => {
     setIsInputValid({
       ...isInputValid,
       [event.target.name]: regex.test(event.target.value),
     });
+  };
+
+  const handleValidation = () => {
+    const dataValidation = Object.values(isInputValid)
+      .every((item: boolean) => item === true);
+    const wasChangedValidation = Object.values(inputWasChanged)
+      .every((item: boolean) => item === true);
+
+    return dataValidation && wasChangedValidation;
   };
 
   const setInputClass = (name: keyof Validation) => {
@@ -69,16 +92,27 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
 
   const resetForm = () => {
     setNewMovie(initialMovieState);
+    setInputWasChanged(initialInputWasChanged);
   };
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (Object.values(isInputValid).every((item: boolean) => item === true)) {
+    if (handleValidation()) {
       addMovie(newMovie);
       resetForm();
       setIsInputValid(initialValidation);
     }
+  };
+
+  const handleEvent = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.name.toLowerCase().includes('url')) {
+      checkUrl(event);
+    } else {
+      checkText(event);
+    }
+
+    handleChange(event);
   };
 
   return (
@@ -97,8 +131,7 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
             id="title"
             value={newMovie.title}
             className={setInputClass('title')}
-            onChange={handleChange}
-            onBlur={checkText}
+            onChange={handleEvent}
           />
         </label>
 
@@ -137,8 +170,7 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
             id="imgUrl"
             value={newMovie.imgUrl}
             className={setInputClass('imgUrl')}
-            onBlur={checkUrl}
-            onChange={handleChange}
+            onChange={handleEvent}
           />
         </label>
 
@@ -158,8 +190,7 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
             id="imdbUrl"
             value={newMovie.imdbUrl}
             className={setInputClass('imdbUrl')}
-            onBlur={checkUrl}
-            onChange={handleChange}
+            onChange={handleEvent}
           />
         </label>
 
@@ -179,8 +210,7 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
             id="imdbId"
             value={newMovie.imdbId}
             className={setInputClass('imdbId')}
-            onBlur={checkText}
-            onChange={handleChange}
+            onChange={handleEvent}
           />
         </label>
 
