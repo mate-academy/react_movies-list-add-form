@@ -105,13 +105,16 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
     }
   };
 
-  const handleEvent = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const checkInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.name.toLowerCase().includes('url')) {
       checkUrl(event);
     } else {
       checkText(event);
     }
+  };
 
+  const handleEvent = (event: React.ChangeEvent<HTMLInputElement>) => {
+    checkInput(event);
     handleChange(event);
   };
 
@@ -132,6 +135,7 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
             value={newMovie.title}
             className={setInputClass('title')}
             onChange={handleEvent}
+            onBlur={checkInput}
           />
         </label>
 
@@ -171,6 +175,7 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
             value={newMovie.imgUrl}
             className={setInputClass('imgUrl')}
             onChange={handleEvent}
+            onBlur={checkInput}
           />
         </label>
 
@@ -191,6 +196,7 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
             value={newMovie.imdbUrl}
             className={setInputClass('imdbUrl')}
             onChange={handleEvent}
+            onBlur={checkInput}
           />
         </label>
 
@@ -211,6 +217,7 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
             value={newMovie.imdbId}
             className={setInputClass('imdbId')}
             onChange={handleEvent}
+            onBlur={checkInput}
           />
         </label>
 
