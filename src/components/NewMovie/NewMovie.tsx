@@ -31,6 +31,14 @@ export const NewMovie: React.FC<Props> = ({ handleOnAdd }) => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if (formData.title === ''
+      || formData.description === ''
+      || formData.imdbId === ''
+      || formData.imdbUrl === ''
+      || formData.imgUrl === '') {
+      return;
+    }
+
     const newMovie: Movie = formData;
 
     handleOnAdd(newMovie);
