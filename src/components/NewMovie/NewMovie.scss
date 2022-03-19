@@ -1,0 +1,15 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  width: max-content;
+  gap: 20px;
+
+  &__label {
+    cursor: pointer;
+  }
+
+  &__error {
+    font-size: 20px;
+    color: red;
+  }
+}
