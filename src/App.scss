@@ -24,16 +24,6 @@ button {
   margin: 20px auto;
 }
 
-input:active, input:focus, input:hover {
-  input:invalid {
-    background-color: #ffdddd;
-  }
-}
-
-input:valid {
-  background-color: #ddffdd;
-}
-
-h4 {
+.danger-title {
   color: red;
 }

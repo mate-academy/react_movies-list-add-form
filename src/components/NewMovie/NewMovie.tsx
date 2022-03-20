@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import React, { useState } from 'react';
 
 // eslint-disable-next-line max-len
@@ -30,10 +29,7 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
     event.preventDefault();
 
     setValidTitle(title.length > 0);
-
     setValidUrl(values.every(value => !value.replace(regexForUrl, '').length));
-
-    console.log(imgUrl.replace(regexForUrl, ''));
 
     if (validValues.every(value => value === true)) {
       addMovie(title, description, imgUrl, imdbUrl, imdbId);
@@ -47,34 +43,39 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
 
   return (
     <form onSubmit={(event) => addNewFilm(event)}>
-      {!validTitle && <h4>Минимальная длина названия 1 символ</h4>}
+      {!validTitle && <h4 className="danger-title">Минимальная длина названия 1 символ</h4>}
       <input
         type="text"
+        className="input"
         placeholder="title"
         value={title}
         onChange={(event) => setTitle(event.target.value)}
       />
       <input
         type="text"
+        className="input"
         placeholder="description"
         value={description}
         onChange={(event) => setDescription(event.target.value)}
       />
-      {!validUrl && <h4>Введите правильный URL-адрес</h4>}
+      {!validUrl && <h4 className="danger-title">Введите правильный URL-адрес</h4>}
       <input
         type="text"
+        className="input"
         placeholder="imgUrl"
         value={imgUrl}
         onChange={(event) => setimgUrl(event.target.value)}
       />
       <input
         type="text"
+        className="input"
         placeholder="imdbUrl"
         value={imdbUrl}
         onChange={(event) => setimdbUrl(event.target.value)}
       />
       <input
-        type="url"
+        type="text"
+        className="input"
         placeholder="imdbId"
         value={imdbId}
         onChange={(event) => setimdbId(event.target.value)}
