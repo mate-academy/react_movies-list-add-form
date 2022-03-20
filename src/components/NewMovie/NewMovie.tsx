@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import classNames from 'classnames';
+
 import './NewMovie.scss';
 
 type Props = {
@@ -61,10 +63,19 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     });
 
     setTitle('');
+    setIsTitle(false);
+
     setDescription('');
+    setIsDescription(false);
+
     setImgUrl('');
+    setIsImgUrl(false);
+
     setImdbUrl('');
+    setIsImdbUrl(false);
+
     setImdbId('');
+    setIsImdbId(false);
   };
 
   return (
@@ -73,7 +84,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       onSubmit={handleSubmit}
     >
       <input
-        className={isTitle ? 'error' : ''}
+        className={classNames('position', { error: isTitle })}
         type="text"
         placeholder="title"
         value={title}
@@ -82,7 +93,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         }}
       />
       <input
-        className={isDescription ? 'error' : ''}
+        className={classNames('position', { error: isDescription })}
         type="text"
         placeholder="description"
         value={description}
@@ -91,7 +102,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         }}
       />
       <input
-        className={isImgUrl ? 'error' : ''}
+        className={classNames('position', { error: isImgUrl })}
         type="text"
         placeholder="imgUrl"
         value={imgUrl}
@@ -100,7 +111,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         }}
       />
       <input
-        className={isImdbUrl ? 'error' : ''}
+        className={classNames('position', { error: isImdbUrl })}
         type="text"
         placeholder="imdbUrl"
         value={imdbUrl}
@@ -109,7 +120,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         }}
       />
       <input
-        className={isImdbId ? 'error' : ''}
+        className={classNames('position', { error: isImdbId })}
         type="text"
         placeholder="imdbId"
         value={imdbId}
@@ -118,7 +129,12 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         }}
       />
 
-      <button type="submit">Add</button>
+      <button
+        type="submit"
+        className="position"
+      >
+        Add
+      </button>
     </form>
   );
 };
