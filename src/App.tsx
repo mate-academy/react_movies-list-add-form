@@ -13,7 +13,7 @@ export class App extends React.Component<{}, State> {
     movies: moviesFromServer,
   };
 
-  adder = (title: string,
+  addMovie = (title: string,
     description: string,
     imgUrl: string,
     imdbUrl: string,
