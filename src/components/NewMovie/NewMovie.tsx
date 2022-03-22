@@ -18,8 +18,7 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
   const [imdbUrl, setimdbUrl] = useState('');
   const [imdbId, setimdbId] = useState('');
 
-  const [validTitle, setValidTitle] = useState(true);
-  const [validUrl, setValidUrl] = useState(true);
+  const [isTitleValid, setIsTitleValid] = useState(true);
 
   const values = [imgUrl, imdbUrl, imdbId];
   const validValues = [validTitle, validUrl];
