@@ -4,11 +4,11 @@ import React, { useState } from 'react';
 const regexForUrl = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
 
 type Props = {
-  addMovie: (title: string,
-    description: string,
-    imgUrl: string,
-    imdbUrl: string,
-    imdbId: string) => void
+  addMovie: (movie: Movie) => void
+};
+
+const checkValidUrl = (value: string) => {
+  return !value.replace(regexForUrl, '').length;
 };
 
 export const NewMovie: React.FC<Props> = ({ addMovie }) => {
@@ -19,20 +19,26 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
   const [imdbId, setimdbId] = useState('');
 
   const [validTitle, setValidTitle] = useState(true);
-  const [validUrl, setValidUrl] = useState(true);
+  const [validImgbUrl, setValidImgbUrl] = useState(true);
+  const [validImdbUrl, setValidImdbUrl] = useState(true);
 
   const values = [imgUrl, imdbUrl, imdbId];
-  const validValues = [validTitle, validUrl];
+  const validValues = [validTitle, validImdbUrl, validImgbUrl];
   const disabledButton = values.some(a => a.length === 0) || undefined;
 
   const addNewFilm = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     setValidTitle(title.length > 0);
-    setValidUrl(values.every(value => !value.replace(regexForUrl, '').length));
+    setValidImgbUrl(checkValidUrl(imgUrl));
+    setValidImdbUrl(checkValidUrl(imdbUrl));
 
     if (validValues.every(value => value === true)) {
-      addMovie(title, description, imgUrl, imdbUrl, imdbId);
+      const movie: Movie = {
+        title, description, imgUrl, imdbUrl, imdbId,
+      };
+
+      addMovie(movie);
       setTitle('');
       setDescription('');
       setimgUrl('');
@@ -49,7 +55,10 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
         className="input"
         placeholder="title"
         value={title}
-        onChange={(event) => setTitle(event.target.value)}
+        onChange={(event) => {
+          setTitle(event.target.value);
+          setValidTitle(true);
+        }}
       />
       <input
         type="text"
@@ -58,20 +67,27 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
         value={description}
         onChange={(event) => setDescription(event.target.value)}
       />
-      {!validUrl && <h4 className="danger-title">Введите правильный URL-адрес</h4>}
+      {!validImgbUrl && <h4 className="danger-title">Введите правильный адрес картинки</h4>}
       <input
         type="text"
         className="input"
         placeholder="imgUrl"
         value={imgUrl}
-        onChange={(event) => setimgUrl(event.target.value)}
+        onChange={(event) => {
+          setimgUrl(event.target.value);
+          setValidImgbUrl(true);
+        }}
       />
+      {!validImdbUrl && <h4 className="danger-title">Введите правильный IMDB</h4>}
       <input
         type="text"
         className="input"
         placeholder="imdbUrl"
         value={imdbUrl}
-        onChange={(event) => setimdbUrl(event.target.value)}
+        onChange={(event) => {
+          setimdbUrl(event.target.value);
+          setValidImdbUrl(true);
+        }}
       />
       <input
         type="text"
