@@ -1,0 +1,20 @@
+
+
+.form {
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+
+  &__input {
+    height: 40px;
+    padding: 10px;
+  }
+
+  &__error {
+    border: 1px solid red;
+  }
+
+  &__add {
+    height: 40px;
+  }
+}
