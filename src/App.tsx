@@ -5,22 +5,10 @@ import { NewMovie } from './components/NewMovie';
 import moviesFromServer from './api/movies.json';
 
 export const App: React.FC = () => {
-  const [movies, setMovies] = useState<Movie[]>(moviesFromServer);
+  const [movies, setMovies] = useState([...moviesFromServer]);
 
-  const addMovie = (movieTitle: string,
-    movieDescription: string,
-    movieImgUrl: string,
-    movieImdbUrl: string,
-    movieImdbId: string) => {
-    const newMovie: Movie = {
-      title: movieTitle,
-      description: movieDescription,
-      imgUrl: movieImgUrl,
-      imdbUrl: movieImdbUrl,
-      imdbId: movieImdbId,
-    };
-
-    setMovies([...movies, newMovie]);
+  const addMovie = (movie: Movie) => {
+    setMovies([...movies, movie]);
   };
 
   return (
@@ -29,7 +17,10 @@ export const App: React.FC = () => {
         <MoviesList movies={movies} />
       </div>
       <div className="sidebar">
-        <NewMovie onAdd={addMovie} />
+        <h1 className="sidebar__title">Add movie</h1>
+        <NewMovie
+          addNewMovie={addMovie}
+        />
       </div>
     </div>
   );
