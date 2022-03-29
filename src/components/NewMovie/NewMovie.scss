@@ -37,3 +37,8 @@ $transition-time: 0.3s;
     display: block;
   }
 }
+
+.errorText {
+  color: $c-red-d;
+  font-weight: 500;
+}

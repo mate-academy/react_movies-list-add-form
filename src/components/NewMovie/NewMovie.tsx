@@ -1,4 +1,5 @@
 import { FC, useState } from 'react';
+import classNames from 'classnames';
 import './NewMovie.scss';
 
 type Props = {
@@ -19,7 +20,7 @@ const NewMovie: FC<Props> = ({ onAdd }) => {
   const [imdbId, setImdbId] = useState('');
   const [title, setTitle] = useState('');
 
-  const [, setErrors] = useState((): Errors => ({
+  const [errors, setErrors] = useState((): Errors => ({
     title: '',
     imdbId: '',
     imdbUrl: '',
@@ -34,10 +35,12 @@ const NewMovie: FC<Props> = ({ onAdd }) => {
     imgUrl: setImgUrl,
   };
 
-  const changeFieldError = (name: string, value: string): boolean => {
+  const changeFieldError = (name: string, rawValue: string): boolean => {
+    const value = rawValue.trim();
+
     const condition = (name === 'imdbUrl' || name === 'imgUrl')
       ? !(/^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/
-        .test(value)) || value.length === 0
+        .test(value.trim())) || value.length === 0
       : value.length === 0;
 
     switch (name) {
@@ -82,7 +85,8 @@ const NewMovie: FC<Props> = ({ onAdd }) => {
       imgUrl,
     };
 
-    return Object.entries(checkedFields).some(([name, value]) => changeFieldError(name, value));
+    return Object.entries(checkedFields)
+      .reduce((acc, [name, value]) => changeFieldError(name, value) || acc, false);
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -90,11 +94,11 @@ const NewMovie: FC<Props> = ({ onAdd }) => {
 
     if (!fieldsHasError()) {
       onAdd({
-        title,
-        description,
-        imdbId,
-        imdbUrl,
-        imgUrl,
+        title: title.trim(),
+        description: description.trim(),
+        imdbId: imdbId.trim(),
+        imdbUrl: imdbUrl.trim(),
+        imgUrl: imgUrl.trim(),
       });
 
       resetForm();
@@ -114,6 +118,7 @@ const NewMovie: FC<Props> = ({ onAdd }) => {
       <div>
         <label htmlFor="title" className="form__label">
           Title
+          {errors.title && <span className="errorText">{`  ${errors.title}!`}</span>}
           <input
             onBlur={handleOnBlur}
             value={title}
@@ -121,7 +126,9 @@ const NewMovie: FC<Props> = ({ onAdd }) => {
             onChange={handleChange}
             id="title"
             type="text"
-            className="input input--outline"
+            className={classNames('input', 'input--outline', {
+              'input--error': !!errors.title,
+            })}
             placeholder="title"
           />
         </label>
@@ -141,6 +148,7 @@ const NewMovie: FC<Props> = ({ onAdd }) => {
 
         <label htmlFor="imgUrl" className="form__label">
           ImgUrl
+          {errors.imgUrl && <span className="errorText">{`  ${errors.imgUrl}!`}</span>}
           <input
             onBlur={handleOnBlur}
             value={imgUrl}
@@ -148,13 +156,16 @@ const NewMovie: FC<Props> = ({ onAdd }) => {
             onChange={handleChange}
             id="imgUrl"
             type="text"
-            className="input input--outline"
+            className={classNames('input', 'input--outline', {
+              'input--error': !!errors.imgUrl,
+            })}
             placeholder="imgUrl"
           />
         </label>
 
         <label htmlFor="imdbUrl" className="form__label">
           ImdbUrl
+          {errors.imdbUrl && <span className="errorText">{`  ${errors.imdbUrl}!`}</span>}
           <input
             onBlur={handleOnBlur}
             value={imdbUrl}
@@ -162,13 +173,16 @@ const NewMovie: FC<Props> = ({ onAdd }) => {
             name="imdbUrl"
             id="imdbUrl"
             type="text"
-            className="input input--outline"
+            className={classNames('input', 'input--outline', {
+              'input--error': !!errors.imdbUrl,
+            })}
             placeholder="imdbUrl"
           />
         </label>
 
         <label htmlFor="imdbId" className="form__label">
           ImdbId
+          {errors.imdbId && <span className="errorText">{`  ${errors.imdbId}!`}</span>}
           <input
             onBlur={handleOnBlur}
             onChange={handleChange}
@@ -176,7 +190,9 @@ const NewMovie: FC<Props> = ({ onAdd }) => {
             name="imdbId"
             id="imdbId"
             type="text"
-            className="input input--outline"
+            className={classNames('input', 'input--outline', {
+              'input--error': !!errors.imdbId,
+            })}
             placeholder="imdbId"
           />
         </label>
