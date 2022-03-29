@@ -35,13 +35,17 @@ const NewMovie: FC<Props> = ({ onAdd }) => {
     imgUrl: setImgUrl,
   };
 
-  const changeFieldError = (name: string, rawValue: string): boolean => {
+  const changeFieldError = (name: string, rawValue: string, getConditionOnly = false): boolean => {
     const value = rawValue.trim();
 
     const condition = (name === 'imdbUrl' || name === 'imgUrl')
       ? !(/^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/
         .test(value.trim())) || value.length === 0
       : value.length === 0;
+
+    if (getConditionOnly) {
+      return condition;
+    }
 
     switch (name) {
       case 'title':
@@ -77,7 +81,7 @@ const NewMovie: FC<Props> = ({ onAdd }) => {
     changeFieldError(name, value);
   };
 
-  const fieldsHasError = () => {
+  const fieldsHasError = (getConditionOnly = false) => {
     const checkedFields: { [key: string]: string } = {
       title,
       imdbId,
@@ -86,7 +90,10 @@ const NewMovie: FC<Props> = ({ onAdd }) => {
     };
 
     return Object.entries(checkedFields)
-      .reduce((acc, [name, value]) => changeFieldError(name, value) || acc, false);
+      .reduce(
+        (acc, [name, value]) => changeFieldError(name, value, getConditionOnly) || acc,
+        false,
+      );
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -200,6 +207,7 @@ const NewMovie: FC<Props> = ({ onAdd }) => {
 
       <button
         type="submit"
+        disabled={fieldsHasError(true)}
         className="button button--size--full"
       >
         Add
