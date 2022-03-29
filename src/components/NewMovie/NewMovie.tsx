@@ -5,39 +5,108 @@ type Props = {
   onAdd: (movie: Movie) => void,
 };
 
+interface Errors {
+  title: string,
+  imdbId: string,
+  imdbUrl: string,
+  imgUrl: string,
+}
+
 const NewMovie: FC<Props> = ({ onAdd }) => {
-  const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [imdbId, setImdbId] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
   const [imgUrl, setImgUrl] = useState('');
+  const [imdbId, setImdbId] = useState('');
+  const [title, setTitle] = useState('');
+
+  const [, setErrors] = useState((): Errors => ({
+    title: '',
+    imdbId: '',
+    imdbUrl: '',
+    imgUrl: '',
+  }));
+
+  const formFieldSetters: { [key: string]: React.Dispatch<React.SetStateAction<string>> } = {
+    title: setTitle,
+    description: setDescription,
+    imdbId: setImdbId,
+    imdbUrl: setImdbUrl,
+    imgUrl: setImgUrl,
+  };
+
+  const changeFieldError = (name: string, value: string): boolean => {
+    const condition = (name === 'imdbUrl' || name === 'imgUrl')
+      ? !(/^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/
+        .test(value)) || value.length === 0
+      : value.length === 0;
+
+    switch (name) {
+      case 'title':
+      case 'imdbId':
+        setErrors((state) => ({
+          ...state,
+          [name]: condition ? 'This field is required' : '',
+        }));
+        break;
+
+      case 'imdbUrl':
+      case 'imgUrl':
+        setErrors((state) => ({
+          ...state,
+          [name]: condition ? 'Incorrect URL' : '',
+        }));
+        break;
+
+      default:
+        break;
+    }
+
+    return condition;
+  };
+
+  const resetForm = () => {
+    Object.keys(formFieldSetters).forEach((name) => formFieldSetters[name](''));
+  };
 
   const handleOnBlur = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = event.target;
 
-    const setters: { [key: string]: React.Dispatch<React.SetStateAction<string>> } = {
-      title: setTitle,
-      description: setDescription,
-      imdbId: setImdbId,
-      imdbUrl: setImdbUrl,
-      imgUrl: setImgUrl,
+    changeFieldError(name, value);
+  };
+
+  const fieldsHasError = () => {
+    const checkedFields: { [key: string]: string } = {
+      title,
+      imdbId,
+      imdbUrl,
+      imgUrl,
     };
 
-    if (Object.prototype.hasOwnProperty.call(setters, name)) {
-      setters[name](value);
-    }
+    return Object.entries(checkedFields).some(([name, value]) => changeFieldError(name, value));
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    onAdd({
-      title,
-      description,
-      imdbId,
-      imdbUrl,
-      imgUrl,
-    });
+    if (!fieldsHasError()) {
+      onAdd({
+        title,
+        description,
+        imdbId,
+        imdbUrl,
+        imgUrl,
+      });
+
+      resetForm();
+    }
+  };
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = event.target;
+
+    if (Object.prototype.hasOwnProperty.call(formFieldSetters, name)) {
+      formFieldSetters[name](value);
+    }
   };
 
   return (
@@ -47,7 +116,9 @@ const NewMovie: FC<Props> = ({ onAdd }) => {
           Title
           <input
             onBlur={handleOnBlur}
+            value={title}
             name="title"
+            onChange={handleChange}
             id="title"
             type="text"
             className="input input--outline"
@@ -59,6 +130,8 @@ const NewMovie: FC<Props> = ({ onAdd }) => {
           Description
           <textarea
             onBlur={handleOnBlur}
+            value={description}
+            onChange={handleChange}
             name="description"
             id="description"
             className="input input--outline input--textarea"
@@ -70,7 +143,9 @@ const NewMovie: FC<Props> = ({ onAdd }) => {
           ImgUrl
           <input
             onBlur={handleOnBlur}
+            value={imgUrl}
             name="imgUrl"
+            onChange={handleChange}
             id="imgUrl"
             type="text"
             className="input input--outline"
@@ -82,6 +157,8 @@ const NewMovie: FC<Props> = ({ onAdd }) => {
           ImdbUrl
           <input
             onBlur={handleOnBlur}
+            value={imdbUrl}
+            onChange={handleChange}
             name="imdbUrl"
             id="imdbUrl"
             type="text"
@@ -94,6 +171,8 @@ const NewMovie: FC<Props> = ({ onAdd }) => {
           ImdbId
           <input
             onBlur={handleOnBlur}
+            onChange={handleChange}
+            value={imdbId}
             name="imdbId"
             id="imdbId"
             type="text"
