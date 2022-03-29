@@ -1,0 +1,62 @@
+.button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+
+  min-height: 48px;
+
+  padding: 0 35px;
+
+  font-size: 12px;
+  line-height: 21px;
+  font-weight: 500;
+
+  text-align: center;
+  text-transform: uppercase;
+
+  border: none;
+
+  color: $c-white;
+  background-color: $c-granit;
+
+  cursor: pointer;
+
+  &:focus,
+  &:active {
+    color: $c-white;
+  }
+
+  @include transitions(background-color);
+
+  @include onHover {
+    background-color: $c-black;
+    color: $c-white;
+  }
+
+  &[disabled] {
+    // [disabled] of :disabled?
+    background-color: $c-lightgrey-inactive;
+  }
+
+  &--size {
+    &--large {
+      padding: 0 55px;
+    }
+
+    &--full {
+      width: 100%;
+    }
+  }
+
+  &--style--revert {
+    background-color: transparent;
+    color: $c-granit;
+    border: 1px solid $c-granit;
+
+    @include onHover {
+      background-color: $c-granit;
+      color: $c-white;
+      border-color: $c-granit;
+    }
+  }
+}

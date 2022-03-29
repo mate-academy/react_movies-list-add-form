@@ -1,0 +1,39 @@
+$c-black: #131313;
+$c-green: #0c797a;
+$c-granit: #333;
+$c-lightgreen: #eefafa;
+$c-lightgrey: #bdbdbd;
+$c-lightgrey-inactive: #d0d0d0;
+$c-white: #fff;
+$c-red-d: #dc3027;
+
+@mixin transitions($props, $time: $transition-time) {
+  transition-property: $props;
+  transition-duration: $time;
+}
+
+@mixin onHover {
+  @media (hover: hover) {
+    &:hover {
+      @content;
+    }
+  }
+}
+
+$transition-time: 0.3s;
+
+@import './input';
+@import './button';
+
+.form{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  height: 100%;
+
+  &__label {
+    margin-bottom: 15px;
+    display: block;
+  }
+}
