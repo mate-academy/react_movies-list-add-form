@@ -1,0 +1,40 @@
+.NewMovie {
+  display: flex;
+  flex-direction: column;
+
+  &__label-error {
+    color: red;
+  }
+
+  &__input {
+    display: block;
+    width: 100%;
+    margin: 0 0 10px;
+
+    &--error {
+      border: 2px solid red;
+
+      &:focus {
+        outline: none;
+      }
+    }
+  }
+
+  &__button {
+    cursor: pointer;
+    color: white;
+    background-color: black;
+    border: 2px solid transparent;
+    border-radius: 5px;
+    width: 50%;
+    margin: 20px auto;
+    font-weight: bold;
+    font-size: 14px;
+    transition: all 0.3s;
+
+    &:disabled {
+      background-color: lightgray;
+      cursor: default;
+    }
+  }
+}
