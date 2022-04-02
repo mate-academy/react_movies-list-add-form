@@ -1,0 +1,35 @@
+.new-movie {
+  &__form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  &__input {
+    height: 30px;
+    border-radius: 8px;
+    width: 170px;
+    border: 2px solid black;
+    &--invalid {
+      border: 2px solid red;
+    }
+  }
+
+  &__input:focus {
+    outline: none;
+  }
+
+  &__error {
+    color: red;
+  }
+  &__button {
+    height: 30px;
+    width: 80px;
+    background-color: green;
+    color: white;
+    &:disabled {
+      background-color: red;
+    }
+  }
+}
