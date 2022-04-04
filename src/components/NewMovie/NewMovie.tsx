@@ -1,101 +1,97 @@
 import classNames from 'classnames';
-import React, { PureComponent } from 'react';
+import React, { FC, useState, useMemo } from 'react';
 
 interface Props {
   onAdd: (movie: Movie) => void
 }
 
-interface State {
-  title: string;
-  description: string;
-  imgUrl: string;
-  imdbUrl: string;
-  imdbId: string;
-  errorTitle: string;
-  errorImgUrl: string;
-  errorImdbUrl: string;
-  errorImdbId: string;
+interface Errors {
+  title: string,
+  imgUrl: string,
+  imdbUrl: string,
+  imdbId: string
 }
 
-export class NewMovie extends PureComponent<Props, State> {
-  state: State = {
+interface LinkedSetter {
+  [key: string]: React.Dispatch<React.SetStateAction<string>>
+}
+
+export const NewMovie: FC<Props> = ({ onAdd }) => {
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [imgUrl, setImgUrl] = useState('');
+  const [imdbUrl, setImdbUrl] = useState('');
+  const [imdbId, setImdbId] = useState('');
+
+  const [errors, setErrors] = useState((): Errors => ({
     title: '',
-    description: '',
     imgUrl: '',
     imdbUrl: '',
     imdbId: '',
-    errorTitle: '',
-    errorImgUrl: '',
-    errorImdbUrl: '',
-    errorImdbId: '',
+  }));
+
+  const formFieldSetters: LinkedSetter = useMemo(() => ({
+    title: setTitle,
+    description: setDescription,
+    imdbId: setImdbId,
+    imdbUrl: setImdbUrl,
+    imgUrl: setImgUrl,
+  }), []);
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = event.target;
+
+    if (Object.prototype.hasOwnProperty.call(formFieldSetters, name)) {
+      formFieldSetters[name](value);
+    }
   };
 
-  changeTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({
-      title: event.target.value,
-      errorTitle: '',
-    });
+  const resetForm = () => {
+    Object.keys(formFieldSetters).forEach(key => formFieldSetters[key](''));
   };
 
-  changeDescription = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    this.setState({ description: event.target.value });
-  };
-
-  changeImgUrl = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({
-      imgUrl: event.target.value,
-      errorImgUrl: '',
-    });
-  };
-
-  changeImdbUrl = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({
-      imdbUrl: event.target.value,
-      errorImdbUrl: '',
-    });
-  };
-
-  changeImdbId = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({
-      imdbId: event.target.value,
-      errorImdbId: '',
-    });
-  };
-
-  handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
-    const {
-      title, description, imgUrl, imdbUrl, imdbId,
-    } = this.state;
 
     const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
 
     if (!title) {
-      this.setState({ errorTitle: 'Please, set the correct title' });
+      setErrors(state => ({
+        ...state,
+        title: 'Please, set the correct title',
+      }));
 
       return;
     }
 
     if (!imgUrl || !pattern.test(imgUrl)) {
-      this.setState({ errorImgUrl: 'Please, set the correct image url' });
+      setErrors(state => ({
+        ...state,
+        imgUrl: 'Please, set the correct image url',
+      }));
 
       return;
     }
 
     if (!imdbUrl || !pattern.test(imdbUrl)) {
-      this.setState({ errorImdbUrl: 'Please, set the correct imdb url' });
+      setErrors(state => ({
+        ...state,
+        imdbUrl: 'Please, set the correct imdb url',
+      }));
 
       return;
     }
 
     if (!imdbId) {
-      this.setState({ errorImdbId: 'Please, set the correct imdb id' });
+      setErrors(state => ({
+        ...state,
+        imdbId: 'Please, set the correct imdb id',
+      }));
 
       return;
     }
 
-    this.props.onAdd({
+    onAdd({
       title,
       description,
       imgUrl,
@@ -103,128 +99,113 @@ export class NewMovie extends PureComponent<Props, State> {
       imdbId,
     });
 
-    this.resetForm();
+    resetForm();
   };
 
-  resetForm = () => this.setState({
-    title: '',
-    description: '',
-    imgUrl: '',
-    imdbUrl: '',
-    imdbId: '',
-  });
-
-  render() {
-    const {
-      title, description, imgUrl, imdbUrl, imdbId,
-      errorTitle, errorImgUrl, errorImdbUrl, errorImdbId,
-    } = this.state;
-
-    return (
-      <form onSubmit={this.handleSubmit}>
-        <div className="field">
-          <label htmlFor="title" className="label">
-            Title
-            <div className="control">
-              <input
-                type="text"
-                name="title"
-                id="title"
-                placeholder="Set the title"
-                className={classNames('input', { 'is-danger': errorTitle })}
-                value={title}
-                onChange={this.changeTitle}
-              />
-            </div>
-          </label>
-          {errorTitle && (<p className="help is-danger">{errorTitle}</p>)}
-        </div>
-
-        <div className="field">
-          <label htmlFor="description" className="label">
-            Description
-            <div className="control">
-              <textarea
-                name="description"
-                id="description"
-                placeholder="Put the description of the movie"
-                className="textarea"
-                value={description}
-                onChange={this.changeDescription}
-              />
-            </div>
-          </label>
-        </div>
-
-        <div className="field">
-          <label htmlFor="imgUrl" className="label">
-            Image Url
-            <div className="control">
-              <input
-                type="text"
-                name="imgUrl"
-                id="imgUrl"
-                placeholder="Set the image url"
-                className={classNames('input', { 'is-danger': errorImgUrl })}
-                value={imgUrl}
-                onChange={this.changeImgUrl}
-              />
-            </div>
-          </label>
-          {errorImgUrl && (<p className="help is-danger">{errorImgUrl}</p>)}
-        </div>
-
-        <div className="field">
-          <label htmlFor="imdbUrl" className="label">
-            Imdb Url
-            <div className="control">
-              <input
-                type="text"
-                name="imdbUrl"
-                id="imdbUrl"
-                placeholder="Set the imdb url"
-                className={classNames('input', { 'is-danger': errorImdbUrl })}
-                value={imdbUrl}
-                onChange={this.changeImdbUrl}
-              />
-            </div>
-          </label>
-          {errorImdbUrl && (<p className="help is-danger">{errorImdbUrl}</p>)}
-        </div>
-
-        <div className="field">
-          <label htmlFor="imdbId" className="label">
-            Imdb Id
-            <div className="control">
-              <input
-                type="text"
-                name="imdbId"
-                id="imdbId"
-                placeholder="Set the imdb id"
-                className={classNames('input', { 'is-danger': errorImdbId })}
-                value={imdbId}
-                onChange={this.changeImdbId}
-              />
-            </div>
-          </label>
-          {errorImdbId && (<p className="help is-danger">{errorImdbId}</p>)}
-        </div>
-
-        <div className="field is-grouped">
+  return (
+    <form onSubmit={handleSubmit}>
+      <div className="field">
+        <label htmlFor="title" className="label">
+          Title
           <div className="control">
-            <button type="submit" className="button is-link">Add</button>
+            <input
+              type="text"
+              name="title"
+              id="title"
+              placeholder="Set the title"
+              className={classNames('input', { 'is-danger': errors.title })}
+              value={title}
+              onChange={handleChange}
+            />
           </div>
+        </label>
+        {errors.title && (<p className="help is-danger">{errors.title}</p>)}
+      </div>
+
+      <div className="field">
+        <label htmlFor="description" className="label">
+          Description
           <div className="control">
-            <button
-              type="button"
-              className="button is-link is-light"
-              onClick={this.resetForm}
-            >
-              Cancel
-            </button>
+            <textarea
+              name="description"
+              id="description"
+              placeholder="Put the description of the movie"
+              className="textarea"
+              value={description}
+              onChange={handleChange}
+            />
           </div>
+        </label>
+      </div>
+
+      <div className="field">
+        <label htmlFor="imgUrl" className="label">
+          Image Url
+          <div className="control">
+            <input
+              type="text"
+              name="imgUrl"
+              id="imgUrl"
+              placeholder="Set the image url"
+              className={classNames('input', { 'is-danger': errors.imgUrl })}
+              value={imgUrl}
+              onChange={handleChange}
+            />
+          </div>
+        </label>
+        {errors.imgUrl && (<p className="help is-danger">{errors.imgUrl}</p>)}
+      </div>
+
+      <div className="field">
+        <label htmlFor="imdbUrl" className="label">
+          Imdb Url
+          <div className="control">
+            <input
+              type="text"
+              name="imdbUrl"
+              id="imdbUrl"
+              placeholder="Set the imdb url"
+              className={classNames('input', { 'is-danger': errors.imdbUrl })}
+              value={imdbUrl}
+              onChange={handleChange}
+            />
+          </div>
+        </label>
+        {errors.imdbUrl && (<p className="help is-danger">{errors.imdbUrl}</p>)}
+      </div>
+
+      <div className="field">
+        <label htmlFor="imdbId" className="label">
+          Imdb Id
+          <div className="control">
+            <input
+              type="text"
+              name="imdbId"
+              id="imdbId"
+              placeholder="Set the imdb id"
+              className={classNames('input', { 'is-danger': errors.imdbId })}
+              value={imdbId}
+              onChange={handleChange}
+            />
+          </div>
+        </label>
+        {errors.imdbId && (<p className="help is-danger">{errors.imdbId}</p>)}
+      </div>
+
+      <div className="field is-grouped">
+        <div className="control">
+          <button type="submit" className="button is-link">Add</button>
         </div>
-      </form>
-    );
-  }
-}
+        <div className="control">
+          <button
+            type="button"
+            className="button is-link is-light"
+            onClick={resetForm}
+          >
+            Cancel
+          </button>
+        </div>
+      </div>
+    </form>
+  );
+};
