@@ -1,5 +1,6 @@
-import classNames from 'classnames';
 import React, { FC, useState, useMemo } from 'react';
+import { TextareaInput } from '../TextareaInput/TextareaInput';
+import { TextInput } from '../TextInput/TextInput';
 
 interface Props {
   onAdd: (movie: Movie) => void
@@ -12,7 +13,7 @@ interface Errors {
   imdbId: string
 }
 
-interface LinkedSetter {
+interface FormFieldSetter {
   [key: string]: React.Dispatch<React.SetStateAction<string>>
 }
 
@@ -30,7 +31,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
     imdbId: '',
   }));
 
-  const formFieldSetters: LinkedSetter = useMemo(() => ({
+  const setFormField: FormFieldSetter = useMemo(() => ({
     title: setTitle,
     description: setDescription,
     imdbId: setImdbId,
@@ -41,13 +42,18 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = event.target;
 
-    if (Object.prototype.hasOwnProperty.call(formFieldSetters, name)) {
-      formFieldSetters[name](value);
+    if (Object.prototype.hasOwnProperty.call(setFormField, name)) {
+      setFormField[name](value);
     }
+
+    setErrors(state => ({
+      ...state,
+      [name]: '',
+    }));
   };
 
   const resetForm = () => {
-    Object.keys(formFieldSetters).forEach(key => formFieldSetters[key](''));
+    Object.keys(setFormField).forEach(key => setFormField[key](''));
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -104,93 +110,49 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div className="field">
-        <label htmlFor="title" className="label">
-          Title
-          <div className="control">
-            <input
-              type="text"
-              name="title"
-              id="title"
-              placeholder="Set the title"
-              className={classNames('input', { 'is-danger': errors.title })}
-              value={title}
-              onChange={handleChange}
-            />
-          </div>
-        </label>
-        {errors.title && (<p className="help is-danger">{errors.title}</p>)}
-      </div>
+      <TextInput
+        name="title"
+        label="Title"
+        inputValue={title}
+        errorMessage={errors.title}
+        placeholder="Set the title"
+        onChange={handleChange}
+      />
 
-      <div className="field">
-        <label htmlFor="description" className="label">
-          Description
-          <div className="control">
-            <textarea
-              name="description"
-              id="description"
-              placeholder="Put the description of the movie"
-              className="textarea"
-              value={description}
-              onChange={handleChange}
-            />
-          </div>
-        </label>
-      </div>
+      <TextareaInput
+        name="description"
+        label="Description"
+        inputValue={description}
+        placeholder="Set the description"
+        onChange={handleChange}
+      />
 
-      <div className="field">
-        <label htmlFor="imgUrl" className="label">
-          Image Url
-          <div className="control">
-            <input
-              type="text"
-              name="imgUrl"
-              id="imgUrl"
-              placeholder="Set the image url"
-              className={classNames('input', { 'is-danger': errors.imgUrl })}
-              value={imgUrl}
-              onChange={handleChange}
-            />
-          </div>
-        </label>
-        {errors.imgUrl && (<p className="help is-danger">{errors.imgUrl}</p>)}
-      </div>
+      <TextInput
+        name="imgUrl"
+        label="Image url"
+        inputValue={imgUrl}
+        errorMessage={errors.imgUrl}
+        placeholder="Set the image url"
+        onChange={handleChange}
+      />
 
-      <div className="field">
-        <label htmlFor="imdbUrl" className="label">
-          Imdb Url
-          <div className="control">
-            <input
-              type="text"
-              name="imdbUrl"
-              id="imdbUrl"
-              placeholder="Set the imdb url"
-              className={classNames('input', { 'is-danger': errors.imdbUrl })}
-              value={imdbUrl}
-              onChange={handleChange}
-            />
-          </div>
-        </label>
-        {errors.imdbUrl && (<p className="help is-danger">{errors.imdbUrl}</p>)}
-      </div>
+      <TextInput
+        name="imdbUrl"
+        label="Imdb Url"
+        inputValue={imdbUrl}
+        errorMessage={errors.imdbUrl}
+        placeholder="Set the imdb url"
+        onChange={handleChange}
+      />
 
-      <div className="field">
-        <label htmlFor="imdbId" className="label">
-          Imdb Id
-          <div className="control">
-            <input
-              type="text"
-              name="imdbId"
-              id="imdbId"
-              placeholder="Set the imdb id"
-              className={classNames('input', { 'is-danger': errors.imdbId })}
-              value={imdbId}
-              onChange={handleChange}
-            />
-          </div>
-        </label>
-        {errors.imdbId && (<p className="help is-danger">{errors.imdbId}</p>)}
-      </div>
+      <TextInput
+        name="imdbId"
+        label="Imdb Id"
+        inputValue={imdbId}
+        errorMessage={errors.imdbId}
+        placeholder="Set the imdb id"
+        onChange={handleChange}
+      />
 
       <div className="field is-grouped">
         <div className="control">
