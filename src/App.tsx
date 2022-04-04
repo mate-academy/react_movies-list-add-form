@@ -1,34 +1,31 @@
-import React from 'react';
 import './App.scss';
+import {
+  FC, memo, useCallback, useEffect, useState,
+} from 'react';
+import { MovieForm } from './components/MovieForm';
 import { MoviesList } from './components/MoviesList';
-import { NewMovie } from './components/NewMovie';
 import moviesFromServer from './api/movies.json';
 
-interface State {
-  movies: Movie[];
-}
+export const App: FC = memo(() => {
+  const [movies, setMovies] = useState<Movie[]>([]);
 
-export class App extends React.Component<{}, State> {
-  state: State = {
-    movies: moviesFromServer,
-  };
+  useEffect(() => {
+    setMovies(moviesFromServer);
+  }, []);
 
-  addMovie = (/* movie: Movie */) => {
-    // put your code here
-  };
+  const addMovie = useCallback((movie) => {
+    setMovies(prevMovies => [...prevMovies, movie]);
+  }, []);
 
-  render() {
-    const { movies } = this.state;
-
-    return (
-      <div className="page">
-        <div className="page-content">
-          <MoviesList movies={movies} />
-        </div>
-        <div className="sidebar">
-          <NewMovie />
-        </div>
+  return (
+    <div className="page">
+      <div className="page-content">
+        <MoviesList movies={movies} />
       </div>
-    );
-  }
-}
+
+      <div className="sidebar">
+        <MovieForm />
+      </div>
+    </div>
+  );
+});

@@ -4,8 +4,8 @@
 - Follow the [React task guideline](https://github.com/mate-academy/react_task-guideline#react-tasks-guideline)
 
 ## Task
-1. Implement form inside `NewMovie` component.
-1. Form state should be inside `NewMovie`.
+1. Implement form inside `MovieForm` component.
+1. Form state should be inside `MovieForm`.
 1. Form should have next fields:
     - title
     - description
@@ -16,7 +16,7 @@
   Also, form should be cleared. Page should not be reloaded.
 
 ## Advanced tasks (Add validation)
-> Do it only if you understand everything 
+> Do it only if you understand everything
 
 1. validate controls values on blur
 1. `title`, `imgUrl`, `imdbUrl`, `imdbId` should be required
