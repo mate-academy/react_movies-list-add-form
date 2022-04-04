@@ -1,0 +1,11 @@
+.NewMovie {
+  &__table {
+    font-size: 22px;
+  }
+  &__error {
+    color: red;
+  }
+  &__borderError {
+    border: 1px solid red;
+  }
+}
