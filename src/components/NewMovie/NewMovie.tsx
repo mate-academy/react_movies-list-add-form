@@ -1,6 +1,8 @@
-import { FC, useState } from 'react';
-import classNames from 'classnames';
+import {
+  FC, useState, memo, useCallback,
+} from 'react';
 import './NewMovie.scss';
+import Input from '../Input/Input';
 
 type Props = {
   onAdd: (movie: Movie) => void,
@@ -13,7 +15,11 @@ interface Errors {
   imgUrl: string,
 }
 
-const NewMovie: FC<Props> = ({ onAdd }) => {
+interface LinkedSetter {
+  [key: string]: React.Dispatch<React.SetStateAction<string>>
+}
+
+const NewMovie: FC<Props> = memo(({ onAdd }) => {
   const [description, setDescription] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
   const [imgUrl, setImgUrl] = useState('');
@@ -27,7 +33,7 @@ const NewMovie: FC<Props> = ({ onAdd }) => {
     imgUrl: '',
   }));
 
-  const formFieldSetters: { [key: string]: React.Dispatch<React.SetStateAction<string>> } = {
+  const formFieldSetters: LinkedSetter = {
     title: setTitle,
     description: setDescription,
     imdbId: setImdbId,
@@ -37,10 +43,11 @@ const NewMovie: FC<Props> = ({ onAdd }) => {
 
   const changeFieldError = (name: string, rawValue: string, getConditionOnly = false): boolean => {
     const value = rawValue.trim();
+    const validateUrl = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
+    const isUrl = (name === 'imdbUrl' || name === 'imgUrl');
 
-    const condition = (name === 'imdbUrl' || name === 'imgUrl')
-      ? !(/^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/
-        .test(value.trim())) || value.length === 0
+    const condition = isUrl
+      ? !validateUrl.test(value) || value.length === 0
       : value.length === 0;
 
     if (getConditionOnly) {
@@ -71,9 +78,9 @@ const NewMovie: FC<Props> = ({ onAdd }) => {
     return condition;
   };
 
-  const resetForm = () => {
+  const resetForm = useCallback(() => {
     Object.keys(formFieldSetters).forEach((name) => formFieldSetters[name](''));
-  };
+  }, []);
 
   const handleOnBlur = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = event.target;
@@ -81,7 +88,7 @@ const NewMovie: FC<Props> = ({ onAdd }) => {
     changeFieldError(name, value);
   };
 
-  const fieldsHasError = (getConditionOnly = false) => {
+  const fieldsHasError = useCallback((getConditionOnly = false) => {
     const checkedFields: { [key: string]: string } = {
       title,
       imdbId,
@@ -90,11 +97,8 @@ const NewMovie: FC<Props> = ({ onAdd }) => {
     };
 
     return Object.entries(checkedFields)
-      .reduce(
-        (acc, [name, value]) => changeFieldError(name, value, getConditionOnly) || acc,
-        false,
-      );
-  };
+      .some(([name, value]) => changeFieldError(name, value, getConditionOnly));
+  }, [errors]);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -126,17 +130,12 @@ const NewMovie: FC<Props> = ({ onAdd }) => {
         <label htmlFor="title" className="form__label">
           Title
           {errors.title && <span className="errorText">{`  ${errors.title}!`}</span>}
-          <input
-            onBlur={handleOnBlur}
-            value={title}
+          <Input
             name="title"
+            onBlur={handleOnBlur}
             onChange={handleChange}
-            id="title"
-            type="text"
-            className={classNames('input', 'input--outline', {
-              'input--error': !!errors.title,
-            })}
-            placeholder="title"
+            valid={!!errors.title}
+            value={title}
           />
         </label>
 
@@ -156,51 +155,36 @@ const NewMovie: FC<Props> = ({ onAdd }) => {
         <label htmlFor="imgUrl" className="form__label">
           ImgUrl
           {errors.imgUrl && <span className="errorText">{`  ${errors.imgUrl}!`}</span>}
-          <input
-            onBlur={handleOnBlur}
-            value={imgUrl}
+          <Input
             name="imgUrl"
+            onBlur={handleOnBlur}
             onChange={handleChange}
-            id="imgUrl"
-            type="text"
-            className={classNames('input', 'input--outline', {
-              'input--error': !!errors.imgUrl,
-            })}
-            placeholder="imgUrl"
+            valid={!!errors.imgUrl}
+            value={imgUrl}
           />
         </label>
 
         <label htmlFor="imdbUrl" className="form__label">
           ImdbUrl
           {errors.imdbUrl && <span className="errorText">{`  ${errors.imdbUrl}!`}</span>}
-          <input
-            onBlur={handleOnBlur}
-            value={imdbUrl}
-            onChange={handleChange}
+          <Input
             name="imdbUrl"
-            id="imdbUrl"
-            type="text"
-            className={classNames('input', 'input--outline', {
-              'input--error': !!errors.imdbUrl,
-            })}
-            placeholder="imdbUrl"
+            onBlur={handleOnBlur}
+            onChange={handleChange}
+            valid={!!errors.imdbUrl}
+            value={imdbUrl}
           />
         </label>
 
         <label htmlFor="imdbId" className="form__label">
           ImdbId
           {errors.imdbId && <span className="errorText">{`  ${errors.imdbId}!`}</span>}
-          <input
+          <Input
+            name="imdbId"
             onBlur={handleOnBlur}
             onChange={handleChange}
+            valid={!!errors.imdbId}
             value={imdbId}
-            name="imdbId"
-            id="imdbId"
-            type="text"
-            className={classNames('input', 'input--outline', {
-              'input--error': !!errors.imdbId,
-            })}
-            placeholder="imdbId"
           />
         </label>
       </div>
@@ -214,6 +198,6 @@ const NewMovie: FC<Props> = ({ onAdd }) => {
       </button>
     </form>
   );
-};
+});
 
 export { NewMovie };
