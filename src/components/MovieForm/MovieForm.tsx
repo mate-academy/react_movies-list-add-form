@@ -22,22 +22,19 @@ export const MovieForm: FC<Props> = memo(({ onAdd }) => {
   const [hasImdbUrlError, setImdbUrlError] = useState(false);
   const [hasImdbIdError, setImdbIdError] = useState(false);
 
-  const isValidUrl = useCallback(
-    (value: string) => urlRegex.test(value),
-    [],
-  );
+  const isValidUrl = (value: string) => urlRegex.test(value);
 
   const isValidMovie = Boolean(title) && Boolean(imdbId)
     && isValidUrl(imgUrl)
     && isValidUrl(imdbUrl);
 
-  const clearForm = useCallback(() => {
+  const clearForm = () => {
     setTitle('');
     setDescription('');
     setImgUrl('');
     setImdbUrl('');
     setImdbId('');
-  }, []);
+  };
 
   const handleTitleChange = useCallback(({ target }) => {
     setTitleError(false);

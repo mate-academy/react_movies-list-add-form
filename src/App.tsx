@@ -1,17 +1,13 @@
 import './App.scss';
 import {
-  FC, memo, useCallback, useEffect, useState,
+  FC, memo, useCallback, useState,
 } from 'react';
 import { MovieForm } from './components/MovieForm';
 import { MoviesList } from './components/MoviesList';
 import moviesFromServer from './api/movies.json';
 
 export const App: FC = memo(() => {
-  const [movies, setMovies] = useState<Movie[]>([]);
-
-  useEffect(() => {
-    setMovies(moviesFromServer);
-  }, []);
+  const [movies, setMovies] = useState<Movie[]>(moviesFromServer);
 
   const addMovie = useCallback((movie) => {
     setMovies(prevMovies => [...prevMovies, movie]);

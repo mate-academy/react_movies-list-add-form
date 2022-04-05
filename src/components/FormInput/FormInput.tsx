@@ -24,11 +24,11 @@ export const FormInput: FC<Props> = memo(({
 
       <input
         className="FormInput__input"
-        name={name}
         type="text"
+        name={name}
         value={value}
-        autoComplete="off"
         placeholder={`Enter your ${name}...`}
+        autoComplete="off"
         onChange={onChange}
         onBlur={onBlur}
         style={{
