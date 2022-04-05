@@ -1,0 +1,16 @@
+.FormInput {
+  &__label {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-bottom: 15px;
+  }
+
+  &__input {
+    height: 50px;
+  }
+
+  &__error {
+    position: relative;
+  }
+}

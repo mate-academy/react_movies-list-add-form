@@ -1,0 +1,23 @@
+.MovieForm {
+  width: max-content;
+
+  &__description {
+    &-label {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      margin-bottom: 15px;
+    }
+
+    &-input {
+      height: 50px;
+      max-height: 150px;
+      resize: vertical;
+    }
+  }
+
+  &__button {
+    width: 100%;
+    padding: 10px 20px;
+  }
+}

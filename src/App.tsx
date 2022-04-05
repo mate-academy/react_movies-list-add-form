@@ -24,7 +24,7 @@ export const App: FC = memo(() => {
       </div>
 
       <div className="sidebar">
-        <MovieForm />
+        <MovieForm onAdd={addMovie} />
       </div>
     </div>
   );
