@@ -51,9 +51,7 @@ const NewMovie: React.FC<Props> = ({ onAdd }) => {
   return (
     <form
       className="Form"
-      onSubmit={(e) => {
-        handleSubmit(e);
-      }}
+      onSubmit={handleSubmit}
     >
 
       <input
