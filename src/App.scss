@@ -13,3 +13,12 @@
   padding: 20px;
   border-left: 1px solid lightgray;
 }
+
+.Form {
+  display: flex;
+  flex-direction: column;
+}
+
+.error {
+  border: 5px solid red;
+}
