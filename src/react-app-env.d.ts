@@ -1,7 +1,6 @@
 /// <reference types="react-scripts" />
 
 type Props = {
-  // movies: Movie[],
   onAdd: (movie: Movie) => void,
 };
 

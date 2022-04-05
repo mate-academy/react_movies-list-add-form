@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, FormEvent } from 'react';
 import classNames from 'classnames';
 
 interface Props {
@@ -28,27 +28,31 @@ const NewMovie: React.FC<Props> = ({ onAdd }) => {
     }
   };
 
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const newFilm = {
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    };
+
+    onAdd(newFilm);
+
+    setTitle('');
+    setDescription('');
+    setImgUrl('');
+    setImdbUrl('');
+    setImdbId('');
+  };
+
   return (
     <form
       className="Form"
       onSubmit={(e) => {
-        e.preventDefault();
-
-        const newFilm = {
-          title,
-          description,
-          imgUrl,
-          imdbUrl,
-          imdbId,
-        };
-
-        onAdd(newFilm);
-
-        setTitle('');
-        setDescription('');
-        setImgUrl('');
-        setImdbUrl('');
-        setImdbId('');
+        handleSubmit(e);
       }}
     >
 
@@ -70,9 +74,7 @@ const NewMovie: React.FC<Props> = ({ onAdd }) => {
       />
 
       <input
-        placeholder={invalidImgUrl
-          ? 'Error! Wrong Url format'
-          : 'ImgUrl'}
+        placeholder="ImgUrl"
         value={imgUrl}
         required
         className={classNames('', { error: invalidImgUrl })}
@@ -87,16 +89,14 @@ const NewMovie: React.FC<Props> = ({ onAdd }) => {
       )}
 
       <input
-        placeholder={invalidImdbUrl
-          ? 'Error! Wrong Url format'
-          : 'ImdbUrl'}
+        placeholder="ImdbUrl"
         value={imdbUrl}
         required
         className={classNames('', { error: invalidImdbUrl })}
-        onChange={(e) => setImgUrl(e.target.value)}
+        onChange={(e) => setImdbUrl(e.target.value)}
         onBlur={(e) => {
           checkImdbValidity();
-          setImgUrl(e.target.value);
+          setImdbUrl(e.target.value);
         }}
       />
       {invalidImdbUrl && (
