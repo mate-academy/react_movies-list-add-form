@@ -1,34 +1,29 @@
-import React from 'react';
+import React, { memo, useState } from 'react';
+
 import './App.scss';
+
 import { MoviesList } from './components/MoviesList';
 import { NewMovie } from './components/NewMovie';
 import moviesFromServer from './api/movies.json';
 
-interface State {
-  movies: Movie[];
-}
+export const App: React.FC = memo(() => {
+  const [movies, setMovies] = useState(moviesFromServer);
 
-export class App extends React.Component<{}, State> {
-  state: State = {
-    movies: moviesFromServer,
+  const addMovie = (movie: Movie) => {
+    setMovies((current) => ([
+      ...current,
+      movie,
+    ]));
   };
 
-  addMovie = (/* movie: Movie */) => {
-    // put your code here
-  };
-
-  render() {
-    const { movies } = this.state;
-
-    return (
-      <div className="page">
-        <div className="page-content">
-          <MoviesList movies={movies} />
-        </div>
-        <div className="sidebar">
-          <NewMovie />
-        </div>
+  return (
+    <div className="page">
+      <div className="page-content">
+        <MoviesList movies={movies} />
       </div>
-    );
-  }
-}
+      <div className="sidebar">
+        <NewMovie onAdd={addMovie} />
+      </div>
+    </div>
+  );
+});
