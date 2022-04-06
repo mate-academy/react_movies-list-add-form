@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { memo, useState } from 'react';
 
 import './App.scss';
 
@@ -6,7 +6,7 @@ import { MoviesList } from './components/MoviesList';
 import { NewMovie } from './components/NewMovie';
 import moviesFromServer from './api/movies.json';
 
-export const App: React.FC = () => {
+export const App: React.FC = memo(() => {
   const [movies, setMovies] = useState(moviesFromServer);
 
   const addMovie = (movie: Movie) => {
@@ -26,4 +26,4 @@ export const App: React.FC = () => {
       </div>
     </div>
   );
-};
+});

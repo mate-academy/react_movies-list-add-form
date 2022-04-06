@@ -1,4 +1,4 @@
-import React, { FormEvent, useState } from 'react';
+import React, { FormEvent, memo, useState } from 'react';
 
 import './NewMovie.scss';
 
@@ -6,7 +6,7 @@ interface Props {
   onAdd: (movie: Movie) => void,
 }
 
-export const NewMovie: React.FC<Props> = ({ onAdd }) => {
+export const NewMovie: React.FC<Props> = memo(({ onAdd }) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [imgUrl, setImgUrl] = useState('');
@@ -107,4 +107,4 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       </button>
     </form>
   );
-};
+});
