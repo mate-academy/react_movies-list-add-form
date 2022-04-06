@@ -4,28 +4,19 @@
   gap: 20px;
   width: 250px;
   margin-left: 15px;
+  align-items: center;
 
-  &__title {
-  }
-
-  &__description {
-  }
-
-  &__imgUrl {
-  }
-
-  &__imdbUrl {
-  }
-
-  &__imdbId {
+  &__field {
+    width: 250px;
   }
 
   &__submit {
-    width: 200px;
+    width: 140px;
     height: 30px;
     border: 0;
+    font-family: "Arial Black";
     border-radius: 0.25rem;
-    width: 200px;
+    background-color: #d8a212;
     box-shadow: 0 0.5em 1em -0.125em rgba(10, 10, 10, 0.05), 0 0px 0 1px rgba(10, 10, 10, 0.02);
 
     transition: all 0.3s;

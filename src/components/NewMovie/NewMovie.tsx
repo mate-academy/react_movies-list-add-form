@@ -46,7 +46,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         type="text"
         name="title"
         id="title"
-        className="form__title"
+        className="form__field"
         placeholder="Title"
         value={title}
         onChange={(event) => (
@@ -57,7 +57,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <textarea
         name="description"
         id="description"
-        className="form__description"
+        className="form__field"
         placeholder="Description"
         value={description}
         onChange={(event) => (
@@ -69,7 +69,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         type="text"
         name="imgUrl"
         id="imgUrl"
-        className="form__imgUrl"
+        className="form__field"
         placeholder="Image Url"
         value={imgUrl}
         onChange={(event => (
@@ -80,7 +80,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         type="text"
         name="imdbUrl"
         id="imdbUrl"
-        className="form__imdbUrl"
+        className="form__field"
         placeholder="IMDB Url"
         value={imdbUrl}
         onChange={(event => (
@@ -91,7 +91,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         type="text"
         name="imdbId"
         id="imdbId"
-        className="form__imdbId"
+        className="form__field"
         placeholder="IMDB Id"
         value={imdbId}
         onChange={(event => (
