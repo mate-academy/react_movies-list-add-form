@@ -1,4 +1,4 @@
-import React, { memo, useState } from 'react';
+import React, { memo, useCallback, useState } from 'react';
 import { FormInput } from '../FormInput/FormInput';
 
 type Props = {
@@ -18,13 +18,13 @@ export const NewMovie: React.FC<Props> = memo(({ onAdd }) => {
   const [imdbUrlError, setImdbUrlError] = useState(false);
   const [imdbIdError, setImdbIdError] = useState(false);
 
-  const clearForm = () => {
+  const clearForm = useCallback(() => {
     setTitle('');
     setDescription('');
     setImgUrl('');
     setImdbUrl('');
     setImdbId('');
-  };
+  }, []);
 
   const shouldFormSubmit = [title, description, imgUrl, imdbUrl, imdbId]
     .filter(field => field).length;
