@@ -1,0 +1,130 @@
+.form {
+  display: flex;
+  flex-direction: column;
+
+  &__label {
+    border: none;
+    margin-bottom: 10px;
+
+    &:nth-of-type(2) {
+      margin-bottom: 20px;
+    }
+
+    &:last-of-type {
+      margin-bottom: 18px;
+    }
+  }
+
+  &__input {
+    width: 100%;
+    max-width: 360px;
+    padding: 8px;
+    font-size: 1em;
+    border-radius: 5px;
+    border: solid 1px #d3d3d3;
+
+    transition: box-shadow 0.2s, border-color 0.2s;
+
+    &::placeholder {
+      font-size: 0.9em;
+    }
+
+    &:hover {
+      box-shadow: 0 0 3px 0.5px #c5c5c5;
+    }
+
+    &:focus {
+      box-shadow: 0 0 3px 2px #c5c5c5;
+      outline: none;
+      border-color: #d3d3d3;
+    }
+
+    &--error {
+      border-color: #f00;
+
+      &:hover {
+        border-color: #d3d3d3;
+      }
+    }
+  }
+
+  &__error-text {
+    font-size: 0.8em;
+    font-weight: normal;
+    color: #f00;
+    margin-left: 5px;
+    transform: translateY(2px);
+    transition: opacity 0.2s;
+
+    &--hidden {
+      opacity: 0;
+    }
+  }
+
+  &__button {
+    position: relative;
+    margin: 0 auto;
+    margin-bottom: 20px;
+    padding: 14px;
+    width: 100%;
+    font-weight: bold;
+    text-align: center;
+    text-transform: uppercase;
+    color: #363636;
+
+    background-color: #e4b622;
+    border: none;
+    border-radius: 5px;
+
+    box-shadow: 3px 3px 8px #504f4f;
+    transition: background-color 0.3s;
+
+    &:hover {
+      background-color: #f3d679;
+      cursor: pointer;
+    }
+
+    &:active {
+      animation: gradient 150ms;
+      transform: scale(0.99);
+    }
+
+    &:disabled {
+      opacity: 0.2;
+    }
+
+    &--reset {
+      background-color: #4a4a4a;
+      color: whitesmoke;
+      transition: color 0.3s, background-color 0.3s;
+
+      &:hover {
+        color: #4a4a4a;
+      }
+    }
+  }
+}
+
+@keyframes gradient {
+  0% {
+    background: radial-gradient(circle at center,
+    #4a4a4a 0%, #f3d679 0%, #f3d679 100%);
+  }
+  25% {
+    background: radial-gradient(circle at center,
+    #4a4a4a 24%, #f3d679 25%, #f3d679 100%);
+  }
+  50% {
+    background: radial-gradient(circle at center,
+    #4a4a4a 49%, #f3d679 50%, #f3d679 100%);
+  }
+  75% {
+    background: radial-gradient(circle at center,
+    #4a4a4a 74%, #f3d679 75%, #f3d679 100%);
+  }
+  100% {
+    color: #e4b622;
+    background: radial-gradient(circle at center,
+    #4a4a4a 99%, #f3d679 100%, #f3d679 100%);
+  }
+}
