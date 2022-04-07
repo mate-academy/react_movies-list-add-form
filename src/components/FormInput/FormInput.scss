@@ -1,0 +1,9 @@
+.FormInput {
+  margin-bottom: 5px;
+
+  &__error {
+    margin: 0;
+    font-size: 10px;
+    color: red;
+  }
+}
