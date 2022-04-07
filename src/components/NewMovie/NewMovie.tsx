@@ -198,7 +198,7 @@ export const NewMovie: React.FC<Props> = React.memo(({ onAdd }) => {
         type="button"
         onClick={resetAll}
       >
-        Clear
+        Reset
       </button>
     </form>
   );
