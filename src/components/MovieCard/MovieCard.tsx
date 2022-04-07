@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { memo } from 'react';
 import './MovieCard.scss';
 
 type Props = Movie;
 
-export const MovieCard: React.FC<Props> = ({
+export const MovieCard: React.FC<Props> = memo(({
   title, description, imgUrl, imdbUrl,
 }) => (
   <div className="card">
@@ -37,4 +37,4 @@ export const MovieCard: React.FC<Props> = ({
       </div>
     </div>
   </div>
-);
+));
