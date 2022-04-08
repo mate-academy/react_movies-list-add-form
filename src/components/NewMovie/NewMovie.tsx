@@ -26,31 +26,20 @@ export const NewMovie: React.FC<Props> = memo(({ onAdd }) => {
     setImdbId('');
   }, []);
 
+  const visibleErrors = useCallback(() => {
+    setTitleError(!title);
+    setDescriptionError(!description);
+    setImgUrlError(!imgUrl);
+    setImdbUrlError(!imdbUrl);
+    setImdbIdError(!imdbId);
+  }, []);
+
   const shouldFormSubmit = [title, description, imgUrl, imdbUrl, imdbId]
     .filter(field => field).length;
 
   const formSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
-    if (!title) {
-      setTitleError(true);
-    }
-
-    if (!description) {
-      setDescriptionError(true);
-    }
-
-    if (!imgUrl) {
-      setImgUrlError(true);
-    }
-
-    if (!imdbUrl) {
-      setImdbUrlError(true);
-    }
-
-    if (!imdbId) {
-      setImdbIdError(true);
-    }
+    visibleErrors();
 
     if (!shouldFormSubmit) {
       return;
