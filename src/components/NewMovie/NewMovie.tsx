@@ -29,7 +29,9 @@ export const NewMovie: React.FC<Props> = memo(({ onAdd }) => {
   const shouldFormSubmit = [title, description, imgUrl, imdbUrl, imdbId]
     .filter(field => field).length;
 
-  const formSubmit = () => {
+  const formSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
     if (!title) {
       setTitleError(true);
     }
@@ -67,12 +69,7 @@ export const NewMovie: React.FC<Props> = memo(({ onAdd }) => {
   };
 
   return (
-    <form onSubmit={(e) => {
-      e.preventDefault();
-
-      formSubmit();
-    }}
-    >
+    <form onSubmit={formSubmit}>
       <FormInput
         value={title}
         placeholder="Enter title"
