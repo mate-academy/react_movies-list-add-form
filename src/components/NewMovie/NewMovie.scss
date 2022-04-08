@@ -1,1 +1,17 @@
-// not empty
+.form-input {
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+  font-weight: bold;
+
+  gap: 20px;
+}
+
+.input {
+  border: 1px solid #ccc;
+  border-bottom: 1px point solid blue;
+}
+
+.btn-submit {
+  background-color: orange;
+}
