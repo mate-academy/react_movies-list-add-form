@@ -1,0 +1,14 @@
+input {
+  padding: 15px 20px;
+  margin-bottom: 20px;
+  font-size: 20px;
+  width: 100%;
+  border: none;
+  outline: none;
+  box-shadow: rgba(97, 91, 91, 0.5) 0px 2px 1px -1px, rgba(130, 122, 122, 0.5) 0px 1px 1px 0px, rgba(171, 162, 162, 0.5) 0px 1px 3px 0px;
+  border-radius: 5px;
+
+  &:focus {
+    box-shadow: rgba(85, 0, 255, 0.5) 0px 2px 1px -1px, rgba(51, 0, 255, 0.5) 0px 1px 1px 0px, rgba(93, 0, 255, 0.5) 0px 1px 3px 0px;
+  }
+}

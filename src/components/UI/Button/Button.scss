@@ -1,0 +1,11 @@
+.Button {
+  border: none;
+  outline: none;
+  padding: 12px;
+  font-size: 18px;
+  border-radius: 10px;
+
+  &:active {
+    transform: scale(1.02);
+  }
+}

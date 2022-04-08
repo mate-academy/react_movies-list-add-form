@@ -1,34 +1,51 @@
-import React from 'react';
+import { FC, useState, useEffect } from 'react';
 import './App.scss';
 import { MoviesList } from './components/MoviesList';
 import { NewMovie } from './components/NewMovie';
 import moviesFromServer from './api/movies.json';
 
-interface State {
+type Props = {
   movies: Movie[];
-}
+};
 
-export class App extends React.Component<{}, State> {
-  state: State = {
-    movies: moviesFromServer,
+export const App: FC<Props> = () => {
+  const [movies, setMovies] = useState<Movie[]>([]);
+
+  useEffect(() => {
+    setMovies(moviesFromServer);
+  }, []);
+
+  const addMovie = (
+    title: string,
+    description: string,
+    imgUrl: string,
+    imdbUrl: string,
+    imdbId: string,
+  ) => {
+    setMovies((prev) => {
+      const newMovie: Movie = {
+        title,
+        description,
+        imgUrl,
+        imdbUrl,
+        imdbId: String(Date.now()) + imdbId,
+      };
+
+      return [
+        ...prev,
+        newMovie,
+      ];
+    });
   };
 
-  addMovie = (/* movie: Movie */) => {
-    // put your code here
-  };
-
-  render() {
-    const { movies } = this.state;
-
-    return (
-      <div className="page">
-        <div className="page-content">
-          <MoviesList movies={movies} />
-        </div>
-        <div className="sidebar">
-          <NewMovie />
-        </div>
+  return (
+    <div className="page">
+      <div className="page-content">
+        <MoviesList movies={movies} />
       </div>
-    );
-  }
-}
+      <div className="sidebar">
+        <NewMovie onAddMovie={addMovie} />
+      </div>
+    </div>
+  );
+};
