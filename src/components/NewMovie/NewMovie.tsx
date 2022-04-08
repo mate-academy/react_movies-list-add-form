@@ -55,7 +55,9 @@ export const NewMovie: React.FC<Props> = React.memo(({
           id="title"
           placeholder="Write the title"
           value={title}
-          onChange={(e) => setTitle(e.target.value)}
+          onChange={(e) => (setTitle(
+            e.target.value)
+          )}
           className="form_text"
         />
         <textarea
@@ -63,7 +65,9 @@ export const NewMovie: React.FC<Props> = React.memo(({
           id="description"
           placeholder="Write the description"
           value={description}
-          onChange={(e) => setDescription(e.target.value)}
+          onChange={(e) => (
+            setDescription(e.target.value)
+          )}
           className="form_description"
         />
         <input
@@ -83,7 +87,9 @@ export const NewMovie: React.FC<Props> = React.memo(({
           id="imdbUrl"
           placeholder="Write the imdbUrl"
           value={imdbUrl}
-          onChange={(e) => setImdbUrl(e.target.value)}
+          onChange={(e) => (
+            setImdbUrl(e.target.value)
+          )}
           className="form_text"
         />
         <input
@@ -92,7 +98,9 @@ export const NewMovie: React.FC<Props> = React.memo(({
           id="imdbId"
           placeholder="Write the imdbId"
           value={imdbId}
-          onChange={(e) => setImdbId(e.target.value)}
+          onChange={(e) => (
+            setImdbId(e.target.value)
+          )}
           className="form_text"
         />
         <button className="button_add" type="submit">
