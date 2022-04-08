@@ -55,8 +55,8 @@ export const NewMovie: React.FC<Props> = React.memo(({
           id="title"
           placeholder="Write the title"
           value={title}
-          onChange={(e) => (setTitle(
-            e.target.value)
+          onChange={(e) => (
+            setTitle(e.target.value)
           )}
           className="form_text"
         />
