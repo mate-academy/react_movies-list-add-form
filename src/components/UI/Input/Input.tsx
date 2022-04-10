@@ -7,6 +7,9 @@ type Props = {
   placeholder: string;
   value: string;
   onChange: (e: any) => void;
+  // onBlur: (e: any) => void;
+  className: string;
+  name: string;
 };
 
 export const Input: FC<Props> = ({
@@ -14,13 +17,19 @@ export const Input: FC<Props> = ({
   placeholder,
   value,
   onChange,
+  // onBlur,
+  className,
+  name,
 }) => {
   return (
     <input
       type={type}
       placeholder={placeholder}
+      className={className}
+      name={name}
       value={value}
       onChange={onChange}
+      // onBlur={onBlur}
     />
   );
 };

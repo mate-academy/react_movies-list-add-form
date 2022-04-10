@@ -28,7 +28,7 @@ export const App: FC<Props> = () => {
         description,
         imgUrl,
         imdbUrl,
-        imdbId: String(Date.now()) + imdbId,
+        imdbId,
       };
 
       return [
