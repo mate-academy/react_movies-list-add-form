@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { FC, useState } from 'react';
 import { Button } from '../UI/Button/Button';
 import { Input } from '../UI/Input/Input';
@@ -36,7 +35,6 @@ export const NewMovie: FC<Props> = ({ onAddMovie }) => {
     setIsTitleValid(!title);
     setIsDescriptionValid(!description);
     setIsImdbIdValid(!imdbId);
-
     setIsImgUrlValid(!imgUrl);
     setIsImdbUrlValid(!imdbId);
 
@@ -44,12 +42,9 @@ export const NewMovie: FC<Props> = ({ onAddMovie }) => {
       return;
     }
 
-    if (!urlRegexp.test(imdbId)) {
-      setIsImdbUrlValid(true);
-    }
-
-    if (!urlRegexp.test(imgUrl)) {
-      setIsImgUrlValid(true);
+    if (!urlRegexp.test(imdbId) || !urlRegexp.test(imgUrl)) {
+      setIsImdbUrlValid(false);
+      setIsImgUrlValid(false);
     }
 
     onAddMovie(title, description, imgUrl, imdbUrl, imdbId);
