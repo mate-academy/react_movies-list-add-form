@@ -10,7 +10,7 @@ const initialMovie: Movie = {
 };
 
 type Props = {
-  onAdd: (movie: Movie) => void
+  onAdd:(movie: Movie) => void
 };
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
