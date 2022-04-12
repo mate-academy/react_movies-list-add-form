@@ -7,12 +7,7 @@ const urlRegexp = RegExp(/^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z
 
 type Props = {
   onAddMovie: (
-    title: string,
-    description:
-    string,
-    imgUrl: string,
-    imdbUrl: string,
-    imdbId: string
+    movie: Movie,
   ) => void;
 };
 
@@ -29,8 +24,8 @@ export const NewMovie: FC<Props> = ({ onAddMovie }) => {
   const [isImdbUrlValid, setIsImdbUrlValid] = useState(false);
   const [isImdbIdValid, setIsImdbIdValid] = useState(false);
 
-  const handleSubmit = (e: React.SyntheticEvent) => {
-    e.preventDefault();
+  const handleSubmit = (event: React.SyntheticEvent) => {
+    event.preventDefault();
 
     setIsTitleValid(!title);
     setIsDescriptionValid(!description);
@@ -47,73 +42,81 @@ export const NewMovie: FC<Props> = ({ onAddMovie }) => {
       setIsImgUrlValid(false);
     }
 
-    onAddMovie(title, description, imgUrl, imdbUrl, imdbId);
+    const movie = {
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    };
+
+    onAddMovie(movie);
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="form">
       <Input
         type="text"
         name="title"
         placeholder="Title"
         className={!isTitleValid ? 'input' : 'input input__error'}
         value={title}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTitle(e.target.value)}
+        onChange={(event: React.ChangeEvent<HTMLInputElement>) => setTitle(event.target.value)}
       />
 
-      {isTitleValid && <small>Title is required</small>}
+      {isTitleValid && <small className="small">Title is required</small>}
 
       <Input
         type="text"
         name="description"
         placeholder="Description"
-        className="input"
+        className={!isTitleValid ? 'input' : 'input input__error'}
         value={description}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-          setDescription(e.target.value);
+        onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+          setDescription(event.target.value);
         }}
       />
 
-      {isDescriptionValid && <small>description is required</small>}
+      {isDescriptionValid && <small className="small">description is required</small>}
 
       <Input
         type="text"
         placeholder="Image Url"
         name="imgUrl"
-        className="input"
+        className={!isTitleValid ? 'input' : 'input input__error'}
         value={imgUrl}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-          setImgUrl(e.target.value);
+        onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+          setImgUrl(event.target.value);
         }}
       />
 
-      {isImgUrlValid && <small>Invalid url address</small>}
+      {isImgUrlValid && <small className="small">Invalid url address</small>}
 
       <Input
         type="text"
         placeholder="Imbd  Url"
         name="imdbUrl"
-        className="input"
+        className={!isTitleValid ? 'input' : 'input input__error'}
         value={imdbUrl}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-          setImdbUrl(e.target.value);
+        onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+          setImdbUrl(event.target.value);
         }}
       />
 
-      {isImdbUrlValid && <small>Invalid url address</small>}
+      {isImdbUrlValid && <small className="small">Invalid url address</small>}
 
       <Input
         type="text"
         placeholder="Imbd Id"
         name="imdbId"
-        className="input"
+        className={!isTitleValid ? 'input' : 'input input__error'}
         value={imdbId}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-          setImdbId(e.target.value);
+        onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+          setImdbId(event.target.value);
         }}
       />
 
-      {isImdbIdValid && <small>Id is required</small>}
+      {isImdbIdValid && <small className="small">Id is required</small>}
 
       <Button type="submit" onSubmit={handleSubmit}>Add</Button>
     </form>

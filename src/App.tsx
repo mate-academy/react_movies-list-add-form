@@ -1,41 +1,21 @@
-import { FC, useState, useEffect } from 'react';
-import './App.scss';
+import React, { useState } from 'react';
 import { MoviesList } from './components/MoviesList';
 import { NewMovie } from './components/NewMovie';
 import moviesFromServer from './api/movies.json';
+import './App.scss';
 
 type Props = {
   movies: Movie[];
 };
 
-export const App: FC<Props> = () => {
-  const [movies, setMovies] = useState<Movie[]>([]);
+export const App: React.FC<Props> = () => {
+  const [movies, setMovies] = useState<Movie[]>([...moviesFromServer]);
 
-  useEffect(() => {
-    setMovies(moviesFromServer);
-  }, []);
-
-  const addMovie = (
-    title: string,
-    description: string,
-    imgUrl: string,
-    imdbUrl: string,
-    imdbId: string,
-  ) => {
-    setMovies((prev) => {
-      const newMovie: Movie = {
-        title,
-        description,
-        imgUrl,
-        imdbUrl,
-        imdbId,
-      };
-
-      return [
-        ...prev,
-        newMovie,
-      ];
-    });
+  const addMovie = (newMovie: Movie) => {
+    setMovies((prev) => ([
+      ...prev,
+      newMovie,
+    ]));
   };
 
   return (
