@@ -8,6 +8,20 @@
 
   &__field {
     width: 250px;
+    outline: none;
+    border: 0px;
+    border-bottom: 2px solid #888;
+    height: 30px;
+    padding: 5px 10px;
+    transition: transform 0.3s, border-bottom-color 0.3s;
+
+    &:hover {
+      transform: translateX(-10px);
+    }
+
+    &:focus {
+      border-bottom: 2px solid #111;
+    }
   }
 
   &__submit {
@@ -19,7 +33,7 @@
     background-color: #d8a212;
     box-shadow: 0 0.5em 1em -0.125em rgba(10, 10, 10, 0.05), 0 0px 0 1px rgba(10, 10, 10, 0.02);
 
-    transition: all 0.3s;
+    transition: transform 0.3s, box-shadow 0.3s;
 
     &:hover {
       transform: scale(1.01);
@@ -27,6 +41,7 @@
     }
 
     &:active {
+      transition: transform 0.2s;
       transform: scale(0.98);
     }
   }

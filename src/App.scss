@@ -17,20 +17,3 @@
 iframe {
   display: none;
 }
-
-input, textarea {
-  outline: none;
-  border: 0px;
-  border-bottom: 2px solid #888;
-  height: 30px;
-  padding: 5px 10px;
-  transition: all 0.3s;
-
-  &:hover {
-    transform: translateX(-10px);
-  }
-
-  &:focus {
-    border-bottom: 2px solid #111;
-  }
-}
