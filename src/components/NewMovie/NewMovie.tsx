@@ -31,6 +31,13 @@ export class NewMovie extends React.Component<Props, State> {
     movie: null,
   };
 
+  isValid = () => (
+    isTextValid(this.state.title)
+    && isUrlValid(this.state.imgUrl)
+    && isUrlValid(this.state.imdbUrl)
+    && isTextValid(this.state.imdbId)
+  );
+
   handleChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
@@ -54,15 +61,27 @@ export class NewMovie extends React.Component<Props, State> {
   };
 
   createMovie = () => {
-    this.setState(state => ({
-      movie: {
-        title: state.title,
-        description: state.description,
-        imgUrl: state.imgUrl,
-        imdbUrl: state.imdbUrl,
-        imdbId: state.imdbId,
-      },
-    }));
+    if (this.isValid()) {
+      this.setState(state => ({
+        movie: {
+          title: state.title,
+          description: state.description,
+          imgUrl: state.imgUrl,
+          imdbUrl: state.imdbUrl,
+          imdbId: state.imdbId,
+        },
+      }));
+    }
+  };
+
+  addMovie = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const { movie } = this.state;
+
+    if (movie) {
+      this.props.onAdd(movie);
+      this.clearState();
+    }
   };
 
   render() {
@@ -72,24 +91,12 @@ export class NewMovie extends React.Component<Props, State> {
       imgUrl,
       imdbUrl,
       imdbId,
-      movie,
     } = this.state;
-
-    const isEnabled = isTextValid(title) && isUrlValid(imgUrl)
-      && isUrlValid(imdbUrl) && isTextValid(imdbId);
 
     return (
       <form
         className="form sidebar__form"
-        onSubmit={event => {
-          event.preventDefault();
-
-          if (movie) {
-            this.props.onAdd(movie);
-          }
-
-          this.clearState();
-        }}
+        onSubmit={this.addMovie}
       >
         <FormInput
           name="title"
@@ -126,7 +133,7 @@ export class NewMovie extends React.Component<Props, State> {
           type="submit"
           className="button form__button"
           onClick={this.createMovie}
-          disabled={!isEnabled}
+          disabled={!this.isValid()}
         >
           Add film
         </button>
