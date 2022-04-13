@@ -1,1 +1,11 @@
-// not empty
+.form {
+  &__input {
+    margin: 0 0 10px;
+  }
+
+  &__button {
+    position: relative;
+    left: 100%;
+    transform: translateX(-100%);
+  }
+}
