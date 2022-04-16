@@ -4,6 +4,10 @@ interface Props {
   onAddMovie: (movie: Movie) => void;
 }
 
+const regex = new RegExp(
+  '(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?',
+);
+
 export const NewMovie: React.FC<Props> = React.memo(({
   onAddMovie,
 }) => {
@@ -16,10 +20,6 @@ export const NewMovie: React.FC<Props> = React.memo(({
   const [urlImgTrueVal, setUrlImgVal] = useState(false);
 
   const urlValidation = (url: string) => {
-    const regex = new RegExp(
-      '(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?',
-    );
-
     return regex.test(url);
   };
 
