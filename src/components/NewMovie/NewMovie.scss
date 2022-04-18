@@ -1,1 +1,58 @@
-// not empty
+.form {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  margin: 10px;
+}
+
+input {
+  box-sizing: border-box;
+  height: 35px;
+  padding: 8px;
+  display: block;
+  border: none;
+  border-bottom: 1px solid #ccc;
+  width: 100%;
+  margin-bottom: 8px;
+  font-size: 18px;
+}
+
+.invalid {
+  border-color: #f00;
+  border-width: 3px;
+}
+
+.error {
+  height: 23px;
+  margin-top: -10px;
+  margin-bottom: 10px;
+  color: #f00;
+  font-weight: 700;
+  font-style: italic;
+}
+
+button {
+  margin-top: 15px;
+  padding: 5px 15px;
+
+  background: #ffbf00;
+
+  border: 0 none;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.disable {
+  background-color: #a0a0a0;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+label {
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+
+}
