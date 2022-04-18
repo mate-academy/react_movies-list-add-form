@@ -1,10 +1,8 @@
 import { Component } from 'react';
 import './NewMovie.scss';
 
-type Callback = (arg: Movie) => void;
-
 type Props = {
-  onAdd: Callback;
+  onAdd: (movie: Movie) => void;
 };
 type State = {
   title: string;
@@ -86,6 +84,37 @@ export class NewMovie extends Component<Props, State> {
         imdbIdIsValid: false,
       });
     }
+  };
+
+  submitHandler = (event:React.SyntheticEvent<EventTarget>) => {
+    event.preventDefault();
+    this.validateTitle();
+    this.validateDescription();
+    this.validateImageUrl();
+    this.validateImdbIdl();
+    this.validateImdbUrl();
+    setTimeout(() => {
+      if (this.state.titleIsValid && this.state.descriptionIsValid
+        && this.state.imgIsValid && this.state.imdbLinkIsValid
+        && this.state.imdbIdIsValid) {
+        this.props.onAdd({
+          title: this.state.title,
+          description: this.state.description,
+          imgUrl: this.state.imgUrl,
+          imdbUrl: this.state.imdbUrl,
+          imdbId: this.state.imdbId,
+
+        });
+
+        this.setState({
+          title: '',
+          description: '',
+          imgUrl: '',
+          imdbUrl: '',
+          imdbId: '',
+        });
+      }
+    }, 0);
   };
 
   render() {
@@ -193,35 +222,7 @@ export class NewMovie extends Component<Props, State> {
               && this.state.imdbIdIsValid)
               ? 'disable' : ''
           }
-          onClick={(event) => {
-            event.preventDefault();
-            this.validateTitle();
-            this.validateDescription();
-            this.validateImageUrl();
-            this.validateImdbIdl();
-            this.validateImdbUrl();
-            setTimeout(() => {
-              if (this.state.titleIsValid && this.state.descriptionIsValid
-                && this.state.imgIsValid && this.state.imdbLinkIsValid
-                && this.state.imdbIdIsValid) {
-                this.props.onAdd({
-                  title: this.state.title,
-                  description: this.state.description,
-                  imgUrl: this.state.imgUrl,
-                  imdbUrl: this.state.imdbUrl,
-                  imdbId: this.state.imdbId,
-
-                });
-              }
-            }, 0);
-            this.setState({
-              title: '',
-              description: '',
-              imgUrl: '',
-              imdbUrl: '',
-              imdbId: '',
-            });
-          }}
+          onClick={this.submitHandler}
         >
           Submit
         </button>

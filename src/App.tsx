@@ -33,7 +33,7 @@ export class App extends React.Component<{}, State> {
           <MoviesList movies={movies} />
         </div>
         <div className="sidebar">
-          <NewMovie movies={moviesFromServer} onAdd={this.addMovie} />
+          <NewMovie onAdd={this.addMovie} />
         </div>
       </div>
     );

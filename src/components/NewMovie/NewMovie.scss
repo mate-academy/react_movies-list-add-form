@@ -6,6 +6,8 @@
 }
 
 input {
+  box-sizing: border-box;
+  height: 35px;
   padding: 8px;
   display: block;
   border: none;
@@ -21,6 +23,8 @@ input {
 }
 
 .error {
+  height: 23px;
+  margin-top: -10px;
   margin-bottom: 10px;
   color: #f00;
   font-weight: 700;
