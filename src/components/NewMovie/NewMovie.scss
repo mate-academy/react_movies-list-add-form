@@ -1,1 +1,39 @@
-// not empty
+.input-field {
+  display: flex;
+  flex-direction: column;
+
+  &__input {
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 10px;
+    border: 1px solid gray;
+    box-shadow: 0 0 15px 4px rgba(102, 101, 101, 0.06);
+
+    &:focus {
+      background-color: rgb(231, 231, 248);
+    }
+  }
+}
+
+.button-form {
+  display: block;
+  margin: 20px auto;
+  border-radius: 10px;
+  padding: 5px;
+  width: 100%;
+  color: rgb(99, 99, 240);
+  font-weight: bold;
+  font-size: 18px;
+
+  &:active {
+    background-color: rgb(231, 231, 248);
+  }
+
+  &:hover {
+    color: rgb(134, 162, 198);
+  }
+}
+
+.form__error {
+  color: red;
+}
