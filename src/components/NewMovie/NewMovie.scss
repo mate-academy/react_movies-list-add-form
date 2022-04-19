@@ -1,1 +1,25 @@
-// not empty
+.submit-button {
+  margin: 16px auto;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.description {
+  width: 160px;
+
+  &--error {
+    border: 2px solid red;
+  }
+}
+
+.error-message {
+  color: red;
+}
+
+.form-input {
+  &--error {
+    border: 2px solid red;
+  }
+}
