@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import './NewMovie.scss';
 
 type Props = {
-  onAdd: (obj: Movie) => void,
+  onAdd: (movie: Movie) => void,
 };
 
 type State = {
@@ -68,7 +68,7 @@ export class NewMovie extends Component<Props, State> {
   };
 
   validationText = (value: string) => {
-    const validText = /([^a-zA-Z0-9 .,!?:;-])/;
+    const validText = /([^a-zA-Z0-9 .,'!?:;-])/;
 
     return !validText.test(value);
   };
@@ -144,6 +144,17 @@ export class NewMovie extends Component<Props, State> {
     this.resetForm();
   };
 
+  onChanges = (event: React.ChangeEvent<HTMLInputElement
+  | HTMLTextAreaElement>, validator: string) => {
+    this.setState(prevState => {
+      return {
+        ...prevState,
+        [validator]: true,
+      };
+    });
+    this.setInputs(event);
+  };
+
   buttonDisable = () => {
     const {
       isValidDescription,
@@ -180,130 +191,103 @@ export class NewMovie extends Component<Props, State> {
         <form
           onSubmit={this.handleSubmit}
         >
-          <label htmlFor="title">
+          <label className="form__label">
             Add TITLE
+
+            <input
+              type="text"
+              name="title"
+              value={title}
+              className={classNames('form-input',
+                { 'form-input--error': !isValidTitle })}
+              required
+              onChange={(event) => this.onChanges(event, 'isValidTitle')}
+              onBlur={this.handleBlur}
+            />
+            {!isValidTitle && (
+              <p className="error-message">
+                Please enter valid title
+              </p>
+            )}
           </label>
-          <br />
 
-          <input
-            type="text"
-            id="title"
-            name="title"
-            value={title}
-            className={classNames('form-input',
-              { 'form-input--error': !isValidTitle })}
-            required
-            onChange={(event) => {
-              this.setState({ isValidTitle: true });
-              this.setInputs(event);
-            }}
-            onBlur={this.handleBlur}
-          />
-          {!isValidTitle && (
-            <p className="error-message">
-              Please enter valid title
-            </p>
-          )}
-          <br />
-
-          <label htmlFor="description">
+          <label className="form__label">
             Add DESCRIPTION
+
+            <textarea
+              name="description"
+              className={classNames('description',
+                { 'description--error': !isValidDescription })}
+              value={description}
+              onChange={(event) => this.onChanges(event, 'isValidDescription')}
+              onBlur={this.handleBlur}
+            />
+            {!isValidDescription && (
+              <p className="error-message">
+                Please enter valid description
+              </p>
+            )}
           </label>
-          <br />
 
-          <textarea
-            id="description"
-            name="description"
-            className={classNames('description',
-              { 'description--error': !isValidDescription })}
-            value={description}
-            onChange={(event) => {
-              this.setState({ isValidDescription: true });
-              this.setInputs(event);
-            }}
-            onBlur={this.handleBlur}
-          />
-          {!isValidDescription && (
-            <p className="error-message">
-              Please enter valid description
-            </p>
-          )}
-          <br />
-
-          <label htmlFor="image">
+          <label className="form__label">
             Add IMAGE URL
-          </label>
-          <br />
-          <input
-            type="text"
-            id="image"
-            name="imgUrl"
-            value={imgUrl}
-            className={classNames('form-input',
-              { 'form-input--error': !isValidImgUrl })}
-            required
-            onChange={(event) => {
-              this.setState({ isValidImgUrl: true });
-              this.setInputs(event);
-            }}
-            onBlur={this.handleBlur}
-          />
-          {!isValidImgUrl && (
-            <p className="error-message">
-              Please enter valid image URL
-            </p>
-          )}
-          <br />
 
-          <label htmlFor="movieUrl">
+            <input
+              type="text"
+              name="imgUrl"
+              value={imgUrl}
+              className={classNames('form-input',
+                { 'form-input--error': !isValidImgUrl })}
+              required
+              onChange={(event) => this.onChanges(event, 'isValidImgUrl')}
+              onBlur={this.handleBlur}
+            />
+            {!isValidImgUrl && (
+              <p className="error-message">
+                Please enter valid image URL
+              </p>
+            )}
+          </label>
+
+          <label className="form__label">
             Add IMDB URL
-          </label>
-          <br />
-          <input
-            type="text"
-            id="movieUrl"
-            name="imdbUrl"
-            value={imdbUrl}
-            className={classNames('form-input',
-              { 'form-input--error': !isValidImdbUrl })}
-            required
-            onChange={(event) => {
-              this.setState({ isValidImdbUrl: true });
-              this.setInputs(event);
-            }}
-            onBlur={this.handleBlur}
-          />
-          {!isValidImdbUrl && (
-            <p className="error-message">
-              Please enter valid IMDB URL
-            </p>
-          )}
-          <br />
 
-          <label htmlFor="movieUrl">
-            Add IMDB ID
+            <input
+              type="text"
+              name="imdbUrl"
+              value={imdbUrl}
+              className={classNames('form-input',
+                { 'form-input--error': !isValidImdbUrl })}
+              required
+              onChange={(event) => this.onChanges(event, 'isValidImdbUrl')}
+              onBlur={this.handleBlur}
+            />
+            {!isValidImdbUrl && (
+              <p className="error-message">
+                Please enter valid IMDB URL
+              </p>
+            )}
           </label>
-          <br />
-          <input
-            type="text"
-            id="imdbId"
-            name="imdbId"
-            value={imdbId}
-            className={classNames('form-input',
-              { 'form-input--error': !isValidImdbId })}
-            required
-            onChange={(event) => {
-              this.setState({ isValidImdbId: true });
-              this.setInputs(event);
-            }}
-            onBlur={this.handleBlur}
-          />
-          {!isValidImdbId && (
-            <p className="error-message">
-              Please enter valid IMDB ID
-            </p>
-          )}
-          <br />
+
+          <label className="form__label">
+            Add IMDB ID
+
+            <input
+              type="text"
+              name="imdbId"
+              value={imdbId}
+              className={classNames('form-input',
+                { 'form-input--error': !isValidImdbId })}
+              required
+              onChange={(event) => this.onChanges(event, 'isValidImdbId')}
+              onBlur={this.handleBlur}
+            />
+            {!isValidImdbId && (
+              <p className="error-message">
+                Please enter valid IMDB ID
+              </p>
+            )}
+          </label>
 
           <button
             type="submit"

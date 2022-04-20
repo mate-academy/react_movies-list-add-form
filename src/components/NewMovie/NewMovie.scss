@@ -1,5 +1,6 @@
 .submit-button {
-  margin: 16px auto;
+  display: block;
+  margin: 16px 0;
 
   &:hover {
     cursor: pointer;
@@ -8,6 +9,7 @@
 
 .description {
   width: 160px;
+  display: block;
 
   &--error {
     border: 2px solid red;
@@ -15,10 +17,17 @@
 }
 
 .error-message {
+  display: block;
   color: red;
 }
 
+.form__label {
+  display: block;
+}
+
 .form-input {
+  display: block;
+
   &--error {
     border: 2px solid red;
   }
