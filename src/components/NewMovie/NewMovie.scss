@@ -1,1 +1,9 @@
-// not empty
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.button {
+  background-color: rgb(222, 219, 219);
+}
