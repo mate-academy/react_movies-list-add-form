@@ -1,7 +1,9 @@
 import { Button, TextField } from '@mui/material';
 import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { isFieldRequired } from '../../utilities/validation';
+import {
+  isFieldRequired, isValidUrl, minSymbol,
+} from '../../utilities/validation';
 
 type Props = {
   addMovie: (obj: Movie) => void;
@@ -31,7 +33,7 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
   return (
     <form onSubmit={onSubmit} noValidate>
       <Controller
-        rules={{ required: isFieldRequired }}
+        rules={{ required: isFieldRequired, minLength: minSymbol(4) }}
         control={control}
         name="title"
         render={({ field }) => (
@@ -51,7 +53,7 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
       />
 
       <Controller
-        rules={{ required: isFieldRequired }}
+        rules={{ required: isFieldRequired, minLength: minSymbol(24) }}
         control={control}
         name="description"
         render={({ field }) => (
@@ -62,6 +64,8 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
             variant="outlined"
             size="small"
             margin="normal"
+            multiline
+            rows={3}
             fullWidth
             required
             error={Boolean(errors.description)}
@@ -71,7 +75,7 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
       />
 
       <Controller
-        rules={{ required: isFieldRequired }}
+        rules={{ required: isFieldRequired, pattern: isValidUrl }}
         control={control}
         name="imgUrl"
         render={({ field }) => (
@@ -91,7 +95,7 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
       />
 
       <Controller
-        rules={{ required: isFieldRequired }}
+        rules={{ required: isFieldRequired, pattern: isValidUrl }}
         control={control}
         name="imdbUrl"
         render={({ field }) => (
