@@ -3,19 +3,9 @@ import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { isFieldRequired } from '../../utilities/validation';
 
-type AddMovie = (obj: Movie) => void;
-
 type Props = {
-  addMovie: AddMovie,
+  addMovie: (obj: Movie) => void;
 };
-
-interface IFormData {
-  title: string;
-  description: string;
-  imgUrl: string;
-  imdbUrl: string;
-  imdbId: string;
-}
 
 export const NewMovie: React.FC<Props> = ({ addMovie }) => {
   const {
@@ -23,7 +13,7 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm<IFormData>({
+  } = useForm<Movie>({
     defaultValues: {
       title: '',
       description: '',
@@ -33,7 +23,7 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
     },
   });
 
-  const onSubmit = handleSubmit((data: IFormData) => {
+  const onSubmit = handleSubmit((data: Movie) => {
     addMovie(data);
     reset();
   });
