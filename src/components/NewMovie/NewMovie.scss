@@ -1,1 +1,16 @@
-// not empty
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+
+  &__input {
+    width: 80%;
+
+    &--error {
+      &::before {
+        content: "Invalid ";
+      }
+    }
+  }
+}
