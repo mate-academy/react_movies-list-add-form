@@ -9,10 +9,10 @@ type Props = {
 };
 
 export const App: React.FC<Props> = () => {
-  const [movies, newMovie] = useState(moviesFromServer);
+  const [movies, setMovie] = useState(moviesFromServer);
 
   const addMovie = (movie: Movie) => {
-    newMovie([...movies, movie]);
+    setMovie([...movies, movie]);
   };
 
   return (

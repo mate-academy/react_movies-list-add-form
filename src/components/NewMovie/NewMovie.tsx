@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 type Props = {
-  onAdd: any,
+  onAdd: (movies:Movie) => void,
 };
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
@@ -11,7 +11,15 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, newImdbUrl] = useState('');
   const [imdbId, newImdbId] = useState('');
 
-  const handleSubmit = (event:any) => {
+  const reset = () => {
+    newTitle('');
+    newDescription('');
+    newImgUrl('');
+    newImdbUrl('');
+    newImdbId('');
+  };
+
+  const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
     const newMovie = {
@@ -23,16 +31,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     };
 
     onAdd(newMovie);
-
-    newTitle('');
-    newDescription('');
-    newImgUrl('');
-    newImdbUrl('');
-    newImdbId('');
+    reset();
   };
 
-  const handleChange = (event:
-  { target: { name: string; value: string; }; }) => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
 
     switch (name) {
