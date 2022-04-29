@@ -1,1 +1,22 @@
-// not empty
+label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+input {
+  display: block;
+  margin-bottom: 10px;
+}
+
+button {
+  width: 100px;
+  height: 30px;
+}
+
+.Hidden {
+  display: none;
+}
+
+.ErrorInput {
+  border: 1px solid red;
+}
