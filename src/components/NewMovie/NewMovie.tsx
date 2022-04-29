@@ -1,4 +1,3 @@
-// import { values } from 'cypress/types/lodash';
 import { Component } from 'react';
 import ErrorMsg from '../ErrorMsg/ErrorMsg';
 import './NewMovie.scss';
@@ -7,9 +6,11 @@ type Props = {
   onAdd: (movie: Movie) => void,
 };
 
-type State = {
-  [prop: string]: string,
-};
+type State = Record<string, string>;
+
+// eslint-disable-next-line max-len
+const urlCheck = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
+const textCheck = /\w/;
 
 export class NewMovie extends Component<Props, State> {
   state: State = {
@@ -38,9 +39,6 @@ export class NewMovie extends Component<Props, State> {
   };
 
   render() {
-    // eslint-disable-next-line max-len
-    const urlCheck = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
-    const textCheck = /\w/;
     const movieObj = {
       title: this.state.title,
       description: this.state.description,

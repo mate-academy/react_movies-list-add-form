@@ -10,7 +10,8 @@ const ErrorMsg: React.FC<Props> = ({ currentErrorId, currentInput }) => (
   <>
     <div
       className={currentErrorId === currentInput
-        ? 'ErrorMessage' : 'Hidden'}
+        ? 'ErrorMessage'
+        : 'Hidden'}
     >
       You entered wrong value. Please, edit it.
     </div>
