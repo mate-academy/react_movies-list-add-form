@@ -1,1 +1,24 @@
-// not empty
+.NewMovie {
+  display: flex;
+  flex-direction: column;
+  &__input {
+    width: 100%;
+    margin: 10px 0;
+    padding: 15px;
+    border: 1px #dcdcdc solid;
+    border-radius: 5px;
+    &:focus {
+      border: 2px #789 solid;
+      outline: none;
+    }
+  }
+  &__button {
+    margin: 15px 0;
+    padding: 15px;
+    border: 1px transparent solid;
+    border-radius: 5px;
+    &:hover {
+      background-color: #789;
+    }
+  }
+}
