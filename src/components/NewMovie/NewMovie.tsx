@@ -74,7 +74,7 @@ export class NewMovie extends Component<Props, State> {
     this.setState({ disabled: false });
   };
 
-  validation = () => {
+  isValidDate = () => {
     const { validImdbUrl, validImgUrl } = this.state;
 
     if (!validImdbUrl || !validImgUrl) {
@@ -107,7 +107,7 @@ export class NewMovie extends Component<Props, State> {
   handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (this.validation()) {
+    if (this.isValidDate()) {
       const movie = {
         title: this.state.title,
         description: this.state.description,
