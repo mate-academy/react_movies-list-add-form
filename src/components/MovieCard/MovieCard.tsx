@@ -10,8 +10,12 @@ export const MovieCard: React.FC<Props> = ({
     .map(word => (word[0].toUpperCase() + word.slice(1)))
     .join(' ');
 
-  const descriptionToUpperCase = description[0].toUpperCase()
-  + description.slice(1);
+  let descriptionToUpperCase = description;
+
+  if (description.length > 0) {
+    descriptionToUpperCase = description[0].toUpperCase()
+      + description.slice(1);
+  }
 
   return (
     <div className="card">
