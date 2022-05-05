@@ -55,8 +55,7 @@ export class NewMovie extends Component<Props, State> {
     },
   };
 
-  handleSubmit = (event: { preventDefault: () => void; }) => {
-    event.preventDefault();
+  handleSubmit = () => {
     this.props.onAdd(this.state);
 
     this.setState({
@@ -117,7 +116,10 @@ export class NewMovie extends Component<Props, State> {
           </div>
           <form
             className="newMovie__form"
-            onSubmit={this.handleSubmit}
+            onSubmit={(event) => {
+              event.preventDefault();
+              this.handleSubmit();
+            }}
           >
             <label htmlFor="title">
               Title:
