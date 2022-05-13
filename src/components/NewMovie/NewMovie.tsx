@@ -1,19 +1,33 @@
 /* eslint-disable no-console */
 import { Component } from 'react';
+import classNames from 'classnames';
 
 import './NewMovie.scss';
 
 type Props = {
   onAdd: (movie: Movie) => void
 };
-type State = Movie & {
+
+type EmptyErrors = {
   isTitleErrorVisible: boolean;
   isImgUrlErrorVisible: boolean;
   isImdbUrlErrorVisible: boolean;
   isImdbIdErrorVisible: boolean;
+};
+
+type ValidUrlErrors = {
   isImgUrlInvalid: boolean;
   isImdbUrlInvalid: boolean;
 };
+
+type State = Movie & EmptyErrors & ValidUrlErrors;
+
+function urlValidator(str: string) {
+  // eslint-disable-next-line max-len
+  const validUrlRegex = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
+
+  return str.match(validUrlRegex) || false;
+}
 
 export class NewMovie extends Component<Props, State> {
   state: State = {
@@ -30,11 +44,70 @@ export class NewMovie extends Component<Props, State> {
     isImdbUrlInvalid: false,
   };
 
-  urlValidator = (str: string) => {
-    // eslint-disable-next-line max-len
-    const validUrlRegex = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
+  isInputEmpty = (value: string, inputName: string) => {
+    let errorName: string;
 
-    return str.match(validUrlRegex) || false;
+    switch (inputName) {
+      case 'title':
+        errorName = 'isTitleErrorVisible';
+        break;
+
+      case 'imgUrl':
+        errorName = 'isImgUrlErrorVisible';
+        break;
+
+      case 'imdbUrl':
+        errorName = 'isImdbUrlErrorVisible';
+        break;
+
+      case 'imdbId':
+        errorName = 'isImdbIdErrorVisible';
+        break;
+
+      default:
+        return;
+    }
+
+    if (value) {
+      this.setState((prevState) => ({
+        ...prevState,
+        [errorName]: false,
+      }));
+    } else {
+      this.setState((prevState) => ({
+        ...prevState,
+        [errorName]: true,
+      }));
+    }
+  };
+
+  isUrlValid = (value: string, inputName: string) => {
+    let errorName: keyof ValidUrlErrors;
+
+    switch (inputName) {
+      case 'imgUrl':
+        errorName = 'isImgUrlInvalid';
+        break;
+
+      case 'imdbUrl':
+        errorName = 'isImdbUrlInvalid';
+        break;
+
+      default:
+        return;
+    }
+
+    if (urlValidator(value)) {
+      this.setState((prevState) => ({
+        ...prevState,
+        [errorName]: false,
+      }));
+    } else {
+      this.setState((prevState) => ({
+        ...prevState,
+        [errorName]: true,
+      }));
+    }
   };
 
   handleSubmit = (event: { preventDefault: () => void; }) => {
@@ -90,6 +163,10 @@ export class NewMovie extends Component<Props, State> {
         }}
         className="form"
       >
+        <h2 className="form__title">
+          Add new movie form
+        </h2>
+
         <label className="form__label">
           Title:
           <input
@@ -99,17 +176,13 @@ export class NewMovie extends Component<Props, State> {
             onChange={({ target }) => {
               this.setState({ title: target.value });
             }}
-            onBlur={(event) => {
-              if (!event.target.value) {
-                this.setState({ isTitleErrorVisible: true });
-              } else {
-                this.setState({ isTitleErrorVisible: false });
-              }
+            onBlur={({ target }) => {
+              this.isInputEmpty(target.value, target.name);
             }}
-            className="form__input"
-            style={isTitleErrorVisible
-              ? { border: '1px solid red' }
-              : {}}
+            className={classNames(
+              'form__input',
+              { 'form__input--invalid': isTitleErrorVisible },
+            )}
           />
         </label>
 
@@ -141,23 +214,17 @@ export class NewMovie extends Component<Props, State> {
             onChange={({ target }) => {
               this.setState({ imgUrl: target.value });
             }}
-            onBlur={(event) => {
-              if (!event.target.value) {
-                this.setState({ isImgUrlErrorVisible: true });
-              } else {
-                this.setState({ isImgUrlErrorVisible: false });
-              }
-
-              if (this.urlValidator(event.target.value)) {
-                this.setState({ isImgUrlInvalid: false });
-              } else {
-                this.setState({ isImgUrlInvalid: true });
-              }
+            onBlur={({ target }) => {
+              this.isInputEmpty(target.value, target.name);
+              this.isUrlValid(target.value, target.name);
             }}
-            className="form__input"
-            style={isImgUrlErrorVisible || isImgUrlInvalid
-              ? { border: '1px solid red' }
-              : {}}
+            className={classNames(
+              'form__input',
+              {
+                'form__input--invalid': (isImgUrlErrorVisible
+                  || isImgUrlInvalid),
+              },
+            )}
           />
         </label>
 
@@ -182,23 +249,17 @@ export class NewMovie extends Component<Props, State> {
             onChange={({ target }) => {
               this.setState({ imdbUrl: target.value });
             }}
-            onBlur={(event) => {
-              if (!event.target.value) {
-                this.setState({ isImdbUrlErrorVisible: true });
-              } else {
-                this.setState({ isImdbUrlErrorVisible: false });
-              }
-
-              if (this.urlValidator(event.target.value)) {
-                this.setState({ isImdbUrlInvalid: false });
-              } else {
-                this.setState({ isImdbUrlInvalid: true });
-              }
+            onBlur={({ target }) => {
+              this.isInputEmpty(target.value, target.name);
+              this.isUrlValid(target.value, target.name);
             }}
-            className="form__input"
-            style={isImdbUrlErrorVisible || isImdbUrlInvalid
-              ? { border: '1px solid red' }
-              : {}}
+            className={classNames(
+              'form__input',
+              {
+                'form__input--invalid': (isImdbUrlErrorVisible
+                  || isImdbUrlInvalid),
+              },
+            )}
           />
         </label>
 
@@ -223,17 +284,13 @@ export class NewMovie extends Component<Props, State> {
             onChange={({ target }) => {
               this.setState({ imdbId: target.value });
             }}
-            onBlur={(event) => {
-              if (!event.target.value) {
-                this.setState({ isImdbIdErrorVisible: true });
-              } else {
-                this.setState({ isImdbIdErrorVisible: false });
-              }
+            onBlur={({ target }) => {
+              this.isInputEmpty(target.value, target.name);
             }}
-            className="form__input"
-            style={isImdbIdErrorVisible
-              ? { border: '1px solid red' }
-              : {}}
+            className={classNames(
+              'form__input',
+              { 'form__input--invalid': isImdbIdErrorVisible },
+            )}
           />
         </label>
 
@@ -251,8 +308,8 @@ export class NewMovie extends Component<Props, State> {
               || !imgUrl
               || !imdbUrl
               || !imdbId
-              || this.urlValidator(imdbUrl) === false
-              || this.urlValidator(imgUrl) === false) || false
+              || urlValidator(imdbUrl) === false
+              || urlValidator(imgUrl) === false) || false
           }
         >
           Submit
