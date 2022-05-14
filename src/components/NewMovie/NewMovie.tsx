@@ -61,15 +61,6 @@ export class NewMovie extends Component<Props, State> {
         errImdbId: null,
       });
     }
-  };
-
-  handleChangeUrl = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-
-    this.setState((state) => ({
-      ...state,
-      [name]: value,
-    }));
 
     if (name === 'imgUrl') {
       this.setState({
@@ -214,7 +205,7 @@ export class NewMovie extends Component<Props, State> {
             name="imgUrl"
             value={imgUrl}
             placeholder="imgUrl"
-            onChange={this.handleChangeUrl}
+            onChange={this.handleChange}
             onBlur={this.validateImgUrl}
             className={classNames('Form__input', { Form__inputErr: errImgUrl })}
           />
@@ -227,7 +218,7 @@ export class NewMovie extends Component<Props, State> {
             name="imdbUrl"
             value={imdbUrl}
             placeholder="imdbUrl"
-            onChange={this.handleChangeUrl}
+            onChange={this.handleChange}
             onBlur={this.validateImdbUrl}
             className={classNames('Form__input',
               { Form__inputErr: errImdbUrl })}
@@ -252,7 +243,12 @@ export class NewMovie extends Component<Props, State> {
           type="submit"
           className="Form__button"
           disabled={
-            !title || !imgUrl || !imdbUrl || !imdbId
+            !title
+            || !imgUrl
+            || !imdbUrl
+            || !imdbId
+            || errImdbUrl !== null
+            || errImgUrl !== null
           }
         >
           Add movie
