@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { Component } from 'react';
 import classNames from 'classnames';
 
@@ -132,56 +133,59 @@ export class NewMovie extends Component<Props, State> {
     this.setState({ isSubmited: true });
 
     if (!title) {
-      this.setState({
+      this.setState((state) => ({
+        ...state,
         isTitleErrorVisible: true,
         isSubmitDisabled: true,
-      });
-
-      return;
+      }));
     }
 
     if (!imgUrl) {
-      this.setState({
+      this.setState((state) => ({
+        ...state,
         isImgUrlErrorVisible: true,
         isSubmitDisabled: true,
-      });
-
-      return;
+      }));
     }
 
     if (!imdbUrl) {
-      this.setState({
+      this.setState((state) => ({
+        ...state,
         isImdbUrlErrorVisible: true,
         isSubmitDisabled: true,
-      });
-
-      return;
+      }));
     }
 
     if (!imdbId) {
-      this.setState({
+      this.setState((state) => ({
+        ...state,
         isImdbIdErrorVisible: true,
         isSubmitDisabled: true,
-      });
-
-      return;
+      }));
     }
 
     if (!urlValidator(imgUrl)) {
-      this.setState({
+      this.setState((state) => ({
+        ...state,
         isImgUrlInvalid: true,
         isSubmitDisabled: true,
-      });
-
-      return;
+      }));
     }
 
     if (!urlValidator(imdbUrl)) {
-      this.setState({
-        isImdbUrlInvalid: false,
+      this.setState((state) => ({
+        ...state,
+        isImdbUrlInvalid: true,
         isSubmitDisabled: true,
-      });
+      }));
+    }
 
+    if (!title
+      || !imgUrl
+      || !imdbUrl
+      || !imdbId
+      || !urlValidator(imgUrl)
+      || !urlValidator(imdbUrl)) {
       return;
     }
 
