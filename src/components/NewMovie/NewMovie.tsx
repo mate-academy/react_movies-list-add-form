@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { Component } from 'react';
 import classNames from 'classnames';
 
@@ -20,7 +19,10 @@ type ValidUrlErrors = {
   isImdbUrlInvalid: boolean;
 };
 
-type State = Movie & EmptyErrors & ValidUrlErrors;
+type State = Movie & EmptyErrors & ValidUrlErrors & {
+  isSubmited: boolean;
+  isSubmitDisabled: boolean;
+};
 
 function urlValidator(str: string) {
   // eslint-disable-next-line max-len
@@ -42,6 +44,8 @@ export class NewMovie extends Component<Props, State> {
     isImdbIdErrorVisible: false,
     isImgUrlInvalid: false,
     isImdbUrlInvalid: false,
+    isSubmited: false,
+    isSubmitDisabled: false,
   };
 
   isInputEmpty = (value: string, inputName: string) => {
@@ -72,11 +76,13 @@ export class NewMovie extends Component<Props, State> {
       this.setState((prevState) => ({
         ...prevState,
         [errorName]: false,
+        isSubmitDisabled: false,
       }));
     } else {
       this.setState((prevState) => ({
         ...prevState,
         [errorName]: true,
+        isSubmitDisabled: true,
       }));
     }
   };
@@ -101,16 +107,20 @@ export class NewMovie extends Component<Props, State> {
       this.setState((prevState) => ({
         ...prevState,
         [errorName]: false,
+        isSubmitDisabled: false,
       }));
     } else {
       this.setState((prevState) => ({
         ...prevState,
         [errorName]: true,
+        isSubmitDisabled: true,
       }));
     }
   };
 
   handleSubmit = (event: { preventDefault: () => void; }) => {
+    event.preventDefault();
+
     const {
       title,
       description,
@@ -118,6 +128,62 @@ export class NewMovie extends Component<Props, State> {
       imdbUrl,
       imdbId,
     } = this.state;
+
+    this.setState({ isSubmited: true });
+
+    if (!title) {
+      this.setState({
+        isTitleErrorVisible: true,
+        isSubmitDisabled: true,
+      });
+
+      return;
+    }
+
+    if (!imgUrl) {
+      this.setState({
+        isImgUrlErrorVisible: true,
+        isSubmitDisabled: true,
+      });
+
+      return;
+    }
+
+    if (!imdbUrl) {
+      this.setState({
+        isImdbUrlErrorVisible: true,
+        isSubmitDisabled: true,
+      });
+
+      return;
+    }
+
+    if (!imdbId) {
+      this.setState({
+        isImdbIdErrorVisible: true,
+        isSubmitDisabled: true,
+      });
+
+      return;
+    }
+
+    if (!urlValidator(imgUrl)) {
+      this.setState({
+        isImgUrlInvalid: true,
+        isSubmitDisabled: true,
+      });
+
+      return;
+    }
+
+    if (!urlValidator(imdbUrl)) {
+      this.setState({
+        isImdbUrlInvalid: false,
+        isSubmitDisabled: true,
+      });
+
+      return;
+    }
 
     const { onAdd } = this.props;
 
@@ -129,8 +195,6 @@ export class NewMovie extends Component<Props, State> {
       imdbId,
     };
 
-    event.preventDefault();
-
     onAdd(newMovie);
     this.setState({
       title: '',
@@ -138,6 +202,7 @@ export class NewMovie extends Component<Props, State> {
       imgUrl: '',
       imdbUrl: '',
       imdbId: '',
+      isSubmited: false,
     });
   };
 
@@ -154,6 +219,8 @@ export class NewMovie extends Component<Props, State> {
       isImdbIdErrorVisible,
       isImdbUrlInvalid,
       isImgUrlInvalid,
+      isSubmited,
+      isSubmitDisabled,
     } = this.state;
 
     return (
@@ -177,7 +244,9 @@ export class NewMovie extends Component<Props, State> {
               this.setState({ title: target.value });
             }}
             onBlur={({ target }) => {
-              this.isInputEmpty(target.value, target.name);
+              if (isSubmited) {
+                this.isInputEmpty(target.value, target.name);
+              }
             }}
             className={classNames(
               'form__input',
@@ -215,8 +284,10 @@ export class NewMovie extends Component<Props, State> {
               this.setState({ imgUrl: target.value });
             }}
             onBlur={({ target }) => {
-              this.isInputEmpty(target.value, target.name);
-              this.isUrlValid(target.value, target.name);
+              if (isSubmited) {
+                this.isInputEmpty(target.value, target.name);
+                this.isUrlValid(target.value, target.name);
+              }
             }}
             className={classNames(
               'form__input',
@@ -250,8 +321,10 @@ export class NewMovie extends Component<Props, State> {
               this.setState({ imdbUrl: target.value });
             }}
             onBlur={({ target }) => {
-              this.isInputEmpty(target.value, target.name);
-              this.isUrlValid(target.value, target.name);
+              if (isSubmited) {
+                this.isInputEmpty(target.value, target.name);
+                this.isUrlValid(target.value, target.name);
+              }
             }}
             className={classNames(
               'form__input',
@@ -285,7 +358,9 @@ export class NewMovie extends Component<Props, State> {
               this.setState({ imdbId: target.value });
             }}
             onBlur={({ target }) => {
-              this.isInputEmpty(target.value, target.name);
+              if (isSubmited) {
+                this.isInputEmpty(target.value, target.name);
+              }
             }}
             className={classNames(
               'form__input',
@@ -303,14 +378,7 @@ export class NewMovie extends Component<Props, State> {
         <button
           type="submit"
           className="form__submit"
-          disabled={
-            (!title
-              || !imgUrl
-              || !imdbUrl
-              || !imdbId
-              || urlValidator(imdbUrl) === false
-              || urlValidator(imgUrl) === false) || false
-          }
+          disabled={isSubmitDisabled}
         >
           Submit
         </button>
