@@ -94,7 +94,7 @@ export class NewMovie extends Component<Props, State> {
 
     if (!imgUrl.trim() || !regExp.test(imgUrl)) {
       this.setState({
-        errImgUrl: 'Please enter image link',
+        errImgUrl: 'Please enter valid image link',
       });
 
       return false;
@@ -108,7 +108,7 @@ export class NewMovie extends Component<Props, State> {
 
     if (!imdbUrl.trim() || !regExp.test(imdbUrl)) {
       this.setState({
-        errImdbUrl: 'Please enter IMDB link',
+        errImdbUrl: 'Please enter valid IMDB link',
       });
 
       return false;
@@ -177,66 +177,102 @@ export class NewMovie extends Component<Props, State> {
 
     return (
       <form onSubmit={this.submit}>
-        <h2>Create new movie</h2>
-        <label>
+        <h2 className="Form__title">Create new movie</h2>
+        <div className="Form__part">
+          <p>
+            {'Title '}
+            <span className="Form__star">*</span>
+          </p>
+
           <input
             type="text"
             name="title"
             value={title}
-            placeholder="Title"
+            placeholder="Inception"
             onChange={this.handleChange}
             onBlur={this.validateTitle}
+            required
             className={classNames('Form__input', { Form__inputErr: errTitle })}
           />
-        </label>
+        </div>
         {errTitle && <span className="Form__error">{errTitle}</span>}
 
-        <textarea
-          value={description}
-          name="description"
-          placeholder="Description"
-          onChange={this.handleChange}
-          className="Form__area"
-        />
-
-        <label>
-          <input
-            type="text"
-            name="imgUrl"
-            value={imgUrl}
-            placeholder="imgUrl"
+        <div className="Form__part">
+          <p>Description</p>
+          <textarea
+            value={description}
+            name="description"
             onChange={this.handleChange}
-            onBlur={this.validateImgUrl}
-            className={classNames('Form__input', { Form__inputErr: errImgUrl })}
+            className="Form__area"
           />
-        </label>
+        </div>
+
+        <div className="Form__part">
+          <p>
+            {'ImgUrl '}
+            <span className="Form__star">*</span>
+          </p>
+
+          <label>
+            <input
+              type="text"
+              name="imgUrl"
+              value={imgUrl}
+              placeholder="https://www.imdb.com"
+              onChange={this.handleChange}
+              onBlur={this.validateImgUrl}
+              required
+              className={classNames(
+                'Form__input', { Form__inputErr: errImgUrl },
+              )}
+            />
+          </label>
+        </div>
         {errImgUrl && <span className="Form__error">{errImgUrl}</span>}
 
-        <label>
-          <input
-            type="text"
-            name="imdbUrl"
-            value={imdbUrl}
-            placeholder="imdbUrl"
-            onChange={this.handleChange}
-            onBlur={this.validateImdbUrl}
-            className={classNames('Form__input',
-              { Form__inputErr: errImdbUrl })}
-          />
-        </label>
+        <div className="Form__part">
+          <p>
+            {'ImdbUrl '}
+            <span className="Form__star">*</span>
+          </p>
+
+          <label>
+            <input
+              type="text"
+              required
+              name="imdbUrl"
+              value={imdbUrl}
+              placeholder="https://www.imdb.com"
+              onChange={this.handleChange}
+              onBlur={this.validateImdbUrl}
+              className={classNames('Form__input',
+                { Form__inputErr: errImdbUrl })}
+            />
+          </label>
+        </div>
         {errImdbUrl && <span className="Form__error">{errImdbUrl}</span>}
 
-        <label>
-          <input
-            type="text"
-            name="imdbId"
-            value={imdbId}
-            placeholder="imdbId"
-            onChange={this.handleChange}
-            onBlur={this.validateImdbId}
-            className={classNames('Form__input', { Form__inputErr: errImdbId })}
-          />
-        </label>
+        <div className="Form__part">
+          <p>
+            {'ImdbId '}
+            <span className="Form__star">*</span>
+          </p>
+
+          <label>
+            <input
+              type="text"
+              name="imdbId"
+              required
+              value={imdbId}
+              placeholder="tt0314331"
+              onChange={this.handleChange}
+              onBlur={this.validateImdbId}
+              className={classNames(
+                'Form__input', { Form__inputErr: errImdbId },
+              )}
+            />
+          </label>
+        </div>
         {errImdbId && <span className="Form__error">{errImdbId}</span>}
 
         <button

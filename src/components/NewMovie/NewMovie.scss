@@ -1,7 +1,23 @@
 .Form {
-  &__input {
-    display: block;
+  &__title {
+    font-size: 24px;
+    text-align: center;
+  }
+
+  &__part {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
     margin-top: 30px;
+  }
+
+  &__star {
+    color: red;
+  }
+
+  &__input {
+    width: max-content;
+    display: block;
   }
 
   &__inputErr {
@@ -15,12 +31,12 @@
 
   &__area {
     display: block;
-    margin-top: 30px;
   }
 
   &__button {
+    margin: 0 auto;
     display: block;
-    width: 100px;
+    width: 200px;
     height: 30px;
     margin-top: 40px;
     font-weight: bold;
