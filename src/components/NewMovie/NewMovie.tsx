@@ -77,20 +77,17 @@ export class NewMovie extends Component<Props, State> {
           />
         </label>
 
-        <label>
-          <input
-            type="text"
-            name="description"
-            className="Form__input"
-            placeholder="Enter a description"
-            value={description}
-            onChange={(event) => {
-              this.setState({
-                description: event.target.value,
-              });
-            }}
-          />
-        </label>
+        <textarea
+          name="description"
+          className="Form__textarea"
+          placeholder="Enter a description"
+          value={description}
+          onChange={(event) => {
+            this.setState({
+              description: event.target.value,
+            });
+          }}
+        />
 
         <label>
           <input
