@@ -28,7 +28,7 @@ export class NewMovie extends Component<Props, State> {
       || !this.state.imgUrl
       || !this.state.imdbUrl
       || !this.state.imdbId) {
-    return;
+      return;
     }
 
     this.props.onAdd(this.state);
@@ -40,7 +40,7 @@ export class NewMovie extends Component<Props, State> {
       imdbUrl: '',
       imdbId: '',
     });
-  }
+  };
 
   render() {
     return (
@@ -49,12 +49,12 @@ export class NewMovie extends Component<Props, State> {
         <label htmlFor="">
           <input
             type="text"
-            placeholder='Title'
+            placeholder="Title"
             value={this.state.title}
             onChange={(event) => {
               this.setState({
                 title: event.target.value,
-              })
+              });
             }}
           />
         </label>
@@ -63,52 +63,52 @@ export class NewMovie extends Component<Props, State> {
             name="Description"
             cols={20}
             rows={2}
-            placeholder='Description'
+            placeholder="Description"
             value={this.state.description}
             onChange={(event) => {
               this.setState({
                 description: event.target.value,
-              })
+              });
             }}
           />
         </div>
         <label htmlFor="">
           <input
             type="text"
-            placeholder='imgUrl'
+            placeholder="imgUrl"
             value={this.state.imgUrl}
             onChange={(event) => {
               this.setState({
                 imgUrl: event.target.value,
-              })
+              });
             }}
           />
         </label>
         <label htmlFor="">
           <input
             type="text"
-            placeholder='imdbUrl'
+            placeholder="imdbUrl"
             value={this.state.imdbUrl}
             onChange={(event) => {
               this.setState({
                 imdbUrl: event.target.value,
-              })
+              });
             }}
           />
         </label>
         <label htmlFor="">
           <input
             type="text"
-            placeholder='imdbld'
+            placeholder="imdbld"
             value={this.state.imdbId}
             onChange={(event) => {
               this.setState({
                 imdbId: event.target.value,
-              })
+              });
             }}
           />
         </label>
-        <button type='submit'>
+        <button type="submit">
           Add movie
         </button>
       </form>
