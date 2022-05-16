@@ -13,8 +13,13 @@ export class App extends React.Component<{}, State> {
     movies: moviesFromServer,
   };
 
-  addMovie = (/* movie: Movie */) => {
-    // put your code here
+  addMovie = (movie: Movie) => {
+    this.setState(state => ({
+      movies: [
+        ...state.movies,
+        movie,
+      ],
+    }));
   };
 
   render() {
@@ -26,7 +31,7 @@ export class App extends React.Component<{}, State> {
           <MoviesList movies={movies} />
         </div>
         <div className="sidebar">
-          <NewMovie />
+          <NewMovie onAdd={this.addMovie}/>
         </div>
       </div>
     );
