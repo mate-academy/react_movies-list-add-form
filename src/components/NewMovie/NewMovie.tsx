@@ -49,7 +49,10 @@ export class NewMovie extends Component<Props, State> {
       this.state.imdbIdError = true;
     }
 
-    if (this.state.title) {
+    if (this.state.title
+      && this.state.imgUrl
+      && this.state.imdbUrl
+      && this.state.imdbId) {
       const film = {
         title: this.state.title,
         description: this.state.description,
