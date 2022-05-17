@@ -28,11 +28,6 @@ export class NewMovie extends Component<Props, State> {
     errorContext: '',
   };
 
-  // isEmptyField = (value: string, name: string) => {
-  //   let error: string;
-
-  // }
-
   handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
