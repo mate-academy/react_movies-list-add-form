@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import './NewMovie.scss';
 
 type Props = {
   onAdd: (movie: Movie) => void,
@@ -44,10 +45,12 @@ export class NewMovie extends Component<Props, State> {
 
   render() {
     return (
-      <form onSubmit={this.onSubmited}>
-        <p>Create new movie</p>
-        <label htmlFor="">
+      <form onSubmit={this.onSubmited} className='form__field'>
+        <p className='text__head'>Create new movie</p>
+        <label htmlFor="text__field">
           <input
+            className='label__field'
+            id='text__field'
             type="text"
             placeholder="Title"
             value={this.state.title}
@@ -60,8 +63,9 @@ export class NewMovie extends Component<Props, State> {
         </label>
         <div>
           <textarea
+            className='textarea__field'
             name="Description"
-            cols={20}
+            cols={23}
             rows={2}
             placeholder="Description"
             value={this.state.description}
@@ -72,8 +76,10 @@ export class NewMovie extends Component<Props, State> {
             }}
           />
         </div>
-        <label htmlFor="">
+        <label htmlFor="imgUrl__field">
           <input
+            className='label__field'
+            id='imgUrl__field'
             type="text"
             placeholder="imgUrl"
             value={this.state.imgUrl}
@@ -84,8 +90,10 @@ export class NewMovie extends Component<Props, State> {
             }}
           />
         </label>
-        <label htmlFor="">
+        <label htmlFor="imdbUrl__field">
           <input
+            className='label__field'
+            id='imdbUrl__field'
             type="text"
             placeholder="imdbUrl"
             value={this.state.imdbUrl}
@@ -96,8 +104,10 @@ export class NewMovie extends Component<Props, State> {
             }}
           />
         </label>
-        <label htmlFor="">
+        <label htmlFor="imdbId__field">
           <input
+            className='label__field'
+            id='imdbId__field'
             type="text"
             placeholder="imdbld"
             value={this.state.imdbId}
@@ -108,7 +118,7 @@ export class NewMovie extends Component<Props, State> {
             }}
           />
         </label>
-        <button type="submit">
+        <button type="submit" className='button'>
           Add movie
         </button>
       </form>

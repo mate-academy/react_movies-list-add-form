@@ -1,1 +1,54 @@
-// not empty
+.text__head {
+  text-transform: uppercase;
+  color: black;
+}
+
+.form__field {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 10px;
+  background-color: rgb(228, 153, 98);
+  box-shadow: 5px 3px 4px 2px grey;
+
+  padding: 20px 0;
+}
+
+.label__field {
+  padding: 5px;
+  color: beige;
+  transition: 0.5s;
+
+  &:hover {
+    border-color: #144ed4;
+  }
+
+  &:focus {
+    border-color: #144ed4;
+    outline: none;
+  }
+}
+
+.textarea__field {
+  padding: 5px;
+  transition: 0.5s;
+
+  &:hover {
+    border: 3px solid #144ed4;
+  }
+
+  &:focus {
+    border-color: #144ed4;
+    outline: none;
+  }
+}
+
+.button {
+  width: fit-content;
+  margin-top: 10px;
+
+  &:hover {
+    background-color: blanchedalmond;
+    box-shadow: 2px 2px black;
+  }
+}
