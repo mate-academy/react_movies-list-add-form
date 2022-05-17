@@ -64,6 +64,23 @@ export class NewMovie extends Component<Props, State> {
       return;
     }
 
+    if (
+      title
+      && imgUrl
+      && imdbUrl
+      && imdbId
+      && imgUrl
+      && imdbUrl
+    ) {
+      this.setState((state) => ({
+        ...state,
+        isInputEmpty: false,
+        errorContext: '',
+      }));
+
+      return;
+    }
+
     const { onAdd } = this.props;
 
     onAdd(newMovie);
@@ -100,6 +117,7 @@ export class NewMovie extends Component<Props, State> {
         onSubmit={(event) => {
           this.handleSubmit(event);
         }}
+        onBlur={this.handleSubmit}
         className="sidebar__form"
       >
 
