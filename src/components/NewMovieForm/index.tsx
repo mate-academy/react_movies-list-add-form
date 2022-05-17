@@ -1,0 +1,1 @@
+export { NewMovieForm } from './NewMovieForm';
