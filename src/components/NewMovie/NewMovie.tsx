@@ -28,6 +28,47 @@ export class NewMovie extends Component<Props, State> {
     errorContext: '',
   };
 
+  validate = () => {
+    const {
+      title,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    } = this.state;
+
+    if (
+      !title
+      || !imgUrl
+      || !imdbId
+      || !imdbUrl
+    ) {
+      this.setState((state) => ({
+        ...state,
+        isInputEmpty: true,
+        errorContext: 'Please fill all fields',
+      }));
+
+      return false;
+    }
+
+    if (
+      title
+      || imgUrl
+      || imdbId
+      || !imdbUrl
+    ) {
+      this.setState((state) => ({
+        ...state,
+        isInputEmpty: false,
+        errorContext: '',
+      }));
+
+      return true;
+    }
+
+    return false;
+  };
+
   handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -47,19 +88,7 @@ export class NewMovie extends Component<Props, State> {
       imdbId,
     };
 
-    if (
-      !title
-      || !imgUrl
-      || !imdbId
-      || !imgUrl
-      || !imdbUrl
-    ) {
-      this.setState((state) => ({
-        ...state,
-        isInputEmpty: true,
-        errorContext: 'Please fill all fields',
-      }));
-
+    if (!this.validate) {
       return;
     }
 
@@ -99,7 +128,7 @@ export class NewMovie extends Component<Props, State> {
         onSubmit={(event) => {
           this.handleSubmit(event);
         }}
-        onBlur={this.handleSubmit}
+        onBlur={this.validate}
         className="sidebar__form"
       >
 
