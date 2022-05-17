@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import classNames from 'classnames';
 import './NewMovie.scss';
+import { NewMovieInput } from '../NewMovieInput/NewMovieInput';
 
 type Props = {
   addMovie: (
@@ -178,24 +178,14 @@ export class NewMovie extends Component<Props, State> {
     return (
       <form onSubmit={this.submit}>
         <h2 className="Form__title">Create new movie</h2>
-        <div className="Form__part">
-          <p>
-            {'Title '}
-            <span className="Form__star">*</span>
-          </p>
-
-          <input
-            type="text"
-            name="title"
-            value={title}
-            placeholder="Inception"
-            onChange={this.handleChange}
-            onBlur={this.validateTitle}
-            required
-            className={classNames('Form__input', { Form__inputErr: errTitle })}
-          />
-        </div>
-        {errTitle && <span className="Form__error">{errTitle}</span>}
+        <NewMovieInput
+          name="title"
+          value={title}
+          placeholder="Inception"
+          onChange={this.handleChange}
+          onBlur={this.validateTitle}
+          error={errTitle}
+        />
 
         <div className="Form__part">
           <p>Description</p>
@@ -207,73 +197,32 @@ export class NewMovie extends Component<Props, State> {
           />
         </div>
 
-        <div className="Form__part">
-          <p>
-            {'ImgUrl '}
-            <span className="Form__star">*</span>
-          </p>
+        <NewMovieInput
+          name="imgUrl"
+          value={imgUrl}
+          placeholder="https://www.imdb.com"
+          onChange={this.handleChange}
+          onBlur={this.validateImgUrl}
+          error={errImgUrl}
+        />
 
-          <label>
-            <input
-              type="text"
-              name="imgUrl"
-              value={imgUrl}
-              placeholder="https://www.imdb.com"
-              onChange={this.handleChange}
-              onBlur={this.validateImgUrl}
-              required
-              className={classNames(
-                'Form__input', { Form__inputErr: errImgUrl },
-              )}
-            />
-          </label>
-        </div>
-        {errImgUrl && <span className="Form__error">{errImgUrl}</span>}
+        <NewMovieInput
+          name="imdbUrl"
+          value={imdbUrl}
+          placeholder="https://www.imdb.com"
+          onChange={this.handleChange}
+          onBlur={this.validateImdbUrl}
+          error={errImdbUrl}
+        />
 
-        <div className="Form__part">
-          <p>
-            {'ImdbUrl '}
-            <span className="Form__star">*</span>
-          </p>
-
-          <label>
-            <input
-              type="text"
-              required
-              name="imdbUrl"
-              value={imdbUrl}
-              placeholder="https://www.imdb.com"
-              onChange={this.handleChange}
-              onBlur={this.validateImdbUrl}
-              className={classNames('Form__input',
-                { Form__inputErr: errImdbUrl })}
-            />
-          </label>
-        </div>
-        {errImdbUrl && <span className="Form__error">{errImdbUrl}</span>}
-
-        <div className="Form__part">
-          <p>
-            {'ImdbId '}
-            <span className="Form__star">*</span>
-          </p>
-
-          <label>
-            <input
-              type="text"
-              name="imdbId"
-              required
-              value={imdbId}
-              placeholder="tt0314331"
-              onChange={this.handleChange}
-              onBlur={this.validateImdbId}
-              className={classNames(
-                'Form__input', { Form__inputErr: errImdbId },
-              )}
-            />
-          </label>
-        </div>
-        {errImdbId && <span className="Form__error">{errImdbId}</span>}
+        <NewMovieInput
+          name="imdbId"
+          value={imdbId}
+          placeholder="tt0314331"
+          onChange={this.handleChange}
+          onBlur={this.validateImdbId}
+          error={errImdbId}
+        />
 
         <button
           type="submit"
