@@ -13,3 +13,18 @@
   padding: 20px;
   border-left: 1px solid lightgray;
 }
+
+input {
+  width: 100%;
+  margin: 20px 0 0;
+}
+
+button {
+  display: block;
+  margin: 20px auto;
+}
+
+.danger-title {
+  color: red;
+  margin-bottom: -20px;
+}
