@@ -16,7 +16,7 @@
 
 .label__field {
   padding: 5px;
-  color: beige;
+  color: black;
   transition: 0.5s;
 
   &:hover {
@@ -51,4 +51,9 @@
     background-color: blanchedalmond;
     box-shadow: 2px 2px black;
   }
+}
+
+.required__field {
+  margin-right: 10px;
+  color: red;
 }

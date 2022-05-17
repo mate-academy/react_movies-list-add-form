@@ -10,6 +10,9 @@ type State = {
   imgUrl: string,
   imdbUrl: string,
   imdbId: string,
+
+  isError: boolean,
+  errorText: string,
 };
 
 export class NewMovie extends Component<Props, State> {
@@ -19,16 +22,23 @@ export class NewMovie extends Component<Props, State> {
     imgUrl: '',
     imdbUrl: '',
     imdbId: '',
+
+    isError: false,
+    errorText: '',
   };
 
   onSubmited = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!this.state.title
-      || !this.state.description
-      || !this.state.imgUrl
-      || !this.state.imdbUrl
-      || !this.state.imdbId) {
+    if (!this.state.title.trim()
+      || !this.state.imdbUrl.trim()
+      || !this.state.imdbId.trim()) {
+      this.setState((state) => ({
+        ...state,
+        isError: true,
+        errorText: 'Please fill required fields correct',
+      }));
+
       return;
     }
 
@@ -45,12 +55,16 @@ export class NewMovie extends Component<Props, State> {
 
   render() {
     return (
-      <form onSubmit={this.onSubmited} className='form__field'>
-        <p className='text__head'>Create new movie</p>
+      <form onSubmit={this.onSubmited} className="form__field">
+        <p className="text__head">Create new movie</p>
+        {this.state.isError && (
+          <p>{this.state.errorText}</p>
+        )}
         <label htmlFor="text__field">
+          <span className='required__field'>*</span>
           <input
-            className='label__field'
-            id='text__field'
+            className="label__field"
+            id="text__field"
             type="text"
             placeholder="Title"
             value={this.state.title}
@@ -59,11 +73,12 @@ export class NewMovie extends Component<Props, State> {
                 title: event.target.value,
               });
             }}
+            required
           />
         </label>
         <div>
           <textarea
-            className='textarea__field'
+            className="textarea__field"
             name="Description"
             cols={23}
             rows={2}
@@ -78,8 +93,8 @@ export class NewMovie extends Component<Props, State> {
         </div>
         <label htmlFor="imgUrl__field">
           <input
-            className='label__field'
-            id='imgUrl__field'
+            className="label__field"
+            id="imgUrl__field"
             type="text"
             placeholder="imgUrl"
             value={this.state.imgUrl}
@@ -91,9 +106,10 @@ export class NewMovie extends Component<Props, State> {
           />
         </label>
         <label htmlFor="imdbUrl__field">
+          <span className='required__field'>*</span>
           <input
-            className='label__field'
-            id='imdbUrl__field'
+            className="label__field"
+            id="imdbUrl__field"
             type="text"
             placeholder="imdbUrl"
             value={this.state.imdbUrl}
@@ -102,12 +118,14 @@ export class NewMovie extends Component<Props, State> {
                 imdbUrl: event.target.value,
               });
             }}
+            required
           />
         </label>
         <label htmlFor="imdbId__field">
+          <span className='required__field'>*</span>
           <input
-            className='label__field'
-            id='imdbId__field'
+            className="label__field"
+            id="imdbId__field"
             type="text"
             placeholder="imdbld"
             value={this.state.imdbId}
@@ -116,9 +134,10 @@ export class NewMovie extends Component<Props, State> {
                 imdbId: event.target.value,
               });
             }}
+            required
           />
         </label>
-        <button type="submit" className='button'>
+        <button type="submit" className="button">
           Add movie
         </button>
       </form>
