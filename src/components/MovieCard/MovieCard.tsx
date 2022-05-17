@@ -6,7 +6,7 @@ type Props = Movie;
 export const MovieCard: React.FC<Props> = ({
   title, description, imgUrl, imdbUrl,
 }) => {
-  const titleToUpperCase = title.split(' ')
+  const titleToUpperCase = title.trim().split(' ')
     .map(word => (word[0].toUpperCase() + word.slice(1)))
     .join(' ');
 
