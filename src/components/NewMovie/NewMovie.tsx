@@ -50,7 +50,6 @@ export class NewMovie extends Component<Props, State> {
     if (
       !title
       || !imgUrl
-      || !imdbUrl
       || !imdbId
       || !imgUrl
       || !imdbUrl
@@ -67,7 +66,6 @@ export class NewMovie extends Component<Props, State> {
     if (
       title
       && imgUrl
-      && imdbUrl
       && imdbId
       && imgUrl
       && imdbUrl
