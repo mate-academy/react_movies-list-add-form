@@ -4,7 +4,7 @@
     display: block;
     width: 100%;
     padding: 10px;
-    margin: 10px 0;
+    margin: 10px 0 0;
     font-size: 18px;
     border: none;
     outline: none;
@@ -15,6 +15,11 @@
     &:focus {
       box-shadow: 4px 1px 24px 4px #90baf9;
     }
+  }
+
+  &__input-description {
+    padding: 0;
+    margin: 10px 0 0;
   }
 
   &__button {
@@ -44,5 +49,12 @@
       color: #fff;
       border-color: rgb(158, 39, 2);
     }
+  }
+
+  &__error {
+    font-size: 16px;
+    color: #ff4242;
+    text-align: center;
+    margin: 10px 0;
   }
 }

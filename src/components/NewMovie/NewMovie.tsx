@@ -11,6 +11,9 @@ type State = {
   imgUrl: string,
   imdbUrl: string,
   imdbId: string,
+
+  isInputEmpty: boolean,
+  errorContext: string,
 };
 
 export class NewMovie extends Component<Props, State> {
@@ -20,7 +23,15 @@ export class NewMovie extends Component<Props, State> {
     imgUrl: '',
     imdbUrl: '',
     imdbId: '',
+
+    isInputEmpty: false,
+    errorContext: '',
   };
+
+  // isEmptyField = (value: string, name: string) => {
+  //   let error: string;
+
+  // }
 
   handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -40,6 +51,23 @@ export class NewMovie extends Component<Props, State> {
       imdbUrl,
       imdbId,
     };
+
+    if (
+      !title
+      || !imgUrl
+      || !imdbUrl
+      || !imdbId
+      || !imgUrl
+      || !imdbUrl
+    ) {
+      this.setState((state) => ({
+        ...state,
+        isInputEmpty: true,
+        errorContext: 'Please fill all fields',
+      }));
+
+      return;
+    }
 
     const { onAdd } = this.props;
 
@@ -68,6 +96,8 @@ export class NewMovie extends Component<Props, State> {
       imgUrl,
       imdbUrl,
       imdbId,
+      isInputEmpty,
+      errorContext,
     } = this.state;
 
     return (
@@ -77,8 +107,13 @@ export class NewMovie extends Component<Props, State> {
         }}
         className="sidebar__form"
       >
+
+        {isInputEmpty && (
+          <p className="sidebar__error">{errorContext}</p>
+        )}
+
         <label>
-          Enter title:
+          <p className="sidebar__input-description">Enter title:</p>
           <input
             name="title"
             value={title}
@@ -91,7 +126,7 @@ export class NewMovie extends Component<Props, State> {
         </label>
 
         <label>
-          Enter description:
+          <p className="sidebar__input-description">Enter description:</p>
           <input
             name="description"
             value={description}
@@ -104,7 +139,7 @@ export class NewMovie extends Component<Props, State> {
         </label>
 
         <label>
-          Enter imgUrl:
+          <p className="sidebar__input-description">Enter imgUrl:</p>
           <input
             name="imgUrl"
             value={imgUrl}
@@ -117,7 +152,7 @@ export class NewMovie extends Component<Props, State> {
         </label>
 
         <label>
-          Enter imdbUrl:
+          <p className="sidebar__input-description">Enter imdbUrl:</p>
           <input
             name="imdbUrl"
             value={imdbUrl}
@@ -130,7 +165,7 @@ export class NewMovie extends Component<Props, State> {
         </label>
 
         <label>
-          Enter imdbId:
+          <p className="sidebar__input-description">Enter imdbId:</p>
           <input
             name="imdbId"
             value={imdbId}
