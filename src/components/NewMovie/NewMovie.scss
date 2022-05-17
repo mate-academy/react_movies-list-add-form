@@ -1,1 +1,57 @@
-// not empty
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+
+  &__label {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  &__input {
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: 1px solid black;
+    transition: 0.3s;
+
+    &--error {
+      border-color: red;
+    }
+
+    &:hover,
+    &:focus {
+      box-shadow: 0 5px 10px #3333;
+    }
+  }
+
+  &__text-area {
+    resize: none;
+    height: 90px;
+  }
+
+  &__button {
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 15px;
+    transition: 0.3s;
+
+    &:hover {
+      box-shadow: 0 5px 10px #3333;
+    }
+
+    &:active {
+      transform: scale(0.98);
+    }
+  }
+
+  &__error-message {
+    color: red;
+    font-size: 12px;
+  }
+
+  &__notation {
+    font-style: italic;
+    font-size: 14px;
+  }
+}
