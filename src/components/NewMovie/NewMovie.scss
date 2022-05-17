@@ -1,1 +1,48 @@
-// not empty
+.sidebar {
+
+  &__input {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    font-size: 18px;
+    border: none;
+    outline: none;
+    box-shadow: 1px 0 2px 2px #dadada;
+
+    transition: box-shadow, 300ms ease;
+
+    &:focus {
+      box-shadow: 4px 1px 24px 4px #90baf9;
+    }
+  }
+
+  &__button {
+    text-transform: uppercase;
+    font-weight: 600;
+    outline: none;
+    display: block;
+    width: 100%;
+    padding: 15px;
+    margin: 15px 0 0;
+    border: 1px solid rgb(158, 39, 2);
+    border-radius: 25px;
+    background-color: rgb(158, 39, 2);
+    color: #fff;
+    cursor: pointer;
+
+    transition: color, background-color, border-color, 0.3s ease;
+
+    &:hover {
+      background-color: #fff;
+      color: rgb(158, 39, 2);
+      border-color: rgb(158, 39, 2);
+    }
+
+    &:active {
+      background-color: rgb(158, 39, 2);
+      color: #fff;
+      border-color: rgb(158, 39, 2);
+    }
+  }
+}
