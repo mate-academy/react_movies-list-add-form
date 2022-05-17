@@ -1,1 +1,32 @@
-// not empty
+.form {
+  display: flex;
+  flex-direction: column;
+  background-color: lightgray;
+  padding: 40px 10px;
+
+  &__title {
+    font-size: 22px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+
+  &__input {
+    display: block;
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 5px;
+    border-radius: 20px;
+  }
+
+  &__button {
+    margin: 0 100px;
+    border-radius: 20px;
+    padding: 5px;
+
+    &:hover {
+      background-color: grey;
+      color: white;
+    }
+  }
+}
