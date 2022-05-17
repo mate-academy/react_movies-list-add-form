@@ -50,6 +50,7 @@ export class NewMovie extends Component<Props, State> {
     if (
       !title
       || !imgUrl
+      || !imdbUrl
       || !imdbId
       || !imgUrl
       || !imdbUrl
@@ -58,22 +59,6 @@ export class NewMovie extends Component<Props, State> {
         ...state,
         isInputEmpty: true,
         errorContext: 'Please fill all fields',
-      }));
-
-      return;
-    }
-
-    if (
-      title
-      && imgUrl
-      && imdbId
-      && imgUrl
-      && imdbUrl
-    ) {
-      this.setState((state) => ({
-        ...state,
-        isInputEmpty: false,
-        errorContext: '',
       }));
 
       return;
