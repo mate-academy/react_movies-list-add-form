@@ -1,1 +1,21 @@
-// not empty
+.error {
+  display: flex;
+  font-size: 12px;
+  color: red;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  &__input {
+    height: 3vh;
+    width: 100%;
+  }
+}
+
+.button__add {
+  height: 4vh;
+  width: 100%;
+}
