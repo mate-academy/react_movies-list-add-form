@@ -58,10 +58,27 @@ export class NewMovie extends Component<Props, State> {
     });
   };
 
+  resetState = () => {
+    this.setState({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+      clicked: {
+        title: false,
+        imgUrl: false,
+        imdbUrl: false,
+        imdbId: false,
+      },
+    });
+  };
+
   handleSubmit = (event: FormEvent) => {
     event.preventDefault();
 
     this.props.onAdd(this.state);
+    this.resetState();
   };
 
   render() {
