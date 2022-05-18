@@ -21,6 +21,15 @@ export class NewMovie extends Component<Props, State> {
   onSubmit = (event:React.SyntheticEvent) => {
     event.preventDefault();
     this.props.onAdd(this.state.movie);
+    this.setState({
+      movie: {
+        title: '',
+        description: '',
+        imgUrl: '',
+        imdbUrl: '',
+        imdbId: '',
+      },
+    });
   };
 
   onChange = (event:ChangeEvent<HTMLInputElement>) => {
