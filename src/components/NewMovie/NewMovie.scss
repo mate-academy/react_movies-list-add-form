@@ -1,1 +1,36 @@
-// not empty
+.form {
+
+  &__title {
+    font-size: 30px;
+    color: green;
+  }
+
+  &__input {
+    display: block;
+    margin-bottom: 20px;
+  }
+
+  &__inputErr {
+    color: red;
+    outline: 2px solid red;
+  }
+
+  &__err {
+    color: red;
+    margin-bottom: 20px;
+  }
+
+  &__button {
+    width: 100px;
+    height: 50px;
+    background-color: aquamarine;
+    border-radius: 8px;
+    transition: all 0.5s;
+    cursor: pointer;
+
+    &:hover {
+      transform: scale(1.1);
+      background-color: aqua;
+    }
+  }
+}

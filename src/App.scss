@@ -10,6 +10,8 @@
 }
 
 .sidebar {
+  display: flex;
+  flex-direction: column;
   padding: 20px;
   border-left: 1px solid lightgray;
 }
