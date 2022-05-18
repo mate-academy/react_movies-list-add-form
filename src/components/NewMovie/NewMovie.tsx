@@ -33,26 +33,33 @@ export class NewMovie extends Component<Props, State> {
   handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!this.state.title) {
+    const {
+      title,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    } = this.state;
+
+    if (!title) {
       this.state.titleError = true;
     }
 
-    if (!this.state.imgUrl) {
+    if (!imgUrl) {
       this.state.imgUrlError = true;
     }
 
-    if (!this.state.imdbUrl) {
+    if (!imdbUrl) {
       this.state.imdbUrlError = true;
     }
 
-    if (!this.state.imdbId) {
+    if (!imdbId) {
       this.state.imdbIdError = true;
     }
 
-    if (this.state.title
-      && this.state.imgUrl
-      && this.state.imdbUrl
-      && this.state.imdbId) {
+    if (title
+      && imgUrl
+      && imdbUrl
+      && imdbId) {
       const film = {
         title: this.state.title,
         description: this.state.description,
@@ -77,6 +84,44 @@ export class NewMovie extends Component<Props, State> {
     });
   };
 
+  handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+
+    this.setState((state) => ({
+      ...state,
+      [name]: value,
+    }));
+
+    switch (name) {
+      case 'title':
+        this.setState({
+          titleError: false,
+        });
+        break;
+
+      case 'imgUrl':
+        this.setState({
+          imgUrlError: false,
+        });
+        break;
+
+      case 'imdbUrl':
+        this.setState({
+          imdbUrlError: false,
+        });
+        break;
+
+      case 'imdbId':
+        this.setState({
+          imdbIdError: false,
+        });
+        break;
+
+      default:
+        break;
+    }
+  };
+
   render() {
     return (
       <form className="form" onSubmit={this.handleSubmit}>
@@ -87,12 +132,7 @@ export class NewMovie extends Component<Props, State> {
           value={this.state.title}
           className="form-title form-input"
           placeholder="Title"
-          onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-            this.setState({
-              title: event.target.value,
-              titleError: false,
-            });
-          }}
+          onChange={this.handleChange}
         />
 
         {this.state.titleError && (
@@ -107,11 +147,7 @@ export class NewMovie extends Component<Props, State> {
           value={this.state.description}
           className="form-description form-input"
           placeholder="Description"
-          onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-            this.setState({
-              description: event.target.value,
-            });
-          }}
+          onChange={this.handleChange}
         />
 
         <input
@@ -120,12 +156,7 @@ export class NewMovie extends Component<Props, State> {
           value={this.state.imgUrl}
           className="form-imgUrl form-input"
           placeholder="ImgUrl"
-          onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-            this.setState({
-              imgUrl: event.target.value,
-              imgUrlError: false,
-            });
-          }}
+          onChange={this.handleChange}
         />
 
         {this.state.imgUrlError && (
@@ -140,12 +171,7 @@ export class NewMovie extends Component<Props, State> {
           value={this.state.imdbUrl}
           className="form-imdbUrl form-input"
           placeholder="ImdbUrl"
-          onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-            this.setState({
-              imdbUrl: event.target.value,
-              imdbUrlError: false,
-            });
-          }}
+          onChange={this.handleChange}
         />
 
         {this.state.imdbUrlError && (
@@ -160,12 +186,7 @@ export class NewMovie extends Component<Props, State> {
           value={this.state.imdbId}
           className="form-imdbId form-input"
           placeholder="ImdbId"
-          onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-            this.setState({
-              imdbId: event.target.value,
-              imdbIdError: false,
-            });
-          }}
+          onChange={this.handleChange}
         />
 
         {this.state.imdbIdError && (
