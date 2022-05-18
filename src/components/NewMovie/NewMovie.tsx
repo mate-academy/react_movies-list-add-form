@@ -12,6 +12,11 @@ type State = {
   imdbUrl: string,
   imdbId: string,
 
+  isEmptyTitle: boolean,
+  isEmptyImgUrl:boolean,
+  isEmptyImdbUrl: boolean,
+  isEmptyImdbId: boolean,
+
   isInputEmpty: boolean,
   errorContext: string,
 };
@@ -24,49 +29,69 @@ export class NewMovie extends Component<Props, State> {
     imdbUrl: '',
     imdbId: '',
 
+    isEmptyTitle: false,
+    isEmptyImgUrl: false,
+    isEmptyImdbUrl: false,
+    isEmptyImdbId: false,
+
     isInputEmpty: false,
     errorContext: '',
   };
 
-  validate = () => {
-    const {
-      title,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    } = this.state;
-
-    if (
-      !title
-      || !imgUrl
-      || !imdbId
-      || !imdbUrl
-    ) {
+  isEmptyTitle = (value: string) => {
+    if (!value) {
       this.setState((state) => ({
         ...state,
-        isInputEmpty: true,
-        errorContext: 'Please fill all fields',
+        isEmptyTitle: true,
       }));
-
-      return false;
-    }
-
-    if (
-      title
-      || imgUrl
-      || imdbId
-      || !imdbUrl
-    ) {
+    } else {
       this.setState((state) => ({
         ...state,
-        isInputEmpty: false,
-        errorContext: '',
+        isEmptyTitle: false,
       }));
-
-      return true;
     }
+  };
 
-    return false;
+  isEmptyImgUrl = (value: string) => {
+    if (!value) {
+      this.setState((state) => ({
+        ...state,
+        isEmptyImgUrl: true,
+      }));
+    } else {
+      this.setState((state) => ({
+        ...state,
+        isEmptyImgUrl: false,
+      }));
+    }
+  };
+
+  isEmptyImdbUrl = (value: string) => {
+    if (!value) {
+      this.setState((state) => ({
+        ...state,
+        isEmptyImdbUrl: true,
+      }));
+    } else {
+      this.setState((state) => ({
+        ...state,
+        isEmptyImdbUrl: false,
+      }));
+    }
+  };
+
+  isEmptyImdbId = (value: string) => {
+    if (!value) {
+      this.setState((state) => ({
+        ...state,
+        isEmptyImdbId: true,
+      }));
+    } else {
+      this.setState((state) => ({
+        ...state,
+        isEmptyImdbId: false,
+      }));
+    }
   };
 
   handleSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -88,7 +113,19 @@ export class NewMovie extends Component<Props, State> {
       imdbId,
     };
 
-    if (!this.validate) {
+    if (
+      !title
+      || !imgUrl
+      || !imdbId
+      || !imgUrl
+      || !imdbUrl
+    ) {
+      this.setState((state) => ({
+        ...state,
+        isInputEmpty: true,
+        errorContext: 'Please fill all required fields!',
+      }));
+
       return;
     }
 
@@ -102,6 +139,9 @@ export class NewMovie extends Component<Props, State> {
       imgUrl: '',
       imdbUrl: '',
       imdbId: '',
+
+      isInputEmpty: false,
+      errorContext: '',
     });
   };
 
@@ -119,6 +159,10 @@ export class NewMovie extends Component<Props, State> {
       imgUrl,
       imdbUrl,
       imdbId,
+      isEmptyTitle,
+      isEmptyImgUrl,
+      isEmptyImdbUrl,
+      isEmptyImdbId,
       isInputEmpty,
       errorContext,
     } = this.state;
@@ -128,7 +172,6 @@ export class NewMovie extends Component<Props, State> {
         onSubmit={(event) => {
           this.handleSubmit(event);
         }}
-        onBlur={this.validate}
         className="sidebar__form"
       >
 
@@ -146,7 +189,15 @@ export class NewMovie extends Component<Props, State> {
             onChange={({ target }) => {
               this.handlerInputChange(target.value, target.name);
             }}
+            onBlur={({ target }) => {
+              this.isEmptyTitle(target.value);
+            }}
           />
+          {isEmptyTitle && (
+            <p className="sidebar__input-error">
+              Please, enter a title!
+            </p>
+          )}
         </label>
 
         <label>
@@ -172,7 +223,15 @@ export class NewMovie extends Component<Props, State> {
             onChange={({ target }) => {
               this.handlerInputChange(target.value, target.name);
             }}
+            onBlur={({ target }) => {
+              this.isEmptyImgUrl(target.value);
+            }}
           />
+          {isEmptyImgUrl && (
+            <p className="sidebar__input-error">
+              Please, enter a image Url!
+            </p>
+          )}
         </label>
 
         <label>
@@ -185,7 +244,15 @@ export class NewMovie extends Component<Props, State> {
             onChange={({ target }) => {
               this.handlerInputChange(target.value, target.name);
             }}
+            onBlur={({ target }) => {
+              this.isEmptyImdbUrl(target.value);
+            }}
           />
+          {isEmptyImdbUrl && (
+            <p className="sidebar__input-error">
+              Please, enter a IMDB Url!
+            </p>
+          )}
         </label>
 
         <label>
@@ -198,7 +265,15 @@ export class NewMovie extends Component<Props, State> {
             onChange={({ target }) => {
               this.handlerInputChange(target.value, target.name);
             }}
+            onBlur={({ target }) => {
+              this.isEmptyImdbId(target.value);
+            }}
           />
+          {isEmptyImdbId && (
+            <p className="sidebar__input-error">
+              Please, enter a IMDB Id!
+            </p>
+          )}
         </label>
 
         <button
