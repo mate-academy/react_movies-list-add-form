@@ -1,1 +1,64 @@
-// not empty
+.newMovie {
+
+  &__invitation {
+    margin-bottom: 5px;
+    font-weight: bold;
+    font-size: 25px;
+  }
+
+  &__name-form {
+    padding-bottom: 5px;
+  }
+
+  &__imdbUrl--error {
+    margin: 0 0 5px;
+    height: 20px;
+    line-height: 20px;
+    text-align: center;
+    font-size: 20px;
+    color: red;
+  }
+
+  &__button {
+    margin: 0 auto;
+    display: block;
+    height: 50px;
+    width: 280px;
+    border-radius: 5px;
+    color: rgb(17, 95, 228);
+    background-color: rgb(140, 216, 191);
+
+    &:hover {
+      color: red;
+      background-color: aquamarine;
+    }
+  }
+}
+
+.input {
+  margin-bottom: 15px;
+  width: 320px;
+  padding-left: 5px;
+  border: 1px solid blue;
+
+  &:nth-child(n+4) {
+    margin-bottom: 20px;
+  }
+}
+
+.url {
+  border: 1px solid blue;
+  width: 320px;
+  padding-left: 5px;
+
+  &--wrong {
+    border: 1px solid red;
+  }
+
+  &--error {
+    padding-left: 80px;
+    height: 20px;
+    color: red;
+    font-style: italic;
+  }
+}
