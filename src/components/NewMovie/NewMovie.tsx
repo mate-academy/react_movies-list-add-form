@@ -122,6 +122,7 @@ export class NewMovie extends Component<Props, State> {
     ) {
       this.setState((state) => ({
         ...state,
+
         isInputEmpty: true,
         errorContext: 'Please fill all required fields!',
       }));
@@ -180,7 +181,12 @@ export class NewMovie extends Component<Props, State> {
         )}
 
         <label>
-          <p className="sidebar__input-description">Enter title:</p>
+          <p className="sidebar__input-description">
+            <span className="required">
+              *
+            </span>
+            Enter title:
+          </p>
           <input
             name="title"
             value={title}
@@ -201,7 +207,9 @@ export class NewMovie extends Component<Props, State> {
         </label>
 
         <label>
-          <p className="sidebar__input-description">Enter description:</p>
+          <p className="sidebar__input-description">
+            Enter description:
+          </p>
           <input
             name="description"
             value={description}
@@ -214,7 +222,12 @@ export class NewMovie extends Component<Props, State> {
         </label>
 
         <label>
-          <p className="sidebar__input-description">Enter imgUrl:</p>
+          <p className="sidebar__input-description">
+            <span className="required">
+              *
+            </span>
+            Enter imgUrl:
+          </p>
           <input
             name="imgUrl"
             value={imgUrl}
@@ -235,7 +248,12 @@ export class NewMovie extends Component<Props, State> {
         </label>
 
         <label>
-          <p className="sidebar__input-description">Enter imdbUrl:</p>
+          <p className="sidebar__input-description">
+            <span className="required">
+              *
+            </span>
+            Enter imdbUrl:
+          </p>
           <input
             name="imdbUrl"
             value={imdbUrl}
@@ -256,7 +274,12 @@ export class NewMovie extends Component<Props, State> {
         </label>
 
         <label>
-          <p className="sidebar__input-description">Enter imdbId:</p>
+          <p className="sidebar__input-description">
+            <span className="required">
+              *
+            </span>
+            Enter imdbId:
+          </p>
           <input
             name="imdbId"
             value={imdbId}
