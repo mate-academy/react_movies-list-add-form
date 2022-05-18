@@ -1,1 +1,15 @@
 // not empty
+.movie-form {
+  &__title {
+    font-size: 24px;
+    text-align: center;
+    margin-bottom: 20px;
+    border: 1px solid;
+    background-color: #ccc;
+  }
+
+  &__submit-btn {
+    cursor: inherit;
+    padding: 10px 30px;
+  }
+}

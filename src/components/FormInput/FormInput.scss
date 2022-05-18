@@ -1,0 +1,30 @@
+.movie-form {
+  &__item {
+    margin-bottom: 20px;
+  }
+
+  &__input {
+    margin-right: 5px;
+    padding: 5px;
+    cursor: url(../../icons/icons8-hand.svg) 10 0, move;
+
+    &:hover {
+      background-color: #eee;
+    }
+
+    &:focus {
+      background-color: rgb(179, 255, 227);
+    }
+
+    &--error {
+      background-color: rgb(246, 198, 198);
+    }
+  }
+
+  &__error {
+    display: inline;
+    color: red;
+    font-size: 12px;
+    letter-spacing: 1px;
+  }
+}
