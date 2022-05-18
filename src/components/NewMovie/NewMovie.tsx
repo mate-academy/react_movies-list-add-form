@@ -78,7 +78,7 @@ export class NewMovie extends React.Component<Props, State> {
     } = this.state;
 
     return (
-      <Form.Label onSubmit={this.handleSubmitForm}>
+      <form onSubmit={this.handleSubmitForm}>
         <section className="NewMovie__section">
           <Form.Control
             type="text"
@@ -145,7 +145,7 @@ export class NewMovie extends React.Component<Props, State> {
         >
           Add
         </Button>
-      </Form.Label>
+      </form>
     );
   }
 }
