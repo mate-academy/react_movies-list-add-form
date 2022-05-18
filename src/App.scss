@@ -3,6 +3,7 @@
   grid-template: auto / 1fr 400px;
   column-gap: 20px;
   min-height: 100vh;
+  background-color: rgb(160, 160, 160);
 }
 
 .page-content {
@@ -12,4 +13,22 @@
 .sidebar {
   padding: 20px;
   border-left: 1px solid lightgray;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+input {
+  margin: 10px;
+  border: none;
+  outline: none;
+
+}
+
+button {
+  border: none;
+  padding: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+
 }
