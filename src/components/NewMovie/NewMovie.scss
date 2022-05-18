@@ -1,1 +1,37 @@
-// not empty
+$basic-width: 350px;
+
+.form {
+  text-align: center;
+
+  &__input {
+    width: $basic-width;
+    height: 50px;
+
+    padding-left: 10px;
+    margin-bottom: 20px;
+
+    &::placeholder {
+      font-size: 15px;
+    }
+  }
+
+  &__textarea {
+    width: $basic-width;
+    height: 100px;
+
+    padding-left: 10px;
+    padding-top: 10px;
+    margin-bottom: 20px;
+
+    &::placeholder {
+      font-size: 15px;
+    }
+  }
+}
+
+.btn {
+  padding: 10px;
+  cursor: pointer;
+  font-size: 20px;
+  width: $basic-width;
+}
