@@ -1,1 +1,7 @@
-// not empty
+@import "~bootstrap/scss/bootstrap";
+
+.NewMovie__section {
+  &:not(:last-child) {
+    margin-bottom: 10px;
+  }
+}

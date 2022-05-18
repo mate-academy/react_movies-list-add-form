@@ -1,4 +1,7 @@
-import { Component } from 'react';
+import React from 'react';
+import './NewMovie.scss';
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
 
 type Props = {
   addMovie: (movie: Movie) => void;
@@ -12,7 +15,7 @@ type State = {
   imdbId: string;
 };
 
-export class NewMovie extends Component<Props, State> {
+export class NewMovie extends React.Component<Props, State> {
   state: State = {
     title: '',
     description: '',
@@ -75,9 +78,9 @@ export class NewMovie extends Component<Props, State> {
     } = this.state;
 
     return (
-      <form onSubmit={this.handleSubmitForm}>
+      <Form.Label onSubmit={this.handleSubmitForm}>
         <section className="NewMovie__section">
-          <input
+          <Form.Control
             type="text"
             name="title"
             value={title}
@@ -89,7 +92,7 @@ export class NewMovie extends Component<Props, State> {
         </section>
 
         <section className="NewMovie__section">
-          <input
+          <Form.Control
             type="text"
             name="description"
             value={description}
@@ -100,7 +103,7 @@ export class NewMovie extends Component<Props, State> {
         </section>
 
         <section className="NewMovie__section">
-          <input
+          <Form.Control
             type="text"
             name="imgUrl"
             value={imgUrl}
@@ -112,7 +115,7 @@ export class NewMovie extends Component<Props, State> {
         </section>
 
         <section className="NewMovie__section">
-          <input
+          <Form.Control
             type="text"
             name="imdbUrl"
             value={imdbUrl}
@@ -124,7 +127,7 @@ export class NewMovie extends Component<Props, State> {
         </section>
 
         <section className="NewMovie__section">
-          <input
+          <Form.Control
             type="text"
             name="imdbId"
             value={imdbId}
@@ -135,13 +138,14 @@ export class NewMovie extends Component<Props, State> {
           />
         </section>
 
-        <button
+        <Button
+          variant="outline-secondary"
           type="submit"
           className="NewMovie__button"
         >
           Add
-        </button>
-      </form>
+        </Button>
+      </Form.Label>
     );
   }
 }
