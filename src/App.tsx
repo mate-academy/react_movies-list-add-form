@@ -15,7 +15,7 @@ export class App extends React.Component<{}, State> {
 
   addMovie = (movie: Movie) => {
     this.setState(state => ({
-      movies: [...state.movies, movie],
+      movies: [movie, ...state.movies],
     }));
   };
 

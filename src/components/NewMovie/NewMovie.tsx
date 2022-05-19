@@ -42,7 +42,7 @@ export class NewMovie extends Component<Props, State> {
       this.setState((state) => ({
         ...state,
         imgUrlError: true,
-        imgUrlErrorMessage: 'Please enter valid URL',
+        imgUrlErrorMessage: '⬆️ Please enter valid URL ⬆️',
       }));
     } else {
       this.setState((state) => ({
@@ -58,7 +58,7 @@ export class NewMovie extends Component<Props, State> {
       this.setState((state) => ({
         ...state,
         imdbUrlError: true,
-        imdbUrlErrorMessage: 'Please enter valid URL',
+        imdbUrlErrorMessage: '⬆️ Please enter valid URL ⬆️',
       }));
     } else {
       this.setState((state) => ({
@@ -168,7 +168,7 @@ export class NewMovie extends Component<Props, State> {
         </label>
 
         {this.state.imgUrlError && (
-          <p className="Form__error">
+          <p className="Form__urlError">
             {this.state.imgUrlErrorMessage}
           </p>
         )}
@@ -190,7 +190,7 @@ export class NewMovie extends Component<Props, State> {
         </label>
 
         {this.state.imdbUrlError && (
-          <p className="Form__error">
+          <p className="Form__urlError">
             {this.state.imdbUrlErrorMessage}
           </p>
         )}
