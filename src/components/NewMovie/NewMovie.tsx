@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import './NewMovie.scss';
+import cn from 'classnames';
 
 type Props = {
   onAdd: (movie: Movie) => void;
@@ -6,40 +8,77 @@ type Props = {
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [title, setTitle] = useState('');
+  const [titleError, setTitleError] = useState(false);
+
   const [description, setDescription] = useState('');
-  const [imgUrl, setimgUrln] = useState('');
-  const [imdbUrl, setimdbUrl] = useState('');
-  const [imdbId, setimdbId] = useState('');
+  const [descriptionError, setDescriptionError] = useState(false);
 
-  const onSubmit = (event: React.FormEvent) => {
-    event.preventDefault();
+  const [imgUrl, setImgUrl] = useState('');
+  const [imgUrlError, setImgUrlError] = useState(false);
 
-    const newMovie = {
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    };
+  const [imdbUrl, setImdbUrl] = useState('');
+  const [imdbUrlError, setImdbUrlError] = useState(false);
 
-    if (title) {
-      onAdd(newMovie);
-    }
+  const [imdbId, setImdbId] = useState('');
+  const [imdbIdError, setImdbIdError] = useState(false);
 
+  const handleFormClear = () => {
     setTitle('');
     setDescription('');
-    setimgUrln('');
-    setimdbUrl('');
-    setimdbId('');
+    setImgUrl('');
+    setImdbUrl('');
+    setImdbId('');
+  };
+
+  const handleFormSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+
+    if (!title.trim()) {
+      setTitleError(true);
+    }
+
+    if (!description.trim()) {
+      setDescriptionError(true);
+    }
+
+    if (!imgUrl.trim()) {
+      setImgUrlError(true);
+    }
+
+    if (!imdbUrl.trim()) {
+      setImdbUrlError(true);
+    }
+
+    if (!imdbId.trim()) {
+      setImdbIdError(true);
+    }
+
+    if (title && description && imgUrl && imdbUrl && imdbId) {
+      const newMovie = {
+        title,
+        description,
+        imgUrl,
+        imdbUrl,
+        imdbId,
+      };
+
+      onAdd(newMovie);
+      handleFormClear();
+    }
   };
 
   return (
     <form
       className="newMovie"
       name="newMovie"
-      onSubmit={onSubmit}
+      onSubmit={handleFormSubmit}
     >
       <input
+        onBlur={(event) => {
+          setTitleError(() => (
+            event.target.value.length < 6
+          ));
+        }}
         className="newMovie__input"
         name="title"
         type="text"
@@ -47,7 +86,20 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={title}
         onChange={event => setTitle(event?.target.value)}
       />
+      <span
+        className={cn('disabled', {
+          error: titleError,
+        })}
+      >
+        Please enter the title
+      </span>
+
       <input
+        onBlur={(event) => {
+          setDescriptionError(() => (
+            event.target.value.length < 6
+          ));
+        }}
         className="newMovie__input"
         name="description"
         type="text"
@@ -55,32 +107,84 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={description}
         onChange={event => setDescription(event?.target.value)}
       />
+      <span
+        className={cn('disabled', {
+          error: descriptionError,
+        })}
+      >
+        Please enter the description
+      </span>
+
       <input
+        onBlur={(event) => {
+          setImgUrlError(() => (
+            event.target.value.length < 6
+          ));
+        }}
         className="newMovie__input"
         name="imgUrl"
         type="text"
-        placeholder="Enter the imgUrl"
+        placeholder="Enter the image URL"
         value={imgUrl}
-        onChange={event => setimgUrln(event?.target.value)}
+        onChange={event => setImgUrl(event?.target.value)}
       />
+      <span
+        className={cn('disabled', {
+          error: imgUrlError,
+        })}
+      >
+        Please enter the image URL
+      </span>
+
       <input
+        onBlur={(event) => {
+          setImdbUrlError(() => (
+            event.target.value.length < 6
+          ));
+        }}
         className="newMovie__input"
         name="imdbUrl"
         type="text"
-        placeholder="Enter the imdbUrl"
+        placeholder="Enter the IMDB URL"
         value={imdbUrl}
-        onChange={event => setimdbUrl(event?.target.value)}
+        onChange={event => setImdbUrl(event?.target.value)}
       />
+      <span
+        className={cn('disabled', {
+          error: imdbUrlError,
+        })}
+      >
+        Please enter the IMDB URL
+      </span>
+
       <input
+        onBlur={(event) => {
+          setImdbIdError(() => (
+            event.target.value.length < 6
+          ));
+        }}
         className="newMovie__input"
         name="imdbId"
         type="text"
-        placeholder="Enter the title"
+        placeholder="Enter the IMDB ID"
         value={imdbId}
-        onChange={event => setimdbId(event?.target.value)}
+        onChange={event => setImdbId(event?.target.value)}
       />
-      <div className="newMovie__button">
-        <button type="submit">Add Movie</button>
+      <span
+        className={cn('disabled', {
+          error: imdbIdError,
+        })}
+      >
+        Please enter the IMDB ID
+      </span>
+
+      <div>
+        <button
+          className="newMovie__button"
+          type="submit"
+        >
+          Add new movie
+        </button>
       </div>
 
     </form>
