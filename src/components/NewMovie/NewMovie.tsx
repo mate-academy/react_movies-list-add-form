@@ -34,20 +34,28 @@ export class NewMovie extends Component<Props, State> {
 
   handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    this.clear();
-
     const movie = {
-      title: this.state.title,
-      imgUrl: this.state.imgUrl,
-      imdbUrl: this.state.imdbUrl,
-      imdbId: this.state.imdbId,
-      description: this.state.description,
+      ...this.state,
     };
 
     this.props.onAdd(movie);
+    this.clear();
+  };
+
+  changeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+
+    this.setState(state => ({
+      ...state,
+      [name]: value,
+    }));
   };
 
   render() {
+    const {
+      title, imgUrl, imdbUrl, imdbId, description,
+    } = this.state;
+
     return (
       <form onSubmit={this.handleSubmit} className="form">
         <label htmlFor="title">
@@ -57,11 +65,9 @@ export class NewMovie extends Component<Props, State> {
             name="title"
             id="title"
             className="input"
-            value={this.state.title}
+            value={title}
             required
-            onChange={(event => {
-              this.setState({ title: event.target.value });
-            })}
+            onChange={this.changeHandler}
           />
         </label>
         <label htmlFor="imgUrl">
@@ -71,11 +77,9 @@ export class NewMovie extends Component<Props, State> {
             className="input"
             name="imgUrl"
             id="imgUrl"
-            value={this.state.imgUrl}
+            value={imgUrl}
             required
-            onChange={(event => {
-              this.setState({ imgUrl: event.target.value });
-            })}
+            onChange={this.changeHandler}
           />
         </label>
         <label htmlFor="imdbUrl">
@@ -85,11 +89,9 @@ export class NewMovie extends Component<Props, State> {
             className="input"
             name="imdbUrl"
             id="imdbUrl"
-            value={this.state.imdbUrl}
+            value={imdbUrl}
             required
-            onChange={(event => {
-              this.setState({ imdbUrl: event.target.value });
-            })}
+            onChange={this.changeHandler}
           />
         </label>
         <label htmlFor="imdbId">
@@ -100,22 +102,18 @@ export class NewMovie extends Component<Props, State> {
             name="imdbId"
             id="imdbId"
             required
-            value={this.state.imdbId}
-            onChange={(event => {
-              this.setState({ imdbId: event.target.value });
-            })}
+            value={imdbId}
+            onChange={this.changeHandler}
           />
         </label>
         <label htmlFor="description">
           Description:
-          <textarea
+          <input
             name="description"
             id="description"
-            className="textarea"
-            value={this.state.description}
-            onChange={(event => {
-              this.setState({ description: event.target.value });
-            })}
+            className="input"
+            value={description}
+            onChange={this.changeHandler}
           />
         </label>
         <button type="submit" className="button">
