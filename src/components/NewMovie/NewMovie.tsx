@@ -11,7 +11,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [titleError, setTitleError] = useState(false);
 
   const [description, setDescription] = useState('');
-  const [descriptionError, setDescriptionError] = useState(false);
 
   const [imgUrl, setImgUrl] = useState('');
   const [imgUrlError, setImgUrlError] = useState(false);
@@ -33,12 +32,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const handleFormSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (title.trim().length < 6) {
+    if (title.trim().length < 1) {
       setTitleError(true);
-    }
-
-    if (description.trim().length < 6) {
-      setDescriptionError(true);
     }
 
     if (imgUrl.trim().length < 6) {
@@ -54,7 +49,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     }
 
     if (title.trim().length > 6
-      && description.trim().length > 6
       && imgUrl.trim().length > 6
       && imdbUrl.trim().length > 6
       && imdbId.trim().length > 6) {
@@ -80,7 +74,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <input
         onBlur={(event) => {
           setTitleError(() => (
-            event.target.value.length < 6
+            event.target.value.trim().length < 1
           ));
         }}
         className="newMovie__input"
@@ -99,11 +93,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       </span>
 
       <input
-        onBlur={(event) => {
-          setDescriptionError(() => (
-            event.target.value.length < 6
-          ));
-        }}
         className="newMovie__input"
         name="description"
         type="text"
@@ -112,9 +101,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         onChange={event => setDescription(event?.target.value)}
       />
       <span
-        className={cn('disabled', {
-          error: descriptionError,
-        })}
+        className="disabled"
       >
         Please enter the description
       </span>
@@ -122,7 +109,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <input
         onBlur={(event) => {
           setImgUrlError(() => (
-            event.target.value.length < 6
+            event.target.value.trim().length < 6
           ));
         }}
         className="newMovie__input"
@@ -143,7 +130,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <input
         onBlur={(event) => {
           setImdbUrlError(() => (
-            event.target.value.length < 6
+            event.target.value.trim().length < 6
           ));
         }}
         className="newMovie__input"
@@ -164,7 +151,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <input
         onBlur={(event) => {
           setImdbIdError(() => (
-            event.target.value.length < 6
+            event.target.value.trim().length < 6
           ));
         }}
         className="newMovie__input"
