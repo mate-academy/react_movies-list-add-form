@@ -100,7 +100,7 @@ export class NewMovie extends Component<Props, State> {
       return value.length > 0;
     };
 
-    const handleButton
+    const isButtonActive
     = isValid(title, false)
     && isValid(imgUrl, true)
     && isValid(imdbUrl, true)
@@ -220,7 +220,7 @@ export class NewMovie extends Component<Props, State> {
 
           <button
             type="submit"
-            disabled={!handleButton}
+            disabled={!isButtonActive}
           >
             Add movie
           </button>
