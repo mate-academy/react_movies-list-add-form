@@ -25,7 +25,7 @@ export const NewMovie: FC<Props> = ({ onAddMovie }) => {
   const [errorMessageForImdbId, setErrorMessageForImdbId] = useState('');
   const [isFormValid, setFormValid] = useState(false);
 
-  const validation = () => {
+  const wholeFormValidation = () => {
     const inputs = [
       title,
       imgUrl,
@@ -51,13 +51,13 @@ export const NewMovie: FC<Props> = ({ onAddMovie }) => {
   const titleValidation = () => {
     if (!title.trim()) {
       setErrorMessageForTitle('Please enter a title');
-      validation();
+      wholeFormValidation();
 
       return false;
     }
 
     setErrorMessageForTitle('');
-    validation();
+    wholeFormValidation();
 
     return true;
   };
@@ -65,13 +65,13 @@ export const NewMovie: FC<Props> = ({ onAddMovie }) => {
   const imdbUrlValidation = () => {
     if (!imdbUrl.trim() || !urlPattern.test(imdbUrl)) {
       setErrorMessageForImdbUrl('Please enter a valid link');
-      validation();
+      wholeFormValidation();
 
       return false;
     }
 
     setErrorMessageForImdbUrl('');
-    validation();
+    wholeFormValidation();
 
     return true;
   };
@@ -79,13 +79,13 @@ export const NewMovie: FC<Props> = ({ onAddMovie }) => {
   const imgUrlValidation = () => {
     if (!imgUrl.trim() || !urlPattern.test(imgUrl)) {
       setErrorMessageForImgUrl('Please enter a valid link');
-      validation();
+      wholeFormValidation();
 
       return false;
     }
 
     setErrorMessageForImgUrl('');
-    validation();
+    wholeFormValidation();
 
     return true;
   };
@@ -93,26 +93,19 @@ export const NewMovie: FC<Props> = ({ onAddMovie }) => {
   const imdbIdValidation = () => {
     if (!imdbId.trim()) {
       setErrorMessageForImdbId('Please enter a valid id');
-      validation();
+      wholeFormValidation();
 
       return false;
     }
 
     setErrorMessageForImdbId('');
-    validation();
+    wholeFormValidation();
 
     return true;
   };
 
   const submitForm = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
-    setFormValid(false);
 
     onAddMovie({
       title,
@@ -121,6 +114,13 @@ export const NewMovie: FC<Props> = ({ onAddMovie }) => {
       imdbUrl,
       imdbId,
     });
+
+    setTitle('');
+    setDescription('');
+    setImgUrl('');
+    setImdbUrl('');
+    setImdbId('');
+    setFormValid(false);
   };
 
   const handleTitle = (currentTitle: string) => {
