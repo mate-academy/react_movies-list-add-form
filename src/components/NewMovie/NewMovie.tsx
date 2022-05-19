@@ -243,10 +243,6 @@ export class NewMovie extends Component<Props, State> {
         <button
           className="form__button"
           type="submit"
-          disabled={!this.state.title
-             || !this.state.imgUrl
-             || !this.state.imdbUrl
-             || !this.state.imdbId}
         >
           Add Movie
         </button>
