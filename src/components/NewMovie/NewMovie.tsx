@@ -133,7 +133,7 @@ export class NewMovie extends Component<Props, State> {
         break;
 
       default:
-        return;
+        return false;
     }
 
     const out = !value.match(patternURL);
@@ -168,7 +168,7 @@ export class NewMovie extends Component<Props, State> {
         return;
     }
 
-    const out = !value;
+    const out = !value.trim().length;
 
     this.setStateToField(nameOfFieldError, out);
 
@@ -210,10 +210,9 @@ export class NewMovie extends Component<Props, State> {
         <h2 className="newMovie__title">
           Add new movie title
         </h2>
-
         <div>
           <label className="newMovie__form-label">
-            Title:
+            * Title:
             <input
               className={
                 classNames(
@@ -230,7 +229,12 @@ export class NewMovie extends Component<Props, State> {
               onBlur={this.onBlurHandler}
             />
           </label>
-          {titleIsRequiredError && <p>Title is required</p>}
+          {titleIsRequiredError
+          && (
+            <p className="newMovie__exception_description">
+              Title is required
+            </p>
+          )}
         </div>
 
         <div>
@@ -252,7 +256,7 @@ export class NewMovie extends Component<Props, State> {
 
         <div>
           <label className="newMovie__form-label">
-            Image Url:
+            * Image Url:
             <input
               className={
                 classNames(
@@ -270,13 +274,23 @@ export class NewMovie extends Component<Props, State> {
               onBlur={this.onBlurHandler}
             />
           </label>
-          {imgUrlIsRequiredError && <p>ImgUrl is required</p>}
-          {imgUrlError && <p>ImgUrl is incorrect</p>}
+          {(imgUrlIsRequiredError
+          && (
+            <p className="newMovie__exception_description">
+              ImgUrl is required
+            </p>
+          ))
+          || (imgUrlError
+          && (
+            <p className="newMovie__exception_description">
+              ImgUrl is incorrect
+            </p>
+          ))}
         </div>
 
         <div>
           <label className="newMovie__form-label">
-            IMDB Url:
+            * IMDB Url:
             <input
               className={
                 classNames(
@@ -294,13 +308,23 @@ export class NewMovie extends Component<Props, State> {
               onBlur={this.onBlurHandler}
             />
           </label>
-          {imdbUrlIsRequiredError && <p>ImdbUrl is required</p>}
-          {imdbUrlError && <p>ImdbUrl is incorrect</p>}
+          {(imdbUrlIsRequiredError
+            && (
+              <p className="newMovie__exception_description">
+                ImdbUrl is required
+              </p>
+            ))
+            || (imdbUrlError
+            && (
+              <p className="newMovie__exception_description">
+                ImdbUrl is incorrect
+              </p>
+            ))}
         </div>
 
         <div>
           <label className="newMovie__form-label">
-            IMDB Id:
+            * IMDB Id:
             <input
               className={
                 classNames(
@@ -317,7 +341,12 @@ export class NewMovie extends Component<Props, State> {
               onBlur={this.onBlurHandler}
             />
           </label>
-          {imdbIdRequiredError && <p>ImdbId is required</p>}
+          {imdbIdRequiredError
+          && (
+            <p className="newMovie__exception_description">
+              ImdbId is required
+            </p>
+          )}
         </div>
 
         <div>
