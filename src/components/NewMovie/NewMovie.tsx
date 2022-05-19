@@ -12,37 +12,48 @@ type State = {
   imgUrl: string,
   imdbUrl: string,
   imdbId: string,
+  isErrorTitle: boolean,
   isErrorImgUrl: boolean,
-  isErrorimdbUrl: boolean,
+  isErrorImdbUrl: boolean,
+  isErrorImdbId: boolean,
   isDisabled: boolean,
+};
+
+const initialState: State = {
+  title: '',
+  description: '',
+  imgUrl: '',
+  imdbUrl: '',
+  imdbId: '',
+  isErrorTitle: false,
+  isErrorImgUrl: false,
+  isErrorImdbUrl: false,
+  isErrorImdbId: false,
+  isDisabled: false,
 };
 
 // eslint-disable-next-line max-len
 const regExp = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
 
 export class NewMovie extends Component<Props, State> {
-  state: State = {
-    title: '',
-    description: '',
-    imgUrl: '',
-    imdbUrl: '',
-    imdbId: '',
-    isErrorImgUrl: false,
-    isErrorimdbUrl: false,
-    isDisabled: false,
-  };
+  state: State = { ...initialState };
 
   resetForms = () => {
-    this.setState({
-      title: '',
-      description: '',
-      imgUrl: '',
-      imdbUrl: '',
-      imdbId: '',
-      isErrorImgUrl: false,
-      isErrorimdbUrl: false,
-      isDisabled: false,
-    });
+    this.setState({ ...initialState });
+  };
+
+  checkTitle = () => {
+    if (this.state.title.trim() === '') {
+      this.setState({
+        isErrorTitle: true,
+        isDisabled: true,
+      });
+    } else {
+      this.setState({
+        isErrorTitle: false,
+        isDisabled: false,
+      });
+    }
   };
 
   checkImgURl = () => {
@@ -62,20 +73,52 @@ export class NewMovie extends Component<Props, State> {
   checkImdbUrl = () => {
     if (!regExp.test(this.state.imdbUrl)) {
       this.setState({
-        isErrorimdbUrl: true,
+        isErrorImdbUrl: true,
         isDisabled: true,
       });
     } else {
       this.setState({
-        isErrorimdbUrl: false,
+        isErrorImdbUrl: false,
+        isDisabled: false,
+      });
+    }
+  };
+
+  checkImdbId = () => {
+    if (this.state.imdbId.trim() === '') {
+      this.setState({
+        isErrorImdbId: true,
+        isDisabled: true,
+      });
+    } else {
+      this.setState({
+        isErrorImdbId: false,
         isDisabled: false,
       });
     }
   };
 
   checkMovie = () => {
-    if (!this.state.isErrorImgUrl && !this.state.isErrorimdbUrl) {
-      this.props.onAdd(this.state);
+    const {
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    } = this.state;
+
+    if (
+      !this.state.isErrorTitle
+      && !this.state.isErrorImgUrl
+      && !this.state.isErrorImdbUrl
+      && !this.state.isErrorImdbId) {
+      this.props.onAdd({
+        title: title.trim(),
+        description: description.trim(),
+        imgUrl,
+        imdbUrl,
+        imdbId: imdbId.trim(),
+      });
       this.resetForms();
     }
   };
@@ -98,23 +141,43 @@ export class NewMovie extends Component<Props, State> {
           Movie title:
         </p>
         <input
-          className="newMovie__title
-          input"
+          className={
+            classNames(
+              'newMovie__title',
+              'newMovie__error',
+              {
+                'newMovie__error--border': this.state.isErrorTitle === true,
+              },
+            )
+          }
           name="title"
           placeholder="Title"
-          required
           value={this.state.title}
           onChange={(event) => {
             this.setState({ title: event.target.value });
           }}
+          onBlur={this.checkTitle}
         />
+        <div
+          className="newMovie__title-error
+          newMovie__error--text"
+        >
+          {this.state.isErrorTitle && (
+            <p
+              className="newMovie__Title-error--text"
+            >
+              Title is absent
+            </p>
+          )}
+        </div>
+
         <label className="newMovie__description">
           <p className="newMovie__name-form">
             Description:
           </p>
           <textarea
             className="newMovie__description--text
-            input"
+            newMovie__error"
             name="description"
             placeholder="..."
             value={this.state.description}
@@ -123,6 +186,7 @@ export class NewMovie extends Component<Props, State> {
             }}
           />
         </label>
+
         <p className="newMovie__name-form">
           Image Link:
         </p>
@@ -130,27 +194,26 @@ export class NewMovie extends Component<Props, State> {
           className={
             classNames(
               'newMovie__imgUrl',
-              'url',
+              'newMovie__error',
               {
-                'url--wrong': this.state.isErrorImgUrl === true,
+                'newMovie__error--border': this.state.isErrorImgUrl === true,
               },
             )
           }
           name="imgUrl"
           placeholder="https://m.media-amazon.com"
-          required
           value={this.state.imgUrl}
           onChange={(event) => {
-            this.setState({ imgUrl: event.target.value });
+            this.setState({ imgUrl: event.target.value.trim() });
           }}
           onBlur={this.checkImgURl}
         />
         <div
-          className="newMovie__imgUrl
-          url--error"
+          className="newMovie__imgUrl-error
+          newMovie__error--text"
         >
           {this.state.isErrorImgUrl && (
-            <p className="newMovie__imgUrl--error-text">
+            <p className="newMovie__imgUrl-error--text">
               Incorrect URL
             </p>
           )}
@@ -163,28 +226,27 @@ export class NewMovie extends Component<Props, State> {
           className={
             classNames(
               'newMovie__imdbUrl',
-              'url',
+              'newMovie__error',
               {
-                'url--wrong': this.state.isErrorimdbUrl === true,
+                'newMovie__error--border': this.state.isErrorImdbUrl === true,
               },
             )
           }
           name="imdbUrl"
           placeholder="https://www.imdb.com"
-          required
           value={this.state.imdbUrl}
           onChange={(event) => {
-            this.setState({ imdbUrl: event.target.value });
+            this.setState({ imdbUrl: event.target.value.trim() });
           }}
           onBlur={this.checkImdbUrl}
         />
         <div
-          className="newMovie__imdbUrl
-          url--error"
+          className="newMovie__imdbUrl-error
+          newMovie__error--text"
         >
-          {this.state.isErrorimdbUrl && (
+          {this.state.isErrorImdbUrl && (
             <p
-              className="newMovie__imdbUrl--error-text"
+              className="newMovie__imdbUrl-error--text"
             >
               Incorrect URL
             </p>
@@ -195,22 +257,43 @@ export class NewMovie extends Component<Props, State> {
           ID record:
         </p>
         <input
-          className="newMovie__imdbId
-          input"
+          className={
+            classNames(
+              'newMovie__imdbId',
+              'newMovie__error',
+              {
+                'newMovie__error--border': this.state.isErrorImdbId === true,
+              },
+            )
+          }
           name="imdbId"
           placeholder="tt0319262"
-          required
           value={this.state.imdbId}
           onChange={(event) => {
             this.setState({ imdbId: event.target.value });
           }}
+          onBlur={this.checkImdbId}
         />
+        <div
+          className="newMovie__imdbId-error
+          newMovie__error--text"
+        >
+          {this.state.isErrorImdbId && (
+            <p
+              className="newMovie__imdbId-error--text"
+            >
+              imdbID is absent
+            </p>
+          )}
+        </div>
 
-        <div className="newMovie__imdbUrl--error">
-          {(this.state.isErrorimdbUrl
-            || this.state.isErrorImgUrl)
+        <div className="newMovie__final-error">
+          {(this.state.isErrorTitle
+            || this.state.isErrorImdbUrl
+            || this.state.isErrorImgUrl
+            || this.state.isErrorImdbId)
             && (
-              <p className="newMovie__imdbUrl--error-text">
+              <p className="newMovie__final-error--text">
                 Please, enter correct data
               </p>
             )}
