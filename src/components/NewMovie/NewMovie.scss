@@ -1,1 +1,48 @@
-// not empty
+.app-form {
+  display: flex;
+  flex-direction: column;
+  gap: 35px;
+
+  &__field {
+    position: relative;
+  }
+
+  &__input,
+  &__btn {
+    width: 250px;
+
+    font-size: 1.1em;
+    border: 1px solid black;
+  }
+
+  &__input {
+    &--error {
+      border-color: red;
+    }
+  }
+
+  &__btn {
+    background-color: #e4b623;
+
+    &:hover {
+      cursor: pointer;
+      box-shadow: 0 0 5px 5px lightsteelblue;
+    }
+
+    &:active {
+      box-shadow: inset 0 0 5px 5px #927927;
+    }
+
+    &:disabled {
+      cursor: inherit;
+      box-shadow: none;
+    }
+  }
+
+  &__error {
+    position: absolute;
+    left: 10px;
+    bottom: -45%;
+    color: red;
+  }
+}
