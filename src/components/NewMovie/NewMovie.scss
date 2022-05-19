@@ -1,1 +1,45 @@
-// not empty
+.form {
+  &__container {
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__title h1 {
+    font-size: 24px;
+    font-weight: 700;
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__error {
+    color: red;
+  }
+}
+
+.input {
+  margin: 6px;
+  padding: 8px;
+  width: 100%;
+  border: 1px solid lightgray;
+  border-radius: 4px;
+}
+
+.error {
+  border-color: rgb(255, 153, 153);
+}
+
+button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40px;
+  width: 120px;
+  margin: 5px auto;
+
+  padding: 5px;
+  font-size: 16px;
+}
