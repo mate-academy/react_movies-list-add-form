@@ -42,6 +42,8 @@ export const NewMovie: FC<Props> = ({ addMovie }) => {
 
     if (!movie.title) {
       errorMessage = 'Title is required!';
+    } else if (movie.title[0] === ' ') {
+      errorMessage = 'Title should not start with space!';
     }
 
     setErrors({
@@ -91,6 +93,8 @@ export const NewMovie: FC<Props> = ({ addMovie }) => {
 
     if (!movie.imdbId) {
       errorMessage = 'ImdbId is required!';
+    } else if (movie.imdbId[0] === ' ') {
+      errorMessage = 'ImdbId should not start with space!';
     }
 
     setErrors({
