@@ -1,1 +1,48 @@
-// not empty
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  border: 1px solid black;
+  border-radius: 10px;
+  padding: 20px;
+  align-items: center;
+  background: bisque;
+
+  &__label {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    font-size: 20px;
+  }
+
+  &__input {
+    padding: 10px;
+    font-size: 20px;
+    width: 250px;
+    height: 30px;
+    border-radius: 20px;
+    border: 1px solid black;
+    transition: all 0.3s;
+
+    &:hover {
+      border-radius: 10px;
+      transform: scale(1.2);
+    }
+  }
+
+  &__button {
+    outline: none;
+    border: 0;
+    background: transparent;
+    width: 80px;
+
+    &--image {
+      transition: all 1s;
+
+      &:hover {
+        transform: rotate(360deg);
+      }
+    }
+  }
+}
