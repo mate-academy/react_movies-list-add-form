@@ -82,7 +82,6 @@ export const NewMovie: React.FC<Props> = ({ addNewMovie }) => {
         onChange={event => {
           setImgUrl(event.target.value);
           setImdbIdError(false);
-          setImdbIdError(false);
           setImgUrlError(false);
         }}
       />
