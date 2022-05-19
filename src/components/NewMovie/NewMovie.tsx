@@ -99,6 +99,7 @@ export class NewMovie extends React.Component<Props, State> {
             className="NewMovie__input"
             placeholder="Description"
             onChange={this.handleInputChange}
+            required
           />
         </section>
 
