@@ -23,5 +23,6 @@ export const FormsField: React.FC<Props> = ({
     name={name}
     value={value}
     onChange={onChange}
+    required
   />
 );
