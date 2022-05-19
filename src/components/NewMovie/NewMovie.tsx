@@ -87,6 +87,7 @@ export class NewMovie extends Component<Props, State> {
         />
 
         <input
+          required
           className="form__input"
           type="text"
           name="imgUrl"
@@ -96,6 +97,7 @@ export class NewMovie extends Component<Props, State> {
         />
 
         <input
+          required
           className="form__input"
           type="text"
           name="imdbUrl"
