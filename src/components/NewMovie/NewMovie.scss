@@ -25,6 +25,11 @@
     border: 1px solid black;
     transition: all 0.3s;
 
+    &--description {
+      resize: none;
+      height: 80px;
+    }
+
     &:hover {
       border-radius: 10px;
       transform: scale(1.2);

@@ -46,16 +46,16 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
             className="form__input"
             placeholder="Title"
             onChange={movieHandler}
+            required
           />
         </label>
 
         <label className="form__label">
           Description
-          <input
-            type="text"
+          <textarea
             name="description"
             value={movie.description}
-            className="form__input"
+            className="form__input form__input--description"
             placeholder="Description"
             onChange={movieHandler}
           />
@@ -70,6 +70,7 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
             className="form__input"
             placeholder="ImgUrl"
             onChange={movieHandler}
+            required
           />
         </label>
 
@@ -82,6 +83,7 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
             className="form__input"
             placeholder="ImdbUrl"
             onChange={movieHandler}
+            required
           />
         </label>
 
@@ -94,6 +96,7 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
             className="form__input"
             placeholder="ImdbId"
             onChange={movieHandler}
+            required
           />
         </label>
 
