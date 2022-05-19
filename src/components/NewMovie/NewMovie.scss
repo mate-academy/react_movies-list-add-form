@@ -1,1 +1,15 @@
-// not empty
+.form {
+  display: flex;
+  flex-direction: column;
+
+  &__input {
+    margin-bottom: 20px;
+    height: 40px;
+    cursor: pointer;
+  }
+}
+
+.form__p {
+  text-align: center;
+  margin-bottom: 20px;
+}
