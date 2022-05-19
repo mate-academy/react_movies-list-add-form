@@ -11,6 +11,8 @@ type State = {
   imgUrl: string,
   imdbUrl: string,
   imdbId: string,
+  isError: boolean,
+  errorMessage: string,
 };
 
 export class NewMovie extends Component<Props, State> {
@@ -20,6 +22,8 @@ export class NewMovie extends Component<Props, State> {
     imgUrl: '',
     imdbUrl: '',
     imdbId: '',
+    isError: false,
+    errorMessage: '',
   };
 
   handleSubmit = (event: { preventDefault: () => void; }) => {
@@ -30,6 +34,12 @@ export class NewMovie extends Component<Props, State> {
         || !this.state.imgUrl
         || !this.state.imdbUrl
         || !this.state.imdbId) {
+      this.setState((state) => ({
+        ...state,
+        isError: true,
+        errorMessage: 'All this fields are required to fill!',
+      }));
+
       return;
     }
 
@@ -41,6 +51,8 @@ export class NewMovie extends Component<Props, State> {
       imgUrl: '',
       imdbUrl: '',
       imdbId: '',
+      isError: false,
+      errorMessage: '',
     });
   };
 
@@ -133,6 +145,12 @@ export class NewMovie extends Component<Props, State> {
             }}
           />
         </label>
+
+        {this.state.isError && (
+          <p className="Form__error">
+            {this.state.errorMessage}
+          </p>
+        )}
 
         <button
           type="submit"
