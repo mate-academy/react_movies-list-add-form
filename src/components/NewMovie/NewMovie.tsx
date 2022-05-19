@@ -40,6 +40,7 @@ export const NewMovie: React.FC<Props> = ({ newMovie }) => {
         <input
           type="text"
           name="title"
+          required
           value={movie.title}
           className="form__input"
           placeholder="title"
@@ -61,6 +62,7 @@ export const NewMovie: React.FC<Props> = ({ newMovie }) => {
         <input
           type="text"
           name="imgUrl"
+          required
           value={movie.imgUrl}
           className="form__input"
           placeholder="imgUrl"
@@ -72,6 +74,7 @@ export const NewMovie: React.FC<Props> = ({ newMovie }) => {
         <input
           type="text"
           name="imdbUrl"
+          required
           value={movie.imdbUrl}
           className="form__input"
           placeholder="imdbUrl"
@@ -83,6 +86,7 @@ export const NewMovie: React.FC<Props> = ({ newMovie }) => {
         <input
           type="text"
           name="imdbId"
+          required
           value={movie.imdbId}
           className="form__input"
           placeholder="imdbId"
