@@ -11,7 +11,7 @@ type State = {
   imgUrl: string,
   imdbUrl: string,
   imdbId: string,
-  errorTitlt: boolean,
+  errorTitle: boolean,
   errorDescription: boolean,
   errorImdbId: boolean,
 };
@@ -23,7 +23,7 @@ export class NewMovie extends Component<Props, State> {
     imgUrl: '',
     imdbUrl: '',
     imdbId: '',
-    errorTitlt: false,
+    errorTitle: false,
     errorDescription: false,
     errorImdbId: false,
   };
@@ -34,11 +34,7 @@ export class NewMovie extends Component<Props, State> {
     if (this.state.title.trim() === '') {
       this.setState({
         title: '',
-        errorTitlt: true,
-      });
-    } else {
-      this.setState({
-        errorTitlt: false,
+        errorTitle: true,
       });
     }
 
@@ -47,20 +43,12 @@ export class NewMovie extends Component<Props, State> {
         description: '',
         errorDescription: true,
       });
-    } else {
-      this.setState({
-        errorDescription: false,
-      });
     }
 
     if (this.state.imdbId.trim() === '') {
       this.setState({
         imdbId: '',
         errorImdbId: true,
-      });
-    } else {
-      this.setState({
-        errorImdbId: false,
       });
     }
 
@@ -75,7 +63,7 @@ export class NewMovie extends Component<Props, State> {
         imgUrl: '',
         imdbUrl: '',
         imdbId: '',
-        errorTitlt: false,
+        errorTitle: false,
         errorDescription: false,
         errorImdbId: false,
       });
@@ -89,7 +77,7 @@ export class NewMovie extends Component<Props, State> {
       imgUrl,
       imdbUrl,
       imdbId,
-      errorTitlt,
+      errorTitle,
       errorDescription,
       errorImdbId,
     } = this.state;
@@ -105,10 +93,11 @@ export class NewMovie extends Component<Props, State> {
             onChange={(event) => {
               this.setState({
                 title: event.target.value,
+                errorTitle: false,
               });
             }}
           />
-          {errorTitlt && (
+          {errorTitle && (
             <span className="error">enter a valid title</span>
           )}
         </div>
@@ -121,6 +110,7 @@ export class NewMovie extends Component<Props, State> {
             onChange={(event) => {
               this.setState({
                 description: event.target.value,
+                errorDescription: false,
               });
             }}
           />
@@ -163,6 +153,7 @@ export class NewMovie extends Component<Props, State> {
             onChange={(event) => {
               this.setState({
                 imdbId: event.target.value,
+                errorImdbId: false,
               });
             }}
           />
