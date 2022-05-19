@@ -45,6 +45,7 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
             value={movie.title}
             className="NewMovie__input"
             placeholder="Title"
+            required
             onChange={movieHandler}
           />
         </label>
@@ -68,6 +69,7 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
             value={movie.imgUrl}
             className="NewMovie__input"
             placeholder="imgUrl"
+            required
             onChange={movieHandler}
           />
         </label>
@@ -80,6 +82,7 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
             value={movie.imdbUrl}
             className="NewMovie__input"
             placeholder="imdbUrl"
+            required
             onChange={movieHandler}
           />
         </label>
@@ -92,6 +95,7 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
             value={movie.imdbId}
             className="NewMovie__input"
             placeholder="imdbId"
+            required
             onChange={movieHandler}
           />
         </label>
