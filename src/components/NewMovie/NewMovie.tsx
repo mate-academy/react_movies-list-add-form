@@ -61,7 +61,7 @@ export class NewMovie extends Component<Props, State> {
           <p>{this.state.errorText}</p>
         )}
         <label htmlFor="text__field">
-          <span className='required__field'>*</span>
+          <span className="required__field">*</span>
           <input
             className="label__field"
             id="text__field"
@@ -106,7 +106,7 @@ export class NewMovie extends Component<Props, State> {
           />
         </label>
         <label htmlFor="imdbUrl__field">
-          <span className='required__field'>*</span>
+          <span className="required__field">*</span>
           <input
             className="label__field"
             id="imdbUrl__field"
@@ -122,7 +122,7 @@ export class NewMovie extends Component<Props, State> {
           />
         </label>
         <label htmlFor="imdbId__field">
-          <span className='required__field'>*</span>
+          <span className="required__field">*</span>
           <input
             className="label__field"
             id="imdbId__field"
