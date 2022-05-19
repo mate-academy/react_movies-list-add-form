@@ -187,7 +187,7 @@ export class NewMovie extends Component<Props, State> {
           Description
           <textarea
             value={this.state.description}
-            className="form__input"
+            className="form__input form__text"
             name="description"
             placeholder="Write about movie"
             onChange={this.handleInput}

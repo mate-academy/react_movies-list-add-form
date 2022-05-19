@@ -7,7 +7,12 @@
 
   &__input {
     display: block;
+    width: 200px;
     margin-bottom: 20px;
+  }
+
+  &__text {
+    height: 40px;
   }
 
   &__inputErr {

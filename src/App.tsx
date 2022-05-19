@@ -29,7 +29,7 @@ export class App extends React.Component<{}, State> {
     };
 
     this.setState((state) => ({
-      movies: [...state.movies, movie],
+      movies: [movie, ...state.movies],
     }));
   };
 
