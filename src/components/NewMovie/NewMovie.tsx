@@ -49,7 +49,7 @@ export const NewMovie: FC<Props> = ({ onAddMovie }) => {
   };
 
   const titleValidation = () => {
-    if (!title) {
+    if (!title.trim()) {
       setErrorMessageForTitle('Please enter a title');
       validation();
 
@@ -63,7 +63,7 @@ export const NewMovie: FC<Props> = ({ onAddMovie }) => {
   };
 
   const imdbUrlValidation = () => {
-    if (!imdbUrl || !urlPattern.test(imdbUrl)) {
+    if (!imdbUrl.trim() || !urlPattern.test(imdbUrl)) {
       setErrorMessageForImdbUrl('Please enter a valid link');
       validation();
 
@@ -77,7 +77,7 @@ export const NewMovie: FC<Props> = ({ onAddMovie }) => {
   };
 
   const imgUrlValidation = () => {
-    if (!imgUrl || !urlPattern.test(imgUrl)) {
+    if (!imgUrl.trim() || !urlPattern.test(imgUrl)) {
       setErrorMessageForImgUrl('Please enter a valid link');
       validation();
 
@@ -91,7 +91,7 @@ export const NewMovie: FC<Props> = ({ onAddMovie }) => {
   };
 
   const imdbIdValidation = () => {
-    if (!imdbId) {
+    if (!imdbId.trim()) {
       setErrorMessageForImdbId('Please enter a valid id');
       validation();
 
@@ -150,6 +150,8 @@ export const NewMovie: FC<Props> = ({ onAddMovie }) => {
       name="onAdd"
       onSubmit={submitForm}
     >
+      <h1 className="app-form__title">Add new movie</h1>
+
       <label className="app-form__field">
         <h2>Title</h2>
         <input

@@ -1,7 +1,13 @@
 .app-form {
   display: flex;
   flex-direction: column;
-  gap: 35px;
+  gap: 25px;
+  width: 100%;
+
+  &__title {
+    font-size: 1.8em;
+    font-weight: 300;
+  }
 
   &__field {
     position: relative;
@@ -9,20 +15,25 @@
 
   &__input,
   &__btn {
-    width: 250px;
+    width: 100%;
 
     font-size: 1.1em;
     border: 1px solid black;
+    border-radius: 3px;
   }
 
   &__input {
+    padding: 5px;
+
     &--error {
       border-color: red;
     }
   }
 
   &__btn {
+    padding: 5px;
     background-color: #e4b623;
+    transition: box-shadow 0.3s;
 
     &:hover {
       cursor: pointer;
@@ -41,8 +52,8 @@
 
   &__error {
     position: absolute;
-    left: 10px;
-    bottom: -45%;
+    right: 10px;
+    bottom: -20px;
     color: red;
   }
 }
