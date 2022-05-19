@@ -33,27 +33,31 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const handleFormSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (!title.trim()) {
+    if (title.trim().length < 6) {
       setTitleError(true);
     }
 
-    if (!description.trim()) {
+    if (description.trim().length < 6) {
       setDescriptionError(true);
     }
 
-    if (!imgUrl.trim()) {
+    if (imgUrl.trim().length < 6) {
       setImgUrlError(true);
     }
 
-    if (!imdbUrl.trim()) {
+    if (imdbUrl.trim().length < 6) {
       setImdbUrlError(true);
     }
 
-    if (!imdbId.trim()) {
+    if (imdbId.trim().length < 6) {
       setImdbIdError(true);
     }
 
-    if (title && description && imgUrl && imdbUrl && imdbId) {
+    if (title.trim().length > 6
+      && description.trim().length > 6
+      && imgUrl.trim().length > 6
+      && imdbUrl.trim().length > 6
+      && imdbId.trim().length > 6) {
       const newMovie = {
         title,
         description,
