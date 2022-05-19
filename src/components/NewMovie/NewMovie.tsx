@@ -74,7 +74,6 @@ export class NewMovie extends Component<Props, State> {
                 title: event.target.value,
               });
             }}
-            required
           />
         </label>
         <label className="form__field">
@@ -102,7 +101,6 @@ export class NewMovie extends Component<Props, State> {
                 imgUrl: event.target.value,
               });
             }}
-            required
           />
         </label>
         <label className="form__field">
@@ -117,7 +115,6 @@ export class NewMovie extends Component<Props, State> {
                 imdbUrl: event.target.value,
               });
             }}
-            required
           />
         </label>
         <label className="form__field">
@@ -132,7 +129,6 @@ export class NewMovie extends Component<Props, State> {
                 imdbId: event.target.value,
               });
             }}
-            required
           />
         </label>
 
