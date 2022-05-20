@@ -1,1 +1,60 @@
-// not empty
+.movie {
+  &__form {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    background-color: rgb(214, 246, 246);
+  }
+
+  &__formTitle {
+    margin-left: 20px;
+    margin-bottom: 15px;
+    font-size: 25px;
+    font-weight: bold;
+  }
+
+  &__input {
+    margin-bottom: 10px;
+    font-size: 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: transform 0.3s;
+
+    color: black;
+    border-color: #2fdbee;
+    background-color: #e5dded;
+
+    &:hover {
+      font-weight: bold;
+      background-color: #e7d6d1;
+    }
+  }
+}
+
+button {
+  margin-right: 20px;
+  cursor: pointer;
+  transition: transform 0.3s;
+
+  color: black;
+  border-color: #2fdbee;
+  background-color: #bbb3c3;
+
+  font-weight: 700;
+  font-size: 20px;
+  border-radius: 30px;
+  height: 40px;
+  margin-bottom: 10px;
+
+  &:hover {
+    color: #fff;
+    border-color: #d24419;
+    background-color: #d24419;
+  }
+
+  &:active {
+    border-color: #005ecc;
+    background-color: #005ecc;
+    box-shadow: 0 8px 14px #0053b37a;
+  }
+}
