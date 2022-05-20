@@ -1,1 +1,83 @@
-// not empty
+.form {
+  font-family: "Segoe UI",
+    "Roboto",
+    "Oxygen",
+    "Ubuntu",
+    "Cantarell",
+    "Fira Sans",
+    "Droid Sans",
+    "Helvetica Neue",
+    "Helvetica",
+    "Arial",
+    sans-serif;
+
+  &__title {
+    font-size: 24px;
+    text-align: center;
+    font-weight: 500;
+    margin-bottom: 20px;
+  }
+
+  &__label {
+    margin-bottom: 20px;
+  }
+
+  &__input {
+    display: block;
+    width: 100%;
+    height: calc(2.25rem + 2px);
+    padding: 0.37rem 0.75rem;
+
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    background-color: #fff;
+
+    background-clip: padding-box;
+    border: 1px solid #bdbdbd;
+    border-radius: 0.25rem;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    box-shadow: 0 0.1em 0.1em -0.1em;
+
+    margin-bottom: 10px;
+
+    &-lst-chld {
+      margin-bottom: 20px;
+    }
+
+    &:hover {
+      box-shadow: 0 0.1em 0.3em -0.1em #e4b622;
+    }
+  }
+
+  &__error {
+    color: rgb(114, 38, 38);
+  }
+
+  &__button {
+    display: inline-block;
+    color: #000;
+    font-weight: 500;
+    text-decoration: none;
+    padding: 0.5em 2em;
+    outline: none;
+    border-width: 2px 0;
+    border-style: solid none;
+    border-color: #e4b622 #000;
+    border-radius: 6px;
+    background: linear-gradient(#e4b622, #e4b622) #ae8b1a;
+    transition: 0.2s;
+    cursor: pointer;
+    box-shadow: 0 0.1em 0.1em -0.1em;
+
+    &:hover {
+      background: linear-gradient(#f5ae00, #f59500) #f5ae00;
+    }
+
+    &:active {
+      background: linear-gradient(#f59500, #f5ae00) #f59500;
+    }
+  }
+}
