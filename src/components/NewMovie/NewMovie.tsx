@@ -77,21 +77,21 @@ export class NewMovie extends Component<Props, State> {
         <FormsField
           name="imgUrl"
           value={this.state.imgUrl}
-          placeholder="https://m.media-amazon.com/images/"
+          placeholder="Enter link of image..."
           onChange={this.onChange}
         />
 
         <FormsField
           name="imdbUrl"
           value={this.state.imdbUrl}
-          placeholder="https://www.imdb.com/"
+          placeholder="Enter link of imdb..."
           onChange={this.onChange}
         />
 
         <FormsField
           name="imdbId"
           value={this.state.imdbId}
-          placeholder="tt...."
+          placeholder="Enter imdb id..."
           onChange={this.onChange}
         />
 

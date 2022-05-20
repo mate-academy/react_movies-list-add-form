@@ -1,4 +1,4 @@
-.form__field {
+.form-field {
   display: block;
   padding: 10px;
   background-color: #edecec;
@@ -7,4 +7,11 @@
   outline: none;
   margin-bottom: 15px;
   box-shadow: 8px 8px 24px 0 rgba (66, 68, 90, 1);
+
+  &__input {
+    width: 100%;
+    border: none;
+    outline: none;
+    background-color: transparent;
+  }
 }
