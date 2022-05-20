@@ -27,10 +27,10 @@ export const NewMovie: React.FC<Props> = ({ addNewMovie }) => {
   };
 
   const checkErrors = () => {
-    setTitleError(!title);
-    setImgUrlError(!imgUrl);
-    setImdbUrlError(!imdbUrl);
-    setImdbIdError(!imdbId);
+    setTitleError(title.trim().length === 0);
+    setImgUrlError(imgUrl.trim().length === 0);
+    setImdbUrlError(imdbUrl.trim().length === 0);
+    setImdbIdError(imdbId.trim().length === 0);
   };
 
   const onAdd = (event: React.FormEvent) => {
