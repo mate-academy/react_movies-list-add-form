@@ -14,9 +14,6 @@ type State = {
   imgUrl: string;
   imdbUrl: string;
   imdbId: string;
-
-  isError: boolean;
-  errorText: string;
 };
 
 export class NewMovie extends React.Component<Props, State> {
@@ -26,9 +23,6 @@ export class NewMovie extends React.Component<Props, State> {
     imgUrl: '',
     imdbUrl: '',
     imdbId: '',
-
-    isError: false,
-    errorText: '',
   };
 
   handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
