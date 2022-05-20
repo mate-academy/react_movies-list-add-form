@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './NewMovie.scss';
 
 type Props = {
-  addMovie: (newValue: Movie) => void
+  addMovie: (newMovie: Movie) => void
 };
 
 type State = {
@@ -11,6 +11,8 @@ type State = {
   imgUrl: string,
   imdbUrl: string,
   imdbId: string,
+  error: boolean,
+  errorContent: string,
 };
 
 export class NewMovie extends Component<Props, State> {
@@ -20,6 +22,8 @@ export class NewMovie extends Component<Props, State> {
     imgUrl: '',
     imdbUrl: '',
     imdbId: '',
+    error: false,
+    errorContent: '',
   };
 
   clear = () => {
@@ -35,7 +39,7 @@ export class NewMovie extends Component<Props, State> {
   handleInput = (event: React.ChangeEvent<HTMLFormElement>) => {
     this.setState((state: State) => ({
       ...state,
-      [event.target.name]: event.target.value,
+      [event.target.name]: event.target.value.trim,
     }));
   };
 
@@ -49,6 +53,18 @@ export class NewMovie extends Component<Props, State> {
       imdbUrl: this.state.imdbUrl,
       imdbId: this.state.imdbId,
     };
+
+    if (!this.state.title.trim()
+      || this.state.description
+      || this.state.imgUrl
+      || this.state.imdbUrl
+      || this.state.imdbId) {
+      this.setState((state) => ({
+        ...state,
+        error: true,
+        errorContent: 'Please, do not write only spaces',
+      }));
+    }
 
     this.clear();
     this.props.addMovie(newMovie);
@@ -71,6 +87,9 @@ export class NewMovie extends Component<Props, State> {
         <p className="form__p">
           ADD A NEW FILM
         </p>
+        {this.state.error && (
+          <p>{this.state.errorContent}</p>
+        )}
         <input
           required
           className="form__input"
