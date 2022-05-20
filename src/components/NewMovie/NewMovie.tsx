@@ -29,7 +29,7 @@ const initialState: State = {
   isErrorImgUrl: false,
   isErrorImdbUrl: false,
   isErrorImdbId: false,
-  isDisabled: false,
+  isDisabled: true,
 };
 
 // eslint-disable-next-line max-len
@@ -107,8 +107,7 @@ export class NewMovie extends Component<Props, State> {
       imdbId,
     } = this.state;
 
-    if (
-      !this.state.isErrorTitle
+    if (!this.state.isErrorTitle
       && !this.state.isErrorImgUrl
       && !this.state.isErrorImdbUrl
       && !this.state.isErrorImdbId) {
