@@ -80,7 +80,6 @@ export class NewMovie extends Component<Props, State> {
           placeholder="Description"
           value={description}
           onChange={this.changeHandler}
-          required
         />
         <input
           className="movie__input"
