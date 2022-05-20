@@ -46,7 +46,11 @@ export const NewMovie: React.FC<Props> = ({ addNewMovie }) => {
       imdbId,
     };
 
-    if (title && imgUrl && imdbUrl && imdbId) {
+    if (title.trim().length > 0
+      && imgUrl.trim().length > 0
+      && imdbUrl.trim().length > 0
+      && imdbId.trim().length > 0
+    ) {
       addNewMovie(newMovie);
       clearForm();
     }
