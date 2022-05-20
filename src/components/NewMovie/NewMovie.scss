@@ -1,7 +1,14 @@
 @import "~bootstrap/scss/bootstrap";
 
-.NewMovie__section {
-  &:not(:last-child) {
-    margin-bottom: 10px;
+.NewMovie {
+  &__title {
+    font-weight: 500;
+    font-size: 18px;
+  }
+
+  &__section {
+    &:not(:last-child) {
+      margin-bottom: 10px;
+    }
   }
 }

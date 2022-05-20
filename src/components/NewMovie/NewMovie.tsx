@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React from 'react';
 import './NewMovie.scss';
 import Form from 'react-bootstrap/Form';
@@ -13,6 +14,9 @@ type State = {
   imgUrl: string;
   imdbUrl: string;
   imdbId: string;
+
+  isError: boolean;
+  errorText: string;
 };
 
 export class NewMovie extends React.Component<Props, State> {
@@ -22,6 +26,9 @@ export class NewMovie extends React.Component<Props, State> {
     imgUrl: '',
     imdbUrl: '',
     imdbId: '',
+
+    isError: false,
+    errorText: '',
   };
 
   handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -31,27 +38,11 @@ export class NewMovie extends React.Component<Props, State> {
     }));
   };
 
-  getNewMovie = () => {
-    const {
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    } = this.state;
+  handleSubmitForm = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
 
-    const newMovie: Movie = {
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    };
+    this.props.addMovie(this.state);
 
-    return newMovie;
-  };
-
-  clearState = () => {
     this.setState({
       title: '',
       description: '',
@@ -59,13 +50,6 @@ export class NewMovie extends React.Component<Props, State> {
       imdbUrl: '',
       imdbId: '',
     });
-  };
-
-  handleSubmitForm = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-    this.props.addMovie(this.getNewMovie());
-    this.clearState();
   };
 
   render() {
@@ -78,7 +62,8 @@ export class NewMovie extends React.Component<Props, State> {
     } = this.state;
 
     return (
-      <form onSubmit={this.handleSubmitForm}>
+      <form className="NewMovie" onSubmit={this.handleSubmitForm}>
+        <p className="NewMovie__title">Create new movie 🎬</p>
         <section className="NewMovie__section">
           <Form.Control
             type="text"
@@ -86,6 +71,7 @@ export class NewMovie extends React.Component<Props, State> {
             value={title}
             className="NewMovie__input"
             placeholder="Title"
+            pattern="[A-Za-z0-9]+"
             onChange={this.handleInputChange}
             required
           />
@@ -98,6 +84,7 @@ export class NewMovie extends React.Component<Props, State> {
             value={description}
             className="NewMovie__input"
             placeholder="Description"
+            pattern="[A-Za-z0-9]+"
             onChange={this.handleInputChange}
             required
           />
@@ -105,11 +92,12 @@ export class NewMovie extends React.Component<Props, State> {
 
         <section className="NewMovie__section">
           <Form.Control
-            type="text"
+            type="url"
             name="imgUrl"
             value={imgUrl}
             className="NewMovie__input"
             placeholder="imgUrl"
+            pattern="https?://.+"
             onChange={this.handleInputChange}
             required
           />
@@ -117,11 +105,12 @@ export class NewMovie extends React.Component<Props, State> {
 
         <section className="NewMovie__section">
           <Form.Control
-            type="text"
+            type="url"
             name="imdbUrl"
             value={imdbUrl}
             className="NewMovie__input"
             placeholder="imdbUrl"
+            pattern="https?://.+"
             onChange={this.handleInputChange}
             required
           />
@@ -135,6 +124,7 @@ export class NewMovie extends React.Component<Props, State> {
             className="NewMovie__input"
             placeholder="imdbId"
             onChange={this.handleInputChange}
+            pattern="[A-Za-z0-9]+"
             required
           />
         </section>
