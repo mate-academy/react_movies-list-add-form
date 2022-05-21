@@ -15,6 +15,7 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
   };
 
   const [movie, setMovie] = useState(initialMovie);
+  const [itemError, setitemError] = useState<boolean>(false);
 
   const movieHandler = (
     event: ChangeEvent<HTMLInputElement>
@@ -22,7 +23,11 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
   ) => {
     const { name, value } = event.target;
 
-    setMovie({ ...movie, [name]: value });
+    if (value.trim().length === 0) {
+      setitemError(true);
+    } else {
+      setMovie({ ...movie, [name]: value });
+    }
   };
 
   const submitHandler = (
@@ -33,74 +38,78 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
   };
 
   return (
-    <div className="NewMovie">
-      <form onSubmit={submitHandler} className="NewMovie__form">
-        <h1 className="NewMovie__title">Add new movie</h1>
+    <div className="newMovie">
+      <form onSubmit={submitHandler} className="newMovie__form">
+        <h1 className="newMovie__title">Add new movie</h1>
 
-        <label className="NewMovie__label">
+        <label className="newMovie__label">
           Title
           <input
             type="text"
             name="title"
             value={movie.title}
-            className="NewMovie__input"
+            className="newMovie__input"
             placeholder="Title"
             required
             onChange={movieHandler}
           />
+          {itemError && <span className="newMovie__error">Item is empty</span>}
         </label>
 
-        <label className="NewMovie__label">
+        <label className="newMovie__label">
           Description
           <textarea
             name="description"
             value={movie.description}
-            className="NewMovie__input NewMovie__textarea"
+            className="newMovie__input newMovie__textarea"
             placeholder="Description"
             onChange={movieHandler}
           />
         </label>
 
-        <label className="NewMovie__label">
+        <label className="newMovie__label">
           ImgUrl
           <input
             type="text"
             name="imgUrl"
             value={movie.imgUrl}
-            className="NewMovie__input"
+            className="newMovie__input"
             placeholder="imgUrl"
             required
             onChange={movieHandler}
           />
+          {itemError && <span className="newMovie__error">Item is empty</span>}
         </label>
 
-        <label className="NewMovie__label">
+        <label className="newMovie__label">
           ImdbUrl
           <input
             type="text"
             name="imdbUrl"
             value={movie.imdbUrl}
-            className="NewMovie__input"
+            className="newMovie__input"
             placeholder="imdbUrl"
             required
             onChange={movieHandler}
           />
+          {itemError && <span className="newMovie__error">Item is empty</span>}
         </label>
 
-        <label className="NewMovie__label">
+        <label className="newMovie__label">
           ImdbId
           <input
             type="text"
             name="imdbId"
             value={movie.imdbId}
-            className="NewMovie__input"
+            className="newMovie__input"
             placeholder="imdbId"
             required
             onChange={movieHandler}
           />
+          {itemError && <span className="newMovie__error">Item is empty</span>}
         </label>
 
-        <button type="submit" className="NewMovie__button">Add movie</button>
+        <button type="submit" className="newMovie__button">Add movie</button>
       </form>
     </div>
   );
