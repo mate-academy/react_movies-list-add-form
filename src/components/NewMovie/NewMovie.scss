@@ -1,1 +1,62 @@
-// not empty
+.newMovie {
+
+  $inputWidth: 350px;
+
+  &__title {
+    margin-bottom: 25px;
+
+    font-weight: bold;
+    font-size: 22px;
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+  }
+
+  &__label {
+    width: $inputWidth;
+
+    font-size: 18px;
+
+    margin-bottom: 30px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  &__input {
+    width: $inputWidth;
+    height: 30px;
+
+    border: 1px solid black;
+    border-radius: 5px;
+  }
+
+  &__textarea {
+    height: 100px;
+    resize: none;
+  }
+
+  &__error {
+    color: red;
+  }
+
+  &__button {
+    width: $inputWidth / 2;
+
+    border: 1px solid black;
+    border-radius: 5px;
+
+    background: none;
+
+    transition: transform 0.3s;
+
+    &:hover {
+      transform: scale(1.2);
+    }
+  }
+}
