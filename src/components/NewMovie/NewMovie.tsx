@@ -36,6 +36,7 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
       setItemError(true);
     } else {
       addMovie(movie);
+      setItemError(false);
       setMovie(initialMovie);
     }
   };
