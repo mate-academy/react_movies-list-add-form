@@ -15,7 +15,7 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
   };
 
   const [movie, setMovie] = useState(initialMovie);
-  const [itemError, setitemError] = useState<boolean>(false);
+  const [itemError, setItemError] = useState<boolean>(false);
 
   const movieHandler = (
     event: ChangeEvent<HTMLInputElement>
@@ -23,18 +23,20 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
   ) => {
     const { name, value } = event.target;
 
-    if (value.trim().length === 0) {
-      setitemError(true);
-    } else {
-      setMovie({ ...movie, [name]: value });
-    }
+    setMovie({ ...movie, [name]: value });
   };
 
   const submitHandler = (
     event: FormEvent<HTMLFormElement>,
   ) => {
     event.preventDefault();
-    addMovie(movie);
+    if (!movie.title.trim()
+      || !movie.imdbUrl.trim()
+      || !movie.imdbId.trim()) {
+      setItemError(true);
+    } else {
+      addMovie(movie);
+    }
   };
 
   return (
@@ -53,7 +55,6 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
             required
             onChange={movieHandler}
           />
-          {itemError && <span className="newMovie__error">Item is empty</span>}
         </label>
 
         <label className="newMovie__label">
@@ -78,7 +79,6 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
             required
             onChange={movieHandler}
           />
-          {itemError && <span className="newMovie__error">Item is empty</span>}
         </label>
 
         <label className="newMovie__label">
@@ -92,7 +92,6 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
             required
             onChange={movieHandler}
           />
-          {itemError && <span className="newMovie__error">Item is empty</span>}
         </label>
 
         <label className="newMovie__label">
@@ -106,10 +105,12 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
             required
             onChange={movieHandler}
           />
-          {itemError && <span className="newMovie__error">Item is empty</span>}
         </label>
 
         <button type="submit" className="newMovie__button">Add movie</button>
+        {// eslint-disable-next-line max-len
+          itemError && <span className="newMovie__error">Please fill required fields correct</span>
+        }
       </form>
     </div>
   );
