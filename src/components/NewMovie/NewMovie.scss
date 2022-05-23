@@ -1,1 +1,72 @@
-// not empty
+body {
+  font-family: Comic Sans MS, Comic Sans, sans-serif;
+}
+
+.form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  border: 1px solid #000;
+  border-radius: 30px;
+
+  &__title {
+    margin-bottom: 20px;
+    font-size: 30px;
+  }
+
+  &__label {
+    margin-bottom: 20px;
+
+    transition: 0.3s;
+
+    &:hover {
+      transform: scale(1.05);
+    }
+  }
+
+  &__input {
+    width: 300px;
+    padding: 10px;
+    text-align: center;
+    border: 1px solid #000;
+    border-radius: 10px;
+
+    font-family: Comic Sans MS, Comic Sans, sans-serif;
+
+    transition: 0.5s;
+
+    &--description {
+      resize: none;
+    }
+
+    &:hover {
+      border: 1px solid #f93;
+      cursor: pointer;
+    }
+  }
+
+  &__button {
+    margin-bottom: 20px;
+    width: 100px;
+    padding: 10px;
+    border: 1px solid #000;
+    background-color: #fff;
+    border-radius: 10px;
+
+    transition: 0.3s;
+
+    &:hover {
+      background-color: #f93;
+      color: #fff;
+      transform: scale(1.05);
+    }
+  }
+}
+
+.error {
+  color: red;
+  text-align: center;
+  margin: 0;
+}
