@@ -61,6 +61,7 @@ export class NewMovie extends Component<Props, State> {
             className="input"
             placeholder="Write title..."
             autoComplete="off"
+            required
             value={title}
             onChange={(event) => this.setState({
               title: event.target.value,
@@ -91,6 +92,7 @@ export class NewMovie extends Component<Props, State> {
             className="input"
             placeholder="Write img url..."
             autoComplete="off"
+            required
             value={imgUrl}
             onChange={(event) => this.setState({
               imgUrl: event.target.value,
@@ -107,6 +109,7 @@ export class NewMovie extends Component<Props, State> {
             className="input"
             placeholder="Write imd url..."
             autoComplete="off"
+            required
             value={imdbUrl}
             onChange={(event) => this.setState({
               imdbUrl: event.target.value,
@@ -123,6 +126,7 @@ export class NewMovie extends Component<Props, State> {
             className="input"
             placeholder="Write imdb Id..."
             autoComplete="off"
+            required
             value={imdbId}
             onChange={(event) => this.setState({
               imdbId: event.target.value,
