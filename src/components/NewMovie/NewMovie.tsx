@@ -36,6 +36,7 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
       setItemError(true);
     } else {
       addMovie(movie);
+      setMovie(initialMovie);
     }
   };
 
@@ -108,8 +109,9 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
         </label>
 
         <button type="submit" className="newMovie__button">Add movie</button>
-        {// eslint-disable-next-line max-len
-          itemError && <span className="newMovie__error">Please fill required fields correct</span>
+        {
+          itemError
+          && <span className="newMovie__error">Fill the fields correct</span>
         }
       </form>
     </div>
