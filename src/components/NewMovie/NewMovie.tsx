@@ -35,9 +35,10 @@ export const NewMovie: React.FC<Props> = ({ newMovie }) => {
     if (!movie.title.trim() || !movie.imgUrl.trim()
     || !movie.imdbUrl.trim() || !movie.imdbId.trim()) {
       setInputError(true);
-      setInputErrorMassage('No space required');
+      setInputErrorMassage('Invalid input');
     } else {
       newMovie(movie);
+      setInputError(false);
       setMovie(initialMovie);
     }
   };
@@ -56,7 +57,6 @@ export const NewMovie: React.FC<Props> = ({ newMovie }) => {
           placeholder="title"
           onChange={moviesHandler}
         />
-        {inputError && <p className="error">{inputErrorMassage}</p>}
       </label>
 
       <label className="form__label">
@@ -79,7 +79,6 @@ export const NewMovie: React.FC<Props> = ({ newMovie }) => {
           placeholder="imgUrl"
           onChange={moviesHandler}
         />
-        {inputError && <p className="error">{inputErrorMassage}</p>}
       </label>
 
       <label className="form__label">
@@ -92,7 +91,6 @@ export const NewMovie: React.FC<Props> = ({ newMovie }) => {
           placeholder="imdbUrl"
           onChange={moviesHandler}
         />
-        {inputError && <p className="error">{inputErrorMassage}</p>}
       </label>
 
       <label className="form__label">
@@ -105,10 +103,10 @@ export const NewMovie: React.FC<Props> = ({ newMovie }) => {
           placeholder="imdbId"
           onChange={moviesHandler}
         />
-        {inputError && <p className="error">{inputErrorMassage}</p>}
       </label>
 
       <button type="submit" className="form__button">Add</button>
+      {inputError && <p className="error">{inputErrorMassage}</p>}
     </form>
   );
 };
