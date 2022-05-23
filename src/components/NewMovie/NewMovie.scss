@@ -1,1 +1,31 @@
-// not empty
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  font-size: 16px;
+
+  &__label {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__input {
+    padding: 5px;
+    font-size: 14px;
+  }
+
+  &__button {
+    margin-top: 20px;
+    height: 40px;
+    background-color: aquamarine;
+    border: 0;
+    border-radius: 8px;
+    font-size: 18px;
+    transition: 0.5s;
+
+    &:hover {
+      cursor: pointer;
+      box-shadow: 4px 4px 5px 0 rgb(52, 221, 165);
+    }
+  }
+}
