@@ -1,1 +1,37 @@
-// not empty
+.form {
+  display: flex;
+  flex-direction: column;
+
+  padding: 10px;
+
+  &__new {
+    color: #e4b621;
+  }
+
+  & input {
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 10px;
+
+    border: none;
+    box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px 0;
+  }
+
+  &__text {
+    margin-bottom: 10px;
+    padding: 10px;
+
+    border: none;
+    box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px 0;
+  }
+
+  &__btn {
+    box-shadow: rgba(9, 30, 66, 0.25) 0 4px 8px -2px,
+      rgba(9, 30, 66, 0.08) 0 0 0 1px;
+    border: none;
+
+    color: #e4b621;
+
+    padding: 10px;
+  }
+}
