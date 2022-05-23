@@ -36,13 +36,6 @@ export class NewMovie extends Component<Props, State> {
     });
   };
 
-  handleInput = (event: React.ChangeEvent<HTMLFormElement>) => {
-    this.setState((state: State) => ({
-      ...state,
-      [event.target.name]: event.target.value.trim,
-    }));
-  };
-
   handleSubmit = (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -55,15 +48,17 @@ export class NewMovie extends Component<Props, State> {
     };
 
     if (!this.state.title.trim()
-      || this.state.description
-      || this.state.imgUrl
-      || this.state.imdbUrl
-      || this.state.imdbId) {
+      || !this.state.description.trim()
+      || !this.state.imgUrl.trim()
+      || !this.state.imdbUrl.trim()
+      || !this.state.imdbId.trim()) {
       this.setState((state) => ({
         ...state,
         error: true,
         errorContent: 'Please, do not write only spaces',
       }));
+
+      return;
     }
 
     this.clear();
