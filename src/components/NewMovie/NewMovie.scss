@@ -1,1 +1,56 @@
-// not empty
+.form {
+  display: flex;
+  flex-direction: column;
+
+  &__label {
+    position: relative;
+    display: flex;
+    padding-bottom: 35px;
+  }
+
+  &__input {
+    font-size: 20px;
+    flex-grow: 1;
+  }
+
+  &__input-error {
+    border: 1px solid red;
+    border-radius: 3px;
+  }
+
+  &__textarea {
+    flex-grow: 1;
+    font-size: 20px;
+  }
+
+  &__span {
+    position: absolute;
+    bottom: 10px;
+    color: red;
+  }
+
+  &__button--not-active {
+    font-size: 25px;
+    font-weight: 700;
+    height: 50px;
+    text-transform: uppercase;
+    border: 1px solid gray;
+    border-radius: 3px;
+  }
+
+  &__button {
+    font-size: 25px;
+    font-weight: 700;
+    background-color: #e4b621;
+    height: 50px;
+    text-transform: uppercase;
+    border: 0;
+    border-radius: 3px;
+    transition: box-shadow 0.05s;
+
+    &:hover {
+      border: 1px solid black;
+      box-shadow: 4px 7px 5px dimgrey;
+    }
+  }
+}
