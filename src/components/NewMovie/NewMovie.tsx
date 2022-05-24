@@ -16,6 +16,8 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
   };
 
   const [movie, seNewtMovie] = useState(defaultMovie);
+  const [Error, setError] = useState(false);
+  const [ErrorMassage, setErrorMassage] = useState('');
 
   const movieHandler = (
     event: ChangeEvent<HTMLInputElement>
@@ -30,8 +32,16 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
     event: FormEvent<HTMLFormElement>,
   ) => {
     event.preventDefault();
-    addMovie(movie);
-    seNewtMovie(defaultMovie);
+
+    if (!movie.title.trim() || !movie.imgUrl.trim()
+    || !movie.imdbUrl.trim() || !movie.imdbId.trim()) {
+      setError(true);
+      setErrorMassage('Invalid input');
+    } else {
+      setError(false);
+      addMovie(movie);
+      seNewtMovie(defaultMovie);
+    }
   };
 
   return (
@@ -58,6 +68,7 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
             className="form__input form__input--description"
             placeholder="Description"
             onChange={movieHandler}
+            required
           />
         </label>
 
@@ -110,6 +121,7 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
             className="form__button--image"
           />
         </button>
+        {Error && <p className="error">{ErrorMassage}</p>}
       </form>
     </div>
   );
