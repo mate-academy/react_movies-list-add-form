@@ -1,6 +1,6 @@
 .form {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  gap: 20px;
   background-color: #cbe1dc;
   padding: 40px 10px;
 
@@ -12,9 +12,7 @@
   }
 
   &__input {
-    display: block;
     width: 100%;
-    margin-bottom: 20px;
     padding: 5px;
     border-radius: 5px;
     border-color: #cbe1dc;
@@ -30,4 +28,8 @@
       color: white;
     }
   }
+}
+
+.error {
+  color: red;
 }

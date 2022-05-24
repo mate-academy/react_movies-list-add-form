@@ -10,6 +10,8 @@ type State = {
   imgUrl: string;
   imdbUrl: string;
   imdbId: string;
+  errorImg: boolean;
+  errorImdb: boolean;
 };
 
 export class NewMovie extends Component<Props, State> {
@@ -19,6 +21,8 @@ export class NewMovie extends Component<Props, State> {
     imgUrl: '',
     imdbUrl: '',
     imdbId: '',
+    errorImg: false,
+    errorImdb: false,
   };
 
   onSumbit = (event: React.FormEvent) => {
@@ -32,15 +36,17 @@ export class NewMovie extends Component<Props, State> {
       imdbId: this.state.imdbId,
     };
 
-    this.props.onAdd(newMovie);
+    if (!this.state.errorImdb && !this.state.errorImg) {
+      this.props.onAdd(newMovie);
 
-    this.setState({
-      title: '',
-      description: '',
-      imgUrl: '',
-      imdbUrl: '',
-      imdbId: '',
-    });
+      this.setState({
+        title: '',
+        description: '',
+        imgUrl: '',
+        imdbUrl: '',
+        imdbId: '',
+      });
+    }
   };
 
   onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -48,6 +54,44 @@ export class NewMovie extends Component<Props, State> {
       ...state,
       [event.target.name]: event.target.value,
     }));
+  };
+
+  validImgUrl = (event: React.ChangeEvent<HTMLInputElement>) => {
+    // eslint-disable-next-line
+    const regExp = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
+
+    if (regExp.test(event.target.value)) {
+      this.setState(state => ({
+        ...state,
+        errorImg: false,
+        [event.target.name]: event.target.value,
+      }));
+    } else {
+      this.setState(state => ({
+        ...state,
+        errorImg: true,
+        [event.target.name]: event.target.value,
+      }));
+    }
+  };
+
+  validImdbUrl = (event: React.ChangeEvent<HTMLInputElement>) => {
+    // eslint-disable-next-line
+    const regExp = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
+
+    if (regExp.test(event.target.value)) {
+      this.setState(state => ({
+        ...state,
+        errorImdb: false,
+        [event.target.name]: event.target.value,
+      }));
+    } else {
+      this.setState(state => ({
+        ...state,
+        errorImdb: true,
+        [event.target.name]: event.target.value,
+      }));
+    }
   };
 
   render() {
@@ -77,24 +121,34 @@ export class NewMovie extends Component<Props, State> {
           placeholder="Enter description"
           onChange={this.onChange}
         />
-        <input
-          className="form__input"
-          type="text"
-          name="imgUrl"
-          value={this.state.imgUrl}
-          placeholder="Enter image URL"
-          onChange={this.onChange}
-          required
-        />
-        <input
-          className="form__input"
-          type="text"
-          name="imdbUrl"
-          value={this.state.imdbUrl}
-          placeholder="Enter Imdb URL"
-          onChange={this.onChange}
-          required
-        />
+        <div>
+          <input
+            className="form__input"
+            type="text"
+            name="imgUrl"
+            value={this.state.imgUrl}
+            placeholder="Enter image URL"
+            onChange={this.validImgUrl}
+            required
+          />
+          {this.state.errorImg && (
+            <span className="error">incorrect url</span>
+          )}
+        </div>
+        <div>
+          <input
+            className="form__input"
+            type="text"
+            name="imdbUrl"
+            value={this.state.imdbUrl}
+            placeholder="Enter Imdb URL"
+            onChange={this.validImdbUrl}
+            required
+          />
+          {this.state.errorImdb && (
+            <span className="error">incorrect url</span>
+          )}
+        </div>
         <input
           className="form__input"
           type="text"
