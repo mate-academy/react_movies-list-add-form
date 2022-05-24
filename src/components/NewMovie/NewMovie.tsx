@@ -37,7 +37,10 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
   const validateTitle = () => {
     let errorMessage = '';
 
-    if (!movie.title) {
+    if (!movie.title.trim()) {
+      setMovie({
+        ...movie, title: '',
+      });
       errorMessage = 'Type title';
     }
 
@@ -86,7 +89,10 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
   const validateImdbId = () => {
     let errorMessage = '';
 
-    if (!movie.imdbId) {
+    if (!movie.imdbId.trim()) {
+      setMovie({
+        ...movie, imdbId: '',
+      });
       errorMessage = 'Type ImdbId';
     }
 
@@ -159,7 +165,7 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
             value={movie.imgUrl}
             onChange={handleChange}
             onBlur={validateImgUrl}
-            placeholder="https://imgUrl/example.jpg"
+            placeholder="Movie IMG link:  https://imgUrl/example.jpg"
             autoComplete="off"
           />
           {errors.imgUrl.length > 0
@@ -174,7 +180,7 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
             value={movie.imdbUrl}
             onChange={handleChange}
             onBlur={validateImdbUrl}
-            placeholder="https://www.imdb.com/title/tt1375666"
+            placeholder="Movie link:  https://www.imdb.com/title/tt1375666"
             autoComplete="off"
           />
           {errors.imdbUrl.length > 0
@@ -189,7 +195,7 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
             value={movie.imdbId}
             onChange={handleChange}
             onBlur={validateImdbId}
-            placeholder="tt1375666"
+            placeholder="Movie ID:  tt1375666"
             autoComplete="off"
           />
           {errors.imdbId.length > 0
