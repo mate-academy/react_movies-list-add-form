@@ -29,14 +29,18 @@ export class NewMovie extends Component<Props, State> {
     event.preventDefault();
 
     const newMovie = {
-      title: this.state.title,
+      title: this.state.title.trim(),
       description: this.state.description,
       imgUrl: this.state.imgUrl,
       imdbUrl: this.state.imdbUrl,
-      imdbId: this.state.imdbId,
+      imdbId: this.state.imdbId.trim(),
     };
 
-    if (!this.state.errorImdb && !this.state.errorImg) {
+    if (!this.state.errorImdb
+      && !this.state.errorImg
+      && this.state.title.trim().length > 0
+      && this.state.imdbId.trim().length > 0
+    ) {
       this.props.onAdd(newMovie);
 
       this.setState({
@@ -83,13 +87,13 @@ export class NewMovie extends Component<Props, State> {
       this.setState(state => ({
         ...state,
         errorImdb: false,
-        [event.target.name]: event.target.value,
+        [event.target.name]: event.target.value.trim(),
       }));
     } else {
       this.setState(state => ({
         ...state,
         errorImdb: true,
-        [event.target.name]: event.target.value,
+        [event.target.name]: event.target.value.trim(),
       }));
     }
   };
