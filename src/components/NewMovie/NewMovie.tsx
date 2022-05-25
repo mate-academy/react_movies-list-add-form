@@ -119,6 +119,10 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
     event.preventDefault();
 
     if (isValid()) {
+      setErrors({
+        ...newMovie,
+        description: 'toInitialValidate',
+      });
       addMovie(movie);
       setMovie(newMovie);
     }
