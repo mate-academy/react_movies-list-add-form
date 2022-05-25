@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import { Component, SyntheticEvent } from 'react';
 import classNames from 'classnames';
 import './NewMovie.scss';
 
@@ -48,12 +48,16 @@ export class NewMovie extends Component<Props, State> {
         isErrorTitle: true,
         isDisabled: true,
       });
-    } else {
-      this.setState({
-        isErrorTitle: false,
-        isDisabled: false,
-      });
+
+      return false;
     }
+
+    this.setState({
+      isErrorTitle: false,
+      isDisabled: false,
+    });
+
+    return true;
   };
 
   checkImgURl = () => {
@@ -62,12 +66,16 @@ export class NewMovie extends Component<Props, State> {
         isErrorImgUrl: true,
         isDisabled: true,
       });
-    } else {
-      this.setState({
-        isErrorImgUrl: false,
-        isDisabled: false,
-      });
+
+      return false;
     }
+
+    this.setState({
+      isErrorImgUrl: false,
+      isDisabled: false,
+    });
+
+    return true;
   };
 
   checkImdbUrl = () => {
@@ -76,12 +84,16 @@ export class NewMovie extends Component<Props, State> {
         isErrorImdbUrl: true,
         isDisabled: true,
       });
-    } else {
-      this.setState({
-        isErrorImdbUrl: false,
-        isDisabled: false,
-      });
+
+      return false;
     }
+
+    this.setState({
+      isErrorImdbUrl: false,
+      isDisabled: false,
+    });
+
+    return true;
   };
 
   checkImdbId = () => {
@@ -90,15 +102,21 @@ export class NewMovie extends Component<Props, State> {
         isErrorImdbId: true,
         isDisabled: true,
       });
-    } else {
-      this.setState({
-        isErrorImdbId: false,
-        isDisabled: false,
-      });
+
+      return false;
     }
+
+    this.setState({
+      isErrorImdbId: false,
+      isDisabled: false,
+    });
+
+    return true;
   };
 
-  checkMovie = () => {
+  addMovie = (event: SyntheticEvent) => {
+    event.preventDefault();
+
     const {
       title,
       description,
@@ -107,10 +125,15 @@ export class NewMovie extends Component<Props, State> {
       imdbId,
     } = this.state;
 
-    if (!this.state.isErrorTitle
-      && !this.state.isErrorImgUrl
-      && !this.state.isErrorImdbUrl
-      && !this.state.isErrorImdbId) {
+    const isTitle = this.checkTitle();
+    const isImgUrl = this.checkImgURl();
+    const isImdbUrl = this.checkImdbUrl();
+    const isImdbId = this.checkImdbId();
+
+    if (isTitle
+      && isImgUrl
+      && isImdbUrl
+      && isImdbId) {
       this.props.onAdd({
         title: title.trim(),
         description: description.trim(),
@@ -128,10 +151,7 @@ export class NewMovie extends Component<Props, State> {
         className="newMovie"
         method="post"
         name="form"
-        onSubmit={(event) => {
-          event.preventDefault();
-          this.checkMovie();
-        }}
+        onSubmit={this.addMovie}
       >
         <p className="newMovie__invitation">
           Put the form here
@@ -145,7 +165,7 @@ export class NewMovie extends Component<Props, State> {
               'newMovie__title',
               'newMovie__error',
               {
-                'newMovie__error--border': this.state.isErrorTitle === true,
+                'newMovie__error--border': this.state.isErrorTitle,
               },
             )
           }
@@ -195,7 +215,7 @@ export class NewMovie extends Component<Props, State> {
               'newMovie__imgUrl',
               'newMovie__error',
               {
-                'newMovie__error--border': this.state.isErrorImgUrl === true,
+                'newMovie__error--border': this.state.isErrorImgUrl,
               },
             )
           }
@@ -227,7 +247,7 @@ export class NewMovie extends Component<Props, State> {
               'newMovie__imdbUrl',
               'newMovie__error',
               {
-                'newMovie__error--border': this.state.isErrorImdbUrl === true,
+                'newMovie__error--border': this.state.isErrorImdbUrl,
               },
             )
           }
@@ -261,7 +281,7 @@ export class NewMovie extends Component<Props, State> {
               'newMovie__imdbId',
               'newMovie__error',
               {
-                'newMovie__error--border': this.state.isErrorImdbId === true,
+                'newMovie__error--border': this.state.isErrorImdbId,
               },
             )
           }
