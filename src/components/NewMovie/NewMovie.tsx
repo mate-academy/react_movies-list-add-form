@@ -11,6 +11,10 @@ type State = {
   imgUrl: string,
   imdbUrl: string,
   imdbId: string,
+  titleError: string,
+  imgUrlError: string,
+  imdbUrlError: string,
+  imdbIdError: string,
 };
 
 export class NewMovie extends Component<Props, State> {
@@ -20,6 +24,74 @@ export class NewMovie extends Component<Props, State> {
     imgUrl: '',
     imdbUrl: '',
     imdbId: '',
+    titleError: '',
+    imgUrlError: '',
+    imdbUrlError: '',
+    imdbIdError: '',
+  };
+
+  isValidForm = () => {
+    const {
+      title,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    } = this.state;
+
+    this.setState((state) => ({
+      title: state.title.trim(),
+      description: state.description.trim(),
+      imgUrl: state.imgUrl.trim(),
+      imdbUrl: state.imdbUrl.trim(),
+      imdbId: state.imdbId.trim(),
+    }));
+
+    if (!title.trim()) {
+      this.setState({ titleError: '*please input title' });
+    }
+
+    if (!imgUrl.trim()) {
+      this.setState({ imgUrlError: '*please input img url' });
+    }
+
+    if (!imdbUrl.trim()) {
+      this.setState({ imdbUrlError: '*please input imdb url' });
+    }
+
+    if (!imdbId.trim()) {
+      this.setState({ imdbIdError: '*please input title' });
+    }
+  };
+
+  handleSubmitForm = () => {
+    const {
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    } = this.state;
+
+    if (title.trim() && imdbUrl.trim() && imgUrl.trim() && imdbId.trim) {
+      this.props.onAddMovie({
+        title,
+        description,
+        imgUrl,
+        imdbUrl,
+        imdbId,
+      });
+      this.setState({
+        title: '',
+        description: '',
+        imgUrl: '',
+        imdbUrl: '',
+        imdbId: '',
+        imdbUrlError: '',
+        imdbIdError: '',
+        imgUrlError: '',
+        titleError: '',
+      });
+    }
   };
 
   render() {
@@ -29,6 +101,10 @@ export class NewMovie extends Component<Props, State> {
       imgUrl,
       imdbUrl,
       imdbId,
+      imdbUrlError,
+      imdbIdError,
+      imgUrlError,
+      titleError,
     } = this.state;
 
     return (
@@ -36,20 +112,8 @@ export class NewMovie extends Component<Props, State> {
         className="movies__form-add"
         onSubmit={(event) => {
           event.preventDefault();
-          this.props.onAddMovie({
-            title,
-            description,
-            imgUrl,
-            imdbUrl,
-            imdbId,
-          });
-          this.setState({
-            title: '',
-            description: '',
-            imgUrl: '',
-            imdbUrl: '',
-            imdbId: '',
-          });
+          this.isValidForm();
+          this.handleSubmitForm();
         }}
       >
         <label className="label" htmlFor="title">
@@ -67,6 +131,10 @@ export class NewMovie extends Component<Props, State> {
               title: event.target.value,
             })}
           />
+
+          {titleError && (
+            <span className="has-text-danger">{titleError}</span>
+          )}
         </label>
 
         <label className="label" htmlFor="description">
@@ -98,6 +166,10 @@ export class NewMovie extends Component<Props, State> {
               imgUrl: event.target.value,
             })}
           />
+
+          {imgUrlError && (
+            <span className="has-text-danger">{imgUrlError}</span>
+          )}
         </label>
 
         <label className="label" htmlFor="imdbUrl">
@@ -115,6 +187,10 @@ export class NewMovie extends Component<Props, State> {
               imdbUrl: event.target.value,
             })}
           />
+
+          {imdbUrlError && (
+            <span className="has-text-danger">{imdbUrlError}</span>
+          )}
         </label>
 
         <label className="label" htmlFor="imdbId">
@@ -132,6 +208,10 @@ export class NewMovie extends Component<Props, State> {
               imdbId: event.target.value,
             })}
           />
+
+          {imdbIdError && (
+            <span className="has-text-danger">{imdbIdError}</span>
+          )}
         </label>
 
         <button
