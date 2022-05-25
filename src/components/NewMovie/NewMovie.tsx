@@ -47,6 +47,8 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
     setImdbIdError(!imdbId);
     if (imgUrl) {
       setImgUrlValidationError(!urlPatternValidation(imgUrl));
+    } else {
+      setImgUrlValidationError(urlPatternValidation(imgUrl));
     }
 
     setImdbUrlValidationError(!urlPatternValidation(imdbUrl));
@@ -96,13 +98,13 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
       />
       <FormInput
         value={imgUrl}
-        placeholder="Enter a imgUrl"
+        placeholder="Enter a image URL-link"
         isChange={setImgUrl}
         validationError={imgUrlValidationError}
       />
       <FormInput
         value={imdbUrl}
-        placeholder="Enter a imdbUrl"
+        placeholder="Enter a imdb URL-link"
         isChange={setImdbUrl}
         error={imdbUrlError}
         isError={setImdbUrlError}
@@ -110,7 +112,7 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
       />
       <FormInput
         value={imdbId}
-        placeholder="Enter a imdbId"
+        placeholder="Enter a imdb Id"
         isChange={setImdbId}
         error={imdbIdError}
         isError={setImdbIdError}

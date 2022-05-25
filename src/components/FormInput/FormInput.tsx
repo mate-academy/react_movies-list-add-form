@@ -39,8 +39,14 @@ export const FormInput: React.FC<Props> = memo(({
         />
 
         {error && <p className="movie-form__error">This field is required</p>}
-        {!error && validationError
-        && <p className="movie-form__error">This field has Validation Error</p>}
+        {!error
+        && validationError
+        && (
+          <p className="movie-form__error">
+            This field has Validation Error
+            Expected&#34;https://example.com/image.jpg&#34;
+          </p>
+        )}
       </label>
     </div>
   );
