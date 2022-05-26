@@ -83,6 +83,11 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       .every((error) => error === null);
   }, [newMovieErrors]);
 
+  const formIsEmpty = useMemo(() => {
+    return newMovie.imdbId === '' || newMovie.imdbUrl === ''
+      || newMovie.imgUrl === '' || newMovie.title === '';
+  }, [newMovie]);
+
   const validateUrl = (key: keyof Movie) => {
     let errorMessage = initialMovieErrors.imgUrl;
 
@@ -103,6 +108,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       className="form"
       onSubmit={(event) => {
         event.preventDefault();
+
+        if (formIsEmpty) {
+          return;
+        }
 
         if (!formIsValid) {
           return;
