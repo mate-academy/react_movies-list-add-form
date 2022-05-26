@@ -8,39 +8,52 @@ type Props = {
 
 // eslint-disable-next-line max-len
 const imgUrlPattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
-const imdbUrlPattern = /\w{3,9}:(?:\/\/)www\.imdb\.com\/title\/\w{2}\d{7}/;
-const imdbIdPattern = /\w{2}\d{7}/;
+const imdbUrlPattern = /^[\w]{3,9}:(?:\/\/)www\.imdb\.com\/title\/\w{2}\d{7}$/;
+const imdbIdPattern = /^\w{2}\d{7}$/;
 
 export const NewMovie: React.FC<Props> = ({ onAddMovie }) => {
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
+  const [state, setState] = useState({
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  });
 
-  const [errorForTitle, setErrorForTitle] = useState('');
-  const [errorForImgUrl, setErrorForImgUrl] = useState('');
-  const [errorForImdbUrl, setErrorForImdbUrl] = useState('');
-  const [errorForImdbId, setErrorForImdbId] = useState('');
+  const [error, setError] = useState({
+    errorForTitle: '',
+    errorForImgUrl: '',
+    errorForImdbUrl: '',
+    errorForImdbId: '',
+  });
 
   const isFormValid = () => {
-    if (
-      title
+    const {
+      title,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    } = state;
+
+    return title
       && imdbUrl
       && imdbUrl
       && imdbId
       && imgUrlPattern.test(imgUrl)
       && imdbUrlPattern.test(imdbUrl)
-      && imdbIdPattern.test(imdbId)
-    ) {
-      return true;
-    }
-
-    return false;
+      && imdbIdPattern.test(imdbId);
   };
 
   const submitForm: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
+
+    const {
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    } = state;
 
     if (isFormValid()) {
       onAddMovie({
@@ -51,36 +64,32 @@ export const NewMovie: React.FC<Props> = ({ onAddMovie }) => {
         imdbId,
       });
 
-      setTitle('');
-      setDescription('');
-      setImgUrl('');
-      setImdbUrl('');
-      setImdbId('');
+      setState({
+        title: '',
+        description: '',
+        imgUrl: '',
+        imdbUrl: '',
+        imdbId: '',
+      });
     }
   };
 
   const isValidImgUrl = () => {
-    if (!imgUrl || !imgUrlPattern.test(imgUrl)) {
-      return false;
-    }
+    const { imgUrl } = state;
 
-    return true;
+    return imgUrl || imgUrlPattern.test(imgUrl);
   };
 
   const isValidImdbUrl = () => {
-    if (!imdbUrl || !imdbUrlPattern.test(imdbUrl)) {
-      return false;
-    }
+    const { imdbUrl } = state;
 
-    return true;
+    return imdbUrl || imdbUrlPattern.test(imdbUrl);
   };
 
   const isValidImdbId = () => {
-    if (!imdbId || !imdbIdPattern.test(imdbId)) {
-      return false;
-    }
+    const { imdbId } = state;
 
-    return true;
+    return imdbId || imdbIdPattern.test(imdbId);
   };
 
   return (
@@ -94,20 +103,23 @@ export const NewMovie: React.FC<Props> = ({ onAddMovie }) => {
           type="text"
           className={classNames(
             'form__input',
-            { 'form__input-error': errorForTitle === '*Enter a title' },
+            { 'form__input-error': error.errorForTitle === '*Enter a title' },
           )}
           placeholder="Movie name"
-          value={title}
+          value={state.title}
           onChange={(e) => {
-            setTitle(e.target.value);
-            setErrorForTitle('');
+            setState(prev => ({ ...prev, title: e.target.value }));
+            setError(prev => ({ ...prev, errorForTitle: '' }));
           }}
           onBlur={() => (
-            !title && setErrorForTitle('*Enter a title')
+            !state.title
+            && setError(prev => ({
+              ...prev, errorForTitle: '*Enter a title',
+            }))
           )}
         />
         <span className="form__span">
-          {errorForTitle}
+          {error.errorForTitle}
         </span>
       </label>
 
@@ -117,11 +129,11 @@ export const NewMovie: React.FC<Props> = ({ onAddMovie }) => {
           name="description"
           className="form__textarea"
           placeholder="Movie description (optional)"
-          value={description}
+          value={state.description}
           cols={55}
           rows={5}
           onChange={(e) => {
-            setDescription(e.target.value);
+            setState(prev => ({ ...prev, description: e.target.value }));
           }}
         />
       </label>
@@ -133,22 +145,27 @@ export const NewMovie: React.FC<Props> = ({ onAddMovie }) => {
           className={classNames(
             'form__input',
             {
-              'form__input-error': errorForImgUrl
+              'form__input-error': error.errorForImgUrl
                 === '*Enter a valid image URL',
             },
           )}
           placeholder="Image URL"
-          value={imgUrl}
+          value={state.imgUrl}
           onChange={(e) => {
-            setImgUrl(e.target.value);
-            setErrorForImgUrl('');
+            setState(prev => ({ ...prev, imgUrl: e.target.value }));
+            setError(prev => ({
+              ...prev, errorForImgUrl: '',
+            }));
           }}
           onBlur={() => (
-            !isValidImgUrl() && setErrorForImgUrl('*Enter a valid image URL')
+            !isValidImgUrl()
+            && setError(prev => ({
+              ...prev, errorForImgUrl: '*Enter a valid image URL',
+            }))
           )}
         />
         <span className="form__span">
-          {errorForImgUrl}
+          {error.errorForImgUrl}
         </span>
       </label>
 
@@ -159,22 +176,25 @@ export const NewMovie: React.FC<Props> = ({ onAddMovie }) => {
           className={classNames(
             'form__input',
             {
-              'form__input-error': errorForImdbUrl
+              'form__input-error': error.errorForImdbUrl
                 === '*Enter a valid imdb URL',
             },
           )}
           placeholder="Imdb URL"
-          value={imdbUrl}
+          value={state.imdbUrl}
           onChange={(e) => {
-            setImdbUrl(e.target.value);
-            setErrorForImdbUrl('');
+            setState(prev => ({ ...prev, imdbUrl: e.target.value }));
+            setError(prev => ({ ...prev, errorForImdbUrl: '' }));
           }}
           onBlur={() => (
-            !isValidImdbUrl() && setErrorForImdbUrl('*Enter a valid imdb URL')
+            !isValidImdbUrl()
+            && setError(prev => ({
+              ...prev, errorForImdbUrl: '*Enter a valid imdb URL',
+            }))
           )}
         />
         <span className="form__span">
-          {errorForImdbUrl}
+          {error.errorForImdbUrl}
         </span>
       </label>
 
@@ -185,22 +205,25 @@ export const NewMovie: React.FC<Props> = ({ onAddMovie }) => {
           className={classNames(
             'form__input',
             {
-              'form__input-error': errorForImdbId
+              'form__input-error': error.errorForImdbId
                 === '*Enter a valid imdb ID',
             },
           )}
           placeholder="Imdb ID"
-          value={imdbId}
+          value={state.imdbId}
           onChange={(e) => {
-            setImdbId(e.target.value);
-            setErrorForImdbId('');
+            setState(prev => ({ ...prev, imdbId: e.target.value }));
+            setError(prev => ({ ...prev, errorForImdbId: '' }));
           }}
           onBlur={() => (
-            !isValidImdbId() && setErrorForImdbId('*Enter a valid imdb ID')
+            !isValidImdbId()
+            && setError(prev => ({
+              ...prev, errorForImdbId: '*Enter a valid imdb ID',
+            }))
           )}
         />
         <span className="form__span">
-          {errorForImdbId}
+          {error.errorForImdbId}
         </span>
       </label>
 
