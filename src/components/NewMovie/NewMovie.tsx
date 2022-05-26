@@ -48,6 +48,11 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         ...prev,
         [name]: value,
       }));
+
+      setNewMovieErrors({
+        ...newMovieErrors,
+        [name]: null,
+      });
     },
     [],
   );
@@ -83,11 +88,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       .every((error) => error === null);
   }, [newMovieErrors]);
 
-  const formIsEmpty = useMemo(() => {
-    return newMovie.imdbId === '' || newMovie.imdbUrl === ''
-      || newMovie.imgUrl === '' || newMovie.title === '';
-  }, [newMovie]);
-
   const validateUrl = (key: keyof Movie) => {
     let errorMessage = initialMovieErrors.imgUrl;
 
@@ -109,11 +109,43 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       onSubmit={(event) => {
         event.preventDefault();
 
-        if (formIsEmpty) {
+        if (!formIsValid) {
           return;
         }
 
-        if (!formIsValid) {
+        if (newMovie.title === '') {
+          setNewMovieErrors({
+            ...newMovieErrors,
+            title: 'title is required!',
+          });
+
+          return;
+        }
+
+        if (newMovie.imgUrl === '') {
+          setNewMovieErrors({
+            ...newMovieErrors,
+            imgUrl: 'imgUrl is required!',
+          });
+
+          return;
+        }
+
+        if (newMovie.imdbUrl === '') {
+          setNewMovieErrors({
+            ...newMovieErrors,
+            imdbUrl: 'imdbUrl is required!',
+          });
+
+          return;
+        }
+
+        if (newMovie.imdbId === '') {
+          setNewMovieErrors({
+            ...newMovieErrors,
+            imdbId: 'imdbId is required!',
+          });
+
           return;
         }
 
