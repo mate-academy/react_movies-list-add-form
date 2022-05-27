@@ -55,6 +55,16 @@ export const NewMovie: React.FC<Props> = ({ onAddMovie }) => {
       imdbId,
     } = state;
 
+    const refreshState = () => {
+      setState({
+        title: '',
+        description: '',
+        imgUrl: '',
+        imdbUrl: '',
+        imdbId: '',
+      });
+    };
+
     if (isFormValid()) {
       onAddMovie({
         title,
@@ -64,13 +74,7 @@ export const NewMovie: React.FC<Props> = ({ onAddMovie }) => {
         imdbId,
       });
 
-      setState({
-        title: '',
-        description: '',
-        imgUrl: '',
-        imdbUrl: '',
-        imdbId: '',
-      });
+      refreshState();
     }
   };
 
