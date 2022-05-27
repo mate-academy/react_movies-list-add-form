@@ -64,7 +64,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       switch (name) {
         case 'title':
         case 'imdbId':
-          if (!value) {
+          if (!value.trim()) {
             setNewMovieErrors((prev) => ({
               ...prev,
               [name]: `${name} is required`,
@@ -91,7 +91,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const validateUrl = (key: keyof Movie) => {
     let errorMessage = initialMovieErrors.imgUrl;
 
-    if (!newMovie[key]) {
+    if (!newMovie[key].trim()) {
       errorMessage = `${key} is required!`;
     } else if (!urlRegex.test(newMovie[key])) {
       errorMessage = 'Please enter valid URL!';
