@@ -23,10 +23,12 @@ export class NewMovie extends Component<Props, State> {
   };
 
   onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState((state) => ({
-      ...state,
-      [event.target.name]: event.target.value,
-    }));
+    if (event.target.value.trim() !== '') {
+      this.setState((state) => ({
+        ...state,
+        [event.target.name]: event.target.value,
+      }));
+    }
   };
 
   handleSubmit = (event: React.FormEvent) => {
