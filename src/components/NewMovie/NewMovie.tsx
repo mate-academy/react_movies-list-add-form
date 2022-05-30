@@ -33,23 +33,30 @@ export class NewMovie extends Component<Props, State> {
       imdbId,
     } = this.state;
 
-    const newMovie = {
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    };
+    if (title.trim().length > 6
+    && imgUrl.trim().length > 6
+    && imdbUrl.trim().length > 6
+    && imdbId.trim().length > 6) {
+      const newMovie = {
+        title,
+        description,
+        imgUrl,
+        imdbUrl,
+        imdbId,
+      };
 
-    this.setState({
-      title: '',
-      description: '',
-      imgUrl: '',
-      imdbUrl: '',
-      imdbId: '',
-    });
+      this.setState({
+        title: '',
+        description: '',
+        imgUrl: '',
+        imdbUrl: '',
+        imdbId: '',
+      });
 
-    return this.props.onAdd(newMovie);
+      return this.props.onAdd(newMovie);
+    }
+
+    return null;
   };
 
   handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
