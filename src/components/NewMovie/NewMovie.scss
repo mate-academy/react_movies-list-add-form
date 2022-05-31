@@ -1,1 +1,43 @@
-// not empty
+.Form {
+  font-family: Tahoma, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  border: 1px solid black;
+
+  &__title {
+    margin-top: 20px;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: default;
+  }
+
+  &__input {
+    width: 300px;
+    height: 30px;
+  }
+
+  &__textarea {
+    min-width: 300px;
+    max-width: 300px;
+    min-height: 50px;
+    max-height: 120px;
+  }
+
+  &__error {
+    color: red;
+  }
+
+  &__button {
+    font-family: Tahoma, sans-serif;
+    margin-bottom: 20px;
+    width: 300px;
+    height: 52px;
+    font-weight: bold;
+    text-transform: uppercase;
+    background-color: rgb(233, 179, 43);
+    border-radius: 10px;
+    cursor: pointer;
+  }
+}
