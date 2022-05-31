@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import './NewMovie.scss';
 
 type Props = {
@@ -9,8 +9,14 @@ type State = {
   title: string,
   description: string,
   imgUrl: string,
+  imgUrlError: boolean,
+  imgUrlErrorMessage: string,
   imdbUrl: string,
+  imdbUrlError: boolean,
+  imdbUrlErrorMessage: string,
   imdbId: string,
+  formError: boolean,
+  formErrorMessage: string,
 };
 
 export class NewMovie extends Component<Props, State> {
@@ -18,13 +24,54 @@ export class NewMovie extends Component<Props, State> {
     title: '',
     description: '',
     imgUrl: '',
+    imgUrlError: false,
+    imgUrlErrorMessage: '',
     imdbUrl: '',
+    imdbUrlError: false,
+    imdbUrlErrorMessage: '',
     imdbId: '',
+    formError: false,
+    formErrorMessage: '',
   };
 
-  handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  handleSubmit = (event: { preventDefault: () => void; }) => {
     event.preventDefault();
 
+    if (!this.state.title.trim()
+        || !this.state.description.trim()
+        || !this.state.imgUrl.trim()
+        || this.state.imgUrlError
+        || !this.state.imdbUrl.trim()
+        || this.state.imdbUrlError
+        || !this.state.imdbId.trim()) {
+      this.setState((state) => ({
+        ...state,
+        formError: true,
+        formErrorMessage:
+        'All this fields are required',
+      }));
+
+      return;
+    }
+
+    this.props.onAdd(this.state);
+
+    this.setState({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imgUrlError: false,
+      imgUrlErrorMessage: '',
+      imdbUrl: '',
+      imdbUrlError: false,
+      imdbUrlErrorMessage: '',
+      imdbId: '',
+      formError: false,
+      formErrorMessage: '',
+    });
+  };
+
+  render() {
     const {
       title,
       description,
@@ -33,107 +80,110 @@ export class NewMovie extends Component<Props, State> {
       imdbId,
     } = this.state;
 
-    if (title.trim().length > 6
-    && imgUrl.trim().length > 6
-    && imdbUrl.trim().length > 6
-    && imdbId.trim().length > 6) {
-      const newMovie = {
-        title,
-        description,
-        imgUrl,
-        imdbUrl,
-        imdbId,
-      };
-
-      this.setState({
-        title: '',
-        description: '',
-        imgUrl: '',
-        imdbUrl: '',
-        imdbId: '',
-      });
-
-      return this.props.onAdd(newMovie);
-    }
-
-    return null;
-  };
-
-  handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-
-    this.setState({ [name]: value } as Pick<State, keyof State>);
-  };
-
-  render() {
     return (
-      <form className="form" onSubmit={this.handleSubmit}>
-        <label className="form__label">
-          Title:
+      <form
+        onSubmit={this.handleSubmit}
+        className="Form"
+      >
+        <h1 className="Form__title">
+          Add a new movie
+        </h1>
+
+        <label>
           <input
             type="text"
-            placeholder="Enter a title here"
             name="title"
-            value={this.state.title}
-            onChange={this.handleChange}
-            required
-            className="form__input"
+            className="Form__input"
+            placeholder="Enter a title"
+            value={title}
+            onChange={(event) => {
+              this.setState({
+                title: event.target.value,
+              });
+            }}
           />
         </label>
 
-        <label className="form__label">
-          Description:
-          <input
-            type="text"
-            name="description"
-            value={this.state.description}
-            placeholder="Enter a description here"
-            onChange={this.handleChange}
-            className="form__input"
-          />
-        </label>
+        <textarea
+          name="description"
+          className="Form__textarea"
+          placeholder="Enter a description"
+          value={description}
+          onChange={(event) => {
+            this.setState({
+              description: event.target.value,
+            });
+          }}
+        />
 
-        <label className="form__label">
-          ImgUrl:
+        <label>
           <input
             type="text"
             name="imgUrl"
-            value={this.state.imgUrl}
-            placeholder="Enter a imgUrl here"
-            onChange={this.handleChange}
-            required
-            className="form__input"
+            className="Form__input"
+            placeholder="Add an imgUrl"
+            value={imgUrl}
+            onChange={(event) => {
+              this.setState({
+                imgUrl: event.target.value,
+              });
+            }}
           />
         </label>
 
-        <label className="form__label">
-          ImdbUrl:
+        {this.state.imgUrlError && (
+          <p className="Form__urlError">
+            {this.state.imgUrlErrorMessage}
+          </p>
+        )}
+
+        <label>
           <input
             type="text"
             name="imdbUrl"
-            value={this.state.imdbUrl}
-            placeholder="Enter a imdbUrl here"
-            onChange={this.handleChange}
-            required
-            className="form__input"
+            className="Form__input"
+            placeholder="Add an imdbUrl"
+            value={imdbUrl}
+            onChange={(event) => {
+              this.setState({
+                imdbUrl: event.target.value,
+              });
+            }}
           />
         </label>
 
-        <label className="form__label">
-          ImdbId:
+        {this.state.imdbUrlError && (
+          <p className="Form__urlError">
+            {this.state.imdbUrlErrorMessage}
+          </p>
+        )}
+
+        <label>
           <input
             type="text"
             name="imdbId"
-            value={this.state.imdbId}
-            placeholder="Enter a imdbId here"
-            onChange={this.handleChange}
-            required
-            className="form__input"
+            className="Form__input"
+            placeholder="Add an imdbId"
+            value={imdbId}
+            onChange={(event) => {
+              this.setState({
+                imdbId: event.target.value,
+              });
+            }}
           />
         </label>
 
-        <button type="submit" className="form__button">
-          Add movie
+        {this.state.formError && (
+          <p className="Form__error">
+            {this.state.formErrorMessage}
+          </p>
+        )}
+
+        <button
+          type="submit"
+          className="Form__button"
+        >
+          Add
         </button>
       </form>
     );

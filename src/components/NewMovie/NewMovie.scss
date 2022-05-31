@@ -1,31 +1,43 @@
-.form {
+.Form {
+  font-family: Tahoma, sans-serif;
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  font-size: 16px;
+  align-items: center;
+  gap: 14px;
+  border: 1px solid black;
 
-  &__label {
-    display: flex;
-    flex-direction: column;
+  &__title {
+    margin-top: 20px;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: default;
   }
 
   &__input {
-    padding: 5px;
-    font-size: 14px;
+    width: 300px;
+    height: 30px;
+  }
+
+  &__textarea {
+    min-width: 300px;
+    max-width: 300px;
+    min-height: 50px;
+    max-height: 120px;
+  }
+
+  &__error {
+    color: red;
   }
 
   &__button {
-    margin-top: 20px;
-    height: 40px;
-    background-color: aquamarine;
-    border: 0;
-    border-radius: 8px;
-    font-size: 18px;
-    transition: 0.5s;
-
-    &:hover {
-      cursor: pointer;
-      box-shadow: 4px 4px 5px 0 rgb(52, 221, 165);
-    }
+    font-family: Tahoma, sans-serif;
+    margin-bottom: 20px;
+    width: 300px;
+    height: 52px;
+    font-weight: bold;
+    text-transform: uppercase;
+    background-color: rgb(233, 179, 43);
+    border-radius: 10px;
+    cursor: pointer;
   }
 }
