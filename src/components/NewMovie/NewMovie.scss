@@ -1,1 +1,12 @@
 // not empty
+
+.input__wrapper {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+}
+
+/*.form {
+  display: grid;
+  grid-template-areas: "a a" "b c" "d e" "f g" "h i" "k k";
+}*/
