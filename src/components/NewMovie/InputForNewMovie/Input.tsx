@@ -7,7 +7,7 @@ type Props = {
   onAdd: (event:string) => void;
 };
 
-export const InputForNewMovie:React.FC<Props> = ({
+export const Input:React.FC<Props> = ({
   inputTitle,
   name,
   value,

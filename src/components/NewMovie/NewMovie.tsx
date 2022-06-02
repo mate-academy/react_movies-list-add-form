@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './NewMovie.scss';
-import { InputForNewMovie } from './InputForNewMovie/InputForNewMovie';
+import { Input } from './InputForNewMovie/Input';
 
 type Props = {
   onAdd: (movie:Movie) => void;
@@ -13,52 +13,55 @@ export const NewMovie:React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
+  const handleSubmit = () => {
+    onAdd({
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    });
+
+    setTitle('');
+    setDescription('');
+    setImgUrl('');
+    setImdbUrl('');
+    setImdbId('');
+  };
+
   return (
     <form
       className="form"
       onSubmit={(event) => {
         event.preventDefault();
-
-        onAdd({
-          title,
-          description,
-          imgUrl,
-          imdbUrl,
-          imdbId,
-        });
-
-        setTitle('');
-        setDescription('');
-        setImgUrl('');
-        setImdbUrl('');
-        setImdbId('');
+        handleSubmit();
       }}
     >
-      <InputForNewMovie
+      <Input
         inputTitle="Title"
         name="title"
         value={title}
         onAdd={setTitle}
       />
-      <InputForNewMovie
+      <Input
         inputTitle="Description"
         name="description"
         value={description}
         onAdd={setDescription}
       />
-      <InputForNewMovie
+      <Input
         inputTitle="Img Url"
         name="imgUrl"
         value={imgUrl}
         onAdd={setImgUrl}
       />
-      <InputForNewMovie
+      <Input
         inputTitle="Imdb Url"
         name="imdbUrl"
         value={imdbUrl}
         onAdd={setImdbUrl}
       />
-      <InputForNewMovie
+      <Input
         inputTitle="Imdb Id"
         name="imdbId"
         value={imdbId}
