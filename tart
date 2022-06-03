@@ -1,0 +1,42 @@
+*   [31mcd9e50c[m -[33m (HEAD -> develop, origin/master, origin/HEAD, master)[m Merge pull request #650 from mate-academy/mate-scripts-update [32m(6 weeks ago) [1;34m<Yurii Holiuk>[m
+[31m|[m[32m\[m  
+[31m|[m * [31m095c9c1[m -[33m[m Update and init [32m(6 weeks ago) [1;34m<YuriiHoliuk>[m
+[31m|[m[31m/[m  
+*   [31m981aed8[m -[33m[m Merge pull request #647 from mate-academy/mate-scripts-update [32m(6 weeks ago) [1;34m<Yurii Holiuk>[m
+[33m|[m[34m\[m  
+[33m|[m * [31m073cf75[m -[33m[m Update and init [32m(6 weeks ago) [1;34m<YuriiHoliuk>[m
+[33m|[m * [31m567f402[m -[33m[m Update and init [32m(6 weeks ago) [1;34m<YuriiHoliuk>[m
+[33m|[m * [31me002e4b[m -[33m[m Update scripts [32m(6 weeks ago) [1;34m<YuriiHoliuk>[m
+[33m|[m * [31m54bdce3[m -[33m[m Update NewMovie.scss [32m(6 weeks ago) [1;34m<Yurii Holiuk>[m
+[33m|[m * [31m33c9902[m -[33m[m Update workflows [32m(6 weeks ago) [1;34m<YuriiHoliuk>[m
+[33m|[m * [31m0c757ed[m -[33m[m Update scripts [32m(6 weeks ago) [1;34m<YuriiHoliuk>[m
+[33m|[m * [31macbe2be[m -[33m[m Add cypress verify to postinstall [32m(6 weeks ago) [1;34m<YuriiHoliuk>[m
+[33m|[m * [31mb4acf39[m -[33m[m Downgrade [32m(6 weeks ago) [1;34m<YuriiHoliuk>[m
+[33m|[m * [31m5a323d6[m -[33m[m Restore checklists, update package, fix tests [32m(6 weeks ago) [1;34m<YuriiHoliuk>[m
+[33m|[m * [31mfd75cf5[m -[33m[m Update workflows [32m(6 weeks ago) [1;34m<YuriiHoliuk>[m
+[33m|[m * [31m207cab2[m -[33m[m Component tests and other improvements [32m(6 weeks ago) [1;34m<YuriiHoliuk>[m
+[33m|[m * [31m85b8e21[m -[33m[m Component tests and other improvements [32m(6 weeks ago) [1;34m<YuriiHoliuk>[m
+[33m|[m[33m/[m  
+* [31mf766044[m -[33m[m Update repo. Added bulma and js config (#441) [32m(8 months ago) [1;34m<Vladyslav Polets>[m
+* [31m4b47f7b[m -[33m[m Update repo. Added cypress (#440) [32m(8 months ago) [1;34m<Vladyslav Polets>[m
+*   [31me0dd816[m -[33m[m Merge pull request #394 from mate-academy/nadiia-m-patch-1 [32m(8 months ago) [1;34m<nadiia-m>[m
+[35m|[m[36m\[m  
+[35m|[m * [31m594401a[m -[33m[m Update README.md [32m(8 months ago) [1;34m<nadiia-m>[m
+[35m|[m[35m/[m  
+*   [31mcf8e107[m -[33m[m Merge pull request #389 from mate-academy/typescript [32m(9 months ago) [1;34m<dmytroyevlakhov>[m
+[1;31m|[m[1;32m\[m  
+[1;31m|[m * [31m0992c6d[m -[33m[m typescript was added [32m(9 months ago) [1;34m<dmytroyevlakhov>[m
+[1;31m|[m[1;31m/[m  
+* [31m87fbb58[m -[33m[m Update README.md [32m(1 year, 4 months ago) [1;34m<Misha Grinko>[m
+* [31mb545ee0[m -[33m[m Create checklist.md [32m(1 year, 8 months ago) [1;34m<Holovko Iryna>[m
+* [31m9211c25[m -[33m[m Update package.json [32m(2 years, 1 month ago) [1;34m<Misha Grinko>[m
+* [31mc0768b6[m -[33m[m Small fixes [32m(2 years, 3 months ago) [1;34m<mgrinko>[m
+* [31m6cbc4ab[m -[33m[m One more movie was added [32m(2 years, 3 months ago) [1;34m<mgrinko>[m
+* [31m7de34cc[m -[33m[m Small description fixes [32m(2 years, 3 months ago) [1;34m<mgrinko>[m
+* [31mcb6f525[m -[33m[m Workflow was updated [32m(2 years, 3 months ago) [1;34m<mgrinko>[m
+* [31m57b95f3[m -[33m[m Update README.md [32m(2 years, 7 months ago) [1;34m<Yurii Holiuk>[m
+* [31m58cd889[m -[33m[m Update README.md [32m(2 years, 7 months ago) [1;34m<Yurii Holiuk>[m
+* [31me24abe1[m -[33m[m add movies list [32m(2 years, 7 months ago) [1;34m<Yurii Holiuk>[m
+* [31m8846897[m -[33m[m change export to named [32m(2 years, 7 months ago) [1;34m<Yurii Holiuk>[m
+* [31mf5c6fc2[m -[33m[m change eslint config to react specific [32m(2 years, 7 months ago) [1;34m<Yurii Holiuk>[m
+* [31m39e806c[m -[33m[m Initial commit [32m(2 years, 8 months ago) [1;34m<Yurii Holiuk>[m
