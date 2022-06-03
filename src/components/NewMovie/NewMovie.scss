@@ -1,5 +1,9 @@
 // not empty
 .movie-form {
+  &__item {
+    margin-bottom: 20px;
+  }
+
   &__title {
     font-size: 24px;
     text-align: center;
@@ -11,5 +15,34 @@
   &__submit-btn {
     cursor: inherit;
     padding: 10px 30px;
+  }
+
+  &__input {
+    margin-bottom: 5px;
+    padding: 5px;
+    cursor: url(../../icons/icons8-hand.svg) 10 0, move;
+
+    &:hover {
+      background-color: #eee;
+    }
+
+    &:focus {
+      background-color: rgb(179, 255, 227);
+    }
+
+    &--error {
+      background-color: rgb(246, 198, 198);
+    }
+  }
+
+  &__error {
+    display: block;
+    color: red;
+    font-size: 12px;
+    letter-spacing: 1px;
+  }
+
+  &__label {
+    display: block;
   }
 }

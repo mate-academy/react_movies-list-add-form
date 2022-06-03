@@ -1,6 +1,5 @@
-import React, { FormEvent, useCallback, useState } from 'react';
+import React, { ChangeEvent, FormEvent, useCallback, useState } from 'react';
 import classNames from 'classnames';
-import { FormInput } from '../FormInput';
 import './NewMovie.scss';
 
 type Props = {
@@ -8,70 +7,124 @@ type Props = {
 };
 
 export const NewMovie: React.FC<Props> = ({ addMovie }) => {
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
-
-  const [titleError, setTitleError] = useState(false);
-  const [imdbUrlError, setImdbUrlError] = useState(false);
-  const [imdbIdError, setImdbIdError] = useState(false);
-  const [imgUrlValidationError, setImgUrlValidationError] = useState(false);
-  const [imdbUrllValidationError, setImdbUrlValidationError] = useState(false);
-
-  const reset = useCallback(() => {
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
-  }, []);
-
-  const urlPatternValidation = (el: string) => {
-    const regex
-    = new RegExp('(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?');
-
-    return regex.test(el);
+  const initialMovie = {
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
   };
 
-  const shouldFormSubmit = [title, imdbUrl, imdbId]
-    .filter(field => field).length === 3;
+  const initialError = {
+    title: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  };
 
-  const formHasAnError = imgUrlValidationError === true
-    || imdbUrllValidationError === true;
+  const [movie, setMovie] = useState(initialMovie);
+  const [errors, setErrors] = useState(initialError);
 
-  const isVisibleErrors = () => {
-    setTitleError(!title);
-    setImdbUrlError(!imdbUrl);
-    setImdbIdError(!imdbId);
-    if (imgUrl) {
-      setImgUrlValidationError(!urlPatternValidation(imgUrl));
-    } else {
-      setImgUrlValidationError(urlPatternValidation(imgUrl));
+  // eslint-disable-next-line max-len
+  const patternURL = new RegExp('(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?');
+
+  const titleValidation = () => {
+    let errorType = '';
+
+    if (!movie.title.trim()) {
+      errorType = 'Title is required!';
     }
 
-    setImdbUrlValidationError(!urlPatternValidation(imdbUrl));
+    setErrors({
+      ...errors,
+      title: errorType,
+    });
+
+    return errorType;
+  }
+
+  const imgUrlValidation = () => {
+    let errorType = '';
+
+    if (!movie.imgUrl.trim()) {
+      errorType = 'imdbUrl if required!'
+    } else if (!patternURL.test(movie.imgUrl)) {
+      errorType = 'Please enter a valid URL!';
+    }
+
+    setErrors({
+      ...errors,
+      imgUrl: errorType,
+    })
+
+    return errorType;
+  }
+
+  const imdbUrlValidation = () => {
+    let errorType = '';
+
+    if (!movie.imdbUrl.trim()) {
+      errorType = 'imdbUrl if required!'
+    } else if (!patternURL.test(movie.imdbUrl)) {
+      errorType = 'Please enter a valid URL!';
+    }
+
+    setErrors({
+      ...errors,
+      imdbUrl: errorType,
+    })
+
+    return errorType;
+  }
+
+  const imdbIdValidation = () => {
+    let errorType = '';
+
+    if (!movie.imdbId.trim()) {
+      errorType = 'Title is required!';
+    }
+
+    setErrors({
+      ...errors,
+      imdbId: errorType,
+    });
+
+    return errorType;
+  }
+
+  const hasAnError = () => {
+    const currentErrors = {...errors};
+
+    currentErrors.title = titleValidation();
+    currentErrors.imgUrl = imgUrlValidation();
+    currentErrors.imdbId = imdbIdValidation();
+    currentErrors.imdbUrl = imdbUrlValidation();
+    
+    return currentErrors;
+  }
+
+  const reset = useCallback(() => {
+    setMovie(initialMovie)
+    setErrors(initialError)
+  }, []);
+
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+
+    setMovie({...movie, [name]: value});
   };
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    isVisibleErrors();
+    const currentErrors = hasAnError();
+    const canSubmit = Object.values(currentErrors).every(el => !el);
 
-    if (!shouldFormSubmit || formHasAnError) {
-      return;
+    setErrors(currentErrors)
+
+    if (canSubmit) {
+      addMovie(movie)
+      reset()
     }
-
-    const newMovie = {
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    };
-
-    addMovie(newMovie);
-    reset();
   };
 
   return (
@@ -84,39 +137,84 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
       >
         Add new movie
       </h2>
-      <FormInput
-        value={title}
-        placeholder="Enter a title"
-        isChange={setTitle}
-        error={titleError}
-        isError={setTitleError}
-      />
-      <FormInput
-        value={description}
-        placeholder="Enter a description"
-        isChange={setDescription}
-      />
-      <FormInput
-        value={imgUrl}
-        placeholder="Enter a image URL-link"
-        isChange={setImgUrl}
-        validationError={imgUrlValidationError}
-      />
-      <FormInput
-        value={imdbUrl}
-        placeholder="Enter a imdb URL-link"
-        isChange={setImdbUrl}
-        error={imdbUrlError}
-        isError={setImdbUrlError}
-        validationError={imdbUrllValidationError}
-      />
-      <FormInput
-        value={imdbId}
-        placeholder="Enter a imdb Id"
-        isChange={setImdbId}
-        error={imdbIdError}
-        isError={setImdbIdError}
-      />
+        <label className="movie-form__label">
+          <input
+            className='movie-form__input'
+            name="title"
+            type="text"
+            placeholder="Enter a title"
+            value={movie.title}
+            onChange={handleChange}
+            onBlur={titleValidation}
+          />
+        </label>
+        {errors.title && (
+          <p className="movie-form__error">
+            {errors.title}
+          </p>
+        )}
+
+        <label className="movie-form__label">
+            <input
+              className='movie-form__input'
+              placeholder="Enter a description"
+              name="description"
+              type="text"
+              value={movie.description}
+              onChange={handleChange}
+            />
+        </label>
+
+        <label className="movie-form__label">
+          <input
+            className='movie-form__input'
+            name="imgUrl"
+            type="text"
+            value={movie.imgUrl}
+            onChange={handleChange}
+            onBlur={imgUrlValidation}
+            placeholder="Enter a image URL"
+          />
+        </label>
+        {errors.imgUrl && (
+          <p className="movie-form__error">
+            {errors.imgUrl}
+          </p>
+        )}
+
+        <label className="movie-form__label">
+          <input
+            className='movie-form__input'
+            name="imdbUrl"
+            type="text"
+            value={movie.imdbUrl}
+            onChange={handleChange}
+            onBlur={imdbUrlValidation}
+            placeholder="Enter a imdb URL"
+          />
+        </label>
+        {errors.imdbUrl && (
+          <p className="movie-form__error">
+            {errors.imdbUrl}
+          </p>
+        )}
+
+        <label className="movie-form__label">
+          <input
+            className='movie-form__input'
+            name="imdbId"
+            type="text"
+            value={movie.imdbId}
+            onChange={handleChange}
+            onBlur={imdbIdValidation}
+            placeholder="Enter a imdb Id"
+          />
+        </label>
+        {errors.imdbId && (
+          <p className="movie-form__error">
+            {errors.imdbId}
+          </p>
+        )}
       <button
         type="submit"
         className={classNames(
