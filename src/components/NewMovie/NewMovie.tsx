@@ -6,9 +6,10 @@ const regex = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:
 
 type Props = {
   onAdd: (movie: Movie) => void;
+  allMoviesTitle: string[];
 };
 
-export const NewMovie: React.FC<Props> = ({ onAdd }) => {
+export const NewMovie: React.FC<Props> = ({ onAdd, allMoviesTitle }) => {
   const [validForm, setValidForm] = useState(false);
   const [errors, setErrors] = useState({
     title: '',
@@ -47,12 +48,21 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     e.preventDefault();
 
     onAdd(newMovie);
+    setNewMovie({
+      title: '',
+      description: 'Description',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
     setValidForm(true);
   }
 
   function validateTitle() {
     if (!newMovie.title.trim()) {
       setErrors({ ...errors, title: 'Enter Title!' });
+    } else if (allMoviesTitle.includes(newMovie.title)) {
+      setErrors({ ...errors, title: 'Movie is already exist!' });
     } else {
       setErrors({ ...errors, title: '' });
     }
