@@ -1,1 +1,38 @@
-// not empty
+.NewMovie {
+  &__inputs {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  &__input {
+    &:hover {
+      border-color: #f8de15;
+    }
+    &--invalid {
+      border-color: red;
+    }
+  }
+
+  &__errorMessage {
+    height: 40px;
+    color: red;
+    text-align: center;
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__button {
+    margin: 20px auto;
+    width: 120px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #f8de15;
+      border: 2px solid transparent;
+    }
+  }
+}
