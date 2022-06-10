@@ -13,3 +13,27 @@
   padding: 20px;
   border-left: 1px solid lightgray;
 }
+
+.form {
+  display: flex;
+  flex-direction: column;
+
+  &__input {
+    margin-bottom: 5px;
+
+    &:focus {
+      outline: none;
+    }
+
+    &--error {
+      border: 1px solid red;
+      box-shadow: 1px 1px red, -1px -1px red;
+    }
+  }
+
+  &__error {
+    margin-bottom: 20px;
+    font-size: 14px;
+    color: red;
+  }
+}
