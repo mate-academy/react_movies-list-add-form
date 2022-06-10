@@ -8,7 +8,7 @@ export const App: React.FC = () => {
   const [movies, setMovies] = useState(moviesFromServer);
 
   const addMovie = (movie: Movie) => {
-    setMovies([...movies, movie]);
+    setMovies((currentMovies) => [...currentMovies, movie]);
   };
 
   return (

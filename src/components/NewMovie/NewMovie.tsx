@@ -38,6 +38,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     }
   }, [titleError, imgUrlError, imdbUrlError, imdbIdError]);
 
+  // eslint-disable-next-line max-len
+  const regex = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
+
   const blurHandler = (event: React.FocusEvent<HTMLInputElement, Element>) => {
     switch (event.target.name) {
       case 'title':
@@ -80,11 +83,11 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     const { value } = event.target;
 
     setImgUrl(value);
-    // eslint-disable-next-line max-len
-    const regex = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
-
     if (!regex.test(String(value).toLowerCase())) {
       setImgUrlError('Incorrect url');
+      if (!value) {
+        setImgUrlError('The imgUrl field cannot be empty');
+      }
     } else {
       setImgUrlError('');
     }
@@ -94,11 +97,11 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     const { value } = event.target;
 
     setImdbUrl(value);
-    // eslint-disable-next-line max-len
-    const regex = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
-
     if (!regex.test(String(value).toLowerCase())) {
       setImdbUrlError('Incorrect url');
+      if (!value) {
+        setImdbUrlError('The imdbUrl field cannot be empty');
+      }
     } else {
       setImdbUrlError('');
     }
@@ -133,6 +136,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setImgUrl('');
     setImdbUrl('');
     setImdbId('');
+    setIsFormValid(false);
   };
 
   return (
