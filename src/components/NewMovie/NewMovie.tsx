@@ -15,6 +15,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbId, setImdbId] = useState<string>('');
 
   const [urlErr, setUrlErr] = useState<boolean>(false);
+  const [titleErr, setTitleErr] = useState<boolean>(false);
+  const [descrErr, setDescrErr] = useState<boolean>(false);
 
   const handleChange = (
     value: string,
@@ -33,10 +35,19 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     <form onSubmit={(event) => {
       event.preventDefault();
 
-      if (!check.test(imgUrl)) {
-        resetTitles(setImgUrl);
-        setUrlErr(true);
+      if (!title.length || !description.length || !check.test(imgUrl)) {
+        if (!title.length) {
+          setTitleErr(true);
+        }
 
+        if (!description.length) {
+          setDescrErr(true);
+        }
+
+        if (!check.test(imgUrl)) {
+          setUrlErr(true);
+          resetTitles(setImgUrl);
+        }
         return;
       }
 
@@ -62,19 +73,25 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <input
         value={title}
         type="text"
-        onChange={({ target }) => handleChange(target.value, setTitle)}
-        required
+        onChange={({ target }) => {
+          handleChange(target.value, setTitle)
+          setTitleErr(false);
+        }}
       />
       <br />
+      {titleErr && (<p style={{color: 'red'}}><b>Type Something!!!</b></p>)}
       Description
       <br />
       <input
         value={description}
         type="text"
-        onChange={({ target }) => handleChange(target.value, setDescription)}
-        required
+        onChange={({ target }) => {
+          handleChange(target.value, setDescription)
+          setDescrErr(false);
+        }}
       />
       <br />
+      {descrErr && (<p style={{color: 'red'}}><b>Type Something!!!</b></p>)}
       imgUrl
       <br />
       <input
