@@ -1,1 +1,11 @@
-// not empty
+.input {
+  margin-bottom: 15px;
+}
+
+.button {
+  width: 100%;
+
+  &:hover {
+    background-color: #e8e8e8;
+  }
+}
