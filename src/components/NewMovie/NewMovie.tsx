@@ -154,7 +154,7 @@ export const NewMovie: React.FC <Props> = ({ onAdd }) => {
         className={imdbIdIsReq
           ? 'form__input form__input--error' : 'form__input'}
         name="imdbUrl"
-        placeholder="imdbUrl"
+        placeholder="imdbId"
         value={imdbId}
         onChange={(event) => {
           setImdbId(event.target.value);
