@@ -28,6 +28,11 @@
     &--error {
       border: 1px solid red;
       box-shadow: 1px 1px red, -1px -1px red;
+      color: red;
+
+      &::placeholder {
+        color: red;
+      }
     }
   }
 
