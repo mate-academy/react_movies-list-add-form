@@ -12,9 +12,6 @@ export const App: React.FC = () => {
     setMovies((currentMovies) => [...currentMovies, movie]);
   };
 
-  // eslint-disable-next-line no-console
-  console.log(movies);
-
   return (
     <div className="page">
       <div className="page-content">

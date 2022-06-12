@@ -22,6 +22,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbId, setImdbId] = useState('');
   const [imdbIdHasError, setImdbIdHasError] = useState(false);
 
+  // eslint-disable-next-line max-len
+  const [regExp] = useState(/^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/);
+  const checkUrl = (inputToCheck: string) => !regExp.test(inputToCheck);
+
   const handleTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
     setTitleHasError(false);
@@ -33,12 +37,12 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
   const handleImgUrl = (event: React.ChangeEvent<HTMLInputElement>) => {
     setImgUrl(event.target.value);
-    setImgUrlHasError(false);
+    setImgUrlHasError(checkUrl(imgUrl));
   };
 
   const handleImdbUrl = (event: React.ChangeEvent<HTMLInputElement>) => {
     setImdbUrl(event.target.value);
-    setImdbUrlHasError(false);
+    setImdbUrlHasError(checkUrl(imgUrl));
   };
 
   const handleImdbId = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -58,11 +62,12 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     };
 
     setTitleHasError(!title);
-    setImgUrlHasError(!imgUrl);
-    setImdbUrlHasError(!imdbUrl);
     setImdbIdHasError(!imdbId);
 
-    if (title && imgUrl && imdbUrl && imdbId) {
+    setImgUrlHasError(checkUrl(imgUrl));
+    setImdbUrlHasError(checkUrl(imdbUrl));
+
+    if (title && imgUrl && !checkUrl(imgUrl) && !checkUrl(imdbUrl)) {
       onAdd(movie);
 
       setTitle('');
@@ -123,7 +128,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
           onChange={handleImgUrl}
         />
         {imgUrlHasError && (
-          <p className="help is-danger">Enter an imgUrl</p>
+          <p className="help is-danger">Enter a correct imgUrl</p>
         )}
       </label>
 
@@ -141,7 +146,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
           onChange={handleImdbUrl}
         />
         {imdbUrlHasError && (
-          <p className="help is-danger">Enter an imdbUrl</p>
+          <p className="help is-danger">Enter a correct imdbUrl</p>
         )}
       </label>
 
