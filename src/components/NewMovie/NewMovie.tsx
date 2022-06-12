@@ -12,52 +12,30 @@ export const NewMovie: React.FC<Props> = ({ addMovie, movies }) => {
   const [titleIsEmpty, setTitleIsEmpty] = useState(false);
 
   const [description, setDescription] = useState('');
-  const [descriptionIsEmpty, setDescriptionIsEmpty] = useState(false);
 
   const [imgUrl, setImgUrl] = useState('');
-  const [imgUrlIsEmpty, setImgUrlIsEmpty] = useState(false);
   const [imgUrlIsValid, setImgUrlIsValid] = useState(false);
 
   const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbUrlIsEmpty, setImdbUrlIsEmpty] = useState(false);
   const [imdbUrlIsValid, setImdbUrlIsValid] = useState(false);
 
   const [imdbId, setImdbId] = useState('');
   const [imdbIdIsEmpty, setImdbIdIsEmpty] = useState(false);
 
+  function validURL(str: string) {
+    // eslint-disable-next-line max-len
+    const pattern = new RegExp(/^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/); // fragment locator
+
+    return pattern.test(str);
+  }
+
   const onAdd = (event: React.FormEvent) => {
     event.preventDefault();
 
-    function validURL(str: string) {
-      // eslint-disable-next-line max-len
-      const pattern = new RegExp(/^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/); // fragment locator
+    setTitleIsEmpty(!title);
 
-      return !!pattern.test(str);
-    }
-
-    if (!title) {
-      setTitleIsEmpty(true);
-    }
-
-    if (!description) {
-      setDescriptionIsEmpty(true);
-    }
-
-    if (!imgUrl) {
-      setImgUrlIsEmpty(true);
-    }
-
-    if (imgUrl !== '' && validURL(imgUrl)) {
-      setImgUrlIsValid(true);
-    }
-
-    if (!imdbUrl) {
-      setImdbUrlIsEmpty(true);
-    }
-
-    if (imdbUrl !== '' && validURL(imdbUrl)) {
-      setImdbUrlIsValid(true);
-    }
+    setImgUrlIsValid(!validURL(imgUrl));
+    setImdbUrlIsValid(!validURL(imdbUrl));
 
     if (!imdbId) {
       setImdbIdIsEmpty(true);
@@ -65,10 +43,8 @@ export const NewMovie: React.FC<Props> = ({ addMovie, movies }) => {
 
     if (title
       && description
-      && imgUrl
-      && imgUrlIsValid
-      && imdbUrl
-      && imdbUrlIsValid
+      && validURL(imgUrl)
+      && validURL(imdbUrl)
       && imdbId) {
       const mowieToAdd = {
         title,
@@ -115,15 +91,11 @@ export const NewMovie: React.FC<Props> = ({ addMovie, movies }) => {
 
         <textarea
           name="description"
-          className={`
-          textarea
-          ${descriptionIsEmpty
-            && 'is-danger is-outlined empty-field'}`}
+          className="textarea"
           placeholder="Enter description here"
           value={description}
           onChange={(event) => {
             setDescription(event.target.value);
-            setDescriptionIsEmpty(false);
           }}
         />
 
@@ -132,13 +104,13 @@ export const NewMovie: React.FC<Props> = ({ addMovie, movies }) => {
           name="imgUrl"
           className={`
           input
-          ${imgUrlIsEmpty
+          ${(imgUrlIsValid)
             && 'is-danger is-outlined empty-field'}`}
-          placeholder="Enter poster link here"
+          placeholder="Please enter valid poster link here"
           value={imgUrl}
           onChange={(event) => {
             setImgUrl(event.target.value);
-            setImgUrlIsEmpty(false);
+            setImgUrlIsValid(!validURL(imgUrl));
           }}
         />
 
@@ -147,13 +119,13 @@ export const NewMovie: React.FC<Props> = ({ addMovie, movies }) => {
           name="imdbUrl"
           className={`
           input
-          ${imdbUrlIsEmpty
+          ${(imdbUrlIsValid)
             && 'is-danger is-outlined empty-field'}`}
-          placeholder="Enter url link to movie here"
+          placeholder="Please enter valid url link to movie here"
           value={imdbUrl}
           onChange={(event) => {
             setImdbUrl(event.target.value);
-            setImdbUrlIsEmpty(false);
+            setImdbUrlIsValid(!validURL(imdbUrl));
           }}
         />
 
