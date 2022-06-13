@@ -15,13 +15,15 @@ export const NewMovie: React.FC<Props> = ({ addNewMovie }) => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    addNewMovie({
+    const newMovie = {
       title,
       description,
       imgUrl,
       imdbUrl,
       imdbId,
-    });
+    };
+
+    addNewMovie(newMovie);
 
     setTitle('');
     setDescription('');
