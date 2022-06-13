@@ -72,8 +72,15 @@ export const NewMovie: React.FC<Props> = ({ newMovie }) => {
         placeholder="Add a title"
         value={newTitle}
         onChange={(event) => {
-          setNewTitle(event.target.value);
-          setNewTitleError(false);
+          const { value } = event.target;
+
+          if (value.length > 0) {
+            setNewTitle(value);
+            setNewTitleError(false);
+          } else {
+            setNewTitle('');
+            setNewTitleError(true);
+          }
         }}
       />
 
@@ -159,14 +166,22 @@ export const NewMovie: React.FC<Props> = ({ newMovie }) => {
         placeholder="Add imdbId"
         value={newImdbId}
         onChange={(event) => {
-          setImdbId(event.target.value);
-          setNewImdbIdError(false);
+          const { value } = event.target;
+
+          if (value.length > 0) {
+            setImdbId(value);
+            setNewImdbIdError(false);
+          } else {
+            setImdbId('');
+            setNewImdbIdError(true);
+          }
         }}
       />
 
       <button
         type="submit"
-        disabled={!newTitle || !newImgUrl || !regex.test(newImgUrl)
+        disabled={!newTitle || !newImdbId
+          || !regex.test(newImgUrl)
           || !regex.test(newImdbUrl)}
         className="button is-link"
       >
