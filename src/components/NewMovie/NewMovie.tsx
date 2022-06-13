@@ -6,28 +6,28 @@ type Props = {
 };
 
 export const NewMovie: React.FC<Props> = ({ addNewMovie }) => {
-  const [newTitle, setNewTitle] = useState('');
-  const [newDescription, setNewDescription] = useState('');
-  const [newImgUrl, setNewImgUrl] = useState('');
-  const [newImdbUrl, setNewImdbUrl] = useState('');
-  const [newImdbId, setNewImdbId] = useState('');
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [imgUrl, setImgUrl] = useState('');
+  const [imdbUrl, setImdbUrl] = useState('');
+  const [imdbId, setImdbId] = useState('');
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     addNewMovie({
-      title: newTitle,
-      description: newDescription,
-      imgUrl: newImgUrl,
-      imdbUrl: newImdbUrl,
-      imdbId: newImdbId,
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
     });
 
-    setNewTitle('');
-    setNewDescription('');
-    setNewImgUrl('');
-    setNewImdbUrl('');
-    setNewImdbId('');
+    setTitle('');
+    setDescription('');
+    setImgUrl('');
+    setImdbUrl('');
+    setImdbId('');
   };
 
   return (
@@ -38,36 +38,36 @@ export const NewMovie: React.FC<Props> = ({ addNewMovie }) => {
       <input
         type="text"
         placeholder="Title"
-        value={newTitle}
-        onChange={(event) => setNewTitle(event.target.value)}
+        value={title}
+        onChange={(event) => setTitle(event.target.value)}
         className="new-movie-form__field"
       />
       <input
         type="text"
         placeholder="Description"
-        value={newDescription}
-        onChange={(event) => setNewDescription(event.target.value)}
+        value={description}
+        onChange={(event) => setDescription(event.target.value)}
         className="new-movie-form__field"
       />
       <input
         type="text"
         placeholder="ImgUrl"
-        value={newImgUrl}
-        onChange={(event) => setNewImgUrl(event.target.value)}
+        value={imgUrl}
+        onChange={(event) => setImgUrl(event.target.value)}
         className="new-movie-form__field"
       />
       <input
         type="text"
         placeholder="ImdbUrl"
-        value={newImdbUrl}
-        onChange={(event) => setNewImdbUrl(event.target.value)}
+        value={imdbUrl}
+        onChange={(event) => setImdbUrl(event.target.value)}
         className="new-movie-form__field"
       />
       <input
         type="text"
         placeholder="ImdbId"
-        value={newImdbId}
-        onChange={(event) => setNewImdbId(event.target.value)}
+        value={imdbId}
+        onChange={(event) => setImdbId(event.target.value)}
         className="new-movie-form__field"
       />
       <button
