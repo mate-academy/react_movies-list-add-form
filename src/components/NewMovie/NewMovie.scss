@@ -1,1 +1,10 @@
 // not empty
+.form-box {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.button-submit {
+  width: 164px;
+}
