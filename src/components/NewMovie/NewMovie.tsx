@@ -33,6 +33,9 @@ export class NewMovie extends Component<Props, State> {
     isbutton: true,
   };
 
+  // eslint-disable-next-line max-len
+  re = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
+
   isButton = () => {
     if (this.state.newtitle
     && this.state.newdescription
@@ -92,6 +95,34 @@ export class NewMovie extends Component<Props, State> {
     this.setState({ isbutton: true });
   };
 
+  isCorrectUrlIMGHandler = (
+    event: { target: { value: string, name: string }; },
+  ) => {
+    const { value, name } = event.target;
+
+    if (name === 'newimgUrl') {
+      this.setState(() => {
+        if ((this.re).test(value)) {
+          this.setState({ newimgUrl: value });
+        } else {
+          this.setState({ isnewimgUrl: true });
+        }
+      });
+      this.setState({ isnewimgUrl: false });
+    }
+
+    if (name === 'newimdbUrl') {
+      this.setState(() => {
+        if ((this.re).test(value)) {
+          this.setState({ newimdbUrl: value });
+        } else {
+          this.setState({ isnewimdbUrl: true });
+        }
+      });
+      this.setState({ isnewimdbUrl: false });
+    }
+  };
+
   render() {
     return (
       <div className="">
@@ -134,23 +165,13 @@ export class NewMovie extends Component<Props, State> {
           </div>
           <div className="">
             <input
+              name="newimgUrl"
               className="control mb-3"
               type="text"
               placeholder="imgUrl"
               required
               value={this.state.newimgUrl}
-              onChange={(event) => {
-                this.setState(() => {
-                  // eslint-disable-next-line max-len
-                  if ((/^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/).test(event.target.value)) {
-                    this.setState({ newimgUrl: event.target.value });
-                  } else {
-                    this.setState({ isnewimgUrl: true });
-                  }
-                });
-
-                this.setState({ isnewimgUrl: false });
-              }}
+              onChange={this.isCorrectUrlIMGHandler}
             />
             {this.state.isnewimgUrl && (
               <div className="
@@ -163,23 +184,13 @@ export class NewMovie extends Component<Props, State> {
           </div>
           <div className="">
             <input
+              name="newimdbUrl"
               className="control mb-3"
               type="text"
               placeholder="imdbUrl"
               value={this.state.newimdbUrl}
               required
-              onChange={(event) => {
-                this.setState(() => {
-                  // eslint-disable-next-line max-len
-                  if ((/^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/).test(event.target.value)) {
-                    this.setState({ newimdbUrl: event.target.value });
-                  } else {
-                    this.setState({ isnewimdbUrl: true });
-                  }
-                });
-
-                this.setState({ isnewimdbUrl: false });
-              }}
+              onChange={this.isCorrectUrlIMGHandler}
             />
             {this.state.isnewimdbUrl && (
               <div className="
