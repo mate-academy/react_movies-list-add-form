@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Movie } from '../../react-app-env';
 
 interface Props {
   onAdd: (movie: Movie) => void,
