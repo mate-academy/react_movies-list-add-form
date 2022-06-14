@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 /* eslint-disable max-len */
 /* eslint-disable no-useless-escape */
 /* eslint-disable @typescript-eslint/quotes */
@@ -29,18 +30,22 @@ export const NewMovie: React.FC <Props> = ({ onAdd }) => {
 
   const checkInput = (input: string) => {
     if (input) {
-      if (input === imdbUrl || input === imgUrl) {
-        if (validateUrl(input)) {
-          return '';
-        }
-
-        return 'The wrong URL';
-      }
-
       return '';
     }
 
     return `${input} is required!!!`;
+  };
+
+  const checkInputUrl = (input: string) => {
+    if (!input) {
+      return `${input} is required!!!`;
+    }
+
+    if (validateUrl(input)) {
+      return '';
+    }
+
+    return 'Wrong url';
   };
 
   const handleSubmit = () => {
@@ -56,8 +61,8 @@ export const NewMovie: React.FC <Props> = ({ onAdd }) => {
     setButtonDisabled(true);
     setTitleIsReq(checkInput(title));
     setImdbIdIsReq(checkInput(imdbId));
-    setImdbUrlIsReq(checkInput(imdbUrl));
-    setImgUrlIsReq(checkInput(imgUrl));
+    setImdbUrlIsReq(checkInputUrl(imdbUrl));
+    setImgUrlIsReq(checkInputUrl(imgUrl));
   };
 
   return (
