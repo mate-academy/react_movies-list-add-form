@@ -42,7 +42,6 @@ export const NewMovie: React.FC<Props> = ({ addMovie, movies }) => {
     }
 
     if (title
-      && description
       && validURL(imgUrl)
       && validURL(imdbUrl)
       && imdbId) {
