@@ -96,8 +96,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
   const showErrors = () => {
     setHasTitleError(!title);
-    setHasImgUrlError(URLErrors.empty);
-    setHasImdbUrlError(URLErrors.empty);
+    setHasImgUrlError(hasImgUrlError || URLErrors.empty);
+    setHasImdbUrlError(hasImdbUrlError || URLErrors.empty);
     setHasImdbIdError(!imdbId);
   };
 
@@ -116,7 +116,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
     showErrors();
 
-    if (title && imgUrl && imdbUrl && imdbId) {
+    if (title && imgUrl && imdbUrl && imdbId && regex.test(imgUrl)
+      && regex.test(imdbUrl)) {
       onAdd({
         title, description, imgUrl, imdbUrl, imdbId,
       });
