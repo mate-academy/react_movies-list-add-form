@@ -70,6 +70,7 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
             id="title"
             value={title}
             onChange={titleInput}
+            required
           />
         </div>
       </div>
@@ -88,6 +89,7 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
             type="text"
             value={description}
             onChange={descriptionInput}
+            required
           />
         </div>
       </div>
@@ -106,6 +108,7 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
             type="url"
             value={imgUrl}
             onChange={imgUrlInput}
+            required
           />
         </div>
       </div>
@@ -124,6 +127,7 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
             type="url"
             value={imdbUrl}
             onChange={imdbUrlInput}
+            required
           />
         </div>
       </div>
@@ -142,6 +146,7 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
             type="text"
             value={imdbId}
             onChange={imdbIdInput}
+            required
           />
         </div>
       </div>
