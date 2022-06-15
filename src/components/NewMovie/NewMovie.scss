@@ -1,1 +1,30 @@
-// not empty
+.form {
+  &__field {
+    display: block;
+    padding: 10px 8px;
+    margin-top: 20px;
+  }
+}
+
+.error {
+  border: 2px solid red;
+}
+
+.error-text {
+  display: block;
+
+  font-size: 14px;
+  font-weight: bold;
+
+  color: red;
+}
+
+.btn {
+  padding: 8px 20px;
+  margin-top: 20px;
+  font-size: 18px;
+  color: #fff;
+  background-color: cadetblue;
+  border: 2px solid cadetblue;
+  border-radius: 5px;
+}
