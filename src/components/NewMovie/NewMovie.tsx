@@ -180,9 +180,9 @@ export const NewMovie: React.FC<Props> = ({ newMovie }) => {
 
       <button
         type="submit"
-        disabled={!newTitle || !newImdbId
-          || !regex.test(newImgUrl)
-          || !regex.test(newImdbUrl)}
+        // disabled={!newTitle || !newImdbId
+        //   || !regex.test(newImgUrl)
+        //   || !regex.test(newImdbUrl)}
         className="button is-link"
       >
         Add movie
