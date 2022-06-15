@@ -58,12 +58,24 @@ export class NewMovie extends Component<Props, State> {
       this.setState({ isnewdescription: true });
     }
 
-    if (!this.state.newimgUrl) {
-      this.setState({ isnewimgUrl: true });
+    if (!this.re.test(this.state.newimdbUrl)) {
+      this.setState({ isnewimdbUrl: true });
+
+      return;
     }
 
-    if (!this.state.newimdbUrl) {
-      this.setState({ isnewimdbUrl: true });
+    if (this.re.test(this.state.newimdbUrl)) {
+      this.setState({ isnewimdbUrl: false });
+    }
+
+    if (!this.re.test(this.state.newimgUrl)) {
+      this.setState({ isnewimgUrl: true });
+
+      return;
+    }
+
+    if (this.re.test(this.state.newimgUrl)) {
+      this.setState({ isnewimgUrl: false });
     }
 
     if (!this.state.newimdbId) {
@@ -95,33 +107,36 @@ export class NewMovie extends Component<Props, State> {
     this.setState({ isbutton: true });
   };
 
-  isCorrectUrlIMGHandler = (
-    event: { target: { value: string, name: string }; },
-  ) => {
-    const { value, name } = event.target;
+  // isCorrectUrlIMGHandler = (
+  //   event: { target: { value: string, name: string }; },
+  // ) => {
+  //   const { value, name } = event.target;
 
-    if (name === 'newimgUrl') {
-      this.setState(() => {
-        if ((this.re).test(value)) {
-          this.setState({ newimgUrl: value });
-        } else {
-          this.setState({ isnewimgUrl: true });
-        }
-      });
-      this.setState({ isnewimgUrl: false });
-    }
+  //   if (name === 'newimgUrl') {
+  //     this.setState(() => {
+  //       // eslint-disable-next-line no-console
+  //       console.log((this.re).test(value));
 
-    if (name === 'newimdbUrl') {
-      this.setState(() => {
-        if ((this.re).test(value)) {
-          this.setState({ newimdbUrl: value });
-        } else {
-          this.setState({ isnewimdbUrl: true });
-        }
-      });
-      this.setState({ isnewimdbUrl: false });
-    }
-  };
+  //       if ((this.re).test(value)) {
+  //         this.setState({ newimgUrl: value });
+  //       } else {
+  //         this.setState({ isnewimgUrl: true });
+  //       }
+  //     });
+  //     this.setState({ isnewimgUrl: false });
+  //   }
+
+  //   if (name === 'newimdbUrl') {
+  //     this.setState(() => {
+  //       if ((this.re).test(value)) {
+  //         this.setState({ newimdbUrl: value });
+  //       } else {
+  //         this.setState({ isnewimdbUrl: true });
+  //       }
+  //     });
+  //     this.setState({ isnewimdbUrl: false });
+  //   }
+  // };
 
   render() {
     return (
@@ -137,7 +152,6 @@ export class NewMovie extends Component<Props, State> {
               type="text"
               placeholder="title"
               value={this.state.newtitle}
-              required
               onChange={(event) => {
                 this.setState({ newtitle: event.target.value });
                 this.setState({ isnewtitle: false });
@@ -153,7 +167,6 @@ export class NewMovie extends Component<Props, State> {
               type="text"
               placeholder="description"
               value={this.state.newdescription}
-              required
               onChange={(event) => {
                 this.setState({ newdescription: event.target.value });
                 this.setState({ isnewdescription: false });
@@ -169,9 +182,10 @@ export class NewMovie extends Component<Props, State> {
               className="control mb-3"
               type="text"
               placeholder="imgUrl"
-              required
               value={this.state.newimgUrl}
-              onChange={this.isCorrectUrlIMGHandler}
+              onChange={(event) => {
+                this.setState({ newimgUrl: event.target.value });
+              }}
             />
             {this.state.isnewimgUrl && (
               <div className="
@@ -189,8 +203,9 @@ export class NewMovie extends Component<Props, State> {
               type="text"
               placeholder="imdbUrl"
               value={this.state.newimdbUrl}
-              required
-              onChange={this.isCorrectUrlIMGHandler}
+              onChange={(event) => {
+                this.setState({ newimdbUrl: event.target.value });
+              }}
             />
             {this.state.isnewimdbUrl && (
               <div className="
