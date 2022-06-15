@@ -1,1 +1,18 @@
 // not empty
+.addMovie {
+  &__title {
+    font-size: 32px;
+  }
+
+  &__input {
+    height: 50px;
+    width: 100%;
+    margin-bottom: 15px;
+  }
+
+  &__button {
+    height: 50px;
+    width: 100%;
+    // background-color: #e8e8e8;
+  }
+}
