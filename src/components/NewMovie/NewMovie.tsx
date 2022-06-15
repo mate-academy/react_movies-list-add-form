@@ -49,6 +49,8 @@ export const NewMovie: React.FC <Props> = ({ onAdd }) => {
   };
 
   const handleSubmit = () => {
+    setButtonDisabled(true);
+
     if (title && imdbId && imdbUrl && imgUrl && validateUrl(imdbUrl) && validateUrl(imgUrl)) {
       onAdd(title, description, imgUrl, imdbUrl, imdbId);
       setTitle('');
@@ -56,9 +58,9 @@ export const NewMovie: React.FC <Props> = ({ onAdd }) => {
       setImdbId('');
       setImdbUrl('');
       setImgUrl('');
+      setButtonDisabled(false);
     }
 
-    setButtonDisabled(true);
     setTitleIsReq(checkInput(title));
     setImdbIdIsReq(checkInput(imdbId));
     setImdbUrlIsReq(checkInputUrl(imdbUrl));
