@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Button, TextField } from '@mui/material';
 import { amber } from '@mui/material/colors';
-import { styled } from '@mui/material/styles';
 import TextareaAutosize from '@mui/material/TextareaAutosize';
 
 type Props = {
@@ -21,11 +20,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     imdbUrl,
     imdbId,
   };
-  const CssTextField = styled(TextField)({
-    '&.Mui-focused fieldset': {
-      borderColor: amber[500],
-    },
-  });
 
   return (
     <form
@@ -44,7 +38,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <div>
         Set title
       </div>
-      <CssTextField
+      <TextField
         hiddenLabel
         sx={{ outlineColor: amber[500] }}
         variant="filled"
@@ -75,7 +69,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <div>
         Set image
       </div>
-      <CssTextField
+      <TextField
         required
         hiddenLabel
         sx={{ outlineColor: amber[500] }}
@@ -91,7 +85,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <div>
         Set IMDB url
       </div>
-      <CssTextField
+      <TextField
         required
         hiddenLabel
         sx={{ outlineColor: amber[500] }}
@@ -107,7 +101,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <div>
         Set IMDB id
       </div>
-      <CssTextField
+      <TextField
         required
         hiddenLabel
         sx={{ outlineColor: amber[500] }}
