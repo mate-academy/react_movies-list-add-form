@@ -30,7 +30,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
           name={key}
           placeholder={`Movie ${key}`}
           value={form[key]}
-          onChange={(e) => setForm((pre: any) => (
+          onChange={(e) => setForm((pre) => (
             { ...pre, [key]: e.target.value }))}
         />
       ))}
