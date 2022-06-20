@@ -6,15 +6,14 @@ type Props = {
 };
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const initialState: any = {
+  const initialState = {
     title: '',
     description: '',
     imgUrl: '',
     imdbUrl: '',
     imdbId: '',
   };
-  const [form, setForm] = useState({ ...initialState });
+  const [form, setForm] = useState<Movie>({ ...initialState });
 
   const handleSubmit = () => {
     onAdd(form);
@@ -31,7 +30,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
           name={key}
           placeholder={`Movie ${key}`}
           value={form[key]}
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           onChange={(e) => setForm((pre: any) => (
             { ...pre, [key]: e.target.value }))}
         />
