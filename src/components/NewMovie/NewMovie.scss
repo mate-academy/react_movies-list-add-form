@@ -1,1 +1,8 @@
-// not empty
+.input {
+  display: block;
+  margin: 5px;
+  
+  &:focus {
+    border: 2px solid rgb(93, 116, 179);
+  }
+}
