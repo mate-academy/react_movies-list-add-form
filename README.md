@@ -5,15 +5,16 @@
 
 ## Task
 1. Implement form inside `NewMovie` component.
-1. Form state should be inside `NewMovie`.
-1. Form should have next fields:
-    - title
-    - description
-    - imgUrl
-    - imdbUrl
-    - imdbId
-1. On form submit callback `onAdd` from props should be called with new film object.
-  Also, form should be cleared. Page should not be reloaded.
+2. Form state should be inside `NewMovie` and className of the form shoud be `NewMovie`.
+3. Form should have next fields:
+    - title with `data-cy="form-title"` attribute
+    - description with `data-cy="form-description"` attribute
+    - imgUrl with `data-cy="form-imgUrl"` attribute
+    - imdbUrl with `data-cy="form-imdbUrl"` attribute
+    - imdbId with  `data-cy="form-imdbId"` attribute
+    - submit button with `data-cy="form-submit-button"` attribute
+4. On form submit callback `onAdd` from props should be called with new film object.
+Also, form should be cleared. Page should not be reloaded.
 
 ## Advanced tasks (Add validation)
 > Do it only if you understand everything 
