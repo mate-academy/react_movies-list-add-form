@@ -1,1 +1,17 @@
-// not empty
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 300px;
+
+  &__label {
+    display: flex;
+    flex-direction: column;
+
+    width: 300px;
+  }
+}
+
+.error {
+  border: 2px solid red;
+}
