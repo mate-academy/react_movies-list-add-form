@@ -2,6 +2,7 @@ import React from 'react';
 
 import './MoviesList.scss';
 import { MovieCard } from '../MovieCard';
+import { Movie } from '../../react-app-env';
 
 interface Props {
   movies: Movie[];
