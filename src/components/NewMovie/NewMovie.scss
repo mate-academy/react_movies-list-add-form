@@ -1,1 +1,28 @@
-// not empty
+.newMovie {
+  padding: 20px;
+
+  &-title {
+    text-align: center;
+  }
+
+  &-form {
+    margin: 20px 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    justify-items: stretch;
+    align-items: center;
+
+    &-item {
+      padding: 5px;
+      font-size: 1rem;
+      border: 0.5px solid grey;
+      border-radius: 5px;
+    }
+  }
+
+  &-error {
+    border: 0.5px solid red;
+  }
+  
+}
