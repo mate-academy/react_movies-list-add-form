@@ -25,28 +25,3 @@ export const App: FC = () => {
     </div>
   );
 };
-
-// export class App2 extends React.Component<{}, State> {
-//   state: State = {
-//     movies: moviesFromServer,
-//   };
-
-//   addMovie = (/* movie: Movie */) => {
-//     // put your code here
-//   };
-
-//   render() {
-//     const { movies } = this.state;
-
-//     return (
-//       <div className="page">
-//         <div className="page-content">
-//           <MoviesList movies={movies} />
-//         </div>
-//         <div className="sidebar">
-//           <NewMovie />
-//         </div>
-//       </div>
-//     );
-//   }
-// }
