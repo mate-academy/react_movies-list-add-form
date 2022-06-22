@@ -1,1 +1,41 @@
-// not empty
+.container {
+  display: flex;
+  position: fixed;
+  flex-direction: column;
+  margin: 0;
+}
+
+.title {
+  font-weight: bold;
+}
+
+.newMovie__form {
+  display: flex;
+  flex-direction: column;
+}
+
+.input {
+  margin: 5px;
+}
+
+.error {
+  border-color: rgb(236, 160, 160);
+}
+
+p {
+  color: red;
+}
+
+.submit {
+  display: flex;
+  height: 40px;
+  width: 120px;
+  margin: 5px;
+}
+
+.submit_button {
+  display: block;
+  width: 100%;
+  padding: 5px;
+  font-size: 16px;
+}
