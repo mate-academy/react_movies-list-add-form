@@ -14,11 +14,6 @@ export class App extends React.Component<{}, State> {
     movies: moviesFromServer,
   };
 
-  componentDidUpdate() {
-    // eslint-disable-next-line no-console
-    console.log(this.state.movies);
-  }
-
   addMovie = (movie: Movie) => {
     this.setState(prevState => ({
       ...prevState,
