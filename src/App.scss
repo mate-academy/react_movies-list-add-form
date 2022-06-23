@@ -13,3 +13,14 @@
   padding: 20px;
   border-left: 1px solid lightgray;
 }
+
+.form {
+  &__title {
+    font-size: 30px;
+    margin-bottom: 10px;
+  }
+}
+
+.input {
+  margin-bottom: 20px;
+}
