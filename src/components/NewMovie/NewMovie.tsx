@@ -57,7 +57,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         setIsSubmitButtonValid(false);
       }}
     >
-      <label>
+      <label className="label">
         Title
         <input
           type="text"
@@ -77,8 +77,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
             if (isFormValid()) {
               setIsSubmitButtonValid(true);
-            } else {
-              setIsSubmitButtonValid(false);
             }
           }}
         />
@@ -87,9 +85,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
           || <span className="error-message">Title cannot be empty</span>}
       </label>
 
-      <br />
-
-      <label>
+      <label className="label">
         Description
         <input
           type="text"
@@ -109,8 +105,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
             if (isFormValid()) {
               setIsSubmitButtonValid(true);
-            } else {
-              setIsSubmitButtonValid(false);
             }
           }}
         />
@@ -119,9 +113,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
           || <span className="error-message">Description cannot be empty</span>}
       </label>
 
-      <br />
-
-      <label>
+      <label className="label">
         Image Url
         <input
           type="text"
@@ -141,8 +133,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
             if (isFormValid()) {
               setIsSubmitButtonValid(true);
-            } else {
-              setIsSubmitButtonValid(false);
             }
           }}
         />
@@ -151,9 +141,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
           || <span className="error-message">Invalid image Url</span>}
       </label>
 
-      <br />
-
-      <label>
+      <label className="label">
         Imdb Url
         <input
           type="text"
@@ -173,8 +161,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
             if (isFormValid()) {
               setIsSubmitButtonValid(true);
-            } else {
-              setIsSubmitButtonValid(false);
             }
           }}
         />
@@ -183,9 +169,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
           || <span className="error-message">Invalid imdb Url</span>}
       </label>
 
-      <br />
-
-      <label>
+      <label className="label">
         ImdbId
         <input
           type="text"
@@ -205,8 +189,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
             if (isFormValid()) {
               setIsSubmitButtonValid(true);
-            } else {
-              setIsSubmitButtonValid(false);
             }
           }}
         />
@@ -215,13 +197,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
           || <span className="error-message">ImdbId cannot be empty</span>}
       </label>
 
-      <br />
-      <br />
-
       {isSubmitButtonValid
         ? (
           <button
-            className="button is-centered"
+            className="button"
             type="submit"
           >
             Submit
@@ -229,7 +208,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         )
         : (
           <button
-            className="button is-centered"
+            className="button"
             type="submit"
             disabled
           >
