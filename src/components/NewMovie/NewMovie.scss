@@ -1,1 +1,25 @@
-// not empty
+.input {
+  margin-bottom: 10px;
+  border-color: #2192cf;
+
+  &__error {
+    border-color: #ef2828;
+  }
+}
+
+.button {
+  font-size: 18px;
+  font-weight: bold;
+  line-height: 32px;
+  text-align: center;
+  color: #fff;
+  width: 200px;
+  background-color: #2192cf;
+  border: none;
+  border-radius: 5px;
+
+  &:disabled {
+    background-color: #9acfec;
+    color: #393838;
+  }
+}
