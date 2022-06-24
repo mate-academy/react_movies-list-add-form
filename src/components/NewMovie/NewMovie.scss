@@ -1,1 +1,19 @@
-// not empty
+.form {
+  display: flex;
+  gap: 15px;
+  flex-direction: column;
+  width: 200px;
+
+  &__field {
+    height: 30px;
+    border: 1px solid black;
+    padding: 5px;
+    border-radius: 5px;
+  }
+
+  &__submit {
+    width: 100px;
+    margin: 0 auto;
+    border-radius: 5px;
+  }
+}
