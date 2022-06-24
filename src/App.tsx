@@ -1,8 +1,8 @@
 import { FC, useState } from 'react';
 import './App.scss';
 import { MoviesList } from './components/MoviesList';
-// import { NewMovie } from './components/NewMovie';
-import moviesFromServer from './api/movies.json';
+import { NewMovie } from './components/NewMovie';
+import { moviesFromServer } from './api/movies.json';
 
 export const App: FC = () => {
   const [movies, setMovies] = useState<Movie[]>(moviesFromServer);
@@ -20,7 +20,7 @@ export const App: FC = () => {
         <MoviesList movies={movies} />
       </div>
       <div className="sidebar">
-        {/* <NewMovie addMovie={addMovie} /> */}
+        <NewMovie addMovie={addMovie} />
       </div>
     </div>
   );
