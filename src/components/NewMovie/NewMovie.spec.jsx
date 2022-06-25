@@ -23,6 +23,7 @@ describe('Button', () => {
   it('should call the onAdd function', () => {
     const onAdd = cy.stub();
 
+    // eslint-disable-next-line react/jsx-filename-extension
     mount(<NewMovie onAdd={onAdd} />);
 
     form.fillAllFields();
