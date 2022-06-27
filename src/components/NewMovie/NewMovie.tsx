@@ -35,10 +35,6 @@ export const NewMovie: FC<Props> = ({ addMovie }) => {
       setHasTitleError(true);
     }
 
-    if (!description) {
-      setHasDescrError(true);
-    }
-
     if (!imgUrl) {
       setHasImgUrlError(true);
     }
@@ -57,7 +53,7 @@ export const NewMovie: FC<Props> = ({ addMovie }) => {
 
     validateInput();
 
-    if (title && description && imgUrl && imdbUrl && imdbId) {
+    if (title && imgUrl && imdbUrl && imdbId) {
       addMovie(movie);
       setTitle("");
       setDescription("");
