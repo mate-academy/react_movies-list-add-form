@@ -11,7 +11,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [hasTitleError, setHasTitleError] = useState(false);
 
   const [description, setDescription] = useState('');
-  const [hasDescriptionError, setHasDescriptionError] = useState(false);
 
   const [imgUrl, setImgUrl] = useState('');
   const [hasImgUrlError, setHasImgUrlError] = useState(false);
@@ -33,10 +32,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const validateInput = () => {
     if (!title) {
       setHasTitleError(true);
-    }
-
-    if (!description) {
-      setHasDescriptionError(true);
     }
 
     if (!imgUrl) {
@@ -88,12 +83,11 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="description"
         id=""
         placeholder="Enter description"
-        className={cn('textarea', 'my-3', { error: hasDescriptionError })}
+        className={cn('textarea', 'my-3')}
         value={description}
         data-cy="form-description"
         onChange={(event) => {
           setDescription(event.target.value);
-          setHasDescriptionError(false);
         }}
       />
 
