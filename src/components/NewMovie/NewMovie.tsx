@@ -61,9 +61,8 @@ export const NewMovie: FC<NewMovieProps> = ({ onAdd }) => {
       setIsImdbUrlInvalid(true);
       setImdbUrlErrorMessage('ImdbUrl is required');
     }
-
-    return 0;
   };
+
 
   const submitForm = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -94,6 +93,7 @@ export const NewMovie: FC<NewMovieProps> = ({ onAdd }) => {
               setIsTitleInvalid(false);
               setTitleErrorMessage('');
             }}
+            onFocus={() => setIsTitleInvalid(true)}
           />
           <p className="input__error-message">{titleErrorMessage}</p>
         </div>
@@ -128,6 +128,7 @@ export const NewMovie: FC<NewMovieProps> = ({ onAdd }) => {
               setIsImgUrlInvalid(false);
               setImgUrlErrorMessage('');
             }}
+            onFocus={() => setIsImgUrlInvalid(true)}
           />
           <p className="input__error-message">{imgUrlErrorMessage}</p>
         </div>
@@ -144,6 +145,7 @@ export const NewMovie: FC<NewMovieProps> = ({ onAdd }) => {
               setIsImdbUrlInvalid(false);
               setImdbUrlErrorMessage('');
             }}
+            onFocus={() => setIsImdbUrlInvalid(true)}
           />
           <p className="input__error-message">{imdbUrlErrorMessage}</p>
         </div>
@@ -159,6 +161,7 @@ export const NewMovie: FC<NewMovieProps> = ({ onAdd }) => {
               setIsImdbIdInvalid(false);
               setImdbIdErrorMessage('');
             }}
+            onFocus={() => setIsImdbIdInvalid(true)}
           />
           <p className="input__error-message">{imdbIdErrorMessage}</p>
         </div>
