@@ -63,7 +63,6 @@ export const NewMovie: FC<NewMovieProps> = ({ onAdd }) => {
     }
   };
 
-
   const submitForm = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
