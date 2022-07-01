@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
+/* eslint-disable react/jsx-filename-extension */
+
 import React from 'react';
 import { mount } from '@cypress/react';
 import { NewMovie } from './NewMovie';
-// import { onAdd } from './NewMovie';
 
 describe('Button', () => {
   const form = {
