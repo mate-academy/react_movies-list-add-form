@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import cn from 'classnames';
 import { Movie } from '../../react-app-env';
 import './NewMovie.scss';
@@ -29,28 +29,49 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
   const [isSubmitButtonValid, setIsSubmitButtonValid] = useState(true);
 
-  const isFormValid = () => {
-    const {
-      isTitleValid,
-      isDescriptionValid,
-      isImgUrlValid,
-      isImdbUrlValid,
-      isImdbIdValid,
-    } = isNewMovieValid;
+  const isFormValid = useCallback(
+    () => {
+      const {
+        isTitleValid,
+        isDescriptionValid,
+        isImgUrlValid,
+        isImdbUrlValid,
+        isImdbIdValid,
+      } = isNewMovieValid;
 
-    return (isTitleValid && isDescriptionValid && isImdbUrlValid
-      && isImgUrlValid && isImdbIdValid);
-  };
+      return isTitleValid
+        && isDescriptionValid
+        && isImdbUrlValid
+        && isImgUrlValid
+        && isImdbIdValid;
+    },
+    [
+      isNewMovieValid.isTitleValid,
+      isNewMovieValid.isDescriptionValid,
+      isNewMovieValid.isImgUrlValid,
+      isNewMovieValid.isImdbUrlValid,
+      isNewMovieValid.isImdbIdValid,
+    ],
+  );
 
-  const clearForm = () => {
-    setNewMovie({
-      title: '',
-      description: '',
-      imgUrl: '',
-      imdbUrl: '',
-      imdbId: '',
-    });
-  };
+  const clearForm = useCallback(
+    () => {
+      setNewMovie({
+        title: '',
+        description: '',
+        imgUrl: '',
+        imdbUrl: '',
+        imdbId: '',
+      });
+    },
+    [
+      newMovie.title,
+      newMovie.description,
+      newMovie.imdbUrl,
+      newMovie.imdbUrl,
+      newMovie.imdbId,
+    ],
+  );
 
   const handleFormSubmission = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
