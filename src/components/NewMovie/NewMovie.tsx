@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import cn from 'classnames';
 import { Movie } from '../../react-app-env';
 import './NewMovie.scss';
 
@@ -10,52 +11,101 @@ type Props = {
 const regex = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
+  const [newMovie, setNewMovie] = useState({
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  });
 
-  const [isTitleValid, setIsTitleValid] = useState(true);
-  const [isDescriptionValid, setIsDescriptionValid] = useState(true);
-  const [isImgUrlValid, setIsImgUrlValid] = useState(true);
-  const [isImdbUrlValid, setIsImdbUrlValid] = useState(true);
-  const [isImdbIdValid, setIsImdbIdValid] = useState(true);
+  const [isNewMovieValid, setIsNewMovieValid] = useState({
+    isTitleValid: true,
+    isDescriptionValid: true,
+    isImgUrlValid: true,
+    isImdbUrlValid: true,
+    isImdbIdValid: true,
+  });
+
   const [isSubmitButtonValid, setIsSubmitButtonValid] = useState(true);
 
-  function isFormValid() {
-    return isTitleValid && isDescriptionValid && isImgUrlValid
-    && isImdbUrlValid && isImdbIdValid;
-  }
+  const isFormValid = () => {
+    const {
+      isTitleValid,
+      isDescriptionValid,
+      isImgUrlValid,
+      isImdbUrlValid,
+      isImdbIdValid,
+    } = isNewMovieValid;
+
+    return (isTitleValid && isDescriptionValid && isImdbUrlValid
+      && isImgUrlValid && isImdbIdValid);
+  };
+
+  const clearForm = () => {
+    setNewMovie({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
+  };
+
+  const handleFormSubmission = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    if (isFormValid()) {
+      setIsSubmitButtonValid(true);
+
+      onAdd(newMovie);
+
+      clearForm();
+
+      return;
+    }
+
+    if (!newMovie.title) {
+      setIsNewMovieValid({
+        ...isNewMovieValid,
+        isTitleValid: false,
+      });
+    }
+
+    if (!newMovie.description) {
+      setIsNewMovieValid({
+        ...isNewMovieValid,
+        isDescriptionValid: false,
+      });
+    }
+
+    if (!newMovie.imgUrl) {
+      setIsNewMovieValid({
+        ...isNewMovieValid,
+        isImgUrlValid: false,
+      });
+    }
+
+    if (!newMovie.imdbUrl) {
+      setIsNewMovieValid({
+        ...isNewMovieValid,
+        isImdbUrlValid: false,
+      });
+    }
+
+    if (!newMovie.imdbId) {
+      setIsNewMovieValid({
+        ...isNewMovieValid,
+        isImdbIdValid: false,
+      });
+    }
+
+    setIsSubmitButtonValid(false);
+  };
 
   return (
     <form
-      onSubmit={(event) => {
-        event.preventDefault();
-
-        if (isFormValid()) {
-          setIsSubmitButtonValid(true);
-          const newMovie = {
-            title,
-            description,
-            imgUrl,
-            imdbUrl,
-            imdbId,
-          };
-
-          onAdd(newMovie);
-
-          setTitle('');
-          setDescription('');
-          setImdbId('');
-          setImdbUrl('');
-          setImgUrl('');
-
-          return;
-        }
-
-        setIsSubmitButtonValid(false);
-      }}
+      onSubmit={handleFormSubmission}
     >
       <label className="label">
         Title
@@ -63,16 +113,26 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
           type="text"
           placeholder="Title"
           data-cy="form-title"
-          className={isTitleValid ? 'input' : 'input is-danger'}
-          value={title}
-          required
+          className={
+            cn('input', { 'is-danger': !isNewMovieValid.isTitleValid })
+          }
+          value={newMovie.title}
           onChange={(event => {
-            setTitle(event.target.value);
-            setIsTitleValid(true);
+            setNewMovie({
+              ...newMovie,
+              title: event.target.value,
+            });
+            setIsNewMovieValid({
+              ...isNewMovieValid,
+              isTitleValid: true,
+            });
           })}
           onBlur={() => {
-            if (!title) {
-              setIsTitleValid(false);
+            if (!newMovie.title) {
+              setIsNewMovieValid({
+                ...isNewMovieValid,
+                isTitleValid: false,
+              });
             }
 
             if (isFormValid()) {
@@ -81,7 +141,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
           }}
         />
 
-        {isTitleValid
+        {isNewMovieValid.isTitleValid
           || <span className="error-message">Title cannot be empty</span>}
       </label>
 
@@ -91,16 +151,26 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
           type="text"
           placeholder="Description"
           data-cy="form-description"
-          className={isDescriptionValid ? 'input' : 'input is-danger'}
-          value={description}
-          required
+          className={
+            cn('input', { 'is-danger': !isNewMovieValid.isDescriptionValid })
+          }
+          value={newMovie.description}
           onChange={(event) => {
-            setDescription(event.target.value);
-            setIsDescriptionValid(true);
+            setNewMovie({
+              ...newMovie,
+              description: event.target.value,
+            });
+            setIsNewMovieValid({
+              ...isNewMovieValid,
+              isDescriptionValid: true,
+            });
           }}
           onBlur={() => {
-            if (!description) {
-              setIsDescriptionValid(false);
+            if (!newMovie.description) {
+              setIsNewMovieValid({
+                ...isNewMovieValid,
+                isDescriptionValid: false,
+              });
             }
 
             if (isFormValid()) {
@@ -109,7 +179,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
           }}
         />
 
-        {isDescriptionValid
+        {isNewMovieValid.isDescriptionValid
           || <span className="error-message">Description cannot be empty</span>}
       </label>
 
@@ -119,16 +189,26 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
           type="text"
           placeholder="ImgUrl"
           data-cy="form-imgUrl"
-          className={isImgUrlValid ? 'input' : 'input is-danger'}
-          value={imgUrl}
-          required
+          className={
+            cn('input', { 'is-danger': !isNewMovieValid.isImgUrlValid })
+          }
+          value={newMovie.imgUrl}
           onChange={(event) => {
-            setImgUrl(event.target.value);
-            setIsImgUrlValid(true);
+            setNewMovie({
+              ...newMovie,
+              imgUrl: event.target.value,
+            });
+            setIsNewMovieValid({
+              ...isNewMovieValid,
+              isImgUrlValid: true,
+            });
           }}
           onBlur={() => {
-            if (!imgUrl || !regex.test(imgUrl)) {
-              setIsImgUrlValid(false);
+            if (!newMovie.imgUrl || !regex.test(newMovie.imgUrl)) {
+              setIsNewMovieValid({
+                ...isNewMovieValid,
+                isImgUrlValid: false,
+              });
             }
 
             if (isFormValid()) {
@@ -137,7 +217,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
           }}
         />
 
-        {isImgUrlValid
+        {isNewMovieValid.isImgUrlValid
           || <span className="error-message">Invalid image Url</span>}
       </label>
 
@@ -147,16 +227,26 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
           type="text"
           placeholder="ImdbUrl"
           data-cy="form-imdbUrl"
-          required
-          className={isImdbUrlValid ? 'input' : 'input is-danger'}
-          value={imdbUrl}
+          className={
+            cn('input', { 'is-danger': !isNewMovieValid.isImdbUrlValid })
+          }
+          value={newMovie.imdbUrl}
           onChange={(event) => {
-            setImdbUrl(event.target.value);
-            setIsImdbUrlValid(true);
+            setNewMovie({
+              ...newMovie,
+              imdbUrl: event.target.value,
+            });
+            setIsNewMovieValid({
+              ...isNewMovieValid,
+              isImdbUrlValid: true,
+            });
           }}
           onBlur={() => {
-            if (!imdbUrl || !regex.test(imdbUrl)) {
-              setIsImdbUrlValid(false);
+            if (!newMovie.imdbUrl || !regex.test(newMovie.imdbUrl)) {
+              setIsNewMovieValid({
+                ...isNewMovieValid,
+                isImdbUrlValid: false,
+              });
             }
 
             if (isFormValid()) {
@@ -165,7 +255,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
           }}
         />
 
-        {isImdbUrlValid
+        {isNewMovieValid.isImdbUrlValid
           || <span className="error-message">Invalid imdb Url</span>}
       </label>
 
@@ -175,16 +265,28 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
           type="text"
           placeholder="ImdbId"
           data-cy="form-imdbId"
-          required
-          className={isImdbIdValid ? 'input' : 'input is-danger'}
-          value={imdbId}
+          className={
+            isNewMovieValid.isImdbIdValid
+              ? 'input'
+              : 'input is-danger'
+          }
+          value={newMovie.imdbId}
           onChange={(event) => {
-            setImdbId(event.target.value);
-            setIsImdbIdValid(true);
+            setNewMovie({
+              ...newMovie,
+              imdbId: event.target.value,
+            });
+            setIsNewMovieValid({
+              ...isNewMovieValid,
+              isImdbIdValid: true,
+            });
           }}
           onBlur={() => {
-            if (!imdbId) {
-              setIsImdbIdValid(false);
+            if (!newMovie.imdbId) {
+              setIsNewMovieValid({
+                ...isNewMovieValid,
+                isImdbIdValid: false,
+              });
             }
 
             if (isFormValid()) {
@@ -193,7 +295,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
           }}
         />
 
-        {isImdbIdValid
+        {isNewMovieValid.isImdbIdValid
           || <span className="error-message">ImdbId cannot be empty</span>}
       </label>
 
