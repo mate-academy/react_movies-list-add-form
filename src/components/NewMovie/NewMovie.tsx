@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 
-interface Props {
-  onAdd: (movie: Movie) => void
-}
+type Props = {
+  onAdd: (movie: Movie) => void;
+};
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [title, setTitle] = useState('');
@@ -10,14 +10,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imgUrl, setImgUrl] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
-
-  const clearForm = () => {
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
-  };
 
   const newMovie = {
     title,
@@ -27,12 +19,23 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     imdbId,
   };
 
-  const submitHandler = (event: React.FormEvent) => {
+  const submitHandler = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-  }
 
-  onAdd(newMovie);
-  clearForm();
+    if (title
+      && description
+      && imgUrl
+      && imdbUrl
+      && imdbId) {
+        onAdd(newMovie);
+        setTitle('');
+        setDescription('');
+        setImgUrl('');
+        setImdbUrl('');
+        setImdbId('');
+      }
+    };
+
 
   return (
     <form
