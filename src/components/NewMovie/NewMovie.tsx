@@ -7,48 +7,41 @@ type Props = {
 };
 
 export const NewMovie: FC<Props> = ({ addMovie }) => {
-  const [title, setTitle] = useState('');
-  const [hasTitleError, setHasTitleError] = useState(false);
+  const [newMovie, setNewMovie] = useState<Movie>({
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  });
 
-  const [description, setDescription] = useState('');
-  const [hasDescrError, setHasDescrError] = useState(false);
-
-  const [imgUrl, setImgUrl] = useState('');
-  const [hasImgUrlError, setHasImgUrlError] = useState(false);
-
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [hasImdbUrlError, setHasImdbUrlError] = useState(false);
-
-  const [imdbId, setImdbId] = useState('');
-  const [hasImdbIdError, setHasImdbIdError] = useState(false);
-
-  const movie = {
-    title,
-    description,
-    imgUrl,
-    imdbUrl,
-    imdbId,
-  };
+  const [errors, setErrors] = useState({
+    hasTitleError: false,
+    hasDescrError: false,
+    hasImgUrlError: false,
+    hasImdbUrlError: false,
+    hasImdbIdError: false,
+  });
 
   const validateInput = () => {
-    if (!title) {
-      setHasTitleError(true);
+    if (!newMovie.title) {
+      setErrors({ ...errors, hasTitleError: true });
     }
 
-    if (!description) {
-      setHasDescrError(true);
+    if (!newMovie.description) {
+      setErrors({ ...errors, hasDescrError: true });
     }
 
-    if (!imgUrl) {
-      setHasImgUrlError(true);
+    if (!newMovie.imgUrl) {
+      setErrors({ ...errors, hasImgUrlError: true });
     }
 
-    if (!imdbUrl) {
-      setHasImdbUrlError(true);
+    if (!newMovie.imdbUrl) {
+      setErrors({ ...errors, hasImdbUrlError: true });
     }
 
-    if (!imdbId) {
-      setHasImdbIdError(true);
+    if (!newMovie.imdbId) {
+      setErrors({ ...errors, hasImdbIdError: true });
     }
   };
 
@@ -57,17 +50,27 @@ export const NewMovie: FC<Props> = ({ addMovie }) => {
 
     validateInput();
 
-    if (title
-      && description
-      && imgUrl
-      && imdbUrl
-      && imdbId) {
+    if (newMovie.title
+      && newMovie.description
+      && newMovie.imgUrl
+      && newMovie.imdbUrl
+      && newMovie.imdbId) {
+      const movie = {
+        title: newMovie.title,
+        description: newMovie.description,
+        imgUrl: newMovie.imgUrl,
+        imdbUrl: newMovie.imdbUrl,
+        imdbId: newMovie.imdbId,
+      };
+
       addMovie(movie);
-      setTitle('');
-      setDescription('');
-      setImgUrl('');
-      setImdbUrl('');
-      setImdbId('');
+      setNewMovie({
+        title: '',
+        description: '',
+        imgUrl: '',
+        imdbUrl: '',
+        imdbId: '',
+      });
     }
   };
 
@@ -79,14 +82,14 @@ export const NewMovie: FC<Props> = ({ addMovie }) => {
       <label>
         Movie title:
         <input
-          className={cn('form__label', { error: hasTitleError })}
+          className={cn('form__label', { error: errors.hasTitleError })}
           type="text"
           placeholder="Movie title"
           data-cy="form-title"
-          value={title}
+          value={newMovie.title}
           onChange={(event) => {
-            setHasTitleError(false);
-            setTitle(event.target.value);
+            setErrors({ ...errors, hasTitleError: false });
+            setNewMovie({ ...newMovie, title: event.target.value });
           }}
         />
       </label>
@@ -94,15 +97,15 @@ export const NewMovie: FC<Props> = ({ addMovie }) => {
       <label>
         Movie description:
         <textarea
-          className={cn('form__label', { error: hasDescrError })}
+          className={cn('form__label', { error: errors.hasDescrError })}
           placeholder="Movie description"
           data-cy="form-description"
           rows={3}
           cols={30}
-          value={description}
+          value={newMovie.description}
           onChange={(event) => {
-            setHasDescrError(false);
-            setDescription(event.target.value);
+            setErrors({ ...errors, hasDescrError: false });
+            setNewMovie({ ...newMovie, description: event.target.value });
           }}
         />
       </label>
@@ -110,14 +113,14 @@ export const NewMovie: FC<Props> = ({ addMovie }) => {
       <label>
         Movie image url:
         <input
-          className={cn('form__label', { error: hasImgUrlError })}
+          className={cn('form__label', { error: errors.hasImgUrlError })}
           type="text"
           placeholder="Movie image url"
           data-cy="form-imgUrl"
-          value={imgUrl}
+          value={newMovie.imgUrl}
           onChange={(event) => {
-            setHasImgUrlError(false);
-            setImgUrl(event.target.value);
+            setErrors({ ...errors, hasImgUrlError: false });
+            setNewMovie({ ...newMovie, imgUrl: event.target.value });
           }}
         />
       </label>
@@ -125,14 +128,14 @@ export const NewMovie: FC<Props> = ({ addMovie }) => {
       <label>
         Imdb url:
         <input
-          className={cn('form__label', { error: hasImdbUrlError })}
+          className={cn('form__label', { error: errors.hasImdbUrlError })}
           type="text"
           placeholder="imdb url"
           data-cy="form-imdbUrl"
-          value={imdbUrl}
+          value={newMovie.imdbUrl}
           onChange={(event) => {
-            setHasImdbUrlError(false);
-            setImdbUrl(event.target.value);
+            setErrors({ ...errors, hasImdbUrlError: false });
+            setNewMovie({ ...newMovie, imdbUrl: event.target.value });
           }}
         />
       </label>
@@ -140,14 +143,14 @@ export const NewMovie: FC<Props> = ({ addMovie }) => {
       <label>
         Imdb ID:
         <input
-          className={cn('form__label', { error: hasImdbIdError })}
+          className={cn('form__label', { error: errors.hasImdbIdError })}
           type="text"
           placeholder="imdb ID"
           data-cy="form-imdbId"
-          value={imdbId}
+          value={newMovie.imdbId}
           onChange={(event) => {
-            setHasImdbIdError(false);
-            setImdbId(event.target.value);
+            setErrors({ ...errors, hasImdbIdError: false });
+            setNewMovie({ ...newMovie, imdbId: event.target.value });
           }}
         />
       </label>
