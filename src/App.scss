@@ -13,3 +13,16 @@
   padding: 20px;
   border-left: 1px solid lightgray;
 }
+
+.inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+ }
+
+
+.addTitle {
+  font-size: 32px;
+  font-weight: bold;
+  text-align: center;
+}
