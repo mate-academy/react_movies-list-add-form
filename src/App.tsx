@@ -13,8 +13,10 @@ export class App extends React.Component<{}, State> {
     movies: moviesFromServer,
   };
 
-  addMovie = (/* movie: Movie */) => {
-    // put your code here
+  addMovie = (movie: Movie) => {
+    this.setState(prev => ({
+      movies: [...prev.movies, movie],
+    }));
   };
 
   render() {
@@ -26,7 +28,10 @@ export class App extends React.Component<{}, State> {
           <MoviesList movies={movies} />
         </div>
         <div className="sidebar">
-          <NewMovie />
+          <NewMovie
+            onAdd={this.addMovie}
+            allMoviesTitle={this.state.movies.map(movie => movie.title)}
+          />
         </div>
       </div>
     );
