@@ -39,11 +39,15 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         isImdbIdValid,
       } = newMovieValidation;
 
-      return isTitleValid
-        && isDescriptionValid
-        && isImdbUrlValid
-        && isImgUrlValid
-        && isImdbIdValid;
+      const formFieldsValidations = [
+        isTitleValid,
+        isDescriptionValid,
+        isImdbUrlValid,
+        isImgUrlValid,
+        isImdbIdValid,
+      ];
+
+      return formFieldsValidations.every(Boolean);
     },
     [
       newMovieValidation.isTitleValid,
