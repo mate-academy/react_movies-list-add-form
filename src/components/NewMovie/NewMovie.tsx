@@ -42,36 +42,36 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const validateInput = useCallback(
     () => {
       if (!title) {
-        setMovieErrors((state) => ({
-          ...state,
+        setMovieErrors((errors) => ({
+          ...errors,
           hasTitleError: true,
         }));
       }
 
       if (!description) {
-        setMovieErrors((state) => ({
-          ...state,
+        setMovieErrors((errors) => ({
+          ...errors,
           hasDescriptionError: true,
         }));
       }
 
       if (!imgUrl) {
-        setMovieErrors((state) => ({
-          ...state,
+        setMovieErrors((errors) => ({
+          ...errors,
           hasImgUrlError: true,
         }));
       }
 
       if (!imdbUrl) {
-        setMovieErrors((state) => ({
-          ...state,
+        setMovieErrors((errors) => ({
+          ...errors,
           hasImdbUrlError: true,
         }));
       }
 
       if (!imdbId) {
-        setMovieErrors((state) => ({
-          ...state,
+        setMovieErrors((errors) => ({
+          ...errors,
           hasImdbIdError: true,
         }));
       }
@@ -89,13 +89,18 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     });
   };
 
+  // eslint-disable-next-line max-len
+  const regex = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
+
   const submitValidForm = useCallback(
     (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
 
       validateInput();
 
-      if (title && description && imgUrl && imdbUrl && imdbId) {
+      const formFields = [title, description, imgUrl, imdbUrl, imdbId];
+
+      if (formFields.every(Boolean)) {
         onAdd(newMovie);
         clearForm();
       }
@@ -156,10 +161,12 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             ...newMovie,
             imgUrl: event.target.value,
           });
-          setMovieErrors({
-            ...movieErrors,
-            hasImgUrlError: false,
-          });
+          if (!regex.test(imgUrl)) {
+            setMovieErrors({
+              ...movieErrors,
+              hasImgUrlError: false,
+            });
+          }
         }}
       />
 
@@ -174,10 +181,12 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             ...newMovie,
             imdbUrl: event.target.value,
           });
-          setMovieErrors({
-            ...movieErrors,
-            hasImdbUrlError: false,
-          });
+          if (!regex.test(imdbUrl)) {
+            setMovieErrors({
+              ...movieErrors,
+              hasImdbUrlError: false,
+            });
+          }
         }}
       />
 
