@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-filename-extension */
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 import React from 'react';
 import { mount } from '@cypress/react';
