@@ -25,23 +25,23 @@ export const NewMovie: FC<Props> = ({ addMovie }) => {
 
   const validateInput = () => {
     if (!newMovie.title) {
-      setErrors({ ...errors, hasTitleError: true });
+      setErrors(() => ({ ...errors, hasTitleError: true }));
     }
 
     if (!newMovie.description) {
-      setErrors({ ...errors, hasDescrError: true });
+      setErrors(() => ({ ...errors, hasDescrError: true }));
     }
 
     if (!newMovie.imgUrl) {
-      setErrors({ ...errors, hasImgUrlError: true });
+      setErrors(() => ({ ...errors, hasImgUrlError: true }));
     }
 
     if (!newMovie.imdbUrl) {
-      setErrors({ ...errors, hasImdbUrlError: true });
+      setErrors(() => ({ ...errors, hasImdbUrlError: true }));
     }
 
     if (!newMovie.imdbId) {
-      setErrors({ ...errors, hasImdbIdError: true });
+      setErrors(() => ({ ...errors, hasImdbIdError: true }));
     }
   };
 
@@ -50,11 +50,15 @@ export const NewMovie: FC<Props> = ({ addMovie }) => {
 
     validateInput();
 
-    if (newMovie.title
-      && newMovie.description
-      && newMovie.imgUrl
-      && newMovie.imdbUrl
-      && newMovie.imdbId) {
+    const formFields = [
+      newMovie.title,
+      newMovie.description,
+      newMovie.imgUrl,
+      newMovie.imdbUrl,
+      newMovie.imdbId,
+    ];
+
+    if (formFields.every(el => el !== '')) {
       const movie = {
         title: newMovie.title,
         description: newMovie.description,
@@ -88,7 +92,7 @@ export const NewMovie: FC<Props> = ({ addMovie }) => {
           data-cy="form-title"
           value={newMovie.title}
           onChange={(event) => {
-            setErrors({ ...errors, hasTitleError: false });
+            setErrors(() => ({ ...errors, hasTitleError: false }));
             setNewMovie({ ...newMovie, title: event.target.value });
           }}
         />
@@ -104,7 +108,7 @@ export const NewMovie: FC<Props> = ({ addMovie }) => {
           cols={30}
           value={newMovie.description}
           onChange={(event) => {
-            setErrors({ ...errors, hasDescrError: false });
+            setErrors(() => ({ ...errors, hasDescrError: false }));
             setNewMovie({ ...newMovie, description: event.target.value });
           }}
         />
@@ -119,7 +123,7 @@ export const NewMovie: FC<Props> = ({ addMovie }) => {
           data-cy="form-imgUrl"
           value={newMovie.imgUrl}
           onChange={(event) => {
-            setErrors({ ...errors, hasImgUrlError: false });
+            setErrors(() => ({ ...errors, hasImgUrlError: false }));
             setNewMovie({ ...newMovie, imgUrl: event.target.value });
           }}
         />
@@ -134,7 +138,7 @@ export const NewMovie: FC<Props> = ({ addMovie }) => {
           data-cy="form-imdbUrl"
           value={newMovie.imdbUrl}
           onChange={(event) => {
-            setErrors({ ...errors, hasImdbUrlError: false });
+            setErrors(() => ({ ...errors, hasImdbUrlError: false }));
             setNewMovie({ ...newMovie, imdbUrl: event.target.value });
           }}
         />
@@ -149,7 +153,7 @@ export const NewMovie: FC<Props> = ({ addMovie }) => {
           data-cy="form-imdbId"
           value={newMovie.imdbId}
           onChange={(event) => {
-            setErrors({ ...errors, hasImdbIdError: false });
+            setErrors(() => ({ ...errors, hasImdbIdError: false }));
             setNewMovie({ ...newMovie, imdbId: event.target.value });
           }}
         />
