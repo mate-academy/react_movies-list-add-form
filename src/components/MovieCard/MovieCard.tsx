@@ -1,4 +1,5 @@
 import React from 'react';
+import { Movie } from '../../react-app-env';
 import './MovieCard.scss';
 
 type Props = Movie;
