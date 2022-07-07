@@ -13,3 +13,34 @@
   padding: 20px;
   border-left: 1px solid lightgray;
 }
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  &__title {
+    color: blue;
+  }
+
+  &__input {
+    margin: 20px 0;
+    width: 200px;
+  }
+
+  &__button {
+    margin-top: 20px;
+    width: 200px;
+    height: 50px;
+    border-radius: 10px;
+    background-color: blueviolet;
+    color: beige;
+    font-size: large;
+
+    transition: background-color 0.5s;
+
+    &:hover {
+      background-color: aquamarine;
+    }
+  }
+}
