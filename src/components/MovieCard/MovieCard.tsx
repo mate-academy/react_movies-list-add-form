@@ -2,7 +2,6 @@ import React from 'react';
 import './MovieCard.scss';
 
 type Props = Movie;
-
 export const MovieCard: React.FC<Props> = ({
   title, description, imgUrl, imdbUrl,
 }) => (
@@ -29,7 +28,6 @@ export const MovieCard: React.FC<Props> = ({
           <p className="title is-8">{title}</p>
         </div>
       </div>
-
       <div className="content">
         {description}
         <br />
