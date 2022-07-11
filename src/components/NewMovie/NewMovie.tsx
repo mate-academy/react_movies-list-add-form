@@ -1,72 +1,116 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useCallback, useState } from 'react';
 import classNames from 'classnames';
 
 export interface NewMovieProps {
   onAdd: (movie: Movie) => void,
 }
-export const NewMovie: FC<NewMovieProps> = ({ onAdd }) => {
-  const [title, setTitle] = useState('');
-  const [isTitleInvalid, setIsTitleInvalid] = useState(false);
-  const [titleErrorMessage, setTitleErrorMessage] = useState('');
+export const NewMovie: FC<NewMovieProps> = React.memo(({ onAdd }) => {
+  const [newMovie, setNewMovie] = useState({
+    title: '',
+    imdbUrl: '',
+    imgUrl: '',
+    imdbId: '',
+    description: '',
+  });
 
-  const [description, setDescription] = useState('');
+  const {
+    title,
+    imdbUrl,
+    imgUrl,
+    imdbId,
+    description,
+  } = newMovie;
 
-  const [imgUrl, setImgUrl] = useState('');
-  const [isImgUrlInvalid, setIsImgUrlInvalid] = useState(false);
-  const [imgUrlErrorMessage, setImgUrlErrorMessage] = useState('');
-
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [isImdbUrlInvalid, setIsImdbUrlInvalid] = useState(false);
-  const [imdbUrlErrorMessage, setImdbUrlErrorMessage] = useState('');
-
-  const [imdbId, setImdbId] = useState('');
-  const [isImdbIdInvalid, setIsImdbIdInvalid] = useState(false);
-  const [imdbIdErrorMessage, setImdbIdErrorMessage] = useState('');
+  const [error, setError] = useState({
+    titleErrorMessage: '',
+    isTitleInvalid: false,
+    imgUrlErrorMessage: '',
+    isImgUrlInvalid: false,
+    imdbIdErrorMessage: '',
+    isImdbIdInvalid: false,
+    imdbUrlErrorMessage: '',
+    isImdbUrlInvalid: false,
+  });
 
   const invalidUrlChars = /[^a-zA-Z0-9-._~:/?#[@!$&'()*+,;=]/g;
 
-  const newMovie = {
-    title,
-    description,
-    imgUrl,
-    imdbUrl,
-    imdbId,
-  };
+  const clearForm = useCallback(() => {
+    setNewMovie({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbId: '',
+      imdbUrl: '',
+    });
+  }, []);
 
-  const clearForm = () => {
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
-  };
+  const handleChange = useCallback((
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    const { name, value } = event.target;
+
+    setNewMovie(prevState => ({ ...prevState, [name]: value }));
+  }, []);
+
+  const setErrorState = useCallback((
+    key1: string,
+    value1: boolean,
+    key2: string,
+    value2: string,
+  ) => {
+    setError(prevState => (
+      {
+        ...prevState,
+        [key1]: value1,
+        [key2]: value2,
+      }
+    ));
+  }, []);
 
   const validateForm = () => {
     if (!title) {
-      setIsTitleInvalid(true);
-      setTitleErrorMessage('Title is required');
+      setErrorState(
+        'isTitleInvalid',
+        true,
+        'titleErrorMessage',
+        'Title is required',
+      );
     }
 
     if (!imdbId) {
-      setIsImdbIdInvalid(true);
-      setImdbIdErrorMessage('ImdbId is required');
+      setErrorState(
+        'isImdbIdInvalid',
+        true,
+        'imdbIdErrorMessage',
+        'ImdbId is required',
+      );
     }
 
     if (!imgUrl) {
-      setIsImgUrlInvalid(true);
-      setImgUrlErrorMessage('ImgUrl is required');
+      setErrorState(
+        'isImgUrlInvalid',
+        true,
+        'imgUrlErrorMessage',
+        'ImgUrl is required',
+      );
     }
 
     if (!imdbUrl) {
-      setIsImdbUrlInvalid(true);
-      setImdbUrlErrorMessage('ImdbUrl is required');
+      setErrorState(
+        'isImdbUrlInvalid',
+        true,
+        'imdbUrlErrorMessage',
+        'ImdbUrl is required',
+      );
     }
   };
 
   const submitForm = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (title && imdbId && imgUrl && imdbUrl) {
+    const formFields = [title, imdbId, imgUrl, imdbUrl];
+
+    if (formFields.every(field => field !== '')) {
       onAdd(newMovie);
       clearForm();
     }
@@ -82,19 +126,28 @@ export const NewMovie: FC<NewMovieProps> = ({ onAdd }) => {
       <div className="form">
         <div className="control form__control">
           <input
+            name="title"
             value={title}
-            className={classNames('input', { input__error: isTitleInvalid })}
+            className={classNames(
+              'input', { input__error: error.isTitleInvalid },
+            )}
             type="text"
             placeholder="Enter movie Title"
             data-cy="form-title"
             onChange={(event) => {
-              setTitle(event.target.value);
-              setIsTitleInvalid(false);
-              setTitleErrorMessage('');
+              handleChange(event);
+              setErrorState(
+                'isTitleInvalid',
+                false,
+                'titleErrorMessage',
+                '',
+              );
             }}
-            onFocus={() => setIsTitleInvalid(true)}
+            onFocus={() => setError(prevState => (
+              { ...prevState, isTitleInvalid: true }
+            ))}
           />
-          <p className="input__error-message">{titleErrorMessage}</p>
+          <p className="input__error-message">{error.titleErrorMessage}</p>
         </div>
 
         <div className="
@@ -103,6 +156,7 @@ export const NewMovie: FC<NewMovieProps> = ({ onAdd }) => {
         "
         >
           <textarea
+            name="description"
             value={description}
             className="
               input
@@ -110,59 +164,86 @@ export const NewMovie: FC<NewMovieProps> = ({ onAdd }) => {
             placeholder="Enter movie Description"
             data-cy="form-description"
             onChange={(event) => {
-              setDescription(event.target.value);
+              handleChange(event);
             }}
           />
         </div>
 
         <div className="control form__control">
           <input
+            name="imgUrl"
             value={imgUrl}
-            className={classNames('input', { input__error: isImgUrlInvalid })}
+            className={classNames(
+              'input', { input__error: error.isImgUrlInvalid },
+            )}
             placeholder="Enter movie imgUrl"
             data-cy="form-imgUrl"
             onChange={(event) => {
-              setImgUrl(event.target.value
-                .replace(invalidUrlChars, ''));
-              setIsImgUrlInvalid(false);
-              setImgUrlErrorMessage('');
+              event.target.value.replace(invalidUrlChars, '');
+              handleChange(event);
+              setErrorState(
+                'isImgUrlInvalid',
+                false,
+                'imgUrlErrorMessage',
+                '',
+              );
             }}
-            onFocus={() => setIsImgUrlInvalid(true)}
+            onFocus={() => setError(prevState => (
+              { ...prevState, isImdbUrlInvalid: true }
+            ))}
           />
-          <p className="input__error-message">{imgUrlErrorMessage}</p>
+          <p className="input__error-message">{error.imgUrlErrorMessage}</p>
         </div>
 
         <div className="control form__control">
           <input
+            name="imdbUrl"
             value={imdbUrl}
-            className={classNames('input', { input__error: isImdbUrlInvalid })}
+            className={classNames(
+              'input', { input__error: error.isImdbUrlInvalid },
+            )}
             placeholder="Enter movie imdbUrl"
             data-cy="form-imdbUrl"
             onChange={(event) => {
-              setImdbUrl(event.target.value
-                .replace(invalidUrlChars, ''));
-              setIsImdbUrlInvalid(false);
-              setImdbUrlErrorMessage('');
+              event.target.value.replace(invalidUrlChars, '');
+              handleChange(event);
+              setErrorState(
+                'isImdbUrlInvalid',
+                false,
+                'imdbUrlErrorMessage',
+                '',
+              );
             }}
-            onFocus={() => setIsImdbUrlInvalid(true)}
+            onFocus={() => setError(prevState => (
+              { ...prevState, isImdbUrlInvalid: true }
+            ))}
           />
-          <p className="input__error-message">{imdbUrlErrorMessage}</p>
+          <p className="input__error-message">{error.imdbUrlErrorMessage}</p>
         </div>
 
         <div className="control form__control">
           <input
+            name="imdbId"
             value={imdbId}
-            className={classNames('input', { input__error: isImdbIdInvalid })}
+            className={classNames(
+              'input', { input__error: error.isImdbIdInvalid },
+            )}
             placeholder="Enter movie imdbId"
             data-cy="form-imdbId"
             onChange={(event) => {
-              setImdbId(event.target.value);
-              setIsImdbIdInvalid(false);
-              setImdbIdErrorMessage('');
+              handleChange(event);
+              setErrorState(
+                'isImdbIdInvalid',
+                false,
+                'imdbIdErrorMessage',
+                '',
+              );
             }}
-            onFocus={() => setIsImdbIdInvalid(true)}
+            onFocus={() => setError(prevState => (
+              { ...prevState, isImdbIdInvalid: true }
+            ))}
           />
-          <p className="input__error-message">{imdbIdErrorMessage}</p>
+          <p className="input__error-message">{error.imdbIdErrorMessage}</p>
         </div>
 
         <div className="field is-grouped">
@@ -179,4 +260,4 @@ export const NewMovie: FC<NewMovieProps> = ({ onAdd }) => {
       </div>
     </form>
   );
-};
+});
