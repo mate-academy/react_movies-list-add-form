@@ -3,13 +3,38 @@
   grid-template: auto / 1fr 400px;
   column-gap: 20px;
   min-height: 100vh;
-}
 
-.page-content {
-  padding: 20px;
+  &-content {
+    padding: 20px;
+  }
 }
 
 .sidebar {
   padding: 20px;
   border-left: 1px solid lightgray;
+}
+
+.form {
+  &__control {
+    margin-bottom: 20px;
+
+    &--description {
+      height: 80px;
+    }
+  }
+}
+
+.input {
+  &::placeholder {
+    color: rgb(17, 17, 17);
+  }
+
+  &__error {
+    border-color: red;
+
+    &-message {
+      color: red;
+      font-size: smaller;
+    }
+  }
 }
