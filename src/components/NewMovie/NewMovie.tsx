@@ -1,16 +1,122 @@
 import { Component } from 'react';
+import './NewMovie.scss';
 
-type Props = {};
-type State = {};
+type Props = {
+  addMovie: (newItem: Movie) => void
+};
+type State = {
+  title: string,
+  description: string,
+  imgUrl: string,
+  imdbUrl: string,
+  imdbId: string,
+};
 
-export class NewMovie extends Component<Props, State> {
-  state: State = {};
+export class NewMovie extends Component <Props, State> {
+  state = {
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  };
+
+  handleSubmit = (event: React.ChangeEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    this.props.addMovie(this.state);
+
+    this.setState({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
+  };
+
+  handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    this.setState((state) => ({
+      ...state,
+      [event.target.name]: event.target.value,
+    }));
+  };
 
   render() {
+    const {
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    } = this.state;
+
     return (
-      <form>
-        Put the form here
-      </form>
+      <div className="wrapper-movie">
+        <h1 className="wrapper-movie__title">
+          ADD NEW MOVIE
+        </h1>
+        <form
+          className="movie-form"
+          onSubmit={this.handleSubmit}
+        >
+          <input
+            type="text"
+            name="title"
+            placeholder="Title"
+            className="movie-form__item"
+            value={title}
+            onChange={this.handleChange}
+            required
+          />
+          <input
+            type="text"
+            name="Description"
+            placeholder="Description"
+            className="movie-form__item"
+            value={description}
+            onChange={(event) => {
+              this.setState({
+                description: event.target.value,
+              });
+            }}
+            required
+          />
+          <input
+            type="text"
+            name="ImgUrl"
+            placeholder="ImgUrl"
+            className="movie-form__item"
+            value={imgUrl}
+            onChange={(event) => {
+              this.setState({
+                imgUrl: event.target.value,
+              });
+            }}
+            required
+          />
+          <input
+            type="text"
+            name="imdbUrl"
+            placeholder="imdbUrl"
+            className="movie-form__item"
+            value={imdbUrl}
+            onChange={this.handleChange}
+            required
+          />
+          <input
+            type="text"
+            name="imdbId"
+            placeholder="imdbId"
+            className="movie-form__item"
+            value={imdbId}
+            onChange={this.handleChange}
+            required
+          />
+          <button type="submit" className="button-form">
+            Add
+          </button>
+        </form>
+      </div>
     );
   }
 }
