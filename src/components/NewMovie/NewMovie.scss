@@ -1,1 +1,20 @@
-// not empty
+.form {
+  display: flex;
+  flex-direction: column;
+
+  &__button {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #b6b6b6;
+    outline: none;
+    background-color: #fff;
+    cursor: pointer;
+
+    transition: box-shadow 300ms ease-in-out, color 300ms ease-in-out;
+
+    &:hover {
+      color: #fff;
+      box-shadow: 0 0 40px 40px #b6b6b6 inset;
+    }
+  }
+}
