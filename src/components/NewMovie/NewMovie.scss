@@ -1,1 +1,13 @@
-// not empty
+.new-movie-form {
+  display: flex;
+  flex-direction: column;
+
+  &__field {
+    padding: 5px;
+    margin-bottom: 10px;
+  }
+
+  &__button {
+    padding: 8px;
+  }
+}
