@@ -148,6 +148,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       </div>
 
       <button
+        className="submit-button"
         type="submit"
         data-cy="form-submit-button"
       >
