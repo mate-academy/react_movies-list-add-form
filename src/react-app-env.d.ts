@@ -7,3 +7,7 @@ interface Movie {
   imdbUrl: string;
   imdbId: string;
 }
+
+interface AddMovie {
+  (Movie) : void
+}
