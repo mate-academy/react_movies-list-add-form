@@ -1,1 +1,48 @@
-// not empty
+.newMovie {
+  display: flex;
+  box-sizing: border-box;
+  gap: 5px;
+  margin-bottom: 20px;
+
+  flex-direction: column;
+
+  &__input {
+    background-color: #bddbbd;
+    height: 35px;
+    border: 2px solid green;
+    border-radius: 6px;
+  }
+
+  &__button {
+    display: block;
+    margin: 0 auto;
+    border-radius: 12px;
+    padding: 16px 32px;
+    align-items: center;
+    text-decoration: none;
+    font-size: 16px;
+    transition-duration: 0.3s;
+
+    cursor: pointer;
+
+    background-color: white;
+    color: black;
+    border: 2px solid #4caf50;
+
+    &:hover {
+      background-color: #4caf50;
+      color: white;
+    }
+  }
+}
+
+.disabled {
+  font-size: 10px;
+  opacity: 0;
+}
+
+.error {
+  font-size: 10px;
+  opacity: 1;
+  color: red;
+}
