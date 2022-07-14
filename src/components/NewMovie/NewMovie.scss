@@ -1,1 +1,31 @@
-// not empty
+.form {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+
+  &__title {
+    margin-bottom: 15px;
+  }
+  &__description {
+    margin-bottom: 15px;
+  }
+
+  &__imdbUrl {
+    margin-bottom: 15px;
+  }
+
+  &__img {
+    margin-bottom: 15px;
+  }
+
+  &__imbId {
+    margin-bottom: 15px;
+  }
+
+  &__button {
+    background-color: rgb(118, 226, 121);
+    border: transparent;
+    border-radius: 8px;
+    padding: 8px;
+  }
+}
