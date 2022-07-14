@@ -1,1 +1,21 @@
-// not empty
+.NewMovie {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
+.input-field {
+  width: 100%;
+  border: 1px solid rgb(128, 128, 128);
+  border-radius: 4px;
+  padding: 5px;
+}
+
+.error-field {
+  border: 2px solid red;
+}
+
+.error-msg {
+  color: red;
+}

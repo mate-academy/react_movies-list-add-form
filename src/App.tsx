@@ -1,8 +1,10 @@
 import React from 'react';
-import './App.scss';
 import { MoviesList } from './components/MoviesList';
 import { NewMovie } from './components/NewMovie';
 import moviesFromServer from './api/movies.json';
+import { Movie } from './react-app-env';
+
+import './App.scss';
 
 interface State {
   movies: Movie[];
@@ -13,8 +15,13 @@ export class App extends React.Component<{}, State> {
     movies: moviesFromServer,
   };
 
-  addMovie = (/* movie: Movie */) => {
-    // put your code here
+  addMovie = (movie: Movie) => {
+    this.setState(state => ({
+      movies: [
+        ...state.movies,
+        movie,
+      ],
+    }));
   };
 
   render() {
@@ -26,7 +33,8 @@ export class App extends React.Component<{}, State> {
           <MoviesList movies={movies} />
         </div>
         <div className="sidebar">
-          <NewMovie />
+          <h1>Add a new movie</h1>
+          <NewMovie addFunction={this.addMovie} />
         </div>
       </div>
     );
