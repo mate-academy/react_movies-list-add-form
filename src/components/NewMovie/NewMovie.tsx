@@ -156,7 +156,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         </label>
 
         <div className="invalid-feedback">
-          This field is required
+          This field is required and has to be a link
         </div>
       </div>
 
@@ -183,7 +183,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         </label>
 
         <div className="invalid-feedback">
-          This field is required
+          This field is required and has to be a link
         </div>
       </div>
 
