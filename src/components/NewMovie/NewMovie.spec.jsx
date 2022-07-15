@@ -2,7 +2,6 @@
 import React from 'react';
 import { mount } from '@cypress/react';
 import { NewMovie } from './NewMovie';
-// import { onAdd } from './NewMovie';
 
 describe('Button', () => {
   const form = {
@@ -23,6 +22,7 @@ describe('Button', () => {
   it('should call the onAdd function', () => {
     const onAdd = cy.stub();
 
+    // eslint-disable-next-line react/jsx-filename-extension
     mount(<NewMovie onAdd={onAdd} />);
 
     form.fillAllFields();
