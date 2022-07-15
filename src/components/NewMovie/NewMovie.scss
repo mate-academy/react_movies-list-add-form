@@ -1,1 +1,10 @@
-// not empty
+.NewMovie {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.NewMovie__title {
+  font-size: 30px;
+  margin-bottom: 5px;
+}
