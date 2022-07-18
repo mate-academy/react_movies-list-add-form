@@ -58,32 +58,24 @@ export const NewMovie: React.FC<Props> = React.memo(({ addFunction }) => {
   const onImgUrlRequiredError = (
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
-    if (!event.target.value) {
+    if (!event.target.value || !regExp.test(imgUrl)) {
+      setImgUrlRequiredError(true);
       setImgUrlRequiredError(true);
     } else {
-      setImgUrlRequiredError(false);
-    }
-
-    if (regExp.test(imgUrl)) {
-      setImgUrlRequiredError(false);
-    } else {
       setImgUrlRequiredError(true);
+      setImgUrlRequiredError(false);
     }
   };
 
   const onImdbUrlRequiredError = (
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
-    if (!event.target.value) {
+    if (!event.target.value || !regExp.test(imdbUrl)) {
+      setImdbUrlRequiredError(true);
       setImdbUrlRequiredError(true);
     } else {
       setImdbUrlRequiredError(false);
-    }
-
-    if (regExp.test(imdbUrl)) {
       setImdbUrlRequiredError(false);
-    } else {
-      setImdbUrlRequiredError(true);
     }
   };
 
