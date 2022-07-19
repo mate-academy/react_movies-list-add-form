@@ -71,7 +71,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         placeholder="title"
         data-cy="form-title"
         required
-        className="input"
+        className="input mb-2"
       />
 
       <input
@@ -81,7 +81,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         onChange={(event) => setDescription(event.target.value)}
         placeholder="description"
         data-cy="form-description"
-        className="input"
+        className="input mb-2"
       />
 
       <input
@@ -93,7 +93,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         placeholder="imgUrl"
         data-cy="form-imgUrl"
         required
-        className={`input ${errorImg ? 'error' : ''}`}
+        className={`input mb-2 ${errorImg ? 'error' : ''}`}
       />
 
       {errorImg && (
@@ -109,7 +109,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         placeholder="imdbUrl"
         data-cy="form-imdbUrl"
         required
-        className={`input ${errorImdb ? 'error' : ''}`}
+        className={`input mb-2 ${errorImdb ? 'error' : ''}`}
       />
 
       {errorImdb && (
@@ -124,7 +124,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         placeholder="imdbId"
         data-cy="form-imdbId"
         required
-        className="input"
+        className="input mb-2"
       />
 
       <button
