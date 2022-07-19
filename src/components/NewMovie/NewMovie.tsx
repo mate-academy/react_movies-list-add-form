@@ -18,6 +18,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd, movies }) => {
   const [imgUrlError, setImgUrlError] = useState('');
   const [imdbUrlError, setImdbUrlError] = useState('');
   const checkRepeatedId = movies.some(movie => movie.imdbId === imdbId);
+  // eslint-disable-next-line max-len
+  const isButtonDisabled = !title || !imdbId || !imgUrl || !imdbUrl || checkRepeatedId;
 
   const errorPhrase = (atr: string) => {
     return `Enter ${atr}, please`;
@@ -27,7 +29,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd, movies }) => {
     event.preventDefault();
   };
 
-  const setErrorMessage = (
+  const validateField = (
     atr: string,
     func: (value: React.SetStateAction<string>) => void,
     atrName: string,
@@ -36,10 +38,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd, movies }) => {
 
     if (!atr) {
       func(errorPhrase(atrName));
-    }
-
-    if (atrName === 'id' && checkRepeatedId) {
-      func('Same id is not available');
     }
   };
 
@@ -60,14 +58,19 @@ export const NewMovie: React.FC<Props> = ({ onAdd, movies }) => {
         imgUrl,
         imdbUrl,
       });
+
       reset();
     }
+  };
 
-    if (checkRepeatedId) {
-      setImdbIdError('Use another id please');
-    } else {
-      setImdbIdError('');
-    }
+  const controlValidId = (str: string) => {
+    return str.split('').map((char, i) => {
+      if (i < 2) {
+        return 't';
+      }
+
+      return char;
+    }).filter((_, i) => i < 9).join('');
   };
 
   return (
@@ -77,26 +80,27 @@ export const NewMovie: React.FC<Props> = ({ onAdd, movies }) => {
           <input
             type="text"
             name="title"
+            placeholder="title"
             className={classnames('input form__input', {
-              'is-danger': titleError,
+              'is-danger': !title && titleError,
               'is-primary': title,
             })}
             value={title}
             onChange={(event) => {
               setTitle(event.target.value);
-              setErrorMessage(title, setTitleError, 'title');
             }}
             onClick={() => {
-              setErrorMessage(title, setTitleError, 'title');
+              validateField(title, setTitleError, 'title');
             }}
           />
-          <p className="form__error">{titleError}</p>
+          <p className="form__error">{!title && titleError}</p>
         </div>
 
         <div className="form__unit">
           <input
             type="text"
             name="description"
+            placeholder="description"
             className={classnames('input form__input', {
               'is-primary': description,
             })}
@@ -111,73 +115,78 @@ export const NewMovie: React.FC<Props> = ({ onAdd, movies }) => {
           <input
             type="text"
             name="imdbId"
+            placeholder="id (must have 9 symbols)"
             className={classnames('input form__input', {
-              'is-danger': imdbIdError,
+              'is-danger': (!imdbId && imdbIdError)
+              || (imdbIdError && checkRepeatedId),
               'is-primary': imdbId,
             })}
             value={imdbId}
             onChange={(event) => {
-              setErrorMessage(imdbId, setImdbIdError, 'id');
-              setImdbId(event.target.value.split('').map((char, i) => {
-                if (i < 2) {
-                  return 't';
-                }
+              setImdbId(controlValidId(event.target.value));
 
-                return char;
-              }).filter((_, i) => i < 9).join(''));
+              if (checkRepeatedId) {
+                setImdbIdError('Use another id please');
+              } else {
+                setImdbIdError('');
+              }
             }}
             onClick={() => {
-              setErrorMessage(imdbId, setImdbIdError, 'id');
+              validateField(imdbId, setImdbIdError, 'id');
             }}
           />
-          <p className="form__error">{imdbIdError}</p>
+          <p className="form__error">
+            {(!imdbId && imdbIdError) || (checkRepeatedId && imdbIdError)}
+          </p>
         </div>
 
         <div className="form__unit">
           <input
             type="text"
             name="imgUrl"
+            placeholder="image url"
             value={imgUrl}
             className={classnames('input form__input', {
-              'is-danger': imgUrlError,
+              'is-danger': !imgUrl && imgUrlError,
               'is-primary': imgUrl,
             })}
             onChange={(event) => {
               setImgUrl(event.target.value);
-              setErrorMessage(imgUrl, setImgUrlError, 'image URL');
             }}
             onClick={() => {
-              setErrorMessage(imgUrl, setImgUrlError, 'image URL');
+              validateField(imgUrl, setImgUrlError, 'image URL');
             }}
           />
-          <p className="form__error">{imgUrlError}</p>
+          <p className="form__error">{!imgUrl && imgUrlError}</p>
         </div>
 
         <div className="form__unit">
           <input
             type="text"
             name="imdbUrl"
+            placeholder="imbd url"
             className={classnames('input form__input', {
-              'is-danger': imdbUrlError,
+              'is-danger': !imdbUrl && imdbUrlError,
               'is-primary': imdbUrl,
             })}
             value={imdbUrl}
             onChange={(event) => {
               setImdbUrl(event.target.value);
-              setErrorMessage(imdbUrl, setImdbUrlError, 'imdb URL');
             }}
             onClick={() => {
-              setErrorMessage(imdbUrl, setImdbUrlError, 'imdb URL');
+              validateField(imdbUrl, setImdbUrlError, 'imdb URL');
             }}
           />
-          <p className="form__error">{imdbUrlError}</p>
+          <p className="form__error">{!imdbUrl && imdbUrlError}</p>
         </div>
 
         <button
           type="submit"
-          className="button is-primary"
+          className={classnames('button is-primary', {
+            'is-danger': isButtonDisabled,
+          })}
           onClick={handleChange}
-          disabled={!title || !imdbId || !imgUrl || !imdbUrl || checkRepeatedId}
+          disabled={isButtonDisabled}
         >
           Add movie
         </button>
