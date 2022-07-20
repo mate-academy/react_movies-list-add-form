@@ -1,1 +1,65 @@
 // not empty
+.newMovie {
+  display: flex;
+  flex-direction: column;
+
+  &__input-validation {
+    display: flex;
+    flex-direction: column;
+    height: 30px;
+    margin-bottom: 20px;
+  }
+
+  &__input-verdict {
+    display: block;
+    padding: 2px 10px;
+    text-align: center;
+    font-size: 12px;
+    color: rgb(208, 136, 136);
+  }
+
+  &__input {
+    margin-bottom: 5px;
+    height: 30px;
+    padding: 10px;
+    color: rgb(201, 201, 53);
+    font-weight: bold;
+
+    text-shadow: 0 5px 5px rgb(85, 85, 85);
+    letter-spacing: 1px;
+
+    background-color: rgba(85, 85, 85, 0.8);
+    border-width: 0 0 2px;
+    border-color: rgb(163, 242, 163);
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgb(118, 118, 118);
+
+    &--invalid {
+      border-color: rgb(255, 105, 105);
+    }
+
+    &::placeholder {
+      font-weight: normal;
+      color: white;
+      letter-spacing: normal;
+    }
+  }
+
+  &__button {
+    margin-top: 80px;
+    height: 60px;
+
+    font-weight: bolder;
+    color: rgb(201, 201, 53);
+    text-shadow: 0 2px 5px rgb(3, 3, 3);
+
+    background-color: rgb(49, 49, 49);
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0 5px 5px rgb(85, 85, 85);
+  }
+
+  &__button:disabled {
+    opacity: 0.5;
+  }
+}
