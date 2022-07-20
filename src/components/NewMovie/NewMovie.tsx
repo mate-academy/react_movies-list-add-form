@@ -27,6 +27,11 @@ export const NewMovie: React.FC<Props> = ({
       onSubmit={(event) => {
         event.preventDefault();
         addMovie(newMovie);
+        setTitle('');
+        setDescription('');
+        setImgUrl('');
+        setImdbUrl('');
+        setImdbId('');
       }}
     >
       <div>
