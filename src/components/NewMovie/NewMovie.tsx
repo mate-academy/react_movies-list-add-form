@@ -77,6 +77,7 @@ export const NewMovie: React.FC<NewMovieProps> = ({
       <button
         className="newMovie__button"
         type="submit"
+        data-cy="form-submit-button"
         disabled={!shouldSubmit}
       >
         ADD MOVIE
