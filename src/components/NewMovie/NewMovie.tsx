@@ -19,7 +19,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd, movies }) => {
   const [imdbUrlError, setImdbUrlError] = useState('');
   const checkRepeatedId = movies.some(movie => movie.imdbId === imdbId);
   // eslint-disable-next-line max-len
-  const isButtonDisabled = !title || !imdbId || !imgUrl || !imdbUrl || checkRepeatedId;
+  const isButtonDisabled = !title || !imdbId || !imgUrl || !imdbUrl || checkRepeatedId || imdbId.length < 9;
 
   const errorPhrase = (atr: string) => {
     return `Enter ${atr}, please`;
@@ -50,17 +50,15 @@ export const NewMovie: React.FC<Props> = ({ onAdd, movies }) => {
   };
 
   const handleChange = () => {
-    if (title && imdbId.length === 9 && imgUrl && imdbUrl && !checkRepeatedId) {
-      onAdd({
-        title,
-        description,
-        imdbId,
-        imgUrl,
-        imdbUrl,
-      });
+    onAdd({
+      title,
+      description,
+      imdbId,
+      imgUrl,
+      imdbUrl,
+    });
 
-      reset();
-    }
+    reset();
   };
 
   const controlValidId = (str: string) => {
@@ -75,25 +73,31 @@ export const NewMovie: React.FC<Props> = ({ onAdd, movies }) => {
 
   return (
     <>
-      <form onSubmit={handleSubmit} className="form">
+      <form
+        action="POST"
+        onSubmit={handleSubmit}
+        className="form"
+      >
         <div className="form__unit">
           <input
             type="text"
             name="title"
             placeholder="title"
             className={classnames('input form__input', {
-              'is-danger': !title && titleError,
+              'is-danger': titleError,
               'is-primary': title,
             })}
             value={title}
             onChange={(event) => {
               setTitle(event.target.value);
             }}
-            onClick={() => {
+            onBlur={() => {
               validateField(title, setTitleError, 'title');
             }}
           />
-          <p className="form__error">{!title && titleError}</p>
+          {!title && (
+            <p className="form__error">{titleError}</p>
+          )}
         </div>
 
         <div className="form__unit">
@@ -117,8 +121,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd, movies }) => {
             name="imdbId"
             placeholder="id (must have 9 symbols)"
             className={classnames('input form__input', {
-              'is-danger': (!imdbId && imdbIdError)
-              || (imdbIdError && checkRepeatedId),
+              'is-danger': imdbIdError,
               'is-primary': imdbId,
             })}
             value={imdbId}
@@ -131,13 +134,17 @@ export const NewMovie: React.FC<Props> = ({ onAdd, movies }) => {
                 setImdbIdError('');
               }
             }}
-            onClick={() => {
+            onBlur={() => {
               validateField(imdbId, setImdbIdError, 'id');
             }}
           />
-          <p className="form__error">
-            {(!imdbId && imdbIdError) || (checkRepeatedId && imdbIdError)}
-          </p>
+
+          {/* for some reason only this way is valid for different error messages */}
+          {(!imdbId && (
+            <p className="form__error">{imdbIdError}</p>
+          )) || (checkRepeatedId && (
+            <p className="form__error">{imdbIdError}</p>
+          ))}
         </div>
 
         <div className="form__unit">
@@ -147,17 +154,19 @@ export const NewMovie: React.FC<Props> = ({ onAdd, movies }) => {
             placeholder="image url"
             value={imgUrl}
             className={classnames('input form__input', {
-              'is-danger': !imgUrl && imgUrlError,
+              'is-danger': imgUrlError,
               'is-primary': imgUrl,
             })}
             onChange={(event) => {
               setImgUrl(event.target.value);
             }}
-            onClick={() => {
+            onBlur={() => {
               validateField(imgUrl, setImgUrlError, 'image URL');
             }}
           />
-          <p className="form__error">{!imgUrl && imgUrlError}</p>
+          {!imgUrl && (
+            <p className="form__error">{imgUrlError}</p>
+          )}
         </div>
 
         <div className="form__unit">
@@ -166,18 +175,20 @@ export const NewMovie: React.FC<Props> = ({ onAdd, movies }) => {
             name="imdbUrl"
             placeholder="imbd url"
             className={classnames('input form__input', {
-              'is-danger': !imdbUrl && imdbUrlError,
+              'is-danger': imdbUrlError,
               'is-primary': imdbUrl,
             })}
             value={imdbUrl}
             onChange={(event) => {
               setImdbUrl(event.target.value);
             }}
-            onClick={() => {
+            onBlur={() => {
               validateField(imdbUrl, setImdbUrlError, 'imdb URL');
             }}
           />
-          <p className="form__error">{!imdbUrl && imdbUrlError}</p>
+          {!imdbUrl && (
+            <p className="form__error">{imdbUrlError}</p>
+          )}
         </div>
 
         <button
