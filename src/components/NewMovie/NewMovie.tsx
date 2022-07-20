@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 type Props = {
   onAddMovie: (movie: Movie) => void
@@ -16,6 +16,17 @@ export const NewMovie:React.FC<Props> = ({ onAddMovie: addMovie }) => {
   const [hasImdbUrlError, setImdbUrlError] = useState(false);
   const [hasImdbIdError, setImdbIdError] = useState(false);
   const [isDisabledBtn, setStatusBtn] = useState(true);
+
+  const mounted = useRef(false);
+
+  useEffect(() => {
+    if (!mounted.current) {
+      mounted.current = true;
+    } else {
+      setStatusBtn((hasImdbIdError
+        || hasImdbUrlError || hasImgUrlError || hasTitleError));
+    }
+  }, [hasTitleError, hasImgUrlError, hasImdbUrlError, hasImdbIdError]);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     const newMovie = {
@@ -50,11 +61,11 @@ export const NewMovie:React.FC<Props> = ({ onAddMovie: addMovie }) => {
         break;
 
       case 'imgUrl':
-        setImgUrlError(!regex.test(value) && !value);
+        setImgUrlError(!regex.test(value) || !value);
         break;
 
       case 'imdbUrl':
-        setImdbUrlError(!regex.test(value) && !value);
+        setImdbUrlError(!regex.test(value) || !value);
         break;
 
       case 'imdbId':
@@ -64,9 +75,6 @@ export const NewMovie:React.FC<Props> = ({ onAddMovie: addMovie }) => {
       default:
         break;
     }
-
-    setStatusBtn((hasImdbIdError
-      || hasImdbUrlError || hasImgUrlError || hasTitleError));
   };
 
   return (
