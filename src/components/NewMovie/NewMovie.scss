@@ -1,1 +1,27 @@
 // not empty
+.NewMovie {
+  display: flex;
+  flex-direction: column;
+
+  &__input {
+    height: 50px;
+    width: 350px;
+    margin-bottom: 10px;
+    background-color: white;
+    border: 3px solid #e8e8e8;
+    border-radius: 0.25rem;
+    color: #4a4a4a;
+  }
+
+  &__button {
+    height: 50px;
+    width: 350px;
+
+    background-color: white;
+    border: 3px solid #e8e8e8;
+    border-radius: 0.25rem;
+    color: #4a4a4a;
+
+    cursor: pointer;
+  }
+}
