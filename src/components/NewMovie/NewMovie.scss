@@ -1,1 +1,18 @@
-// not empty
+.NewMovie {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  &__input {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__field-error {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    transform: translateY(100%);
+  }
+}
