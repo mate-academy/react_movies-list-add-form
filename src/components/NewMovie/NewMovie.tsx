@@ -18,14 +18,21 @@ export const NewMovie: React.FC<Props> = React.memo(({ addFunction }) => {
   const [imgUrlRequiredError, setImgUrlRequiredError] = useState(false);
   const [imdbUrlRequiredError, setImdbUrlRequiredError] = useState(false);
   const [imdbIdRequiredError, setImdbIdRequiredError] = useState(false);
+  const [imgUrlWrongError, setImgUrlWrongError] = useState(false);
+  const [imdbUrlWrongError, setImdbUrlWrongError] = useState(false);
 
-  const isFieldsFilled = title.length > 0 && imgUrl.length > 0
-    && imdbUrl.length > 0 && imdbId.length > 0;
-  const isNoError = !titleRequiredError && !imgUrlRequiredError
-  && !imdbUrlRequiredError && !imdbIdRequiredError;
+  const isFieldsFilled = [title, imgUrl, imdbUrl, imdbId].every(field => field.length > 0);
+  const isNoError = [
+    titleRequiredError,
+    imgUrlRequiredError,
+    imdbUrlRequiredError,
+    imdbIdRequiredError,
+    imgUrlWrongError,
+    imdbUrlWrongError
+  ].every(field => !field);
 
   // eslint-disable-next-line max-len
-  const regExp = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
+  const urlValidationRegExp = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
 
   const onTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
@@ -56,13 +63,11 @@ export const NewMovie: React.FC<Props> = React.memo(({ addFunction }) => {
   };
 
   const onImgUrlRequiredError = (
-    event: React.ChangeEvent<HTMLInputElement>,
+    event: React.FocusEvent<HTMLInputElement>,
   ) => {
-    if (!event.target.value || !regExp.test(imgUrl)) {
-      setImgUrlRequiredError(true);
+    if (!event.target.value) {
       setImgUrlRequiredError(true);
     } else {
-      setImgUrlRequiredError(true);
       setImgUrlRequiredError(false);
     }
   };
@@ -70,12 +75,26 @@ export const NewMovie: React.FC<Props> = React.memo(({ addFunction }) => {
   const onImdbUrlRequiredError = (
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
-    if (!event.target.value || !regExp.test(imdbUrl)) {
-      setImdbUrlRequiredError(true);
+    if (!event.target.value) {
       setImdbUrlRequiredError(true);
     } else {
       setImdbUrlRequiredError(false);
-      setImdbUrlRequiredError(false);
+    }
+  };
+
+  const onImgUrlWrongError = () => {
+    if (imgUrl && !urlValidationRegExp.test(imgUrl)) {
+      setImgUrlWrongError(true);
+    } else {
+      setImgUrlWrongError(false);
+    }
+  };
+
+  const onImdbUrlWrongError = () => {
+    if (imdbUrl && !urlValidationRegExp.test(imdbUrl)) {
+      setImdbUrlWrongError(true);
+    } else {
+      setImdbUrlWrongError(false);
     }
   };
 
@@ -87,6 +106,14 @@ export const NewMovie: React.FC<Props> = React.memo(({ addFunction }) => {
     } else {
       setImdbIdRequiredError(false);
     }
+  };
+
+  const clearForm = () => {
+    setTitle('');
+    setDescription('');
+    setImgUrl('');
+    setImdbUrl('');
+    setImdbId('');
   };
 
   const submitFunction = (event: FormEvent<HTMLFormElement>) => {
@@ -102,11 +129,7 @@ export const NewMovie: React.FC<Props> = React.memo(({ addFunction }) => {
 
     addFunction(movie);
 
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
+    clearForm();
   };
 
   return (
@@ -154,12 +177,15 @@ export const NewMovie: React.FC<Props> = React.memo(({ addFunction }) => {
           placeholder="Image Url"
           value={imgUrl}
           onChange={onImgUrlChange}
-          onBlur={onImgUrlRequiredError}
+          onBlur={(event) => {
+            onImgUrlRequiredError(event);
+            onImgUrlWrongError();
+          }}
           required
           className={classNames(
             'input-field',
             {
-              'error-field': imgUrlRequiredError,
+              'error-field': imgUrlRequiredError || imgUrlWrongError,
             },
           )}
         />
@@ -167,6 +193,10 @@ export const NewMovie: React.FC<Props> = React.memo(({ addFunction }) => {
 
       {imgUrlRequiredError && (
         <span className="error-msg">This field is required</span>
+      )}
+
+      {imgUrlWrongError && (
+        <span className="error-msg">This URL is wrong</span>
       )}
 
       <label htmlFor="imdbUrl">
@@ -177,12 +207,15 @@ export const NewMovie: React.FC<Props> = React.memo(({ addFunction }) => {
           placeholder="IMDb Url"
           value={imdbUrl}
           onChange={onImdbUrlChange}
-          onBlur={onImdbUrlRequiredError}
+          onBlur={(event) => {
+            onImdbUrlRequiredError(event);
+            onImdbUrlWrongError();
+          }}
           required
           className={classNames(
             'input-field',
             {
-              'error-field': imdbUrlRequiredError,
+              'error-field': imdbUrlRequiredError || imdbUrlWrongError,
             },
           )}
         />
@@ -190,6 +223,10 @@ export const NewMovie: React.FC<Props> = React.memo(({ addFunction }) => {
 
       {imdbUrlRequiredError && (
         <span className="error-msg">This field is required</span>
+      )}
+
+      {imdbUrlWrongError && (
+        <span className="error-msg">This URL is wrong</span>
       )}
 
       <label htmlFor="imdbId">
