@@ -1,1 +1,20 @@
-// not empty
+.form {
+  display: flex;
+  flex-direction: column;
+
+  &__unit {
+    position: relative;
+  }
+
+  &__input {
+    margin-bottom: 30px;
+  }
+
+  &__error {
+    position: absolute;
+    bottom: 5px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #f14668;
+  }
+}
