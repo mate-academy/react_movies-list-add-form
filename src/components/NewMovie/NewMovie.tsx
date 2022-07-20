@@ -184,7 +184,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
           required
         />
 
-        { !validations.title && (
+        { !validations.imdbId && (
           <span className="NewMovie__field-error is-size-7">
             IMDb ID is not valid ⚠️
           </span>
