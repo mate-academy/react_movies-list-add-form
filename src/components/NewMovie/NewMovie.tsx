@@ -159,7 +159,7 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
           'border border-danger': !isImgUrl,
         })}
         data-cy="form-imgUrl"
-        placeholder="Add a image's url"
+        placeholder="Add an image's url"
         value={imgUrl}
         onChange={handleChange}
         onBlur={handleBlur}
@@ -174,7 +174,7 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
           'border border-danger': !isImdbUrl,
         })}
         data-cy="form-imdbUrl"
-        placeholder="Add a IMDB url"
+        placeholder="Add an IMDB url"
         value={imdbUrl}
         onChange={handleChange}
         onBlur={handleBlur}
