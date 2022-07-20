@@ -23,7 +23,12 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     imdbId: true,
   });
 
-  const handeInputChange = (name: string, value: string, required: boolean) => {
+  const handeInputChange = (
+    // eslint-disable-next-line max-len
+    event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>,
+  ) => {
+    const { name, value, required } = event.target;
+
     setMovie(prev => ({ ...prev, [name]: value }));
 
     if (required) {
@@ -56,10 +61,12 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setMovie(defaultMovie);
   };
 
+  const isFormValid = Object.values(validations).every(value => value);
+
   return (
     <form
       className="NewMovie"
-      onSubmit={event => handeFormSubmit(event)}
+      onSubmit={handeFormSubmit}
     >
       <label className="NewMovie__input">
         Title
@@ -75,11 +82,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             },
           )}
           data-cy="form-title"
-          onChange={
-            ({ target: { name, value, required } }) => (
-              handeInputChange(name, value, required))
-          }
-          onBlur={event => handleValidation(event)}
+          onChange={handeInputChange}
+          onBlur={handleValidation}
           required
         />
 
@@ -98,10 +102,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
           value={movie.description}
           className={classNames('textarea')}
           data-cy="form-description"
-          onChange={
-            ({ target: { name, value, required } }) => (
-              handeInputChange(name, value, required))
-          }
+          onChange={handeInputChange}
         />
       </label>
 
@@ -119,11 +120,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             },
           )}
           data-cy="form-imgUrl"
-          onChange={
-            ({ target: { name, value, required } }) => (
-              handeInputChange(name, value, required))
-          }
-          onBlur={event => handleValidation(event)}
+          onChange={handeInputChange}
+          onBlur={handleValidation}
           required
         />
         { !validations.imgUrl && (
@@ -147,11 +145,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             },
           )}
           data-cy="form-imdbUrl"
-          onChange={
-            ({ target: { name, value, required } }) => (
-              handeInputChange(name, value, required))
-          }
-          onBlur={event => handleValidation(event)}
+          onChange={handeInputChange}
+          onBlur={handleValidation}
           required
         />
 
@@ -176,11 +171,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             },
           )}
           data-cy="form-imdbId"
-          onChange={
-            ({ target: { name, value, required } }) => (
-              handeInputChange(name, value, required))
-          }
-          onBlur={event => handleValidation(event)}
+          onChange={handeInputChange}
+          onBlur={handleValidation}
           required
         />
 
@@ -195,7 +187,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         type="submit"
         data-cy="form-submit-button"
         className="button is-success"
-        disabled={!Object.values(validations).every(value => value)}
+        disabled={!isFormValid}
       >
         Add movie
       </button>
