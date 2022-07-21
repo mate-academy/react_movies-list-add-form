@@ -17,7 +17,7 @@ describe('movies page tests', () => {
   before('visit main page', () => {
     cy.visit('/');
   });
-  
+
   it('should not reload the page after clicking submit button', () => {
     form.fillAllFields();
     cy.window()
@@ -58,6 +58,6 @@ describe('movies page tests', () => {
       .should('contain', 'movie-description')
     cy.get(`a[href ="movie-url"]`)
       .should('exist');
-  }); 
+  });
 });
 

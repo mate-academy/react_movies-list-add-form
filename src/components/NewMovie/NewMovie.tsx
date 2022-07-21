@@ -3,7 +3,7 @@ import { Component } from 'react';
 import './NewMovie.scss';
 
 type Props = {
-  addMovie: (movie: Movie) => void,
+  onAdd: (movie: Movie) => void,
 };
 
 type State = {
@@ -12,7 +12,6 @@ type State = {
   imgUrl: string,
   imdbUrl: string,
   imdbId: string,
-  valid: boolean,
 };
 
 export class NewMovie extends Component<Props, State> {
@@ -22,8 +21,17 @@ export class NewMovie extends Component<Props, State> {
     imgUrl: '',
     imdbUrl: '',
     imdbId: '',
-    valid: false,
   };
+
+  reset() {
+    this.setState({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
+  }
 
   render() {
     const {
@@ -35,7 +43,8 @@ export class NewMovie extends Component<Props, State> {
         className="NewMovie"
         onSubmit={event => {
           event.preventDefault();
-          this.props.addMovie(this.state);
+          this.props.onAdd(this.state);
+          this.reset();
         }}
       >
         {/* // eslint-disable-next-line jsx-a11y/label-has-associated-control */}
@@ -120,6 +129,7 @@ export class NewMovie extends Component<Props, State> {
         <button
           type="submit"
           className="button is-ghost is-light"
+          data-cy="form-submit-button"
         >
           Add
         </button>
