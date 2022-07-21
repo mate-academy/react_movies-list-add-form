@@ -13,3 +13,30 @@
   padding: 20px;
   border-left: 1px solid lightgray;
 }
+
+.error {
+  color: red;
+}
+
+.inputData {
+  height: 30px;
+  width: 350px;
+  margin-bottom: 10px;
+  border: 1px solid rgb(12, 12, 12);
+  border-radius: 5px;
+}
+
+.btn {
+  font-size: 18px;
+  font-weight: 600;
+  height: 30px;
+  width: 350px;
+  cursor: pointer;
+  border: 1px solid rgb(228,182,34);
+  border-radius: 5px;
+  background-color: rgb(228,182,34);
+
+  &:hover {
+    background-color: rgb(247, 218, 125);
+  }
+}
