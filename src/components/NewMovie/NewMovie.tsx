@@ -6,11 +6,20 @@ type Props = {
 };
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('No description');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
+  const [newMovie, setNewMovie] = useState({
+    title: '',
+    description: 'No description',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  });
+
+  const {
+    title,
+    imgUrl,
+    imdbUrl,
+    imdbId,
+  } = newMovie;
   const validUrl = new RegExp(
     // eslint-disable-next-line max-len
     /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/,
@@ -18,13 +27,16 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const validation = (
     prevClass: string,
     input: string,
-    url = false,
+    urlQuery = false,
   ) => {
-    if (url) {
+    // if (false) {
+    if (urlQuery) {
+      const isValidUrl = validUrl.test(input);
+
       return classNames(
         prevClass,
-        { 'is-danger': !validUrl.test(input) },
-        { 'is-success': validUrl.test(input) },
+        { 'is-danger': !isValidUrl },
+        { 'is-success': isValidUrl },
       );
     }
 
@@ -33,26 +45,34 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       { 'is-danger': !input },
       { 'is-success': input },
     );
+    // }
+
+    // return classNames(prevClass);
+  };
+
+  const formHendler = (event: React.FormEvent) => {
+    event.preventDefault();
+
+    if (title
+      && validUrl.test(imgUrl)
+      && validUrl.test(imdbUrl)
+      && imdbId) {
+      onAdd(newMovie);
+      setNewMovie({
+        ...newMovie,
+        title: '',
+        description: 'No desription',
+        imgUrl: '',
+        imdbUrl: '',
+        imdbId: '',
+      });
+    }
+    // console.log(newMovie);
   };
 
   return (
     <form
-      onSubmit={(event) => {
-        event.preventDefault();
-
-        if (title
-          && validUrl.test(imgUrl)
-          && validUrl.test(imdbUrl)
-          && imdbId) {
-          onAdd({
-            title,
-            description,
-            imgUrl,
-            imdbUrl,
-            imdbId,
-          });
-        }
-      }}
+      onSubmit={formHendler}
     >
       <div
         className="field"
@@ -70,8 +90,12 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="text"
             placeholder="Title"
             data-cy="form-title"
+            value={title}
             onChange={(event) => {
-              setTitle(event.target.value);
+              setNewMovie({
+                ...newMovie,
+                title: event.target.value,
+              });
             }}
           />
 
@@ -102,7 +126,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             placeholder="No description"
             data-cy="form-description"
             onChange={(event) => {
-              setDescription(event.target.value);
+              setNewMovie({
+                ...newMovie,
+                description: event.target.value,
+              });
             }}
           />
 
@@ -132,8 +159,12 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="text"
             placeholder="ImgUrl"
             data-cy="form-imgUrl"
+            value={imgUrl}
             onChange={(event) => {
-              setImgUrl(event.target.value);
+              setNewMovie({
+                ...newMovie,
+                imgUrl: event.target.value,
+              });
             }}
           />
 
@@ -165,8 +196,12 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="text"
             placeholder="ImdbUrl"
             data-cy="form-imdbUrl"
+            value={imdbUrl}
             onChange={(event) => {
-              setImdbUrl(event.target.value);
+              setNewMovie({
+                ...newMovie,
+                imdbUrl: event.target.value,
+              });
             }}
           />
 
@@ -198,8 +233,12 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="text"
             placeholder="ImdbId"
             data-cy="form-imdbId"
+            value={imdbId}
             onChange={(event) => {
-              setImdbId(event.target.value);
+              setNewMovie({
+                ...newMovie,
+                imdbId: event.target.value,
+              });
             }}
           />
 
