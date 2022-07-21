@@ -1,27 +1,28 @@
 # Movies list - Add Form
-- Replace `<your_account>` with your Github username in the
-  [DEMO LINK](https://<your_account>.github.io/react_movies-list-add-form/)
-- Follow the [React task guideline](https://github.com/mate-academy/react_task-guideline#react-tasks-guideline)
 
-## Task
-1. Implement form inside `NewMovie` component.
-2. Form state should be inside `NewMovie` and className of the form shoud be `NewMovie`.
-3. Form should have next fields:
-    - title with `data-cy="form-title"` attribute
-    - description with `data-cy="form-description"` attribute
-    - imgUrl with `data-cy="form-imgUrl"` attribute
-    - imdbUrl with `data-cy="form-imdbUrl"` attribute
-    - imdbId with  `data-cy="form-imdbId"` attribute
-    - submit button with `data-cy="form-submit-button"` attribute
-4. On form submit callback `onAdd` from props should be called with new film object.
-Also, form should be cleared. Page should not be reloaded.
+You have the `App` with the `MoviesList` and `NewMovie` components. Implement an ability
+to add movies from [IMDB](https://www.imdb.com/).
 
-## Advanced tasks (Add validation)
-> Do it only if you understand everything 
+Use `DevTools` -> `Network` -> `Img` to get the first image from a [movie page](https://www.imdb.com/title/tt1312171)
 
-1. validate controls values on blur
-1. `title`, `imgUrl`, `imdbUrl`, `imdbId` should be required
-1. `imgUrl`, `imdbUrl` - should be valid urls (can use this regex `/^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/`)
-1. invalid control should have red border and error message below
-1. if form is invalid submit(and submit button) should be disabled
-1. (\*\*) show control as invalid only if control has been touched
+1. Use the fancy markup for all the inputs (see the `title`);
+1. Keep `data-cy` attributes;
+1. `NewMovie` should check if `title`, `imgUrl`, `imdbUrl`, `imdbId` are entered when an input looses focus (`onBlur`) an show an error and a red border if needed;
+1. Errors may appear only after the field was touched;
+1. The `description` is optional;
+1. Disable the submit button until all the required fields are filled;
+1. Clear the form after adding a new movie.
+
+## (Optional) Advanced validation
+1. `imgUrl`, `imdbUrl` - should be valid urls (you can use this regex)
+
+```js
+const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
+```
+
+## Instructions
+
+- Implement a solution following the [React task guideline](https://github.com/mate-academy/react_task-guideline#react-tasks-guideline).
+- Use the [React TypeScript cheat sheet](https://mate-academy.github.io/fe-program/js/extra/react-typescript).
+- Open one more terminal and run tests with `npm test` to ensure your solution is correct.
+- Replace `<your_account>` with your Github username in the [DEMO LINK](https://<your_account>.github.io/react_movies-list-add-form/) and add it to the PR description.

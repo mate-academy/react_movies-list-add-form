@@ -6,7 +6,7 @@ type Props = Movie;
 export const MovieCard: React.FC<Props> = ({
   title, description, imgUrl, imdbUrl,
 }) => (
-  <div className="card">
+  <div className="card" data-cy="movie-card">
     <div className="card-image">
       <figure className="image is-4by3">
         <img

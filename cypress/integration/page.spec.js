@@ -1,63 +1,91 @@
-describe('movies page tests', () => {
-  const form = {
-    fillAllFields() {
-      return cy.getByDataCy('form-title')
-               .type('movie-title') &&
-             cy.getByDataCy('form-description')
-               .type('movie-description') &&
-             cy.getByDataCy('form-imgUrl')
-               .type('movie-img') &&
-             cy.getByDataCy('form-imdbUrl')
-               .type('movie-url') &&
-             cy.getByDataCy('form-imdbId')
-               .type('movie-id');
-    }
-  }
+import movies from '../../src/api/movies.json';
 
-  before('visit main page', () => {
+const page = {
+  getByDataCy: (name) => cy.get(`[data-cy="${name}"]`),
+  getMovies: () => page.getByDataCy('movie-card'),
+
+  fillTheForm() {
+    page.getByDataCy('movie-title')
+      .type('The Umbrella Academy');
+
+    page.getByDataCy('movie-description')
+      .type('movie-description');
+
+    page.getByDataCy('movie-imgUrl')
+      .type('https://m.media-amazon.com/images/M/MV5BOTdlODM0MTAtMzRiZi00MTQxLWE0MGUtNTNjOGZjNjAzN2E0XkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_QL75_UY562_CR35,0,380,562_.jpg');
+
+    page.getByDataCy('movie-imdbUrl')
+      .type('https://www.imdb.com/title/tt1312171');
+
+    page.getByDataCy('movie-imdbId')
+      .type('tt1312171');
+  }
+};
+
+describe('Page', () => {
+  beforeEach(() => {
     cy.visit('/');
   });
+
+  it('should add a movie with correct data', () => {
+    page.fillTheForm();
+    page.getByDataCy('submit-button')
+      .click();
+
+    page.getMovies()
+      .should('have.length', movies.length + 1);
+
+    page.getMovies()
+      .last()
+      .find('.title')
+      .should('have.text', 'The Umbrella Academy');
+
+    page.getMovies()
+      .last()
+      .find('.content')
+      .should('contain', 'movie-description');
+
+    page.getMovies()
+      .last()
+      .find('.content')
+
+    page.getMovies()
+      .last()
+      .find(`a[href="https://www.imdb.com/title/tt1312171"]`)
+      .should('exist');
+  });
   
-  it('should not reload the page after clicking submit button', () => {
-    form.fillAllFields();
+  it('should not be reloaded', () => {
+    page.fillTheForm();
+
+    cy.window()
+      .should('not.have.prop', 'beforeReload');
+
     cy.window()
       .then(w => w.beforeReload = true);
+
+    page.getByDataCy('submit-button')
+      .click();
+
     cy.window()
       .should('have.prop', 'beforeReload', true);
-    cy.getByDataCy('form-submit-button')
-      .click();
-    cy.window()
-      .should('have.prop', 'beforeReload');
   });
 
-  it('should clean the fields after clicking submit button', () => {
-    form.fillAllFields();
-    cy.getByDataCy('form-submit-button')
+  it('should clean the form after adding a movie', () => {
+    page.fillTheForm();
+    page.getByDataCy('submit-button')
       .click();
-    cy.getByDataCy('form-title')
+
+    page.getByDataCy('movie-title')
       .should('be.empty');
-    cy.getByDataCy('form-description')
+    page.getByDataCy('movie-description')
       .should('be.empty');
-    cy.getByDataCy('form-imgUrl')
+    page.getByDataCy('movie-imgUrl')
       .should('be.empty');
-    cy.getByDataCy('form-imdbUrl')
+    page.getByDataCy('movie-imdbUrl')
       .should('be.empty');
-    cy.getByDataCy('form-imdbId')
+    page.getByDataCy('movie-imdbId')
       .should('be.empty');
   });
-
-  it('should add the movie with the correct data', () => {
-    form.fillAllFields();
-    cy.getByDataCy('form-submit-button')
-      .click();
-    cy.get('.title')
-      .eq(5)
-      .should('have.text', 'movie-title');
-    cy.get('.content')
-      .eq(5)
-      .should('contain', 'movie-description')
-    cy.get(`a[href ="movie-url"]`)
-      .should('exist');
-  }); 
 });
 
