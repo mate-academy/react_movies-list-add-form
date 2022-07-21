@@ -173,7 +173,7 @@ export const App: React.FC = () => {
         <NewMovie
           handleChange={handleChange}
           onAdd={addFilm}
-          values={newMovie}
+          movie={newMovie}
           checkForm={checkForm}
           checkUrl={checkUrl}
         />

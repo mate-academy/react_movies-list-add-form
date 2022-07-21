@@ -6,7 +6,7 @@ interface NewMovieProps {
   handleChange(event: React.ChangeEvent): void,
   onAdd(event: React.MouseEvent<HTMLFormElement>): void,
   // eslint-disable-next-line
-  values: any,
+  movie: any,
   // eslint-disable-next-line
   checkForm: any,
   checkUrl: string,
@@ -15,12 +15,12 @@ interface NewMovieProps {
 export const NewMovie: React.FC<NewMovieProps> = ({
   handleChange,
   onAdd,
-  values,
+  movie,
   checkForm,
   checkUrl,
 }) => {
-  const keys = Object.keys(values);
-  const fieldStrings = Object.values(values);
+  const keys = Object.keys(movie);
+  const fieldStrings = Object.values(movie);
   const fieldBooleans = Object.values(checkForm);
 
   fieldStrings.splice(1, 1);
@@ -53,7 +53,7 @@ export const NewMovie: React.FC<NewMovieProps> = ({
               key={key}
               className={`newMovie__input ${invalidClass}`}
               placeholder={`Add ${key}`}
-              value={values[key]}
+              value={movie[key]}
               onChange={handleChange}
               onBlur={handleChange}
               data-cy={`form-${key}`}
