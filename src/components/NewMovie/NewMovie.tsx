@@ -16,7 +16,7 @@ const clearMovieForm: Movie = {
 export const NewMovie: React.FC<Props> = ({ submitMovie }) => {
   const [newMovie, setNewMovie] = useState<Movie>(clearMovieForm);
   const [isBtnDisabled, setIsBtnDisabled] = useState<boolean>(true);
-  const [isTitle, setIsTitle] = useState(true);
+  const [isTitle, setIsTitle] = useState(false);
   const [isImgUrl, setIsImgUrl] = useState(false);
   const [isImdbUrl, setIsImdbUrl] = useState(false);
   const [isImdbId, setIsImdbId] = useState(false);
