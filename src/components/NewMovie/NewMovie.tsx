@@ -21,17 +21,21 @@ export const NewMovie: React.FC<Props> = ({
     imdbId,
   };
 
+  const handleSubmit = () => {
+    setTitle('');
+    setDescription('');
+    setImgUrl('');
+    setImdbUrl('');
+    setImdbId('');
+  };
+
   return (
     <form
       className="NewMovie"
       onSubmit={(event) => {
         event.preventDefault();
         addMovie(newMovie);
-        setTitle('');
-        setDescription('');
-        setImgUrl('');
-        setImdbUrl('');
-        setImdbId('');
+        handleSubmit();
       }}
     >
       <div>
