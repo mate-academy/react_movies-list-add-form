@@ -13,3 +13,29 @@
   padding: 20px;
   border-left: 1px solid lightgray;
 }
+
+p {
+  font-size: 25px;
+}
+
+input {
+  width: 350px;
+  height: 50px;
+}
+
+.add_movie {
+  width: 350px;
+  height: 60px;
+  background-color: pink;
+  font-size: 30px;
+}
+
+.NewMovie__description {
+  width: 350px;
+  height: 100px;
+}
+
+.error {
+  color: red;
+  font-size: 15px;
+}
