@@ -29,7 +29,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     input: string,
     urlQuery = false,
   ) => {
-    // if (false) {
     if (urlQuery) {
       const isValidUrl = validUrl.test(input);
 
@@ -45,19 +44,19 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       { 'is-danger': !input },
       { 'is-success': input },
     );
-    // }
-
-    // return classNames(prevClass);
   };
 
   const formHendler = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (title
+    if (
+      title
       && validUrl.test(imgUrl)
       && validUrl.test(imdbUrl)
-      && imdbId) {
+      && imdbId
+    ) {
       onAdd(newMovie);
+
       setNewMovie({
         ...newMovie,
         title: '',
@@ -67,7 +66,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         imdbId: '',
       });
     }
-    // console.log(newMovie);
   };
 
   return (
