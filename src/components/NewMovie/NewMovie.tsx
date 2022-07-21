@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
+import './NewMovie.scss';
 
 type Props = {
   addMovie: (movie: Movie) => void;
@@ -103,6 +104,7 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
   return (
     <form
       onSubmit={handleSubmit}
+      className="form"
     >
       <input
         type="text"
@@ -122,7 +124,7 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
       <input
         type="text"
         name="description"
-        className="input is-success"
+        className="input is-success description"
         data-cy="form-description"
         placeholder="Add a description"
         value={description}
