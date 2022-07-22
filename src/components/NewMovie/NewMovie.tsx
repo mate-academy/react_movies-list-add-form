@@ -5,6 +5,14 @@ type Props = {
   onAdd: (movie: Movie) => void,
 };
 
+enum MovieKeys {
+  Title = 'title',
+  Description = 'description',
+  ImgUrl = 'imgUrl',
+  ImdbUrl = 'imdbUrl',
+  ImdbId = 'imdbId',
+}
+
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -12,42 +20,103 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target;
+  /* ---------------Error-inputs---------------- */
+  const [titleError, setTitleError] = useState(false);
+  const [descriptionError, setDescriptionError] = useState(false);
+  const [imgUrlError, setImgUrlError] = useState(false);
+  const [imdbUrlError, setImdbUrlError] = useState(false);
+  const [imdbIdError, setImdbIdError] = useState(false);
 
-    setTitle(value);
+  const reset = () => {
+    setTitle('');
+    setDescription('');
+    setImdbId('');
+    setImdbUrl('');
+    setImgUrl('');
   };
 
-  const handleDescriptionChange = (
-    event: React.ChangeEvent<HTMLInputElement>,
-  ) => {
-    const { value } = event.target;
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
 
-    setDescription(value);
+    switch (name) {
+      case MovieKeys.Title:
+        setTitle(value);
+        setTitleError(false);
+        break;
+
+      case MovieKeys.Description:
+        setDescription(value);
+        setDescriptionError(false);
+        break;
+
+      case MovieKeys.ImgUrl:
+        setImgUrl(value);
+        setImgUrlError(false);
+        break;
+
+      case MovieKeys.ImdbUrl:
+        setImdbUrl(value);
+        setImdbUrlError(false);
+        break;
+
+      case MovieKeys.ImdbId:
+        setImdbId(value);
+        setImdbIdError(false);
+        break;
+
+      default:
+        break;
+    }
   };
 
-  const handleImgUrlChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target;
+  const handleInputBlur = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name } = event.target;
 
-    setImgUrl(value);
-  };
+    switch (name) {
+      case MovieKeys.Title:
+        if (!title) {
+          setTitleError(true);
+        }
 
-  const handleImdbUrlChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target;
+        break;
 
-    setImdbUrl(value);
-  };
+      case MovieKeys.Description:
+        if (!title) {
+          setDescriptionError(true);
+        }
 
-  const handleImdbIdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target;
+        break;
 
-    setImdbId(value);
+      case MovieKeys.ImgUrl:
+        if (!title) {
+          setImgUrlError(true);
+        }
+
+        break;
+
+      case MovieKeys.ImdbUrl:
+        if (!title) {
+          setImdbUrlError(true);
+        }
+
+        break;
+
+      case MovieKeys.ImdbId:
+        if (!title) {
+          setImdbIdError(true);
+        }
+
+        break;
+
+      default:
+        break;
+    }
   };
 
   const handleNewMovieSubmit = (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const newMovie: Movie = {
+    const newMovie = {
       title,
       description,
       imgUrl,
@@ -56,11 +125,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     };
 
     onAdd(newMovie);
-    setTitle('');
-    setDescription('');
-    setImdbId('');
-    setImdbUrl('');
-    setImgUrl('');
+    reset();
   };
 
   return (
@@ -75,8 +140,12 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         className="NewMovie__input"
         name="title"
         value={title}
-        onChange={handleTitleChange}
+        onChange={handleInputChange}
+        onBlur={handleInputBlur}
       />
+      {titleError && (
+        <p className="NewMovie__empty-input">Write a title</p>
+      )}
 
       <input
         type="text"
@@ -85,8 +154,13 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         className="NewMovie__input"
         name="description"
         value={description}
-        onChange={handleDescriptionChange}
+        onChange={handleInputChange}
+        onBlur={handleInputBlur}
       />
+      {descriptionError && (
+        <p className="NewMovie__empty-input">Write a description</p>
+      )}
+
       <input
         type="url"
         data-cy="form-imgUrl"
@@ -94,8 +168,13 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         className="NewMovie__input"
         name="imgUrl"
         value={imgUrl}
-        onChange={handleImgUrlChange}
+        onChange={handleInputChange}
+        onBlur={handleInputBlur}
       />
+      {imgUrlError && (
+        <p className="NewMovie__empty-input">Write a imgUrl</p>
+      )}
+
       <input
         type="url"
         data-cy="form-imdbUrl"
@@ -103,9 +182,13 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         className="NewMovie__input"
         name="imdbUrl"
         value={imdbUrl}
-        onChange={handleImdbUrlChange}
-
+        onChange={handleInputChange}
+        onBlur={handleInputBlur}
       />
+      {imdbUrlError && (
+        <p className="NewMovie__empty-input">Write a imdbUrl</p>
+      )}
+
       <input
         type="text"
         data-cy="form-imdbId"
@@ -113,10 +196,15 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         className="NewMovie__input"
         name="imdbId"
         value={imdbId}
-        onChange={handleImdbIdChange}
+        onChange={handleInputChange}
+        onBlur={handleInputBlur}
       />
+      {imdbIdError && (
+        <p className="NewMovie__empty-input">Write a imdbId</p>
+      )}
 
       <button
+        disabled={!title || !imgUrl || !imdbUrl || !imdbId}
         type="submit"
         data-cy="form-submit-button"
         className="NewMovie__button"

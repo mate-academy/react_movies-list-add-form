@@ -4,7 +4,9 @@
   align-items: center;
   flex-direction: column;
 
-  gap: 25px;
+  &__input {
+    margin-bottom: 20px;
+  }
 
   &__input,
   &__button {
@@ -23,5 +25,11 @@
   &__button {
     cursor: pointer;
     color: #4a4a4a;
+  }
+
+  &__empty-input {
+    color: red;
+
+    height: 50px;
   }
 }
