@@ -55,7 +55,7 @@ export class NewMovie extends Component<Props, State> {
             type="text"
             name="title"
             placeholder="title"
-            data-cy="form-title"
+            data-cy="movie-title"
             value={title}
             required
             onChange={(event) => {
@@ -70,7 +70,7 @@ export class NewMovie extends Component<Props, State> {
             className="textarea"
             name="description"
             placeholder="description"
-            data-cy="form-description"
+            data-cy="movie-description"
             value={description}
             onChange={(event) => {
               this.setState({ description: event.target.value });
@@ -85,7 +85,7 @@ export class NewMovie extends Component<Props, State> {
             type="url"
             name="imgUrl"
             placeholder="imgUrl"
-            data-cy="form-imgUrl"
+            data-cy="movie-imgUrl"
             required
             value={imgUrl}
             onChange={(event) => {
@@ -101,7 +101,7 @@ export class NewMovie extends Component<Props, State> {
             type="url"
             name="imdbUrl"
             placeholder="imdbUrl"
-            data-cy="form-imdbUrl"
+            data-cy="movie-imdbUrl"
             required
             value={imdbUrl}
             onChange={(event) => {
@@ -117,7 +117,7 @@ export class NewMovie extends Component<Props, State> {
             type="url"
             name="imdbId"
             placeholder="imdbId"
-            data-cy="form-imdbId"
+            data-cy="movie-imdbId"
             required
             value={imdbId}
             onChange={(event) => {
@@ -129,7 +129,7 @@ export class NewMovie extends Component<Props, State> {
         <button
           type="submit"
           className="button is-ghost is-light"
-          data-cy="form-submit-button"
+          data-cy="movie-submit-button"
         >
           Add
         </button>
