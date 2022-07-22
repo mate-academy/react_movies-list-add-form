@@ -8,10 +8,10 @@ import { Movie } from './react-app-env';
 import moviesFromServer from './api/movies.json';
 
 export const App: React.FC = () => {
-  const [movies, setMovies] = useState(moviesFromServer);
+  const [movies, setMovies] = useState([...moviesFromServer]);
 
   const addMovie = (movie: Movie) => {
-    setMovies(currentMovies => [...currentMovies, movie]);
+    setMovies((prevMovies) => ([...prevMovies, movie]));
   };
 
   return (
@@ -19,8 +19,11 @@ export const App: React.FC = () => {
       <div className="page-content">
         <MoviesList movies={movies} />
       </div>
+
       <div className="sidebar">
-        <h1 className="title">Add movie</h1>
+        <h1 className="title">
+          Add your movie
+        </h1>
 
         <NewMovie addMovie={addMovie} />
       </div>

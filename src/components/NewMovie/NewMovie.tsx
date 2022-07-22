@@ -1,9 +1,10 @@
+import classNames from 'classnames';
 import React, { useState } from 'react';
-import './NewMovie.scss';
 import { Movie } from '../../react-app-env';
+import './NewMovie.scss';
 
 type Props = {
-  addMovie: (movie: Movie) => void
+  addMovie: (movie: Movie) => void;
 };
 
 export const NewMovie: React.FC<Props> = ({ addMovie }) => {
@@ -12,168 +13,156 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
   const [imgUrl, setImgUrl] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
-  const [isTitle, setIsTitle] = useState(true);
-  const [isImgUrl, setIsImgUrl] = useState(true);
-  const [isImdbUrl, setIsImdbUrl] = useState(true);
-  const [isImdbId, setIsImdbId] = useState(true);
+  const [hasTitle, setTitleError] = useState(true);
+  const [hasImgUrl, setImgUrlError] = useState(true);
+  const [hasImdbUrl, setImdbUrlError] = useState(true);
+  const [hasImdbId, setImdbIdError] = useState(true);
 
-  const handleTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(event.target.value);
-    setIsTitle(true);
-  };
-
-  const handleDescription = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setDescription(event.target.value);
-  };
-
-  const handleImgUrl = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setImgUrl(event.target.value);
-    setIsImgUrl(true);
-  };
-
-  const handleImdbUrl = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setImdbUrl(event.target.value);
-    setIsImdbUrl(true);
-  };
-
-  const handleImdbId = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setImdbId(event.target.value);
-    setIsImdbId(true);
+  const resetForm = () => {
+    setTitle('');
+    setDescription('');
+    setImgUrl('');
+    setImdbUrl('');
+    setImdbId('');
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     if (!title) {
-      setIsTitle(false);
+      setTitleError(false);
     }
 
     if (!imgUrl) {
-      setIsTitle(false);
+      setImgUrlError(false);
     }
 
     if (!imdbUrl) {
-      setIsTitle(false);
+      setImdbUrlError(false);
     }
 
     if (!imdbId) {
-      setIsTitle(false);
+      setImdbIdError(false);
     }
 
-    if (title && imdbUrl && imdbUrl && imdbId) {
-      const newMovie = {
-        title,
-        description,
-        imgUrl,
-        imdbUrl,
-        imdbId,
-      };
+    const movie = {
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    };
 
-      addMovie(newMovie);
-
-      setTitle('');
-      setDescription('');
-      setImgUrl('');
-      setImdbUrl('');
-      setImdbId('');
+    if (title && imgUrl && imdbUrl && imdbId) {
+      addMovie(movie);
+      resetForm();
     }
   };
 
   return (
     <form
-      className="NewMovie"
       onSubmit={handleSubmit}
+      className="form"
     >
       <div className="input-block">
-        Title:
         <input
-          className="input is-rounded"
           type="text"
+          name="title"
+          className={classNames('input is-rounded', {
+            'input is-danger': !hasTitle,
+          })}
           data-cy="form-title"
-          placeholder="Enter a title"
+          placeholder="Enter Title"
           value={title}
-          onChange={handleTitle}
+          onChange={(event) => {
+            setTitle(event.target.value);
+          }}
         />
 
-        {!isTitle && (
-          <span className="error">
-            Please, enter a title
-          </span>
+        {!hasTitle && (
+          <p>Title is required</p>
         )}
       </div>
 
       <div className="input-block">
-        Description:
         <input
-          className="input is-rounded"
           type="text"
+          name="description"
+          className="input is-rounded description"
           data-cy="form-description"
-          placeholder="Write a few words about the movie"
+          placeholder="Enter Description"
           value={description}
-          onChange={handleDescription}
+          onChange={(event) => {
+            setDescription(event.target.value);
+          }}
         />
       </div>
 
       <div className="input-block">
-        ImgUrl:
         <input
-          className="input is-rounded"
-          type="text"
+          type="url"
+          name="imgUrl"
+          className={classNames('input is-rounded', {
+            'input is-danger': !hasImgUrl,
+          })}
           data-cy="form-imgUrl"
-          placeholder="https://..."
+          placeholder="Enter Image's URL"
           value={imgUrl}
-          onChange={handleImgUrl}
+          onChange={(event) => {
+            setImgUrl(event.target.value);
+          }}
         />
 
-        {!isImgUrl && (
-          <span className="error">
-            Please, enter an image&apos;s url
-          </span>
+        {!hasImgUrl && (
+          <p>Image URL is required</p>
         )}
       </div>
 
       <div className="input-block">
-        IMDbUrl:
         <input
-          className="input is-rounded"
-          type="text"
+          type="url"
+          name="imdbUrl"
+          className={classNames('input is-rounded', {
+            'input is-danger': !hasImdbUrl,
+          })}
           data-cy="form-imdbUrl"
-          placeholder="https://..."
+          placeholder="Enter IMDb URL"
           value={imdbUrl}
-          onChange={handleImdbUrl}
+          onChange={(event) => {
+            setImdbUrl(event.target.value);
+          }}
         />
 
-        {!isImdbUrl && (
-          <span className="error">
-            Please, enter a IMDb url
-          </span>
+        {!hasImdbUrl && (
+          <p>IMDb URL is required</p>
         )}
       </div>
 
       <div className="input-block">
-        IMDbId:
         <input
-          className="input is-rounded"
           type="text"
+          name="imdbId"
+          className={classNames('input is-rounded', {
+            'input is-danger': !hasImdbId,
+          })}
           data-cy="form-imdbId"
-          placeholder="tt0314331"
+          placeholder="Enter Movie's ID"
           value={imdbId}
-          onChange={handleImdbId}
+          onChange={(event) => {
+            setImdbId(event.target.value);
+          }}
         />
 
-        {!isImdbId && (
-          <span className="error">
-            Please, enter a movie&apos;s ID
-          </span>
+        {!hasImdbId && (
+          <p>IMDb ID is required</p>
         )}
       </div>
 
       <button
-        className="button"
-        type="button"
-        data-cy="form-submit-button"
+        type="submit"
+        className="button is-success"
       >
-        Add Movie
+        Submit
       </button>
     </form>
   );
