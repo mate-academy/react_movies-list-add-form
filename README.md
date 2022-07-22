@@ -1,20 +1,24 @@
 # Movies list - Add Form
 
-You have the `App` with the `MoviesList` and `NewMovie` components. Implement an ability
-to add movies from [IMDB](https://www.imdb.com/).
+You have the `App` with the `MoviesList` and `NewMovie` form containing ready
+to use `TextField` components. Learn how it works and implement an ability to
+add movies from [IMDB](https://www.imdb.com/).
 
-Use `DevTools` -> `Network` -> `Img` to get the first image from a [movie page](https://www.imdb.com/title/tt1312171)
+Use `DevTools` -> `Network` -> `Img` to get the first image from a
+[movie page](https://www.imdb.com/title/tt1312171)
 
-1. Use the fancy markup for all the inputs (see the `title`);
-1. Keep `data-cy` attributes;
-1. `NewMovie` should check if `title`, `imgUrl`, `imdbUrl`, `imdbId` are entered when an input looses focus (`onBlur`) an show an error and a red border if needed;
-1. Errors may appear only after the field was touched;
+1. `NewMovie` should check if `title`, `imgUrl`, `imdbUrl`, `imdbId` are
+entered when an input looses focus (`onBlur`) and show an error and a red
+border if needed (learn how it it implemented in the `TextField`);
 1. The `description` is optional;
 1. Disable the submit button until all the required fields are filled;
 1. Clear the form after adding a new movie.
+1. Errors should not be shown after clearing the form (change its key to
+reinitialize the form);
 
 ## (Optional) Advanced validation
-1. `imgUrl`, `imdbUrl` - should be valid urls (you can use this regex)
+Implement the ability to add custom validation callback to the `TextField`.
+Check if `imgUrl` and `imdbUrl` are valid URLs (you can use the next regex)
 
 ```js
 const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;

@@ -4,22 +4,29 @@ const page = {
   getByDataCy: (name) => cy.get(`[data-cy="${name}"]`),
   getMovies: () => page.getByDataCy('movie-card'),
 
-  fillTheForm() {
+  submitForm: () => {
+    return page.getByDataCy('submit-button')
+      .click({ force: true });
+  },
+
+  fillForm: (movie) => {
+    const empty = '{selectAll}{del}';
+
     page.getByDataCy('movie-title')
-      .type('The Umbrella Academy');
+      .type(movie.title || empty);
 
     page.getByDataCy('movie-description')
-      .type('movie-description');
+      .type(movie.description || empty);
 
     page.getByDataCy('movie-imgUrl')
-      .type('https://m.media-amazon.com/images/M/MV5BOTdlODM0MTAtMzRiZi00MTQxLWE0MGUtNTNjOGZjNjAzN2E0XkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_QL75_UY562_CR35,0,380,562_.jpg');
+      .type(movie.imgUrl || empty);
 
     page.getByDataCy('movie-imdbUrl')
-      .type('https://www.imdb.com/title/tt1312171');
+      .type(movie.imdbUrl || empty);
 
     page.getByDataCy('movie-imdbId')
-      .type('tt1312171');
-  }
+      .type(movie.imdbId || empty);
+  },
 };
 
 describe('Page', () => {
@@ -28,9 +35,16 @@ describe('Page', () => {
   });
 
   it('should add a movie with correct data', () => {
-    page.fillTheForm();
-    page.getByDataCy('submit-button')
-      .click();
+    const movie = {
+      title: 'The Umbrella Academy',
+      description: 'A family of former child heroes, now grown apart, must reunite to continue to protect the world.',
+      imgUrl: 'https://m.media-amazon.com/images/M/MV5BOTdlODM0MTAtMzRiZi00MTQxLWE0MGUtNTNjOGZjNjAzN2E0XkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_QL75_UY562_CR35,0,380,562_.jpg',
+      imdbUrl: 'https://www.imdb.com/title/tt1312171',
+      imdbId: 'tt1312171',
+    };
+
+    page.fillForm(movie);
+    page.submitForm();
 
     page.getMovies()
       .should('have.length', movies.length + 1);
@@ -38,25 +52,29 @@ describe('Page', () => {
     page.getMovies()
       .last()
       .find('.title')
-      .should('have.text', 'The Umbrella Academy');
+      .should('have.text', movie.title);
 
     page.getMovies()
       .last()
       .find('.content')
-      .should('contain', 'movie-description');
+      .should('contain', movie.description);
 
     page.getMovies()
       .last()
-      .find('.content')
-
-    page.getMovies()
-      .last()
-      .find(`a[href="https://www.imdb.com/title/tt1312171"]`)
+      .find(`a[href="${movie.imdbUrl}"]`)
       .should('exist');
   });
   
   it('should not be reloaded', () => {
-    page.fillTheForm();
+    const movie = {
+      title: 'The Umbrella Academy',
+      description: 'A family of former child heroes, now grown apart, must reunite to continue to protect the world.',
+      imgUrl: 'https://m.media-amazon.com/images/M/MV5BOTdlODM0MTAtMzRiZi00MTQxLWE0MGUtNTNjOGZjNjAzN2E0XkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_QL75_UY562_CR35,0,380,562_.jpg',
+      imdbUrl: 'https://www.imdb.com/title/tt1312171',
+      imdbId: 'tt1312171',
+    };
+
+    page.fillForm(movie);
 
     cy.window()
       .should('not.have.prop', 'beforeReload');
@@ -64,17 +82,23 @@ describe('Page', () => {
     cy.window()
       .then(w => w.beforeReload = true);
 
-    page.getByDataCy('submit-button')
-      .click();
+    page.submitForm();
 
     cy.window()
       .should('have.prop', 'beforeReload', true);
   });
 
   it('should clean the form after adding a movie', () => {
-    page.fillTheForm();
-    page.getByDataCy('submit-button')
-      .click();
+    const movie = {
+      title: 'The Umbrella Academy',
+      description: 'A family of former child heroes, now grown apart, must reunite to continue to protect the world.',
+      imgUrl: 'https://m.media-amazon.com/images/M/MV5BOTdlODM0MTAtMzRiZi00MTQxLWE0MGUtNTNjOGZjNjAzN2E0XkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_QL75_UY562_CR35,0,380,562_.jpg',
+      imdbUrl: 'https://www.imdb.com/title/tt1312171',
+      imdbId: 'tt1312171',
+    };
+
+    page.fillForm(movie);
+    page.submitForm();
 
     page.getByDataCy('movie-title')
       .should('be.empty');
