@@ -7,6 +7,8 @@ add movies from [IMDB](https://www.imdb.com/).
 Use `DevTools` -> `Network` -> `Img` to get the first image from a
 [movie page](https://www.imdb.com/title/tt1312171)
 
+> Here is [the demo page](https://mate-academy.github.io/react_movies-list-add-form/)
+
 1. `NewMovie` should check if `title`, `imgUrl`, `imdbUrl`, `imdbId` are
 entered when an input looses focus (`onBlur`) and show an error and a red
 border if needed (learn how it it implemented in the `TextField`);
