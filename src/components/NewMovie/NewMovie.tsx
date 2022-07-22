@@ -27,6 +27,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrlError, setImdbUrlError] = useState(false);
   const [imdbIdError, setImdbIdError] = useState(false);
 
+  const disabledBtn = !title || !imgUrl || !imdbUrl || !imdbId;
+
   const reset = () => {
     setTitle('');
     setDescription('');
@@ -81,28 +83,28 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         break;
 
       case MovieKeys.Description:
-        if (!title) {
+        if (!description) {
           setDescriptionError(true);
         }
 
         break;
 
       case MovieKeys.ImgUrl:
-        if (!title) {
+        if (!imgUrl) {
           setImgUrlError(true);
         }
 
         break;
 
       case MovieKeys.ImdbUrl:
-        if (!title) {
+        if (!imdbUrl) {
           setImdbUrlError(true);
         }
 
         break;
 
       case MovieKeys.ImdbId:
-        if (!title) {
+        if (!imdbId) {
           setImdbIdError(true);
         }
 
@@ -204,7 +206,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       )}
 
       <button
-        disabled={!title || !imgUrl || !imdbUrl || !imdbId}
+        disabled={disabledBtn}
         type="submit"
         data-cy="form-submit-button"
         className="NewMovie__button"
