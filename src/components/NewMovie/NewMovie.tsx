@@ -29,24 +29,20 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     input: string,
     urlQuery = false,
   ) => {
-    if (urlQuery) {
-      const isValidUrl = validUrl.test(input);
+    let isValid = !!input;
 
-      return classNames(
-        prevClass,
-        { 'is-danger': !isValidUrl },
-        { 'is-success': isValidUrl },
-      );
+    if (urlQuery) {
+      isValid = validUrl.test(input);
     }
 
     return classNames(
       prevClass,
-      { 'is-danger': !input },
-      { 'is-success': input },
+      { 'is-danger': !isValid },
+      { 'is-success': isValid },
     );
   };
 
-  const formHendler = (event: React.FormEvent) => {
+  const handleFormSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
     if (
@@ -58,7 +54,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       onAdd(newMovie);
 
       setNewMovie({
-        ...newMovie,
         title: '',
         description: 'No desription',
         imgUrl: '',
@@ -70,7 +65,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
   return (
     <form
-      onSubmit={formHendler}
+      onSubmit={handleFormSubmit}
     >
       <div
         className="field"
