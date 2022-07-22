@@ -1,4 +1,4 @@
-export interface Movie {
+export default interface Movie {
   title: string;
   description: string;
   imgUrl: string;
