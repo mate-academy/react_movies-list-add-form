@@ -1,35 +1,27 @@
-import { useState } from 'react';
 import './NewMovie.scss';
+import { useState } from 'react';
 
 interface Props {
   onAdd: (movie: Movie) => void;
 }
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
+  const emptyMovieInputs  = {
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  }
 
-  const newMovie = {
-    title,
-    description,
-    imdbUrl,
-    imdbId,
-    imgUrl,
-  };
+  const [newMovie, setNewMovie] = useState(emptyMovieInputs);
 
   const validForm = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (title && description && imgUrl && imdbUrl && imdbId) {
+    if (emptyMovieInputs) {
       onAdd(newMovie);
-      setTitle('');
-      setDescription('');
-      setImgUrl('');
-      setImdbUrl('');
-      setImdbId('');
+      setNewMovie(emptyMovieInputs);
     }
   };
 
@@ -42,10 +34,13 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         type="text"
         placeholder="Enter movie title"
         className="form__title"
-        value={title}
+        value={emptyMovieInputs.title}
         data-cy="form-title"
         onChange={(event) => {
-          setTitle(event.target.value);
+          setNewMovie({
+            ...newMovie,
+            title: event.target.value
+          });
         }}
       />
 
@@ -54,10 +49,13 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         id=""
         className="form__description"
         placeholder="Enter description"
-        value={description}
+        value={emptyMovieInputs.description}
         data-cy="form-description"
         onChange={(event) => {
-          setDescription(event.target.value);
+          setNewMovie({
+            ...newMovie,
+            description: event.target.value,
+          });
         }}
       />
 
@@ -65,32 +63,41 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         type="text"
         placeholder="Enter image URL"
         className="form__img"
-        value={imgUrl}
+        value={emptyMovieInputs.imgUrl}
         data-cy="form-imgUrl"
         onChange={(event) => {
-          setImgUrl(event.target.value);
+          setNewMovie({
+            ...newMovie,
+            imgUrl: event.target.value
+          });
         }}
       />
 
       <input
         type="text"
         placeholder="Enter Imdb URL"
-        value={imdbUrl}
+        value={emptyMovieInputs.imdbUrl}
         className="form__imdbUrl"
         data-cy="form-imdbUrl"
         onChange={(event) => {
-          setImdbUrl(event.target.value);
+          setNewMovie({
+            ...newMovie,
+            imdbUrl: event.target.value
+          });
         }}
       />
 
       <input
         type="text"
         placeholder="Enter Imdb ID"
-        value={imdbId}
+        value={emptyMovieInputs.imdbId}
         className="form__imbId"
         data-cy="form-imdbId"
         onChange={(event) => {
-          setImdbId(event.target.value);
+          setNewMovie({
+            ...newMovie,
+            imdbId: event.target.value
+          });
         }}
       />
 
