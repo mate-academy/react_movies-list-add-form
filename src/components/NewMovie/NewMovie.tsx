@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import './NewMovie.scss';
 
 type Props = {
-  addMovie: (movie: Movie) => void;
+  onAdd: (movie: Movie) => void;
 };
 
-export const NewMovie: React.FC<Props> = ({ addMovie }) => {
+export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [imgUrl, setImgUrl] = useState('');
@@ -31,7 +31,7 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
       imdbId,
     };
 
-    addMovie(movie);
+    onAdd(movie);
 
     clearForm();
   };
