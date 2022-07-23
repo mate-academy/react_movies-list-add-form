@@ -17,19 +17,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbIdValue, setImdbIdValue] = useState('');
   const [isDisabled, setIsDisabled] = useState(true);
 
-  // const [numOfInputs, setNumOfInputs] = useState(0);
-  // const [validInputs, setValidInputs] = useState(0);
-
-  // const countInputs = () => {
-  //   setNumOfInputs(prevState => prevState + 1);
-  // };
-
-  // const countValidInputs = (hasError: boolean) => {
-  //   if (!hasError) {
-  //     setValidInputs(prevState => prevState + 1);
-  //   }
-  // };
-
   useEffect(() => {
     if (titleValue
       && imgUrlValue
@@ -74,8 +61,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Title"
         value={titleValue}
         onChange={setTitleValue}
-        // countOnMount={countInputs}
-        // isValid={countValidInputs}
         required
       />
 
@@ -84,8 +69,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Description"
         value={descriptionValue}
         onChange={setDescriptionValue}
-      // countOnMount={countInputs}
-      // isValid={countValidInputs}
       />
 
       <TextField
@@ -93,8 +76,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Image URL"
         value={imgUrlValue}
         onChange={setImgUrlValue}
-        // countOnMount={countInputs}
-        // isValid={countValidInputs}
         required
       />
 
@@ -103,8 +84,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Imdb URL"
         value={imdbUrlValue}
         onChange={setImdbUrlValue}
-        // countOnMount={countInputs}
-        // isValid={countValidInputs}
         required
       />
 
@@ -113,8 +92,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Imdb ID"
         value={imdbIdValue}
         onChange={setImdbIdValue}
-        // countOnMount={countInputs}
-        // isValid={countValidInputs}
         required
       />
 
