@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useState } from 'react';
 import { Movie } from '../../types/Movie';
 import { TextField } from '../TextField';
 
@@ -13,12 +13,6 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
   const [imgUrl, setImgUrl] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
-
-  useEffect(() => {
-    if (title && imgUrl && imdbUrl && imdbId) {
-      setCount(1);
-    }
-  }, [title, imgUrl, imdbUrl, imdbId]);
 
   const hundleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -96,7 +90,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={count === 0}
+            disabled={!(title && imgUrl && imdbUrl && imdbId)}
           >
             Add
           </button>
