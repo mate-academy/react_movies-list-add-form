@@ -5,6 +5,13 @@ type Props = {
   onAddMovie: (movie: Movie) => void
 };
 
+enum FieldName {
+  Title = 'title',
+  ImgUrl = 'imgUrl',
+  ImdbUrl = 'imdbUrl',
+  ImdbId = 'imdbId',
+}
+
 export const NewMovie:React.FC<Props> = ({ onAddMovie: addMovie }) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -23,8 +30,12 @@ export const NewMovie:React.FC<Props> = ({ onAddMovie: addMovie }) => {
     if (!mounted.current) {
       mounted.current = true;
     } else {
-      setStatusBtn((hasImdbIdError
-        || hasImdbUrlError || hasImgUrlError || hasTitleError));
+      setStatusBtn(
+        (hasImdbIdError
+        || hasImdbUrlError
+        || hasImgUrlError
+        || hasTitleError),
+      );
     }
   }, [hasTitleError, hasImgUrlError, hasImdbUrlError, hasImdbIdError]);
 
@@ -56,19 +67,19 @@ export const NewMovie:React.FC<Props> = ({ onAddMovie: addMovie }) => {
     const { value, name } = event.target;
 
     switch (name) {
-      case 'title':
+      case FieldName.Title:
         setTitleError(!value);
         break;
 
-      case 'imgUrl':
+      case FieldName.ImgUrl:
         setImgUrlError(!regex.test(value) || !value);
         break;
 
-      case 'imdbUrl':
+      case FieldName.ImdbUrl:
         setImdbUrlError(!regex.test(value) || !value);
         break;
 
-      case 'imdbId':
+      case FieldName.ImdbId:
         setImdbIdError(!value);
         break;
 
