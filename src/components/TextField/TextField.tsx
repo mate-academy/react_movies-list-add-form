@@ -6,6 +6,8 @@ type Props = {
   value: string,
   label?: string,
   required?: boolean,
+  checkImageUrl?: boolean,
+  checkImdbUrl?: boolean,
   onChange?: (newValue: string) => void,
 };
 
@@ -18,6 +20,8 @@ export const TextField: React.FC<Props> = ({
   value,
   label = name,
   required = false,
+  checkImageUrl = true,
+  checkImdbUrl = true,
   onChange = () => {},
 }) => {
   // generage a unique id once on component load
@@ -50,6 +54,14 @@ export const TextField: React.FC<Props> = ({
 
       {hasError && (
         <p className="help is-danger">{`${label} is required`}</p>
+      )}
+
+      {!checkImageUrl && (
+        <p className="help is-danger">Link is required</p>
+      )}
+
+      {!checkImdbUrl && (
+        <p className="help is-danger">Link is required</p>
       )}
     </div>
   );
