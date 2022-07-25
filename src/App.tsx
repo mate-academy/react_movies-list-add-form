@@ -27,9 +27,7 @@ export class App extends React.Component<{}, State> {
           <MoviesList movies={movies} />
         </div>
         <div className="sidebar">
-          <NewMovie
-            submitMovie={this.addMovie}
-          />
+          <NewMovie submitMovie={this.addMovie} />
         </div>
       </div>
     );

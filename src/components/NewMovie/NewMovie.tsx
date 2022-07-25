@@ -5,7 +5,7 @@ type Props = {
   submitMovie: (movie: Movie) => void,
 };
 
-const clearMovieForm: Movie = {
+const clearMovieFormFields: Movie = {
   title: '',
   description: '',
   imgUrl: '',
@@ -14,8 +14,8 @@ const clearMovieForm: Movie = {
 };
 
 export const NewMovie: React.FC<Props> = ({ submitMovie }) => {
-  const [newMovie, setNewMovie] = useState<Movie>(clearMovieForm);
-  const [isBtnDisabled, setIsBtnDisabled] = useState<boolean>(true);
+  const [newMovie, setNewMovie] = useState<Movie>(clearMovieFormFields);
+  const [isBtnDisabled, setIsBtnDisabled] = useState(true);
   const [isTitle, setIsTitle] = useState(false);
   const [isImgUrl, setIsImgUrl] = useState(false);
   const [isImdbUrl, setIsImdbUrl] = useState(false);
@@ -29,11 +29,11 @@ export const NewMovie: React.FC<Props> = ({ submitMovie }) => {
       imdbId,
     } = newMovie;
 
-    if (title && imgUrl && imdbUrl && imdbId) {
-      setIsBtnDisabled(false);
-    } else {
-      setIsBtnDisabled(true);
-    }
+    const shouldDisableButton = (
+      !title || !imgUrl || !imdbUrl || !imdbId
+    );
+
+    setIsBtnDisabled(shouldDisableButton);
   };
 
   const handleOnBlur = (event: React.FocusEvent<HTMLInputElement, Element>) => {
@@ -61,7 +61,10 @@ export const NewMovie: React.FC<Props> = ({ submitMovie }) => {
     }
   };
 
-  useEffect(checkBtnDisable);
+  useEffect(() => {
+    checkBtnDisable();
+  },
+  [newMovie.title, newMovie.imdbId, newMovie.imdbUrl, newMovie.imdbId]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -77,7 +80,7 @@ export const NewMovie: React.FC<Props> = ({ submitMovie }) => {
     event.currentTarget.reset();
 
     submitMovie(newMovie);
-    setNewMovie(clearMovieForm);
+    setNewMovie(clearMovieFormFields);
     setIsBtnDisabled(true);
   };
 
