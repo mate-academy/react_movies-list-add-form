@@ -11,10 +11,20 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
   const [title, setTitle] = useState('');
-  const [description, setdescription] = useState('');
-  const [imgUrl, setimgUrl] = useState('');
-  const [imdbUrl, setimdbUrl] = useState('');
-  const [imdbId, setimdbId] = useState('');
+  const [description, setDescription] = useState('');
+  const [imgUrl, setImgUrl] = useState('');
+  const [imdbUrl, setImdbUrl] = useState('');
+  const [imdbId, setImdbId] = useState('');
+
+  const reset = () => {
+    setTitle('');
+    setDescription('');
+    setImgUrl('');
+    setImdbUrl('');
+    setImdbId('');
+  };
+
+  const disabledBtn = !(title && imgUrl && imdbUrl && imdbId);
 
   function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
@@ -29,11 +39,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
     onAdd(movie);
     setCount(prev => prev + 1);
-    setTitle('');
-    setdescription('');
-    setimgUrl('');
-    setimdbUrl('');
-    setimdbId('');
+    reset();
   }
 
   return (
@@ -56,14 +62,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={description}
-        onChange={setdescription}
+        onChange={setDescription}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={setimgUrl}
+        onChange={setImgUrl}
         required
       />
 
@@ -71,14 +77,15 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={setimdbUrl}
+        onChange={setImdbUrl}
+        required
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={setimdbId}
+        onChange={setImdbId}
         required
       />
 
@@ -88,7 +95,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!(title && imgUrl && imdbUrl && imdbId)}
+            disabled={disabledBtn}
           >
             Add
           </button>
