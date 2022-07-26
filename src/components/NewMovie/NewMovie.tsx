@@ -6,30 +6,26 @@ type Props = {
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [title, setTitle] = useState('');
-  const [isTitle, setIsTitle] = useState(false);
+  const [isTitle, setIsTitle] = useState(true);
 
   const [description, setDescription] = useState('');
-  const [isDescription, setIsDescription] = useState(false);
+  const [isDescription, setIsDescription] = useState(true);
 
   const [imgUrl, setImgUrl] = useState('');
-  const [isImgUrl, setIsImgUrl] = useState(false);
+  const [isImgUrl, setIsImgUrl] = useState(true);
 
   const [imdbUrl, setImdbUrl] = useState('');
-  const [isImdbUrl, setIsImdbUrl] = useState(false);
+  const [isImdbUrl, setIsImdbUrl] = useState(true);
 
   const [imdbId, setImdbId] = useState('');
-  const [isImdbId, setIsImdbId] = useState(false);
+  const [isImdbId, setIsImdbId] = useState(true);
 
   const handleSubmit = () => {
-    setIsTitle(!title);
-    setIsDescription(!description);
-    setIsImgUrl(!imgUrl);
-    setIsImdbUrl(!imdbUrl);
-    setIsImdbId(!imdbId);
-
-    if (!title || !description || !imgUrl || !imdbUrl || !imdbId) {
-      return;
-    }
+    setIsTitle(!!title);
+    setIsDescription(!!description);
+    setIsImgUrl(!!imgUrl);
+    setIsImdbUrl(!!imdbUrl);
+    setIsImdbId(!!imdbId);
 
     const movie = {
       title,
@@ -39,18 +35,54 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       imdbId,
     };
 
-    onAdd(movie);
+    if (title && description && imgUrl && imdbUrl && imdbId) {
+      onAdd(movie);
 
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
+      setTitle('');
+      setDescription('');
+      setImgUrl('');
+      setImdbUrl('');
+      setImdbId('');
+    }
+  };
+
+  const handleEvent = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+
+    switch (name) {
+      case 'title':
+        setTitle(value);
+        setIsTitle(true);
+        break;
+
+      case 'description':
+        setDescription(value);
+        setIsDescription(true);
+        break;
+
+      case 'imgUrl':
+        setImgUrl(value);
+        setIsImgUrl(true);
+        break;
+
+      case 'imdbUrl':
+        setImdbUrl(value);
+        setIsImdbUrl(true);
+        break;
+
+      case 'imdbId':
+        setImdbId(value);
+        setIsImdbId(true);
+        break;
+
+      default:
+        break;
+    }
   };
 
   return (
     <form
-      className="forrm"
+      className="newMovie"
       onSubmit={(event) => {
         event.preventDefault();
         handleSubmit();
@@ -64,12 +96,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
           value={title}
           placeholder="Enter name a new film"
           data-cy="form-title"
-          onChange={(event) => {
-            setTitle(event.target.value);
-            setIsTitle(false);
-          }}
+          onChange={handleEvent}
         />
-        {isTitle && (
+        {!isTitle && (
           <span className="error">Please enter the title</span>
         )}
         <input
@@ -79,12 +108,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
           value={description}
           placeholder="Enter Description"
           data-cy="form-description"
-          onChange={(event) => {
-            setDescription(event.target.value);
-            setIsDescription(false);
-          }}
+          onChange={handleEvent}
         />
-        {isDescription && (
+        {!isDescription && (
           <span className="error">Please enter the Description</span>
         )}
         <input
@@ -94,12 +120,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
           value={imgUrl}
           placeholder="Enter ImgUrl"
           data-cy="form-imgUrl"
-          onChange={(event) => {
-            setImgUrl(event.target.value);
-            setIsImgUrl(false);
-          }}
+          onChange={handleEvent}
         />
-        {isImgUrl && (
+        {!isImgUrl && (
           <span className="error">Please enter the ImgUrl</span>
         )}
         <input
@@ -109,12 +132,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
           value={imdbUrl}
           placeholder="Enter imdbUrl"
           data-cy="form-imdbUrl"
-          onChange={(event) => {
-            setImdbUrl(event.target.value);
-            setIsImdbUrl(false);
-          }}
+          onChange={handleEvent}
         />
-        {isImdbUrl && (
+        {!isImdbUrl && (
           <span className="error">Please enter the ImdbUrl</span>
         )}
         <input
@@ -124,12 +144,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
           value={imdbId}
           placeholder="Enter imdbId"
           data-cy="form-imdbId"
-          onChange={(event) => {
-            setImdbId(event.target.value);
-            setIsImdbId(false);
-          }}
+          onChange={handleEvent}
         />
-        {isImdbId && (
+        {!isImdbId && (
           <span className="error">Please enter the ImdbId</span>
         )}
       </div>
