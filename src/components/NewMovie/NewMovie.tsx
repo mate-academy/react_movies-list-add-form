@@ -40,7 +40,7 @@ export const NewMovie: React.FC<Props> = ({
     >
       <div>
         <label className="label">
-          <span>{'Title '}</span>
+          <span>Title</span>
           <input
             className="input"
             data-cy="form-title"
@@ -55,7 +55,7 @@ export const NewMovie: React.FC<Props> = ({
 
       <div>
         <label className="label">
-          <span>{'Description '}</span>
+          <span>Description</span>
           <textarea
             className="textarea"
             data-cy="form-description"
@@ -70,7 +70,7 @@ export const NewMovie: React.FC<Props> = ({
 
       <div>
         <label className="label">
-          <span>{'ImgUrl '}</span>
+          <span>ImgUrl</span>
           <input
             className="input"
             data-cy="form-imgUrl"
@@ -85,7 +85,7 @@ export const NewMovie: React.FC<Props> = ({
 
       <div>
         <label className="label">
-          <span>{'ImdbUrl '}</span>
+          <span>ImdbUrl</span>
           <input
             className="input"
             data-cy="form-imdbUrl"
@@ -100,7 +100,7 @@ export const NewMovie: React.FC<Props> = ({
 
       <div>
         <label className="label">
-          <span>{'ImdbId '}</span>
+          <span>ImdbId</span>
           <input
             className="input"
             data-cy="form-imdbId"
