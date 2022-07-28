@@ -5,6 +5,14 @@ type Props = {
   addMovie: (movie: Movie) => void;
 };
 
+interface Validation {
+  isTitleValid: null | boolean,
+  isImgValid: null | boolean,
+  isUrlValid: null | boolean,
+  isIdValid: null | boolean,
+  isMovieValid: boolean
+}
+
 // eslint-disable-next-line max-len
 const regex = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
 
@@ -15,65 +23,45 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
   const [imgUrl, setImgUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const [isTitleValid, setIsTitleValid] = useState<null | boolean>(null);
-  const [isImgValid, setIsImgValid] = useState<null | boolean>(null);
-  const [isUrlValid, setIsUrlValid] = useState<null | boolean>(null);
-  const [isIdValid, setIsIdValid] = useState<null | boolean>(null);
-  const [isMovieValid, setIsMovieValid] = useState(false);
+  const defaultValidation: Validation = {
+    isTitleValid: null,
+    isImgValid: null,
+    isUrlValid: null,
+    isIdValid: null,
+    isMovieValid: false,
+  };
 
-  const checkIsMovieValid = () => {
-    const movieIsValid = isTitleValid && isIdValid
-    && isImgValid && isUrlValid;
+  const [validation, setValidation] = useState(defaultValidation);
 
-    if (movieIsValid) {
-      setIsMovieValid(true);
+  const {
+    isTitleValid, isIdValid, isUrlValid, isImgValid, isMovieValid,
+  } = validation;
+
+  const validateProp = (value: string, prop: string) => {
+    let condition;
+
+    switch (prop) {
+      case 'isImgValid':
+      case 'isUrlValid':
+        condition = regex.test(value);
+        break;
+      case 'isMovieValid':
+        condition = isTitleValid && isIdValid && isImgValid && isUrlValid;
+        break;
+      default:
+        condition = value.trim().length;
+    }
+
+    if (condition) {
+      setValidation(prev => ({ ...prev, [prop]: true }));
     } else {
-      setIsMovieValid(false);
+      setValidation(prev => ({ ...prev, [prop]: false }));
     }
   };
 
   useEffect(() => {
-    checkIsMovieValid();
+    validateProp('', 'isMovieValid');
   }, [isTitleValid, isIdValid, isUrlValid, isImgValid]);
-
-  const checkId = (id: string) => {
-    setImdbId(id);
-
-    if (id.trim().length) {
-      setIsIdValid(true);
-    } else {
-      setIsIdValid(false);
-    }
-  };
-
-  const checkTitle = (movieTitle: string) => {
-    setTitle(movieTitle);
-
-    if (movieTitle.trim().length) {
-      setIsTitleValid(true);
-    } else {
-      setIsTitleValid(false);
-    }
-  };
-
-  const checkImgUrl = (image: string) => {
-    setImgUrl(image);
-
-    if (regex.test(image)) {
-      setIsImgValid(true);
-    } else {
-      setIsImgValid(false);
-    }
-  };
-
-  const checkMovieUrl = (movieUrl: string) => {
-    setImdbUrl(movieUrl);
-    if (regex.test(movieUrl)) {
-      setIsUrlValid(true);
-    } else {
-      setIsUrlValid(false);
-    }
-  };
 
   const resetAll = () => {
     setTitle('');
@@ -81,11 +69,7 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
     setImdbUrl('');
     setImgUrl('');
     setImdbId('');
-    setIsMovieValid(false);
-    setIsTitleValid(null);
-    setIsIdValid(null);
-    setIsImgValid(null);
-    setIsUrlValid(null);
+    setValidation(defaultValidation);
   };
 
   const handleSubmit = () => {
@@ -104,14 +88,15 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
           type="text"
           className={classnames('input', {
             'is-success': isTitleValid,
-            'is-danger': !isTitleValid && isTitleValid !== null,
+            'is-danger': isTitleValid === false,
           })}
           data-cy="form-title"
           placeholder="Movie title"
           value={title}
           required
           onChange={({ target }) => {
-            checkTitle(target.value);
+            setTitle(target.value);
+            validateProp(target.value, 'isTitleValid');
           }}
         />
       </div>
@@ -131,15 +116,16 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
         <input
           type="text"
           className={classnames('input', {
-            'is-success': isUrlValid === true,
-            'is-danger': imdbUrl.length && !isUrlValid,
+            'is-success': isUrlValid,
+            'is-danger': isUrlValid === false,
           })}
           data-cy="form-imdbUrl"
           placeholder="URL"
           value={imdbUrl}
           required
           onChange={({ target }) => {
-            checkMovieUrl(target.value);
+            setImdbUrl(target.value);
+            validateProp(target.value, 'isUrlValid');
           }}
         />
       </div>
@@ -148,13 +134,16 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
           type="text"
           className={classnames('input', {
             'is-success': isIdValid,
-            'is-danger': !isIdValid && isIdValid !== null,
+            'is-danger': isIdValid === false,
           })}
           data-cy="form-imdbId"
           placeholder="Id"
           value={imdbId}
           required
-          onChange={({ target }) => checkId(target.value)}
+          onChange={({ target }) => {
+            setImdbId(target.value);
+            validateProp(target.value, 'isIdValid');
+          }}
         />
       </div>
       <div className="field">
@@ -169,7 +158,8 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
           value={imgUrl}
           required
           onChange={({ target }) => {
-            checkImgUrl(target.value);
+            setImgUrl(target.value);
+            validateProp(target.value, 'isImgValid');
           }}
         />
       </div>
