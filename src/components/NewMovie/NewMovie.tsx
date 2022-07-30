@@ -38,6 +38,8 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
     cleanerForm();
   };
 
+  const activationForButton = !(title && imgUrl && imdbUrl && imdbId);
+
   return (
     <form
       className="NewMovie"
@@ -94,7 +96,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!(title && imgUrl && imdbUrl && imdbId)}
+            disabled={activationForButton}
           >
             Add
           </button>
