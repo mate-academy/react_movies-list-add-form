@@ -14,6 +14,15 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
+  const cleanerForm = () => {
+    setCount((currentCount) => (currentCount + 1));
+    setTitle('');
+    setDescription('');
+    setImgUrl('');
+    setImdbUrl('');
+    setImdbId('');
+  };
+
   const hundleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
@@ -26,12 +35,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
     };
 
     onAdd(newMovie);
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
-    setCount(0);
+    cleanerForm();
   };
 
   return (
