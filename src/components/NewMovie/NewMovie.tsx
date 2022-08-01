@@ -101,7 +101,7 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
           type="text"
           name="title"
           className={classNames('input is-rounded', {
-            'input is-danger': hasTitleError,
+            'is-danger': hasTitleError,
           })}
           data-cy="form-title"
           placeholder="Enter Title"
