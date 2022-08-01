@@ -13,10 +13,10 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
   const [imgUrl, setImgUrl] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
-  const [hasTitle, setTitleError] = useState(false);
-  const [hasImgUrl, setImgUrlError] = useState(false);
-  const [hasImdbUrl, setImdbUrlError] = useState(false);
-  const [hasImdbId, setImdbIdError] = useState(false);
+  const [hasTitleError, setTitleError] = useState(false);
+  const [hasImgUrlError, setImgUrlError] = useState(false);
+  const [hasImdbUrlError, setImdbUrlError] = useState(false);
+  const [hasImdbIdError, setImdbIdError] = useState(false);
 
   const resetForm = () => {
     setTitle('');
@@ -101,7 +101,7 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
           type="text"
           name="title"
           className={classNames('input is-rounded', {
-            'input is-danger': hasTitle,
+            'input is-danger': hasTitleError,
           })}
           data-cy="form-title"
           placeholder="Enter Title"
@@ -112,7 +112,7 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
           onBlur={handleBlurTitle}
         />
 
-        {hasTitle && (
+        {hasTitleError && (
           <p>Title is required</p>
         )}
       </div>
@@ -136,7 +136,7 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
           type="url"
           name="imgUrl"
           className={classNames('input is-rounded', {
-            'input is-danger': hasImgUrl,
+            'is-danger': hasImgUrlError,
           })}
           data-cy="form-imgUrl"
           placeholder="Enter Image's URL"
@@ -147,7 +147,7 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
           onBlur={handleBlurImgUrl}
         />
 
-        {hasImgUrl && (
+        {hasImgUrlError && (
           <p>Image URL is required</p>
         )}
       </div>
@@ -157,7 +157,7 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
           type="url"
           name="imdbUrl"
           className={classNames('input is-rounded', {
-            'input is-danger': hasImdbUrl,
+            'is-danger': hasImdbUrlError,
           })}
           data-cy="form-imdbUrl"
           placeholder="Enter IMDb URL"
@@ -168,7 +168,7 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
           onBlur={handleBlurImdbUrl}
         />
 
-        {hasImdbUrl && (
+        {hasImdbUrlError && (
           <p>IMDb URL is required</p>
         )}
       </div>
@@ -178,7 +178,7 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
           type="text"
           name="imdbId"
           className={classNames('input is-rounded', {
-            'input is-danger': hasImdbId,
+            'is-danger': hasImdbIdError,
           })}
           data-cy="form-imdbId"
           placeholder="Enter Movie's ID"
@@ -189,7 +189,7 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
           onBlur={handleBlurImdbId}
         />
 
-        {hasImdbId && (
+        {hasImdbIdError && (
           <p>IMDb ID is required</p>
         )}
       </div>
