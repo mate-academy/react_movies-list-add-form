@@ -5,10 +5,9 @@ import { v4 as uuidv4 } from 'uuid';
 interface Props {
   name: string;
   value: string;
-  label: string;
-  // eslint-disable-next-line react/require-default-props
+  label?: string;
   required?: boolean;
-  onChange: (newValue: string) => void;
+  onChange?: (newValue: string) => void;
 }
 
 const InputTextField: React.FC<Props> = ({
@@ -29,14 +28,14 @@ const InputTextField: React.FC<Props> = ({
 
       <div className="control">
         <input
-          type="text"
-          placeholder={`Enter ${label}`}
           id={uuidv4()}
-          value={value}
           data-cy={`movie-${name}`}
           className={classNames('input', {
             'is-danger': hasError,
           })}
+          type="text"
+          placeholder={`Enter ${label}`}
+          value={value}
           onChange={event => onChange(event.target.value)}
           onBlur={() => setTouched(true)}
         />

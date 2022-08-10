@@ -1,5 +1,5 @@
 module.exports = {
-  extends: ['@mate-academy/eslint-config-react-typescript', 'plugin:cypress/recommended'],
+  extends: "react-app",
   rules: {
     'max-len': ['error', {
       ignoreTemplateLiterals: true,

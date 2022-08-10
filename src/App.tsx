@@ -8,7 +8,7 @@ import { Movie } from './types/Movie';
 export const App: React.FC = () => {
   const [movies, setMovie] = useState(moviesFromServer);
 
-  const addMovie = useCallback((newMovie: Movie) => {
+  const addMovie = useCallback((newMovie: Movie): void => {
     setMovie(state => [...state, newMovie]);
   }, []);
 
