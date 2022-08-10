@@ -1,6 +1,7 @@
 import { FC, FormEvent, useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
+import { regExpUrl } from './regExps';
 
 interface Props {
   onAdd: (movie: Movie) => void;
@@ -14,13 +15,20 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const isInvalid = !title || !imgUrl || !imdbUrl || !imdbId;
   const clearInputs = () => {
     setTitle('');
     setDescription('');
     setImgUrl('');
     setImdbUrl('');
     setImdbId('');
+  };
+
+  const validateUrls = (url: string) => regExpUrl.test(url);
+  const isValid = () => {
+    const isInvalid = !title || !imgUrl || !imdbUrl || !imdbId
+      || !validateUrls(imgUrl) || !validateUrls(imdbUrl);
+
+    return !isInvalid;
   };
 
   const handleSubmit = (event: FormEvent) => {
@@ -66,6 +74,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
         value={imgUrl}
         onChange={setImgUrl}
         required
+        errorMsg="must be valid"
       />
 
       <TextField
@@ -74,6 +83,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
         value={imdbUrl}
         onChange={setImdbUrl}
         required
+        errorMsg="must be valid"
       />
 
       <TextField
@@ -90,7 +100,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={isInvalid}
+            disabled={!isValid()}
           >
             Add
           </button>
