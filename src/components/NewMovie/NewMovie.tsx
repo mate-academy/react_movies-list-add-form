@@ -1,7 +1,7 @@
 import { FC, FormEvent, useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
-import { regExpUrl } from './regExps';
+import { validateUrls } from './validate';
 
 interface Props {
   onAdd: (movie: Movie) => void;
@@ -23,7 +23,6 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
     setImdbId('');
   };
 
-  const validateUrls = (url: string) => regExpUrl.test(url);
   const isValid = () => {
     const isInvalid = !title || !imgUrl || !imdbUrl || !imdbId
       || !validateUrls(imgUrl) || !validateUrls(imdbUrl);
@@ -75,6 +74,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
         onChange={setImgUrl}
         required
         errorMsg="must be valid"
+        validate={validateUrls}
       />
 
       <TextField
@@ -84,6 +84,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
         onChange={setImdbUrl}
         required
         errorMsg="must be valid"
+        validate={validateUrls}
       />
 
       <TextField
