@@ -7,20 +7,18 @@ type Props = {
 };
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [image, setImage] = useState('');
-  const [imbd, setImbd] = useState('');
-  const [imbdId, setImbdId] = useState('');
+  const [imdb, setImbd] = useState('');
+  const [imdbid, setImbdId] = useState('');
 
   const hasAllFilledInputs = () => {
     return ((title.trim() === '')
       || (image.trim() === '')
-      || (imbd.trim() === '')
-      || (imbdId.trim() === ''));
+      || (imdb.trim() === '')
+      || (imdbid.trim() === ''));
   };
 
   const handleTitle = (arg: string) => {
@@ -43,29 +41,33 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setImbdId(arg);
   };
 
+  const addMovie = (movie: Movie) => {
+    onAdd(movie);
+    setTitle('');
+    setDescription('');
+    setImage('');
+    setImbd('');
+    setImbdId('');
+    setCount(count + 1);
+  };
+
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const hasTitle = (title !== '');
     const hasImage = (image !== '');
-    const hasImbd = (imbd !== '');
-    const hasImbdId = (imbdId !== '');
+    const hasImbd = (imdb !== '');
+    const hasImbdId = (imdbid !== '');
 
     if (hasTitle && hasImage && hasImbd && hasImbdId) {
       const movie = {
         title,
         description,
         imgUrl: image,
-        imdbUrl: imbd,
-        imdbId: imbdId,
+        imdbUrl: imdb,
+        imdbId: imdbid,
       };
 
-      onAdd(movie);
-      setTitle('');
-      setDescription('');
-      setImage('');
-      setImbd('');
-      setImbdId('');
-      setCount(count + 1);
+      addMovie(movie);
     }
   };
 
@@ -103,7 +105,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={imbd}
+        value={imdb}
         onChange={handleImbd}
         required
       />
@@ -111,7 +113,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imbdId}
+        value={imdbid}
         onChange={handleImbdId}
         required
       />
