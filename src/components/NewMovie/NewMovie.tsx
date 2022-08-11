@@ -14,55 +14,96 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
   const [imdbId, setImdbId] = useState('');
 
   const [hasTitleError, setTitleError] = useState(false);
-  const [hasDescriptionError, setDescriptionError] = useState(false);
   const [hasImgUrlError, setImgUrlError] = useState(false);
   const [hasImdbUrlError, setImdbUrlError] = useState(false);
   const [hasImdbIdError, setImdbIdError] = useState(false);
-  const [hasValidImgUrl, setValidImgUrl] = useState(true);
-  const [hasValidImdbUrl, setValidImdbUrl] = useState(true);
+  const [imgUrlValidationError, setImgUrlValidationError] = useState(false);
+  const [ImdbUrlValidationError, setImdbUrlValidationError] = useState(false);
 
   // eslint-disable-next-line max-len
   const validUrlRegExp = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
 
-  const validImgUrl = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (imgUrl && !validUrlRegExp.test(event.target.value)) {
-      setValidImgUrl(false);
-    } else {
-      setValidImgUrl(true);
+  const validUrl = (url: string) => {
+    if (url.length > 0) {
+      return !validUrlRegExp.test(url);
+    }
+
+    return false;
+  };
+
+  const blurErrorHandler = (event:React.FocusEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+
+    switch (name) {
+      case 'title':
+        if (!value) {
+          setTitleError(true);
+        }
+
+        break;
+
+      case 'imgUrl':
+        if (!value) {
+          setImgUrlError(true);
+        }
+
+        setImgUrlValidationError(() => validUrl(value));
+        break;
+
+      case 'imdbUrl':
+        if (!value) {
+          setImdbUrlError(true);
+        }
+
+        setImdbUrlValidationError(() => validUrl(value));
+        break;
+
+      case 'imdbId':
+        if (!value) {
+          setImdbIdError(true);
+        }
+
+        break;
+
+      default:
+        break;
     }
   };
 
-  const validImdbUrl = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (imdbUrl && !validUrlRegExp.test(event.target.value)) {
-      setValidImdbUrl(false);
-    } else {
-      setValidImdbUrl(true);
+  const inputHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+
+    switch (name) {
+      case 'title':
+        setTitle(value);
+        setTitleError(false);
+
+        break;
+
+      case 'description':
+        setDescription(event.target.value);
+        break;
+
+      case 'imgUrl':
+        setImgUrl(event.target.value);
+        setImgUrlError(false);
+
+        break;
+
+      case 'imdbUrl':
+        setImdbUrl(event.target.value);
+        setImdbUrlError(false);
+        break;
+
+      case 'imdbId':
+        setImdbId(event.target.value);
+        setImdbIdError(false);
+
+        break;
+
+      default:
+        break;
     }
-  };
-
-  const titleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(event.target.value);
-    setTitleError(false);
-  };
-
-  const descriptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setDescription(event.target.value);
-    setDescriptionError(false);
-  };
-
-  const imgUrlChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setImgUrl(event.target.value);
-    setImgUrlError(false);
-  };
-
-  const imdbUrlChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setImdbUrl(event.target.value);
-    setImdbUrlError(false);
-  };
-
-  const imdbIdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setImdbId(event.target.value);
-    setImdbIdError(false);
   };
 
   const resetForm = () => {
@@ -73,39 +114,41 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
     setImdbId('');
   };
 
-  const submitForm = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
+  const fieldsCheck = () => {
     setTitleError(!title);
-
-    setDescriptionError(!description);
 
     setImgUrlError(!imgUrl);
 
     setImdbUrlError(!imdbUrl);
 
     setImdbIdError(!imdbId);
+  };
 
-    const noErrors = [
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    ];
+  const disableAdd = (
+    !title
+    || !imgUrl
+    || !imdbUrl
+    || !imdbId
+    || imgUrlValidationError
+    || ImdbUrlValidationError
+  );
 
-    if (!noErrors.every(item => item.length > 0)
-        || (!validUrlRegExp.test(imgUrl) && !validUrlRegExp.test(imdbUrl))) {
-      return;
-    }
+  const submitForm = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    fieldsCheck();
 
     const movie = {
       title,
-      description,
+      description: description || 'N/A',
       imgUrl,
       imdbUrl,
       imdbId,
     };
+
+    if (disableAdd) {
+      return;
+    }
 
     addMovie(movie);
 
@@ -122,13 +165,13 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
           className={classNames('form__item', {
             'form__item--warning': hasTitleError,
           })}
+          name="title"
           type="text"
           data-cy="form-title"
           placeholder="Title"
+          onBlur={blurErrorHandler}
           value={title}
-          onChange={event => {
-            titleChange(event);
-          }}
+          onChange={inputHandler}
         />
         {hasTitleError && (
           <span className="warning">
@@ -139,36 +182,28 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
 
       <div className="form__container">
         <input
-          className={classNames('form__item', {
-            'form__item--warning': hasDescriptionError,
-          })}
+          className="form__item"
+          name="description"
           type="text"
           data-cy="form-description"
           placeholder="Description"
           value={description}
-          onChange={event => {
-            descriptionChange(event);
-          }}
+          onChange={inputHandler}
         />
-        {hasDescriptionError && (
-          <span className="warning">
-            Please enter the description
-          </span>
-        )}
       </div>
 
       <div className="form__container">
         <input
           className={classNames('form__item', {
-            'form__item--warning': hasImgUrlError || !hasValidImgUrl,
+            'form__item--warning': hasImgUrlError || imgUrlValidationError,
           })}
+          name="imgUrl"
           type="text"
           data-cy="form-imgUrl"
           placeholder="imgUrl"
           value={imgUrl}
-          onChange={event => {
-            imgUrlChange(event); validImgUrl(event);
-          }}
+          onBlur={blurErrorHandler}
+          onChange={inputHandler}
         />
         {hasImgUrlError && (
           <span className="warning">
@@ -176,7 +211,7 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
           </span>
         )}
 
-        {!hasValidImgUrl && (
+        {imgUrlValidationError && (
           <span className="warning">
             Please enter correct url
           </span>
@@ -186,22 +221,22 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
       <div className="form__container">
         <input
           className={classNames('form__item', {
-            'form__item--warning': hasImdbUrlError || !hasValidImdbUrl,
+            'form__item--warning': hasImdbUrlError || ImdbUrlValidationError,
           })}
           type="text"
+          name="imdbUrl"
           data-cy="form-imdbUrl"
           placeholder="imdbUrl"
           value={imdbUrl}
-          onChange={event => {
-            imdbUrlChange(event); validImdbUrl(event);
-          }}
+          onBlur={blurErrorHandler}
+          onChange={inputHandler}
         />
         {hasImdbUrlError && (
           <span className="warning">
             Please enter the imdbUrl
           </span>
         )}
-        {!hasValidImdbUrl && (
+        {ImdbUrlValidationError && (
           <span className="warning">
             Please enter correct url
           </span>
@@ -213,13 +248,13 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
           className={classNames('form__item', {
             'form__item--warning': hasImdbIdError,
           })}
+          name="imdbId"
           type="text"
           data-cy="form-imdbId"
           placeholder="imdbId"
           value={imdbId}
-          onChange={event => {
-            imdbIdChange(event);
-          }}
+          onBlur={blurErrorHandler}
+          onChange={inputHandler}
         />
         {hasImdbIdError && (
           <span className="warning">
@@ -231,6 +266,7 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
       <button
         className="form__button"
         type="submit"
+        disabled={disableAdd}
       >
         Add movie
       </button>
