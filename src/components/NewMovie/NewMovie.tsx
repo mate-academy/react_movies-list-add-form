@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
+import { pattern } from '../../api/pattern';
 
 type Props = {
   onAdd: (movie: Movie) => void,
@@ -15,7 +16,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbId, setImdbId] = useState('');
 
   const emptyField = () => {
-    if (title !== '' && imgUrl !== '' && imdbUrl !== '' && imdbId !== '') {
+    if (title !== '' && imgUrl !== '' && imdbUrl !== '' && imdbId !== ''
+      && imdbUrl.match(pattern) && imgUrl.match(pattern)) {
       return false;
     }
 
