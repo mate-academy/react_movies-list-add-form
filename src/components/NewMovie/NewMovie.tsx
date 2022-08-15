@@ -83,7 +83,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={imdbUrl}
         onChange={setImdbUrl}
         required
-        isValid={!validateUrl(imgUrl)}
+        isValid={!validateUrl(imdbUrl)}
         invalidMessage="must be valid"
       />
 
