@@ -18,7 +18,7 @@ export const TextField: React.FC<Props> = ({
   value,
   label = name,
   required = false,
-  onChange = () => {},
+  onChange = () => { },
 }) => {
   // generage a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
@@ -43,7 +43,9 @@ export const TextField: React.FC<Props> = ({
           type="text"
           placeholder={`Enter ${label}`}
           value={value}
-          onChange={event => onChange(event.target.value)}
+          onChange={event => {
+            onChange(event.target.value);
+          }}
           onBlur={() => setToched(true)}
         />
       </div>
