@@ -40,13 +40,7 @@ const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const handleSubmit = useCallback((event: React.FormEvent) => {
     event.preventDefault();
 
-    // eslint-disable-next-line max-len
-    const regularUrl = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
-    const resultImdbUrl = regularUrl.test(newMovie.imdbUrl);
-    const resultImdbId = regularUrl.test(newMovie.imdbId);
-
-
-    if (!isDisabled && resultImdbUrl && resultImdbId) {
+    if (!isDisabled) {
       onAdd(newMovie);
     }
 

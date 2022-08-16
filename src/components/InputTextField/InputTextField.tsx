@@ -10,6 +10,8 @@ interface Props {
   onChange?: (newValue: string) => void;
 }
 
+const uuid = uuidv4();
+
 const InputTextField: React.FC<Props> = ({
   name,
   value,
@@ -22,13 +24,13 @@ const InputTextField: React.FC<Props> = ({
 
   return (
     <div className="field">
-      <label className="label" htmlFor={uuidv4()}>
+      <label className="label" htmlFor={uuid}>
         {label}
       </label>
 
       <div className="control">
         <input
-          id={uuidv4()}
+          id={uuid}
           data-cy={`movie-${name}`}
           className={classNames('input', {
             'is-danger': hasError,
