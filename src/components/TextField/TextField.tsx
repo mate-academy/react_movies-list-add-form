@@ -28,9 +28,8 @@ export const TextField: React.FC<Props> = ({
   // To show errors only if the field was touched (onBlur)
   const [touched, setTouched] = useState(false);
   const hasError = touched && required
-    && (pattern
-      ? !value.match(pattern)
-      : !value);
+    && !value;
+  const hasErrorPattern = pattern ? !value.match(pattern) : false;
 
   return (
     <div className="field">
@@ -55,6 +54,11 @@ export const TextField: React.FC<Props> = ({
 
       {hasError && (
         <p className="help is-danger">{`${label} is required`}</p>
+      )}
+      {touched && hasErrorPattern && (
+        <p className="help is-danger">
+          {`"Error, Invalid URL, path in "${label}" field`}
+        </p>
       )}
     </div>
   );
