@@ -32,7 +32,7 @@ export const TextField: React.FC<Props> = ({
     let isInvalid = required && !value;
 
     if (validate) {
-      isInvalid = isInvalid || validate(value);
+      isInvalid = isInvalid || !validate(value);
     }
 
     setError(isInvalid);
