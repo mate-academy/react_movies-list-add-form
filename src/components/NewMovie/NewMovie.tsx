@@ -1,42 +1,47 @@
-import React, { FormEvent } from 'react';
+import { FormEvent, useState } from 'react';
 import { TextField } from '../TextField';
+import { Movie } from '../../types/Movie';
 
 type Props = {
-  title: string;
-  description: string;
-  imgUrl: string;
-  imdbUrl: string;
-  imdbId: string;
-  setTitle: (title: string) => void;
-  setDescription: (description: string) => void;
-  setImgUrl: (imgUrl: string) => void;
-  setImdbUrl: (imdbUrl: string) => void;
-  setImdbId: (imdbId: string) => void;
-  hasError: boolean;
-  submit: (event: FormEvent) => void;
-  count: number;
+  onAdd: (movie: Movie) => void;
 };
 
-export const NewMovie: React.FC<Props> = ({
-  title,
-  description,
-  imgUrl,
-  imdbUrl,
-  imdbId,
-  setTitle,
-  setDescription,
-  setImgUrl,
-  setImdbUrl,
-  setImdbId,
-  hasError,
-  submit,
-  count,
-}) => {
+export const NewMovie: React.FC<Props> = ({ onAdd }) => {
+  const [count, setCount] = useState(0);
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [imgUrl, setImgUrl] = useState('');
+  const [imdbUrl, setImdbUrl] = useState('');
+  const [imdbId, setImdbId] = useState('');
+
+  const clearForm = () => {
+    setTitle('');
+    setDescription('');
+    setImgUrl('');
+    setImdbUrl('');
+    setImdbId('');
+  };
+
+  const handleSubmit = (event: FormEvent) => {
+    event.preventDefault();
+
+    onAdd({
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    });
+
+    setCount(prevState => prevState + 1);
+    clearForm();
+  };
+
   return (
     <form
       className="NewMovie"
       key={count}
-      onSubmit={submit}
+      onSubmit={handleSubmit}
     >
       <h2 className="title">Add a movie</h2>
 
@@ -85,7 +90,7 @@ export const NewMovie: React.FC<Props> = ({
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={hasError}
+            disabled={!(title && imgUrl && imdbUrl && imdbId)}
           >
             Add
           </button>
