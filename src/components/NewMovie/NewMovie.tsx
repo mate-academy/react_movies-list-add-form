@@ -16,7 +16,7 @@ export const NewMovie: FC<Props> = (props) => {
   const [imdbId, setImdbId] = useState('');
   const [count, setCount] = useState(0);
 
-  const isValid = () => title && imgUrl && imdbId;
+  const isValid = () => title && imgUrl && imdbId && setImdbUrl;
 
   const clearFields = () => {
     setTitle('');
