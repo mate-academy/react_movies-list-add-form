@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Movie } from '../../types/Movie';
 import { TextField } from '../TextField';
+import { isValid } from '../Validation/validation';
 
 type Props = {
   onAdd: (movie: Movie) => void;
@@ -15,6 +16,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imgUrl, setImgUrl] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
+
+  // eslint-disable-next-line max-len
 
   const movie = () => ({
     title,
@@ -78,20 +81,24 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             data-cy="submit-button"
             className="button is-link"
             disabled={
-              title === ''
+              !isValid(imgUrl)
+              || !isValid(imdbUrl)
+              || title === ''
               || imgUrl === ''
               || imdbUrl === ''
               || imdbId === ''
             }
             onClick={(event) => {
               event.preventDefault();
-              onAdd(movie());
-              setCount(count + 1);
-              setTitle('');
-              setDescription('');
-              setImgUrl('');
-              setImdbUrl('');
-              setImdbId('');
+              if (isValid(imgUrl) || isValid(imdbUrl)) {
+                onAdd(movie());
+                setCount(count + 1);
+                setTitle('');
+                setDescription('');
+                setImgUrl('');
+                setImdbUrl('');
+                setImdbId('');
+              }
             }}
           >
             Add
