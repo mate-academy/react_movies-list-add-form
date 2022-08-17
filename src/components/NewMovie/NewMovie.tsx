@@ -22,10 +22,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     imdbId,
   };
 
-  const isEmptyFields = Boolean(title
-    && imgUrl
-    && imdbUrl
-    && imdbId);
+  const isEmptyFields = Boolean(title.trim()
+    && imgUrl.trim()
+    && imdbUrl.trim()
+    && imdbId.trim());
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
