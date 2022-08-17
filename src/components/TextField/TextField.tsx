@@ -55,7 +55,7 @@ export const TextField: React.FC<Props> = ({
       {hasError && (
         <p className="help is-danger">{`${label} is required`}</p>
       )}
-      {touched && hasErrorPattern && (
+      {touched && !hasError && hasErrorPattern && (
         <p className="help is-danger">
           {`"Error, Invalid URL, path in "${label}" field`}
         </p>
