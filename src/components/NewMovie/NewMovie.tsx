@@ -13,6 +13,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imgUrl, setImgUrl] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
+  const [movieCounter, setMovieCounter] = useState(0);
 
   const requiredControl = [title, imgUrl, imdbUrl, imdbId].length;
 
@@ -78,12 +79,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
     onAdd(newMovie);
     resetForm();
+    setMovieCounter(movieCounter + 1);
   };
 
   return (
     <form
       className="NewMovie"
       onSubmit={handelSubmitForm}
+      key={movieCounter}
     >
       <h2 className="title">
         Add a movie
