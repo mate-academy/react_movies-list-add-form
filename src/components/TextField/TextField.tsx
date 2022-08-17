@@ -3,10 +3,10 @@ import React, { useState } from 'react';
 
 type Props = {
   name: string,
-  value: string,
   label?: string,
-  required?: boolean,
+  value: string,
   onChange?: (newValue: string) => void,
+  required?: boolean,
 };
 
 function getRandomDigits() {
@@ -15,10 +15,10 @@ function getRandomDigits() {
 
 export const TextField: React.FC<Props> = ({
   name,
-  value,
   label = name,
-  required = false,
+  value,
   onChange = () => {},
+  required = false,
 }) => {
   // generage a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
