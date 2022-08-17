@@ -36,7 +36,7 @@ export const NewMovie: React.FC<Props> = (props: Props) => {
   const isEnoughInfo = [title,
     imgUrl,
     imdbUrl,
-    imdbId].every(info => info !== '');
+    imdbId].every(Boolean);
 
   const handleMovieAdding = () => {
     onAdd(movieToAdd);
