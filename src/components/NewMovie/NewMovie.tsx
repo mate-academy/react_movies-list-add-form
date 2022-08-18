@@ -44,6 +44,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       key={count}
       onSubmit={(e) => {
         e.preventDefault();
+        handleSubmit();
       }}
     >
       <h2 className="title">Add a movie</h2>
@@ -94,10 +95,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             data-cy="submit-button"
             className="button is-link"
             disabled={!isDisabledButton}
-            onClick={(e) => {
-              e.preventDefault();
-              handleSubmit();
-            }}
           >
             Add
           </button>
