@@ -1,4 +1,4 @@
-import {FormEvent, useState} from 'react';
+import { FormEvent, useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
@@ -48,6 +48,7 @@ export const NewMovie:React.FC<Props> = ({ onAdd }) => {
       onAdd(createNewMovie(title, imgUrl, imdbUrl, imdbId, description));
     }
 
+    setCount(prevState => prevState + 1);
     setTitle('');
     setDescription('');
     setImgUrl('');
@@ -60,7 +61,6 @@ export const NewMovie:React.FC<Props> = ({ onAdd }) => {
       className="NewMovie"
       key={count}
       onSubmit={(event) => {
-        setCount(prevState => prevState + 1);
         handleSubmit(event);
       }}
     >
