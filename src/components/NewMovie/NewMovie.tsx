@@ -27,6 +27,17 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setCount((state) => state + 1);
   };
 
+  const handleSubmit = () => {
+    onAdd({
+      title,
+      description,
+      imdbId,
+      imdbUrl,
+      imgUrl,
+    });
+    clearForm();
+  };
+
   return (
     <form
       className="NewMovie"
@@ -85,14 +96,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             disabled={!isDisabledButton}
             onClick={(e) => {
               e.preventDefault();
-              onAdd({
-                title,
-                description,
-                imdbId,
-                imdbUrl,
-                imgUrl,
-              });
-              clearForm();
+              handleSubmit();
             }}
           >
             Add
