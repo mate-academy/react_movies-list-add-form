@@ -14,14 +14,6 @@ export const NewMovie:React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const clearForm = () => {
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
-  };
-
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
@@ -35,7 +27,11 @@ export const NewMovie:React.FC<Props> = ({ onAdd }) => {
 
     onAdd(createdMovie);
     setCount(prevCount => prevCount + 1);
-    clearForm();
+    setTitle('');
+    setDescription('');
+    setImgUrl('');
+    setImdbUrl('');
+    setImdbId('');
   };
 
   return (
@@ -91,6 +87,13 @@ export const NewMovie:React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
+            disabled={
+              title === ''
+              || description === ''
+              || imgUrl === ''
+              || imdbUrl === ''
+              || imdbId === ''
+            }
           >
             Add
           </button>
