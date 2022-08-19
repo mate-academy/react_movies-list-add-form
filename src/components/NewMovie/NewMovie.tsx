@@ -6,6 +6,8 @@ type Props = {
   onAdd: (movie: Movie) => void,
 };
 
+const isCheckedValue = (text: string) => text.trim().length !== 0;
+
 export const NewMovie: React.FC<Props> = (props) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
@@ -39,8 +41,6 @@ export const NewMovie: React.FC<Props> = (props) => {
       setDescription('');
     }
   };
-
-  const isCheckedValue = (text: string) => text.trim().length !== 0;
 
   return (
     <form
