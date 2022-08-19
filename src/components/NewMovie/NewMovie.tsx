@@ -88,11 +88,11 @@ export const NewMovie:React.FC<Props> = ({ onAdd }) => {
             data-cy="submit-button"
             className="button is-link"
             disabled={
-              title === ''
-              || description === ''
-              || imgUrl === ''
-              || imdbUrl === ''
-              || imdbId === ''
+              title.trim() === ''
+              || description.trim() === ''
+              || imgUrl.trim() === ''
+              || imdbUrl.trim() === ''
+              || imdbId.trim() === ''
             }
           >
             Add
