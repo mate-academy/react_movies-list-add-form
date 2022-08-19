@@ -37,6 +37,11 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     clearForm();
   };
 
+  const disable = !title.trim()
+  || !imgUrl.trim()
+  || !imdbUrl.trim()
+  || !imdbId.trim();
+
   return (
     <form
       className="NewMovie"
@@ -75,7 +80,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         onChange={setImdbUrl}
         required
       />
-      
+
       <TextField
         name="imdbId"
         label="Imdb ID"
@@ -90,7 +95,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!(title && imgUrl && imdbUrl && imdbId)}
+            disabled={disable}
           >
             Add
           </button>
