@@ -27,10 +27,24 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     imdbId,
   });
 
+  const reset = () => {
+    setTitle('');
+    setDescription('');
+    setImgUrl('');
+    setImdbUrl('');
+    setImdbId('');
+  };
+
   return (
     <form
       className="NewMovie"
       key={count}
+      onSubmit={(event) => {
+        event.preventDefault();
+        onAdd(movie());
+        setCount(count + 1);
+        reset();
+      }}
     >
       <h2 className="title">Add a movie</h2>
 
@@ -88,18 +102,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
               || imdbUrl === ''
               || imdbId === ''
             }
-            onClick={(event) => {
-              event.preventDefault();
-              if (isValid(imgUrl) || isValid(imdbUrl)) {
-                onAdd(movie());
-                setCount(count + 1);
-                setTitle('');
-                setDescription('');
-                setImgUrl('');
-                setImdbUrl('');
-                setImdbId('');
-              }
-            }}
           >
             Add
           </button>
