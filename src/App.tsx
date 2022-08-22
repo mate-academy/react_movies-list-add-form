@@ -1,3 +1,5 @@
+/* eslint-disable react/button-has-type */
+/* eslint-disable react/style-prop-object */
 import './App.scss';
 import { useState } from 'react';
 import { MoviesList } from './components/MoviesList';

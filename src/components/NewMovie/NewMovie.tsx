@@ -36,7 +36,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   };
 
   const isValid = () => {
-    if (!title || !imageURL || !imbdURL || !imbdId) {
+    if (!title.trim()
+      || !imageURL.trim()
+      || !imbdURL.trim()
+      || !imbdId.trim()) {
       return true;
     }
 
