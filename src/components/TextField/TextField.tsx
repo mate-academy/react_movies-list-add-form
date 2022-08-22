@@ -7,6 +7,7 @@ type Props = {
   label?: string,
   required?: boolean,
   onChange?: (newValue: string) => void,
+  pattern?: RegExp,
 };
 
 function getRandomDigits() {
@@ -19,6 +20,7 @@ export const TextField: React.FC<Props> = ({
   label = name,
   required = false,
   onChange = () => {},
+  pattern,
 }) => {
   // generage a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
@@ -50,6 +52,10 @@ export const TextField: React.FC<Props> = ({
 
       {hasError && (
         <p className="help is-danger">{`${label} is required`}</p>
+      )}
+
+      {!hasError && touched && pattern && !pattern.test(value) && (
+        <p className="help is-danger">{`${label} does not match expected format`}</p>
       )}
     </div>
   );
