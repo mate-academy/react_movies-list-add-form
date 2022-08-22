@@ -14,7 +14,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const isDisabled = !title || !imgUrl || !imdbUrl || !imdbId;
+  const isDisabled = !title.trim()
+    || !imgUrl.trim()
+    || !imdbUrl.trim()
+    || !imdbId.trim();
 
   const newMovie = {
     title,
