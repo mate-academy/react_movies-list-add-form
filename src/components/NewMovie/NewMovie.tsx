@@ -1,4 +1,6 @@
-import { FormEvent, useState } from 'react';
+import {
+  FormEvent, useCallback, useMemo, useState,
+} from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
@@ -13,19 +15,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imgUrl, setImgUrl] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
+  const movieChracteristics = [title, imgUrl, imdbId, imdbUrl];
 
-  const isDisabled = !title.trim()
+  const isDisabled = useMemo(() => {
+    return (!title.trim()
   || !imgUrl.trim()
   || !imdbUrl.trim()
-  || !imdbId.trim();
-
-  const newMovie = {
-    title,
-    description,
-    imgUrl,
-    imdbUrl,
-    imdbId,
-  };
+  || !imdbId.trim());
+  }, [movieChracteristics]);
 
   const clearForm = () => {
     setTitle('');
@@ -35,16 +32,18 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setImdbId('');
   };
 
-  const handleSubmit = (event: FormEvent) => {
+  const handleSubmit = useCallback((event: FormEvent) => {
     event.preventDefault();
-
-    if (!isDisabled) {
-      onAdd(newMovie);
-    }
-
+    onAdd({
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    });
     setCount(prev => prev + 1);
     clearForm();
-  };
+  }, [movieChracteristics]);
 
   return (
     <form
