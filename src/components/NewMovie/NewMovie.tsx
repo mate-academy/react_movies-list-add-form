@@ -17,36 +17,32 @@ export const NewMovie = (props: Props) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const isButtonAvailable = () => {
-    if (title && imdbId && imgUrl && imdbUrl) {
-      return true;
-    }
+  const isButtonAvailable = () => title && imdbId && imgUrl && imdbUrl;
 
-    return false;
+  const handleSubmit = (event: { preventDefault: () => void; }) => {
+    event.preventDefault();
+
+    setCount(prev => prev + 1);
+    setTitle('');
+    setDescription('');
+    setImgUrl('');
+    setImdbUrl('');
+    setImdbId('');
+
+    onAdd({
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    });
   };
 
   return (
     <form
       className="NewMovie"
       key={count}
-      onSubmit={(event) => {
-        event.preventDefault();
-
-        setCount(prev => prev + 1);
-        setTitle('');
-        setDescription('');
-        setImgUrl('');
-        setImdbUrl('');
-        setImdbId('');
-
-        onAdd({
-          title,
-          description,
-          imgUrl,
-          imdbUrl,
-          imdbId,
-        });
-      }}
+      onSubmit={handleSubmit}
     >
       <h2 className="title">Add a movie</h2>
 
@@ -54,7 +50,7 @@ export const NewMovie = (props: Props) => {
         name="title"
         label="Title"
         value={title}
-        onChange={(eventValue) => setTitle(eventValue)}
+        onChange={setTitle}
         required
       />
 
@@ -62,14 +58,14 @@ export const NewMovie = (props: Props) => {
         name="description"
         label="Description"
         value={description}
-        onChange={(eventValue) => setDescription(eventValue)}
+        onChange={setDescription}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={(eventValue) => setImgUrl(eventValue)}
+        onChange={setImgUrl}
         required
       />
 
@@ -77,7 +73,7 @@ export const NewMovie = (props: Props) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={(eventValue) => setImdbUrl(eventValue)}
+        onChange={setImdbUrl}
         required
       />
 
@@ -85,7 +81,7 @@ export const NewMovie = (props: Props) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={(eventValue) => setImdbId(eventValue)}
+        onChange={setImdbId}
         required
       />
 
