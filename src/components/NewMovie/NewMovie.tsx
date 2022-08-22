@@ -25,7 +25,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setImdbId('');
   };
 
-  const disabled = !title || !pattern.test(imgUrl)
+  const isDisabled = !title || !pattern.test(imgUrl)
    || !pattern.test(imdbUrl) || !imdbId;
 
   const handleSubmit = (event: FormEvent) => {
@@ -39,9 +39,11 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
     event.preventDefault();
 
-    if (!disabled) {
-      onAdd(newMovies);
+    if (isDisabled) {
+      return;
     }
+
+    onAdd(newMovies);
 
     setCount(prevValue => prevValue + 1);
     clearForm();
@@ -102,7 +104,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={disabled}
+            disabled={isDisabled}
           >
             Add
           </button>
