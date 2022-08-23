@@ -17,7 +17,9 @@ export const NewMovie = (props: Props) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const isButtonAvailable = () => title && imdbId && imgUrl && imdbUrl;
+  const isButtonAvailable = () => (
+    title.trim() && imdbId.trim() && imgUrl.trim() && imdbUrl.trim()
+  );
 
   const handleSubmit = (event: { preventDefault: () => void; }) => {
     event.preventDefault();
