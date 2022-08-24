@@ -15,7 +15,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imgUrl, setImgUrl] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
-  const movieChracteristics = [title, imgUrl, imdbId, imdbUrl];
+  const movieChracteristics = [title, description, imgUrl, imdbId, imdbUrl];
 
   const isDisabled = useMemo(() => {
     return (!title.trim()
@@ -34,13 +34,16 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
   const handleSubmit = useCallback((event: FormEvent) => {
     event.preventDefault();
-    onAdd({
+
+    const newMovie = {
       title,
       description,
       imgUrl,
       imdbUrl,
       imdbId,
-    });
+    };
+
+    onAdd(newMovie);
     setCount(prev => prev + 1);
     clearForm();
   }, [movieChracteristics]);
