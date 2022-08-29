@@ -17,10 +17,10 @@ export const NewMovie: React.FC<Props> = ({
   const [imdbId, setImdbId] = useState('');
 
   const hasAllFields = () => {
-    if (title
-      && imgUrl
-      && imdbUrl
-      && imdbId
+    if (title.trim()
+      && imgUrl.trim()
+      && imdbUrl.trim()
+      && imdbId.trim()
     ) {
       return true;
     }
