@@ -18,7 +18,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
   const isFormInvalid = (): boolean => {
     return !(titleValue
-      && descriptionValue
       && imgUrlValue
       && imdbUrlValue
       && imdbIdValue);
@@ -65,7 +64,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Description"
         value={descriptionValue}
         onChange={setDescriptionValue}
-        required
       />
 
       <TextField
