@@ -6,6 +6,7 @@ type Props = {
   value: string,
   label?: string,
   required?: boolean,
+  pattern?: (url: string) => boolean;
   onChange?: (newValue: string) => void,
 };
 
@@ -18,14 +19,27 @@ export const TextField: React.FC<Props> = ({
   value,
   label = name,
   required = false,
+  pattern = () => {},
   onChange = () => {},
 }) => {
-  // generage a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
-  // To show errors only if the field was touched (onBlur)
   const [touched, setToched] = useState(false);
+  const [urlError, setUrlError] = useState(false);
+
   const hasError = touched && required && !value;
+
+  const onBlur = () => {
+    let error = hasError;
+
+    if (name === 'imgUrl' || name === 'imdbUrl') {
+      error = error || !pattern(value);
+
+      setUrlError(error);
+    }
+
+    setToched(true);
+  };
 
   return (
     <div className="field">
@@ -44,12 +58,20 @@ export const TextField: React.FC<Props> = ({
           placeholder={`Enter ${label}`}
           value={value}
           onChange={event => onChange(event.target.value)}
-          onBlur={() => setToched(true)}
+          onBlur={() => onBlur()}
         />
       </div>
 
       {hasError && (
-        <p className="help is-danger">{`${label} is required`}</p>
+        <p className="help is-danger">
+          {`${label} is required`}
+        </p>
+      )}
+
+      {urlError && (
+        <p className="help is-danger">
+          Please enter valid URL link
+        </p>
       )}
     </div>
   );
