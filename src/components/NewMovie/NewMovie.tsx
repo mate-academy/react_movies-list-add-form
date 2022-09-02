@@ -1,12 +1,9 @@
 import React, { useState } from 'react';
+import { Movie } from '../../types/Movie';
 import { TextField } from '../TextField';
 
 type Props = {
-  onAdd: (title: string,
-    description: string,
-    imgUrl: string,
-    imdbUrl: string,
-    imdbId: string) => void;
+  onAdd: (mov: Movie) => void;
 };
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
@@ -25,24 +22,29 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setImdbId('');
   };
 
+  const movie = {
+    title,
+    description,
+    imgUrl,
+    imdbUrl,
+    imdbId,
+  };
+
+  const handleSubmit = () => {
+    if (title && imgUrl && imdbUrl && imdbId) {
+      onAdd(movie);
+      setCount(count + 1);
+      resetForm();
+    }
+  };
+
   return (
     <form
       className="NewMovie"
       key={count}
       onSubmit={(event) => {
         event.preventDefault();
-
-        if (title && imgUrl && imdbUrl && imdbId) {
-          onAdd(
-            title,
-            description,
-            imgUrl,
-            imdbUrl,
-            imdbId,
-          );
-          setCount(count + 1);
-          resetForm();
-        }
+        handleSubmit();
       }}
     >
       <h2 className="title">Add a movie</h2>
