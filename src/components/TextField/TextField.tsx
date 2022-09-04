@@ -1,11 +1,13 @@
 import classNames from 'classnames';
 import React, { useState } from 'react';
+import { isUrlValid } from '../../utils/validation';
 
 type Props = {
   name: string,
   value: string,
   label?: string,
   required?: boolean,
+  urlField?: boolean,
   onChange?: (newValue: string) => void,
 };
 
@@ -18,6 +20,7 @@ export const TextField: React.FC<Props> = ({
   value,
   label = name,
   required = false,
+  urlField = false,
   onChange = () => {},
 }) => {
   // generage a unique id once on component load
@@ -26,6 +29,7 @@ export const TextField: React.FC<Props> = ({
   // To show errors only if the field was touched (onBlur)
   const [touched, setToched] = useState(false);
   const hasError = touched && required && !value;
+  const hasErrorValidLink = urlField && !!isUrlValid(value);
 
   return (
     <div className="field">
@@ -50,6 +54,9 @@ export const TextField: React.FC<Props> = ({
 
       {hasError && (
         <p className="help is-danger">{`${label} is required`}</p>
+      )}
+      {hasErrorValidLink && (
+        <p className="help is-danger">{`${label} valid URL is required`}</p>
       )}
     </div>
   );
