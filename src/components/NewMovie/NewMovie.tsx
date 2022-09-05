@@ -15,6 +15,8 @@ export const NewMovie: React.FC<Props> = ({ onAddNewMovie }) => {
   const [imdbId, setImdbId] = useState('');
 
   const isFieldsEmpty = !title || !imgUrl || !imdbUrl || !imdbId;
+  /* eslint-disable max-len */
+  const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
 
   const createNewMovie = {
     title,
@@ -30,6 +32,7 @@ export const NewMovie: React.FC<Props> = ({ onAddNewMovie }) => {
     setImgUrl('');
     setImdbUrl('');
     setImdbId('');
+    setCountAddNewMovie(countAddNewMovie + 1);
   };
 
   const handleAddMovie = (event: React.FormEvent) => {
@@ -37,7 +40,6 @@ export const NewMovie: React.FC<Props> = ({ onAddNewMovie }) => {
 
     onAddNewMovie(createNewMovie);
     clearMovieFields();
-    setCountAddNewMovie(countAddNewMovie + 1);
   };
 
   return (
@@ -70,6 +72,7 @@ export const NewMovie: React.FC<Props> = ({ onAddNewMovie }) => {
         value={imgUrl}
         onChangeField={setImgUrl}
         required
+        pattern={pattern}
       />
 
       <TextField
@@ -78,6 +81,7 @@ export const NewMovie: React.FC<Props> = ({ onAddNewMovie }) => {
         value={imdbUrl}
         onChangeField={setImdbUrl}
         required
+        pattern={pattern}
       />
 
       <TextField

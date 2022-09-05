@@ -5,7 +5,7 @@ import { NewMovie } from './components/NewMovie';
 import { Movie } from './types/Movie';
 import './App.scss';
 
-export const App = () => {
+export const App: React.FC = () => {
   const [movieList, setMovieList] = useState(moviesFromServer);
 
   const newMovieList = (createNewMovie: Movie) => {
