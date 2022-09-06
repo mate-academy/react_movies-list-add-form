@@ -28,17 +28,14 @@ export const NewMovie: React.FC<Props> = (props) => {
   // eslint-disable-next-line max-len
   const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
 
-  const handleChange = (name: string, value: string): void => {
+  const handleChange = (name: string, value: string, error: boolean): void => {
     setMovie(prevMovie => ({
       ...prevMovie,
       [name]: value,
     }));
-  };
-
-  const handleErrors = (name: string, value: boolean): void => {
     setErrors(prevErrors => ({
       ...prevErrors,
-      [name]: value,
+      [name]: error,
     }));
   };
 
@@ -59,7 +56,6 @@ export const NewMovie: React.FC<Props> = (props) => {
         label="Title"
         value={movie.title}
         onChange={handleChange}
-        onError={handleErrors}
         required
       />
 
@@ -68,7 +64,6 @@ export const NewMovie: React.FC<Props> = (props) => {
         label="Description"
         value={movie.description}
         onChange={handleChange}
-        onError={handleErrors}
       />
 
       <TextField
@@ -76,7 +71,6 @@ export const NewMovie: React.FC<Props> = (props) => {
         label="Image URL"
         value={movie.imgUrl}
         onChange={handleChange}
-        onError={handleErrors}
         pattern={pattern}
         required
       />
@@ -86,7 +80,6 @@ export const NewMovie: React.FC<Props> = (props) => {
         label="Imdb URL"
         value={movie.imdbUrl}
         onChange={handleChange}
-        onError={handleErrors}
         pattern={pattern}
         required
       />
@@ -96,7 +89,6 @@ export const NewMovie: React.FC<Props> = (props) => {
         label="Imdb ID"
         value={movie.imdbId}
         onChange={handleChange}
-        onError={handleErrors}
         required
       />
 
