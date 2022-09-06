@@ -5,9 +5,9 @@ import { v4 as uuidv4 } from 'uuid';
 interface Props {
   name: string;
   value: string;
-  label?: string;
+  label: string;
   required?: boolean;
-  onChange?: (newValue: string) => void;
+  onChange: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const uuid = uuidv4();

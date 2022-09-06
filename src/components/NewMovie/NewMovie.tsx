@@ -20,15 +20,6 @@ const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
   const isDisabled = !title || !imgUrl || !imdbUrl || !imdbId;
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const newMovie: Movie = {
-    title,
-    description,
-    imgUrl,
-    imdbUrl,
-    imdbId,
-  };
-
   const clearForm = useCallback(() => {
     setTitle('');
     setDescription('');
@@ -40,13 +31,30 @@ const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const handleSubmit = useCallback((event: React.FormEvent) => {
     event.preventDefault();
 
+    const newMovie: Movie = {
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    };
+
     if (!isDisabled) {
       onAdd(newMovie);
     }
 
     setCount(current => current + 1);
     clearForm();
-  }, [isDisabled, onAdd, clearForm, newMovie]);
+  }, [
+    title,
+    description,
+    imgUrl,
+    imdbUrl,
+    imdbId,
+    isDisabled,
+    clearForm,
+    onAdd,
+  ]);
 
   return (
     <form
