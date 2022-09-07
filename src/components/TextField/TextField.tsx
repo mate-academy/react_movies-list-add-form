@@ -6,7 +6,7 @@ type Props = {
   value: string,
   label?: string,
   required?: boolean,
-  pattern?: RegExp;
+  hasInValidURL?: boolean;
   onChangeField?: (newValue: string) => void,
 };
 
@@ -19,14 +19,13 @@ export const TextField: React.FC<Props> = ({
   value,
   label = name,
   required = false,
-  pattern,
+  hasInValidURL,
   onChangeField = () => {},
 }) => {
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
   const [touched, setTouched] = useState(false);
   const hasError = touched && required && !value;
-  const hasValidURL = pattern ? !value.match(pattern) : false;
 
   return (
     <div className="field">
@@ -52,7 +51,7 @@ export const TextField: React.FC<Props> = ({
       {hasError && (
         <p className="help is-danger">{`${label} is required`}</p>
       )}
-      {touched && hasValidURL && (
+      {touched && hasInValidURL && (
         <p className="help is-danger">{`Enter a valid value for the ${label}`}</p>
       )}
     </div>

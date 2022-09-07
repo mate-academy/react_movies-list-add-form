@@ -14,9 +14,10 @@ export const NewMovie: React.FC<Props> = ({ onAddNewMovie }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const isFieldsEmpty = !title || !imgUrl || !imdbUrl || !imdbId;
   /* eslint-disable max-len */
   const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
+  const hasInValidURL = pattern ? !imdbUrl.match(pattern) || !imgUrl.match(pattern) : false;
+  const isFieldsEmpty = !title || !imgUrl || !imdbUrl || !imdbId || hasInValidURL;
 
   const createNewMovie = {
     title,
@@ -72,7 +73,7 @@ export const NewMovie: React.FC<Props> = ({ onAddNewMovie }) => {
         value={imgUrl}
         onChangeField={setImgUrl}
         required
-        pattern={pattern}
+        hasInValidURL={hasInValidURL}
       />
 
       <TextField
@@ -81,7 +82,7 @@ export const NewMovie: React.FC<Props> = ({ onAddNewMovie }) => {
         value={imdbUrl}
         onChangeField={setImdbUrl}
         required
-        pattern={pattern}
+        hasInValidURL={hasInValidURL}
       />
 
       <TextField
