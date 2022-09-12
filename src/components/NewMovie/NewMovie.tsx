@@ -18,6 +18,22 @@ export const NewMovie:React.FC<Props> = ({ onAdd }) => {
 
   const valid = (!title || !imgUrl || !imdbId || !imdbUrl);
 
+  const setDefault = () => {
+    setTitle('');
+    setDescription('');
+    setImgUrl('');
+    setImdbUrl('');
+    setImdbId('');
+  };
+
+  const handleEmptyInput = (value: string, callback: (val: string) => void) => {
+    if (!value.trim()) {
+      return;
+    }
+
+    callback(value);
+  };
+
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
     setCount(count + 1);
@@ -30,11 +46,7 @@ export const NewMovie:React.FC<Props> = ({ onAdd }) => {
       imdbId,
     });
 
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
+    setDefault();
   };
 
   return (
@@ -49,7 +61,7 @@ export const NewMovie:React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={title}
-        onChange={value => setTitle(value)}
+        onChange={value => handleEmptyInput(value, setTitle)}
         required
       />
 
@@ -57,14 +69,14 @@ export const NewMovie:React.FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={description}
-        onChange={value => setDescription(value)}
+        onChange={value => handleEmptyInput(value, setDescription)}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={value => setImgUrl(value)}
+        onChange={value => handleEmptyInput(value, setImgUrl)}
         required
       />
 
@@ -72,7 +84,7 @@ export const NewMovie:React.FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={value => setImdbUrl(value)}
+        onChange={value => handleEmptyInput(value, setImdbUrl)}
         required
       />
 
@@ -80,7 +92,7 @@ export const NewMovie:React.FC<Props> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={value => setImdbId(value)}
+        onChange={value => handleEmptyInput(value, setImdbId)}
         required
       />
 
