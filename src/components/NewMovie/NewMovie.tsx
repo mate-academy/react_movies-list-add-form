@@ -34,7 +34,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setImdbId('');
   };
 
-  const isError = !title || !description || !imgUrl || !imdbUrl || !imdbId;
+  const isError = !title || !imgUrl || !imdbUrl || !imdbId;
 
   return (
     <form
