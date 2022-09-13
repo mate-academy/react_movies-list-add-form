@@ -3,7 +3,7 @@ import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
 type Props = {
-  onAdd: (movie: Movie) => void,
+  onAdd: (movie: Movie) => void;
 };
 
 export const NewMovie:React.FC<Props> = ({ onAdd }) => {
@@ -16,7 +16,7 @@ export const NewMovie:React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const valid = (!title || !imgUrl || !imdbId || !imdbUrl);
+  const valid = !title || !imgUrl || !imdbId || !imdbUrl;
 
   const setDefault = () => {
     setTitle('');
@@ -27,7 +27,7 @@ export const NewMovie:React.FC<Props> = ({ onAdd }) => {
   };
 
   const handleEmptyInput = (value: string, callback: (val: string) => void) => {
-    if (!value.trim()) {
+    if (value === ' ') {
       return;
     }
 
