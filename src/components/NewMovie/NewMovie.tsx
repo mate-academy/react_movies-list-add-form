@@ -14,10 +14,17 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
+  // eslint-disable-next-line max-len
+  const pattern = new RegExp(/^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/);
+
+  const urlValidation = (url: string): boolean => pattern.test(url);
+
   const isFormCorrectly = title.trim().length > 0
     && imgUrl.trim().length > 0
     && imdbUrl.trim().length > 0
-    && imdbId.trim().length > 0;
+    && imdbId.trim().length > 0
+    && urlValidation(imgUrl)
+    && urlValidation(imdbUrl);
 
   const clearForm = () => {
     setCount(prevCount => prevCount + 1);
@@ -69,6 +76,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Image URL"
         required
         value={imgUrl}
+        urlValidation={urlValidation}
         onChange={setImgUrl}
       />
 
@@ -77,6 +85,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Imdb URL"
         required
         value={imdbUrl}
+        urlValidation={urlValidation}
         onChange={setImdbUrl}
       />
 
