@@ -19,11 +19,11 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbId, setImdbId] = useState('');
 
   const movie: Movie = {
-    title: '',
-    description: '',
-    imgUrl: '',
-    imdbUrl: '',
-    imdbId: '',
+    title,
+    description,
+    imgUrl,
+    imdbUrl,
+    imdbId,
   };
 
   const handleSubmit = (event: { preventDefault: () => void; }) => {
