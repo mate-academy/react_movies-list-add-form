@@ -9,7 +9,10 @@ type Props = {
   onChange?: (newValue: string) => void,
   validateUrls?: (url: string) => boolean,
   isUrl?: boolean,
-  // setUrlsState?: (cond: boolean) => void,
+  setUrlsFieldsTrue?: React.Dispatch<React.SetStateAction<{
+    imgUrlTrue: boolean;
+    imdbUrlTrue: boolean;
+  }>>,
 };
 
 function getRandomDigits() {
@@ -21,28 +24,45 @@ export const TextField: React.FC<Props> = ({
   value,
   label = name,
   required = false,
-  onChange = () => {},
+  onChange = () => { },
   validateUrls = () => false,
   isUrl = false,
-  // setUrlsState = () => {},
+  setUrlsFieldsTrue,
 }) => {
   // generage a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
   // To show errors only if the field was touched (onBlur)
   const [touched, setTouched] = useState(false);
+  const [hasValidationError, setValidationError] = useState(false);
   const hasError = touched && required && !value;
 
   let validationError = false;
   const handleUrlValidation = (url: string) => {
     validationError = validateUrls(url);
+
+    if (!validationError && isUrl && (value !== '')) {
+      setValidationError(true);
+
+      if (setUrlsFieldsTrue !== undefined) {
+        setUrlsFieldsTrue(current => ({
+          ...current,
+          [`${name}True`]: false,
+        }));
+      }
+
+      return;
+    }
+
+    setValidationError(false);
+
+    if (setUrlsFieldsTrue !== undefined) {
+      setUrlsFieldsTrue(current => ({
+        ...current,
+        [`${name}True`]: true,
+      }));
+    }
   };
-
-  const hasValidationError = !validationError && isUrl && (value !== '');
-
-  // if (!hasValidationError) {
-  //   setUrlsState(true);
-  // }
 
   return (
     <div className="field">

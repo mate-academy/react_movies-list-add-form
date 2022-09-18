@@ -7,16 +7,18 @@ type Props = {
 };
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
   const [count, increaseCount] = useState(0);
   const [title, addNewTitle] = useState('');
   const [description, addNewDescription] = useState('');
   const [imgUrl, addNewImgUrl] = useState('');
   const [imdbUrl, addNewImdbUrl] = useState('');
   const [imdbId, addNewImdbId] = useState('');
-  // const [isTrueImgUrl, setImgUrlAsTrue] = useState(false);
-  // const [isTrueImdbUrl, setImdbUrlAsTrue] = useState(false);
+  const [isUrlsFieldsTrue, setUrlsFieldsTrue] = useState({
+    imgUrlTrue: false,
+    imdbUrlTrue: false,
+  });
+
+  // const [errors, setErrors] = useState({})
 
   const isUrl = true;
 
@@ -39,11 +41,12 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   };
 
   // eslint-disable-next-line
-  const pattern = new RegExp(/^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/);
+  const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.,\w_]*)#?(?:[.!/\\\w]*))?)$/;
 
   const validateUrls = (url: string): boolean => pattern.test(url);
 
-  const isFieldsWithoutErrors = title && imgUrl && imdbUrl && imdbId;
+  const isFieldsWithoutErrors = title && imgUrl && imdbUrl && imdbId
+   && isUrlsFieldsTrue.imdbUrlTrue && isUrlsFieldsTrue.imgUrlTrue;
 
   return (
     <form
@@ -75,7 +78,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         onChange={addNewImgUrl}
         validateUrls={validateUrls}
         isUrl={isUrl}
-        // setUrlsState={setImgUrlAsTrue}
+        setUrlsFieldsTrue={setUrlsFieldsTrue}
         required
       />
 
@@ -86,7 +89,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         onChange={addNewImdbUrl}
         validateUrls={validateUrls}
         isUrl={isUrl}
-        // setUrlsState={setImdbUrlAsTrue}
+        setUrlsFieldsTrue={setUrlsFieldsTrue}
         required
       />
 
