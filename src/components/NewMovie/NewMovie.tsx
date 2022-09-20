@@ -37,6 +37,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setImdbId('');
   };
 
+  const handleChange = (value: string, setType: (val: string) => void) => {
+    if (value === ' ') {
+      return;
+    }
+
+    setType(value);
+  };
+
   return (
     <form
       className="NewMovie"
@@ -49,7 +57,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={title}
-        onChange={(value) => (value !== ' ' && setTitle(value))}
+        onChange={value => handleChange(value, setTitle)}
         required
       />
 
@@ -57,14 +65,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={description}
-        onChange={(value) => (value !== ' ' && setDescription(value))}
+        onChange={value => handleChange(value, setDescription)}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={(value) => (value !== ' ' && setImgUrl(value))}
+        onChange={value => handleChange(value, setImgUrl)}
         required
       />
 
@@ -72,7 +80,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={(value) => (value !== ' ' && setImdbUrl(value))}
+        onChange={value => handleChange(value, setImdbUrl)}
         required
       />
 
@@ -80,7 +88,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={(value) => (value !== ' ' && setImdbId(value))}
+        onChange={value => handleChange(value, setImdbId)}
         required
       />
 
