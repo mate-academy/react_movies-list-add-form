@@ -9,7 +9,7 @@ type Props = {
   onChange?: (newValue: string) => void,
   validateUrls?: (url: string) => boolean,
   isUrl?: boolean,
-  setUrlsFieldsTrue?: React.Dispatch<React.SetStateAction<{
+  setUrlFieldsTrue?: React.Dispatch<React.SetStateAction<{
     imgUrlTrue: boolean;
     imdbUrlTrue: boolean;
   }>>,
@@ -27,7 +27,7 @@ export const TextField: React.FC<Props> = ({
   onChange = () => { },
   validateUrls = () => false,
   isUrl = false,
-  setUrlsFieldsTrue,
+  setUrlFieldsTrue,
 }) => {
   // generage a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
@@ -44,11 +44,25 @@ export const TextField: React.FC<Props> = ({
     if (!validationError && isUrl && (value !== '')) {
       setValidationError(true);
 
-      if (setUrlsFieldsTrue !== undefined) {
-        setUrlsFieldsTrue(current => ({
-          ...current,
-          [`${name}True`]: false,
-        }));
+      if (setUrlFieldsTrue !== undefined) {
+        switch (name) {
+          case 'imgUrl':
+            setUrlFieldsTrue(current => ({
+              ...current,
+              imgUrlTrue: false,
+            }));
+            break;
+
+          case 'imdbUrl':
+            setUrlFieldsTrue(current => ({
+              ...current,
+              imdbUrlTrue: false,
+            }));
+            break;
+
+          default:
+            break;
+        }
       }
 
       return;
@@ -56,11 +70,25 @@ export const TextField: React.FC<Props> = ({
 
     setValidationError(false);
 
-    if (setUrlsFieldsTrue !== undefined) {
-      setUrlsFieldsTrue(current => ({
-        ...current,
-        [`${name}True`]: true,
-      }));
+    if (setUrlFieldsTrue !== undefined) {
+      switch (name) {
+        case 'imgUrl':
+          setUrlFieldsTrue(current => ({
+            ...current,
+            imgUrlTrue: true,
+          }));
+          break;
+
+        case 'imdbUrl':
+          setUrlFieldsTrue(current => ({
+            ...current,
+            imdbUrlTrue: true,
+          }));
+          break;
+
+        default:
+          break;
+      }
     }
   };
 

@@ -8,12 +8,12 @@ type Props = {
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, increaseCount] = useState(0);
-  const [title, addNewTitle] = useState('');
+  const [title, setTitle] = useState('');
   const [description, addNewDescription] = useState('');
   const [imgUrl, addNewImgUrl] = useState('');
   const [imdbUrl, addNewImdbUrl] = useState('');
   const [imdbId, addNewImdbId] = useState('');
-  const [isUrlsFieldsTrue, setUrlsFieldsTrue] = useState({
+  const [isUrlFieldsTrue, setUrlFieldsTrue] = useState({
     imgUrlTrue: false,
     imdbUrlTrue: false,
   });
@@ -31,7 +31,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       imdbId,
     });
 
-    addNewTitle('');
+    setTitle('');
     addNewDescription('');
     addNewImgUrl('');
     addNewImdbUrl('');
@@ -46,7 +46,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const validateUrls = (url: string): boolean => pattern.test(url);
 
   const isFieldsWithoutErrors = title && imgUrl && imdbUrl && imdbId
-   && isUrlsFieldsTrue.imdbUrlTrue && isUrlsFieldsTrue.imgUrlTrue;
+   && isUrlFieldsTrue.imdbUrlTrue && isUrlFieldsTrue.imgUrlTrue;
 
   return (
     <form
@@ -60,7 +60,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={title}
-        onChange={addNewTitle}
+        onChange={setTitle}
         required
       />
 
@@ -78,7 +78,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         onChange={addNewImgUrl}
         validateUrls={validateUrls}
         isUrl={isUrl}
-        setUrlsFieldsTrue={setUrlsFieldsTrue}
+        setUrlFieldsTrue={setUrlFieldsTrue}
         required
       />
 
@@ -89,7 +89,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         onChange={addNewImdbUrl}
         validateUrls={validateUrls}
         isUrl={isUrl}
-        setUrlsFieldsTrue={setUrlsFieldsTrue}
+        setUrlFieldsTrue={setUrlFieldsTrue}
         required
       />
 
