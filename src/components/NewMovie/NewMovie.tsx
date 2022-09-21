@@ -56,7 +56,10 @@ export const NewMovie: React.FC<Props> = (props) => {
   };
 
   useEffect(() => {
-    if (title && validateUrl(imgUrl) && validateUrl(imdbUrl) && imdbId) {
+    if (title.trim()
+    && validateUrl(imgUrl)
+    && validateUrl(imdbUrl)
+    && imdbId) {
       setReadyToSubmit(true);
     } else {
       setReadyToSubmit(false);
