@@ -27,7 +27,7 @@ export const TextField: React.FC<Props> = ({
 
   // To show errors only if the field was touched (onBlur)
   const [touched, setTouched] = useState(false);
-  const hasErrorEmpty = touched && required && !value;
+  const hasErrorEmpty = touched && required && !value.trim();
   const hasErrorNotValid = touched
     && validateUrl
     && !validateUrl(value)
