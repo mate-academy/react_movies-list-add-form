@@ -9,9 +9,7 @@ interface Props {
 export const NewMovie: React.FC<Props> = ({
   onAdd,
 }) => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
-  const [count] = useState(0);
+  const [count, setCount] = useState(0);
   const [description, setDescription] = useState('');
   const [imgUrl, setImgUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
@@ -30,10 +28,21 @@ export const NewMovie: React.FC<Props> = ({
     );
   };
 
+  const IsFullTextInput = title.length > 0
+    && imgUrl.length > 0
+    && imdbUrl.length > 0
+    && imdbId.length > 0;
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setCount(current => current + 1);
 
     onAdd(addMovie());
+    setDescription('');
+    setImdbId('');
+    setImgUrl('');
+    setTitle('');
+    setImdbUrl('');
   };
 
   return (
@@ -48,7 +57,9 @@ export const NewMovie: React.FC<Props> = ({
         name="title"
         label="Title"
         value={title}
-        onChange={(value) => setTitle(value)}
+        onChange={(value) => {
+          setTitle(value);
+        }}
         required
       />
 
@@ -63,21 +74,30 @@ export const NewMovie: React.FC<Props> = ({
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={(value) => setImgUrl(value)}
+        onChange={(value) => {
+          setImgUrl(value);
+        }}
+        required
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={(value) => setImdbUrl(value)}
+        onChange={(value) => {
+          setImdbUrl(value);
+        }}
+        required
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={(value) => setImdbId(value)}
+        onChange={(value) => {
+          setImdbId(value);
+        }}
+        required
       />
 
       <div className="field is-grouped">
@@ -86,6 +106,7 @@ export const NewMovie: React.FC<Props> = ({
             type="submit"
             data-cy="submit-button"
             className="button is-link"
+            disabled={!IsFullTextInput}
           >
             Add
           </button>
