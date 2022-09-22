@@ -11,21 +11,30 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
+  const [isError, setError] = useState({
+    title: true,
+    description: false,
+    imgUrl: true,
+    imdbUrl: true,
+    imdbId: true,
+  });
+  const [newMovie, setNewMovie] = useState({
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  });
+
+  const handleError = (name: string, error: boolean) => {
+    setError((prevError) => ({
+      ...prevError,
+      [name]: error,
+    }));
+  };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const newMovie = {
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    };
 
     onAdd(newMovie);
     setCount((prevCount) => prevCount + 1);
@@ -42,45 +51,70 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        onChange={(newTitle: string) => {
-          setTitle(newTitle);
+        value={newMovie.title}
+        onChange={(newValue) => {
+          setNewMovie((prevMovie) => ({
+            ...prevMovie,
+            title: newValue,
+          }));
         }}
+        handleError={handleError}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        onChange={(newDescription: string) => {
-          setDescription(newDescription);
+        value={newMovie.description}
+        onChange={(newValue) => {
+          setNewMovie((prevMovie) => ({
+            ...prevMovie,
+            description: newValue,
+          }));
         }}
+        handleError={handleError}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         required
-        onChange={(newImgU: string) => {
-          setImgUrl(newImgU);
+        value={newMovie.imgUrl}
+        onChange={(newValue) => {
+          setNewMovie((prevMovie) => ({
+            ...prevMovie,
+            imgUrl: newValue,
+          }));
         }}
+        handleError={handleError}
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
         required
-        onChange={(newImdbU: string) => {
-          setImdbUrl(newImdbU);
+        value={newMovie.imdbUrl}
+        onChange={(newValue) => {
+          setNewMovie((prevMovie) => ({
+            ...prevMovie,
+            imdbUrl: newValue,
+          }));
         }}
+        handleError={handleError}
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
         required
-        onChange={(newImdbId: string) => {
-          setImdbId(newImdbId);
+        value={newMovie.imdbId}
+        onChange={(newValue) => {
+          setNewMovie((prevMovie) => ({
+            ...prevMovie,
+            imdbId: newValue,
+          }));
         }}
+        handleError={handleError}
       />
 
       <div className="field is-grouped">
@@ -89,7 +123,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!(title && imgUrl && imdbId && imdbUrl)}
+            disabled={Object.values(isError).some(error => error)}
           >
             Add
           </button>
