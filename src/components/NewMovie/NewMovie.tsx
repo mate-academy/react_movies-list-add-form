@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
@@ -17,20 +17,20 @@ export const NewMovie = ({ onAdd } : Props) => {
     imdbUrl: '',
     imdbId: '',
   });
-  const isDisabled = (
-    Boolean(movie.title) && Boolean(movie.imgUrl)
-    && Boolean(movie.imdbUrl) && Boolean(movie.imdbId)
-  );
+  const isDisabled = !movie.title || !movie.imgUrl
+    || !movie.imdbUrl || !movie.imdbId;
+
+  const onSubmitHandler = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    onAdd(movie);
+    setCount(count + 1);
+  };
 
   return (
     <form
       className="NewMovie"
       key={count}
-      onSubmit={(event) => {
-        event.preventDefault();
-        onAdd(movie);
-        setCount(count + 1);
-      }}
+      onSubmit={(event) => onSubmitHandler(event)}
     >
       <h2 className="title">Add a movie</h2>
 
@@ -89,7 +89,7 @@ export const NewMovie = ({ onAdd } : Props) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!isDisabled}
+            disabled={isDisabled}
           >
             Add
           </button>
