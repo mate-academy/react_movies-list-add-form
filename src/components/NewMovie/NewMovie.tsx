@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { TextField } from '../TextField';
 
 import { Movie } from '../../types/Movie';
@@ -26,6 +26,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     imdbId: '',
   });
 
+  // eslint-disable-next-line max-len
+  const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
+
   const handleError = (name: string, error: boolean) => {
     setError((prevError) => ({
       ...prevError,
@@ -39,6 +42,27 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     onAdd(newMovie);
     setCount((prevCount) => prevCount + 1);
   };
+
+  useEffect(() => {
+    const { imdbUrl, imgUrl } = newMovie;
+
+    if (isError.imdbUrl && pattern.test(imdbUrl)) {
+      handleError('imdbUrl', false);
+    }
+
+    if (isError.imgUrl && pattern.test(imgUrl)) {
+      handleError('imgUrl', false);
+    }
+  }, [
+    isError,
+  ]);
+
+  const errors = () => Object.values(isError).some(error => error);
+
+  // eslint-disable-next-line no-console
+  console.info(isError);
+  // eslint-disable-next-line no-console
+  console.info(`Errors: ${errors()}`);
 
   return (
     <form
@@ -86,6 +110,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             imgUrl: newValue,
           }));
         }}
+        pattern={pattern}
         handleError={handleError}
       />
 
@@ -100,6 +125,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             imdbUrl: newValue,
           }));
         }}
+        pattern={pattern}
         handleError={handleError}
       />
 
@@ -123,7 +149,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={Object.values(isError).some(error => error)}
+            disabled={errors()}
           >
             Add
           </button>

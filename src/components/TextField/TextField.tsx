@@ -8,6 +8,7 @@ type Props = {
   value: string,
   onChange: (newValue: string) => void,
   handleError: (name: string, error: boolean) => void,
+  pattern?: RegExp,
 };
 
 function getRandomDigits() {
@@ -21,18 +22,21 @@ export const TextField: React.FC<Props> = ({
   value,
   onChange,
   handleError,
+  pattern,
 }) => {
   // generage a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
-  // eslint-disable-next-line max-len
-  const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
+  const isUrl = name === 'imdbUrl' || name === 'imgUrl';
 
   // To show errors only if the field was touched (onBlur)
   const [touched, setToched] = useState(false);
-  const hasError = name === 'imgUrl' || name === 'imdbUrl'
-    ? (touched && required && (value === '' || !pattern.test(value)))
-    : touched && required && value === '';
+  const hasError = isUrl && pattern
+    ? touched && required && !pattern.test(value)
+    : touched && required && (value === '');
+
+  // eslint-disable-next-line no-console
+  // console.info(`Name: ${name}; Touched: ${touched}; hasError: ${hasError}`);
 
   return (
     <div className="field">
@@ -50,14 +54,16 @@ export const TextField: React.FC<Props> = ({
           type="text"
           placeholder={`Enter ${label}`}
           onChange={event => {
-            onChange(event.target.value.trim());
+            const currentValue = event.target.value.trim();
+
+            onChange(currentValue);
             handleError(name, hasError);
           }}
           onBlur={() => setToched(true)}
         />
       </div>
 
-      {hasError && (
+      {(hasError) && (
         <p className="help is-danger">{`${label} is required`}</p>
       )}
     </div>
