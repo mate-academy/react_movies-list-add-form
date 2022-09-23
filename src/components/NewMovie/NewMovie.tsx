@@ -28,10 +28,10 @@ export const NewMovie: React.FC<Props> = ({
     );
   };
 
-  const IsFullTextInput = title.length > 0
-    && imgUrl.length > 0
-    && imdbUrl.length > 0
-    && imdbId.length > 0;
+  const IsFullTextInput = title.trim().length > 0
+    && imgUrl.trim().length > 0
+    && imdbUrl.trim().length > 0
+    && imdbId.trim().length > 0;
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
