@@ -1,45 +1,108 @@
-import { useState } from 'react';
+import React, { FormEvent, useState } from 'react';
+import { Movie } from '../../types/Movie';
 import { TextField } from '../TextField';
 
-export const NewMovie = () => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
-  const [count] = useState(0);
+type Props = {
+  onAdd: (newMovie: Movie) => void;
+};
+
+const defaultMovie: Movie = {
+  title: '',
+  description: '',
+  imgUrl: '',
+  imdbUrl: '',
+  imdbId: '',
+};
+
+export const NewMovie: React.FC<Props> = ({ onAdd }) => {
+  const [count, setCount] = useState(0);
+  const [newMovie, setNewMovie] = useState(defaultMovie);
+
+  const handleSubmit = (event: FormEvent) => {
+    event.preventDefault();
+    onAdd(newMovie);
+    setCount(prevCount => prevCount + 1);
+    setNewMovie(defaultMovie);
+  };
+
+  const handleChange = (name: string, value: string) => {
+    setNewMovie(prevMovie => ({
+      ...prevMovie,
+      [name]: value,
+    }));
+  };
+
+  const {
+    title,
+    description,
+    imgUrl,
+    imdbUrl,
+    imdbId,
+  } = newMovie;
+
+  const isValidUrl = (url: string) => {
+    // eslint-disable-next-line max-len
+    const regUrl = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/;
+
+    return regUrl.test(url);
+  };
+
+  const isDisabled
+    = !title
+      || !isValidUrl(imgUrl)
+      || !isValidUrl(imdbUrl)
+      || !imdbId;
 
   return (
-    <form className="NewMovie" key={count}>
+    <form
+      className="NewMovie"
+      key={count}
+      onSubmit={handleSubmit}
+    >
       <h2 className="title">Add a movie</h2>
 
       <TextField
         name="title"
         label="Title"
-        value=""
-        onChange={() => {}}
+        value={title}
+        onChange={handleChange}
+        isValidUrl={isValidUrl}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value=""
+        value={description}
+        onChange={handleChange}
+        isValidUrl={isValidUrl}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value=""
+        value={imgUrl}
+        onChange={handleChange}
+        isValidUrl={isValidUrl}
+        required
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value=""
+        value={imdbUrl}
+        onChange={handleChange}
+        isValidUrl={isValidUrl}
+        required
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value=""
+        value={imdbId}
+        onChange={handleChange}
+        isValidUrl={isValidUrl}
+        required
       />
 
       <div className="field is-grouped">
@@ -48,6 +111,7 @@ export const NewMovie = () => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
+            disabled={isDisabled}
           >
             Add
           </button>
