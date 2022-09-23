@@ -66,6 +66,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Title"
         value={title}
         onChange={handleChange}
+        isValidUrl={isValidUrl}
         required
       />
 
@@ -74,6 +75,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Description"
         value={description}
         onChange={handleChange}
+        isValidUrl={isValidUrl}
       />
 
       <TextField
@@ -81,6 +83,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Image URL"
         value={imgUrl}
         onChange={handleChange}
+        isValidUrl={isValidUrl}
         required
       />
 
@@ -89,6 +92,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Imdb URL"
         value={imdbUrl}
         onChange={handleChange}
+        isValidUrl={isValidUrl}
         required
       />
 
@@ -97,6 +101,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Imdb ID"
         value={imdbId}
         onChange={handleChange}
+        isValidUrl={isValidUrl}
         required
       />
 
