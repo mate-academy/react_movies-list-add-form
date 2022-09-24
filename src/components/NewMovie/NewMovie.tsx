@@ -32,18 +32,20 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     imdbId,
   };
 
-  const handleOnChange = (event: React.FormEvent) => {
+  const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
     if (hasValue) {
       setCount(state => state + 1);
       clearForm();
     }
+
+    onAdd(newFilm);
   };
 
   return (
     <form
-      onSubmit={event => handleOnChange(event)}
+      onSubmit={event => handleSubmit(event)}
       className="NewMovie"
       key={count}
     >
@@ -92,7 +94,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             data-cy="submit-button"
             className="button is-link"
             disabled={!hasValue}
-            onClick={() => onAdd(newFilm)}
           >
             Add
           </button>
