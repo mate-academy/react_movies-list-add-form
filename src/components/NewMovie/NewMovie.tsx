@@ -38,9 +38,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     if (hasValue) {
       setCount(state => state + 1);
       clearForm();
+      onAdd(newFilm);
     }
-
-    onAdd(newFilm);
   };
 
   return (
