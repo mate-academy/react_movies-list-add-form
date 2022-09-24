@@ -18,7 +18,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const handleInput = (value: string, setValue: (value: string) => void) => {
     setValue(value);
 
-    if (title && imgUrl && imdbUrl && imdbId) {
+    if (title.trim() && imgUrl.trim() && imdbUrl.trim() && imdbId.trim()) {
       setFormError(false);
     }
   };
