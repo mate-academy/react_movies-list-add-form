@@ -3,10 +3,11 @@ import React, { useState } from 'react';
 
 type Props = {
   name: string,
-  value: string,
   label?: string,
   required?: boolean,
-  onChange?: (newValue: string) => void,
+  value: string,
+  onChange: (field: string, value: string) => void,
+  pattern?: RegExp,
 };
 
 function getRandomDigits() {
@@ -15,17 +16,22 @@ function getRandomDigits() {
 
 export const TextField: React.FC<Props> = ({
   name,
-  value,
   label = name,
   required = false,
-  onChange = () => {},
+  value,
+  onChange,
+  pattern,
 }) => {
   // generage a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
+  const isUrl = name === 'imdbUrl' || name === 'imgUrl';
+
   // To show errors only if the field was touched (onBlur)
   const [touched, setToched] = useState(false);
-  const hasError = touched && required && !value;
+  const hasError = isUrl && pattern
+    ? touched && required && !pattern.test(value)
+    : touched && required && (value === '');
 
   return (
     <div className="field">
@@ -42,13 +48,18 @@ export const TextField: React.FC<Props> = ({
           })}
           type="text"
           placeholder={`Enter ${label}`}
-          value={value}
-          onChange={event => onChange(event.target.value)}
+          onChange={event => {
+            const currentValue = event.target.value.trim();
+
+            onChange(name, currentValue);
+            // eslint-disable-next-line no-console
+            console.info(`${name}: ${currentValue}`);
+          }}
           onBlur={() => setToched(true)}
         />
       </div>
 
-      {hasError && (
+      {(hasError) && (
         <p className="help is-danger">{`${label} is required`}</p>
       )}
     </div>
