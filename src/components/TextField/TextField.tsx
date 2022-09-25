@@ -6,8 +6,7 @@ type Props = {
   label?: string,
   required?: boolean,
   value: string,
-  onChange: (newValue: string) => void,
-  handleError: (name: string, error: boolean) => void,
+  onChange: (field: string, value: string) => void,
   pattern?: RegExp,
 };
 
@@ -21,7 +20,6 @@ export const TextField: React.FC<Props> = ({
   required = false,
   value,
   onChange,
-  handleError,
   pattern,
 }) => {
   // generage a unique id once on component load
@@ -34,9 +32,6 @@ export const TextField: React.FC<Props> = ({
   const hasError = isUrl && pattern
     ? touched && required && !pattern.test(value)
     : touched && required && (value === '');
-
-  // eslint-disable-next-line no-console
-  // console.info(`Name: ${name}; Touched: ${touched}; hasError: ${hasError}`);
 
   return (
     <div className="field">
@@ -56,8 +51,9 @@ export const TextField: React.FC<Props> = ({
           onChange={event => {
             const currentValue = event.target.value.trim();
 
-            onChange(currentValue);
-            handleError(name, hasError);
+            onChange(name, currentValue);
+            // eslint-disable-next-line no-console
+            console.info(`${name}: ${currentValue}`);
           }}
           onBlur={() => setToched(true)}
         />

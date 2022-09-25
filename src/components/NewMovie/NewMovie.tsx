@@ -11,13 +11,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
-  const [isError, setError] = useState({
-    title: true,
-    description: false,
-    imgUrl: true,
-    imdbUrl: true,
-    imdbId: true,
-  });
+  const [isError, setError] = useState(true);
   const [newMovie, setNewMovie] = useState({
     title: '',
     description: '',
@@ -29,10 +23,28 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   // eslint-disable-next-line max-len
   const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
 
-  const handleError = (name: string, error: boolean) => {
-    setError((prevError) => ({
-      ...prevError,
-      [name]: error,
+  useEffect(() => {
+    const {
+      title,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    } = newMovie;
+
+    if (title.trim()
+      && pattern.test(imgUrl)
+      && pattern.test(imdbUrl)
+      && imdbId) {
+      setError(false);
+    } else {
+      setError(true);
+    }
+  }, [newMovie]);
+
+  const onChange = (field: string, value: string) => {
+    setNewMovie((prevMovie) => ({
+      ...prevMovie,
+      [field]: value,
     }));
   };
 
@@ -42,27 +54,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     onAdd(newMovie);
     setCount((prevCount) => prevCount + 1);
   };
-
-  useEffect(() => {
-    const { imdbUrl, imgUrl } = newMovie;
-
-    if (isError.imdbUrl && pattern.test(imdbUrl)) {
-      handleError('imdbUrl', false);
-    }
-
-    if (isError.imgUrl && pattern.test(imgUrl)) {
-      handleError('imgUrl', false);
-    }
-  }, [
-    isError,
-  ]);
-
-  const errors = () => Object.values(isError).some(error => error);
-
-  // eslint-disable-next-line no-console
-  console.info(isError);
-  // eslint-disable-next-line no-console
-  console.info(`Errors: ${errors()}`);
 
   return (
     <form
@@ -76,13 +67,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={newMovie.title}
-        onChange={(newValue) => {
-          setNewMovie((prevMovie) => ({
-            ...prevMovie,
-            title: newValue,
-          }));
-        }}
-        handleError={handleError}
+        onChange={onChange}
         required
       />
 
@@ -90,13 +75,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={newMovie.description}
-        onChange={(newValue) => {
-          setNewMovie((prevMovie) => ({
-            ...prevMovie,
-            description: newValue,
-          }));
-        }}
-        handleError={handleError}
+        onChange={onChange}
       />
 
       <TextField
@@ -104,14 +83,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Image URL"
         required
         value={newMovie.imgUrl}
-        onChange={(newValue) => {
-          setNewMovie((prevMovie) => ({
-            ...prevMovie,
-            imgUrl: newValue,
-          }));
-        }}
+        onChange={onChange}
         pattern={pattern}
-        handleError={handleError}
       />
 
       <TextField
@@ -119,14 +92,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Imdb URL"
         required
         value={newMovie.imdbUrl}
-        onChange={(newValue) => {
-          setNewMovie((prevMovie) => ({
-            ...prevMovie,
-            imdbUrl: newValue,
-          }));
-        }}
+        onChange={onChange}
         pattern={pattern}
-        handleError={handleError}
       />
 
       <TextField
@@ -134,13 +101,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Imdb ID"
         required
         value={newMovie.imdbId}
-        onChange={(newValue) => {
-          setNewMovie((prevMovie) => ({
-            ...prevMovie,
-            imdbId: newValue,
-          }));
-        }}
-        handleError={handleError}
+        onChange={onChange}
       />
 
       <div className="field is-grouped">
@@ -149,7 +110,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={errors()}
+            disabled={isError}
           >
             Add
           </button>
