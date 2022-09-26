@@ -24,7 +24,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     imdbId,
   };
 
-  const handleCheck = (event: React.FormEvent) => {
+  const handleAdd = (event: React.FormEvent) => {
     event.preventDefault();
 
     onAdd(newMovie);
@@ -40,7 +40,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     <form
       className="NewMovie"
       key={count}
-      onSubmit={handleCheck}
+      onSubmit={handleAdd}
     >
       <h2 className="title">Add a movie</h2>
 
