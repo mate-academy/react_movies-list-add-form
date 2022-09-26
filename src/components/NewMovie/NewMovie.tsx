@@ -17,7 +17,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
 
-    setCount(count + 1);
+    setCount(countValue => countValue + 1);
 
     onAdd({
       title,
