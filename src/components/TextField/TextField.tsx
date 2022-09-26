@@ -18,10 +18,29 @@ export const TextField: React.FC<Props> = ({
   value,
   label = name,
   required = false,
-  onChange = () => {},
+  onChange = () => { },
 }) => {
   // generage a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
+  // const [imgUrlValid, setImageURLValid] = useState(false);
+  // const [imdbUrlValid, setImdbURLValid] = useState(false);
+
+  // eslint-disable-next-line max-len
+  // // const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
+
+  // // const validFieldUrl = () => {
+  // if (name === 'imgUrl' && name.match(pattern)) {
+  //   setImageURLValid(true);
+  // } else if (name === 'imgUrl' && !name.match(pattern)) {
+  //   return setImageURLValid(false);
+  // }
+
+  // if (name === 'imdbUrl' && name.match(pattern)) {
+  //   setImdbURLValid(true);
+  // } else if (name === 'imdbUrl' && !name.match(pattern)) {
+  //   setImdbURLValid(false);
+  // }
+  // };
 
   // To show errors only if the field was touched (onBlur)
   const [touched, setToched] = useState(false);
@@ -51,6 +70,10 @@ export const TextField: React.FC<Props> = ({
       {hasError && (
         <p className="help is-danger">{`${label} is required`}</p>
       )}
+
+      {/* {(imgUrlValid || imdbUrlValid) && (
+        <p className="help is-danger">{`${label} is not correct`}</p>
+      )} */}
     </div>
   );
 };
