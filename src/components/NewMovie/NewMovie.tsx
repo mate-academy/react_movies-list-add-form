@@ -55,7 +55,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     }));
   };
 
-  const handleSubmit = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     onAdd(newMovie);
     setNewMovie({
@@ -69,7 +69,11 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   };
 
   return (
-    <form className="NewMovie" key={count}>
+    <form
+      className="NewMovie"
+      key={count}
+      onSubmit={handleSubmit}
+    >
       <h2 className="title">Add a movie</h2>
 
       <TextField
@@ -123,7 +127,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             data-cy="submit-button"
             className="button is-link"
             disabled={!isValidData}
-            onClick={handleSubmit}
           >
             Add
           </button>
