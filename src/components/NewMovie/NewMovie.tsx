@@ -17,11 +17,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbId, setImdbID] = useState('');
 
   const isValid = () => {
-    if (title && imgUrl && imdbUrl && imdbId) {
-      return false;
-    }
-
-    return true;
+    return !(title && imgUrl && imdbUrl && imdbId);
   };
 
   const clearForm = () => {
