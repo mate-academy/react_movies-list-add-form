@@ -20,12 +20,28 @@ export const TextField: React.FC<Props> = ({
   required = false,
   onChange = () => {},
 }) => {
-  // generage a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
-  // To show errors only if the field was touched (onBlur)
+  const isValid = () => {
+    // eslint-disable-next-line max-len
+    const patern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[.!/\\\w]*))?)$/;
+
+    switch (name) {
+      case 'title':
+      case 'imdbId':
+        return value.replace(/\s/g, '') !== '';
+
+      case 'imgUrl':
+      case 'imdbUrl':
+        return patern.test(value);
+
+      default:
+        return true;
+    }
+  };
+
   const [touched, setToched] = useState(false);
-  const hasError = touched && required && !value;
+  const hasError = touched && required && !value && !isValid();
 
   return (
     <div className="field">
