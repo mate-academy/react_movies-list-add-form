@@ -9,15 +9,7 @@ export const App = () => {
   const [movies, setMovies] = useState<Movie[]>(moviesFromServer);
 
   const handleMovieAddition = (movie: Movie) => {
-    const newMovie = {
-      title: movie.title,
-      description: movie.description,
-      imgUrl: movie.imgUrl,
-      imdbUrl: movie.imdbUrl,
-      imdbId: movie.imdbId,
-    };
-
-    setMovies(prevMovieList => [...prevMovieList, newMovie]);
+    setMovies(prevMovieList => [...prevMovieList, movie]);
   };
 
   return (
