@@ -96,7 +96,6 @@ export const NewMovie: React.FC<Props> = ({
         value={imdbUrl}
         onChange={handleImdbUrl}
         required
-
       />
 
       <TextField
@@ -105,7 +104,6 @@ export const NewMovie: React.FC<Props> = ({
         value={imdbId}
         onChange={handledImdbId}
         required
-
       />
 
       <div className="field is-grouped">
