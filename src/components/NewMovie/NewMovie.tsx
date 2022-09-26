@@ -16,12 +16,15 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
   const isValidUrl = (url: string) => {
     // eslint-disable-next-line max-len
-    const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
+    const pattern = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/;
 
     return pattern.test(url);
   };
 
-  const availablButton = title && imgUrl && imdbUrl && imdbId && isValidUrl;
+  const availablButton = !title
+    || !isValidUrl(imgUrl)
+    || !isValidUrl(imdbUrl)
+    || !imdbId;
 
   return (
     <form
@@ -76,6 +79,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         onChange={event => {
           setImgUrl(event);
         }}
+        required
       />
 
       <TextField
@@ -86,22 +90,23 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         onChange={event => {
           setImdbUrl(event);
         }}
+        required
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        isValidURL={isValidUrl}
         value={imdbId}
         onChange={event => {
           setImdbId(event);
         }}
+        required
       />
 
       <div className="field is-grouped">
         <div className="control">
           <button
-            disabled={!availablButton}
+            disabled={availablButton}
             type="submit"
             data-cy="submit-button"
             className="button is-link"
