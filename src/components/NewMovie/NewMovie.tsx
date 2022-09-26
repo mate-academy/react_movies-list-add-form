@@ -14,7 +14,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setimdbUrl] = useState('');
   const [imdbId, setimdbId] = useState('');
 
-  const onBlur = !title || !imgUrl || !imdbUrl || !imdbId;
+  const isValidField = !title || !imgUrl || !imdbUrl || !imdbId;
 
   const newMovie = {
     title,
@@ -24,11 +24,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     imdbId,
   };
 
-  const handleAdd = (event: React.FormEvent) => {
-    event.preventDefault();
-
-    onAdd(newMovie);
-    setCount(prev => prev + 1);
+  const handleFormReset = () => {
     setTitle('');
     setDescription('');
     setimgUrl('');
@@ -36,11 +32,20 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setimdbUrl('');
   };
 
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+
+    onAdd(newMovie);
+    setCount(prev => prev + 1);
+
+    handleFormReset();
+  };
+
   return (
     <form
       className="NewMovie"
       key={count}
-      onSubmit={handleAdd}
+      onSubmit={handleSubmit}
     >
       <h2 className="title">Add a movie</h2>
 
@@ -96,7 +101,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <div className="field is-grouped">
         <div className="control">
           <button
-            disabled={onBlur}
+            disabled={isValidField}
             type="submit"
             data-cy="submit-button"
             className="button is-link"
