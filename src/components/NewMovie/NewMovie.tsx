@@ -28,14 +28,10 @@ export const NewMovie: React.FC<Props> = ({
     );
   };
 
-  let allIsEntered = false;
-
-  if (title.trim().length > 0
-  && imgUrl.trim().length > 0
-  && imdbUrl.trim().length > 0
-  && imdbId.trim().length > 0) {
-    allIsEntered = true;
-  }
+  const allIsEntered = title.trim()
+    && imgUrl.trim()
+    && imdbUrl.trim()
+    && imdbId.trim();
 
   function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
@@ -62,9 +58,7 @@ export const NewMovie: React.FC<Props> = ({
         name="title"
         label="Title"
         value={title}
-        onChange={(value) => {
-          setTitle(value);
-        }}
+        onChange={setTitle}
         required
       />
 
@@ -72,18 +66,14 @@ export const NewMovie: React.FC<Props> = ({
         name="description"
         label="Description"
         value={description}
-        onChange={(value) => {
-          setDescription(value);
-        }}
+        onChange={setDescription}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={(value) => {
-          setImgUrl(value);
-        }}
+        onChange={setImgUrl}
         required
       />
 
@@ -91,9 +81,7 @@ export const NewMovie: React.FC<Props> = ({
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={(value) => {
-          setImdbUrl(value);
-        }}
+        onChange={setImdbUrl}
         required
       />
 
@@ -101,9 +89,7 @@ export const NewMovie: React.FC<Props> = ({
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={(value) => {
-          setImdbId(value);
-        }}
+        onChange={setImdbId}
         required
       />
 
