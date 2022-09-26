@@ -14,23 +14,26 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setimdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
+  const handleMovieAddition = (event:
+  { preventDefault: () => void; }) => {
+    event.preventDefault();
+    onAdd({
+      title, description, imgUrl, imdbUrl, imdbId,
+    });
+    setCount(count + 1);
+
+    setTitle('');
+    setDescription('');
+    setImgUrl('');
+    setimdbUrl('');
+    setImdbId('');
+  };
+
   return (
     <form
       className="NewMovie"
       key={count}
-      onSubmit={(event) => {
-        event.preventDefault();
-        onAdd({
-          title, description, imgUrl, imdbUrl, imdbId,
-        });
-        setCount(count + 1);
-
-        setTitle('');
-        setDescription('');
-        setImgUrl('');
-        setimdbUrl('');
-        setImdbId('');
-      }}
+      onSubmit={handleMovieAddition}
     >
       <h2 className="title">Add a movie</h2>
 
