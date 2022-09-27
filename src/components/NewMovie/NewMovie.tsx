@@ -85,10 +85,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <div className="field is-grouped">
         <div className="control">
           <button
+            disabled={error}
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={error}
           >
             Add
           </button>
