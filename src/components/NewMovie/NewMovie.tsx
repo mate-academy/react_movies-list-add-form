@@ -15,7 +15,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
   const [validation, setValidation] = useState(true);
-  const isEmpty = !!title && !!imgUrl && !!imdbUrl && !!imdbId;
+  const isEmpty = !!title.trim() && !!imgUrl.trim()
+  && !!imdbUrl.trim() && !!imdbId.trim();
 
   const urlRegex = new RegExp(`${
     /(?:(?:(https?|ftp):)?\/\/)/.source
