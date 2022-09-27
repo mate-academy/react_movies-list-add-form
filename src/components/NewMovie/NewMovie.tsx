@@ -25,7 +25,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       imdbId,
     });
 
-    setCount(count + 1);
+    setCount(currentCount => currentCount + 1);
     setTitle('');
     setDescription('');
     setImgUrl('');
