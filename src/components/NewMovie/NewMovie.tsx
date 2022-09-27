@@ -6,7 +6,7 @@ type Props = {
   onAdd: (newMovie: Movie) => void;
 };
 
-export const NewMovie: FC<Props> = (props) => {
+export const NewMovie: FC<Props> = ({ onAdd }) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [imgUrl, setImgUrl] = useState('');
@@ -21,8 +21,6 @@ export const NewMovie: FC<Props> = (props) => {
     setImdbUrl('');
     setImdbId('');
   };
-
-  const { onAdd } = props;
 
   const isDisabled = !title.trim()
     || !imgUrl.trim()
@@ -46,7 +44,11 @@ export const NewMovie: FC<Props> = (props) => {
   };
 
   return (
-    <form className="NewMovie" key={count} onSubmit={addMovie}>
+    <form
+      className="NewMovie"
+      key={count}
+      onSubmit={addMovie}
+    >
       <h2 className="title">Add a movie</h2>
 
       <TextField
