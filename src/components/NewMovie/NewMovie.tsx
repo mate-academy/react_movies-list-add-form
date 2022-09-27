@@ -6,8 +6,6 @@ type Props = {
   onAdd: (movie: Movie) => void
 };
 export const NewMovie:React.FC<Props> = ({ onAdd }) => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -17,7 +15,7 @@ export const NewMovie:React.FC<Props> = ({ onAdd }) => {
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
-    setCount(count + 1);
+    setCount((state) => state + 1);
 
     onAdd({
       title,
@@ -51,7 +49,7 @@ export const NewMovie:React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={title}
-        onChange={(text) => setTitle(text)}
+        onChange={setTitle}
         required
       />
 
@@ -59,14 +57,14 @@ export const NewMovie:React.FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={description}
-        onChange={(text) => setDescription(text)}
+        onChange={setDescription}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={(text) => setImgUrl(text)}
+        onChange={setImgUrl}
         required
       />
 
@@ -74,7 +72,7 @@ export const NewMovie:React.FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={(text) => setImdbUrl(text)}
+        onChange={setImdbUrl}
         required
       />
 
@@ -82,7 +80,7 @@ export const NewMovie:React.FC<Props> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={(text) => setImdbId(text)}
+        onChange={setImdbId}
         required
       />
 
