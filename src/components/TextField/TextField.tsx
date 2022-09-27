@@ -1,4 +1,3 @@
-/* eslint-disable no-alert */
 import classNames from 'classnames';
 import React, { useState } from 'react';
 
@@ -26,10 +25,14 @@ export const TextField: React.FC<Props> = ({
 }) => {
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
-  // const [invaidUrl, setinvalidUrl] = useState(false);
+  const [invaidUrl, setinvalidUrl] = useState(false);
 
   const [touched, setTouched] = useState(false);
   const hasError = touched && required && !value;
+
+  const handleInput = (event: { target: { value: string; }; }) => {
+    onChange(event.target.value);
+  };
 
   return (
     <div className="field">
@@ -48,18 +51,38 @@ export const TextField: React.FC<Props> = ({
           placeholder={`Enter ${label}`}
           value={value}
           onChange={event => {
-            if ((label === 'Image URL' || label === 'Imdb URL')
-              && event.target.value.match(pattern)) {
-              onChange(event.target.value);
-              alert('Good URL');
+            handleInput(event);
+
+            if (!event.target.value.match(pattern)) {
+              switch (name) {
+                case 'imgUrl':
+                case 'imdbUrl':
+                  handleInput(event);
+                  setinvalidUrl(true);
+                  break;
+
+                case 'title':
+                case 'description':
+                case 'imdbId':
+                  handleInput(event);
+                  break;
+
+                default:
+                  throw new Error();
+              }
             }
 
-            if ((label === 'Image URL' || label === 'Imdb URL')
-              && !event.target.value.match(pattern)) {
-              alert('Invalid URL!');
-              onChange(event.target.value);
-            } else {
-              onChange(event.target.value);
+            if (event.target.value.match(pattern)) {
+              switch (name) {
+                case 'imgUrl':
+                case 'imdbUrl':
+                  handleInput(event);
+                  setinvalidUrl(false);
+                  break;
+
+                default:
+                  throw new Error();
+              }
             }
           }}
           onBlur={() => {
@@ -70,6 +93,16 @@ export const TextField: React.FC<Props> = ({
 
       {hasError && (
         <p className="help is-danger">{`${label} is required`}</p>
+      )}
+
+      {invaidUrl && (
+        <p className="
+          notification
+          is-danger
+          is-light"
+        >
+          Try entering a valid url
+        </p>
       )}
     </div>
   );

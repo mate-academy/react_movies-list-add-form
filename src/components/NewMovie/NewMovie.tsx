@@ -1,10 +1,14 @@
-import { useState } from 'react';
+import { FormEvent, useState } from 'react';
 import { Movie } from '../../types/Movie';
 import { TextField } from '../TextField';
 
 type Props = {
   onAdd: (movie: Movie) => void;
 };
+
+function checkOnlySpaces(movieTitle: string): boolean {
+  return /^\s*$/.test(movieTitle);
+}
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
@@ -14,19 +18,22 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setimdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const handleMovieAddition = (event:
-  { preventDefault: () => void; }) => {
+  const handleFormReset = () => {
+    setTitle('');
+    setDescription('');
+    setImgUrl('');
+    setimdbUrl('');
+    setImdbId('');
+  };
+
+  const handleMovieAddition = (event: FormEvent) => {
     event.preventDefault();
     onAdd({
       title, description, imgUrl, imdbUrl, imdbId,
     });
     setCount(prevCount => prevCount + 1);
 
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setimdbUrl('');
-    setImdbId('');
+    handleFormReset();
   };
 
   return (
@@ -41,9 +48,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={title}
-        onChange={(movieName) => {
-          setTitle(movieName);
-        }}
+        onChange={setTitle}
         required
       />
 
@@ -51,18 +56,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={description}
-        onChange={(movieAbout) => {
-          setDescription(movieAbout);
-        }}
+        onChange={setDescription}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={(imgLink) => {
-          setImgUrl(imgLink);
-        }}
+        onChange={setImgUrl}
         required
       />
 
@@ -70,9 +71,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={(movieLink) => {
-          setimdbUrl(movieLink);
-        }}
+        onChange={setimdbUrl}
         required
       />
 
@@ -80,9 +79,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={(movieId) => {
-          setImdbId(movieId);
-        }}
+        onChange={setImdbId}
         required
       />
 
@@ -90,7 +87,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         <div className="control">
           <button
             disabled={
-              !(title && imgUrl && imdbId && imdbUrl)
+              !(title && imgUrl && imdbId && imdbUrl) || checkOnlySpaces(title)
             }
             type="submit"
             data-cy="submit-button"
