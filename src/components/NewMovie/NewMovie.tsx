@@ -41,9 +41,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setImbd('');
     setImgUrl('');
     setTitle('');
+    setImbd('');
   };
 
-  setImbd('');
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setCount(current => current + 1);

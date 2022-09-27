@@ -8,9 +8,9 @@ import moviesFromServer from './api/movies.json';
 export const App = () => {
   const [newMovie, setMovie] = useState(moviesFromServer);
 
-  const onAdd = (movie: Movie) => {
-    setMovie((prev) => [...prev, movie]);
-  };
+  const onAdd = (movie: Movie) => setMovie(prevMovies => (
+    [...prevMovies, movie]
+  ));
 
   return (
     <div className="page">
