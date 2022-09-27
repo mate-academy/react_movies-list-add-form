@@ -35,7 +35,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     imdbId,
   };
 
-  const clearStates = () => {
+  const resetStates = () => {
     onAdd(newMovie);
     setDescription('');
     setImbd('');
@@ -48,7 +48,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     event.preventDefault();
     setCount(current => current + 1);
 
-    clearStates();
+    resetStates();
   };
 
   return (
