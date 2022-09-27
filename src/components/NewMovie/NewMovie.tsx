@@ -1,4 +1,4 @@
-import { SyntheticEvent, useState } from 'react';
+import { FormEvent, useMemo, useState } from 'react';
 import { Movie } from '../../types/Movie';
 import { TextField } from '../TextField';
 
@@ -15,8 +15,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
   const [validation, setValidation] = useState(true);
-  const isEmpty = !!title.trim() && !!imgUrl.trim()
-  && !!imdbUrl.trim() && !!imdbId.trim();
+  const isEmpty = useMemo(() => !!title.trim() && !!imgUrl.trim()
+  && !!imdbUrl.trim() && !!imdbId.trim(), [title, imgUrl, imdbUrl, imdbId]);
 
   const urlRegex = new RegExp(`${
     /(?:(?:(https?|ftp):)?\/\/)/.source
@@ -34,7 +34,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     }
   };
 
-  const handleAddMovie = (event: SyntheticEvent) => {
+  const handleAddMovie = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const movie = {
@@ -58,7 +58,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     <form
       className="NewMovie"
       key={count}
-      onSubmit={(event) => handleAddMovie(event)}
+      onSubmit={handleAddMovie}
     >
       <h2 className="title">Add a movie</h2>
 
@@ -66,9 +66,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={title}
-        onChange={(value) => {
-          setTitle(value);
-        }}
+        onChange={setTitle}
         required
       />
 
@@ -76,21 +74,15 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={description}
-        onChange={(value) => {
-          setDescription(value);
-        }}
+        onChange={setDescription}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={(value) => {
-          setImgUrl(value);
-        }}
-        onBlur={(value) => {
-          urlValidation(value);
-        }}
+        onChange={setImgUrl}
+        onBlur={urlValidation}
         validation={validation}
         required
       />
@@ -99,12 +91,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={(value) => {
-          setImdbUrl(value);
-        }}
-        onBlur={(value) => {
-          urlValidation(value);
-        }}
+        onChange={setImdbUrl}
+        onBlur={urlValidation}
         validation={validation}
         required
       />
@@ -113,9 +101,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={(value) => {
-          setImdbId(value);
-        }}
+        onChange={setImdbId}
         required
       />
 
@@ -125,7 +111,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={isEmpty === false}
+            disabled={!isEmpty}
           >
             Add
           </button>

@@ -48,7 +48,8 @@ export const TextField: React.FC<Props> = ({
           value={value}
           onChange={event => onChange(event.target.value)}
           onBlur={(event) => {
-            setToched(true); onBlur(event.target.value);
+            setToched(true);
+            onBlur(event.target.value);
           }}
         />
       </div>
