@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 
 import { Movie } from '../../types/Movie';
 
@@ -9,16 +9,15 @@ type Props = {
 };
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
-  const [count, setCount] = useState(0);
-  const [newMovie, setNewMovie] = useState({
+  const defaultNewMovieFields = {
     title: '',
     description: '',
     imgUrl: '',
     imdbUrl: '',
     imdbId: '',
-  });
+  };
+  const [count, setCount] = useState(0);
+  const [newMovie, setNewMovie] = useState(defaultNewMovieFields);
 
   const {
     title,
@@ -46,7 +45,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     }
   };
 
-  const isValidData = Object.keys(newMovie).every(key => isValidValue(key));
+  const isValidData = useMemo(
+    () => Object.keys(newMovie).every(key => isValidValue(key)),
+    [newMovie],
+  );
 
   const handleChange = ({ value, name }: HTMLInputElement) => {
     setNewMovie(movie => ({
@@ -58,13 +60,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     onAdd(newMovie);
-    setNewMovie({
-      title: '',
-      description: '',
-      imgUrl: '',
-      imdbUrl: '',
-      imdbId: '',
-    });
+    setNewMovie(defaultNewMovieFields);
     setCount(countValue => countValue + 1);
   };
 
