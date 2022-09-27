@@ -5,12 +5,6 @@ import { NewMovie } from './components/NewMovie';
 import moviesFromServer from './api/movies.json';
 import { Movie } from './types/Movie';
 
-// import { set } from 'cypress/types/lodash';
-
-// type Props ={
-//   movies: Movie[];
-// }
-
 export const App:React.FC = () => {
   const [movies, setMovies] = useState(moviesFromServer);
   const onAdd = (movie:Movie) => (
