@@ -35,26 +35,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const isDisabledButton = !title || !description
     || !imgUrl || !imdbUrl || !imdbId;
 
-  const handleTitle = (value: string) => {
-    setTitle(value);
-  };
-
-  const handleDescription = (value: string) => {
-    setDescription(value);
-  };
-
-  const handleImgUrl = (value: string) => {
-    setImgUrl(value);
-  };
-
-  const handleImdbUrl = (value: string) => {
-    setImdbUrl(value);
-  };
-
-  const handleImdbId = (value: string) => {
-    setImdbId(value);
-  };
-
   return (
     <form
       className="NewMovie"
@@ -67,7 +47,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={title}
-        onChange={(value: string) => handleTitle(value)}
+        onChange={(value: string) => setTitle(value)}
         required
       />
 
@@ -75,14 +55,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={description}
-        onChange={(value: string) => handleDescription(value)}
+        onChange={(value: string) => setDescription(value)}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={(value: string) => handleImgUrl(value)}
+        onChange={(value: string) => setImgUrl(value)}
         required
       />
 
@@ -90,7 +70,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={(value: string) => handleImdbUrl(value)}
+        onChange={(value: string) => setImdbUrl(value)}
         required
       />
 
@@ -98,7 +78,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={(value: string) => handleImdbId(value)}
+        onChange={(value: string) => setImdbId(value)}
         required
       />
 
