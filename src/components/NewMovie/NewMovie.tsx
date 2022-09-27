@@ -6,6 +6,10 @@ export const NewMovie = () => {
   // to reset touched status of all the `Field`s
   const [count] = useState(0);
 
+  // const [fieldValue, setFieldValue] = useState('');
+
+  // const handleBnpm 
+
   return (
     <form className="NewMovie" key={count}>
       <h2 className="title">Add a movie</h2>
@@ -21,6 +25,7 @@ export const NewMovie = () => {
       <TextField
         name="description"
         label="Description"
+        onChange={() => {}}
         value=""
       />
 
@@ -28,29 +33,44 @@ export const NewMovie = () => {
         name="imgUrl"
         label="Image URL"
         value=""
+        required
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
         value=""
+        required
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
         value=""
+        required
       />
 
       <div className="field is-grouped">
         <div className="control">
-          <button
+          { count === 0
+          && (
+            <button
+              type="submit"
+              data-cy="submit-button"
+              className="button is-link"
+              disabled
+            >
+              Add
+            </button>
+          ) }
+          {/* <button
             type="submit"
             data-cy="submit-button"
             className="button is-link"
+            disabled
           >
             Add
-          </button>
+          </button> */}
         </div>
       </div>
     </form>
