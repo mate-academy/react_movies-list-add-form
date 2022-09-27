@@ -53,9 +53,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={title}
-        onChange={(event) => {
-          setTitle(event);
-        }}
+        onChange={setTitle}
         required
       />
 
@@ -63,9 +61,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={description}
-        onChange={(event) => {
-          setDescription(event);
-        }}
+        onChange={setDescription}
       />
 
       <TextField
@@ -73,9 +69,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Image URL"
         required
         value={imgUrl}
-        onChange={(event) => {
-          setimgUrl(event);
-        }}
+        onChange={setimgUrl}
       />
 
       <TextField
@@ -83,9 +77,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Imdb URL"
         required
         value={imdbUrl}
-        onChange={(event) => {
-          setimdbUrl(event);
-        }}
+        onChange={setimdbUrl}
       />
 
       <TextField
@@ -93,9 +85,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Imdb ID"
         required
         value={imdbId}
-        onChange={(event) => {
-          setimdbId(event);
-        }}
+        onChange={setimdbId}
       />
 
       <div className="field is-grouped">
