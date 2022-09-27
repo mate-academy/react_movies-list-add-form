@@ -20,7 +20,7 @@ export const NewMovie = ({ onAdd } : Props) => {
   const isDisabled = !movie.title || !movie.imgUrl
     || !movie.imdbUrl || !movie.imdbId;
 
-  const onSubmitHandler = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     onAdd(movie);
     setCount(count + 1);
@@ -30,7 +30,7 @@ export const NewMovie = ({ onAdd } : Props) => {
     <form
       className="NewMovie"
       key={count}
-      onSubmit={(event) => onSubmitHandler(event)}
+      onSubmit={handleFormSubmit}
     >
       <h2 className="title">Add a movie</h2>
 
