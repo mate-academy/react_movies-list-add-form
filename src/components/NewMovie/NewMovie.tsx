@@ -14,9 +14,20 @@ export const NewMovie: FC<Props> = (props) => {
   const [imdbId, setImdbId] = useState('');
   const [count, setCount] = useState(0);
 
+  const reset = () => {
+    setTitle('');
+    setDescription('');
+    setImgUrl('');
+    setImdbUrl('');
+    setImdbId('');
+  };
+
   const { onAdd } = props;
 
-  const isDisabled = !title || !imgUrl || !imdbUrl || !imdbId;
+  const isDisabled = !title.trim()
+    || !imgUrl.trim()
+    || !imdbUrl.trim()
+    || !imdbId.trim();
 
   const addMovie = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -31,11 +42,7 @@ export const NewMovie: FC<Props> = (props) => {
 
     onAdd(newMovie);
     setCount(initial => initial + 1);
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
+    reset();
   };
 
   return (
