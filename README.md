@@ -16,7 +16,7 @@ border if needed (learn how it it implemented in the `TextField`);
 1. Disable the submit button until all the required fields are filled;
 1. Clear the form after adding a new movie.
 1. Errors should not be shown after clearing the form (change its key to
-reinitialize the form);
+reinitialize the form); 
 
 ## (Optional) Advanced validation
 Implement the ability to add custom validation callback to the `TextField`.
