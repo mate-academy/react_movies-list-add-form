@@ -17,7 +17,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const checkIfEntered = !title.trim() || !imgUrl.trim()
   || !imdbId.trim() || !imdbUrl.trim();
 
-  const handleSumbit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     setCount(count + 1);
@@ -41,7 +41,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     <form
       className="NewMovie"
       key={count}
-      onSubmit={handleSumbit}
+      onSubmit={handleSubmit}
     >
       <h2 className="title">Add a movie</h2>
 
