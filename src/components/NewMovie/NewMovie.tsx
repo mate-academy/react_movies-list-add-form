@@ -6,9 +6,7 @@ type Props = {
   onAdd: (movie: Movie) => void;
 };
 
-export const NewMovie: React.FC<Props> = ({onAdd}) => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
+export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -16,19 +14,30 @@ export const NewMovie: React.FC<Props> = ({onAdd}) => {
   const [imdbId, setImdbId] = useState('');
   const [imgUrl, setImgUrl] = useState('');
 
+  const handleEmpty = (value: string, callback: (val: string) => void) => {
+    if (value === ' ') {
+      return;
+    }
+
+    callback(value);
+  }
+
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
 
-    setCount(C => C + 1);
+    setCount(prevCount => prevCount + 1);
 
-    onAdd({ title, description, imdbUrl, imdbId, imgUrl });
-    
+    onAdd({
+      title, description, imdbUrl, imdbId, imgUrl,
+    });
+
     setTitle('');
     setDescription('');
     setImdbUrl('');
     setImdbId('');
     setImgUrl('');
   };
+
   const isDisabled = !title || !imdbUrl || !imdbId || !imgUrl;
 
   return (
@@ -43,7 +52,7 @@ export const NewMovie: React.FC<Props> = ({onAdd}) => {
         name="title"
         label="Title"
         value={title}
-        onChange={(movieTitle) => setTitle(movieTitle)}
+        onChange={value => handleEmpty(value, setTitle)}
         required
       />
 
@@ -51,14 +60,14 @@ export const NewMovie: React.FC<Props> = ({onAdd}) => {
         name="description"
         label="Description"
         value={description}
-        onChange={(movieDescription) => setDescription(movieDescription)}
+        onChange={value => handleEmpty(value, setDescription)}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={(movieImgUrl) => setImgUrl(movieImgUrl)}
+        onChange={value => handleEmpty(value, setImgUrl)}
         required
       />
 
@@ -66,7 +75,7 @@ export const NewMovie: React.FC<Props> = ({onAdd}) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={(movieImdbUrl) => setImdbUrl(movieImdbUrl)}
+        onChange={value => handleEmpty(value, setImdbUrl)}
         required
       />
 
@@ -74,7 +83,7 @@ export const NewMovie: React.FC<Props> = ({onAdd}) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={(movieImdbId) => setImdbId(movieImdbId)}
+        onChange={value => handleEmpty(value, setImdbId)}
         required
       />
 
