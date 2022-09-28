@@ -29,12 +29,46 @@ export const TextField: React.FC<Props> = ({
 
   const [touched, setTouched] = useState(false);
 
-  // const trimmer = value.trim();
-
   const hasError = touched && required && !value.trim();
 
   const handleInput = (event: { target: { value: string; }; }) => {
     onChange(event.target.value);
+  };
+
+  const handleUrlCheck = (event: { target: { value: string; }; }) => {
+    onChange(event.target.value);
+
+    if (!event.target.value.match(pattern)) {
+      switch (name) {
+        case 'imgUrl':
+        case 'imdbUrl':
+          handleInput(event);
+          setinvalidUrl(true);
+          break;
+
+        case 'title':
+        case 'description':
+        case 'imdbId':
+          handleInput(event);
+          break;
+
+        default:
+          throw new Error();
+      }
+    }
+
+    if (event.target.value.match(pattern)) {
+      switch (name) {
+        case 'imgUrl':
+        case 'imdbUrl':
+          handleInput(event);
+          setinvalidUrl(false);
+          break;
+
+        default:
+          throw new Error();
+      }
+    }
   };
 
   return (
@@ -53,41 +87,7 @@ export const TextField: React.FC<Props> = ({
           type="text"
           placeholder={`Enter ${label}`}
           value={value}
-          onChange={event => {
-            handleInput(event);
-
-            if (!event.target.value.match(pattern)) {
-              switch (name) {
-                case 'imgUrl':
-                case 'imdbUrl':
-                  handleInput(event);
-                  setinvalidUrl(true);
-                  break;
-
-                case 'title':
-                case 'description':
-                case 'imdbId':
-                  handleInput(event);
-                  break;
-
-                default:
-                  throw new Error();
-              }
-            }
-
-            if (event.target.value.match(pattern)) {
-              switch (name) {
-                case 'imgUrl':
-                case 'imdbUrl':
-                  handleInput(event);
-                  setinvalidUrl(false);
-                  break;
-
-                default:
-                  throw new Error();
-              }
-            }
-          }}
+          onChange={handleUrlCheck}
           onBlur={() => {
             setTouched(true);
           }}
