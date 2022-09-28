@@ -3,10 +3,10 @@ import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
 type Props = {
-  onAddMovie:(movie: Movie) => void,
+  onAdd:(movie: Movie) => void,
 };
 
-export const NewMovie: React.FC<Props> = ({ onAddMovie }) => {
+export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -34,7 +34,7 @@ export const NewMovie: React.FC<Props> = ({ onAddMovie }) => {
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
-    onAddMovie({
+    onAdd({
       title,
       description,
       imgUrl,
