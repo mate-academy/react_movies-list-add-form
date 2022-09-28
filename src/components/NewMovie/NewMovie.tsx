@@ -3,9 +3,10 @@ import './NewMovie.scss';
 
 interface Props {
   addMovie: (movie: Movie) => void,
+  movieExists: boolean,
 }
 
-export const NewMovie: React.FC<Props> = ({ addMovie }) => {
+export const NewMovie: React.FC<Props> = ({ addMovie, movieExists }) => {
   const [title, setTitle] = useState('');
   const [descr, setDescr] = useState('');
   const [imageUrl, setImageUrl] = useState('');
@@ -97,6 +98,10 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
           Submit
         </button>
       </form>
+
+      {movieExists && (
+        <div className="NewMovie__message">This movie exists</div>
+      )}
     </>
   );
 };
