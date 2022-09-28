@@ -16,11 +16,11 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [formError, setFormError] = useState(true);
 
   const handleInput = (value: string, setValue: (value: string) => void) => {
-    setValue(value);
-
     if (title.trim() && imgUrl.trim() && imdbUrl.trim() && imdbId.trim()) {
       setFormError(false);
     }
+
+    setValue(value);
   };
 
   const handleSubmit = (event: FormEvent) => {
@@ -33,7 +33,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       imdbId,
     });
 
-    setCount(count + 1);
+    setCount(prevCount => prevCount + 1);
     setDescription('');
     setImdbId('');
     setImdbUrl('');
