@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import { FormEvent, useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
 type Props = {
-  onAdd: (newMovie: Movie) => void;
+  onAdd: (newMovie: Movie) => void,
 };
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
@@ -14,6 +14,24 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
+  const hendlerSubmit = (event: FormEvent) => {
+    event.preventDefault();
+    setCount(prevCount => prevCount + 1);
+    setTitle('');
+    setDescription('');
+    setImgUrl('');
+    setImdbUrl('');
+    setImdbId('');
+
+    onAdd({
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    });
+  };
+
   const isValidUrl = (url: string) => {
     // eslint-disable-next-line max-len
     const pattern = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/;
@@ -21,7 +39,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     return pattern.test(url);
   };
 
-  const availablButton = !title
+  const isValid = !title
     || !isValidUrl(imgUrl)
     || !isValidUrl(imdbUrl)
     || !imdbId;
@@ -30,25 +48,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     <form
       className="NewMovie"
       key={count}
-      onSubmit={(event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        setCount(prevCount => prevCount + 1);
-        setTitle('');
-        setDescription('');
-        setImgUrl('');
-        setImdbUrl('');
-        setImdbId('');
-
-        const newMovie = {
-          title,
-          description,
-          imgUrl,
-          imdbUrl,
-          imdbId,
-        };
-
-        onAdd(newMovie);
-      }}
+      onSubmit={hendlerSubmit}
     >
       <h2 className="title">Add a movie</h2>
 
@@ -56,9 +56,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={title}
-        onChange={event => {
-          setTitle(event);
-        }}
+        onChange={setTitle}
         required
       />
 
@@ -66,9 +64,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={description}
-        onChange={event => {
-          setDescription(event);
-        }}
+        onChange={setDescription}
       />
 
       <TextField
@@ -76,9 +72,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Image URL"
         isValidURL={isValidUrl}
         value={imgUrl}
-        onChange={event => {
-          setImgUrl(event);
-        }}
+        onChange={setImgUrl}
         required
       />
 
@@ -87,9 +81,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Imdb URL"
         isValidURL={isValidUrl}
         value={imdbUrl}
-        onChange={event => {
-          setImdbUrl(event);
-        }}
+        onChange={setImdbUrl}
         required
       />
 
@@ -97,15 +89,13 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={event => {
-          setImdbId(event);
-        }}
+        onChange={setImdbId}
         required
       />
       <div className="field is-grouped">
         <div className="control">
           <button
-            disabled={availablButton}
+            disabled={isValid}
             type="submit"
             data-cy="submit-button"
             className="button is-link"
