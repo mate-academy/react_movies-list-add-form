@@ -3,10 +3,10 @@ import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
 type Props = {
-  onAdd:(movie: Movie) => void,
+  onAddMovie:(movie: Movie) => void,
 };
 
-export const NewMovie: React.FC<Props> = ({ onAdd }) => {
+export const NewMovie: React.FC<Props> = ({ onAddMovie }) => {
   const [count, setCount] = useState(0);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -23,9 +23,18 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setValue(value);
   };
 
+  const resetFields = () => {
+    setDescription('');
+    setImdbId('');
+    setImdbUrl('');
+    setImgUrl('');
+    setTitle('');
+    setFormError(true);
+  };
+
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
-    onAdd({
+    onAddMovie({
       title,
       description,
       imgUrl,
@@ -33,13 +42,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       imdbId,
     });
 
+    resetFields();
     setCount(prevCount => prevCount + 1);
-    setDescription('');
-    setImdbId('');
-    setImdbUrl('');
-    setImgUrl('');
-    setTitle('');
-    setFormError(true);
   };
 
   return (
