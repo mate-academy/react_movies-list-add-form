@@ -14,7 +14,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const enabledButton = title && imgUrl && imdbUrl && imdbId;
+  const enabledButton = title.trim()
+    && imgUrl.trim()
+    && imdbUrl.trim()
+    && imdbId.trim();
 
   const newMovie = {
     title,
@@ -24,20 +27,22 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     imdbId,
   };
 
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    onAdd(newMovie);
+    setCount(prevCount => prevCount + 1);
+    setTitle('');
+    setdescription('');
+    setImgUrl('');
+    setImdbUrl('');
+    setImdbId('');
+  };
+
   return (
     <form
       className="NewMovie"
       key={count}
-      onSubmit={(event) => {
-        event.preventDefault();
-        onAdd(newMovie);
-        setCount(prevCount => prevCount + 1);
-        setTitle('');
-        setdescription('');
-        setImgUrl('');
-        setImdbUrl('');
-        setImdbId('');
-      }}
+      onSubmit={handleSubmit}
     >
       <h2 className="title">Add a movie</h2>
 
@@ -45,9 +50,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={title}
-        onChange={(event) => {
-          setTitle(event);
-        }}
+        onChange={setTitle}
         required
       />
 
@@ -55,10 +58,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={description}
-        onChange={(event) => {
-          setdescription(event);
-        }}
-
+        onChange={setdescription}
       />
 
       <TextField
@@ -66,9 +66,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Image URL"
         required
         value={imgUrl}
-        onChange={(event) => {
-          setImgUrl(event);
-        }}
+        onChange={setImgUrl}
       />
 
       <TextField
@@ -76,9 +74,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Imdb URL"
         required
         value={imdbUrl}
-        onChange={(event) => {
-          setImdbUrl(event);
-        }}
+        onChange={setImdbUrl}
       />
 
       <TextField
@@ -86,9 +82,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Imdb ID"
         required
         value={imdbId}
-        onChange={(event) => {
-          setImdbId(event);
-        }}
+        onChange={setImdbId}
       />
 
       <div className="field is-grouped">
