@@ -28,7 +28,10 @@ export const TextField: React.FC<Props> = ({
   const [invaidUrl, setinvalidUrl] = useState(false);
 
   const [touched, setTouched] = useState(false);
-  const hasError = touched && required && !value;
+
+  // const trimmer = value.trim();
+
+  const hasError = touched && required && !value.trim();
 
   const handleInput = (event: { target: { value: string; }; }) => {
     onChange(event.target.value);
@@ -45,7 +48,7 @@ export const TextField: React.FC<Props> = ({
           id={id}
           data-cy={`movie-${name}`}
           className={classNames('input', {
-            'is-danger': hasError,
+            'is-danger': hasError || invaidUrl,
           })}
           type="text"
           placeholder={`Enter ${label}`}
@@ -96,11 +99,7 @@ export const TextField: React.FC<Props> = ({
       )}
 
       {invaidUrl && (
-        <p className="
-          notification
-          is-danger
-          is-light"
-        >
+        <p className="notification is-danger">
           Try entering a valid url
         </p>
       )}

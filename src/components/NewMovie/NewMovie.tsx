@@ -6,10 +6,6 @@ type Props = {
   onAdd: (movie: Movie) => void;
 };
 
-function checkOnlySpaces(movieTitle: string): boolean {
-  return /^\s*$/.test(movieTitle);
-}
-
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
   const [title, setTitle] = useState('');
@@ -87,7 +83,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         <div className="control">
           <button
             disabled={
-              !(title && imgUrl && imdbId && imdbUrl) || checkOnlySpaces(title)
+              !(title.trim() && imgUrl.trim()
+              && imdbId.trim() && imdbUrl.trim())
             }
             type="submit"
             data-cy="submit-button"
