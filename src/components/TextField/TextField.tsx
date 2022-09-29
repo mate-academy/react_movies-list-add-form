@@ -52,8 +52,6 @@ export const TextField: React.FC<Props> = ({
             const currentValue = event.target.value.trim();
 
             onChange(name, currentValue);
-            // eslint-disable-next-line no-console
-            console.info(`${name}: ${currentValue}`);
           }}
           onBlur={() => setToched(true)}
         />
