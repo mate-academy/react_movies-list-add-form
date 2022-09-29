@@ -14,24 +14,27 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbId, setImdbId] = useState('');
   const [description, setDescription] = useState('');
 
+  const newMovie = {
+    title,
+    description,
+    imgUrl,
+    imdbUrl,
+    imdbId,
+  };
+
+  const resetStates = () => {
+    onAdd(newMovie);
+    setDescription('');
+    setImdbId('');
+    setImgUrl('');
+    setTitle('');
+  };
+
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
 
-    setCount(count + 1);
-
-    onAdd({
-      title,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-      description,
-    });
-
-    setTitle('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
-    setDescription('');
+    setCount(counts => counts + 1);
+    resetStates();
   };
 
   const error = !title.trim()
@@ -51,7 +54,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={title}
-        onChange={(titleOfMovie) => setTitle(titleOfMovie)}
+        onChange={setTitle}
         required
       />
 
