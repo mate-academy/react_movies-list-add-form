@@ -7,16 +7,15 @@ type Props = {
 };
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
-  const [count, setCount] = useState(0);
-  const [newMovie, setNewMovie] = useState({
+  const movieValues = {
     title: '',
     description: '',
     imgUrl: '',
     imdbUrl: '',
     imdbId: '',
-  });
+  };
+  const [count, setCount] = useState(0);
+  const [newMovie, setNewMovie] = useState(movieValues);
 
   const {
     title,
@@ -36,13 +35,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     onAdd(newMovie);
-    setNewMovie({
-      title: '',
-      description: '',
-      imgUrl: '',
-      imdbUrl: '',
-      imdbId: '',
-    });
+    setNewMovie(movieValues);
     setCount(counter => counter + 1);
   };
 
