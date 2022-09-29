@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 type Props = {
   name: string,
@@ -45,6 +45,7 @@ export const TextField: React.FC<Props> = ({
           value={value}
           onChange={event => onChange(event.target.value)}
           onBlur={() => setToched(true)}
+          pattern="^[^\s].+[^\s]$"
         />
       </div>
 
