@@ -32,6 +32,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     handleFormReset();
   };
 
+  const disableConditions = !(title.trim() && imgUrl.trim()
+  && imdbId.trim() && imdbUrl.trim());
+
   return (
     <form
       className="NewMovie"
@@ -82,10 +85,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <div className="field is-grouped">
         <div className="control">
           <button
-            disabled={
-              !(title.trim() && imgUrl.trim()
-              && imdbId.trim() && imdbUrl.trim())
-            }
+            disabled={disableConditions}
             type="submit"
             data-cy="submit-button"
             className="button is-link"
