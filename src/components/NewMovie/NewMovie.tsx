@@ -16,10 +16,16 @@ export const NewMovie:React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
+  const reset = () => {
+    setTitle('');
+    setDescription('');
+    setImgUrl('');
+    setImdbUrl('');
+    setImdbId('');
+  };
+
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
-
-    setCount(count + 1);
 
     onAdd({
       title,
@@ -29,15 +35,15 @@ export const NewMovie:React.FC<Props> = ({ onAdd }) => {
       imdbId,
     });
 
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
+    setCount(state => state + 1);
+
+    reset();
   };
 
-  const handleChange = (setState: (value: string) => void,
-    value: string): void => {
+  const handleChange = (
+    setState: (value: string) => void,
+    value: string,
+  ): void => {
     setState(value);
   };
 
@@ -74,6 +80,7 @@ export const NewMovie:React.FC<Props> = ({ onAdd }) => {
         label="Image URL"
         value={imgUrl}
         onChange={value => handleChange(setImgUrl, value)}
+        required
       />
 
       <TextField
@@ -81,6 +88,7 @@ export const NewMovie:React.FC<Props> = ({ onAdd }) => {
         label="Imdb URL"
         value={imdbUrl}
         onChange={value => handleChange(setImdbUrl, value)}
+        required
       />
 
       <TextField
@@ -88,6 +96,7 @@ export const NewMovie:React.FC<Props> = ({ onAdd }) => {
         label="Imdb ID"
         value={imdbId}
         onChange={value => handleChange(setImdbId, value)}
+        required
       />
 
       <div className="field is-grouped">
