@@ -39,7 +39,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   };
 
   const handleChange = (
-    setState: (value: string) => void, value: string,
+    setState: (value: string) => void,
+    value: string,
   ): void => {
     setState(value);
   };

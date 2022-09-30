@@ -8,7 +8,9 @@ import './App.scss';
 
 export const App = () => {
   const [movies, setMovies] = useState(moviesFromServer);
-  const handleMovie = (movie: Movie) => setMovies([...movies, movie]);
+  const handleMovie = (movie: Movie) => setMovies(
+    prevState => [...prevState, movie],
+  );
 
   return (
     <div className="page">
