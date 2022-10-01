@@ -7,8 +7,6 @@ type Props = {
 };
 
 export const NewMovie: FC<Props> = ({ onAdd }) => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -19,7 +17,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
 
-    setCount(count + 1);
+    setCount((prev) => prev + 1);
 
     onAdd({
       title,
@@ -34,11 +32,6 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
     setImgUrl('');
     setImdbUrl('');
     setImdbId('');
-  };
-
-  const handleChange = (setState: (value: string) => void,
-    value: string): void => {
-    setState(value);
   };
 
   const isError = !title.trim()
@@ -57,7 +50,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
       <TextField
         label="Title"
         name="title"
-        onChange={value => handleChange(setTitle, value)}
+        onChange={setTitle}
         required
         value={title}
       />
@@ -65,14 +58,14 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
       <TextField
         label="Description"
         name="description"
-        onChange={value => handleChange(setDescription, value)}
+        onChange={setDescription}
         value={description}
       />
 
       <TextField
         label="Image URL"
         name="imgUrl"
-        onChange={value => handleChange(setImgUrl, value)}
+        onChange={setImgUrl}
         required
         value={imgUrl}
       />
@@ -80,7 +73,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
       <TextField
         label="Imdb URL"
         name="imdbUrl"
-        onChange={value => handleChange(setImdbUrl, value)}
+        onChange={setImdbUrl}
         required
         value={imdbUrl}
       />
@@ -88,7 +81,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
       <TextField
         label="Imdb ID"
         name="imdbId"
-        onChange={value => handleChange(setImdbId, value)}
+        onChange={setImdbId}
         required
         value={imdbId}
       />
