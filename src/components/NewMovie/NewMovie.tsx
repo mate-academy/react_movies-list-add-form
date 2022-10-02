@@ -16,30 +16,32 @@ export const NewMovie: React.FC<Props> = ({
   const [newImdbUrl, setNewImdbUrl] = useState('');
   const [newImdbId, setNewImdbId] = useState('');
 
-  const correctData = newTitle !== ''
-    && newImgUrl !== ''
-    && newImdbUrl !== ''
-    && newImdbId !== '';
+  const correctData = !newTitle.trim()
+    || !newImgUrl.trim()
+    || !newImdbUrl.trim()
+    || !newImdbId.trim();
+
+  const reset = () => {
+    setNewTitle('');
+    setNewDescription('');
+    setNewImgUrl('');
+    setNewImdbUrl('');
+    setNewImdbId('');
+  };
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (correctData) {
-      onAdd({
-        title: newTitle,
-        description: newDescription,
-        imgUrl: newImgUrl,
-        imdbUrl: newImdbUrl,
-        imdbId: newImdbId,
-      });
+    onAdd({
+      title: newTitle,
+      description: newDescription,
+      imgUrl: newImgUrl,
+      imdbUrl: newImdbUrl,
+      imdbId: newImdbId,
+    });
 
-      setCount(count + 1);
-      setNewTitle('');
-      setNewDescription('');
-      setNewImgUrl('');
-      setNewImdbUrl('');
-      setNewImdbId('');
-    }
+    setCount(prevCount => prevCount + 1);
+    reset();
   };
 
   return (
@@ -54,7 +56,7 @@ export const NewMovie: React.FC<Props> = ({
         name="title"
         label="Title"
         value={newTitle}
-        onChange={value => setNewTitle(value)}
+        onChange={setNewTitle}
         required
       />
 
@@ -62,14 +64,14 @@ export const NewMovie: React.FC<Props> = ({
         name="description"
         label="Description"
         value={newDescription}
-        onChange={value => setNewDescription(value)}
+        onChange={setNewDescription}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={newImgUrl}
-        onChange={value => setNewImgUrl(value)}
+        onChange={setNewImgUrl}
         required
       />
 
@@ -77,7 +79,7 @@ export const NewMovie: React.FC<Props> = ({
         name="imdbUrl"
         label="Imdb URL"
         value={newImdbUrl}
-        onChange={value => setNewImdbUrl(value)}
+        onChange={setNewImdbUrl}
         required
       />
 
@@ -85,7 +87,7 @@ export const NewMovie: React.FC<Props> = ({
         name="imdbId"
         label="Imdb ID"
         value={newImdbId}
-        onChange={value => setNewImdbId(value)}
+        onChange={setNewImdbId}
         required
       />
 
@@ -95,7 +97,7 @@ export const NewMovie: React.FC<Props> = ({
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!correctData}
+            disabled={correctData}
           >
             Add
           </button>
