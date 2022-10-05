@@ -8,7 +8,7 @@ interface Props {
     description: string,
     imgUrl: string,
     imdbUrl: string,
-    imdbId: string
+    imdbId: string,
   ) => void;
 }
 
@@ -18,6 +18,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imageValue, setImageValue] = useState('');
   const [imdbUrlValue, setImdbUrlValue] = useState('');
   const [imdbIdValue, setImdbIdValue] = useState('');
+
+  const [count, setCount] = useState(0);
 
   // eslint-disable-next-line max-len
   const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
@@ -49,12 +51,15 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         imdbUrlValue,
         imdbIdValue,
       );
+
+      setCount((prevCount) => prevCount + 1);
     }
   };
 
   return (
     <form
       className="NewMovie"
+      key={count}
       onSubmit={(event) => addMovie(event)}
     >
       <h2 className="title">Add a movie</h2>

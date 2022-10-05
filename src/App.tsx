@@ -1,11 +1,11 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import './App.scss';
 import { MoviesList } from './components/MoviesList';
 import { NewMovie } from './components/NewMovie';
 import moviesFromServer from './api/movies.json';
 
-export const App = () => {
-  const [count, setCount] = useState(0);
+export const App: React.FC = () => {
+  const [movies, setMovies] = useState(moviesFromServer);
 
   const onAdd = (
     title: string,
@@ -14,14 +14,13 @@ export const App = () => {
     imdbUrl: string,
     imdbId: string,
   ) => {
-    moviesFromServer.push({
+    setMovies([...movies, {
       title,
       description,
       imgUrl,
       imdbUrl,
       imdbId,
-    });
-    setCount(count + 1);
+    }]);
   };
 
   return (
@@ -29,7 +28,7 @@ export const App = () => {
       <div className="page-content">
 
         <MoviesList
-          movies={moviesFromServer}
+          movies={movies}
         />
       </div>
       <div className="sidebar">

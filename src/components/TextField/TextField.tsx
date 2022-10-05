@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import React, { useState } from 'react';
 
-type Props = {
+interface Props {
   name: string,
   value: string,
   label?: string,
