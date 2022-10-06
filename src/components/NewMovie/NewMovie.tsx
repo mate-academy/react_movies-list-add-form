@@ -50,37 +50,24 @@ export const NewMovie: React.FC<Props> = () => {
       <TextField
         name="title"
         label="Title"
-        // value=""
         value={inputValue}
         onChange={changeValue}
-        // onChange={fillInput}
-        // onChange={() => {
-        //   fillInput(fieldValue);
-        // }}
-        // onChange={fillInput}
         required
+        // onChange={() => {}}
       />
 
       <TextField
         name="description"
         label="Description"
-        // onChange={() => {}}
         onChange={changeValue}
         value={inputValue}
-        // value={inputValue}
-        // value=""
-        // value={description}
-        // value=""
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         onChange={changeValue}
-        // value=""
-        // value={imgUrl}
         value={inputValue}
-        // required
       />
 
       <TextField
@@ -88,10 +75,6 @@ export const NewMovie: React.FC<Props> = () => {
         label="Imdb URL"
         onChange={changeValue}
         value={inputValue}
-        // value={inputValue}
-        // value={imdbUrl}
-        // value=""
-        // required
       />
 
       <TextField
@@ -99,9 +82,6 @@ export const NewMovie: React.FC<Props> = () => {
         label="Imdb ID"
         onChange={changeValue}
         value={inputValue}
-        // value={imdbId}
-        // value=""
-        // required
       />
 
       <div className="field is-grouped">
@@ -113,14 +93,6 @@ export const NewMovie: React.FC<Props> = () => {
           >
             Add
           </button>
-          {/* <button
-            type="submit"
-            data-cy="submit-button"
-            className="button is-link"
-            disabled
-          >
-            Add
-          </button> */}
         </div>
       </div>
     </form>
