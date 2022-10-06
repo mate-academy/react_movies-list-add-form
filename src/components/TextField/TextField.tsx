@@ -25,7 +25,6 @@ export const TextField: React.FC<Props> = ({
 
   // To show errors only if the field was touched (onBlur)
   const [touched, setToched] = useState(false);
-  // const [value, setValue] = useState('');
   const hasError = touched && required && !value;
 
   return (
@@ -45,7 +44,6 @@ export const TextField: React.FC<Props> = ({
           placeholder={`Enter ${label}`}
           value={value}
           onChange={event => onChange(event.target.value)}
-          // onChange={() => onChange}
           onBlur={() => setToched(true)}
         />
       </div>

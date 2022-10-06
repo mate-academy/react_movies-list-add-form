@@ -24,23 +24,26 @@ export const NewMovie: React.FC<Props> = () => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
   const [count] = useState(0);
-  const [inputValue, setFieldValue] = useState('');
-
-  // const handleBnpm
-  // setTitle
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [imgUrl, setImgUrl] = useState('');
+  const [imdbUrl, setImdbUrl] = useState('');
+  const [imdbId, setImdbId] = useState('');
+  const inputFilled = title && description && imgUrl && imdbUrl && imdbId;
+  // const [disabled, setDisabled] = useState(true);
 
   const handleSubmit = (event: any) => {
     event.preventDefault();
-    if (!inputValue) {
+    if (!inputFilled) {
       return;
     }
 
     // props.onAdd(inputValue);
-    setFieldValue('');
-  };
-
-  const changeValue = (event: any) => {
-    setFieldValue(event.target.value);
+    setTitle('');
+    setDescription('');
+    setImgUrl('');
+    setImdbUrl('');
+    setImdbId('');
   };
 
   return (
@@ -50,58 +53,67 @@ export const NewMovie: React.FC<Props> = () => {
       <TextField
         name="title"
         label="Title"
-        value={inputValue}
-        onChange={changeValue}
+        value={title}
+        onChange={(value) => setTitle(value)}
         required
-        // onChange={() => {}}
       />
 
       <TextField
         name="description"
         label="Description"
-        onChange={changeValue}
-        value={inputValue}
+        onChange={(value) => setDescription(value)}
+        value={description}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        onChange={changeValue}
-        value={inputValue}
+        onChange={(value) => setImgUrl(value)}
+        value={imgUrl}
+        required
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        onChange={changeValue}
-        value={inputValue}
+        onChange={(value) => setImdbUrl(value)}
+        value={imdbUrl}
+        required
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        onChange={changeValue}
-        value={inputValue}
+        onChange={(value) => setImdbId(value)}
+        value={imdbId}
+        required
       />
 
       <div className="field is-grouped">
         <div className="control">
-          <button
-            type="submit"
-            data-cy="submit-button"
-            className="button is-link"
-          >
-            Add
-          </button>
+          {inputFilled
+            ? (
+              <button
+                type="submit"
+                data-cy="submit-button"
+                className="button is-link"
+              >
+                Add
+              </button>
+            )
+
+            : (
+              <button
+                type="submit"
+                data-cy="submit-button"
+                className="button is-link"
+                disabled
+              >
+                Add
+              </button>
+            )}
         </div>
       </div>
     </form>
   );
 };
-
-// const [title, setTitle] = useState('');
-// const [description, setDescription] = useState('');
-// const [imgUrl, setImgUrl] = useState('');
-// const [imdbUrl, setImdbUrl] = useState('');
-// const [imdbId, setImdbId] = useState('');
-// const [disabled, setDisabled] = useState(true);
