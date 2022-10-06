@@ -23,16 +23,16 @@ export class NewMovie extends Component<Props, State> {
     },
   };
 
-  disableButton = (movie: Movie) => {
-    const valuesOfMovie = Object.values(movie);
+  isButtonDisabled = () => {
+    const {
+      title,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    } = this.state.newMovie;
 
-    if (valuesOfMovie[0] === '' || valuesOfMovie[2] === ''
-    || valuesOfMovie[3] === '' || valuesOfMovie[4] === ''
-    || valuesOfMovie[5] === '') {
-      return true;
-    }
-
-    return false;
+    return !title.length || !imgUrl.length || !imdbUrl.length
+    || !imdbId.length;
   };
 
   hendelSubmit = (event:React.FormEvent<HTMLFormElement>) => {
@@ -141,7 +141,7 @@ export class NewMovie extends Component<Props, State> {
               type="submit"
               data-cy="submit-button"
               className="button is-link"
-              disabled={this.disableButton(newMovie)}
+              disabled={this.isButtonDisabled()}
             >
               Add
             </button>
