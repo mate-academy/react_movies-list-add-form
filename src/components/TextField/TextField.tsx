@@ -8,7 +8,7 @@ interface Props {
   required?: boolean,
   onChange?: (newValue: string) => void,
   correctUrl?: boolean,
-};
+}
 
 function getRandomDigits() {
   return Math.random().toString().slice(2);

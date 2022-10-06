@@ -34,10 +34,12 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     = pattern.test(imageValue)
     && pattern.test(imdbUrlValue);
 
-  const addMovie = (event: FormEvent<HTMLFormElement>) => {
+  const notEmpty = /\S+/.test(titleValue) && /\S+/.test(imdbIdValue);
+
+  const onAddMovie = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (fillInput && correctUrl) {
+    if (fillInput && correctUrl && notEmpty) {
       setTitleValue('');
       setDescriptionValue('');
       setImageValue('');
@@ -60,7 +62,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     <form
       className="NewMovie"
       key={count}
-      onSubmit={(event) => addMovie(event)}
+      onSubmit={(event) => onAddMovie(event)}
     >
       <h2 className="title">Add a movie</h2>
 
@@ -112,7 +114,12 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             data-cy="submit-button"
             className={classNames(
               'button is-link',
-              { 'button is-link is-light': !fillInput || !correctUrl },
+              {
+                'button is-link is-light':
+                  !fillInput
+                  || !correctUrl
+                  || !notEmpty,
+              },
             )}
           >
             Add
