@@ -16,38 +16,50 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
   let isError = false;
 
-  if (
-    title === ''
-    || imdbId === ''
-    || imdbUrl === ''
-    || imgUrl === ''
-  ) {
+  if (title === '') {
     isError = true;
-  } else {
-    isError = false;
   }
+
+  if (description === '') {
+    isError = true;
+  }
+
+  if (imgUrl === '') {
+    isError = true;
+  }
+
+  if (imdbUrl === '') {
+    isError = true;
+  }
+
+  if (imdbId === '') {
+    isError = true;
+  }
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    onAdd({
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    });
+
+    setCount(count + 1);
+    setDescription('');
+    setTitle('');
+    setImgUrl('');
+    setImdbUrl('');
+    setImdbId('');
+  };
 
   return (
     <form
       className="NewMovie"
       key={count}
-      onSubmit={(eventSubmit) => {
-        onAdd({
-          title,
-          description,
-          imgUrl,
-          imdbUrl,
-          imdbId,
-        });
-
-        setCount(count + 1);
-        setDescription('');
-        setTitle('');
-        setImgUrl('');
-        setImdbUrl('');
-        setImdbId('');
-        eventSubmit.preventDefault();
-      }}
+      onSubmit={(event) => handleSubmit(event)}
     >
       <h2 className="title">Add a movie</h2>
 

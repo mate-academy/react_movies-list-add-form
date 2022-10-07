@@ -15,7 +15,7 @@ export const App: React.FC = () => {
       </div>
       <div className="sidebar">
         <NewMovie onAdd={(movie: Movie) => {
-          setMovies([...movies, movie]);
+          setMovies(prevState => [...prevState, movie]);
         }}
         />
       </div>
