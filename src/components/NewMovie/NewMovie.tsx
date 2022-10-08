@@ -14,10 +14,18 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
+  const resetMethod = () => {
+    setTitle('');
+    setDescription('');
+    setImgUrl('');
+    setImdbUrl('');
+    setImdbId('');
+  }
+
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
 
-    setCount(count => count + 1);
+    setCount((current) => current + 1);
 
     onAdd({
       title,
@@ -27,15 +35,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       imdbId,
     });
 
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
+    resetMethod();
   };
 
   const isError = !title.trim()
-    || !description.trim()
     || !imgUrl.trim()
     || !imdbUrl.trim()
     || !imdbId.trim();
@@ -61,7 +64,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Description"
         value={description}
         onChange={setDescription}
-        required
       />
 
       <TextField
