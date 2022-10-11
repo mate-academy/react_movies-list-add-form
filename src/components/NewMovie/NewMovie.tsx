@@ -1,15 +1,10 @@
 import React, { useState, FormEvent } from 'react';
 import classNames from 'classnames';
 import { TextField } from '../TextField';
+import { Movie } from '../../types/Movie';
 
 interface Props {
-  onAdd: (
-    title: string,
-    description: string,
-    imgUrl: string,
-    imdbUrl: string,
-    imdbId: string,
-  ) => void;
+  onAdd: (newMovie: Movie) => void;
 }
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
@@ -30,29 +25,36 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     && imdbUrlValue
     && imdbIdValue;
 
+  const correctImgUrl = pattern.test(imageValue);
+  const correctImdbUrl = pattern.test(imdbUrlValue);
+
   const correctUrl
-    = pattern.test(imageValue)
-    && pattern.test(imdbUrlValue);
+    = correctImgUrl
+    && correctImdbUrl;
 
   const notEmpty = /\S+/.test(titleValue) && /\S+/.test(imdbIdValue);
+
+  const resetField = () => {
+    setTitleValue('');
+    setDescriptionValue('');
+    setImageValue('');
+    setImdbUrlValue('');
+    setImdbIdValue('');
+  };
 
   const onAddMovie = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     if (fillInput && correctUrl && notEmpty) {
-      setTitleValue('');
-      setDescriptionValue('');
-      setImageValue('');
-      setImdbUrlValue('');
-      setImdbIdValue('');
+      resetField();
 
-      onAdd(
-        titleValue,
-        descriptionValue,
-        imageValue,
-        imdbUrlValue,
-        imdbIdValue,
-      );
+      onAdd({
+        title: titleValue,
+        description: descriptionValue,
+        imgUrl: imageValue,
+        imdbUrl: imdbUrlValue,
+        imdbId: imdbIdValue,
+      });
 
       setCount((prevCount) => prevCount + 1);
     }
@@ -62,7 +64,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     <form
       className="NewMovie"
       key={count}
-      onSubmit={(event) => onAddMovie(event)}
+      onSubmit={onAddMovie}
     >
       <h2 className="title">Add a movie</h2>
 
@@ -86,7 +88,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Image URL"
         value={imageValue}
         onChange={setImageValue}
-        correctUrl={correctUrl}
+        correctUrl={correctImgUrl}
         required
       />
 
@@ -95,7 +97,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Imdb URL"
         value={imdbUrlValue}
         onChange={setImdbUrlValue}
-        correctUrl={correctUrl}
+        correctUrl={correctImdbUrl}
         required
       />
 
