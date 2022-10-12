@@ -1,58 +1,71 @@
-import { useState } from 'react';
+import { FC } from 'react';
+import { Form, Formik } from 'formik';
+import * as Yup from 'yup';
 import { TextField } from '../TextField';
+import { Movie } from '../../types/Movie';
+import { Button } from '../Button';
 
-export const NewMovie = () => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
-  const [count] = useState(0);
+type Props = {
+  onAdd: (movie: Movie) => void;
+};
 
-  return (
-    <form className="NewMovie" key={count}>
+const initialValues: Movie = {
+  title: '',
+  description: '',
+  imgUrl: '',
+  imdbUrl: '',
+  imdbId: '',
+};
+
+export const NewMovie: FC<Props> = ({ onAdd }) => (
+  <Formik
+    initialValues={initialValues}
+    validationSchema={Yup.object({
+      title: Yup.string()
+        .required(),
+      description: Yup.string(),
+      imgUrl: Yup.string()
+        .url()
+        .required(),
+      imdbUrl: Yup.string()
+        .url()
+        .required(),
+      imdbId: Yup.string()
+        .required(),
+    })}
+    onSubmit={(values) => {
+      onAdd(values);
+    }}
+  >
+    <Form className="NewMovie">
       <h2 className="title">Add a movie</h2>
 
       <TextField
         name="title"
         label="Title"
-        value=""
-        onChange={() => {}}
-        required
       />
 
       <TextField
         name="description"
         label="Description"
-        value=""
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value=""
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value=""
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value=""
       />
+      <Button />
+    </Form>
+  </Formik>
 
-      <div className="field is-grouped">
-        <div className="control">
-          <button
-            type="submit"
-            data-cy="submit-button"
-            className="button is-link"
-          >
-            Add
-          </button>
-        </div>
-      </div>
-    </form>
-  );
-};
+);
