@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import React, { useState } from 'react';
-import { useField } from 'formik';
+import {ErrorMessage, useField} from 'formik';
 
 type Props = {
   name: string,
@@ -39,7 +39,7 @@ export const TextField: React.FC<Props> = ({
       </div>
 
       {meta.touched && meta.error && (
-        <p className="help is-danger">{`${label} is required`}</p>
+        <p className="help is-danger"><ErrorMessage name={name} /></p>
       )}
     </div>
   );
