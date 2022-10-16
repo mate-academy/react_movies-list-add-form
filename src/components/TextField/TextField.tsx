@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import React, { useState } from 'react';
-import {ErrorMessage, useField} from 'formik';
+import { ErrorMessage, useField } from 'formik';
 
 type Props = {
   name: string,

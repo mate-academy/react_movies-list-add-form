@@ -43,10 +43,10 @@ export const NewMovie: FC<Props> = ({ onAdd, movies }) => {
           .whitespace('Write some title here not whitespaces!'),
         description: Yup.string(),
         imgUrl: Yup.string()
-          .url()
+          .url('Must be URL!')
           .required(),
         imdbUrl: Yup.string()
-          .url()
+          .url('Must be URL!')
           .required(),
         imdbId: Yup.string()
           .required()
