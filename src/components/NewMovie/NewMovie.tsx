@@ -1,4 +1,5 @@
 // import { Settings } from 'http2';
+// import { strict } from 'assert';
 import { useState } from 'react';
 // import { Movie } from '../../types/Movie';
 import { TextField } from '../TextField';
@@ -12,12 +13,9 @@ import { TextField } from '../TextField';
 // };
 
 type Props = {
-
-  // onAdd: (movie: Movie) => {},
-  // disabled: boolean,
-  // count: number,
-  // fieldValue: string,
-  // fillInput: (event: string) => void;
+  // onAdd?: ((movie: Movie) => {}) | undefined
+  onAdd?: (() => {}),
+  // movies: Movie[],
 };
 
 export const NewMovie: React.FC<Props> = () => {
@@ -38,7 +36,8 @@ export const NewMovie: React.FC<Props> = () => {
       return;
     }
 
-    // props.onAdd(inputValue);
+    // onAdd(movie);
+
     setTitle('');
     setDescription('');
     setImgUrl('');

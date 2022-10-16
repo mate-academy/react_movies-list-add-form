@@ -1,8 +1,8 @@
 import './App.scss';
+import { useState } from 'react';
 import { MoviesList } from './components/MoviesList';
 import { NewMovie } from './components/NewMovie';
 import moviesFromServer from './api/movies.json';
-// import { useState } from 'react';
 
 // type movies = {
 //   title: string;
@@ -12,28 +12,34 @@ import moviesFromServer from './api/movies.json';
 //   imdbId: string;
 // }
 
+// const movies: {
+//   title: string;
+//   description: string;
+//   imgUrl: string;
+//   imdbUrl: string;
+//   imdbId: string;
+// }[]
+
 export const App = () => {
-  // const [movies, setMovie] = useState(moviesFromServer);
+  const [movies, setMovies] = useState(moviesFromServer);
 
-  // const addFilm = (movie: any) => {
-  //   setMovie(state => {
-  //     const newMovie = {
-  //       movie,
-  //     },
-  //   });
+  const addFilm = (movie: {}) => {
+    setMovies((previous:[]) => {
+      const newMovie = {
+        ...movie,
+      };
 
-  //   return {
-  //     movies: [ ...movies, NewMovie];
-  //   }
-  // };
+      return [...previous, newMovie];
+    });
+  };
 
   return (
     <div className="page">
       <div className="page-content">
-        <MoviesList movies={moviesFromServer} />
+        <MoviesList movies={movies} />
       </div>
       <div className="sidebar">
-        <NewMovie /* onAdd={addFilm} */ />
+        <NewMovie onAdd={addFilm} />
       </div>
     </div>
   );
