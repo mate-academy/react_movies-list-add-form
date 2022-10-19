@@ -1,10 +1,34 @@
 import { useState } from 'react';
 import { TextField } from '../TextField';
 
-export const NewMovie = () => {
+export const NewMovie: React.FC<any> = ({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
-  const [count] = useState(0);
+  const [title, setTitile] = useState<string>('');
+  const [description, setDescription] = useState<string>('');
+  const [imgUrl, setImgUrl] = useState<string>('');
+  const [imdbUrl, setImdbUrl] = useState<string>('');
+  const [imdbId, setImdbId] = useState<string>('');
+  const [count, setCount] = useState<number>(0);
+
+  const createMovie = (event:any) => {
+    event.preventDefault();
+    if (title && imgUrl && imdbUrl && imdbId) {
+      onAdd({
+        title,
+        description,
+        imgUrl,
+        imdbUrl,
+        imdbId,
+      });
+      setTitile('');
+      setDescription('');
+      setImgUrl('');
+      setImdbUrl('');
+      setImdbId('');
+      setCount(state => state + 1);
+    }
+  };
 
   return (
     <form className="NewMovie" key={count}>
@@ -13,33 +37,40 @@ export const NewMovie = () => {
       <TextField
         name="title"
         label="Title"
-        value=""
-        onChange={() => {}}
+        value={title}
+        onChange={(event) => setTitile(event)}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value=""
+        value={description}
+        onChange={(event) => setDescription(event)}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value=""
+        value={imgUrl}
+        onChange={(event) => setImgUrl(event)}
+        required
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value=""
+        value={imdbUrl}
+        onChange={(event) => setImdbUrl(event)}
+        required
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value=""
+        value={imdbId}
+        required
+        onChange={(event) => setImdbId(event)}
       />
 
       <div className="field is-grouped">
@@ -48,6 +79,15 @@ export const NewMovie = () => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
+            onClick={(event) => createMovie(event)}
+            disabled={
+              (
+                !title
+                || !imgUrl
+                || !imdbUrl
+                || !imdbId
+              )
+            }
           >
             Add
           </button>
