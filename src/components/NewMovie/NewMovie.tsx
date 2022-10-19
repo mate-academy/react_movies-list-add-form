@@ -3,7 +3,6 @@ import { Movie } from '../../types/Movie';
 import { TextField } from '../TextField';
 
 type Props = {
-  // onAdd?: ((movie: Movie) => {}) | undefined
   onAdd: (movie: Movie) => void,
 };
 
