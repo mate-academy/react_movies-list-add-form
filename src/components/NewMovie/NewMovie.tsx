@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
@@ -14,6 +14,15 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
   const [isValid, setIsValid] = useState(false);
+
+  useEffect(() => {
+    const check = (title.trim())
+      && (imgUrl.trim())
+      && (imdbUrl.trim())
+      && (imdbId.trim());
+
+    setIsValid(!!check);
+  }, [title, imgUrl, imdbUrl, imdbId]);
 
   const reset = () => {
     setTitle('');
@@ -42,14 +51,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         onAdd(newMovie);
         setCount(current => current + 1);
         reset();
-      }}
-      onChange={() => {
-        const check = title.trim()
-          && imdbId.trim()
-          && imdbUrl.trim()
-          && imdbId.trim();
-
-        setIsValid(!!check);
       }}
     >
       <h2 className="title">Add a movie</h2>
