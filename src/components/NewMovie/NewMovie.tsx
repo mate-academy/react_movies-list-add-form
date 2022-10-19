@@ -1,16 +1,6 @@
-// import { Settings } from 'http2';
-// import { strict } from 'assert';
 import { useState } from 'react';
 import { Movie } from '../../types/Movie';
 import { TextField } from '../TextField';
-
-// type Movie = {
-//   title: string;
-//   description: string;
-//   imgUrl: string;
-//   imdbUrl: string;
-//   imdbId: string;
-// };
 
 type Props = {
   // onAdd?: ((movie: Movie) => {}) | undefined
