@@ -1,7 +1,7 @@
 // import { Settings } from 'http2';
 // import { strict } from 'assert';
 import { useState } from 'react';
-// import { Movie } from '../../types/Movie';
+import { Movie } from '../../types/Movie';
 import { TextField } from '../TextField';
 
 // type Movie = {
@@ -14,14 +14,13 @@ import { TextField } from '../TextField';
 
 type Props = {
   // onAdd?: ((movie: Movie) => {}) | undefined
-  onAdd?: (() => {}),
-  // movies: Movie[],
+  onAdd: (movie: Movie) => void,
 };
 
-export const NewMovie: React.FC<Props> = () => {
+export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
-  const [count] = useState(0);
+  const [count, setCount] = useState(0);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [imgUrl, setImgUrl] = useState('');
@@ -32,11 +31,18 @@ export const NewMovie: React.FC<Props> = () => {
 
   const handleSubmit = (event: any) => {
     event.preventDefault();
+    setCount(curent => curent + 1);
     if (!inputFilled) {
       return;
     }
 
-    // onAdd(movie);
+    onAdd({
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    });
 
     setTitle('');
     setDescription('');
