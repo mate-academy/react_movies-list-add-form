@@ -3,7 +3,7 @@ import { Movie } from '../../types/Movie';
 import { TextField } from '../TextField';
 
 type Props = {
-  onAdd: (movie: Movie) => void;
+  onAdd(movie: Movie): void;
 };
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
@@ -13,10 +13,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imgUrl, setImgUrl] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
-
-  const handleDisabled = () => {
-    return title.trim() && imgUrl.trim() && imdbUrl.trim() && imdbId.trim();
-  };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -89,7 +85,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!handleDisabled()}
+            disabled={(!title || !imgUrl || !imdbUrl || !imdbId)}
           >
             Add
           </button>
