@@ -1,0 +1,19 @@
+.notification {
+  width: 100%;
+  padding: 16px;
+  box-sizing: border-box;
+
+  border-radius: 10px;
+  background: rgba(132, 132, 132, 0.3);
+
+  &__title {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 20px;
+    font-weight: 900;
+  }
+
+  &.error {
+    background: rgba(253, 0, 0, 0.3);
+  }
+}
