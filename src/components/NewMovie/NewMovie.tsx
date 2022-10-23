@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { FormEvent, useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
@@ -18,7 +18,11 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     imdbId: '',
   };
   const [newMovie, setNewMovie] = useState(emptyMovie);
-  const [incorrectUrl, setIncorrectUrl] = useState(false);
+  const [isUrlIncorrect, setIsUrlIncorrect] = useState(false);
+
+  const {
+    title, description, imgUrl, imdbUrl, imdbId,
+  } = newMovie;
 
   const onChange = (value: string, name: string) => {
     setNewMovie({
@@ -27,31 +31,29 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     });
   };
 
-  const disabledSubmit = () => {
-    const {
-      title, imgUrl, imdbUrl, imdbId,
-    } = newMovie;
+  const isSubmitDisabled = () => (
+    !title || !imgUrl || !imdbUrl || !imdbId || isUrlIncorrect
+  );
 
-    return !title || !imgUrl || !imdbUrl || !imdbId || incorrectUrl;
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    onAdd(newMovie);
+    setCount(() => count + 1);
+    setNewMovie(emptyMovie);
   };
 
   return (
     <form
       className="NewMovie"
       key={count}
-      onSubmit={(event) => {
-        event.preventDefault();
-        onAdd(newMovie);
-        setCount(() => count + 1);
-        setNewMovie(emptyMovie);
-      }}
+      onSubmit={event => handleSubmit(event)}
     >
       <h2 className="title">Add a movie</h2>
 
       <TextField
         name="title"
         label="Title"
-        value={newMovie.title}
+        value={title}
         onChange={onChange}
         required
       />
@@ -59,32 +61,32 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="description"
         label="Description"
-        value={newMovie.description}
+        value={description}
         onChange={onChange}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={newMovie.imgUrl}
+        value={imgUrl}
         onChange={onChange}
         required
-        setIncorrectUrl={setIncorrectUrl}
+        setIsUrlIncorrect={setIsUrlIncorrect}
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={newMovie.imdbUrl}
+        value={imdbUrl}
         onChange={onChange}
         required
-        setIncorrectUrl={setIncorrectUrl}
+        setIsUrlIncorrect={setIsUrlIncorrect}
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={newMovie.imdbId}
+        value={imdbId}
         onChange={onChange}
         required
       />
@@ -95,7 +97,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={disabledSubmit()}
+            disabled={isSubmitDisabled()}
           >
             Add
           </button>
