@@ -3,10 +3,10 @@ import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
 type Props = {
-  addMovie: (movie: Movie) => void
+  onAdd: (movie: Movie) => void
 };
 
-export const NewMovie: React.FC<Props> = ({ addMovie }) => {
+export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -16,8 +16,9 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
 
   const isDisabled = (!title || !imgUrl || !imdbUrl || !imdbId);
 
-  const addAMovie = () => {
-    addMovie({
+  const addAMovie = (event: React.MouseEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    onAdd({
       title,
       description,
       imgUrl,
