@@ -3,10 +3,10 @@ import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
 type Props = {
-  onAdd: (movie: Movie) => void
+  addMovie: (movie: Movie) => void
 };
 
-export const NewMovie: React.FC<Props> = ({ onAdd }) => {
+export const NewMovie: React.FC<Props> = ({ addMovie }) => {
   const [count, setCount] = useState(0);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -16,8 +16,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
   const isDisabled = (!title || !imgUrl || !imdbUrl || !imdbId);
 
-  const addMovie = () => {
-    onAdd({
+  const addAMovie = () => {
+    addMovie({
       title,
       description,
       imgUrl,
@@ -34,7 +34,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   };
 
   return (
-    <form className="NewMovie" key={count}>
+    <form className="NewMovie" key={count} onSubmit={addAMovie}>
       <h2 className="title">Add a movie</h2>
 
       <TextField
@@ -83,7 +83,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             data-cy="submit-button"
             className="button is-link"
             disabled={isDisabled}
-            onClick={addMovie}
           >
             Add
           </button>
