@@ -17,7 +17,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbId, setImdbId] = useState('');
 
   const inputsValidation = () => {
-    return !title || !imgUrl || !imdbUrl || !imdbId;
+    return !title.trim() || !imgUrl.trim() || !imdbUrl.trim() || !imdbId.trim();
   };
 
   return (
