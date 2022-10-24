@@ -39,6 +39,13 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     clearForm();
   };
 
+  const isValidUrl = (value: string) => {
+    // eslint-disable-next-line max-len
+    const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
+
+    return !value.match(pattern);
+  };
+
   return (
     <form className="NewMovie" key={count}>
       <h2 className="title">Add a movie</h2>
@@ -64,23 +71,21 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={imgUrl}
         onChange={setImgUrl}
         required
+        isValid={isValidUrl}
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        // eslint-disable-next-line max-len
-        pattern="/^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;"
         value={imdbUrl}
         onChange={setImdbUrl}
         required
+        isValid={isValidUrl}
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        // eslint-disable-next-line max-len
-        pattern="/^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;"
         value={imdbId}
         onChange={setImdbId}
         required
