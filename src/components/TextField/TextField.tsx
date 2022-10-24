@@ -5,6 +5,7 @@ type Props = {
   name: string,
   value: string,
   label?: string,
+  pattern?: string,
   required?: boolean,
   onChange?: (newValue: string) => void,
 };
@@ -17,13 +18,11 @@ export const TextField: React.FC<Props> = ({
   name,
   value,
   label = name,
+  pattern = '/./;',
   required = false,
   onChange = () => {},
 }) => {
-  // generage a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
-
-  // To show errors only if the field was touched (onBlur)
   const [touched, setToched] = useState(false);
   const hasError = touched && required && !value;
 
@@ -41,6 +40,7 @@ export const TextField: React.FC<Props> = ({
             'is-danger': hasError,
           })}
           type="text"
+          pattern={pattern}
           placeholder={`Enter ${label}`}
           value={value}
           onChange={event => onChange(event.target.value)}
