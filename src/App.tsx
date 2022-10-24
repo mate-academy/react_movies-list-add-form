@@ -8,7 +8,9 @@ import { Movie } from './types/Movie';
 export const App: FC = () => {
   const [movies, setMovies] = useState(moviesFromServer);
 
-  const onAdd = ((movie: Movie) => setMovies([...movies, movie]));
+  const onAdd = ((movie: Movie) => {
+    setMovies(currentMovies => [...currentMovies, movie]);
+  });
 
   return (
     <div className="page">

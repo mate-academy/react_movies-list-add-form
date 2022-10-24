@@ -24,6 +24,14 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
     || !imdbUrl
     || !imdbId;
 
+  const clearForm = () => {
+    setTitle('');
+    setDescription('');
+    setImgUrl('');
+    setImdbUrl('');
+    setImdbId('');
+  };
+
   const addMovie = (event: FormEvent) => {
     event.preventDefault();
     onAdd({
@@ -34,11 +42,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
       imdbId,
     });
     setCount(prev => prev + 1);
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
+    clearForm();
   };
 
   return (
