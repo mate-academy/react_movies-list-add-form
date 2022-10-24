@@ -23,7 +23,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       imdbId,
     });
 
-    setCount(count + 1);
+    setCount(prevCount => prevCount + 1);
     setTitle('');
     setDescription('');
     setImgUrl('');
@@ -91,7 +91,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             data-cy="submit-button"
             className="button is-link"
             disabled={
-              !title || !imgUrl || !imdbUrl || !imdbId
+              !title.trim()
+                || !imgUrl.trim()
+                || !imdbUrl.trim()
+                || !imdbId.trim()
             }
             onClick={addMovie}
           >
