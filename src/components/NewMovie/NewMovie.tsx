@@ -16,7 +16,15 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
   const isRequired = title && imgUrl && imdbUrl && imdbId;
 
-  function handleSubmit(event: React.MouseEvent<HTMLFormElement>) {
+  const clearForm = () => {
+    setTitle('');
+    setDescription('');
+    setImgUrl('');
+    setImdbUrl('');
+    setImdbId('');
+  };
+
+  const handleSubmit = (event: React.MouseEvent<HTMLFormElement>) => {
     event.preventDefault();
     setCount(currentCount => currentCount + 1);
 
@@ -28,12 +36,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       imdbId,
     });
 
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
-  }
+    clearForm();
+  };
 
   return (
     <form
