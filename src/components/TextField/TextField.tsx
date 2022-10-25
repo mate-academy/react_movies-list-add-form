@@ -21,6 +21,7 @@ export const TextField: React.FC<Props> = ({
   onChange = () => {},
 }) => {
   // generage a unique id once on component load
+  // const [valueInput, setValueInput] = useState(value);
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
   // To show errors only if the field was touched (onBlur)
