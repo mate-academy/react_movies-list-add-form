@@ -4,7 +4,13 @@ import { ErrorMessage } from '../ErrorMessage';
 import './NewMovie.scss';
 
 type Props = {
-  onAdd: any;
+  onAdd: (
+    title: string,
+    description: string,
+    imgUrl: string,
+    imdbUrl: string,
+    imdbId: string,
+  ) => void;
 };
 
 // eslint-disable-next-line max-len
