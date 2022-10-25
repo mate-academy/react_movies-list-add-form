@@ -89,7 +89,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         <div className="control">
           <button
             type="submit"
-            inputData-cy="submit-button"
+            data-cy="submit-button"
             className="button is-link"
             disabled={isDisabled}
           >
