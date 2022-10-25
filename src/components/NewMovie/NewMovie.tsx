@@ -34,6 +34,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setImdbId('');
   };
 
+  const checkEmptyDataFields = () => {
+    return title.trim() === ''
+      || (description.trim() === '' && description !== '')
+      || imgUrl.trim() === ''
+      || imdbUrl.trim() === ''
+      || imdbId.trim() === '';
+  };
+
   return (
     <form className="NewMovie" key={count}>
       <h2 className="title">Add a movie</h2>
@@ -96,9 +104,12 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             disabled={!isButtonDisabled}
             onClick={(event) => {
               event.preventDefault();
-              setCount(count + 1);
-              onAdd(movie);
-              clearForm();
+
+              if (!checkEmptyDataFields()) {
+                setCount(count + 1);
+                onAdd(movie);
+                clearForm();
+              }
             }}
           >
             Add
