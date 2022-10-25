@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
@@ -27,29 +27,43 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       || !newMovieImdbId);
   }
 
+  function clearForm() {
+    addNewMovieTitle('');
+    addNewMovieDescription('');
+    addNewMovieImgUrl('');
+    addNewMovieImdbUrl('');
+    addNewMovieImdbId('');
+  }
+
+  const onFormSubmit = useCallback(
+    (event: React.FormEvent<HTMLFormElement>) => {
+      event.preventDefault();
+
+      changeCount(count + 1);
+
+      onAdd({
+        title: newMovieTitle,
+        description: newMovieDescription,
+        imgUrl: newMovieImgUrl,
+        imdbUrl: newMovieImdbUrl,
+        imdbId: newMovieImdbId,
+      });
+
+      clearForm();
+    }, [
+      newMovieTitle,
+      newMovieDescription,
+      newMovieImgUrl,
+      newMovieImdbUrl,
+      newMovieImdbId,
+    ],
+  );
+
   return (
     <form
       className="NewMovie"
       key={count}
-      onSubmit={(e) => {
-        e.preventDefault();
-
-        changeCount(count + 1);
-
-        onAdd({
-          title: newMovieTitle,
-          description: newMovieDescription,
-          imgUrl: newMovieImgUrl,
-          imdbUrl: newMovieImdbUrl,
-          imdbId: newMovieImdbId,
-        });
-
-        addNewMovieTitle('');
-        addNewMovieDescription('');
-        addNewMovieImgUrl('');
-        addNewMovieImdbUrl('');
-        addNewMovieImdbId('');
-      }}
+      onSubmit={onFormSubmit}
     >
       <h2 className="title">Add a movie</h2>
 
