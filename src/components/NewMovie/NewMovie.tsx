@@ -17,7 +17,10 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const isRequiredCompleted = title && imgUrl && imdbUrl && imdbId;
+  const isRequiredCompleted = title.trim()
+    && imgUrl.trim()
+    && imdbUrl.trim()
+    && imdbId.trim();
 
   function handleSubmit(event: MouseEvent<HTMLFormElement>) {
     event.preventDefault();
