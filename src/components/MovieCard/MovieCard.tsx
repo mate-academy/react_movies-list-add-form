@@ -7,7 +7,7 @@ type Props = {
 };
 
 export const MovieCard: React.FC<Props> = ({ movie }) => (
-  <div className="card" data-cy="movie-card">
+  <>
     <div className="card-image">
       <figure className="image is-4by3">
         <img
@@ -37,5 +37,5 @@ export const MovieCard: React.FC<Props> = ({ movie }) => (
         <a href={movie.imdbUrl}>IMDB</a>
       </div>
     </div>
-  </div>
+  </>
 );
