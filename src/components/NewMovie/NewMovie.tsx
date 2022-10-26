@@ -16,6 +16,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setNewImdbUrl] = useState('');
   const [imdbId, setNewImdbId] = useState('');
 
+  const isEmptyField = !title || !imgUrl || !imdbUrl || !imdbId;
+
   const increaseCount = () => {
     setCount(current => current + 1);
   };
@@ -106,10 +108,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
               event.preventDefault();
               addMovie();
             }}
-            disabled={((!title
-              || !imgUrl
-              || !imdbUrl
-              || !imdbId) && true) || false}
+            disabled={isEmptyField}
           >
             Add
           </button>
