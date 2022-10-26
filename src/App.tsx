@@ -7,6 +7,12 @@ import { Movie } from './types/Movie';
 
 export const App = () => {
   const [movies, setMovies] = useState(moviesFromServer);
+  const addNewMovie = (movie: Movie) => {
+    setMovies([
+      ...movies,
+      movie,
+    ]);
+  };
 
   return (
     <div className="page">
@@ -14,13 +20,7 @@ export const App = () => {
         <MoviesList movies={movies} />
       </div>
       <div className="sidebar">
-        <NewMovie onAdd={(movie: Movie) => {
-          setMovies([
-            ...movies,
-            movie,
-          ]);
-        }}
-        />
+        <NewMovie onAdd={addNewMovie} />
       </div>
     </div>
   );

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Movie } from '../../types/Movie';
 import { TextField } from '../TextField';
 
@@ -40,6 +40,16 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       || imgUrl.trim() === ''
       || imdbUrl.trim() === ''
       || imdbId.trim() === '';
+  };
+
+  const onSubmitForm = (event: React.FormEvent) => {
+    event.preventDefault();
+
+    if (!checkEmptyDataFields()) {
+      setCount(count + 1);
+      onAdd(movie);
+      clearForm();
+    }
   };
 
   return (
@@ -102,15 +112,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             data-cy="submit-button"
             className="button is-link"
             disabled={!isButtonDisabled}
-            onClick={(event) => {
-              event.preventDefault();
-
-              if (!checkEmptyDataFields()) {
-                setCount(count + 1);
-                onAdd(movie);
-                clearForm();
-              }
-            }}
+            onClick={onSubmitForm}
           >
             Add
           </button>
