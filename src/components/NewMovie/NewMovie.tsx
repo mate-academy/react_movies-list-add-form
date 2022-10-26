@@ -28,8 +28,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     ));
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
 
     onAdd({
       title: title.trim(),
@@ -55,7 +55,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     <form
       className="NewMovie"
       key={count}
-      onSubmit={e => handleSubmit(e)}
+      onSubmit={event => handleSubmit(event)}
     >
       <h2 className="title">Add a movie</h2>
 
