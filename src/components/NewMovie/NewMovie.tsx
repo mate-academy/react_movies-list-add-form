@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Movie } from '../../types/Movie';
 import { TextField } from '../TextField';
+import { pattern } from './ComponentStaticPattern.variable';
 
 type Props = {
   onAdd: (movie: Movie) => void;
@@ -15,17 +16,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbId, setImdbId] = useState('');
   const [formValid, setFormValid] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    onAdd({
-      title: title.trim(),
-      description: description.trim(),
-      imgUrl: imgUrl.trim(),
-      imdbUrl: imdbUrl.trim(),
-      imdbId: imdbId.trim(),
-    });
-
+  const resetInputs = () => {
     setTitle('');
     setDescription('');
     setImgUrl('');
@@ -37,11 +28,25 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     ));
   };
 
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    onAdd({
+      title: title.trim(),
+      description: description.trim(),
+      imgUrl: imgUrl.trim(),
+      imdbUrl: imdbUrl.trim(),
+      imdbId: imdbId.trim(),
+    });
+
+    resetInputs();
+  };
+
   useEffect(() => {
     setFormValid(
       Boolean(title.trim()
-      && imgUrl.trim()
-      && imdbUrl.trim()
+      && pattern.test(imgUrl.trim())
+      && pattern.test(imdbUrl.trim())
       && imdbId.trim()),
     );
   }, [title, imgUrl, imdbUrl, imdbId]);
