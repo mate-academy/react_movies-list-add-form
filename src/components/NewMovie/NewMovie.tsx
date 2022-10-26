@@ -14,7 +14,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const isNotFilled = !title || !imgUrl || !imdbUrl || !imdbId;
+  const isNotFilled = !title.trim()
+    || !imgUrl.trim()
+    || !imdbUrl.trim()
+    || !imdbId.trim();
 
   const clearForm = () => {
     setTitle('');
@@ -22,6 +25,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setImgUrl('');
     setImdbUrl('');
     setImdbId('');
+  };
+
+  const increaseCount = () => {
+    setCount(current => current + 1);
   };
 
   return (
@@ -32,14 +39,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         e.preventDefault();
 
         onAdd({
-          title,
-          description,
-          imgUrl,
-          imdbUrl,
-          imdbId,
+          title: title.trim(),
+          description: description.trim(),
+          imgUrl: imgUrl.trim(),
+          imdbUrl: imdbUrl.trim(),
+          imdbId: imdbId.trim(),
         });
         clearForm();
-        setCount(current => current + 1);
+        increaseCount();
       }}
     >
       <h2 className="title">Add a movie</h2>
