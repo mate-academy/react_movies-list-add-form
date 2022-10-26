@@ -17,15 +17,20 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const clearFields = () => {
     setTitle('');
     setDescription('');
-    setImdbUrl('');
+    setImgUrl('');
     setImdbUrl('');
     setImdbId('');
   };
 
-  const formIsValid = title
-    && imgUrl
-    && imdbUrl
-    && imdbId;
+  const formIsValid = () => {
+    // eslint-disable-next-line
+    const pattern = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/;
+
+    return title
+      && imdbId
+      && imgUrl.match(pattern)
+      && imdbUrl.match(pattern);
+  };
 
   const onSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -96,7 +101,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!formIsValid}
+            disabled={!formIsValid()}
           >
             Add
           </button>
