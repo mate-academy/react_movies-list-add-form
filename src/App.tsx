@@ -9,7 +9,7 @@ export const App = () => {
   const [totalFilm, setTotalFilm] = useState(moviesFromServer);
   const addFilm = (newFilm: Movie) => {
     setTotalFilm(
-      [...moviesFromServer, newFilm],
+      [...totalFilm, newFilm],
     );
   };
 
