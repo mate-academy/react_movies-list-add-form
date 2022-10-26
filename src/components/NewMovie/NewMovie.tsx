@@ -14,6 +14,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
+  const reset = () => {
+    setTitle('');
+    setDescription('');
+    setImgUrl('');
+    setImdbUrl('');
+    setImdbId('');
+  };
+
   const addMovie = () => {
     onAdd({
       title,
@@ -24,15 +32,15 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     });
 
     setCount(prevCount => prevCount + 1);
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
+    reset();
   };
 
   return (
-    <form className="NewMovie" key={count}>
+    <form
+      onSubmit={addMovie}
+      className="NewMovie"
+      key={count}
+    >
       <h2 className="title">Add a movie</h2>
 
       <TextField
@@ -96,7 +104,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
                 || !imdbUrl.trim()
                 || !imdbId.trim()
             }
-            onClick={addMovie}
           >
             Add
           </button>
