@@ -39,6 +39,18 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     resetForm();
   };
 
+  const dataIsValid = () => {
+    // eslint-disable-next-line max-len
+    const pattern = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_.~#?&//=]*)/;
+
+    return (
+      title
+      && pattern.test(imgUrl)
+      && pattern.test(imdbUrl)
+      && imdbId
+    );
+  };
+
   return (
     <form
       className="NewMovie"
@@ -92,7 +104,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!title || !imgUrl || !imdbUrl || !imdbId}
+            disabled={!dataIsValid()}
           >
             Add
           </button>
