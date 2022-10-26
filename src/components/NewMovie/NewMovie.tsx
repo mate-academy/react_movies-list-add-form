@@ -27,11 +27,16 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       imdbUrl,
     });
     setCount(num => num + 1);
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
+
+    const ClearInputs = () => {
+      setTitle('');
+      setDescription('');
+      setImgUrl('');
+      setImdbUrl('');
+      setImdbId('');
+    };
+
+    ClearInputs();
   };
 
   return (
