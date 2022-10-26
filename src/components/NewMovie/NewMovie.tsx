@@ -16,6 +16,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
   const isDisabled = !(title && imgUrl && imdbUrl && imdbId);
 
+  const clearForm = () => {
+    setTitle('');
+    setDescription('');
+    setImgUrl('');
+    setImdbUrl('');
+    setImdbId('');
+  };
+
   const handleFormSubmission = (event: React.FormEvent) => {
     event.preventDefault();
 
@@ -27,11 +35,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       imdbId,
     };
 
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
+    clearForm();
 
     increaseCount(prevCount => prevCount + 1);
 
