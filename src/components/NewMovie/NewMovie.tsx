@@ -37,10 +37,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     resetForm();
   };
 
-  const setDisabled = !title
-  || !imgUrl
-  || !imdbUrl
-  || !imdbId;
+  const setDisabled = !title.trim()
+  || !imgUrl.trim()
+  || !imdbUrl.trim()
+  || !imdbId.trim();
 
   return (
     <form className="NewMovie" key={count} onSubmit={handleSubmit}>
