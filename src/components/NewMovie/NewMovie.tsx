@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Movie } from '../../types/Movie';
 import { TextField } from '../TextField';
+import { pattern } from '../../constants';
 
 type Props = {
   onAdd: (movie: Movie) => void;
@@ -41,7 +42,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
   const dataIsValid = () => {
     // eslint-disable-next-line max-len
-    const pattern = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_.~#?&//=]*)/;
+    // const pattern = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_.~#?&//=]*)/;
 
     return (
       title
