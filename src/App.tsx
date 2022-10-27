@@ -7,7 +7,7 @@ import moviesFromServer from './api/movies.json';
 import { Movie } from './types/Movie';
 
 export const App: React.FC = () => {
-  const [moviesList, setMoviesList] = useState(moviesFromServer);
+  const [moviesList, setMoviesList] = useState<Movie[]>(moviesFromServer);
 
   const addMovie = (movie: Movie) => {
     setMoviesList(currentMovies => ([
@@ -21,6 +21,7 @@ export const App: React.FC = () => {
       <div className="page-content">
         <MoviesList movies={moviesList} />
       </div>
+
       <div className="sidebar">
         <NewMovie onAdd={addMovie} />
       </div>
