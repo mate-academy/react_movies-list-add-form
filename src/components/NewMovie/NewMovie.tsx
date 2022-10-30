@@ -46,6 +46,15 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     return pattern.test(value);
   };
 
+  const isDisabled = () => {
+    return !title
+            || !imgUrl
+            || !imdbUrl
+            || !imdbId
+            || !isValidUrl(imdbUrl)
+            || !isValidUrl(imgUrl);
+  };
+
   return (
     <form className="NewMovie" key={count}>
       <h2 className="title">Add a movie</h2>
@@ -101,13 +110,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
               event.preventDefault();
               addMovie();
             }}
-            disabled={((!title
-            || !imgUrl
-            || !imdbUrl
-            || !imdbId
-            || !isValidUrl(imdbUrl)
-            || !isValidUrl(imgUrl))
-            && true) || false}
+            disabled={isDisabled()}
           >
             Add
           </button>
