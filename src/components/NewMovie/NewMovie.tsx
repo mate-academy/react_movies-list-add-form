@@ -6,7 +6,7 @@ type Props = {
   onAdd: (movie: Movie) => void
 };
 
-export const NewMovie: React.FC<Props> = ({onAdd}) => {
+export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [imgUrl, setImgUrl] = useState('');
@@ -48,7 +48,7 @@ export const NewMovie: React.FC<Props> = ({onAdd}) => {
       className="NewMovie"
       key={count}
       onSubmit={(event => handleOnSubmit(event))}
-      >
+    >
       <h2 className="title">Add a movie</h2>
 
       <TextField
@@ -77,6 +77,7 @@ export const NewMovie: React.FC<Props> = ({onAdd}) => {
         onChange={(value) => {
           setImgUrl(value);
         }}
+        required
       />
 
       <TextField
@@ -86,6 +87,7 @@ export const NewMovie: React.FC<Props> = ({onAdd}) => {
         onChange={(value) => {
           setImdbUrl(value);
         }}
+        required
       />
 
       <TextField
@@ -95,6 +97,7 @@ export const NewMovie: React.FC<Props> = ({onAdd}) => {
         onChange={(value) => {
           setImdbId(value);
         }}
+        required
       />
 
       <div className="field is-grouped">
