@@ -5,7 +5,7 @@ import { NewMovie } from './components/NewMovie';
 import moviesFromServer from './api/movies.json';
 
 export const App = () => {
-  const [Movies, addMovie] = useState(moviesFromServer);
+  const [Movies, setMovies] = useState(moviesFromServer);
 
   return (
     <div className="page">
@@ -15,7 +15,7 @@ export const App = () => {
 
       <div className="sidebar">
         <NewMovie
-          onAdd={addMovie}
+          onAdd={setMovies}
           Movies={Movies}
         />
       </div>

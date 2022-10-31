@@ -8,8 +8,6 @@ type Props = {
 };
 
 export const NewMovie: React.FC<Props> = ({ onAdd, Movies }) => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
 
   const [title, setTitle] = useState('');
@@ -17,6 +15,34 @@ export const NewMovie: React.FC<Props> = ({ onAdd, Movies }) => {
   const [imgUrl, setImgUrl] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
+
+  const addMovies = (event: React.MouseEvent) => {
+    event.preventDefault();
+
+    const newMovie = {
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    };
+
+    const arreyMovis: Movie[] = [...Movies, newMovie];
+
+    onAdd(arreyMovis);
+
+    setTitle('');
+    setDescription('');
+    setImgUrl('');
+    setImdbUrl('');
+    setImdbId('');
+    setCount(count + 1);
+  };
+
+  const disabledButton = title === ''
+  || imgUrl === ''
+  || imdbUrl === ''
+  || imdbId === '';
 
   return (
     <form
@@ -29,9 +55,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd, Movies }) => {
         name="title"
         label="Title"
         value={title}
-        onChange={(event) => {
-          setTitle(event);
-        }}
+        onChange={setTitle}
         required
       />
 
@@ -39,18 +63,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd, Movies }) => {
         name="description"
         label="Description"
         value={description}
-        onChange={(event) => {
-          setDescription(event);
-        }}
+        onChange={setDescription}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={(event) => {
-          setImgUrl(event);
-        }}
+        onChange={setImgUrl}
         required
       />
 
@@ -58,9 +78,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd, Movies }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={(event) => {
-          setImdbUrl(event);
-        }}
+        onChange={setImdbUrl}
         required
       />
 
@@ -68,9 +86,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd, Movies }) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={(event) => {
-          setImdbId(event);
-        }}
+        onChange={setImdbId}
         required
       />
 
@@ -80,34 +96,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd, Movies }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            onClick={(event) => {
-              event.preventDefault();
-
-              const newMovie = {
-                title,
-                description,
-                imgUrl,
-                imdbUrl,
-                imdbId,
-              };
-
-              const arreyMovis: Movie[] = [...Movies, newMovie];
-
-              onAdd(arreyMovis);
-
-              setTitle('');
-              setDescription('');
-              setImgUrl('');
-              setImdbUrl('');
-              setImdbId('');
-              setCount(count + 1);
-            }}
-            disabled={
-              title === ''
-              || imgUrl === ''
-              || imdbUrl === ''
-              || imdbId === ''
-            }
+            onClick={addMovies}
+            disabled={disabledButton}
           >
             Add
           </button>
