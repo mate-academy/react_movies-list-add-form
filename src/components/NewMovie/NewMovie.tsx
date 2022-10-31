@@ -7,7 +7,6 @@ type Props = {
 };
 
 export const NewMovie: FC<Props> = ({ onAdd }) => {
-  const [count, setCount] = useState(0);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [imgUrl, setImgUrl] = useState('');
@@ -20,17 +19,9 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
   const isValidUrl = (value: string) => !value.match(pattern);
 
   const isDisabled = !title
-    || !imgUrl
-    || !imdbUrl
+    || isValidUrl(imgUrl)
+    || isValidUrl(imdbUrl)
     || !imdbId;
-
-  const clearForm = () => {
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
-  };
 
   const addMovie = (event: FormEvent) => {
     event.preventDefault();
@@ -41,19 +32,17 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
       imdbUrl,
       imdbId,
     });
-    setCount(prev => prev + 1);
-    clearForm();
   };
 
   return (
-    <form className="NewMovie" key={count}>
+    <form className="NewMovie">
       <h2 className="title">Add a movie</h2>
 
       <TextField
         name="title"
         label="Title"
         value={title}
-        onChange={(value) => setTitle(value)}
+        onChange={setTitle}
         required
       />
 
@@ -61,14 +50,14 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={description}
-        onChange={(value) => setDescription(value)}
+        onChange={setDescription}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={(value) => setImgUrl(value)}
+        onChange={setImgUrl}
         required
         isValid={isValidUrl}
       />
@@ -77,7 +66,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={(value) => setImdbUrl(value)}
+        onChange={setImdbUrl}
         required
         isValid={isValidUrl}
       />
@@ -86,7 +75,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={(value) => setImdbId(value)}
+        onChange={setImdbId}
         required
       />
 
@@ -97,7 +86,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
             data-cy="submit-button"
             className="button is-link"
             disabled={isDisabled}
-            onClick={(event => addMovie(event))}
+            onClick={addMovie}
           >
             Add
           </button>
