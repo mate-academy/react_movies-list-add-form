@@ -1,44 +1,45 @@
 import { useState } from 'react';
 import { TextField } from '../TextField';
+import { Movie } from '../../types/Movie';
 
-export const NewMovie: React.FC<any> = ({ onAdd }) => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
+type Props = {
+  onAdd: (movie: Movie) => void,
+};
+
+export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [title, setTitile] = useState<string>('');
   const [description, setDescription] = useState<string>('');
   const [imgUrl, setImgUrl] = useState<string>('');
   const [imdbUrl, setImdbUrl] = useState<string>('');
   const [imdbId, setImdbId] = useState<string>('');
-  const [count, setCount] = useState<number>(0);
 
-  const createMovie = (event:any) => {
+  const createMovie = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (title && imgUrl && imdbUrl && imdbId) {
-      onAdd({
-        title,
-        description,
-        imgUrl,
-        imdbUrl,
-        imdbId,
-      });
-      setTitile('');
-      setDescription('');
-      setImgUrl('');
-      setImdbUrl('');
-      setImdbId('');
-      setCount(state => state + 1);
-    }
+    onAdd({
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    });
   };
 
+  const disabledCheck = (
+    !title.trim() || !imgUrl.trim() || !imdbUrl.trim() || !imdbId.trim()
+  );
+
   return (
-    <form className="NewMovie" key={count}>
+    <form
+      className="NewMovie"
+      onSubmit={createMovie}
+    >
       <h2 className="title">Add a movie</h2>
 
       <TextField
         name="title"
         label="Title"
         value={title}
-        onChange={(event) => setTitile(event)}
+        onChange={setTitile}
         required
       />
 
@@ -46,14 +47,14 @@ export const NewMovie: React.FC<any> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={description}
-        onChange={(event) => setDescription(event)}
+        onChange={setDescription}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={(event) => setImgUrl(event)}
+        onChange={setImgUrl}
         required
       />
 
@@ -61,7 +62,7 @@ export const NewMovie: React.FC<any> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={(event) => setImdbUrl(event)}
+        onChange={setImdbUrl}
         required
       />
 
@@ -70,7 +71,7 @@ export const NewMovie: React.FC<any> = ({ onAdd }) => {
         label="Imdb ID"
         value={imdbId}
         required
-        onChange={(event) => setImdbId(event)}
+        onChange={setImdbId}
       />
 
       <div className="field is-grouped">
@@ -79,15 +80,7 @@ export const NewMovie: React.FC<any> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            onClick={(event) => createMovie(event)}
-            disabled={
-              (
-                !title
-                || !imgUrl
-                || !imdbUrl
-                || !imdbId
-              )
-            }
+            disabled={disabledCheck}
           >
             Add
           </button>
