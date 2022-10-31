@@ -1,4 +1,4 @@
-import { FC, useState, Fragment } from 'react';
+import { FC, useState } from 'react';
 import './App.scss';
 import { MoviesList } from './components/MoviesList';
 import { NewMovie } from './components/NewMovie';
@@ -20,9 +20,7 @@ export const App: FC = () => {
         <MoviesList movies={movies} />
       </div>
       <div className="sidebar">
-        <Fragment key={formCount}>
-          <NewMovie onAdd={onAdd} />
-        </Fragment>
+        <NewMovie onAdd={onAdd} key={formCount} />
       </div>
     </div>
   );
