@@ -10,7 +10,7 @@ export const App = () => {
 
   const addMovie = (movie: Movie) => {
     setMovies(currentMovies => {
-      const isExist = currentMovies.find(
+      const isExist = currentMovies.some(
         currentMovie => currentMovie.imdbId === movie.imdbId,
       );
 
