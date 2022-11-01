@@ -14,6 +14,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [customImdbUrl, setImdbUrl] = useState('');
   const [customImdbId, setImdbId] = useState('');
 
+  const increaseCount = () => {
+    setCount(current => current + 1);
+  };
+
   const onSubmit = (event: FormEvent) => {
     event.preventDefault();
 
@@ -31,7 +35,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setImdbUrl('');
     setImdbId('');
 
-    setCount(count + 1);
+    increaseCount();
   };
 
   const activeButton = (
