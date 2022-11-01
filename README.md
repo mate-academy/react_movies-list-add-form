@@ -1,7 +1,5 @@
 # Movies list - Add Form
-- Replace `<your_account>` with your Github username in the
-  [DEMO LINK](https://YegorKochetkov.github.io/react_movies-list-add-form/)
-- Follow the [React task guideline](https://github.com/mate-academy/react_task-guideline#react-tasks-guideline)
+- [DEMO LINK](https://YegorKochetkov.github.io/react_movies-list-add-form/)
 
 ## Task
 1. Implement form inside `NewMovie` component.
@@ -16,8 +14,6 @@
   Also, form should be cleared. Page should not be reloaded.
 
 ## Advanced tasks (Add validation)
-> Do it only if you understand everything
-
 1. validate controls values on blur
 1. `title`, `imgUrl`, `imdbUrl`, `imdbId` should be required
 1. `imgUrl`, `imdbUrl` - should be valid urls (can use this regex `/^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/`)
