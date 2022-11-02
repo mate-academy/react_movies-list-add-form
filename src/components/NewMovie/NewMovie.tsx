@@ -43,6 +43,11 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     clearForm();
   };
 
+  const handleFormSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    addMovie();
+  }
+
   const validateForm = (value: string) => {
     // eslint-disable-next-line max-len
     const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
@@ -61,7 +66,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={title}
-        onChange={setNewTitle}
+        onChange={(event) => setNewTitle(event)}
         required
       />
 
@@ -69,14 +74,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={description}
-        onChange={setNewDescription}
+        onChange={(event) => setNewDescription(event)}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={setNewImgUrl}
+        onChange={(event) => setNewImgUrl(event)}
         required
         isValid={validateForm}
       />
@@ -85,7 +90,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={setNewImdbUrl}
+        onChange={(event) => setNewImdbUrl(event)}
         required
         isValid={validateForm}
       />
@@ -94,7 +99,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={setNewImdbId}
+        onChange={(event) => setNewImdbId(event)}
         required
       />
 
@@ -104,10 +109,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            onClick={(event) => {
-              event.preventDefault();
-              addMovie();
-            }}
+            onClick={handleFormSubmit}
             disabled={isEmptyField}
           >
             Add
