@@ -7,24 +7,11 @@ type Props = {
 };
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
-  const [count, setCount] = useState(0);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [imgUrl, setImgUrl] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
-
-  const increaseCount = () => {
-    setCount(currentCount => currentCount + 1);
-  };
-
-  const clearForm = () => {
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
-  };
 
   const addMovie = () => {
     onAdd({
@@ -34,20 +21,16 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       imdbUrl,
       imdbId,
     });
-
-    increaseCount();
-    clearForm();
   };
 
-  const isRequered = title.replace(/ /g, '')
-  && imgUrl.replace(/ /g, '')
-  && imdbUrl.replace(/ /g, '')
-  && imdbId.replace(/ /g, '');
+  const isRequered = title.trim()
+  && imgUrl.trim()
+  && imdbUrl.trim()
+  && imdbId.trim();
 
   return (
     <form
       className="NewMovie"
-      key={count}
       onSubmit={addMovie}
     >
       <h2 className="title">Add a movie</h2>
