@@ -11,7 +11,7 @@ export const App = () => {
 
   const addMovie = (newMovie: Movie): void => {
     setMovies([...movies, newMovie]);
-    setFormCount(num => num + 1);
+    setFormCount(count => count + 1);
   };
 
   return (
