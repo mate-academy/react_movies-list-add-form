@@ -4,10 +4,10 @@ import { Movie } from '../../types/Movie';
 
 type Props = {
   onAdd: (arreyMovis: Movie[]) => void
-  Movies: Movie[];
+  movies: Movie[];
 };
 
-export const NewMovie: React.FC<Props> = ({ onAdd, Movies }) => {
+export const NewMovie: React.FC<Props> = ({ onAdd, movies: Movies }) => {
   const [count, setCount] = useState(0);
 
   const [title, setTitle] = useState('');
