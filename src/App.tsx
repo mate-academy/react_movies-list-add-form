@@ -6,7 +6,7 @@ import { Movie } from './types/Movie';
 import moviesFromServer from './api/movies.json';
 
 export const App: React.FC = () => {
-  const [moviesList, setMoviesList] = useState(moviesFromServer);
+  const [moviesList, setMoviesList] = useState<Movie[]>(moviesFromServer);
 
   const onAdd = (movie: Movie) => {
     setMoviesList((currentMovies) => (
