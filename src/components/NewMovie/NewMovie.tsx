@@ -16,28 +16,27 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
   const isError = !title || !imgUrl || !imdbUrl || !imdbId;
 
-  const newMovie: Movie = {
-    title,
-    description,
-    imgUrl,
-    imdbUrl,
-    imdbId,
+  const submitHandle = () => {
+    onAdd({
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    });
+    setCount(prevCount => prevCount + 1);
+    setTitle('');
+    setDescription('');
+    setImgUrl('');
+    setImdbUrl('');
+    setImdbId('');
   };
 
   return (
     <form
       className="NewMovie"
       key={count}
-      onSubmit={event => {
-        event.preventDefault();
-        onAdd(newMovie);
-        setCount(prevCount => prevCount + 1);
-        setTitle('');
-        setDescription('');
-        setImgUrl('');
-        setImdbUrl('');
-        setImdbId('');
-      }}
+      onSubmit={submitHandle}
     >
       <h2 className="title">Add a movie</h2>
 
