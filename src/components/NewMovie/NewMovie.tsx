@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
@@ -37,7 +37,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
     clearForm();
 
-    increaseCount(prevCount => prevCount + 1);
+    increaseCount(currentCount => currentCount + 1);
 
     onAdd(movie);
   };
@@ -62,14 +62,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={description}
-        onChange={setDescription}
+        onChange={(event) => setDescription(event)}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={setImgUrl}
+        onChange={(event) => setImgUrl(event)}
         required
       />
 
@@ -77,7 +77,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={setImdbUrl}
+        onChange={(event) => setImdbUrl(event)}
         required
       />
 
@@ -85,7 +85,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={setImdbId}
+        onChange={(event) => setImdbId(event)}
         required
       />
 
