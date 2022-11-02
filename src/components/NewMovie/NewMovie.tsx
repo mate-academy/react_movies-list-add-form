@@ -22,12 +22,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       imdbUrl,
       imdbId,
     });
-
-    setTitle('');
-    setDescrption('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
   };
 
   const isDisable = !title.trim()
