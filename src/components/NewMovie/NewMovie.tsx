@@ -19,13 +19,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     && imgUrl
     && imdbUrl
     && imdbId;
-  const movie = {
-    title,
-    description,
-    imgUrl,
-    imdbUrl,
-    imdbId,
-  };
   const clearForm = () => {
     setTitle('');
     setDescription('');
@@ -34,7 +27,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setImdbId('');
   };
 
-  const checkEmptyDataFields = () => {
+  const isDataFieldsEmpty = () => {
     return title.trim() === ''
       || (description.trim() === '' && description !== '')
       || imgUrl.trim() === ''
@@ -45,15 +38,30 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const onSubmitForm = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (!checkEmptyDataFields()) {
-      setCount(count + 1);
-      onAdd(movie);
-      clearForm();
+    if (isDataFieldsEmpty()) {
+      return;
     }
+
+    setCount(count + 1);
+
+    const movie = {
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    };
+
+    onAdd(movie);
+    clearForm();
   };
 
   return (
-    <form className="NewMovie" key={count}>
+    <form
+      className="NewMovie"
+      key={count}
+      onSubmit={onSubmitForm}
+    >
       <h2 className="title">Add a movie</h2>
 
       <TextField
@@ -112,7 +120,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             data-cy="submit-button"
             className="button is-link"
             disabled={!isButtonDisabled}
-            onClick={onSubmitForm}
           >
             Add
           </button>
