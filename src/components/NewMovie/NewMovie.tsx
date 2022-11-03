@@ -25,7 +25,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     });
   };
 
-  const disabledCheck = (
+  const isSubmitDisabled = (
     !title.trim() || !imgUrl.trim() || !imdbUrl.trim() || !imdbId.trim()
   );
 
@@ -81,7 +81,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={disabledCheck}
+            disabled={isSubmitDisabled}
           >
             Add
           </button>
