@@ -1,12 +1,12 @@
-import { useState } from 'react';
+import { FC, FormEvent, useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
-interface OnAdd {
+interface Props {
   onAdd: (movie: Movie) => void;
 }
 
-export const NewMovie = ({ onAdd }: OnAdd) => {
+export const NewMovie: FC<Props> = ({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
@@ -17,8 +17,39 @@ export const NewMovie = ({ onAdd }: OnAdd) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
+  const isRequired = (title.trim()
+    && imdbUrl.trim()
+    && imdbUrl.trim()
+    && imdbId.trim()
+    && true) || false;
+
+  const resetInputFields = () => {
+    setTitle('');
+    setDescription('');
+    setImgUrl('');
+    setImdbUrl('');
+    setImdbId('');
+  };
+
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    onAdd({
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    });
+    resetInputFields();
+    setCount((prevCount) => prevCount + 1);
+  };
+
   return (
-    <form className="NewMovie" key={count}>
+    <form
+      className="NewMovie"
+      key={count}
+      onSubmit={handleSubmit}
+    >
       <h2 className="title">Add a movie</h2>
 
       <TextField
@@ -66,21 +97,7 @@ export const NewMovie = ({ onAdd }: OnAdd) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={((title === ''
-              || imgUrl === ''
-              || imdbUrl === ''
-              || imdbId === '') && true) || false}
-            onClick={(event) => {
-              event.preventDefault();
-              onAdd({
-                title,
-                description,
-                imgUrl,
-                imdbUrl,
-                imdbId,
-              });
-              setCount((prevCount) => prevCount + 1);
-            }}
+            disabled={!isRequired}
           >
             Add
           </button>
