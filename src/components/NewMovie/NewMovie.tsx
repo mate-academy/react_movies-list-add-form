@@ -1,57 +1,63 @@
-import React, { FormEvent, useState } from 'react';
-import { Movie } from '../../types/Movie';
+import { useState } from 'react';
 import { TextField } from '../TextField';
+import { Movie } from '../../types/Movie';
 
 type Props = {
-  onAdd: (newMovie: Movie) => void;
+  onAdd: (movie: Movie) => void,
 };
 
-const defaultMovie: Movie = {
-  title: '',
-  description: '',
-  imgUrl: '',
-  imdbUrl: '',
-  imdbId: '',
-};
-
-export const NewMovie: React.FC<Props> = ({ onAdd }) => {
+export const NewMovie: React.FC<Props> = ({
+  onAdd,
+}) => {
   const [count, setCount] = useState(0);
-  const [newMovie, setNewMovie] = useState(defaultMovie);
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [imgUrl, setImgUrl] = useState('');
+  const [imdbId, setImdbId] = useState('');
+  const [imdbUrl, setImdbUrl] = useState('');
 
-  const handleSubmit = (event: FormEvent) => {
+  const isTrueInputValue = title && imgUrl && imdbId && imdbUrl;
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    onAdd(newMovie);
-    setCount(prevCount => prevCount + 1);
-    setNewMovie(defaultMovie);
+
+    if (isTrueInputValue) {
+      onAdd({
+        title,
+        description,
+        imgUrl,
+        imdbUrl,
+        imdbId,
+      });
+    }
+
+    setCount(count + 1);
+    setTitle('');
+    setDescription('');
+    setImgUrl('');
+    setImdbId('');
+    setImdbUrl('');
   };
 
-  const handleChange = (name: string, value: string) => {
-    setNewMovie(prevMovie => ({
-      ...prevMovie,
-      [name]: value,
-    }));
+  const handledTitle = (value:string) => {
+    setTitle(value);
   };
 
-  const {
-    title,
-    description,
-    imgUrl,
-    imdbUrl,
-    imdbId,
-  } = newMovie;
-
-  const isValidUrl = (url: string) => {
-    // eslint-disable-next-line max-len
-    const regUrl = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/;
-
-    return regUrl.test(url);
+  const handledDescription = (value:string) => {
+    setDescription(value);
   };
 
-  const isDisabled
-    = !title
-      || !isValidUrl(imgUrl)
-      || !isValidUrl(imdbUrl)
-      || !imdbId;
+  const handleImgUrl = (value:string) => {
+    setImgUrl(value);
+  };
+
+  const handledImdbId = (value:string) => {
+    setImdbId(value);
+  };
+
+  const handleImdbUrl = (value:string) => {
+    setImdbUrl(value);
+  };
 
   return (
     <form
@@ -65,8 +71,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={title}
-        onChange={handleChange}
-        isValidUrl={isValidUrl}
+        onChange={handledTitle}
         required
       />
 
@@ -74,16 +79,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={description}
-        onChange={handleChange}
-        isValidUrl={isValidUrl}
+        onChange={handledDescription}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={handleChange}
-        isValidUrl={isValidUrl}
+        onChange={handleImgUrl}
         required
       />
 
@@ -91,8 +94,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={handleChange}
-        isValidUrl={isValidUrl}
+        onChange={handleImdbUrl}
         required
       />
 
@@ -100,18 +102,18 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={handleChange}
-        isValidUrl={isValidUrl}
+        onChange={handledImdbId}
         required
       />
 
       <div className="field is-grouped">
         <div className="control">
+
           <button
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={isDisabled}
+            disabled={!isTrueInputValue}
           >
             Add
           </button>
