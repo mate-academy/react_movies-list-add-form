@@ -7,8 +7,6 @@ type Props = {
 };
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
 
   const [newTitle, setNewTitle] = useState('');
@@ -17,7 +15,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [newImdbUrl, setNewImdbUrl] = useState('');
   const [newImdbId, setNewImdbId] = useState('');
 
-  const isDisable = (!newTitle || !newImgUrl || !newImdbUrl || !newImdbId);
+  const isDisable = (
+    !newTitle.trim() || !newImgUrl.trim()
+    || !newImdbUrl.trim() || !newImdbId.trim());
 
   const addMovie = (e: React.MouseEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -50,7 +50,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={newTitle}
-        onChange={(value) => setNewTitle(value)}
+        onChange={setNewTitle}
         required
       />
 
@@ -58,14 +58,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={newDescription}
-        onChange={(value) => setNewDescrption(value)}
+        onChange={setNewDescrption}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={newImgUrl}
-        onChange={(value) => setNewImgUrl(value)}
+        onChange={setNewImgUrl}
         required
       />
 
@@ -73,7 +73,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={newImdbUrl}
-        onChange={(value) => setNewImdbUrl(value)}
+        onChange={setNewImdbUrl}
         required
       />
 
@@ -81,7 +81,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={newImdbId}
-        onChange={(value) => setNewImdbId(value)}
+        onChange={setNewImdbId}
         required
       />
 
