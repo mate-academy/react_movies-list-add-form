@@ -7,6 +7,7 @@ type Props = {
   label?: string,
   required?: boolean,
   onChange?: (newValue: string) => void,
+  validURL?: (url: string) => boolean,
 };
 
 function getRandomDigits() {
@@ -19,9 +20,11 @@ export const TextField: React.FC<Props> = ({
   label = name,
   required = false,
   onChange = () => {},
+  validURL,
 }) => {
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
   const [touched, setToched] = useState(false);
+  const [errorValidation, setErrorValidation] = useState(false);
   const hasError = touched && required && !value;
 
   return (
@@ -40,13 +43,23 @@ export const TextField: React.FC<Props> = ({
           type="text"
           placeholder={`Enter ${label}`}
           value={value}
-          onChange={event => onChange(event.target.value)}
+          onChange={event => {
+            if (validURL) {
+              setErrorValidation(validURL(event.target.value));
+            }
+
+            onChange(event.target.value);
+          }}
           onBlur={() => setToched(true)}
         />
       </div>
 
       {hasError && (
         <p className="help is-danger">{`${label} is required`}</p>
+      )}
+
+      {errorValidation && (
+        <p className="help is-danger">{`${label} incorrect`}</p>
       )}
     </div>
   );

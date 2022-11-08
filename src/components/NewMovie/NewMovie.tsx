@@ -38,9 +38,16 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     ));
   };
 
+  const validURL = (url: string) => {
+    // eslint-disable-next-line max-len
+    const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
+
+    return !pattern.test(url);
+  };
+
   useEffect(() => {
     const check = [title, imgUrl, imdbUrl, imdbId]
-      .every(item => item !== '');
+      .every(item => Boolean(item.trim()));
 
     setSubmitCheck(check);
   }, [title, imgUrl, imdbUrl, imdbId]);
@@ -73,6 +80,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Image URL"
         value={imgUrl}
         onChange={setImgUrl}
+        validURL={validURL}
         required
       />
 
@@ -81,6 +89,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Imdb URL"
         value={imdbUrl}
         onChange={setImdbUrl}
+        validURL={validURL}
         required
       />
 
