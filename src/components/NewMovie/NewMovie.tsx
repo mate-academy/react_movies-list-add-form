@@ -15,13 +15,12 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imgUrl, setImgUrl] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
-  const inputFilled = title && description && imgUrl && imdbUrl && imdbId;
-  // const [disabled, setDisabled] = useState(true);
+  const isInputFilled = title && description && imgUrl && imdbUrl && imdbId;
 
   const handleSubmit = (event: any) => {
     event.preventDefault();
     setCount(curent => curent + 1);
-    if (!inputFilled) {
+    if (!isInputFilled) {
       return;
     }
 
@@ -85,27 +84,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
       <div className="field is-grouped">
         <div className="control">
-          {inputFilled
-            ? (
-              <button
-                type="submit"
-                data-cy="submit-button"
-                className="button is-link"
-              >
-                Add
-              </button>
-            )
-
-            : (
-              <button
-                type="submit"
-                data-cy="submit-button"
-                className="button is-link"
-                disabled
-              >
-                Add
-              </button>
-            )}
+          <button
+            type="submit"
+            data-cy="submit-button"
+            className="button is-link"
+            disabled={!isInputFilled}
+          >
+            Add
+          </button>
         </div>
       </div>
     </form>

@@ -18,10 +18,6 @@ export const App = () => {
     });
   };
 
-  // const addFilm = (movie: Movie) => {
-  //   setMovies(previous => [...previous, movie]);
-  // };
-
   return (
     <div className="page">
       <div className="page-content">

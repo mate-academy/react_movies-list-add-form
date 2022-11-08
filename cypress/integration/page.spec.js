@@ -1,3 +1,4 @@
+/* eslint-disable */
 import movies from '../../src/api/movies.json';
 
 const page = {
@@ -64,7 +65,7 @@ describe('Page', () => {
       .find(`a[href="${movie.imdbUrl}"]`)
       .should('exist');
   });
-  
+
   it('should not be reloaded', () => {
     const movie = {
       title: 'The Umbrella Academy',
