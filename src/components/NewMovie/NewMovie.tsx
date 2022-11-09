@@ -4,11 +4,10 @@ import { Movie } from '../../types/Movie';
 
 type Props = {
   onAdd: (movie: Movie) => void,
+  count: number;
 };
 
-export const NewMovie: React.FC<Props> = ({ onAdd }) => {
-  const [count, setCount] = useState(0);
-
+export const NewMovie: React.FC<Props> = ({ onAdd, count }) => {
   const [newTitle, setNewTitle] = useState('');
   const [newDescription, setNewDescrption] = useState('');
   const [newImgUrl, setNewImgUrl] = useState('');
@@ -28,14 +27,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       imdbUrl: newImdbUrl,
       imdbId: newImdbId,
     });
-
-    setCount(value => value + 1);
-
-    setNewTitle('');
-    setNewDescrption('');
-    setNewImgUrl('');
-    setNewImdbUrl('');
-    setNewImdbId('');
   };
 
   return (
