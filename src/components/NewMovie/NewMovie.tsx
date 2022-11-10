@@ -23,9 +23,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   };
 
   const requirmentCheck = !title.trim()
-  || !imgUrl.trim()
-  || !imdbUrl.trim()
-  || !imdbId.trim();
+    || !imgUrl.trim()
+    || !imdbUrl.trim()
+    || !imdbId.trim();
 
   const submitForm = () => {
     onAdd({
@@ -52,9 +52,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={title}
-        onChange={(event) => {
-          setTitle(event);
-        }}
+        onChange={setTitle}
         required
       />
 
@@ -62,18 +60,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={description}
-        onChange={(event) => {
-          setDescription(event);
-        }}
+        onChange={setDescription}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={(event) => {
-          setImgUrl(event);
-        }}
+        onChange={setImgUrl}
         required
       />
 
@@ -81,9 +75,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={(event) => {
-          setImdbUrl(event);
-        }}
+        onChange={setImdbUrl}
         required
       />
 
@@ -91,9 +83,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={(event) => {
-          setImdbId(event);
-        }}
+        onChange={setImdbId}
         required
       />
 
