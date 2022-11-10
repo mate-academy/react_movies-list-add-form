@@ -17,7 +17,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbId, setImdbId] = useState('');
   const isInputFilled = title && description && imgUrl && imdbUrl && imdbId;
 
-  const handleSubmit = (event: any) => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setCount(curent => curent + 1);
     if (!isInputFilled) {
@@ -40,7 +40,11 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   };
 
   return (
-    <form className="NewMovie" key={count} onSubmit={handleSubmit}>
+    <form
+      className="NewMovie"
+      key={count}
+      onSubmit={(event) => handleSubmit(event)}
+    >
       <h2 className="title">Add a movie</h2>
 
       <TextField
