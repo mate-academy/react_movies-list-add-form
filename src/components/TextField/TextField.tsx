@@ -7,6 +7,7 @@ type Props = {
   label?: string,
   required?: boolean,
   onChange?: (newValue: string) => void,
+  onPatternValidation?: (a: string) => boolean,
 };
 
 function getRandomDigits() {
@@ -19,13 +20,14 @@ export const TextField: React.FC<Props> = ({
   label = name,
   required = false,
   onChange = () => {},
-}) => {
-  // generage a unique id once on component load
-  const [id] = useState(() => `${name}-${getRandomDigits()}`);
+  onPatternValidation = () => true,
 
-  // To show errors only if the field was touched (onBlur)
+}) => {
+  const [id] = useState(() => `${name}-${getRandomDigits()}`);
   const [touched, setToched] = useState(false);
-  const hasError = touched && required && !value;
+  const [isPatternValid, setPatternValidation] = useState(true);
+
+  const hasError = (touched && required && !value) || !isPatternValid;
 
   return (
     <div className="field">
@@ -44,7 +46,10 @@ export const TextField: React.FC<Props> = ({
           placeholder={`Enter ${label}`}
           value={value}
           onChange={event => onChange(event.target.value)}
-          onBlur={() => setToched(true)}
+          onBlur={() => {
+            setToched(true);
+            setPatternValidation(() => onPatternValidation(value));
+          }}
         />
       </div>
 
