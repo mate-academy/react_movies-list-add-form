@@ -10,6 +10,7 @@ type Props = {
   onChange?: (newValue: InputEvent) => void,
   // eslint-disable-next-line
   onBlur: (event: React.FocusEvent<HTMLInputElement, Element>) => void,
+  isError?: boolean,
 };
 
 function getRandomDigits() {
@@ -21,12 +22,13 @@ export const TextField: React.FC<Props> = ({
   value,
   label = name,
   required = false,
+  onBlur,
+  isError,
   onChange,
 }) => {
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
-  const [touched, setToched] = useState(false);
-  const hasError = touched && required && !value;
+  const hasError = required && isError;
 
   return (
     <div className="field">
@@ -37,6 +39,7 @@ export const TextField: React.FC<Props> = ({
       <div className="control">
         <input
           id={id}
+          name={name}
           data-cy={`movie-${name}`}
           className={classNames('input', {
             'is-danger': hasError,
@@ -45,7 +48,7 @@ export const TextField: React.FC<Props> = ({
           placeholder={`Enter ${label}`}
           value={value}
           onChange={onChange}
-          onBlur={() => setToched(true)}
+          onBlur={onBlur}
         />
       </div>
 

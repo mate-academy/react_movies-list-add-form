@@ -9,57 +9,40 @@ type Props = {
 export const urlValidation = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
 
 export const NewMovie: React.FC<Props> = (({ onAdd }) => {
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imdbId, setImdbId] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
   const [count, setCount] = useState(0);
-  const [isTitleBlur, setIsTitleBlur] = useState(true);
-  const [isImgUrlBlur, setIsImgUrlBlur] = useState(true);
-  const [isImdbIdBlur, setIsImdbIdBlur] = useState(true);
-  const [isImdbUrlBlur, setIsImdbUrlBlur] = useState(true);
+  const [isTitleBlur, setIsTitleBlur] = useState(false);
+  const [isImgUrlBlur, setIsImgUrlBlur] = useState(false);
+  const [isImdbIdBlur, setIsImdbIdBlur] = useState(false);
+  const [isImdbUrlBlur, setIsImdbUrlBlur] = useState(false);
+  const [movie, setMovie] = useState({
+    title: '',
+    description: '',
+    imdbId: '',
+    imgUrl: '',
+    imdbUrl: '',
+  });
 
   const reset = () => {
-    setTitle('');
-    setDescription('');
-    setImdbId('');
-    setImgUrl('');
-    setImdbUrl('');
-    setCount(0);
+    setMovie({
+      title: '',
+      description: '',
+      imdbId: '',
+      imgUrl: '',
+      imdbUrl: '',
+    });
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const newMovie = {
-      title,
-      description,
-      imdbId,
-      imgUrl,
-      imdbUrl,
-    };
-
-    if (title && imgUrl && imdbUrl && imdbId) {
-      onAdd(newMovie);
+    if (movie.title && movie.imgUrl && movie.imdbUrl && movie.imdbId) {
+      onAdd(movie);
       setCount(count + 1);
       reset();
-    }
-
-    if (isTitleBlur) {
-      setIsTitleBlur(true);
-    }
-
-    if (isImdbIdBlur) {
-      setIsImdbIdBlur(true);
-    }
-
-    if (isImgUrlBlur) {
-      setIsImgUrlBlur(true);
-    }
-
-    if (isImdbUrlBlur) {
-      setIsImdbUrlBlur(true);
+      setIsTitleBlur(false);
+      setIsImdbIdBlur(false);
+      setIsImgUrlBlur(false);
+      setIsImdbUrlBlur(false);
     }
   };
 
@@ -68,29 +51,29 @@ export const NewMovie: React.FC<Props> = (({ onAdd }) => {
 
     switch (name) {
       case 'title':
-        if (!title) {
-          setIsTitleBlur(false);
+        if (!movie.title) {
+          setIsTitleBlur(true);
         }
 
         break;
 
       case 'imgUrl':
-        if (!imgUrl || !urlValidation.test(value)) {
-          setIsImgUrlBlur(false);
+        if (!movie.imgUrl || !urlValidation.test(value)) {
+          setIsImgUrlBlur(true);
         }
 
         break;
 
       case 'imdbUrl':
-        if (!imdbUrl || !urlValidation.test(value)) {
-          setIsImdbUrlBlur(false);
+        if (!movie.imdbUrl || !urlValidation.test(value)) {
+          setIsImdbUrlBlur(true);
         }
 
         break;
 
       case 'imdbId':
-        if (!imdbId) {
-          setIsImdbIdBlur(false);
+        if (!movie.imdbId) {
+          setIsImdbIdBlur(true);
         }
 
         break;
@@ -100,11 +83,36 @@ export const NewMovie: React.FC<Props> = (({ onAdd }) => {
     }
   };
 
+  const handleInputChange = (event: InputEvent) => {
+    const { name, value } = event.target;
+
+    setMovie(prevState => ({
+      ...prevState,
+      [name]: value,
+    }));
+
+    if (name === 'title') {
+      setIsTitleBlur(false);
+    }
+
+    if (name === 'imgUrl') {
+      setIsImgUrlBlur(false);
+    }
+
+    if (name === 'imdbUrl') {
+      setIsImdbUrlBlur(false);
+    }
+
+    if (name === 'imdbId') {
+      setIsImdbIdBlur(false);
+    }
+  };
+
   const disableButton = (
-    !title
-    || !imgUrl
-    || !imdbId
-    || !imdbUrl
+    !movie.title
+    || !movie.imgUrl
+    || !movie.imdbUrl
+    || !movie.imdbId
   );
 
   return (
@@ -118,55 +126,49 @@ export const NewMovie: React.FC<Props> = (({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value={title}
-        onChange={(event: InputEvent) => {
-          setTitle(event.target.value);
-        }}
+        value={movie.title}
+        onChange={handleInputChange}
         required
         onBlur={handleBlur}
+        isError={isTitleBlur}
       />
 
       <TextField
         name="description"
         label="Description"
-        value={description}
-        onChange={(event: InputEvent) => {
-          setDescription(event.target.value);
-        }}
+        value={movie.description}
+        onChange={handleInputChange}
         onBlur={handleBlur}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={imgUrl}
-        onChange={(event: InputEvent) => {
-          setImgUrl(event.target.value);
-        }}
+        value={movie.imgUrl}
+        onChange={handleInputChange}
         required
         onBlur={handleBlur}
+        isError={isImgUrlBlur}
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={imdbUrl}
-        onChange={(event: InputEvent) => {
-          setImdbUrl(event.target.value);
-        }}
+        value={movie.imdbUrl}
+        onChange={handleInputChange}
         required
         onBlur={handleBlur}
+        isError={isImdbUrlBlur}
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imdbId}
-        onChange={(event: InputEvent) => {
-          setImdbId(event.target.value);
-        }}
+        value={movie.imdbId}
+        onChange={handleInputChange}
         required
         onBlur={handleBlur}
+        isError={isImdbIdBlur}
       />
 
       <div className="field is-grouped">
