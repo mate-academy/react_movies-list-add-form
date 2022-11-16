@@ -9,9 +9,9 @@ export interface Movie {
 export type InputEvent = React.ChangeEvent<HTMLInputElement>
 | React.ChangeEvent<HTMLTextAreaElement>;
 
-export type InputConditions = {
-  title: boolean | null,
-  imdbId: boolean | null,
-  imgUrl: boolean | null,
-  imdbUrl: boolean | null,
+export type InputValues = {
+  title: boolean,
+  imdbId: boolean,
+  imgUrl: boolean,
+  imdbUrl: boolean,
 };

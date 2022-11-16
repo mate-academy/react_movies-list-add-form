@@ -8,7 +8,6 @@ type Props = {
   label?: string,
   required?: boolean,
   onChange?: (newValue: InputEvent) => void,
-  // eslint-disable-next-line
   onBlur: (event: React.FocusEvent<HTMLInputElement, Element>) => void,
   isError?: boolean,
 };

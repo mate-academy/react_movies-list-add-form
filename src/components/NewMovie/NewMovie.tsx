@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { TextField } from '../TextField';
-import { InputEvent, Movie } from '../../types/Movie';
+import { InputEvent, Movie, InputValues } from '../../types/Movie';
 
 type Props = {
   onAdd: (movie: Movie) => void;
@@ -10,25 +10,30 @@ export const urlValidation = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-
 
 export const NewMovie: React.FC<Props> = (({ onAdd }) => {
   const [count, setCount] = useState(0);
-  const [isTitleBlur, setIsTitleBlur] = useState(false);
-  const [isImgUrlBlur, setIsImgUrlBlur] = useState(false);
-  const [isImdbIdBlur, setIsImdbIdBlur] = useState(false);
-  const [isImdbUrlBlur, setIsImdbUrlBlur] = useState(false);
-  const [movie, setMovie] = useState({
+  const [isImgUrlValid, setIsImgUrlValid] = useState(false);
+  const [isImdbUrldValid, setIsImdbUrlValid] = useState(false);
+  const [inputValues, setInputValues] = useState<InputValues>({
+    title: false,
+    imdbId: false,
+    imgUrl: false,
+    imdbUrl: false,
+  });
+  const formFields = {
     title: '',
     description: '',
     imdbId: '',
     imgUrl: '',
     imdbUrl: '',
-  });
+  };
+  const [movie, setMovie] = useState({ ...formFields });
 
   const reset = () => {
-    setMovie({
-      title: '',
-      description: '',
-      imdbId: '',
-      imgUrl: '',
-      imdbUrl: '',
+    setMovie({ ...formFields });
+    setInputValues({
+      title: false,
+      imdbId: false,
+      imgUrl: false,
+      imdbUrl: false,
     });
   };
 
@@ -39,10 +44,6 @@ export const NewMovie: React.FC<Props> = (({ onAdd }) => {
       onAdd(movie);
       setCount(count + 1);
       reset();
-      setIsTitleBlur(false);
-      setIsImdbIdBlur(false);
-      setIsImgUrlBlur(false);
-      setIsImdbUrlBlur(false);
     }
   };
 
@@ -52,28 +53,42 @@ export const NewMovie: React.FC<Props> = (({ onAdd }) => {
     switch (name) {
       case 'title':
         if (!movie.title) {
-          setIsTitleBlur(true);
+          setInputValues({
+            ...inputValues,
+            title: true,
+          });
         }
 
         break;
 
       case 'imgUrl':
         if (!movie.imgUrl || !urlValidation.test(value)) {
-          setIsImgUrlBlur(true);
+          setInputValues({
+            ...inputValues,
+            imgUrl: true,
+          });
+          setIsImgUrlValid(true);
         }
 
         break;
 
       case 'imdbUrl':
         if (!movie.imdbUrl || !urlValidation.test(value)) {
-          setIsImdbUrlBlur(true);
+          setInputValues({
+            ...inputValues,
+            imdbUrl: true,
+          });
+          setIsImdbUrlValid(true);
         }
 
         break;
 
       case 'imdbId':
         if (!movie.imdbId) {
-          setIsImdbIdBlur(true);
+          setInputValues({
+            ...inputValues,
+            imdbId: true,
+          });
         }
 
         break;
@@ -92,27 +107,41 @@ export const NewMovie: React.FC<Props> = (({ onAdd }) => {
     }));
 
     if (name === 'title') {
-      setIsTitleBlur(false);
+      setInputValues({
+        ...inputValues,
+        title: false,
+      });
     }
 
     if (name === 'imgUrl') {
-      setIsImgUrlBlur(false);
+      setInputValues({
+        ...inputValues,
+        imgUrl: false,
+      });
+      setIsImgUrlValid(false);
     }
 
     if (name === 'imdbUrl') {
-      setIsImdbUrlBlur(false);
+      setInputValues({
+        ...inputValues,
+        imdbUrl: false,
+      });
+      setIsImdbUrlValid(false);
     }
 
     if (name === 'imdbId') {
-      setIsImdbIdBlur(false);
+      setInputValues({
+        ...inputValues,
+        imdbId: false,
+      });
     }
   };
 
   const disableButton = (
     !movie.title
-    || !movie.imgUrl
-    || !movie.imdbUrl
     || !movie.imdbId
+    || isImgUrlValid
+    || isImdbUrldValid
   );
 
   return (
@@ -130,7 +159,7 @@ export const NewMovie: React.FC<Props> = (({ onAdd }) => {
         onChange={handleInputChange}
         required
         onBlur={handleBlur}
-        isError={isTitleBlur}
+        isError={inputValues.title}
       />
 
       <TextField
@@ -148,7 +177,7 @@ export const NewMovie: React.FC<Props> = (({ onAdd }) => {
         onChange={handleInputChange}
         required
         onBlur={handleBlur}
-        isError={isImgUrlBlur}
+        isError={inputValues.imgUrl}
       />
 
       <TextField
@@ -158,7 +187,7 @@ export const NewMovie: React.FC<Props> = (({ onAdd }) => {
         onChange={handleInputChange}
         required
         onBlur={handleBlur}
-        isError={isImdbUrlBlur}
+        isError={inputValues.imdbUrl}
       />
 
       <TextField
@@ -168,7 +197,7 @@ export const NewMovie: React.FC<Props> = (({ onAdd }) => {
         onChange={handleInputChange}
         required
         onBlur={handleBlur}
-        isError={isImdbIdBlur}
+        isError={inputValues.imdbId}
       />
 
       <div className="field is-grouped">
