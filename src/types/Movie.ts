@@ -1,3 +1,5 @@
+import React from 'react';
+
 export interface Movie {
   title: string;
   description: string;
@@ -5,3 +7,6 @@ export interface Movie {
   imdbUrl: string;
   imdbId: string;
 }
+
+export type ChangeEvent = React.ChangeEvent<HTMLInputElement>
+| React.ChangeEvent<HTMLTextAreaElement>;
