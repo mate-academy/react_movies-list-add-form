@@ -20,17 +20,20 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     event.preventDefault();
 
     onAdd({
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
+      title: title.trim(),
+      description: description.trim(),
+      imgUrl: imgUrl.trim(),
+      imdbUrl: imdbUrl.trim(),
+      imdbId: imdbId.trim(),
     });
 
     changeCount(prevCount => prevCount + 1);
   };
 
-  const isDisabled = !title || !imgUrl || !imdbUrl || !imdbId;
+  const isDisabled = title.trim() === ''
+    || imgUrl.trim() === ''
+    || imdbUrl.trim() === ''
+    || imdbId.trim() === '';
 
   return (
     <form
