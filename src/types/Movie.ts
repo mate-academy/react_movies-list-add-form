@@ -10,3 +10,10 @@ export interface Movie {
 
 export type ChangeEvent = React.ChangeEvent<HTMLInputElement>
 | React.ChangeEvent<HTMLTextAreaElement>;
+
+export type InputValues = {
+  title: boolean;
+  imgUrl: boolean;
+  imdbUrl: boolean;
+  imdbId: boolean;
+};

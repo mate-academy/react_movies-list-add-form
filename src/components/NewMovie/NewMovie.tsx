@@ -1,22 +1,31 @@
 import React, { useState } from 'react';
-import { Movie, ChangeEvent } from '../../types/Movie';
+import { Movie, ChangeEvent, InputValues } from '../../types/Movie';
 import { TextField } from '../TextField';
 
 type Props = {
   onAdd: (movie: Movie) => void,
 };
 
+enum Input {
+  TITLE = 'title',
+  IMGURL = 'imgUrl',
+  IMDBURL = 'imdbUrl',
+  IMDBID = 'imdbId',
+}
+
 // eslint-disable-next-line
 export const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
 
 export const NewMovie: React.FC<Props> = (({ onAdd }) => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
-  const [onBlurTitle, setOnBlurTitle] = useState(false);
-  const [onBlurImgUrl, setOnBlurImgUrl] = useState(false);
-  const [onBlurImdbUrl, setOnBlurImdbUrl] = useState(false);
-  const [onBlurImdbId, setOnBlurImdbId] = useState(false);
+  const [isImgUrlValid, setIsImgUrlValid] = useState(false);
+  const [isImdbUrlValid, setIsImdbUrlValid] = useState(false);
+  const [inputValues, setInputValues] = useState<InputValues>({
+    title: false,
+    imgUrl: false,
+    imdbUrl: false,
+    imdbId: false,
+  });
   const [movie, setMovie] = useState({
     title: '',
     description: '',
@@ -33,13 +42,24 @@ export const NewMovie: React.FC<Props> = (({ onAdd }) => {
       imdbUrl: '',
       imdbId: '',
     });
+    setInputValues({
+      title: false,
+      imgUrl: false,
+      imdbUrl: false,
+      imdbId: false,
+    });
     setCount(0);
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (movie.title && movie.imgUrl && movie.imdbUrl && movie.imdbId) {
+    if (
+      movie.title
+      && movie.imgUrl
+      && movie.imdbUrl
+      && movie.imdbId
+    ) {
       onAdd(movie);
       setCount(count + 1);
       reset();
@@ -50,30 +70,46 @@ export const NewMovie: React.FC<Props> = (({ onAdd }) => {
     const { name, value } = event.target;
 
     switch (name) {
-      case 'title':
-        if (!movie.title) {
-          setOnBlurTitle(true);
+      case Input.TITLE:
+        if (!movie.title.trim()) {
+          setInputValues({
+            ...inputValues,
+            title: true,
+          });
         }
 
         break;
 
-      case 'imgUrl':
-        if (!movie.imgUrl && !pattern.test(value)) {
-          setOnBlurImgUrl(true);
+      case Input.IMGURL:
+        if (!movie.imgUrl || !pattern.test(value)) {
+          setInputValues({
+            ...inputValues,
+            imgUrl: true,
+          });
+
+          setIsImgUrlValid(true);
         }
 
         break;
 
-      case 'imdbUrl':
-        if (!movie.imdbUrl && !pattern.test(value)) {
-          setOnBlurImdbUrl(true);
+      case Input.IMDBURL:
+        if (!movie.imdbUrl || !pattern.test(value)) {
+          setInputValues({
+            ...inputValues,
+            imdbUrl: true,
+          });
+
+          setIsImdbUrlValid(true);
         }
 
         break;
 
-      case 'imdbId':
-        if (!movie.imdbId) {
-          setOnBlurImdbId(true);
+      case Input.IMDBID:
+        if (!movie.imdbId.trim()) {
+          setInputValues({
+            ...inputValues,
+            imdbId: true,
+          });
         }
 
         break;
@@ -91,28 +127,61 @@ export const NewMovie: React.FC<Props> = (({ onAdd }) => {
       [name]: value,
     }));
 
-    if (name === 'title') {
-      setOnBlurTitle(false);
-    }
+    switch (name) {
+      case Input.TITLE:
+        if (name === Input.TITLE && name === Input.TITLE.trim()) {
+          setInputValues({
+            ...inputValues,
+            title: false,
+          });
+        }
 
-    if (name === 'imgUrl') {
-      setOnBlurImgUrl(false);
-    }
+        break;
 
-    if (name === 'imdbUrl') {
-      setOnBlurImdbUrl(false);
-    }
+      case Input.IMGURL:
+        if (name === Input.IMGURL) {
+          setInputValues({
+            ...inputValues,
+            imgUrl: false,
+          });
 
-    if (name === 'imdbId') {
-      setOnBlurImdbId(false);
+          setIsImgUrlValid(false);
+        }
+
+        break;
+
+      case Input.IMDBURL:
+        if (name === Input.IMDBURL) {
+          setInputValues({
+            ...inputValues,
+            imdbUrl: false,
+          });
+
+          setIsImdbUrlValid(false);
+        }
+
+        break;
+
+      case Input.IMDBID:
+        if (name === Input.IMDBID) {
+          setInputValues({
+            ...inputValues,
+            imdbId: false,
+          });
+        }
+
+        break;
+
+      default:
+        break;
     }
   };
 
   const notActiveButton = (
     !movie.title
-    || !movie.imgUrl
-    || !movie.imdbUrl
     || !movie.imdbId
+    || isImgUrlValid
+    || isImdbUrlValid
   );
 
   return (
@@ -129,7 +198,7 @@ export const NewMovie: React.FC<Props> = (({ onAdd }) => {
         value={movie.title}
         onChange={handleChange}
         onBlur={handleOnBlur}
-        isError={onBlurTitle}
+        isError={inputValues.title}
         required
       />
 
@@ -147,7 +216,7 @@ export const NewMovie: React.FC<Props> = (({ onAdd }) => {
         value={movie.imgUrl}
         onChange={handleChange}
         onBlur={handleOnBlur}
-        isError={onBlurImgUrl}
+        isError={inputValues.imgUrl}
         required
       />
 
@@ -157,7 +226,7 @@ export const NewMovie: React.FC<Props> = (({ onAdd }) => {
         value={movie.imdbUrl}
         onChange={handleChange}
         onBlur={handleOnBlur}
-        isError={onBlurImdbUrl}
+        isError={inputValues.imdbUrl}
         required
       />
 
@@ -167,7 +236,7 @@ export const NewMovie: React.FC<Props> = (({ onAdd }) => {
         value={movie.imdbId}
         onChange={handleChange}
         onBlur={handleOnBlur}
-        isError={onBlurImdbId}
+        isError={inputValues.imdbId}
         required
       />
 
@@ -177,6 +246,7 @@ export const NewMovie: React.FC<Props> = (({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
+            value="submit"
             disabled={notActiveButton}
           >
             Add
