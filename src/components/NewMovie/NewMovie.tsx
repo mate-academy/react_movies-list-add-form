@@ -5,6 +5,15 @@ import { InputEvent, Movie, InputValues } from '../../types/Movie';
 type Props = {
   onAdd: (movie: Movie) => void;
 };
+
+enum StringValues {
+  title = '',
+  description = '',
+  imdbId = '',
+  imgUrl = '',
+  imdbUrl = '',
+}
+
 // eslint-disable-next-line
 export const urlValidation = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
 
@@ -18,17 +27,11 @@ export const NewMovie: React.FC<Props> = (({ onAdd }) => {
     imgUrl: false,
     imdbUrl: false,
   });
-  const formFields = {
-    title: '',
-    description: '',
-    imdbId: '',
-    imgUrl: '',
-    imdbUrl: '',
-  };
-  const [movie, setMovie] = useState({ ...formFields });
+
+  const [movie, setMovie] = useState({ ...StringValues });
 
   const reset = () => {
-    setMovie({ ...formFields });
+    setMovie({ ...StringValues });
     setInputValues({
       title: false,
       imdbId: false,
@@ -40,7 +43,11 @@ export const NewMovie: React.FC<Props> = (({ onAdd }) => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (movie.title && movie.imgUrl && movie.imdbUrl && movie.imdbId) {
+    if (movie.title
+      && movie.imgUrl
+      && movie.imdbUrl
+      && movie.imdbId
+    ) {
       onAdd(movie);
       setCount(count + 1);
       reset();
@@ -106,40 +113,49 @@ export const NewMovie: React.FC<Props> = (({ onAdd }) => {
       [name]: value,
     }));
 
-    if (name === 'title') {
-      setInputValues({
-        ...inputValues,
-        title: false,
-      });
-    }
+    switch (name) {
+      case 'title':
+        setInputValues({
+          ...inputValues,
+          title: false,
+        });
 
-    if (name === 'imgUrl') {
-      setInputValues({
-        ...inputValues,
-        imgUrl: false,
-      });
-      setIsImgUrlValid(false);
-    }
+        break;
 
-    if (name === 'imdbUrl') {
-      setInputValues({
-        ...inputValues,
-        imdbUrl: false,
-      });
-      setIsImdbUrlValid(false);
-    }
+      case 'imgUrl':
+        setInputValues({
+          ...inputValues,
+          imgUrl: false,
+        });
+        setIsImgUrlValid(false);
 
-    if (name === 'imdbId') {
-      setInputValues({
-        ...inputValues,
-        imdbId: false,
-      });
+        break;
+
+      case 'imdbUrl':
+        setInputValues({
+          ...inputValues,
+          imdbUrl: false,
+        });
+        setIsImdbUrlValid(false);
+
+        break;
+
+      case 'imdbId':
+        setInputValues({
+          ...inputValues,
+          imdbId: false,
+        });
+
+        break;
+
+      default:
+        break;
     }
   };
 
   const disableButton = (
-    !movie.title
-    || !movie.imdbId
+    !movie.title.trim()
+    || !movie.imdbId.trim()
     || isImgUrlValid
     || isImdbUrldValid
   );
