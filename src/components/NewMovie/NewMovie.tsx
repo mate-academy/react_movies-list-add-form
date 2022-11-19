@@ -127,53 +127,36 @@ export const NewMovie: React.FC<Props> = (({ onAdd }) => {
       [name]: value,
     }));
 
-    switch (name) {
-      case Input.TITLE:
-        if (name === Input.TITLE && name === Input.TITLE.trim()) {
-          setInputValues({
-            ...inputValues,
-            title: false,
-          });
-        }
+    if (name === Input.TITLE) {
+      setInputValues({
+        ...inputValues,
+        title: false,
+      });
+    }
 
-        break;
+    if (name === Input.IMGURL) {
+      setInputValues({
+        ...inputValues,
+        imgUrl: false,
+      });
 
-      case Input.IMGURL:
-        if (name === Input.IMGURL) {
-          setInputValues({
-            ...inputValues,
-            imgUrl: false,
-          });
+      setIsImgUrlValid(false);
+    }
 
-          setIsImgUrlValid(false);
-        }
+    if (name === Input.IMDBURL) {
+      setInputValues({
+        ...inputValues,
+        imdbUrl: false,
+      });
 
-        break;
+      setIsImdbUrlValid(false);
+    }
 
-      case Input.IMDBURL:
-        if (name === Input.IMDBURL) {
-          setInputValues({
-            ...inputValues,
-            imdbUrl: false,
-          });
-
-          setIsImdbUrlValid(false);
-        }
-
-        break;
-
-      case Input.IMDBID:
-        if (name === Input.IMDBID) {
-          setInputValues({
-            ...inputValues,
-            imdbId: false,
-          });
-        }
-
-        break;
-
-      default:
-        break;
+    if (name === Input.IMDBID) {
+      setInputValues({
+        ...inputValues,
+        imdbId: false,
+      });
     }
   };
 
