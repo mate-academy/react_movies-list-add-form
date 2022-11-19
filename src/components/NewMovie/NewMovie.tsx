@@ -14,7 +14,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const fieldsFilled = () => {
+  const areFieldsFilled = () => {
     if (title !== '' && imgUrl !== '' && imdbUrl !== '' && imdbId !== '') {
       return true;
     }
@@ -42,7 +42,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       imdbId,
     };
 
-    if (fieldsFilled()) {
+    if (areFieldsFilled()) {
       onAdd(movie);
     }
 
@@ -102,7 +102,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!fieldsFilled()}
+            disabled={title === '' && imgUrl === '' && imdbUrl === ''
+            && imdbId === ''}
           >
             Add
           </button>
