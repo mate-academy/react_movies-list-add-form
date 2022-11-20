@@ -18,11 +18,15 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [imgUrl, setImgUrl] = useState('');
+  const [isImgUrlValid, setImgUrlValid] = useState(true);
   const [imdbUrl, setImdbUrl] = useState('');
+  const [isImdbUrlValid, setImdbUrlValid] = useState(true);
   const [imdbId, setImdbId] = useState('');
   const isRequiredFieldsFilled = title !== ''
     && imgUrl !== ''
+    && isImgUrlValid
     && imdbUrl !== ''
+    && isImdbUrlValid
     && imdbId !== '';
 
   const handlerOnAdd = (event: React.FormEvent<HTMLFormElement>) => {
@@ -43,13 +47,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setImgUrl('');
     setImdbUrl('');
     setImdbId('');
-  };
-
-  // eslint-disable-next-line
-  const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
-
-  const onPatternValidation = (string: string) => {
-    return pattern.test(string);
   };
 
   return (
@@ -81,7 +78,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={imgUrl}
         onChange={setImgUrl}
         required
-        onPatternValidation={onPatternValidation}
+        needPatternValidation
+        onPatternValidation={setImgUrlValid}
       />
 
       <TextField
@@ -90,7 +88,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={imdbUrl}
         onChange={setImdbUrl}
         required
-        onPatternValidation={onPatternValidation}
+        needPatternValidation
+        onPatternValidation={setImdbUrlValid}
       />
 
       <TextField
