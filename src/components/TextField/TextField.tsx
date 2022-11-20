@@ -10,6 +10,7 @@ type Props = {
   onChange?: (newValue: InputEvent) => void,
   onBlur: (event: React.FocusEvent<HTMLInputElement, Element>) => void,
   isError?: boolean,
+  urlError?: boolean,
 };
 
 function getRandomDigits() {
@@ -23,11 +24,13 @@ export const TextField: React.FC<Props> = ({
   required = false,
   onBlur,
   isError,
+  urlError,
   onChange,
 }) => {
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
   const hasError = required && isError;
+  const urlTextError = required && urlError;
 
   return (
     <div className="field">
@@ -41,7 +44,7 @@ export const TextField: React.FC<Props> = ({
           name={name}
           data-cy={`movie-${name}`}
           className={classNames('input', {
-            'is-danger': hasError,
+            'is-danger': hasError || urlTextError,
           })}
           type="text"
           placeholder={`Enter ${label}`}
@@ -53,6 +56,9 @@ export const TextField: React.FC<Props> = ({
 
       {hasError && (
         <p className="help is-danger">{`${label} is required`}</p>
+      )}
+      {urlTextError && (
+        <p className="help is-danger">{`${label} are not valid`}</p>
       )}
     </div>
   );

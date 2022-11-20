@@ -7,11 +7,11 @@ type Props = {
 };
 
 enum StringValues {
-  title = '',
-  description = '',
-  imdbId = '',
-  imgUrl = '',
-  imdbUrl = '',
+  Title = 'title',
+  Description = 'description',
+  ImdbId = 'imdbId',
+  ImgUrl = 'imgUrl',
+  ImdbUrl = 'imdbUrl',
 }
 
 // eslint-disable-next-line
@@ -28,16 +28,25 @@ export const NewMovie: React.FC<Props> = (({ onAdd }) => {
     imdbUrl: false,
   });
 
-  const [movie, setMovie] = useState({ ...StringValues });
+  const formFields = {
+    title: '',
+    description: '',
+    imdbId: '',
+    imgUrl: '',
+    imdbUrl: '',
+  };
+
+  const [movie, setMovie] = useState({ ...formFields });
 
   const reset = () => {
-    setMovie({ ...StringValues });
+    setMovie({ ...formFields });
     setInputValues({
       title: false,
       imdbId: false,
       imgUrl: false,
       imdbUrl: false,
     });
+    setCount(0);
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -59,7 +68,7 @@ export const NewMovie: React.FC<Props> = (({ onAdd }) => {
 
     switch (name) {
       case 'title':
-        if (!movie.title) {
+        if (!movie.title.trim()) {
           setInputValues({
             ...inputValues,
             title: true,
@@ -91,7 +100,7 @@ export const NewMovie: React.FC<Props> = (({ onAdd }) => {
         break;
 
       case 'imdbId':
-        if (!movie.imdbId) {
+        if (!movie.imdbId.trim()) {
           setInputValues({
             ...inputValues,
             imdbId: true,
@@ -114,7 +123,7 @@ export const NewMovie: React.FC<Props> = (({ onAdd }) => {
     }));
 
     switch (name) {
-      case 'title':
+      case (StringValues.Title):
         setInputValues({
           ...inputValues,
           title: false,
@@ -122,7 +131,8 @@ export const NewMovie: React.FC<Props> = (({ onAdd }) => {
 
         break;
 
-      case 'imgUrl':
+      case (StringValues.ImgUrl):
+
         setInputValues({
           ...inputValues,
           imgUrl: false,
@@ -131,7 +141,7 @@ export const NewMovie: React.FC<Props> = (({ onAdd }) => {
 
         break;
 
-      case 'imdbUrl':
+      case (StringValues.ImdbUrl):
         setInputValues({
           ...inputValues,
           imdbUrl: false,
@@ -140,7 +150,7 @@ export const NewMovie: React.FC<Props> = (({ onAdd }) => {
 
         break;
 
-      case 'imdbId':
+      case (StringValues.ImdbId):
         setInputValues({
           ...inputValues,
           imdbId: false,
@@ -193,7 +203,7 @@ export const NewMovie: React.FC<Props> = (({ onAdd }) => {
         onChange={handleInputChange}
         required
         onBlur={handleBlur}
-        isError={inputValues.imgUrl}
+        urlError={inputValues.imgUrl}
       />
 
       <TextField
@@ -203,7 +213,7 @@ export const NewMovie: React.FC<Props> = (({ onAdd }) => {
         onChange={handleInputChange}
         required
         onBlur={handleBlur}
-        isError={inputValues.imdbUrl}
+        urlError={inputValues.imdbUrl}
       />
 
       <TextField
