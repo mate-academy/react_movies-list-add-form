@@ -48,7 +48,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   // eslint-disable-next-line
   const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
 
-  const patterValidation = (string: string) => {
+  const onPatternValidation = (string: string) => {
     return pattern.test(string);
   };
 
@@ -56,7 +56,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     <form
       className="NewMovie"
       key={count}
-      onSubmit={(event) => handlerOnAdd(event)}
+      onSubmit={handlerOnAdd}
     >
       <h2 className="title">Add a movie</h2>
 
@@ -81,7 +81,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={imgUrl}
         onChange={setImgUrl}
         required
-        onPatternValidation={patterValidation}
+        onPatternValidation={onPatternValidation}
       />
 
       <TextField
@@ -90,7 +90,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={imdbUrl}
         onChange={setImdbUrl}
         required
-        onPatternValidation={patterValidation}
+        onPatternValidation={onPatternValidation}
       />
 
       <TextField

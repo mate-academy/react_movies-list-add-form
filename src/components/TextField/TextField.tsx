@@ -25,13 +25,13 @@ export const TextField: React.FC<Props> = ({
 }) => {
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
   const [touched, setToched] = useState(false);
-  const [isPatternValid, setPatternValidation] = useState(true);
+  const [isPatternValid, setIsPatternValid] = useState(true);
 
   const hasError = touched && required && !value;
 
-  const onBlurHandler = () => {
-    setToched(true);
-    setPatternValidation(() => onPatternValidation(value));
+  const onChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+    onChange(event.target.value);
+    setIsPatternValid(onPatternValidation(event.target.value));
   };
 
   return (
@@ -50,15 +50,15 @@ export const TextField: React.FC<Props> = ({
           type="text"
           placeholder={`Enter ${label}`}
           value={value}
-          onChange={event => onChange(event.target.value)}
-          onBlur={onBlurHandler}
+          onChange={onChangeHandler}
+          onBlur={() => setToched(true)}
         />
       </div>
 
       {hasError && (
         <p className="help is-danger">{`${label} is required`}</p>
       )}
-      {!isPatternValid && (
+      {!isPatternValid && !hasError && (
         <p className="help is-danger">{`${label} is invalid`}</p>
       )}
     </div>
