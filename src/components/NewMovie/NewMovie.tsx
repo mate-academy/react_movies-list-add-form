@@ -22,6 +22,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     return false;
   };
 
+  const areEmptyFields = title !== '' && imgUrl !== '' && imdbUrl !== ''
+  && imdbId !== '';
+
   const restForm = () => {
     setCount(count + 1);
     setTitle('');
@@ -102,8 +105,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={title === '' && imgUrl === '' && imdbUrl === ''
-            && imdbId === ''}
+            disabled={!areEmptyFields}
           >
             Add
           </button>
