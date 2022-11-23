@@ -127,42 +127,25 @@ export const NewMovie: React.FC<Props> = (({ onAdd }) => {
       [name]: value,
     }));
 
-    if (name === Input.TITLE) {
-      setInputValues({
-        ...inputValues,
-        title: false,
-      });
-    }
+    setInputValues({
+      ...inputValues,
+      [name]: false,
+    });
 
     if (name === Input.IMGURL) {
-      setInputValues({
-        ...inputValues,
-        imgUrl: false,
-      });
-
       setIsImgUrlValid(false);
     }
 
     if (name === Input.IMDBURL) {
-      setInputValues({
-        ...inputValues,
-        imdbUrl: false,
-      });
-
       setIsImdbUrlValid(false);
-    }
-
-    if (name === Input.IMDBID) {
-      setInputValues({
-        ...inputValues,
-        imdbId: false,
-      });
     }
   };
 
   const notActiveButton = (
     !movie.title
     || !movie.imdbId
+    || !movie.imgUrl
+    || !movie.imdbUrl
     || isImgUrlValid
     || isImdbUrlValid
   );
