@@ -9,9 +9,6 @@ export const App = () => {
   const [movieList, setMovieList] = useState([...moviesFromServer]);
   const onAdd = (movie: Movie) => setMovieList([...movieList, movie]);
 
-  // eslint-disable-next-line no-console
-  console.log(movieList);
-
   return (
     <div className="page">
       <div className="page-content">

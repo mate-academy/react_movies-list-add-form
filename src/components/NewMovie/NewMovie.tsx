@@ -7,8 +7,6 @@ interface Props {
 }
 
 export const NewMovie = (props: Props) => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
   const { onAdd } = props;
   const [count, setCount] = useState(0);
   const [title, setTitle] = useState('');
@@ -31,14 +29,7 @@ export const NewMovie = (props: Props) => {
     imdbUrl,
     imdbId,
   };
-  // remake this function
-  const areFieldsFilled = () => {
-    if (title && imageUrl && imdbUrl && imdbId) {
-      return false;
-    }
-
-    return true;
-  };
+  const areFieldsFilled = () => !(title && imageUrl && imdbUrl && imdbId);
 
   return (
     <form
