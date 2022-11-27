@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 type Props = {
   name: string,
@@ -21,8 +21,11 @@ export const TextField: React.FC<Props> = ({
   onChange = () => {},
 }) => {
   // generage a unique id once on component load
-  const [id] = useState(() => `${name}-${getRandomDigits()}`);
+  const [id, setId] = useState('() =>');
 
+  useEffect(() => {
+    setId(`${name}-${getRandomDigits()}`);
+  }, []);
   // To show errors only if the field was touched (onBlur)
   const [touched, setToched] = useState(false);
   const hasError = touched && required && !value;
