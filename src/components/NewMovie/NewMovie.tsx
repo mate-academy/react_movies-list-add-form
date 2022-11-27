@@ -7,8 +7,6 @@ type OnAdd = {
 };
 
 export const NewMovie: React.FC<OnAdd> = ({ onAdd }) => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
