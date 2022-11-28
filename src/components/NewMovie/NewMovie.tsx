@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
@@ -22,14 +22,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     && imdbUrl !== ''
     && imdbId !== '';
 
-  const clearForm = () => {
+  const clearForm = useCallback(() => {
     setTitle('');
     setDescription('');
     setImgUrl('');
     setImdbUrl('');
     setImdbId('');
     setCount(prevCount => prevCount + 1);
-  };
+  }, [count]);
 
   const handleSubmit = () => {
     const newMovie: Movie = {

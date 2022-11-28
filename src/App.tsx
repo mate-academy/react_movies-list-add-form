@@ -1,16 +1,16 @@
-import { useState } from 'react';
+import { useState, useCallback, memo } from 'react';
 import './App.scss';
 import { MoviesList } from './components/MoviesList';
 import { NewMovie } from './components/NewMovie';
 import moviesFromServer from './api/movies.json';
 import { Movie } from './types/Movie';
 
-export const App: React.FC = () => {
+export const App: React.FC = memo(() => {
   const [movies, setMovies] = useState<Movie[]>(moviesFromServer);
 
-  const addMovie = (movie: Movie) => {
-    setMovies(prevState => [...prevState, movie]);
-  };
+  const addMovie = useCallback((movie: Movie) => {
+    setMovies(prevMovies => [...prevMovies, movie]);
+  }, [movies]);
 
   return (
     <div className="page">
@@ -22,4 +22,4 @@ export const App: React.FC = () => {
       </div>
     </div>
   );
-};
+});
