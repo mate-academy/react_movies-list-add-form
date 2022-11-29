@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import './App.scss';
 import { MoviesList } from './components/MoviesList';
 import { NewMovie } from './components/NewMovie';
@@ -8,14 +8,17 @@ import { Movie } from './types/Movie';
 export const App = () => {
   const [moviesList, setMoviesList] = React.useState(moviesFromServer);
 
-  const handelAddMovie = (movie: Movie): void => {
-    setMoviesList(prevState => {
-      return [
-        ...prevState,
-        movie,
-      ];
-    });
-  };
+  const handelAddMovie = useCallback(
+    (movie: Movie) => {
+      setMoviesList(prevMoviesList => {
+        return [
+          ...prevMoviesList,
+          movie,
+        ];
+      });
+    },
+    [moviesList],
+  );
 
   return (
     <div className="page">
@@ -23,7 +26,7 @@ export const App = () => {
         <MoviesList movies={moviesList} />
       </div>
       <div className="sidebar">
-        <NewMovie onAdd={(movie) => handelAddMovie(movie)} />
+        <NewMovie onAdd={handelAddMovie} />
       </div>
     </div>
   );

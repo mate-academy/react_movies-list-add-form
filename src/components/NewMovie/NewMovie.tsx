@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
@@ -8,94 +8,87 @@ type Props = {
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
-  const [newMovie, setNewMovie] = useState({
-    title: '',
-    description: '',
-    imgUrl: '',
-    imdbUrl: '',
-    imdbId: '',
-  });
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [imgUrl, setImgUrl] = useState('');
+  const [imdbUrl, setImdbUrl] = useState('');
+  const [imdbId, setImdbId] = useState('');
 
-  const handelOnChnage = (key: keyof Movie, value: string) => {
-    setNewMovie(prevState => {
-      const updatedState = { ...prevState };
-
-      updatedState[key] = value;
-
-      return updatedState;
-    });
-  };
-
-  const isDisableAddBtn = () => {
-    const {
-      title,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    } = newMovie;
-
+  const isDisableAddBtn = useMemo(() => {
     if (title && imgUrl && imdbUrl && imdbId) {
       return false;
     }
 
     return true;
-  };
+  }, [title, imgUrl, imdbUrl, imdbId]);
+
+  const handelSubmit = useCallback(
+    (event: React.FormEvent) => {
+      event.preventDefault();
+
+      setCount(prevCount => prevCount + 1);
+
+      onAdd({
+        title,
+        description,
+        imgUrl,
+        imdbUrl,
+        imdbId,
+      });
+
+      setTitle('');
+      setDescription('');
+      setImgUrl('');
+      setImdbUrl('');
+      setImdbId('');
+    },
+    [title, imgUrl, imdbUrl, imdbId],
+  );
 
   return (
     <form
       className="NewMovie"
       key={count}
-      onSubmit={(event) => {
-        event.preventDefault();
-        setCount(prevCount => prevCount + 1);
-        onAdd(newMovie);
-        setNewMovie({
-          title: '',
-          description: '',
-          imgUrl: '',
-          imdbUrl: '',
-          imdbId: '',
-        });
-      }}
+      onSubmit={handelSubmit}
     >
       <h2 className="title">Add a movie</h2>
 
       <TextField
         name="title"
         label="Title"
-        value={newMovie.title}
-        onChange={(newValue) => handelOnChnage('title', newValue)}
+        value={title}
+        onChange={(newValue) => setTitle(newValue)}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value={newMovie.description}
-        onChange={(newValue) => handelOnChnage('description', newValue)}
+        value={description}
+        onChange={(newValue) => setDescription(newValue)}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={newMovie.imgUrl}
-        onChange={(newValue) => handelOnChnage('imgUrl', newValue)}
+        value={imgUrl}
+        onChange={(newValue) => setImgUrl(newValue)}
         required
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={newMovie.imdbUrl}
-        onChange={(newValue) => handelOnChnage('imdbUrl', newValue)}
+        value={imdbUrl}
+        onChange={(newValue) => setImdbUrl(newValue)}
         required
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={newMovie.imdbId}
-        onChange={(newValue) => handelOnChnage('imdbId', newValue)}
+        value={imdbId}
+        onChange={(newValue) => setImdbId(newValue)}
         required
       />
 
@@ -105,7 +98,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={isDisableAddBtn()}
+            disabled={isDisableAddBtn}
           >
             Add
           </button>
