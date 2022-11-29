@@ -1,6 +1,8 @@
 import {
   FC,
   FormEvent,
+  memo,
+  useCallback,
   useState,
 } from 'react';
 import { Movie } from '../../types/Movie';
@@ -10,7 +12,7 @@ type NewMovieProps = {
   onAdd: (movie: Movie) => void;
 };
 
-export const NewMovie: FC<NewMovieProps> = ({ onAdd }) => {
+export const NewMovie: FC<NewMovieProps> = memo(({ onAdd }) => {
   const [count, setCount] = useState(0);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -26,21 +28,24 @@ export const NewMovie: FC<NewMovieProps> = ({ onAdd }) => {
     imdbId,
   };
 
-  const showingError = !title || !imgUrl || !imdbUrl || !imdbId;
+  const shouldShowError = !title || !imgUrl || !imdbUrl || !imdbId;
 
-  const handleFormSubmit = (event: FormEvent) => {
-    event.preventDefault();
+  const handleFormSubmit = useCallback(
+    (event: FormEvent) => {
+      event.preventDefault();
 
-    setCount((prevCount) => prevCount + 1);
+      setCount((prevCount) => prevCount + 1);
 
-    onAdd(newFilm);
+      onAdd(newFilm);
 
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
-  };
+      setTitle('');
+      setDescription('');
+      setImgUrl('');
+      setImdbUrl('');
+      setImdbId('');
+    },
+    [newFilm, count],
+  );
 
   return (
     <form
@@ -95,7 +100,7 @@ export const NewMovie: FC<NewMovieProps> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={showingError}
+            disabled={shouldShowError}
           >
             Add Movie
           </button>
@@ -103,4 +108,4 @@ export const NewMovie: FC<NewMovieProps> = ({ onAdd }) => {
       </div>
     </form>
   );
-};
+});
