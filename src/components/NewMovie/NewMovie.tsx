@@ -22,7 +22,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   };
 
   const hasNotAllRequiredFields = !(title && imgUrl && imdbUrl && imdbId);
-  const hasIncorrectUrl = !(hasCorrectUrl(imgUrl) && hasCorrectUrl(imdbUrl));
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -37,7 +36,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
     onAdd(movie);
 
-    setCount(current => current + 1);
+    setCount(curCount => curCount + 1);
     setTitle('');
     setDescription('');
     setImgUrl('');
@@ -96,7 +95,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={hasNotAllRequiredFields || hasIncorrectUrl}
+            disabled={hasNotAllRequiredFields}
           >
             Add
           </button>
