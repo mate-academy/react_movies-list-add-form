@@ -15,15 +15,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbId, setImdbId] = useState('');
 
   const areFieldsFilled = () => {
-    if (title !== '' && imgUrl !== '' && imdbUrl !== '' && imdbId !== '') {
-      return true;
-    }
-
-    return false;
+    return Boolean(title && imgUrl && imdbUrl && imdbId);
   };
 
-  const areEmptyFields = title !== '' && imgUrl !== '' && imdbUrl !== ''
-  && imdbId !== '';
+  const fieldsAreFilled = Boolean(title && imgUrl && imdbUrl && imdbId);
 
   const restForm = () => {
     setCount(count + 1);
@@ -105,7 +100,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!areEmptyFields}
+            disabled={!fieldsAreFilled}
           >
             Add
           </button>
