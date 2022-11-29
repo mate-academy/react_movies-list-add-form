@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { Movie } from '../../types/Movie';
 import { TextField } from '../TextField';
 
@@ -18,24 +18,34 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
   const requiredFields = [title, imgUrl, imdbId, imdbUrl];
 
-  const enableAddButton = requiredFields.every(field => field.length > 0);
+  const enableAddButton = useMemo(() => {
+    return requiredFields.every(field => field.length > 0);
+  }, requiredFields);
 
-  const addMovie = (event: React.FormEvent) => {
-    event.preventDefault();
-    onAdd({
+  const addMovie = useCallback(
+    (event: React.FormEvent) => {
+      event.preventDefault();
+      onAdd({
+        title,
+        description,
+        imdbId,
+        imgUrl,
+        imdbUrl,
+      });
+      setTitle('');
+      setDescription('');
+      setImdbId('');
+      setImdbUrl('');
+      setImgUrl('');
+      setCount((prevState) => (prevState + 1));
+    }, [{
       title,
       description,
       imdbId,
       imgUrl,
       imdbUrl,
-    });
-    setTitle('');
-    setDescription('');
-    setImdbId('');
-    setImdbUrl('');
-    setImgUrl('');
-    setCount((prevState) => (prevState + 1));
-  };
+    }, count],
+  );
 
   return (
     <form
