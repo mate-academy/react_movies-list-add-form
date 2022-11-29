@@ -1,5 +1,5 @@
 import './App.scss';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { MoviesList } from './components/MoviesList';
 import { NewMovie } from './components/NewMovie';
 import moviesFromServer from './api/movies.json';
@@ -7,12 +7,15 @@ import { Movie } from './types/Movie';
 
 export const App = () => {
   const [visibleMovie, setVisibleMovie] = useState(moviesFromServer);
-  const appendMovie = (movie: Movie) => {
-    setVisibleMovie((prevState) => ([
-      ...prevState,
-      movie,
-    ]));
-  };
+  const appendMovie = useCallback(
+    (movie: Movie) => {
+      setVisibleMovie((prevState) => ([
+        ...prevState,
+        movie,
+      ]));
+    },
+    [],
+  );
 
   return (
     <div className="page">
