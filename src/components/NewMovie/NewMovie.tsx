@@ -39,7 +39,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       setImgUrl('');
       setCount((prevCount) => (prevCount + 1));
     },
-    [],
+    [title, description, imdbId, imgUrl, imdbUrl],
   );
 
   return (
