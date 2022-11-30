@@ -1,12 +1,13 @@
 import classNames from 'classnames';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 type Props = {
   name: string,
   value: string,
   label?: string,
   required?: boolean,
-  onChange?: (newValue: string) => void,
+  onChange?: React.Dispatch<React.SetStateAction<string>>,
+  pattern?: RegExp
 };
 
 function getRandomDigits() {
@@ -19,13 +20,39 @@ export const TextField: React.FC<Props> = ({
   label = name,
   required = false,
   onChange = () => {},
+  pattern,
 }) => {
-  // generage a unique id once on component load
-  const [id] = useState(() => `${name}-${getRandomDigits()}`);
-
-  // To show errors only if the field was touched (onBlur)
+  const [id, setId] = useState('() =>');
   const [touched, setToched] = useState(false);
-  const hasError = touched && required && !value;
+  const hasRequirError = touched && required && !value;
+  const [hasValidError, setHasValidError] = useState(false);
+
+  useEffect(() => {
+    setId(`${name}-${getRandomDigits()}`);
+  }, []);
+  useEffect(() => {
+    setHasValidError(false);
+  }, [value]);
+
+  const changetextError = () => {
+    if (hasRequirError) {
+      return `${label} is required`;
+    }
+
+    if (hasValidError) {
+      return `${label} is not valid`;
+    }
+
+    return '';
+  };
+
+  const handleBlur = () => {
+    setToched(true);
+
+    if (pattern) {
+      setHasValidError(!pattern.test(value));
+    }
+  };
 
   return (
     <div className="field">
@@ -38,18 +65,18 @@ export const TextField: React.FC<Props> = ({
           id={id}
           data-cy={`movie-${name}`}
           className={classNames('input', {
-            'is-danger': hasError,
+            'is-danger': hasRequirError,
           })}
           type="text"
           placeholder={`Enter ${label}`}
           value={value}
           onChange={event => onChange(event.target.value)}
-          onBlur={() => setToched(true)}
+          onBlur={handleBlur}
         />
       </div>
 
-      {hasError && (
-        <p className="help is-danger">{`${label} is required`}</p>
+      {(hasRequirError || hasValidError) && (
+        <p className="help is-danger">{changetextError()}</p>
       )}
     </div>
   );
