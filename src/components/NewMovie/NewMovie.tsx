@@ -7,16 +7,16 @@ type OnAdd = {
 };
 
 export const NewMovie: React.FC<OnAdd> = ({ onAdd }) => {
+  // eslint-disable-next-line max-len
+  const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
   const [count, setCount] = useState(0);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [imgUrl, setImgUrl] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
-  const isDisabled = !title || !imgUrl || !imdbUrl || !imdbId;
-  // eslint-disable-next-line max-len
-  const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
-  const message = '`imgUrl` or `imdbUrl` are not valid URLs';
+  const areFieldsFilled = !title || !imgUrl || !imdbUrl || !imdbId;
+  const areFieldsValid = pattern.test(imdbUrl) && pattern.test(imdbUrl);
 
   useEffect(() => {
     setTitle('');
@@ -31,16 +31,6 @@ export const NewMovie: React.FC<OnAdd> = ({ onAdd }) => {
     onAddFunction: (movie: Movie) => void,
   ) => {
     event.preventDefault();
-
-    const areValidImGImdb = pattern.test(imgUrl)
-      && pattern.test(imdbUrl);
-
-    if (!areValidImGImdb) {
-      // eslint-disable-next-line no-alert
-      alert(message);
-
-      return;
-    }
 
     const newMovie: Movie = {
       title,
@@ -66,7 +56,7 @@ export const NewMovie: React.FC<OnAdd> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={title}
-        onChange={(value) => setTitle(value)}
+        onChange={setTitle}
         required
       />
 
@@ -74,30 +64,32 @@ export const NewMovie: React.FC<OnAdd> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={description}
-        onChange={(value) => setDescription(value)}
+        onChange={setDescription}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={(value) => setImgUrl(value)}
+        onChange={setImgUrl}
         required
+        pattern={pattern}
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={(value) => setImdbUrl(value)}
+        onChange={setImdbUrl}
         required
+        pattern={pattern}
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={(value) => setImdbId(value)}
+        onChange={setImdbId}
         required
       />
 
@@ -107,7 +99,7 @@ export const NewMovie: React.FC<OnAdd> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={isDisabled}
+            disabled={areFieldsFilled || !areFieldsValid}
           >
             Add
           </button>
