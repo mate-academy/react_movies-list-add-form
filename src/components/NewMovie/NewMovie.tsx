@@ -21,7 +21,16 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     return pattern.test(str);
   };
 
-  const hasNotAllRequiredFields = !(title && imgUrl && imdbUrl && imdbId);
+  const hasNotAllRequiredFields = !(title.trim() && imgUrl.trim()
+    && imdbUrl.trim() && imdbId.trim());
+
+  const resetForm = () => {
+    setTitle('');
+    setDescription('');
+    setImgUrl('');
+    setImdbUrl('');
+    setImdbId('');
+  };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -35,13 +44,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     };
 
     onAdd(movie);
-
     setCount(curCount => curCount + 1);
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
+    resetForm();
   };
 
   return (
