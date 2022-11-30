@@ -1,4 +1,4 @@
-import { BaseSyntheticEvent, useState, FC } from 'react';
+import { BaseSyntheticEvent, useState, FC, useCallback } from 'react';
 import { Movie } from '../../types/Movie';
 import { TextField } from '../TextField';
 
@@ -13,7 +13,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
   const [imgUrl, setImgUrl] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
-  const handleSubmit = (event: BaseSyntheticEvent) => {
+  const handleSubmit = useCallback((event: BaseSyntheticEvent) => {
     event.preventDefault();
 
     const movie = {
@@ -28,7 +28,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
     setImgUrl('');
     setImdbUrl('');
     setImdbId('');
-  };
+  }, [count]);
 
   const areInputsFilled = (
     title

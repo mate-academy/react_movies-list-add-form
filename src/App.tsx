@@ -1,5 +1,5 @@
 import './App.scss';
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { MoviesList } from './components/MoviesList';
 import { NewMovie } from './components/NewMovie';
 import moviesFromServer from './api/movies.json';
@@ -7,7 +7,7 @@ import { Movie } from './types/Movie';
 
 export const App = () => {
   const [movies, setMovies] = useState(moviesFromServer);
-  const handleAddmovie = (
+  const handleAddmovie = useCallback((
     {
       title,
       description,
@@ -16,9 +16,9 @@ export const App = () => {
       imdbId,
     }: Movie,
   ) => {
-    setMovies(state => (
+    setMovies(prevMovies => (
       [
-        ...state,
+        ...prevMovies,
         {
           title,
           description,
@@ -28,7 +28,7 @@ export const App = () => {
         },
       ]
     ));
-  };
+  }, [movies]);
 
   return (
     <div className="page">
