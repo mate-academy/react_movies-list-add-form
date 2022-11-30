@@ -16,11 +16,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const requiredFields = [title, imgUrl, imdbId, imdbUrl];
-
   const enableAddButton = useMemo(() => {
-    return requiredFields.every(field => field.length > 0);
-  }, requiredFields);
+    return [title, imgUrl, imdbId, imdbUrl].every(field => field.length > 0);
+  }, [title, imgUrl, imdbId, imdbUrl]);
 
   const addMovie = useCallback(
     (event: React.FormEvent) => {
@@ -38,13 +36,13 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       setImdbUrl('');
       setImgUrl('');
       setCount((prevState) => (prevState + 1));
-    }, [{
+    }, [
       title,
       description,
       imdbId,
       imgUrl,
       imdbUrl,
-    }, count],
+      count],
   );
 
   return (
