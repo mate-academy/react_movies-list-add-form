@@ -25,7 +25,11 @@ export const NewMovie: React.FC<Props> = (props) => {
     imdbId,
   };
 
-  const isAbleToAdd = title && imgUrl && imdbUrl && imdbId;
+  const isAbleToAdd
+    = title.trim().length > 0
+    && imgUrl.trim().length > 0
+    && imdbUrl.trim().length > 0
+    && imdbId.trim().length > 0;
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
