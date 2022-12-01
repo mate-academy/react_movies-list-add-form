@@ -84,7 +84,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={imdbUrl}
         onChange={setImdbUrl}
         required
-        isValidUrl={isValidUrl(imdbId)}
+        isValidUrl={isValidUrl(imdbUrl)}
       />
 
       <TextField
