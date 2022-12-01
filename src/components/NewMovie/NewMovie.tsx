@@ -35,7 +35,8 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
     setImdbId('');
   };
 
-  const isDisabled = !title || !imgUrl || !imdbUrl || !imdbId;
+  const isDisabled = !title.trim() || !imgUrl.trim() || !imdbUrl.trim()
+    || !imdbId.trim();
 
   return (
     <form
