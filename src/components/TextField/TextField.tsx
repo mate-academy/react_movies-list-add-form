@@ -1,12 +1,14 @@
 import classNames from 'classnames';
 import React, { useState } from 'react';
+import { InputEvent } from '../../types/Movie';
 
 type Props = {
   name: string,
   value: string,
   label?: string,
   required?: boolean,
-  onChange?: (newValue: React.ChangeEvent<HTMLInputElement>) => void,
+  isError: boolean,
+  onChange?: (newValue: InputEvent) => void,
   onBlur: (event: React.FocusEvent<HTMLInputElement, Element>) => void,
 };
 
@@ -19,6 +21,7 @@ export const TextField: React.FC<Props> = ({
   value,
   label = name,
   required = false,
+  isError,
   onChange,
   onBlur,
 }) => {
@@ -26,7 +29,7 @@ export const TextField: React.FC<Props> = ({
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
   // To show errors only if the field was touched (onBlur)
-  const hasError = required && !value;
+  const hasError = required && isError;
 
   return (
     <div className="field">
@@ -37,6 +40,7 @@ export const TextField: React.FC<Props> = ({
       <div className="control">
         <input
           id={id}
+          name={name}
           data-cy={`movie-${name}`}
           className={classNames('input', {
             'is-danger': hasError,

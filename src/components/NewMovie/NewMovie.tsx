@@ -6,10 +6,18 @@ type Props = {
   onAdd: (movie: Movie) => void;
 };
 
+enum StringValues {
+  Title = 'title',
+  Description = 'description',
+  ImdbId = 'imdbId',
+  ImgUrl = 'imgUrl',
+  ImdbUrl = 'imdbUrl',
+}
+
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
-  const [count] = useState(0);
+  const [count, setCount] = useState(0);
   const [inputValues, setInputValues] = useState<InputValues>({
     title: false,
     imdbId: false,
@@ -35,6 +43,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       imgUrl: false,
       imdbUrl: false,
     });
+    setCount(0);
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -46,6 +55,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       && movie.imdbId
     ) {
       onAdd(movie);
+      setCount(count + 1);
       reset();
     }
   };
@@ -65,7 +75,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         break;
 
       case 'imgUrl':
-        if (!movie.imgUrl) {
+        if (!movie.imgUrl.trim()) {
           setInputValues({
             ...inputValues,
             imgUrl: true,
@@ -75,7 +85,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         break;
 
       case 'imdbUrl':
-        if (!movie.imdbUrl) {
+        if (!movie.imdbUrl.trim()) {
           setInputValues({
             ...inputValues,
             imdbUrl: true,
@@ -93,7 +103,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         }
 
         break;
-
       default:
         break;
     }
@@ -106,7 +115,51 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       ...prevState,
       [name]: value,
     }));
+
+    switch (name) {
+      case (StringValues.Title):
+        setInputValues({
+          ...inputValues,
+          title: false,
+        });
+
+        break;
+
+      case (StringValues.ImgUrl):
+
+        setInputValues({
+          ...inputValues, imgUrl: false,
+        });
+
+        break;
+
+      case (StringValues.ImdbUrl):
+        setInputValues({
+          ...inputValues,
+          imdbUrl: false,
+        });
+
+        break;
+
+      case (StringValues.ImdbId):
+        setInputValues({
+          ...inputValues,
+          imdbId: false,
+        });
+
+        break;
+
+      default:
+        break;
+    }
   };
+
+  const disableButton = (
+    !movie.title.trim()
+    || !movie.imgUrl.trim()
+    || !movie.imdbUrl.trim()
+    || !movie.imdbId.trim()
+  );
 
   return (
     <form className="NewMovie" key={count} onSubmit={handleSubmit}>
@@ -119,6 +172,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         onChange={handleInputChange}
         onBlur={handleBlur}
         required
+        isError={inputValues.title}
       />
 
       <TextField
@@ -127,6 +181,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={movie.description}
         onChange={handleInputChange}
         onBlur={handleBlur}
+        isError={inputValues.imdbUrl}
         required
       />
 
@@ -137,6 +192,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         onChange={handleInputChange}
         onBlur={handleBlur}
         required
+        isError={inputValues.imgUrl}
       />
 
       <TextField
@@ -146,6 +202,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         onChange={handleInputChange}
         onBlur={handleBlur}
         required
+        isError={inputValues.imdbUrl}
       />
 
       <TextField
@@ -155,6 +212,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         onChange={handleInputChange}
         onBlur={handleBlur}
         required
+        isError={inputValues.imdbUrl}
       />
 
       <div className="field is-grouped">
@@ -163,6 +221,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
+            disabled={disableButton}
           >
             Add
           </button>
