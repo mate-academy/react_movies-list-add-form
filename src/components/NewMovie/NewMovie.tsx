@@ -212,7 +212,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         onChange={handleInputChange}
         onBlur={handleBlur}
         required
-        isError={inputValues.imdbUrl}
+        isError={inputValues.imdbId}
       />
 
       <div className="field is-grouped">
