@@ -32,7 +32,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setImgUrl('');
     setImdbUrl('');
     setImdbId('');
-    setCount(count + 1);
+    setCount((prevCount) => prevCount + 1);
   };
 
   const fieldsAreFilled = title.trim().length > 0
