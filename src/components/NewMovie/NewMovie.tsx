@@ -33,16 +33,18 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setImdbId('');
   };
 
+  const hendleOnSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    onAdd(newMovie);
+    clearForm();
+    setCount(prevCount => prevCount + 1);
+  };
+
   return (
     <form
       className="NewMovie"
       key={count}
-      onSubmit={(event) => {
-        event.preventDefault();
-        onAdd(newMovie);
-        clearForm();
-        setCount(prevCount => prevCount + 1);
-      }}
+      onSubmit={hendleOnSubmit}
     >
       <h2 className="title">Add a movie</h2>
 

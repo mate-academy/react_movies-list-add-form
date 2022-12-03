@@ -28,6 +28,12 @@ export const TextField: React.FC<Props> = ({
   const [text, setText] = useState(value);
   const hasError = touched && required && (text.trim() === '');
 
+  const hendleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setText(event.target.value);
+    onChange(event.target.value);
+    setToched(false);
+  };
+
   return (
     <div className="field">
       <label className="label" htmlFor={id}>
@@ -44,11 +50,7 @@ export const TextField: React.FC<Props> = ({
           type="text"
           placeholder={`Enter ${label}`}
           value={text}
-          onChange={(event) => {
-            setText(event.target.value);
-            onChange(event.target.value);
-            setToched(false);
-          }}
+          onChange={hendleOnChange}
           onBlur={() => setToched(true)}
         />
       </div>
