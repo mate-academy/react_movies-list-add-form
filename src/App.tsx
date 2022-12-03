@@ -10,7 +10,7 @@ import { Movie } from './types/Movie';
 export const App = () => {
   const [movies, setMovies] = useState(moviesFromServer);
 
-  const handleMovieAdd = (newMovie: Movie) => {
+  const addMovie = (newMovie: Movie) => {
     setMovies([
       ...movies,
       newMovie,
@@ -23,7 +23,7 @@ export const App = () => {
         <MoviesList movies={movies} />
       </div>
       <div className="sidebar">
-        <NewMovie onAdd={handleMovieAdd} />
+        <NewMovie onAdd={addMovie} />
       </div>
     </div>
   );

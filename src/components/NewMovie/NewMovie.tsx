@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Movie } from '../../types/Movie';
 import { TextField } from '../TextField';
 
@@ -24,22 +24,24 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     imdbId,
   };
 
+  const handleFormSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    onAdd(createdMovie);
+    setTitle('');
+    setDescription('');
+    setImgUrl('');
+    setImdbUrl('');
+    setImdbId('');
+    setCount(count + 1);
+  };
+
   const fieldsAreFilled = title && imgUrl && imdbUrl && imdbId;
 
   return (
     <form
       className="NewMovie"
       key={count}
-      onSubmit={(event) => {
-        event.preventDefault();
-        onAdd(createdMovie);
-        setTitle('');
-        setDescription('');
-        setImgUrl('');
-        setImdbUrl('');
-        setImdbId('');
-        setCount(count + 1);
-      }}
+      onSubmit={handleFormSubmit}
     >
       <h2 className="title">Add a movie</h2>
 
