@@ -35,7 +35,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setCount(count + 1);
   };
 
-  const fieldsAreFilled = title && imgUrl && imdbUrl && imdbId;
+  const fieldsAreFilled = title.trim().length > 0
+                            && imgUrl.trim().length > 0
+                              && imdbUrl.trim().length > 0
+                                && imdbId.trim().length > 0;
 
   return (
     <form
