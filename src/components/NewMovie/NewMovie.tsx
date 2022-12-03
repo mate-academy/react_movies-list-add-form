@@ -24,6 +24,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     imdbId: imdbID,
   };
 
+  const fieldsAreFilled = title && imageURL && imdbURL && imdbID;
+
   return (
     <form
       className="NewMovie"
@@ -82,13 +84,25 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
       <div className="field is-grouped">
         <div className="control">
-          <button
-            type="submit"
-            data-cy="submit-button"
-            className="button is-link"
-          >
-            Add
-          </button>
+          {fieldsAreFilled && (
+            <button
+              type="submit"
+              data-cy="submit-button"
+              className="button is-link"
+            >
+              Add
+            </button>
+          )}
+          {!fieldsAreFilled && (
+            <button
+              type="submit"
+              data-cy="submit-button"
+              className="button is-link"
+              disabled
+            >
+              Add
+            </button>
+          )}
         </div>
       </div>
     </form>
