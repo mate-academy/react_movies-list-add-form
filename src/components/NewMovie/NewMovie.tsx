@@ -12,19 +12,19 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [imageURL, setImageURL] = useState('');
-  const [imdbURL, setImdbURL] = useState('');
-  const [imdbID, setImdbID] = useState('');
+  const [imgUrl, setImgUrl] = useState('');
+  const [imdbUrl, setImdbUrl] = useState('');
+  const [imdbId, setImdbId] = useState('');
 
   const createdMovie: Movie = {
     title,
     description,
-    imgUrl: imageURL,
-    imdbUrl: imdbURL,
-    imdbId: imdbID,
+    imgUrl,
+    imdbUrl,
+    imdbId,
   };
 
-  const fieldsAreFilled = title && imageURL && imdbURL && imdbID;
+  const fieldsAreFilled = title && imgUrl && imdbUrl && imdbId;
 
   return (
     <form
@@ -35,9 +35,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         onAdd(createdMovie);
         setTitle('');
         setDescription('');
-        setImageURL('');
-        setImdbURL('');
-        setImdbID('');
+        setImgUrl('');
+        setImdbUrl('');
+        setImdbId('');
         setCount(count + 1);
       }}
     >
@@ -61,24 +61,24 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={imageURL}
-        onChange={(newImageUrl) => setImageURL(newImageUrl)}
+        value={imgUrl}
+        onChange={(newImgUrl) => setImgUrl(newImgUrl)}
         required
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={imdbURL}
-        onChange={(newImdbURL) => setImdbURL(newImdbURL)}
+        value={imdbUrl}
+        onChange={(newImdbUrl) => setImdbUrl(newImdbUrl)}
         required
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imdbID}
-        onChange={(newImdbID) => setImdbID(newImdbID)}
+        value={imdbId}
+        onChange={(newImdbId) => setImdbId(newImdbId)}
         required
       />
 
