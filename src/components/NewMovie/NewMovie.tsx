@@ -28,8 +28,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
   const submitApprove = title.trim().length > 0
     && imdbId.trim().length > 0
     && imdbUrl.trim().length > 0
-    && imgUrl.trim().length > 0
-    && isImdbUrlValid && isImgUrlValid;
+    && imgUrl.trim().length > 0;
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
