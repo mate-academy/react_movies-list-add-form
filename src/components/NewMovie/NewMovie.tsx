@@ -181,8 +181,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={movie.description}
         onChange={handleInputChange}
         onBlur={handleBlur}
-        isError={inputValues.imdbUrl}
-        required
       />
 
       <TextField

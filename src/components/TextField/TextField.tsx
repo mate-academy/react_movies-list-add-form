@@ -7,7 +7,7 @@ type Props = {
   value: string,
   label?: string,
   required?: boolean,
-  isError: boolean,
+  isError?: boolean,
   onChange?: (newValue: InputEvent) => void,
   onBlur: (event: React.FocusEvent<HTMLInputElement, Element>) => void,
 };
