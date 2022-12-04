@@ -7,16 +7,15 @@ interface Props {
 }
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [imgUrl, setImgUrl] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
+  const [isUrlValid, setIsUrlValid] = useState(false);
 
-  const isButtonDisabled = Boolean(title && imgUrl && imdbUrl && imdbId);
+  const isButtonEnable = title && imgUrl && imdbUrl && imdbId && isUrlValid;
   const newMovie: Movie = {
     title,
     description,
@@ -31,6 +30,15 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setImgUrl('');
     setImdbUrl('');
     setImdbId('');
+  };
+
+  const onValid = (url: string) => {
+    // eslint-disable-next-line max-len
+    const pattern = new RegExp(/^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/);
+
+    setIsUrlValid(pattern.test(url));
+
+    return pattern.test(url);
   };
 
   const hendleOnSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -51,39 +59,41 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value=""
-        onChange={(text) => setTitle(text)}
+        value={title}
+        onChange={setTitle}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value=""
-        onChange={(text) => setDescription(text)}
+        value={description}
+        onChange={setDescription}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value=""
-        onChange={(text) => setImgUrl(text)}
+        value={imgUrl}
+        onChange={setImgUrl}
+        onValid={onValid}
         required
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value=""
-        onChange={(text) => setImdbUrl(text)}
+        value={imdbUrl}
+        onChange={setImdbUrl}
+        onValid={onValid}
         required
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value=""
-        onChange={(text) => setImdbId(text)}
+        value={imdbId}
+        onChange={setImdbId}
         required
       />
 
@@ -93,7 +103,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!isButtonDisabled}
+            disabled={!isButtonEnable}
           >
             Add
           </button>
