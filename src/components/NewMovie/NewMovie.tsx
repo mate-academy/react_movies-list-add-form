@@ -6,14 +6,14 @@ interface Props {
   onAdd: (newMovie: Movie) => void
 }
 
-const isUrlValid = (url: string, regExp: RegExp) => {
-  return regExp.test(url);
+const isUrlValid = (url: string) => {
+  // eslint-disable-next-line max-len
+  const pattern = new RegExp(/^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/);
+
+  return pattern.test(url);
 };
 
 export const NewMovie: FC<Props> = ({ onAdd }) => {
-  // eslint-disable-next-line max-len
-  const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
-
   const [count, setCount] = useState(0);
 
   const [title, setTitle] = useState('');
@@ -22,12 +22,15 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const isImgUrlValid = isUrlValid(imgUrl, pattern);
-  const isImdbUrlValid = isUrlValid(imdbUrl, pattern);
+  const isImgUrlValid = isUrlValid(imgUrl);
+  const isImdbUrlValid = isUrlValid(imdbUrl);
 
-  const urlValidation = isImgUrlValid && isImdbUrlValid;
+  const submitApprove = title.trim().length > 0
+    && imdbId.trim().length > 0
+    && imdbUrl.trim().length > 0
+    && imgUrl.trim().length > 0
+    && isImdbUrlValid && isImgUrlValid;
 
-  const submitApprove = title && imdbId && imdbUrl && imgUrl && urlValidation;
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
 
