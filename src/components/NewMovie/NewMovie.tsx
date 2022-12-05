@@ -6,14 +6,6 @@ type Props = {
   onAdd: (movie: Movie) => void;
 };
 
-enum StringValues {
-  Title = 'title',
-  Description = 'description',
-  ImdbId = 'imdbId',
-  ImgUrl = 'imgUrl',
-  ImdbUrl = 'imdbUrl',
-}
-
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
@@ -117,7 +109,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     }));
 
     switch (name) {
-      case (StringValues.Title):
+      case (movie.title):
         setInputValues({
           ...inputValues,
           title: false,
@@ -125,7 +117,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
         break;
 
-      case (StringValues.ImgUrl):
+      case (movie.imgUrl):
 
         setInputValues({
           ...inputValues, imgUrl: false,
@@ -133,7 +125,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
         break;
 
-      case (StringValues.ImdbUrl):
+      case (movie.imdbUrl):
         setInputValues({
           ...inputValues,
           imdbUrl: false,
@@ -141,7 +133,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
         break;
 
-      case (StringValues.ImdbId):
+      case (movie.imdbId):
         setInputValues({
           ...inputValues,
           imdbId: false,
