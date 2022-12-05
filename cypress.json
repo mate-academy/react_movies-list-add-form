@@ -4,11 +4,12 @@
   "viewportHeight": 1920,
   "viewportWidth": 1080,
   "screenshotOnRunFailure": true,
+  "pageLoadTimeout": 60000,
   "reporter": "mochawesome",
   "reporterOptions": {
     "reportDir": "raw_reports",
-    "overwrite": false,
-    "html": false,
+    "overwrite": true,
+    "html": true,
     "json": true
   },
   "component": {
