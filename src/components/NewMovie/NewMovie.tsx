@@ -14,12 +14,25 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
+  const disabled
+    = !(title.trim() && imgUrl.trim() && imdbUrl.trim() && imdbId.trim());
+
+  const clearAll = () => {
+    setTitle('');
+    setDescription('');
+    setImgUrl('');
+    setImdbUrl('');
+    setImdbId('');
+    setCount(curCount => curCount + 1);
+  };
+
   return (
     <form
       className="NewMovie"
       key={count}
       onSubmit={(event) => {
         event.preventDefault();
+
         onAdd({
           title,
           description,
@@ -27,12 +40,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
           imdbUrl,
           imdbId,
         });
-        setTitle('');
-        setDescription('');
-        setImgUrl('');
-        setImdbUrl('');
-        setImdbId('');
-        setCount(curCount => curCount + 1);
+
+        clearAll();
       }}
     >
       <h2 className="title">Add a movie</h2>
@@ -41,7 +50,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={title}
-        onChange={newValue => setTitle(newValue)}
+        onChange={setTitle}
         required
       />
 
@@ -49,14 +58,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={description}
-        onChange={newValue => setDescription(newValue)}
+        onChange={setDescription}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={newValue => setImgUrl(newValue)}
+        onChange={setImgUrl}
         required
       />
 
@@ -64,7 +73,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={newValue => setImdbUrl(newValue)}
+        onChange={setImdbUrl}
         required
       />
 
@@ -72,32 +81,20 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={newValue => setImdbId(newValue)}
+        onChange={setImdbId}
         required
       />
 
       <div className="field is-grouped">
         <div className="control">
-          {(title.trim() && imgUrl.trim() && imdbUrl.trim() && imdbId.trim())
-            ? (
-              <button
-                type="submit"
-                data-cy="submit-button"
-                className="button is-link"
-              >
-                Add
-              </button>
-            )
-            : (
-              <button
-                type="submit"
-                data-cy="submit-button"
-                className="button is-link"
-                disabled
-              >
-                Add
-              </button>
-            )}
+          <button
+            type="submit"
+            data-cy="submit-button"
+            className="button is-link"
+            disabled={disabled}
+          >
+            Add
+          </button>
         </div>
       </div>
     </form>
