@@ -24,6 +24,11 @@ export const NewMovie: React.FC<Props> = (props) => {
     imdbId,
   };
 
+  const isAbbleToAdd = title.trim()
+  && imgUrl.trim()
+  && imdbUrl.trim()
+  && imdbId.trim();
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     onAdd(movie);
@@ -86,6 +91,7 @@ export const NewMovie: React.FC<Props> = (props) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
+            disabled={!isAbbleToAdd}
           >
             Add
           </button>
