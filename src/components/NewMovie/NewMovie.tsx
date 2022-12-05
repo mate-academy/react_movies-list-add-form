@@ -14,17 +14,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const addingNewMovie = () => {
-    const movie = {
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    };
-
-    onAdd(movie);
-
+  const fieldsToDefault = () => {
     setCount(prevCount => prevCount + 1);
     setTitle('');
     setDescription('');
@@ -35,7 +25,18 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    addingNewMovie();
+
+    const movie = {
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    };
+
+    onAdd(movie);
+
+    fieldsToDefault();
   };
 
   const isDisabled = !title.trim() || !imgUrl.trim() || !imdbUrl.trim()
