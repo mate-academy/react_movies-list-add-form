@@ -9,17 +9,17 @@ type Props = {
 export const NewMovie: FC<Props> = ({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
-  const [count, setCout] = useState(0);
+  const [count, setCount] = useState(0);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [imgUrl, setImgUrl] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const isRequiredFieldsFilled = !(title.trim().length > 0
-    && imgUrl.trim().length > 0
-    && imdbUrl.trim().length > 0
-    && imdbId.trim().length > 0);
+  const isRequiredFieldsFilled = !(title.trim()
+    && imgUrl.trim()
+    && imdbUrl.trim()
+    && imdbId.trim());
 
   const resetForm = () => {
     setTitle('');
@@ -31,6 +31,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
     const newMovie = {
       title,
       description,
@@ -41,7 +42,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
 
     onAdd(newMovie);
 
-    setCout(currentCount => currentCount + 1);
+    setCount(currentCount => currentCount + 1);
     resetForm();
   };
 
@@ -49,7 +50,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
     <form
       className="NewMovie"
       key={count}
-      onSubmit={event => handleSubmit(event)}
+      onSubmit={handleSubmit}
     >
       <h2 className="title">Add a movie</h2>
 
