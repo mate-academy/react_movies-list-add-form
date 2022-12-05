@@ -6,17 +6,7 @@ type Props = {
   onAdd: (movie: Movie) => void,
 };
 
-// export interface Movie {
-//   title: string;
-//   description: string;
-//   imgUrl: string;
-//   imdbUrl: string;
-//   imdbId: string;
-// }
-
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
