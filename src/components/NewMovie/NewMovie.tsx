@@ -17,8 +17,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbId, setImdbId] = useState('');
   const [validUrl, setValidUrl] = useState(true);
 
-  const isDisableButton
-  = !title.trim().length
+  const isDisableButton = !title.trim().length
   || !imgUrl.trim().length
   || !imdbUrl.trim().length
   || !imdbId.trim().length
@@ -37,7 +36,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     return pattern.test(url);
   };
 
-  const handleReset = () => {
+  const clearForm = () => {
     setTitle('');
     setDescription('');
     setImgUrl('');
@@ -49,7 +48,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     event.preventDefault();
 
     setCount((prevCount) => (prevCount + 1));
-    handleReset();
+    clearForm();
     onAdd({
       title,
       description,
@@ -71,7 +70,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={title}
-        onChange={(value) => setTitle(value)}
+        onChange={setTitle}
         required
       />
 
@@ -79,32 +78,32 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={description}
-        onChange={(value) => setDescription(value)}
+        onChange={setDescription}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={(value) => setImgUrl(value)}
+        onChange={setImgUrl}
         required
-        isValid={(url) => urlValidator(url)}
+        isValid={urlValidator}
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={(value) => setImdbUrl(value)}
+        onChange={setImdbUrl}
         required
-        isValid={(url) => urlValidator(url)}
+        isValid={urlValidator}
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={(value) => setImdbId(value)}
+        onChange={setImdbId}
         required
       />
 

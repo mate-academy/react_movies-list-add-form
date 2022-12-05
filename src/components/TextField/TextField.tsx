@@ -27,9 +27,19 @@ export const TextField: React.FC<Props> = ({
 
   // To show errors only if the field was touched (onBlur)
   const [touched, setToched] = useState(false);
-  const hasError = touched && required && !value;
+  const hasError = touched && required && !value.trim();
 
   const [validUrl, setValidUrl] = useState(true);
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.placeholder.includes('URL')) {
+      const check = isValid(event.target.value) || false;
+
+      setValidUrl(check);
+    }
+
+    return onChange(event.target.value);
+  };
 
   return (
     <div className="field">
@@ -47,15 +57,7 @@ export const TextField: React.FC<Props> = ({
           type="text"
           placeholder={`Enter ${label}`}
           value={value}
-          onChange={(event) => {
-            if (event.target.placeholder.includes('URL')) {
-              const check = isValid(event.target.value) || false;
-
-              setValidUrl(check);
-            }
-
-            return onChange(event.target.value);
-          }}
+          onChange={handleChange}
           onBlur={() => setToched(true)}
         />
       </div>
