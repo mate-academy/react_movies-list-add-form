@@ -6,6 +6,14 @@ type Props = {
   onAdd: (movie: Movie) => void;
 };
 
+enum StringValues {
+  Title = 'title',
+  Description = 'description',
+  ImdbId = 'imdbId',
+  ImgUrl = 'imgUrl',
+  ImdbUrl = 'imdbUrl',
+}
+
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
@@ -57,40 +65,40 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
     switch (name) {
       case 'title':
-        if (!movie.title.trim()) {
+        if (!movie[name].trim()) {
           setInputValues({
             ...inputValues,
-            title: true,
+            [name]: true,
           });
         }
 
         break;
 
       case 'imgUrl':
-        if (!movie.imgUrl.trim()) {
+        if (!movie[name].trim()) {
           setInputValues({
             ...inputValues,
-            imgUrl: true,
+            [name]: true,
           });
         }
 
         break;
 
       case 'imdbUrl':
-        if (!movie.imdbUrl.trim()) {
+        if (!movie[name].trim()) {
           setInputValues({
             ...inputValues,
-            imdbUrl: true,
+            [name]: true,
           });
         }
 
         break;
 
       case 'imdbId':
-        if (!movie.imdbId.trim()) {
+        if (!movie[name].trim()) {
           setInputValues({
             ...inputValues,
-            imdbId: true,
+            [name]: true,
           });
         }
 
@@ -109,7 +117,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     }));
 
     switch (name) {
-      case (movie.title):
+      case (StringValues.Title):
         setInputValues({
           ...inputValues,
           title: false,
@@ -117,7 +125,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
         break;
 
-      case (movie.imgUrl):
+      case (StringValues.ImgUrl):
 
         setInputValues({
           ...inputValues, imgUrl: false,
@@ -125,7 +133,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
         break;
 
-      case (movie.imdbUrl):
+      case (StringValues.ImdbUrl):
         setInputValues({
           ...inputValues,
           imdbUrl: false,
@@ -133,7 +141,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
         break;
 
-      case (movie.imdbId):
+      case (StringValues.ImdbId):
         setInputValues({
           ...inputValues,
           imdbId: false,
