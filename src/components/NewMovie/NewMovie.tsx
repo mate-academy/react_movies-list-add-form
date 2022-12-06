@@ -16,10 +16,21 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imgUrl, setImgUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const isFilled = title && imdbUrl && imgUrl && imdbId;
+  const isFilled = title.trim()
+    && imdbUrl.trim()
+    && imgUrl.trim()
+    && imdbId.trim();
 
   // eslint-disable-next-line max-len
   const pattern = /^(((https?:\/\/)|(\/)|(..\/))(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-/]))?)$/ig;
+
+  function clearForm() {
+    setTitle('');
+    setDescription('');
+    setImgUrl('');
+    setImdbUrl('');
+    setImdbId('');
+  }
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -47,11 +58,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       imdbId,
     });
 
-    setTitle('');
-    setDescription('');
-    setImdbUrl('');
-    setImgUrl('');
-    setImdbId('');
+    clearForm();
     setCount(prev => prev + 1);
   };
 
