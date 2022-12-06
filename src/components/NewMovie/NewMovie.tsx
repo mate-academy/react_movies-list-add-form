@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { Movie } from '../../types/Movie';
 import { TextField } from '../TextField';
 
-type Props = {
+interface Props {
   onAdd: (movie: Movie) => void,
-};
+}
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
@@ -22,14 +22,21 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     imdbId,
   };
 
-  const onFormSubmit = (event: React.FormEvent) => {
-    event.preventDefault();
-    onAdd(newMovie);
+  const resetForm = () => {
     setTitle('');
     setDescription('');
     setImgUrl('');
     setImdbUrl('');
     setImdbId('');
+  };
+
+  const onFormSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+
+    onAdd(newMovie);
+
+    resetForm();
+
     setCount(prevCount => prevCount + 1);
   };
 
