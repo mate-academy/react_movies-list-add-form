@@ -17,7 +17,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
 
-    setCount(count + 1);
+    setCount(prevCount => prevCount + 1);
 
     onAdd({
       title,
@@ -35,9 +35,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   };
 
   const isError = !title.trim()
-  || !imgUrl.trim()
-  || !imdbUrl.trim()
-  || !imdbId.trim();
+    || !imgUrl.trim()
+    || !imdbUrl.trim()
+    || !imdbId.trim();
 
   return (
     <form
@@ -51,7 +51,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={title}
-        onChange={(titleOfMovie) => setTitle(titleOfMovie)}
+        onChange={(movieTitle) => setTitle(movieTitle)}
         required
       />
 
@@ -59,7 +59,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={description}
-        onChange={(discribe) => setDescription(discribe)}
+        onChange={(moveDiscribtion) => setDescription(moveDiscribtion)}
       />
 
       <TextField
@@ -75,7 +75,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Imdb URL"
         value={imdbUrl}
         required
-        onChange={(movieimdbUrl) => setImdbUrl(movieimdbUrl)}
+        onChange={(movieImdbUrl) => setImdbUrl(movieImdbUrl)}
       />
 
       <TextField
@@ -83,7 +83,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Imdb ID"
         value={imdbId}
         required
-        onChange={(movieimdbId) => setImdbId(movieimdbId)}
+        onChange={(movieImdbId) => setImdbId(movieImdbId)}
       />
 
       <div className="field is-grouped">
