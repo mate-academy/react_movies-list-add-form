@@ -14,6 +14,14 @@ export const NewMovie:React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
+  const clearForm = () => {
+    setTitle('');
+    setDescription('');
+    setImgUrl('');
+    setImdbUrl('');
+    setImdbId('');
+  };
+
   const handleSubmit = (event:React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -25,13 +33,9 @@ export const NewMovie:React.FC<Props> = ({ onAdd }) => {
       imdbId,
     });
 
-    setCount(count + 1);
+    setCount((prevCount) => prevCount + 1);
 
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
+    clearForm();
   };
 
   const isValidUrl = (url: string):boolean => {
@@ -41,7 +45,7 @@ export const NewMovie:React.FC<Props> = ({ onAdd }) => {
     return pattern.test(url);
   };
 
-  const isFormCompleted = title.trim()
+  const isDisabled = title.trim()
     && imgUrl.trim()
     && imdbUrl.trim()
     && imdbId.trim();
@@ -58,7 +62,7 @@ export const NewMovie:React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={title}
-        onChange={(newTitle) => setTitle(newTitle)}
+        onChange={setTitle}
         required
       />
 
@@ -66,15 +70,15 @@ export const NewMovie:React.FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={description}
-        onChange={(newDescription) => setDescription(newDescription)}
+        onChange={setDescription}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={(newImgUrl) => setImgUrl(newImgUrl)}
-        isValid={(newImgUrl) => isValidUrl(newImgUrl)}
+        onChange={setImgUrl}
+        isValid={isValidUrl}
         required
       />
 
@@ -82,8 +86,8 @@ export const NewMovie:React.FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={(newImdbUrl) => setImdbUrl(newImdbUrl)}
-        isValid={(newImdbUrl) => isValidUrl(newImdbUrl)}
+        onChange={setImdbUrl}
+        isValid={isValidUrl}
         required
       />
 
@@ -91,7 +95,7 @@ export const NewMovie:React.FC<Props> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={(newImdbId) => setImdbId(newImdbId)}
+        onChange={setImdbId}
         required
       />
 
@@ -101,7 +105,7 @@ export const NewMovie:React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!isFormCompleted}
+            disabled={!isDisabled}
           >
             Add
           </button>
