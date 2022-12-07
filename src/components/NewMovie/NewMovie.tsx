@@ -8,12 +8,14 @@ interface Props {
 
 export const NewMovie = (props: Props) => {
   const { onAdd } = props;
+
   const [count, setCount] = useState(0);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [imageUrl, setImageUrl] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
+
   const clearMovieStates = () => {
     setTitle('');
     setDescription('');
@@ -29,18 +31,20 @@ export const NewMovie = (props: Props) => {
     imdbUrl,
     imdbId,
   };
+
   const areFieldsFilled = () => !(title && imageUrl && imdbUrl && imdbId);
+  const handleMovieEvent = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    onAdd(movie);
+    setCount(count + 1);
+    clearMovieStates();
+  };
 
   return (
     <form
       className="NewMovie"
       key={count}
-      onSubmit={(event) => {
-        event.preventDefault();
-        onAdd(movie);
-        setCount(count + 1);
-        clearMovieStates();
-      }}
+      onSubmit={handleMovieEvent}
     >
       <h2 className="title">Add a movie</h2>
 
@@ -48,7 +52,7 @@ export const NewMovie = (props: Props) => {
         name="title"
         label="Title"
         value={title}
-        onChange={(titleData) => setTitle(titleData)}
+        onChange={setTitle}
         required
       />
 
@@ -56,7 +60,7 @@ export const NewMovie = (props: Props) => {
         name="description"
         label="Description"
         value={description}
-        onChange={(descriptionData) => setDescription(descriptionData)}
+        onChange={setDescription}
       />
 
       <TextField
