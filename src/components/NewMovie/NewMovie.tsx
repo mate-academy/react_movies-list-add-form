@@ -26,11 +26,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setImdbUrl('');
   };
 
-  const isDisabled = () => {
-    return title.trim() && imdbId.trim() && imdbUrl.trim() && imgUrl.trim();
-  };
-
-  const reverseIsDisabled = isDisabled();
+  const isActive = (
+    title.trim() && imdbId.trim() && imdbUrl.trim() && imgUrl.trim()
+  );
 
   const handleFormSubmit = (event: React.FormEvent) => {
     const newMovie = {
@@ -102,10 +100,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             className={classNames(
               'button is-link',
               {
-                'button is-link': reverseIsDisabled,
+                'button is-link': isActive,
               },
             )}
-            disabled={!reverseIsDisabled}
+            disabled={!isActive}
           >
             Add
           </button>
