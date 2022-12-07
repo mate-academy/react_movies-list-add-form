@@ -1,10 +1,14 @@
 import { useState } from 'react';
 import { TextField } from '../TextField';
-import moviesFromServer from '../../api/movies.json';
+import { Movie } from '../../types/Movie';
 
-export const movie = [...moviesFromServer];
+interface Props {
+  onAdd?: (arg0: Movie) => void,
+}
 
-export const NewMovie = () => {
+export const NewMovie: React.FC<Props> = ({
+  onAdd = () => {},
+}) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
   const [count] = useState(0);
@@ -28,7 +32,7 @@ export const NewMovie = () => {
   };
 
   const addNewFilm = () => {
-    const newFilm = {
+    const newFilm: Movie = {
       title,
       description,
       imgUrl,
@@ -36,10 +40,9 @@ export const NewMovie = () => {
       imdbId,
     };
 
-    movie.push(newFilm);
     cleanFields();
 
-    return movie;
+    return newFilm;
   };
 
   return (
@@ -103,7 +106,7 @@ export const NewMovie = () => {
             data-cy="submit-button"
             className="button is-link"
             onClick={(event) => {
-              addNewFilm();
+              onAdd(addNewFilm());
               event.preventDefault();
             }}
           >
