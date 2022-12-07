@@ -8,17 +8,7 @@ import { Movie } from './types/Movie';
 export const App = () => {
   const [movies, setMovies] = useState(moviesFromServer);
 
-  const addMovie = (movie: Movie) => {
-    const newMovie = {
-      title: movie.title,
-      description: movie.description,
-      imgUrl: movie.imgUrl,
-      imdbUrl: movie.imdbUrl,
-      imdbId: movie.imdbId,
-    };
-
-    return setMovies([...movies, newMovie]);
-  };
+  const addMovie = (movie: Movie) => setMovies([...movies, movie]);
 
   return (
     <div className="page">

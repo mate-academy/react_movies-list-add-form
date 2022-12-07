@@ -14,10 +14,18 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const isButtonDisabled = !title
-    || !imdbId
-    || !imdbUrl
-    || !imgUrl;
+  const isButtonDisabled = !title.trim()
+    || !imdbId.trim()
+    || !imdbUrl.trim()
+    || !imgUrl.trim();
+
+  const resetInputs = () => {
+    setTitle('');
+    setDescription('');
+    setImgUrl('');
+    setImdbUrl('');
+    setImdbId('');
+  };
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -28,11 +36,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       title, description, imgUrl, imdbUrl, imdbId,
     });
 
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
+    resetInputs();
   };
 
   return (
@@ -47,9 +51,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={title}
-        onChange={(value) => {
-          setTitle(value);
-        }}
+        onChange={setTitle}
         required
       />
 
@@ -57,18 +59,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={description}
-        onChange={(value) => {
-          setDescription(value);
-        }}
+        onChange={setDescription}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={(value) => {
-          setImgUrl(value);
-        }}
+        onChange={setImgUrl}
         required
       />
 
@@ -76,9 +74,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={(value) => {
-          setImdbUrl(value);
-        }}
+        onChange={setImdbUrl}
         required
       />
 
@@ -86,9 +82,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={(value) => {
-          setImdbId(value);
-        }}
+        onChange={setImdbId}
         required
       />
 
