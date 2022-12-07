@@ -15,7 +15,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbId, setImdbId] = useState('');
   const [isUrlValid, setIsUrlValid] = useState(false);
 
-  const isButtonEnable = title && imgUrl && imdbUrl && imdbId && isUrlValid;
+  const isButtonActive = title && imgUrl && imdbUrl && imdbId && isUrlValid;
   const newMovie: Movie = {
     title,
     description,
@@ -41,7 +41,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     return pattern.test(url);
   };
 
-  const hendleOnSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const hendleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     onAdd(newMovie);
     clearForm();
@@ -52,7 +52,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     <form
       className="NewMovie"
       key={count}
-      onSubmit={hendleOnSubmit}
+      onSubmit={hendleSubmit}
     >
       <h2 className="title">Add a movie</h2>
 
@@ -103,7 +103,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!isButtonEnable}
+            disabled={!isButtonActive}
           >
             Add
           </button>
