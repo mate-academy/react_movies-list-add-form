@@ -3,14 +3,12 @@ import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
 interface Props {
-  onAdd?: (arg0: Movie) => void,
+  onAdd?: (newMovie: Movie) => void,
 }
 
 export const NewMovie: React.FC<Props> = ({
   onAdd = () => {},
 }) => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
   const [count] = useState(0);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -18,7 +16,7 @@ export const NewMovie: React.FC<Props> = ({
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const cleanFields = () => {
+  const clearFields = () => {
     setTitle('');
     setDescription('');
     setImgUrl('');
@@ -40,7 +38,7 @@ export const NewMovie: React.FC<Props> = ({
       imdbId,
     };
 
-    cleanFields();
+    clearFields();
 
     return newFilm;
   };
