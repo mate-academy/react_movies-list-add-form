@@ -25,12 +25,12 @@ export const NewMovie: React.FC<Props> = (props) => {
   };
 
   const isDisabled
-    = title.trim().length > 0
+    = title.trim()
     && imgUrl.trim().length > 0
     && imdbUrl.trim().length > 0
     && imdbId.trim().length > 0;
 
-  const getClearForm = () => {
+  const clearForm = () => {
     setTitle('');
     setDescription('');
     setImgUrl('');
@@ -44,7 +44,7 @@ export const NewMovie: React.FC<Props> = (props) => {
     onAdd(movie);
 
     setCount(prevCount => prevCount + 1);
-    getClearForm();
+    clearForm();
   };
 
   return (
