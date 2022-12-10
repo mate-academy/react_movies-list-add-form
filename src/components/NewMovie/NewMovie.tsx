@@ -26,10 +26,25 @@ export const NewMovie: React.FC<Props> = (props) => {
   };
 
   const isAbleToAdd
-    = title.trim().length > 0
-    && imgUrl.trim().length > 0
-    && imdbUrl.trim().length > 0
-    && imdbId.trim().length > 0;
+    = title.trim()
+    && imgUrl.trim()
+    && imdbUrl.trim()
+    && imdbId.trim();
+
+  const checkingUrl = (url: string) => {
+    // eslint-disable-next-line max-len
+    const pattern = new RegExp(/^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/);
+
+    return pattern.test(url);
+  };
+
+  const clearForm = () => {
+    setTitle('');
+    setDescription('');
+    setImgUrl('');
+    setImdbUrl('');
+    setImdbId('');
+  };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -37,11 +52,7 @@ export const NewMovie: React.FC<Props> = (props) => {
     onAdd(movie);
 
     setCount(prevCount => prevCount + 1);
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
+    clearForm();
   };
 
   return (
@@ -73,6 +84,7 @@ export const NewMovie: React.FC<Props> = (props) => {
         value={imgUrl}
         onChange={setImgUrl}
         required
+        checkingUrl={checkingUrl(imgUrl)}
       />
 
       <TextField
@@ -81,6 +93,7 @@ export const NewMovie: React.FC<Props> = (props) => {
         value={imdbUrl}
         onChange={setImdbUrl}
         required
+        checkingUrl={checkingUrl(imdbUrl)}
       />
 
       <TextField
