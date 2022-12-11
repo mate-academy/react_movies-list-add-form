@@ -66,7 +66,6 @@ export const NewMovie: React.FC<Props> = (props) => {
         value={title}
         onChange={setTitle}
         required
-        isValidUrl={isValidUrl(imgUrl)}
       />
 
       <TextField
