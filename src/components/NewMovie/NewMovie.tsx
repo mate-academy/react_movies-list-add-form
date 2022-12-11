@@ -6,6 +6,13 @@ type Props = {
   onAdd: (movie: Movie) => void,
 };
 
+const isValidUrl = (url: string) => {
+  // eslint-disable-next-line max-len
+  const pattern = new RegExp(/^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/);
+
+  return pattern.test(url);
+};
+
 export const NewMovie: React.FC<Props> = (props) => {
   const { onAdd } = props;
 
@@ -24,7 +31,7 @@ export const NewMovie: React.FC<Props> = (props) => {
     imdbId,
   };
 
-  const isAbbleToAdd = title.trim()
+  const isActive = title.trim()
   && imgUrl.trim()
   && imdbUrl.trim()
   && imdbId.trim();
@@ -33,12 +40,16 @@ export const NewMovie: React.FC<Props> = (props) => {
     event.preventDefault();
     onAdd(movie);
 
+    const isClearingForm = () => {
+      setTitle('');
+      setDescription('');
+      setImgUrl('');
+      setImdbUrl('');
+      setImdbId('');
+    };
+
     setCount(prevCount => prevCount + 1);
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
+    isClearingForm();
   };
 
   return (
@@ -55,6 +66,7 @@ export const NewMovie: React.FC<Props> = (props) => {
         value={title}
         onChange={setTitle}
         required
+        isValidUrl={isValidUrl(imgUrl)}
       />
 
       <TextField
@@ -70,6 +82,7 @@ export const NewMovie: React.FC<Props> = (props) => {
         value={imgUrl}
         onChange={setImgUrl}
         required
+        isValidUrl={isValidUrl(imgUrl)}
       />
 
       <TextField
@@ -78,6 +91,7 @@ export const NewMovie: React.FC<Props> = (props) => {
         value={imdbUrl}
         onChange={setImdbUrl}
         required
+        isValidUrl={isValidUrl(imgUrl)}
       />
 
       <TextField
@@ -86,6 +100,7 @@ export const NewMovie: React.FC<Props> = (props) => {
         value={imdbId}
         onChange={setImdbId}
         required
+        isValidUrl={isValidUrl(imgUrl)}
       />
 
       <div className="field is-grouped">
@@ -94,7 +109,7 @@ export const NewMovie: React.FC<Props> = (props) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!isAbbleToAdd}
+            disabled={!isActive}
           >
             Add
           </button>
