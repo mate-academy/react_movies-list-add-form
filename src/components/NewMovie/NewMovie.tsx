@@ -5,18 +5,19 @@ import { TextField } from '../TextField';
 // eslint-disable-next-line max-len
 const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
 
+const clearForm = {
+  title: '',
+  description: '',
+  imgUrl: '',
+  imdbUrl: '',
+  imdbId: '',
+};
+
 type Props = {
   onAdd: (movie: Movie) => void
 };
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
-  const clearForm = {
-    title: '',
-    description: '',
-    imgUrl: '',
-    imdbUrl: '',
-    imdbId: '',
-  };
   const [count, setCount] = useState(0);
   const [movie, setMovie] = useState(clearForm);
 
@@ -28,7 +29,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     imdbId,
   } = movie;
 
-  const isValidUrl = (url: string):boolean => pattern.test(url.trim());
+  const isValidUrl = (url: string): boolean => pattern.test(url.trim());
 
   const disabledButton
   = title
