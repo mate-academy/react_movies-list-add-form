@@ -11,7 +11,7 @@ export const App = () => {
   const [movies, setMovies] = useState(visibleMovies);
 
   const addMovie = (newMovie: Movie) => {
-    setMovies(currentMovies => [...currentMovies, newMovie]);
+    setMovies([...movies, newMovie]);
   };
 
   return (

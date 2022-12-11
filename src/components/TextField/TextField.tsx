@@ -30,7 +30,7 @@ export const TextField: React.FC<Props> = ({
 
   const hasError = touched
     && required
-    && !value;
+    && !value.trim();
 
   const hasUrlError = touched
     && value
