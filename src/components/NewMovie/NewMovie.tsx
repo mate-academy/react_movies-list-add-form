@@ -26,9 +26,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
   const isDisabled = !(
     title.trim()
-    || imgUrl.trim()
-    || imdbUrl.trim()
-    || imdbId.trim()
+    && imgUrl.trim()
+    && imdbUrl.trim()
+    && imdbId.trim()
   );
 
   const handleSubmit = (event: React.FormEvent) => {
