@@ -13,10 +13,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imgUrl, setImgUrl] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
+  const sendingDisabled = title && description && imgUrl && imdbUrl && imdbId;
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setCount(curr => curr + 1);
+    if (!sendingDisabled) {
+      return;
+    }
 
     onAdd({
       title,
@@ -87,6 +91,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
+            disabled={!sendingDisabled}
           >
             Add
           </button>
