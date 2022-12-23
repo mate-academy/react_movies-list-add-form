@@ -59,12 +59,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={movie.title}
-        onChange={event => {
-          setMovie({
-            ...movie,
-            title: event.target.value,
-          });
-        }}
+        onChange={handleChange}
         required
       />
 
