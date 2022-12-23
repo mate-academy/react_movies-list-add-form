@@ -1,10 +1,27 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
+import { Movie } from '../../types/Movie';
 import { TextField } from '../TextField';
 
-export const NewMovie = () => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
-  const [count] = useState(0);
+type Props = {
+  onAdd: (movie: Movie) => void;
+};
+
+export const NewMovie = ({ onAdd }: Props) => {
+  const emptyMovie = {
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  };
+  const [count, setCount] = useState(0);
+  const [movie, setMovie] = useState(emptyMovie);
+  const onSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.preventDefault();
+    setCount(prev => prev + 1);
+    onAdd(movie);
+    // setMovie(emptyMovie);
+  };
 
   return (
     <form className="NewMovie" key={count}>
@@ -13,33 +30,65 @@ export const NewMovie = () => {
       <TextField
         name="title"
         label="Title"
-        value=""
-        onChange={() => {}}
+        value={movie.title}
+        onChange={(value: string) => {
+          setMovie(prev => ({
+            ...prev,
+            title: value,
+          }));
+        }}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value=""
+        value={movie.description}
+        onChange={(value: string) => {
+          setMovie(prev => ({
+            ...prev,
+            description: value,
+          }));
+        }}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value=""
+        value={movie.imgUrl}
+        onChange={(value: string) => {
+          setMovie(prev => ({
+            ...prev,
+            imgUrl: value,
+          }));
+        }}
+        required
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value=""
+        value={movie.imdbUrl}
+        onChange={(value: string) => {
+          setMovie(prev => ({
+            ...prev,
+            imdbUrl: value,
+          }));
+        }}
+        required
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value=""
+        value={movie.imdbId}
+        onChange={(value: string) => {
+          setMovie(prev => ({
+            ...prev,
+            imdbId: value,
+          }));
+        }}
+        required
       />
 
       <div className="field is-grouped">
@@ -48,6 +97,15 @@ export const NewMovie = () => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
+            onClick={(
+              e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+            ) => onSubmit(e)}
+            disabled={
+              !movie.title
+              || !movie.imgUrl
+              || !movie.imdbUrl
+              || !movie.imdbId
+            }
           >
             Add
           </button>
