@@ -51,6 +51,17 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setImdbId('');
   };
 
+  const isValidUrl = (url: string) => {
+    const pattern
+      // eslint-disable-next-line max-len
+      = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
+
+    return pattern.test(url);
+  };
+
+  const isValidImgUrl = isValidUrl(imgUrl);
+  const isValidImdbUrl = isValidUrl(imdbUrl);
+
   return (
     <form className="NewMovie" key={count}>
       <h2 className="title">Add a movie</h2>
@@ -76,6 +87,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={imgUrl}
         required
         onChange={(newImgUrl) => setImgUrl(newImgUrl)}
+        isValidUrl={isValidImgUrl}
       />
 
       <TextField
@@ -84,6 +96,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={imdbUrl}
         required
         onChange={(newImdbUrl) => setImdbUrl(newImdbUrl)}
+        isValidUrl={isValidImdbUrl}
       />
 
       <TextField
