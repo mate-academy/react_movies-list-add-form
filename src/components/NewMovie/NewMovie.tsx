@@ -16,7 +16,18 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const areFieldsFilled = Boolean(
+  const isValidUrl = (url: string) => {
+    const pattern
+      // eslint-disable-next-line max-len
+      = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
+
+    return pattern.test(url);
+  };
+
+  const isValidImgUrl = isValidUrl(imgUrl);
+  const isValidImdbUrl = isValidUrl(imdbUrl);
+
+  const areAllFieldsValid = Boolean(
     title.trim()
     && imgUrl.trim()
     && imdbUrl.trim()
@@ -28,7 +39,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   ) => {
     event.preventDefault();
 
-    if (!areFieldsFilled) {
+    if (!areAllFieldsValid) {
       return;
     }
 
@@ -50,17 +61,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setImdbUrl('');
     setImdbId('');
   };
-
-  const isValidUrl = (url: string) => {
-    const pattern
-      // eslint-disable-next-line max-len
-      = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
-
-    return pattern.test(url);
-  };
-
-  const isValidImgUrl = isValidUrl(imgUrl);
-  const isValidImdbUrl = isValidUrl(imdbUrl);
 
   return (
     <form className="NewMovie" key={count}>
@@ -113,7 +113,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!areFieldsFilled}
+            disabled={!(areAllFieldsValid && isValidImgUrl && isValidImgUrl)}
             onClick={(event) => handleSubmit(event)}
           >
             Add
