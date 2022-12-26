@@ -6,15 +6,15 @@ import moviesFromServer from './api/movies.json';
 import { Movie } from './types/Movie';
 
 export const App = () => {
-  const [movieRender, setMovieRender] = useState([...moviesFromServer]);
+  const [movies, setMovies] = useState([...moviesFromServer]);
   const addMovie = (movie: Movie) => {
-    setMovieRender([...movieRender, movie]);
+    setMovies([...movies, movie]);
   };
 
   return (
     <div className="page">
       <div className="page-content">
-        <MoviesList movies={movieRender} />
+        <MoviesList movies={movies} />
       </div>
       <div className="sidebar">
         <NewMovie onAdd={addMovie} />

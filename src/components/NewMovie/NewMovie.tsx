@@ -7,8 +7,6 @@ type Props = {
 };
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -25,26 +23,28 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   };
 
   const isDisabled = !(title.trim().length && imgUrl.trim().length
-  && imdbUrl.trim().length && imdbId.trim().length);
+    && imdbUrl.trim().length && imdbId.trim().length);
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const movieToAdd = {
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    };
+
+    onAdd(movieToAdd);
+    setCount(count + 1);
+    reset();
+  };
 
   return (
     <form
       className="NewMovie"
       key={count}
-      onSubmit={(event) => {
-        event.preventDefault();
-        const movieToAdd = {
-          title,
-          description,
-          imgUrl,
-          imdbUrl,
-          imdbId,
-        };
-
-        onAdd(movieToAdd);
-        setCount(count + 1);
-        reset();
-      }}
+      onSubmit={handleSubmit}
     >
       <h2 className="title">Add a movie</h2>
 
