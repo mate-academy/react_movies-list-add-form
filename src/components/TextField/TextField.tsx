@@ -39,7 +39,7 @@ export const TextField: React.FC<Props> = ({
             'is-danger': hasError,
           })}
           type="text"
-          placeholder={`Enter ${label}`}
+          placeholder={`Enter the movie ${label}`}
           value={value}
           onChange={event => onChange(event.target.value)}
           onBlur={() => setToched(true)}
