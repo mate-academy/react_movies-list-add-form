@@ -74,10 +74,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setCurrentImdbIdValue(text);
   };
 
-  const isButtonAddActive = currentTitleValue
-    && currentImgUrlValue
-    && currentImdbUrlValue
-    && currentImdbIdValue;
+  const isButtonAddActive = currentTitleValue.trim()
+    && currentImgUrlValue.trim()
+    && currentImdbUrlValue.trim()
+    && currentImdbIdValue.trim();
 
   return (
     <form
