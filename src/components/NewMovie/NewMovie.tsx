@@ -15,23 +15,29 @@ export const NewMovie:React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setUrl] = useState('');
   const [imdbId, setId] = useState('');
 
-  const newMovie = {
-    title,
-    description,
-    imgUrl,
-    imdbUrl,
-    imdbId,
-  };
-
-  const onSubmit = (e: React.SyntheticEvent) => {
-    e.preventDefault();
-    onAdd(newMovie);
-    setCount((currentCount) => currentCount + 1);
+  function clearInputs() {
     setTitle('');
     setDescription('');
     setImgUrl('');
     setUrl('');
     setId('');
+  }
+
+  const onSubmit = (e: React.SyntheticEvent) => {
+    e.preventDefault();
+    setCount((currentCount) => currentCount + 1);
+
+    const newMovie = {
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    };
+
+    onAdd(newMovie);
+
+    clearInputs();
   };
 
   const isDisabled = !(title && imgUrl && imdbUrl && imdbId);
