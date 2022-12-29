@@ -55,7 +55,7 @@ export const TextField: React.FC<Props> = ({
       )}
 
       {!isValidUrl && touched && (
-        <p className="help is-danger">Please enter valid URL</p>
+        <p className="help is-danger">Please enter a valid URL</p>
       )}
     </div>
   );
