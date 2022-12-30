@@ -29,8 +29,8 @@ export const NewMovie: React.FC<Props> = ({
   };
 
   const areFieldsFilled = () => {
-    return (newFilm.title) && (newFilm.imgUrl)
-    && (newFilm.imdbUrl) && (newFilm.imdbId);
+    return newFilm.title.trim() && newFilm.imgUrl.trim()
+    && newFilm.imdbUrl.trim() && newFilm.imdbId.trim();
   };
 
   const addNewFilm = (

@@ -8,12 +8,12 @@ import { Movie } from './types/Movie';
 export const App = () => {
   const [movie, setMovie] = useState(moviesFromServer);
 
-  function addNewMovie(newMovie: Movie) {
+  const addNewMovie = (newMovie: Movie) => {
     setMovie([
       ...movie,
       newMovie,
     ]);
-  }
+  };
 
   return (
     <div className="page">
@@ -22,9 +22,7 @@ export const App = () => {
       </div>
       <div className="sidebar">
         <NewMovie
-          onAdd={(newMovie) => {
-            addNewMovie(newMovie);
-          }}
+          onAdd={addNewMovie}
         />
       </div>
     </div>
