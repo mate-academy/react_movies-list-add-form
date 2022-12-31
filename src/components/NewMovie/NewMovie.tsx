@@ -13,6 +13,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
+
   const [movie, setMovie] = useState({
     title: '',
     description: '',
@@ -29,6 +30,17 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
   } = movie;
 
   const isFormValid = title && imgUrl && imdbUrl && imdbId;
+
+  const checkUrl = (url: string) => {
+    if (!url) {
+      return true;
+    }
+
+    // eslint-disable-next-line max-len
+    const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
+
+    return pattern.test(url);
+  };
 
   const onChange: ChangeFunction = (name: string, value: string) => {
     setMovie((prevMovie) => ({
@@ -74,6 +86,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
         value={movie.imgUrl}
         onChange={onChange}
         required
+        validate={checkUrl}
       />
 
       <TextField
@@ -82,6 +95,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
         value={movie.imdbUrl}
         onChange={onChange}
         required
+        validate={checkUrl}
       />
 
       <TextField
