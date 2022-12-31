@@ -1,12 +1,13 @@
 import classNames from 'classnames';
 import React, { useState } from 'react';
+import type { ChangeFunction } from '../NewMovie';
 
 type Props = {
-  name: string,
-  value: string,
-  label?: string,
-  required?: boolean,
-  onChange?: (newValue: string) => void,
+  name: string;
+  value: string;
+  label?: string;
+  required?: boolean;
+  onChange: ChangeFunction;
 };
 
 function getRandomDigits() {
@@ -18,7 +19,7 @@ export const TextField: React.FC<Props> = ({
   value,
   label = name,
   required = false,
-  onChange = () => {},
+  onChange,
 }) => {
   // generage a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
@@ -36,6 +37,7 @@ export const TextField: React.FC<Props> = ({
       <div className="control">
         <input
           id={id}
+          name={name}
           data-cy={`movie-${name}`}
           className={classNames('input', {
             'is-danger': hasError,
@@ -43,14 +45,12 @@ export const TextField: React.FC<Props> = ({
           type="text"
           placeholder={`Enter ${label}`}
           value={value}
-          onChange={event => onChange(event.target.value)}
+          onChange={(event) => onChange(event.target.name, event.target.value)}
           onBlur={() => setToched(true)}
         />
       </div>
 
-      {hasError && (
-        <p className="help is-danger">{`${label} is required`}</p>
-      )}
+      {hasError && <p className="help is-danger">{`${label} is required`}</p>}
     </div>
   );
 };
