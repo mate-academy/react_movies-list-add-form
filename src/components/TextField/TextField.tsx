@@ -1,21 +1,25 @@
 import classNames from 'classnames';
-import React, { useState } from 'react';
+import React, { ChangeEvent, memo, useState } from 'react';
 
 type Props = {
+  id?: number,
   name: string,
   value: string,
   label?: string,
+  isValid?: boolean,
   required?: boolean,
   onChange?: (newValue: string) => void,
+  onBlur?: (event: ChangeEvent<HTMLInputElement>)=> void;
 };
 
 function getRandomDigits() {
   return Math.random().toString().slice(2);
 }
 
-export const TextField: React.FC<Props> = ({
+export const TextField: React.FC<Props> = memo(({
   name,
   value,
+  isValid,
   label = name,
   required = false,
   onChange = () => {},
@@ -47,10 +51,14 @@ export const TextField: React.FC<Props> = ({
           onBlur={() => setToched(true)}
         />
       </div>
-
+      {isValid && (
+        <p className="FormInput__error">
+          {`${name} is not valid!`}
+        </p>
+      )}
       {hasError && (
         <p className="help is-danger">{`${label} is required`}</p>
       )}
     </div>
   );
-};
+});
