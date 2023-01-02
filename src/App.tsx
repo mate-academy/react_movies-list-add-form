@@ -5,7 +5,7 @@ import { NewMovie } from './components/NewMovie';
 import moviesFromServer from './api/movies.json';
 
 export const App: React.FC = () => {
-  const [visibleMovies, setvisibleMovie] = useState(moviesFromServer);
+  const [visibleMovies, setVisibleMovie] = useState(moviesFromServer);
 
   return (
     <div className="page">
@@ -15,7 +15,7 @@ export const App: React.FC = () => {
       <div className="sidebar">
         <NewMovie
           onAdd={(movie) => {
-            setvisibleMovie([...visibleMovies, movie]);
+            setVisibleMovie([...visibleMovies, movie]);
           }}
         />
       </div>

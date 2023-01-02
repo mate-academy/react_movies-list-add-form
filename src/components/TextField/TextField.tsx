@@ -7,7 +7,7 @@ type Props = {
   label?: string,
   required?: boolean,
   validation?: boolean,
-  onChange?: (newValue: string) => void,
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void,
 };
 
 function getRandomDigits() {
@@ -42,6 +42,7 @@ export const TextField: React.FC<Props> = ({
 
       <div className="control">
         <input
+          name={name}
           id={id}
           data-cy={`movie-${name}`}
           className={classNames('input', {
@@ -51,10 +52,10 @@ export const TextField: React.FC<Props> = ({
           type="text"
           placeholder={`Enter ${label}`}
           value={value}
-          onChange={event => onChange(event.target.value)}
+          onChange={event => onChange(event)}
           onBlur={() => {
             setToched(true);
-            setPatternError(!pattern.test(value) ? 'data is not correct' : '');
+            setPatternError(!pattern.test(value) ? 'Data is not correct' : '');
           }}
         />
       </div>
@@ -63,7 +64,7 @@ export const TextField: React.FC<Props> = ({
         <p className="help is-danger">{`${label} is required`}</p>
       )}
 
-      {needValidation && (
+      {(needValidation && !hasError) && (
         <p className="help is-danger">{patternError}</p>
       )}
     </div>

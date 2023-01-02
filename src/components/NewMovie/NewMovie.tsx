@@ -16,7 +16,7 @@ type FillRequired = {
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
 
-  const [textFieldsValue, setTextfieldValue] = useState({
+  const [textFieldsValue, setTextfieldsValue] = useState({
     title: '',
     description: '',
     imgUrl: '',
@@ -39,6 +39,12 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     imdbId: !!imdbId.length,
   };
 
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+
+    setTextfieldsValue({ ...textFieldsValue, [name]: value });
+  };
+
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     const newMovie: Movie = {
@@ -51,7 +57,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
     onAdd(newMovie);
 
-    setTextfieldValue({
+    setTextfieldsValue({
       title: '',
       description: '',
       imgUrl: '',
@@ -74,9 +80,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={title}
-        onChange={
-          value => setTextfieldValue({ ...textFieldsValue, title: value })
-        }
+        onChange={handleChange}
         required
       />
 
@@ -84,18 +88,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={description}
-        onChange={
-          value => setTextfieldValue({ ...textFieldsValue, description: value })
-        }
+        onChange={handleChange}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={
-          value => setTextfieldValue({ ...textFieldsValue, imgUrl: value })
-        }
+        onChange={handleChange}
         required
         validation
       />
@@ -104,9 +104,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={
-          value => setTextfieldValue({ ...textFieldsValue, imdbUrl: value })
-        }
+        onChange={handleChange}
         required
         validation
       />
@@ -115,9 +113,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={
-          value => setTextfieldValue({ ...textFieldsValue, imdbId: value })
-        }
+        onChange={handleChange}
         required
       />
 
