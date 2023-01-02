@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TextField } from '../TextField';
+import { TextField, pattern } from '../TextField';
 import { Movie } from '../../types/Movie';
 
 type Props = {
@@ -34,8 +34,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
   const fillRequired: FillRequired = {
     title: !!title.length,
-    imgUrl: !!imgUrl.length,
-    imdbUrl: !!imdbUrl.length,
+    imgUrl: !!(pattern.test(imgUrl)),
+    imdbUrl: !!(pattern.test(imdbUrl)),
     imdbId: !!imdbId.length,
   };
 
