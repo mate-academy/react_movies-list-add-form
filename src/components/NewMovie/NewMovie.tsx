@@ -16,13 +16,15 @@ type FillRequired = {
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
 
-  const [textFieldsValue, setTextfieldsValue] = useState({
+  const defaultValues = {
     title: '',
     description: '',
     imgUrl: '',
     imdbUrl: '',
     imdbId: '',
-  });
+  };
+
+  const [textFieldsValue, setTextfieldsValue] = useState(defaultValues);
 
   const {
     title,
@@ -42,7 +44,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
 
-    setTextfieldsValue({ ...textFieldsValue, [name]: value });
+    setTextfieldsValue(
+      { ...textFieldsValue, [name]: value.trim().length > 0 ? value : '' },
+    );
   };
 
   const handleSubmit = (event: React.FormEvent) => {
@@ -57,16 +61,12 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
     onAdd(newMovie);
 
-    setTextfieldsValue({
-      title: '',
-      description: '',
-      imgUrl: '',
-      imdbUrl: '',
-      imdbId: '',
-    });
+    setTextfieldsValue(defaultValues);
     Object.values(fillRequired).forEach(el => !el);
     setCount(count + 1);
   };
+
+  const disableSubmit = !Object.values(fillRequired).every(el => el === true);
 
   return (
     <form
@@ -123,7 +123,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!Object.values(fillRequired).every(el => el === true)}
+            disabled={disableSubmit}
           >
             Add
           </button>

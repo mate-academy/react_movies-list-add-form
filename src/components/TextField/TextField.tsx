@@ -34,6 +34,11 @@ export const TextField: React.FC<Props> = ({
   const hasError = touched && required && !value;
   const needValidation = patternError !== '' && validation;
 
+  const handleBlur = () => {
+    setToched(true);
+    setPatternError(!pattern.test(value) ? 'Data is not correct' : '');
+  };
+
   return (
     <div className="field">
       <label className="label" htmlFor={id}>
@@ -53,10 +58,7 @@ export const TextField: React.FC<Props> = ({
           placeholder={`Enter ${label}`}
           value={value}
           onChange={event => onChange(event)}
-          onBlur={() => {
-            setToched(true);
-            setPatternError(!pattern.test(value) ? 'Data is not correct' : '');
-          }}
+          onBlur={handleBlur}
         />
       </div>
 
