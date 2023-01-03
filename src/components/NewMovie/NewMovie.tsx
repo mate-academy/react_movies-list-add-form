@@ -9,8 +9,6 @@ interface Props {
 }
 
 export const NewMovie: FC<Props> = ({ onAdd }) => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -21,18 +19,13 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
   const [hasTitleError, setTitleError] = useState(false);
   const [hasDescriptionError, setDescriptionError] = useState(false);
   const [hasImgUrlError, setImgUrlError] = useState(false);
-  const [hasimdbUrlError, setimdbUrlError] = useState(false);
-  const [hasimdbIDError, setimdbIdError] = useState(false);
-
-  // eslint-disable-next-line max-len
-  // const urlRegex = new RegExp(/^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/);
-
-  // const isValidUrl = (value: string) => urlRegex.test(value);
+  const [hasImdbUrlError, setImdbUrlError] = useState(false);
+  const [hasImdbIDError, setImdbIdError] = useState(false);
 
   const isMovieValid = Boolean(title)
-  && Boolean(imdbId)
-  && (imgUrl)
-  && (imdbUrl);
+    && Boolean(imdbId)
+    && (imgUrl)
+    && (imdbUrl);
 
   const clearForm = () => {
     setTitle('');
@@ -70,13 +63,13 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
   }, []);
 
   const handleimdbUrlChange = useCallback((event) => {
-    setimdbUrlError(false);
+    setImdbUrlError(false);
     setimdbUrl(event);
   }, []);
 
   const handleImdbUrlBlur = useCallback(({ target }) => {
     if (!(target.value)) {
-      setimdbUrlError(true);
+      setImdbUrlError(true);
     }
   }, []);
 
@@ -86,7 +79,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
 
   const handleImdbIdBlur = useCallback(({ target }) => {
     if (!target.value) {
-      setimdbIdError(true);
+      setImdbIdError(true);
     }
   }, []);
 
@@ -149,7 +142,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         data-cy={imdbUrl}
-        isValid={hasimdbUrlError}
+        isValid={hasImdbUrlError}
         value={imdbUrl}
         onChange={handleimdbUrlChange}
         onBlur={handleImdbUrlBlur}
@@ -159,7 +152,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
       <TextField
         name="imdbId"
         label="Imdb ID"
-        isValid={hasimdbIDError}
+        isValid={hasImdbIDError}
         value={imdbId}
         data-cy={imdbId}
         onChange={handleImbdIdChange}
