@@ -117,13 +117,6 @@ export const NewMovie = (props: Props) => {
 
               onAdd(movie);
               setMovieValues();
-              // setCount((prevCount) => prevCount + 1);
-              // setMovieTitle('');
-              // setMovieDescription('');
-              // setMovieImageUrl('');
-              // setMovieImdbUrl('');
-              // setMovieImdbId('');
-              // setDisabled(true);
             }}
           >
             Add
