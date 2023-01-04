@@ -1,7 +1,12 @@
 import { useEffect, useState } from 'react';
+import { Movie } from '../../types/Movie';
 import { TextField } from '../TextField';
 
-export const NewMovie = (props: any) => {
+type Props = {
+  onAdd: (movie: Movie) => void
+};
+
+export const NewMovie = (props: Props) => {
   const [count, setCount] = useState(0);
   const [disabled, setDisabled] = useState(true);
   const { onAdd } = props;
@@ -14,26 +19,25 @@ export const NewMovie = (props: any) => {
   const [movie, setMovie] = useState({
     title: movieTitle,
     description: movieDescription,
-    imageUrl: movieImageUrl,
+    imgUrl: movieImageUrl,
     imdbUrl: movieImdbUrl,
     imdbId: movieImdbId,
   });
 
   useEffect(() => {
-    setMovie(
-      {
-        title: movieTitle,
-        description: movieDescription,
-        imageUrl: movieImageUrl,
-        imdbUrl: movieImdbUrl,
-        imdbId: movieImdbId,
-      },
+    const newMovie = {
+      title: movieTitle.trim(),
+      description: movieDescription.trim(),
+      imgUrl: movieImageUrl.trim(),
+      imdbUrl: movieImdbUrl.trim(),
+      imdbId: movieImdbId.trim(),
+    };
 
-    );
-    if (movie.title.length !== 0
-      && movie.imageUrl.length !== 0
-      && movie.imdbUrl.length !== 0
-      && movie.imdbId.length !== 0
+    setMovie(newMovie);
+    if (newMovie.title.length !== 0
+      && newMovie.imgUrl.length !== 0
+      && newMovie.imdbUrl.length !== 0
+      && newMovie.imdbId.length !== 0
     ) {
       setDisabled(false);
     } else {
@@ -47,6 +51,16 @@ export const NewMovie = (props: any) => {
     movieImdbId,
     disabled,
   ]);
+
+  const setMovieValues = () => {
+    setCount((prevCount) => prevCount + 1);
+    setMovieTitle('');
+    setMovieDescription('');
+    setMovieImageUrl('');
+    setMovieImdbUrl('');
+    setMovieImdbId('');
+    setDisabled(true);
+  };
 
   return (
     <form className="NewMovie" key={count}>
@@ -79,9 +93,7 @@ export const NewMovie = (props: any) => {
         name="imdbUrl"
         label="Imdb URL"
         value={movieImdbUrl}
-        onChange={(event) => {
-          setMovieImdbUrl(event);
-        }}
+        onChange={setMovieImdbUrl}
         required
       />
 
@@ -89,9 +101,7 @@ export const NewMovie = (props: any) => {
         name="imdbId"
         label="Imdb ID"
         value={movieImdbId}
-        onChange={(event) => {
-          setMovieImdbId(event);
-        }}
+        onChange={setMovieImdbId}
         required
       />
 
@@ -106,13 +116,14 @@ export const NewMovie = (props: any) => {
               e.preventDefault();
 
               onAdd(movie);
-              setCount((prevCount) => prevCount + 1);
-              setMovieTitle('');
-              setMovieDescription('');
-              setMovieImageUrl('');
-              setMovieImdbUrl('');
-              setMovieImdbId('');
-              setDisabled(true);
+              setMovieValues();
+              // setCount((prevCount) => prevCount + 1);
+              // setMovieTitle('');
+              // setMovieDescription('');
+              // setMovieImageUrl('');
+              // setMovieImdbUrl('');
+              // setMovieImdbId('');
+              // setDisabled(true);
             }}
           >
             Add
