@@ -9,9 +9,9 @@ export const App = () => {
   const moviesList = [...moviesFromServer];
   const [movies, setMovies] = useState(moviesList);
 
-  function onAdd(movie: Movie) {
+  const onAdd = (movie: Movie) => {
     setMovies(moviesCurrentList => [...moviesCurrentList, movie]);
-  }
+  };
 
   return (
     <div className="page">
@@ -19,7 +19,7 @@ export const App = () => {
         <MoviesList movies={movies} />
       </div>
       <div className="sidebar">
-        <NewMovie onAdd={(e) => onAdd(e)} />
+        <NewMovie onAdd={onAdd} />
       </div>
     </div>
   );
