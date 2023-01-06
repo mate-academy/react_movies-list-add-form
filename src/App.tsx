@@ -7,7 +7,7 @@ import { Movie } from './types/Movie';
 import './App.scss';
 
 export const App: FC<{}> = () => {
-  const [visibleMovies, setMovies] = useState(moviesFromServer);
+  const [movies, setMovies] = useState(moviesFromServer);
 
   const onAdd = (movie: Movie) => {
     setMovies(state => [...state, movie]);
@@ -16,7 +16,7 @@ export const App: FC<{}> = () => {
   return (
     <div className="page">
       <div className="page-content">
-        <MoviesList movies={visibleMovies} />
+        <MoviesList movies={movies} />
       </div>
 
       <div className="sidebar">

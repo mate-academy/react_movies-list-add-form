@@ -41,7 +41,7 @@ export const TextField: React.FC<Props> = ({
           id={id}
           data-cy={`movie-${name}`}
           className={classNames('input', {
-            'is-danger': hasError || isInvalidUrl,
+            'is-danger': hasError || (isInvalidUrl && value),
           })}
           type="text"
           placeholder={`Enter ${label}`}
@@ -54,8 +54,7 @@ export const TextField: React.FC<Props> = ({
 
             if (/url/i.test(name)) {
               setIsInvalidUrl(
-                Boolean(value)
-                && !pattern.test(value),
+                !pattern.test(value),
               );
             }
           }}
