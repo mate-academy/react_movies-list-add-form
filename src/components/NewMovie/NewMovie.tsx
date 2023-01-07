@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import { FC, FormEvent, useState } from 'react';
 import { Movie } from '../../types/Movie';
 import { TextField } from '../TextField';
@@ -13,9 +14,22 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
   const [imgUrl, setImgUrl] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
+  const [isImgUrlValid, setIsImgUrlValid] = useState(true);
+  const [isImdbUrlValid, setIsImdbUrlValid] = useState(true);
+
+  // eslint-disable-next-line
+  const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    if (!pattern.test(imgUrl) || !pattern.test(imdbUrl)) {
+      setIsImgUrlValid(pattern.test(imgUrl));
+      setIsImdbUrlValid(pattern.test(imdbUrl));
+
+      return;
+    }
+
     const newMovie = {
       title,
       description,
@@ -72,6 +86,8 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
         onChange={(value) => {
           setImgUrl(value);
         }}
+        isImgUrlValid={isImgUrlValid}
+        setIsImgUrlValid={setIsImgUrlValid}
         required
       />
 
@@ -82,6 +98,8 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
         onChange={(value) => {
           setImdbUrl(value);
         }}
+        isImdbUrlValid={isImdbUrlValid}
+        setIsImdbUrlValid={setIsImdbUrlValid}
         required
       />
 
