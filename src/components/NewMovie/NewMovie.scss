@@ -1,1 +1,9 @@
-// not empty
+.button {
+  &:disabled:hover {
+    cursor: not-allowed;
+  }
+
+  &:enabled:hover {
+    cursor: pointer;
+  }
+}
