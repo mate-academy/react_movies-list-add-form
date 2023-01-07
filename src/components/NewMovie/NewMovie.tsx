@@ -1,9 +1,9 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
 type Props = {
-  onAdd: (movie: Movie)=>void
+  onAdd: (movie: Movie) => void
 };
 
 export const NewMovie:React.FC<Props> = ({ onAdd }) => {
@@ -22,7 +22,11 @@ export const NewMovie:React.FC<Props> = ({ onAdd }) => {
     title, description, imdbId, imdbUrl, imgUrl,
   } = userMovie;
 
-  const formIsValid = title && imdbId && imdbUrl && imgUrl;
+  const formIsValid = useMemo(
+    () => {
+      return title && imdbId && imdbUrl && imgUrl;
+    }, [title, imdbId, imdbUrl, imgUrl],
+  );
 
   const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { target } = e;
