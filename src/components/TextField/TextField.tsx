@@ -51,6 +51,7 @@ export const TextField: React.FC<Props> = ({
       {hasError && (
         <p className="help is-danger">{`${label} is required`}</p>
       )}
+
       {!validationUrl(value) && value && (
         <p className="help is-danger">{`${label} has incorrect URL`}</p>
       )}

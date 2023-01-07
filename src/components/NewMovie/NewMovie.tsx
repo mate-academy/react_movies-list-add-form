@@ -16,14 +16,17 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
   // eslint-disable-next-line max-len
   const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
-  const isFieldsAreFill = !isTitle
-  || !isImgUrl
-  || !isImdbUrl
-  || !isImdbId;
 
   const validationUrl = (link: string): boolean => {
     return (link.match(pattern) || [])[0] === link;
   };
+
+  const isFieldsAreFill = !isTitle
+  || !isImgUrl
+  || !isImdbUrl
+  || !isImdbId
+  || !validationUrl(isImdbUrl)
+  || !validationUrl(isImdbUrl);
 
   function clearForm() {
     setTitle('');
