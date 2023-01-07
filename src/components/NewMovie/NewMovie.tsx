@@ -14,10 +14,16 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [isImdbUrl, setImdbUrl] = useState('');
   const [isImdbId, setImdbId] = useState('');
 
+  // eslint-disable-next-line max-len
+  const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
   const isFieldsAreFill = !isTitle
   || !isImgUrl
   || !isImdbUrl
   || !isImdbId;
+
+  const validationUrl = (link: string): boolean => {
+    return (link.match(pattern) || [])[0] === link;
+  };
 
   function clearForm() {
     setTitle('');
@@ -31,18 +37,20 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) {
     event.preventDefault();
-    const newMovie = {
-      title: isTitle,
-      description: isDescription,
-      imgUrl: isImgUrl,
-      imdbUrl: isImdbUrl,
-      imdbId: isImdbId,
-    };
+    if (isImdbUrl.match(pattern) && isImgUrl.match(pattern)) {
+      const newMovie = {
+        title: isTitle,
+        description: isDescription,
+        imgUrl: isImgUrl,
+        imdbUrl: isImdbUrl,
+        imdbId: isImdbId,
+      };
 
-    onAdd(newMovie);
-    clearForm();
+      onAdd(newMovie);
+      clearForm();
 
-    setCount(count + 1);
+      setCount(count + 1);
+    }
   }
 
   return (
@@ -70,6 +78,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={isImgUrl}
         onChange={setImgUrl}
         required
+        validationUrl={validationUrl}
       />
 
       <TextField
@@ -78,6 +87,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={isImdbUrl}
         onChange={setImdbUrl}
         required
+        validationUrl={validationUrl}
       />
 
       <TextField
