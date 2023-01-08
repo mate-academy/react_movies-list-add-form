@@ -40,7 +40,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) {
     event.preventDefault();
-    if (isImdbUrl.match(pattern) && isImgUrl.match(pattern)) {
+    const isValidImgUrl = validationUrl(isImgUrl);
+    const isValidImdbUrl = validationUrl(isImdbUrl);
+
+    if (isValidImgUrl && isValidImdbUrl) {
       const newMovie = {
         title: isTitle,
         description: isDescription,
