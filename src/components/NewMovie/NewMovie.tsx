@@ -19,6 +19,15 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
   const allFilled = !!title && !!imgUrl && !!imdbUrl && !!imdbId;
 
+  const doReset = () => {
+    setCount(current => current + 1);
+    setTitle('');
+    setDescription('');
+    setImgUrl('');
+    setImdbUrl('');
+    setImdbId('');
+  };
+
   const handleSubmit = () => {
     // eslint-disable-next-line max-len
     const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
@@ -44,13 +53,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     };
 
     onAdd(newMovie);
-
-    setCount(current => current + 1);
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
+    doReset();
   };
 
   return (
