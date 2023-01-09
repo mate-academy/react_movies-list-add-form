@@ -8,6 +8,7 @@ type Props = {
 
 export const NewMovie: FC<Props> = ({ onAdd }) => {
   const defaultValue = '';
+  const defaultInvalidString = 'Invalid URL';
 
   const [count, setCount] = useState(0);
   const [title, setTitle] = useState(defaultValue);
@@ -42,13 +43,13 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
     increaseCountofMovies();
 
     if (!isValidParams(imgUrl)) {
-      setImgUrl('Invalid URL');
+      setImgUrl(defaultInvalidString);
 
       return;
     }
 
     if (!isValidParams(imdbUrl)) {
-      setImdbUrl('Invalid URL');
+      setImdbUrl(defaultInvalidString);
 
       return;
     }

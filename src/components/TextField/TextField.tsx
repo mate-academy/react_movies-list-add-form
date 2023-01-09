@@ -36,6 +36,7 @@ export const TextField: React.FC<Props> = ({
       <div className="control">
         <input
           id={id}
+          style={invalidParams ? { color: 'red' } : {}}
           data-cy={`movie-${name}`}
           className={classNames('input', {
             'is-danger': hasError || invalidParams,
