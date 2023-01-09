@@ -1,11 +1,13 @@
 import classNames from 'classnames';
 import React, { useState } from 'react';
+import { pattern } from './urlValidationPattern';
 
 type Props = {
   name: string,
   value: string,
   label?: string,
   required?: boolean,
+  checkUrl?: (check: boolean) => void
   onChange?: (newValue: string) => void,
 };
 
@@ -18,14 +20,15 @@ export const TextField: React.FC<Props> = ({
   value,
   label = name,
   required = false,
+  checkUrl = () => {},
   onChange = () => {},
 }) => {
-  // generage a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
-
-  // To show errors only if the field was touched (onBlur)
-  const [touched, setToched] = useState(false);
+  const [touched, setTouched] = useState(false);
+  const [isInvalidUrl, setIsInvalidUrl] = useState(false);
   const hasError = touched && required && !value;
+
+  checkUrl(isInvalidUrl);
 
   return (
     <div className="field">
@@ -38,15 +41,29 @@ export const TextField: React.FC<Props> = ({
           id={id}
           data-cy={`movie-${name}`}
           className={classNames('input', {
-            'is-danger': hasError,
+            'is-danger': hasError || (isInvalidUrl && value),
           })}
           type="text"
           placeholder={`Enter ${label}`}
           value={value}
-          onChange={event => onChange(event.target.value)}
-          onBlur={() => setToched(true)}
+          onBlur={() => {
+            setTouched(true);
+          }}
+          onChange={event => {
+            onChange(event.target.value);
+
+            if (/url/i.test(name)) {
+              setIsInvalidUrl(
+                !pattern.test(event.target.value),
+              );
+            }
+          }}
         />
       </div>
+
+      {isInvalidUrl && value && (
+        <p className="help is-danger">Provide a valid URL</p>
+      )}
 
       {hasError && (
         <p className="help is-danger">{`${label} is required`}</p>
