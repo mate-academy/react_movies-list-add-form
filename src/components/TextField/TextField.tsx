@@ -54,7 +54,7 @@ export const TextField: React.FC<Props> = ({
 
             if (/url/i.test(name)) {
               setIsInvalidUrl(
-                !pattern.test(value),
+                !pattern.test(event.target.value),
               );
             }
           }}
