@@ -62,14 +62,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setCount(current => current + 1);
   };
 
-  const isAble
-  = !titleValue
-  || !imgUrlValue
-  || !imdbUrlValue
-  || !imdbIdValue
-  || imgUrlError
-  || imdbUrlError;
-
   return (
     <form
       className="NewMovie"
@@ -123,7 +115,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={isAble}
+            disabled={
+              !titleValue
+              || !imgUrlValue
+              || !imdbUrlValue
+              || !imdbIdValue
+              || imgUrlError
+              || imdbUrlError
+            }
           >
             Add
           </button>
