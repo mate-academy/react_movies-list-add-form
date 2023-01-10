@@ -20,6 +20,11 @@ export const NewMovie: React.FC<Props> = (props) => {
   };
 
   const [fields, setFields] = useState(defaultFields);
+  const [count, setCount] = useState(0);
+
+  const increaseCount = () => {
+    setCount((currentCounter) => currentCounter + 1);
+  };
 
   const handleChange = (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -33,12 +38,35 @@ export const NewMovie: React.FC<Props> = (props) => {
     }));
   };
 
+  const handleAddingMovie = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+  ) => {
+    event.preventDefault();
+
+    setFields(defaultFields);
+
+    onAdd(fields);
+
+    increaseCount();
+  };
+
   const isDisabled = Object.entries(fields)
-    .filter(field => field[0] !== 'description')
-    .map(field => field[1])
+    .reduce((acc: string[], field) => {
+      if (field[0] !== 'description') {
+        return [...acc, field[1]];
+      }
+
+      return acc;
+    }, [])
     .some(field => field.trim().length === 0);
 
-  const [count, IncreaseCount] = useState(0);
+  const {
+    title,
+    description,
+    imgUrl,
+    imdbId,
+    imdbUrl,
+  } = fields;
 
   return (
     <form className="NewMovie" key={count}>
@@ -47,7 +75,7 @@ export const NewMovie: React.FC<Props> = (props) => {
       <TextField
         name="title"
         label="Title"
-        value={fields.title}
+        value={title}
         onChange={(event) => handleChange(event, 'title')}
         required
       />
@@ -55,14 +83,14 @@ export const NewMovie: React.FC<Props> = (props) => {
       <TextField
         name="description"
         label="Description"
-        value={fields.description}
+        value={description}
         onChange={(event) => handleChange(event, 'description')}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={fields.imgUrl}
+        value={imgUrl}
         onChange={(event) => handleChange(event, 'imgUrl')}
         required
       />
@@ -70,7 +98,7 @@ export const NewMovie: React.FC<Props> = (props) => {
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={fields.imdbUrl}
+        value={imdbUrl}
         onChange={(event) => handleChange(event, 'imdbUrl')}
         required
       />
@@ -78,7 +106,7 @@ export const NewMovie: React.FC<Props> = (props) => {
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={fields.imdbId}
+        value={imdbId}
         onChange={(event) => handleChange(event, 'imdbId')}
         required
       />
@@ -89,15 +117,7 @@ export const NewMovie: React.FC<Props> = (props) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            onClick={(event) => {
-              event.preventDefault();
-
-              setFields(defaultFields);
-
-              onAdd(fields);
-
-              IncreaseCount(count + 1);
-            }}
+            onClick={handleAddingMovie}
             disabled={isDisabled}
           >
             Add
