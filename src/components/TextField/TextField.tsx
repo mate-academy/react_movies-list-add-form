@@ -54,7 +54,7 @@ export const TextField: React.FC<Props> = ({
       )}
 
       {invalidParams && (
-        <p className="help is-danger">`Please pass valid URL`</p>
+        <p className="help is-danger">Please pass valid URL</p>
       )}
     </div>
   );
