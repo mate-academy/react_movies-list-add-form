@@ -14,8 +14,6 @@ type Props = {
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
-  const [imgUrlError, setImgUrlError] = useState(false);
-  const [imdbUrlError, setImdbUrlError] = useState(false);
   const [titleValue, setTitleValue] = useState('');
   const [descriptionValue, setDescriptionValue] = useState('');
   const [imgUrlValue, setImgUrlValue] = useState('');
@@ -23,7 +21,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbIdValue, setImdbIdValue] = useState('');
 
   const onChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value, name, classList } = event.target;
+    const { value, name } = event.target;
 
     switch (name) {
       case Input.title:
@@ -33,12 +31,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         setDescriptionValue(value);
         break;
       case Input.imgUrl:
-        setImgUrlError(classList.contains('is-danger'));
         setImgUrlValue(value);
         break;
       case Input.imdbUrl:
         setImdbUrlValue(value);
-        setImdbUrlError(classList.contains('is-danger'));
         break;
       case Input.imdbId:
         setImdbIdValue(value);
@@ -61,6 +57,12 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setImdbIdValue('');
     setCount(current => current + 1);
   };
+
+  const isAble
+  = !titleValue
+  || !imgUrlValue
+  || !imdbUrlValue
+  || !imdbIdValue;
 
   return (
     <form
@@ -115,14 +117,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={
-              !titleValue
-              || !imgUrlValue
-              || !imdbUrlValue
-              || !imdbIdValue
-              || imgUrlError
-              || imdbUrlError
-            }
+            disabled={isAble}
           >
             Add
           </button>

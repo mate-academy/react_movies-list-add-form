@@ -14,18 +14,6 @@ function getRandomDigits() {
   return Math.random().toString().slice(2);
 }
 
-const urlValidated = (urlValue: string) => {
-  const pattern = new RegExp([
-    '^((([A-Za-z]{3,9}:(?:\\/\\/)?)(?:[-;:&=+$,\\w]+@)?[A-Za-z0-9.-]+',
-    '|(?:www\\.|[-;:&=+$,\\w]+@)[A-Za-z0-9.-]+)',
-    '((?:\\/[+~%/.\\w-_]*)?\\??(?:[-+=&;%@,.\\w_]*)#?(?:[,.!/\\\\\\w]*))?)$',
-  ].join(''), 'g');
-
-  const filterValueArray = urlValue.match(pattern) || [''];
-
-  return filterValueArray[0];
-};
-
 export const TextField: React.FC<Props> = ({
   name,
   value,
@@ -37,12 +25,11 @@ export const TextField: React.FC<Props> = ({
 
   const [touched, setToched] = useState(false);
 
-  const checkedValue = (name === Input.imdbUrl
-    || name === Input.imgUrl)
-    ? urlValidated(value)
-    : value;
+  const hasError = touched && required && !value;
 
-  const hasError = touched && required && !checkedValue;
+  const type = (name === Input.imdbUrl || name === Input.imgUrl)
+    ? 'url'
+    : 'text';
 
   return (
     <div className="field">
@@ -58,7 +45,7 @@ export const TextField: React.FC<Props> = ({
           className={classNames('input', {
             'is-danger': hasError,
           })}
-          type="text"
+          type={type}
           placeholder={`Enter ${label}`}
           value={value}
           onChange={event => onChange(event)}
