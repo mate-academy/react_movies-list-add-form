@@ -16,7 +16,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const isAllFieldsValid = Boolean(
+  const isEachFieldValid = Boolean(
     title.trim()
     && imgUrl.trim()
     && imdbUrl.trim()
@@ -95,7 +95,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             data-cy="submit-button"
             className="button is-link"
             onClick={handleSubmit}
-            disabled={!(isAllFieldsValid)}
+            disabled={!(isEachFieldValid)}
           >
             Add
           </button>
