@@ -23,6 +23,7 @@ export const TextField: React.FC<Props> = ({
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
   const [touched, setToched] = useState(false);
+  const linkError = name === 'imgUrl' || name === 'imdbUrl';
   const hasError = touched && required && !value;
 
   return (
@@ -46,8 +47,12 @@ export const TextField: React.FC<Props> = ({
         />
       </div>
 
-      {hasError && (
+      {hasError && !linkError && (
         <p className="help is-danger">{`${label} is required`}</p>
+      )}
+
+      {hasError && linkError && (
+        <p className="help is-danger">{`Please, enter the valid ${label}`}</p>
       )}
     </div>
   );
