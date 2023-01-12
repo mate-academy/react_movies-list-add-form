@@ -23,7 +23,6 @@ export const App = () => {
       <div className="sidebar">
         <NewMovie
           onAdd={addMovie}
-          movies={movies}
         />
       </div>
     </div>
