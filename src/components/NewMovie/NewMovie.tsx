@@ -38,8 +38,13 @@ export const NewMovie:React.FC<Props> = ({ onAdd, movies }) => {
 
   const handleSubmit = () => {
     if (!isValidUrl(imgUrl) || !isValidUrl(imdbUrl)) {
-      setImgUrl(!isValidUrl(imdbUrl) ? 'Invalid URL' : imgUrl);
-      setImdbUrl(!isValidUrl(imdbUrl) ? 'Invalid URL' : imdbUrl);
+      if (!isValidUrl(imgUrl)) {
+        setImgUrl('Invalid URL');
+      }
+
+      if (!isValidUrl(imdbUrl)) {
+        setImdbUrl('Invalid URL');
+      }
 
       return;
     }
