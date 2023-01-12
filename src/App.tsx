@@ -21,7 +21,10 @@ export const App = () => {
         <MoviesList movies={movies} />
       </div>
       <div className="sidebar">
-        <NewMovie onAdd={addMovie} />
+        <NewMovie
+          onAdd={addMovie}
+          movies={movies}
+        />
       </div>
     </div>
   );

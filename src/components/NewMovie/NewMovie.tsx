@@ -4,10 +4,11 @@ import { TextField } from '../TextField';
 import { pattern } from './ValidUrlPattern';
 
 type Props = {
-  onAdd: (movie: Movie) => void
+  onAdd: (movie: Movie) => void,
+  movies: Movie[],
 };
 
-export const NewMovie:React.FC<Props> = ({ onAdd }) => {
+export const NewMovie:React.FC<Props> = ({ onAdd, movies }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
@@ -28,6 +29,11 @@ export const NewMovie:React.FC<Props> = ({ onAdd }) => {
     setImdbUrl('');
   };
 
+  const checkDuplicate = (
+    newMovie: Movie,
+    currentMovies: Movie[],
+  ) => currentMovies.some(movie => movie.imdbId === newMovie.imdbId);
+
   const isValidUrl = (value: string) => !!value.match(pattern);
 
   const handleSubmit = () => {
@@ -45,6 +51,13 @@ export const NewMovie:React.FC<Props> = ({ onAdd }) => {
       imdbUrl,
       imdbId,
     };
+
+    if (checkDuplicate(newMovie, movies)) {
+      // eslint-disable-next-line no-alert
+      alert('This movie is already added!');
+
+      return;
+    }
 
     onAdd(newMovie);
     setCount(current => current + 1);
