@@ -28,15 +28,15 @@ export const NewMovie:React.FC<Props> = ({ onAdd }) => {
     setImdbUrl('');
   };
 
-  const isValidUrl = (value: string) => !!value.match(pattern);
+  const isUrlValid = (value: string) => !!value.match(pattern);
 
   const handleSubmit = () => {
-    if (!isValidUrl(imgUrl) || !isValidUrl(imdbUrl)) {
-      if (!isValidUrl(imgUrl)) {
+    if (!isUrlValid(imgUrl) || !isUrlValid(imdbUrl)) {
+      if (!isUrlValid(imgUrl)) {
         setImgUrl('Invalid URL');
       }
 
-      if (!isValidUrl(imdbUrl)) {
+      if (!isUrlValid(imdbUrl)) {
         setImdbUrl('Invalid URL');
       }
 
@@ -88,7 +88,7 @@ export const NewMovie:React.FC<Props> = ({ onAdd }) => {
         value={imgUrl}
         required
         onChange={(newValue: string) => setImgUrl(newValue)}
-        validate={isValidUrl}
+        validate={isUrlValid}
       />
 
       <TextField
@@ -97,7 +97,7 @@ export const NewMovie:React.FC<Props> = ({ onAdd }) => {
         value={imdbUrl}
         required
         onChange={(newValue: string) => setImdbUrl(newValue)}
-        validate={isValidUrl}
+        validate={isUrlValid}
       />
 
       <TextField
