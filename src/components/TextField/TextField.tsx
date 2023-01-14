@@ -1,12 +1,15 @@
 import classNames from 'classnames';
+// import { event } from 'cypress/types/jquery';
 import React, { useState } from 'react';
 
 type Props = {
   name: string,
   value: string,
-  label?: string,
+  label: string,
   required?: boolean,
-  onChange?: (newValue: string) => void,
+  onChange: (newValue: string) => void,
+  isValid?: boolean,
+  setIsValid?: (value: boolean) => void,
 };
 
 function getRandomDigits() {
@@ -19,13 +22,25 @@ export const TextField: React.FC<Props> = ({
   label = name,
   required = false,
   onChange = () => {},
+  isValid,
+  setIsValid,
+
 }) => {
   // generage a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
   // To show errors only if the field was touched (onBlur)
   const [touched, setToched] = useState(false);
-  const hasError = touched && required && !value;
+  const invalidUrl = isValid === false;
+  const hasError = (touched && required && !value);
+
+  const handleChanges = (event: React.FormEvent<HTMLInputElement>) => {
+    if (setIsValid !== undefined) {
+      setIsValid(true);
+    }
+
+    onChange(event.currentTarget.value);
+  };
 
   return (
     <div className="field">
@@ -38,18 +53,22 @@ export const TextField: React.FC<Props> = ({
           id={id}
           data-cy={`movie-${name}`}
           className={classNames('input', {
-            'is-danger': hasError,
+            'is-danger': hasError || invalidUrl,
           })}
           type="text"
           placeholder={`Enter ${label}`}
           value={value}
-          onChange={event => onChange(event.target.value)}
+          onChange={handleChanges}
           onBlur={() => setToched(true)}
         />
       </div>
 
       {hasError && (
         <p className="help is-danger">{`${label} is required`}</p>
+      )}
+
+      {invalidUrl && (
+        <p className="help is-danger">{`${label} is not valid`}</p>
       )}
     </div>
   );
