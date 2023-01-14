@@ -8,52 +8,39 @@ type Props = {
 
 type State = {
   count: number,
-  titleValue: string,
-  descriptionValue: string,
-  imgUrlValue: string,
-  imdbUrlValue: string,
-  imdbIdValue: string,
+  title: string,
+  description: string,
+  imgUrl: string,
+  imdbUrl: string,
+  imdbId: string,
 };
 
 export class NewMovie extends React.Component<Props, State> {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
   state = {
     count: 0,
-    titleValue: '',
-    descriptionValue: '',
-    imgUrlValue: '',
-    imdbUrlValue: '',
-    imdbIdValue: '',
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
   };
 
-  chanheTitleValue = (event: ChangeEvent<HTMLInputElement>) => {
-    this.setState({ titleValue: event.target.value });
-  };
+  changeValue = (event: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
 
-  chanheDescriptionValue = (event: ChangeEvent<HTMLInputElement>) => {
-    this.setState({ descriptionValue: event.target.value });
-  };
-
-  chanheImgUrlValue = (event: ChangeEvent<HTMLInputElement>) => {
-    this.setState({ imgUrlValue: event.target.value });
-  };
-
-  chanheImdbUrlValue = (event: ChangeEvent<HTMLInputElement>) => {
-    this.setState({ imdbUrlValue: event.target.value });
-  };
-
-  chanheImdbIdValue = (event: ChangeEvent<HTMLInputElement>) => {
-    this.setState({ imdbIdValue: event.target.value });
+    this.setState(state => ({
+      ...state,
+      [name]: value,
+    }));
   };
 
   newMovie = () => {
     return {
-      title: this.state.titleValue,
-      description: this.state.descriptionValue,
-      imgUrl: this.state.imgUrlValue,
-      imdbUrl: this.state.imdbUrlValue,
-      imdbId: this.state.imdbIdValue,
+      title: this.state.title.trim(),
+      description: this.state.description.trim(),
+      imgUrl: this.state.imgUrl.trim(),
+      imdbUrl: this.state.imdbUrl.trim(),
+      imdbId: this.state.imdbId.trim(),
     };
   };
 
@@ -63,36 +50,22 @@ export class NewMovie extends React.Component<Props, State> {
 
     this.setState(state => ({
       count: state.count + 1,
-      titleValue: '',
-      descriptionValue: '',
-      imgUrlValue: '',
-      imdbUrlValue: '',
-      imdbIdValue: '',
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
     }));
-  };
-
-  buttonAvailability = () => {
-    const {
-      titleValue,
-      imgUrlValue,
-      imdbUrlValue,
-      imdbIdValue,
-    } = this.state;
-
-    return (titleValue === ''
-    || imgUrlValue === ''
-    || imdbUrlValue === ''
-    || imdbIdValue === '');
   };
 
   render(): React.ReactNode {
     const {
       count,
-      titleValue,
-      descriptionValue,
-      imgUrlValue,
-      imdbUrlValue,
-      imdbIdValue,
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
     } = this.state;
 
     return (
@@ -106,40 +79,40 @@ export class NewMovie extends React.Component<Props, State> {
         <TextField
           name="title"
           label="Title"
-          value={titleValue}
+          value={title}
           required
-          onChange={this.chanheTitleValue}
+          onChange={this.changeValue}
         />
 
         <TextField
           name="description"
           label="Description"
-          value={descriptionValue}
-          onChange={this.chanheDescriptionValue}
+          value={description}
+          onChange={this.changeValue}
         />
 
         <TextField
           name="imgUrl"
           label="Image URL"
-          value={imgUrlValue}
+          value={imgUrl}
           required
-          onChange={this.chanheImgUrlValue}
+          onChange={this.changeValue}
         />
 
         <TextField
           name="imdbUrl"
           label="Imdb URL"
-          value={imdbUrlValue}
+          value={imdbUrl}
           required
-          onChange={this.chanheImdbUrlValue}
+          onChange={this.changeValue}
         />
 
         <TextField
           name="imdbId"
           label="Imdb ID"
-          value={imdbIdValue}
+          value={imdbId}
           required
-          onChange={this.chanheImdbIdValue}
+          onChange={this.changeValue}
         />
 
         <div className="field is-grouped">
@@ -149,10 +122,10 @@ export class NewMovie extends React.Component<Props, State> {
               data-cy="submit-button"
               className="button is-link"
               disabled={(
-                titleValue === ''
-                || imgUrlValue === ''
-                || imdbUrlValue === ''
-                || imdbIdValue === ''
+                !title.trim().length
+                || !imgUrl.trim().length
+                || !imdbUrl.trim().length
+                || !imdbId.trim().length
               )}
             >
               Add
