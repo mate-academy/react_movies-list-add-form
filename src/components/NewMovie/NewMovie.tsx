@@ -1,45 +1,92 @@
-import { useState } from 'react';
+import { FormEvent, useState } from 'react';
 import { TextField } from '../TextField';
+import { Movie } from '../../types/Movie';
 
-export const NewMovie = () => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
-  const [count] = useState(0);
+type Props = {
+  onAdd: (movie: Movie) => void,
+};
+
+export const NewMovie: React.FC<Props> = ({ onAdd }) => {
+  const [count, setCount] = useState(0);
+  const [title, setTitle] = useState('');
+  const [imdbUrl, setImdbUrl] = useState('');
+  const [imgUrl, setImgUrl] = useState('');
+  const [imdbId, setImdbId] = useState('');
+  const [description, setDescription] = useState('');
+
+  const newMovie = {
+    title,
+    description,
+    imgUrl,
+    imdbUrl,
+    imdbId,
+  };
+
+  const resetStates = () => {
+    onAdd(newMovie);
+    setDescription('');
+    setImdbId('');
+    setImgUrl('');
+    setTitle('');
+  };
+
+  const handleSubmit = (event: FormEvent) => {
+    event.preventDefault();
+
+    setCount(counts => counts + 1);
+    resetStates();
+  };
+
+  const error = !title.trim()
+  || !imgUrl.trim()
+  || !imdbUrl.trim()
+  || !imdbId.trim();
 
   return (
-    <form className="NewMovie" key={count}>
+    <form
+      className="NewMovie"
+      key={count}
+      onSubmit={handleSubmit}
+    >
       <h2 className="title">Add a movie</h2>
 
       <TextField
         name="title"
         label="Title"
-        value=""
-        onChange={() => {}}
+        value={title}
+        onChange={setTitle}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value=""
+        value={description}
+        onChange={(discribe) => setDescription(discribe)}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value=""
+        value={imgUrl}
+        onChange={(movieImgUrl) => setImgUrl(movieImgUrl)}
+        required
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value=""
+        value={imdbUrl}
+        onChange={(movieimdbUrl) => setImdbUrl(movieimdbUrl)}
+        required
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value=""
+        value={imdbId}
+        onChange={(movieimdbId) => setImdbId(movieimdbId)}
+        required
       />
 
       <div className="field is-grouped">
@@ -48,6 +95,7 @@ export const NewMovie = () => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
+            disabled={error}
           >
             Add
           </button>
