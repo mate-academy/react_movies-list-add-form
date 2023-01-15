@@ -11,6 +11,11 @@ export const NewMovie = () => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
+  const isAddButtonDisabled = title === ''
+    || imgUrl === ''
+    || imdbUrl === ''
+    || imdbId === '';
+
   return (
     <form className="NewMovie" key={count}>
       <h2 className="title">Add a movie</h2>
@@ -60,6 +65,7 @@ export const NewMovie = () => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
+            disabled={isAddButtonDisabled}
           >
             Add
           </button>
