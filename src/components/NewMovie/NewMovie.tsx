@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, FormEvent, useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
@@ -27,7 +27,9 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
     setImdbId('');
   };
 
-  const handleFormSubmit = () => {
+  const handleFormSubmit = (event: FormEvent) => {
+    event.preventDefault();
+
     const newMovie = {
       title,
       description,
@@ -47,10 +49,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
     <form
       className="NewMovie"
       key={count}
-      onSubmit={(event) => {
-        event.preventDefault();
-        handleFormSubmit();
-      }}
+      onSubmit={handleFormSubmit}
     >
       <h2 className="title">Add a movie</h2>
 
