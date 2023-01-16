@@ -24,13 +24,23 @@ export const NewMovie: React.FC<Props> = ({
     imdbUrl,
     imdbId,
   };
-  let isValid = false;
+
+  const getFormValidation = (str: string): boolean => {
+    // eslint-disable-next-line max-len
+    const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
+
+    return pattern.test(str);
+  };
+
+  let isFormValid = false;
 
   if (title
+    && getFormValidation(imgUrl)
+    && getFormValidation(imdbUrl)
     && imgUrl
     && imdbUrl
     && imdbId) {
-    isValid = true;
+    isFormValid = true;
   }
 
   return (
@@ -39,7 +49,7 @@ export const NewMovie: React.FC<Props> = ({
       key={count}
       onSubmit={(event) => {
         event.preventDefault();
-        if (isValid) {
+        if (isFormValid) {
           onAdd(newMovie);
           setTitle(() => '');
           setDescription(() => '');
@@ -73,6 +83,7 @@ export const NewMovie: React.FC<Props> = ({
         value={imgUrl}
         onChange={setImgUrl}
         required
+        validationRequired
       />
 
       <TextField
@@ -81,6 +92,7 @@ export const NewMovie: React.FC<Props> = ({
         value={imdbUrl}
         onChange={setImdbUrl}
         required
+        validationRequired
       />
 
       <TextField
@@ -97,7 +109,7 @@ export const NewMovie: React.FC<Props> = ({
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!isValid}
+            disabled={!isFormValid}
           >
             Add
           </button>
