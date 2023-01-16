@@ -1,100 +1,120 @@
+import './NewMovie.scss';
 import React, { useState } from 'react';
-import { Movie } from '../../types/Movie';
 import { TextField } from '../TextField';
+import { Movie } from '../../types/Movie';
 
-interface Props {
-  onAdd: (movie: Movie) => void,
-}
+type Props = {
+  onAdd: (movie: Movie) => void;
+};
 
-export const NewMovie: React.FC<Props> = ({ onAdd }) => {
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
+const defaultMovie = {
+  title: '',
+  description: '',
+  imgUrl: '',
+  imdbUrl: '',
+  imdbId: '',
+};
+
+export const NewMovie: React.FC<Props> = ({
+  onAdd,
+}) => {
+  // Increase the count after successful form submission
+  // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
 
-  const clearForm = () => {
-    setTitle('');
-    setDescription('');
-    setImdbId('');
-    setImdbUrl('');
-    setImgUrl('');
+  const [movie, setMovie] = useState(defaultMovie);
+
+  const onInputChange = (name: string, value: string) => {
+    setMovie({
+      ...movie,
+      [name]: value,
+    });
   };
 
-  const isValidFilled = () => {
+  const [isImgUrlValid, setIsImgUrlValid] = useState(false);
+  const [isImdbUrlValid, setIsImdbUrlValid] = useState(false);
+
+  const customValidation = (movieToCheck: Movie) => {
     // eslint-disable-next-line max-len
-    const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
+    const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w\-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)(?:[/,\d_.\w]+)$/gmi;
 
-    return (
-      title !== ''
-      && imgUrl.match(pattern)
-      && imdbUrl.match(pattern)
-      && imdbId !== ''
-    );
+    if (!movieToCheck.imgUrl.match(pattern)) {
+      setIsImgUrlValid(true);
+    } else {
+      setIsImgUrlValid(false);
+    }
+
+    if (!movieToCheck.imdbUrl.match(pattern)) {
+      setIsImdbUrlValid(true);
+    } else {
+      setIsImdbUrlValid(false);
+    }
+
+    return movieToCheck.imgUrl.match(pattern)
+      && movieToCheck.imdbUrl.match(pattern);
   };
 
-  function handleSubmit(event: React.FormEvent) {
+  const isFormValid = () => {
+    return movie.title.length && movie.imgUrl.length
+      && movie.imdbUrl.length && movie.imdbId.length;
+  };
+
+  const onFormSubmition = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    setCount((currCount) => currCount + 1);
-
-    const newMovie: Movie = {
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    };
-
-    onAdd(newMovie);
-    clearForm();
-  }
+    if (isFormValid() && customValidation(movie)) {
+      onAdd(movie);
+      setCount(count + 1);
+      setMovie(defaultMovie);
+    }
+  };
 
   return (
     <form
       className="NewMovie"
       key={count}
-      onSubmit={handleSubmit}
+      onSubmit={onFormSubmition}
     >
       <h2 className="title">Add a movie</h2>
 
       <TextField
         name="title"
         label="Title"
-        value={title}
-        onChange={setTitle}
+        value={movie.title}
+        onChange={onInputChange}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value={description}
-        onChange={setDescription}
+        value={movie.description}
+        onChange={onInputChange}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={imgUrl}
-        onChange={setImgUrl}
+        value={movie.imgUrl}
+        onChange={onInputChange}
+        isImgUrlValid={isImgUrlValid}
         required
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={imdbUrl}
-        onChange={setImdbUrl}
+        value={movie.imdbUrl}
+        onChange={onInputChange}
+        isImdbUrlValid={isImdbUrlValid}
         required
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imdbId}
-        onChange={setImdbId}
+        value={movie.imdbId}
+        onChange={onInputChange}
         required
       />
 
@@ -104,7 +124,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!isValidFilled()}
+            disabled={!isFormValid()}
           >
             Add
           </button>

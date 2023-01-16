@@ -2,23 +2,26 @@ import './App.scss';
 import { useState } from 'react';
 import { MoviesList } from './components/MoviesList';
 import { NewMovie } from './components/NewMovie';
-import { Movie } from './types/Movie';
 import moviesFromServer from './api/movies.json';
+import { Movie } from './types/Movie';
 
-export const App = () => {
-  const [movies, setMovies] = useState(moviesFromServer);
+export const App: React.FC = () => {
+  const [moviesArray, setMoviesArray] = useState([...moviesFromServer]);
 
-  const addNewMovie = (movie: Movie) => {
-    setMovies([...movies, movie]);
+  const onFormSubmit = (movie: Movie) => {
+    setMoviesArray([
+      ...moviesArray,
+      movie,
+    ]);
   };
 
   return (
     <div className="page">
       <div className="page-content">
-        <MoviesList movies={movies} />
+        <MoviesList movies={moviesArray} />
       </div>
       <div className="sidebar">
-        <NewMovie onAdd={(addNewMovie)} />
+        <NewMovie onAdd={onFormSubmit} />
       </div>
     </div>
   );
