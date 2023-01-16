@@ -71,6 +71,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         onChange={(event) => {
           setImgUrl(event);
         }}
+        required
       />
 
       <TextField
@@ -80,6 +81,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         onChange={(event) => {
           setImdbUrl(event);
         }}
+        required
       />
 
       <TextField
@@ -89,6 +91,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         onChange={(event) => {
           setImdbId(event);
         }}
+        required
       />
 
       <div className="field is-grouped">
