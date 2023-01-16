@@ -47,6 +47,7 @@ export const TextField: React.FC<Props> = ({
           className={classNames('input', {
             'is-danger': hasError,
           })}
+          name={name}
           type="text"
           placeholder={`Enter ${label}`}
           value={value}
