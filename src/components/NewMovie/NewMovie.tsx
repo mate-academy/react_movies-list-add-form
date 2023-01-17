@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback, memo } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
@@ -6,7 +6,7 @@ type Props = {
   onAdd: (newMovie: Movie) => void;
 };
 
-export const NewMovie: React.FC<Props> = ({ onAdd }) => {
+export const NewMovie: React.FC<Props> = memo(({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
@@ -16,25 +16,25 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrlValue, setImdbUrlValue] = useState('');
   const [imdbIdValue, setImdbIdValue] = useState('');
 
-  const handleTitleChange = (value: string) => {
+  const handleTitleChange = useCallback((value: string) => {
     setTitleValue(value);
-  };
+  }, []);
 
-  const handleDescriptionChange = (value: string) => {
+  const handleDescriptionChange = useCallback((value: string) => {
     setDescriptionValue(value);
-  };
+  }, []);
 
-  const handleImgUrlChange = (value: string) => {
+  const handleImgUrlChange = useCallback((value: string) => {
     setImgUrlValue(value);
-  };
+  }, []);
 
-  const handleImdbUrlChange = (value: string) => {
+  const handleImdbUrlChange = useCallback((value: string) => {
     setImdbUrlValue(value);
-  };
+  }, []);
 
-  const handleImdbIdChange = (value: string) => {
+  const handleImdbIdChange = useCallback((value: string) => {
     setImdbIdValue(value);
-  };
+  }, []);
 
   const clearForm = () => {
     setTitleValue('');
@@ -126,4 +126,4 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       </div>
     </form>
   );
-};
+});
