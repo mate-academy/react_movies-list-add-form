@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
+import './NewMovie.scss';
 
 type Props = {
   onAdd: (newMovie: Movie) => void;
@@ -31,7 +32,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setImdbId('');
   };
 
-  const canSubmit = title && imgUrl && imdbUrl && imdbId;
+  const canSubmit = title.trim() !== ''
+    && imgUrl.trim() !== ''
+    && imdbUrl.trim() !== ''
+    && imdbId.trim() !== '';
 
   const handleOnSubmit = (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -78,9 +82,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={(event) => {
-          setImdbUrl(event);
-        }}
+        onChange={setImdbUrl}
         required
       />
 
