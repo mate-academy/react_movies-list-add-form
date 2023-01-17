@@ -14,10 +14,10 @@ export const NewMovie:React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const isValidForm = title
-  && imgUrl
-  && imdbId
-  && imdbUrl;
+  const isValidForm = title.trim()
+  && imgUrl.trim()
+  && imdbId.trim()
+  && imdbUrl.trim();
 
   const handlSubmit = (event: SyntheticEvent) => {
     event.preventDefault();
