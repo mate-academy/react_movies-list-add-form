@@ -76,7 +76,7 @@ export const TextField: React.FC<Props> = ({
         <p className="help is-danger">{`${label} is required`}</p>
       )}
 
-      {(isImdbUrlValid || isImgUrlValid) && touched && (
+      {(invalidValue) && (
         <p className="help is-danger">Enter valid URL</p>
       )}
     </div>
