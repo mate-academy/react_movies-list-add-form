@@ -87,6 +87,7 @@ export const NewMovie: React.FC<Props> = (props) => {
         label="Image URL"
         value={imgUrl}
         onChange={setImgUrl}
+        required
       />
 
       <TextField
@@ -94,6 +95,7 @@ export const NewMovie: React.FC<Props> = (props) => {
         label="Imdb URL"
         value={imdbUrl}
         onChange={setImdbUrl}
+        required
       />
 
       <TextField
@@ -101,6 +103,7 @@ export const NewMovie: React.FC<Props> = (props) => {
         label="Imdb ID"
         value={imdbId}
         onChange={setImdbId}
+        required
       />
 
       <div className="field is-grouped">
