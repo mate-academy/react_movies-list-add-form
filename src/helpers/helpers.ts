@@ -1,7 +1,7 @@
-export const isInputsFilled = (arrOfInputs: string[]) => {
+export const isInputsFilled = (...arrOfInputs: string[]) => {
   // eslint-disable-next-line no-restricted-syntax
   for (const item of arrOfInputs) {
-    if (!!item === false) {
+    if (!item) {
       return false;
     }
   }
