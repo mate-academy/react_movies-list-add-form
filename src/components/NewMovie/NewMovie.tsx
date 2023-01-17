@@ -1,10 +1,19 @@
-import { FC, useState } from 'react';
+import { FC, useCallback, useState } from 'react';
 import { Movie } from '../../types/Movie';
 import { TextField } from '../TextField';
 
 type Props = {
   onAdd: (movie: Movie) => void;
 };
+
+// const debounce = (func: () => void, delay: number) => {
+//   let id: number;
+
+//   return (...args: unknown[]) => {
+//     clearTimeout(id);
+//     id = setTimeout(func, delay, ...args);
+//   };
+// };
 
 export const NewMovie: FC<Props> = ({ onAdd }) => {
   const defaultValue = '';
@@ -14,6 +23,13 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
   const [imgUrl, setImgUrl] = useState(defaultValue);
   const [imdbUrl, setImdbUrl] = useState(defaultValue);
   const [imdbId, setImdbId] = useState(defaultValue);
+
+  const changeTitle = useCallback((value: string) => setTitle(value), []);
+  // eslint-disable-next-line max-len
+  const changeDescription = useCallback((value: string) => setDescription(value), []);
+  const changeImgUrl = useCallback((value: string) => setImgUrl(value), []);
+  const changeImdbUrl = useCallback((value: string) => setImdbUrl(value), []);
+  const changeImdbId = useCallback((value: string) => setImdbId(value), []);
 
   const isFormFilled
   = title.trim() && imgUrl.trim() && imdbUrl.trim() && imdbId.trim();
@@ -53,9 +69,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={title}
-        onChange={(event) => {
-          setTitle(event);
-        }}
+        onChange={changeTitle}
         required
       />
 
@@ -63,18 +77,14 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={description}
-        onChange={(event) => {
-          setDescription(event);
-        }}
+        onChange={changeDescription}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={(event) => {
-          setImgUrl(event);
-        }}
+        onChange={changeImgUrl}
         required
       />
 
@@ -82,9 +92,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={(event) => {
-          setImdbUrl(event);
-        }}
+        onChange={changeImdbUrl}
         required
       />
 
@@ -92,9 +100,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={(event) => {
-          setImdbId(event);
-        }}
+        onChange={changeImdbId}
         required
       />
 
