@@ -7,6 +7,7 @@ type Props = {
   label?: string,
   required?: boolean,
   onChange?: (newValue: string) => void,
+  validateWith?: (regexp: string) => boolean,
 };
 
 function getRandomDigits() {
@@ -19,13 +20,15 @@ export const TextField: React.FC<Props> = ({
   label = name,
   required = false,
   onChange = () => {},
+  validateWith = () => true,
 }) => {
   // generage a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
   // To show errors only if the field was touched (onBlur)
   const [touched, setToched] = useState(false);
-  const hasError = touched && required && !value;
+  const isInvalid = touched && (validateWith && !validateWith(value));
+  const isRequiredEmpty = touched && required && !value;
 
   return (
     <div className="field">
@@ -38,7 +41,7 @@ export const TextField: React.FC<Props> = ({
           id={id}
           data-cy={`movie-${name}`}
           className={classNames('input', {
-            'is-danger': hasError,
+            'is-danger': isRequiredEmpty || isInvalid,
           })}
           type="text"
           placeholder={`Enter ${label}`}
@@ -48,8 +51,11 @@ export const TextField: React.FC<Props> = ({
         />
       </div>
 
-      {hasError && (
+      {isRequiredEmpty && (
         <p className="help is-danger">{`${label} is required`}</p>
+      )}
+      {isInvalid && !isRequiredEmpty && (
+        <p className="help is-danger">{`Please enter valid ${label}`}</p>
       )}
     </div>
   );
