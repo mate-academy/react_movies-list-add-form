@@ -9,7 +9,7 @@ export const App = () => {
   const [movies, setMovies] = useState(moviesFromServer);
 
   const onAdd = useCallback((movie: Movie) => {
-    setMovies(prev => [...prev, movie]);
+    setMovies(prevMovies => [...prevMovies, movie]);
   }, []);
 
   return (

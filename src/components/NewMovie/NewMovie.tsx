@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Movie } from '../../types/Movie';
 import { TextField } from '../TextField';
 
@@ -6,7 +6,7 @@ type Props = {
   onAdd: (movie: Movie) => void,
 };
 
-export const NewMovie: React.FC<Props> = ({ onAdd }) => {
+export const NewMovie: React.FC<Props> = React.memo(({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
@@ -27,14 +27,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     .filter(field => field[0] !== 'description')
     .every(field => field[1].trim().length > 0);
 
-  const handleInputChange = (
+  const handleInputChange = useCallback((
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     setFields({
       ...fields,
       [event.target.name]: event.target.value,
     });
-  };
+  }, []);
 
   const handleClickButton = (
     event: React.MouseEvent<HTMLButtonElement>,
@@ -135,4 +135,4 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       </div>
     </form>
   );
-};
+});
