@@ -27,8 +27,8 @@ export const NewMovie: React.FC<Props> = (props) => {
     imdbId,
   };
 
-  const formValidation = title.trim() && description.trim()
-    && imgUrl.trim() && imdbUrl.trim() && imdbId.trim();
+  const formValidation = title.trim() && imgUrl.trim()
+    && imdbUrl.trim() && imdbId.trim();
 
   const reset = () => {
     setNewTitle('');
