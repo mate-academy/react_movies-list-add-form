@@ -1,11 +1,11 @@
-import { useState } from 'react';
+import React, { memo, useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
 type Props = {
   onAdd: (movie: Movie) => void;
 };
-export const NewMovie: React.FC<Props> = ({
+export const NewMovie: React.FC<Props> = memo(({
   onAdd,
 }) => {
   // Increase the count after successful form submission
@@ -32,33 +32,36 @@ export const NewMovie: React.FC<Props> = ({
     return pattern.test(str);
   };
 
-  let isFormValid = false;
+  const shouldFormSubmit = () => {
+    return title
+      && getFormValidation(imgUrl)
+      && getFormValidation(imdbUrl)
+      && imgUrl
+      && imdbUrl
+      && imdbId;
+  };
 
-  if (title
-    && getFormValidation(imgUrl)
-    && getFormValidation(imdbUrl)
-    && imgUrl
-    && imdbUrl
-    && imdbId) {
-    isFormValid = true;
-  }
+  const isFormValid = shouldFormSubmit();
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    if (isFormValid) {
+      onAdd(newMovie);
+      setTitle(() => '');
+      setDescription(() => '');
+      setImgUrl(() => '');
+      setImdbUrl(() => '');
+      setImdbId(() => '');
+      setCount(count + 1);
+    }
+  };
 
   return (
     <form
       className="NewMovie"
       key={count}
-      onSubmit={(event) => {
-        event.preventDefault();
-        if (isFormValid) {
-          onAdd(newMovie);
-          setTitle(() => '');
-          setDescription(() => '');
-          setImgUrl(() => '');
-          setImdbUrl(() => '');
-          setImdbId(() => '');
-          setCount(count + 1);
-        }
-      }}
+      onSubmit={(event) => handleSubmit(event)}
     >
       <h2 className="title">Add a movie</h2>
 
@@ -117,4 +120,4 @@ export const NewMovie: React.FC<Props> = ({
       </div>
     </form>
   );
-};
+});
