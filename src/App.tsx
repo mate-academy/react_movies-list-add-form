@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import './App.scss';
 import { MoviesList } from './components/MoviesList';
 import { NewMovie } from './components/NewMovie';
@@ -8,11 +8,11 @@ import { Movie } from './types/Movie';
 export const App: React.FC = () => {
   const [movies, setMovies] = useState(moviesFromServer);
 
-  const addMovie = (movie: Movie) => {
-    setMovies((prev) => {
-      return [...prev, movie];
+  const addMovie = useCallback((movie: Movie) => {
+    setMovies((prevMovies) => {
+      return [...prevMovies, movie];
     });
-  };
+  }, []);
 
   return (
     <div className="page">

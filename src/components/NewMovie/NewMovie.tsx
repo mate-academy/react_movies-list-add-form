@@ -14,7 +14,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbId, setImdbId] = useState('');
   const [description, setDescription] = useState('');
 
-  const allFieldsSubmitted = title && imdbId && imgUrl && imdbUrl;
+  const allFieldsSubmitted = title.trim() && imdbId && imgUrl && imdbUrl;
 
   const resetAllFields = () => {
     setTitle('');
