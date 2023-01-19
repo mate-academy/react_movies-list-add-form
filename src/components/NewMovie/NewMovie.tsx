@@ -85,7 +85,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={title}
-        onChange={(event) => handleInputChange(event)}
+        onChange={handleInputChange}
         required
       />
 
@@ -93,14 +93,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={description}
-        onChange={(event) => handleInputChange(event)}
+        onChange={handleInputChange}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={(event) => handleInputChange(event)}
+        onChange={handleInputChange}
         required
       />
 
@@ -108,7 +108,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={(event) => handleInputChange(event)}
+        onChange={handleInputChange}
         required
       />
 
@@ -116,7 +116,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={(event) => handleInputChange(event)}
+        onChange={handleInputChange}
         required
       />
 
