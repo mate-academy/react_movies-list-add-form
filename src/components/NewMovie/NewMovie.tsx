@@ -18,7 +18,7 @@ export const NewMovie: React.FC<Props> = memo(({ onAdd }) => {
     let newTitle = value;
 
     while (newTitle.slice(0, 1) === ' ') {
-      newTitle = newTitle.slice(1);
+      newTitle = newTitle.slice(1).replace(/\s/g, '');
     }
 
     setTitle(newTitle);
@@ -28,7 +28,7 @@ export const NewMovie: React.FC<Props> = memo(({ onAdd }) => {
     let newDescription = value;
 
     while (newDescription.slice(0, 1) === ' ') {
-      newDescription = newDescription.slice(1);
+      newDescription = newDescription.slice(1).replace(/\s/g, '');
     }
 
     setDescription(newDescription);
@@ -38,7 +38,7 @@ export const NewMovie: React.FC<Props> = memo(({ onAdd }) => {
     let newimgUrl = value;
 
     while (newimgUrl.slice(0, 1) === ' ') {
-      newimgUrl = newimgUrl.slice(1);
+      newimgUrl = newimgUrl.slice(1).replace(/\s/g, '');
     }
 
     setImgUrl(newimgUrl);
@@ -48,7 +48,7 @@ export const NewMovie: React.FC<Props> = memo(({ onAdd }) => {
     let newImdbUrl = value;
 
     while (newImdbUrl.slice(0, 1) === ' ') {
-      newImdbUrl = newImdbUrl.slice(1);
+      newImdbUrl = newImdbUrl.slice(1).replace(/\s/g, '');
     }
 
     setImdbUrl(newImdbUrl);
@@ -58,7 +58,7 @@ export const NewMovie: React.FC<Props> = memo(({ onAdd }) => {
     let newImdbId = value;
 
     while (newImdbId.slice(0, 1) === ' ') {
-      newImdbId = newImdbId.slice(1);
+      newImdbId = newImdbId.slice(1).replace(/\s/g, '');
     }
 
     setImdbId(newImdbId);
@@ -88,10 +88,10 @@ export const NewMovie: React.FC<Props> = memo(({ onAdd }) => {
     setCount(prevCount => prevCount + 1);
   };
 
-  const isReadyToSubmit = title.trim()
-    && imdbId.trim()
-    && imdbUrl.trim()
-    && imgUrl.trim();
+  const isReadyToSubmit = title
+    && imdbId
+    && imdbUrl
+    && imgUrl;
 
   return (
     <form
