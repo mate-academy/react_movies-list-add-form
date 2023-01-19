@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import './App.scss';
 import { MoviesList } from './components/MoviesList';
 import { NewMovie } from './components/NewMovie';
@@ -8,12 +8,11 @@ import moviesFromServer from './api/movies.json';
 export const App = () => {
   const [movies, setMovies] = useState(moviesFromServer);
 
-  const addNewFilm = (movie: Movie) => {
-    setMovies(current => [
-      ...current,
-      movie,
-    ]);
-  };
+  const addNewFilm = useCallback((movie: Movie) => {
+    setMovies(currentMovies => (
+      [...currentMovies, movie]
+    ));
+  }, []);
 
   return (
     <div className="page">
