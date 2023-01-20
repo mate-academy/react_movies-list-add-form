@@ -24,12 +24,12 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
     setImdbId('');
   }
 
-  const isallFieldsFullfield = title && imgUrl && imdbUrl && imdbId;
+  const isAllFieldsFullfield = title && imgUrl && imdbUrl && imdbId;
 
   const handleFormSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (!isallFieldsFullfield) {
+    if (!isAllFieldsFullfield) {
       return;
     }
 
@@ -74,6 +74,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
         label="Image URL"
         value={imgUrl}
         onChange={(value) => setImgUrl(value)}
+        required
       />
 
       <TextField
@@ -81,6 +82,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
         label="Imdb URL"
         value={imdbUrl}
         onChange={(value) => setImdbUrl(value)}
+        required
       />
 
       <TextField
@@ -88,6 +90,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
         label="Imdb ID"
         value={imdbId}
         onChange={(value) => setImdbId(value)}
+        required
       />
 
       <div className="field is-grouped">
@@ -96,7 +99,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!isallFieldsFullfield}
+            disabled={!isAllFieldsFullfield}
           >
             Add
           </button>
