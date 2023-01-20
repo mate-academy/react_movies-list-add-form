@@ -1,4 +1,4 @@
-import { useState, memo } from 'react';
+import { useState, memo, useCallback } from 'react';
 import { Movie } from '../../types/Movie';
 import { TextField } from '../TextField';
 
@@ -14,55 +14,25 @@ export const NewMovie: React.FC<Props> = memo(({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const changeTitle = (value: string) => {
-    let newTitle = value;
+  const changeTitle = useCallback((value: string) => {
+    setTitle(value);
+  }, []);
 
-    while (newTitle.slice(0, 1) === ' ') {
-      newTitle = newTitle.slice(1).replace(/\s/g, '');
-    }
+  const changeDescription = useCallback((value: string) => {
+    setDescription(value);
+  }, []);
 
-    setTitle(newTitle);
-  };
+  const changeImgUrl = useCallback((value: string) => {
+    setImgUrl(value);
+  }, []);
 
-  const changeDescription = (value: string) => {
-    let newDescription = value;
+  const changeImdbUrl = useCallback((value: string) => {
+    setImdbUrl(value);
+  }, []);
 
-    while (newDescription.slice(0, 1) === ' ') {
-      newDescription = newDescription.slice(1).replace(/\s/g, '');
-    }
-
-    setDescription(newDescription);
-  };
-
-  const changeImgUrl = (value: string) => {
-    let newimgUrl = value;
-
-    while (newimgUrl.slice(0, 1) === ' ') {
-      newimgUrl = newimgUrl.slice(1).replace(/\s/g, '');
-    }
-
-    setImgUrl(newimgUrl);
-  };
-
-  const changeImdbUrl = (value: string) => {
-    let newImdbUrl = value;
-
-    while (newImdbUrl.slice(0, 1) === ' ') {
-      newImdbUrl = newImdbUrl.slice(1).replace(/\s/g, '');
-    }
-
-    setImdbUrl(newImdbUrl);
-  };
-
-  const changeImdbId = (value: string) => {
-    let newImdbId = value;
-
-    while (newImdbId.slice(0, 1) === ' ') {
-      newImdbId = newImdbId.slice(1).replace(/\s/g, '');
-    }
-
-    setImdbId(newImdbId);
-  };
+  const changeImdbId = useCallback((value: string) => {
+    setImdbId(value);
+  }, []);
 
   const resetForm = () => {
     setTitle('');
@@ -89,9 +59,9 @@ export const NewMovie: React.FC<Props> = memo(({ onAdd }) => {
   };
 
   const isReadyToSubmit = title
-    && imdbId
-    && imdbUrl
-    && imgUrl;
+    && imdbId.trim()
+    && imdbUrl.trim()
+    && imgUrl.trim();
 
   return (
     <form
