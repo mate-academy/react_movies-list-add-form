@@ -58,7 +58,7 @@ export const NewMovie: React.FC<Props> = memo(({ onAdd }) => {
     setCount(prevCount => prevCount + 1);
   };
 
-  const isReadyToSubmit = title
+  const isReadyToSubmit = title.trim()
     && imdbId.trim()
     && imdbUrl.trim()
     && imgUrl.trim();
