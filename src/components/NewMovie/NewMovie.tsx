@@ -7,118 +7,120 @@ type Props = {
   onAdd: (newMovie: Movie) => void,
 };
 
-export const NewMovie: React.FC<Props> = ({ onAdd }) => {
-  const [count, setCount] = useState(0);
-  const [newTitle, setNewTitle] = useState('');
-  const [newDescription, setNewDescription] = useState('');
-  const [newImgUrl, setNewImgUrl] = useState('');
-  const [newImdbUrl, setNewImdbUrl] = useState('');
-  const [newImdbId, setNewImdbId] = useState('');
+export const NewMovie: React.FC<Props> = React.memo(
+  ({ onAdd }) => {
+    const [count, setCount] = useState(0);
+    const [newTitle, setNewTitle] = useState('');
+    const [newDescription, setNewDescription] = useState('');
+    const [newImgUrl, setNewImgUrl] = useState('');
+    const [newImdbUrl, setNewImdbUrl] = useState('');
+    const [newImdbId, setNewImdbId] = useState('');
 
-  const isValidImgUrl = isValidUrl(newImgUrl);
-  const isValidImdbUrl = isValidUrl(newImdbUrl);
+    const isValidImgUrl = isValidUrl(newImgUrl);
+    const isValidImdbUrl = isValidUrl(newImdbUrl);
 
-  const isAllFieldsValid = (Boolean(
-    newTitle.trim()
-    && newImgUrl.trim()
-    && newImdbUrl.trim()
-    && newImdbId.trim()
-    && isValidImgUrl
-    && isValidImdbUrl,
-  ));
+    const isAllFieldsValid = (Boolean(
+      newTitle.trim()
+      && newImgUrl.trim()
+      && newImdbUrl.trim()
+      && newImdbId.trim()
+      && isValidImgUrl
+      && isValidImdbUrl,
+    ));
 
-  const clearForm = () => {
-    setNewTitle('');
-    setNewDescription('');
-    setNewImgUrl('');
-    setNewImdbUrl('');
-    setNewImdbId('');
-  };
-
-  const handleFormSubmit = () => {
-    if (!isAllFieldsValid) {
-      return;
-    }
-
-    const newMovie = {
-      title: newTitle,
-      description: newDescription,
-      imgUrl: newImgUrl,
-      imdbUrl: newImdbUrl,
-      imdbId: newImdbId,
+    const clearForm = () => {
+      setNewTitle('');
+      setNewDescription('');
+      setNewImgUrl('');
+      setNewImdbUrl('');
+      setNewImdbId('');
     };
 
-    onAdd(newMovie);
+    const handleFormSubmit = () => {
+      if (!isAllFieldsValid) {
+        return;
+      }
 
-    setCount((prevCount => prevCount + 1));
+      const newMovie = {
+        title: newTitle,
+        description: newDescription,
+        imgUrl: newImgUrl,
+        imdbUrl: newImdbUrl,
+        imdbId: newImdbId,
+      };
 
-    clearForm();
-  };
+      onAdd(newMovie);
 
-  return (
-    <form
-      className="NewMovie"
-      key={count}
-      onSubmit={(event) => {
-        event.preventDefault();
-        handleFormSubmit();
-      }}
-    >
-      <h2 className="title">Add a movie</h2>
+      setCount((prevCount => prevCount + 1));
 
-      <TextField
-        name="title"
-        label="Title"
-        value={newTitle}
-        required
-        onChange={(value: string) => setNewTitle(value)}
-      />
+      clearForm();
+    };
 
-      <TextField
-        name="description"
-        label="Description"
-        value={newDescription}
-        onChange={(value: string) => setNewDescription(value)}
-      />
+    return (
+      <form
+        className="NewMovie"
+        key={count}
+        onSubmit={(event) => {
+          event.preventDefault();
+          handleFormSubmit();
+        }}
+      >
+        <h2 className="title">Add a movie</h2>
 
-      <TextField
-        name="imgUrl"
-        label="Image URL"
-        value={newImgUrl}
-        required
-        onChange={(value: string) => setNewImgUrl(value)}
-        isValidUrl={isValidImgUrl}
-      />
+        <TextField
+          name="title"
+          label="Title"
+          value={newTitle}
+          required
+          onChange={setNewTitle}
+        />
 
-      <TextField
-        name="imdbUrl"
-        label="Imdb URL"
-        value={newImdbUrl}
-        required
-        onChange={(value: string) => setNewImdbUrl(value)}
-        isValidUrl={isValidImdbUrl}
-      />
+        <TextField
+          name="description"
+          label="Description"
+          value={newDescription}
+          onChange={setNewDescription}
+        />
 
-      <TextField
-        name="imdbId"
-        label="Imdb ID"
-        value={newImdbId}
-        required
-        onChange={(value: string) => setNewImdbId(value)}
-      />
+        <TextField
+          name="imgUrl"
+          label="Image URL"
+          value={newImgUrl}
+          required
+          onChange={setNewImgUrl}
+          isValidUrl={isValidImgUrl}
+        />
 
-      <div className="field is-grouped">
-        <div className="control">
-          <button
-            type="submit"
-            data-cy="submit-button"
-            className="button is-link"
-            disabled={!isAllFieldsValid}
-          >
-            Add
-          </button>
+        <TextField
+          name="imdbUrl"
+          label="Imdb URL"
+          value={newImdbUrl}
+          required
+          onChange={setNewImdbUrl}
+          isValidUrl={isValidImdbUrl}
+        />
+
+        <TextField
+          name="imdbId"
+          label="Imdb ID"
+          value={newImdbId}
+          required
+          onChange={setNewImdbId}
+        />
+
+        <div className="field is-grouped">
+          <div className="control">
+            <button
+              type="submit"
+              data-cy="submit-button"
+              className="button is-link"
+              disabled={!isAllFieldsValid}
+            >
+              Add
+            </button>
+          </div>
         </div>
-      </div>
-    </form>
-  );
-};
+      </form>
+    );
+  },
+);
