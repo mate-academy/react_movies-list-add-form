@@ -1,13 +1,7 @@
 import React, { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
-
-const isValidUrl = (url: string) => {
-  // eslint-disable-next-line max-len
-  const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
-
-  return pattern.test(url);
-};
+import { isValidUrl } from '../../helpers/helpers';
 
 type Props = {
   onAdd: (newMovie: Movie) => void,
@@ -24,11 +18,13 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const isValidImgUrl = isValidUrl(newImgUrl);
   const isValidImdbUrl = isValidUrl(newImdbUrl);
 
-  const isSubmitButtonActive = () => (Boolean(
+  const isAllFieldsValid = (Boolean(
     newTitle.trim()
     && newImgUrl.trim()
     && newImdbUrl.trim()
-    && newImdbId.trim(),
+    && newImdbId.trim()
+    && isValidImgUrl
+    && isValidImdbUrl,
   ));
 
   const clearForm = () => {
@@ -40,7 +36,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   };
 
   const handleFormSubmit = () => {
-    if (!isValidUrl(newImgUrl) || !isValidUrl(newImdbUrl)) {
+    if (!isAllFieldsValid) {
       return;
     }
 
@@ -117,7 +113,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!isSubmitButtonActive()}
+            disabled={!isAllFieldsValid}
           >
             Add
           </button>

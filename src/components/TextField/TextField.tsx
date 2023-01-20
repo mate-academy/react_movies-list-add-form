@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import React, { useState } from 'react';
+import { getRandomDigits } from '../../helpers/helpers';
 
 type Props = {
   name: string,
@@ -9,10 +10,6 @@ type Props = {
   onChange?: (newValue: string) => void,
   isValidUrl?: boolean,
 };
-
-function getRandomDigits() {
-  return Math.random().toString().slice(2);
-}
 
 export const TextField: React.FC<Props> = ({
   name,
@@ -25,7 +22,7 @@ export const TextField: React.FC<Props> = ({
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
   const [touched, setToched] = useState(false);
 
-  const hasError = touched && required && !value;
+  const hasError = touched && required && !value.trim();
 
   return (
     <div className="field">
@@ -53,7 +50,7 @@ export const TextField: React.FC<Props> = ({
       )}
 
       {!isValidUrl && touched && (
-        <p className="help is-danger">URL is invalid</p>
+        <p className="help is-danger">Invalid URL</p>
       )}
     </div>
   );
