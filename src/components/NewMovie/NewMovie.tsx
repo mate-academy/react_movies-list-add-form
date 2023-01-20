@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { memo, useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
@@ -6,7 +6,7 @@ type Props = {
   onAdd: (movie: Movie) => void,
 };
 
-export const NewMovie: React.FC<Props> = ({ onAdd }) => {
+export const NewMovie: React.FC<Props> = memo(({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
@@ -103,4 +103,4 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       </div>
     </form>
   );
-};
+});
