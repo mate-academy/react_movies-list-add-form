@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
@@ -14,15 +14,25 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const handleTitleChange = (value: string) => setTitle(value);
+  const handleTitleChange = useCallback((value: string) => {
+    setTitle(value);
+  }, [title]);
 
-  const handleDescriptionChange = (value: string) => setDescription(value);
+  const handleDescriptionChange = useCallback((value: string) => {
+    setDescription(value);
+  }, [description]);
 
-  const handleImgUrlChange = (value: string) => setImgUrl(value);
+  const handleImgUrlChange = useCallback((value: string) => {
+    setImgUrl(value);
+  }, [imgUrl]);
 
-  const handleImdbUrlChange = (value: string) => setImdbUrl(value);
+  const handleImdbUrlChange = useCallback((value: string) => {
+    setImdbUrl(value);
+  }, [imdbUrl]);
 
-  const handleImdbId = (value: string) => setImdbId(value);
+  const handleImdbId = useCallback((value: string) => {
+    setImdbId(value);
+  }, [imdbId]);
 
   const clearForm = () => {
     setTitle('');
@@ -48,7 +58,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setCount(prevCount => prevCount + 1);
   };
 
-  const isButtonActive = title && imdbId && imdbUrl && imgUrl;
+  const isButtonActive = title.trim()
+    && imdbId.trim()
+    && imdbUrl.trim()
+    && imgUrl.trim();
 
   return (
     <form
