@@ -1,4 +1,4 @@
-import { MouseEvent, useState } from 'react';
+import { FormEvent, useState } from 'react';
 import { Movie } from '../../types/Movie';
 import { TextField } from '../TextField';
 
@@ -7,6 +7,7 @@ type Props = {
 };
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
+  const [count, setCount] = useState(0);
   const [title, setTitle] = useState('');
   const [imgUrl, setImgUrl] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
@@ -17,14 +18,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     title && imgUrl && imdbUrl && imdbId,
   );
 
-  const handleSubmit = (
-    event: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>,
-  ) => {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
-    if (!isInputValid) {
-      return;
-    }
 
     const newMovie = {
       title,
@@ -41,10 +36,16 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setImdbId('');
     setImdbUrl('');
     setImgUrl('');
+
+    setCount(prevCount => prevCount + 1);
   };
 
   return (
-    <form className="NewMovie">
+    <form
+      className="NewMovie"
+      key={count}
+      onSubmit={handleSubmit}
+    >
       <h2 className="title">Add a movie</h2>
 
       <TextField
@@ -93,7 +94,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             data-cy="submit-button"
             className="button is-link"
             disabled={!isInputValid}
-            onClick={(event) => handleSubmit(event)}
           >
             Add
           </button>
