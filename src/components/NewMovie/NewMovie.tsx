@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, memo, useCallback } from 'react';
 import { Movie } from '../../types/Movie';
 import { TextField } from '../TextField';
 
@@ -6,15 +6,14 @@ export interface Props {
   onAdd: (movie: Movie) => void
 }
 
-export const NewMovie: React.FC<Props> = (props) => {
+export const NewMovie: React.FC<Props> = memo((props) => {
   const {
     onAdd,
   } = props;
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
+
   const [count, setCount] = useState(0);
   const [title, setNewTitle] = useState('');
-  const [description, setNewDescription] = useState('');
+  const [description, setDescription] = useState('');
   const [imgUrl, setImgUrl] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
@@ -30,25 +29,27 @@ export const NewMovie: React.FC<Props> = (props) => {
   const formValidation = title.trim() && imgUrl.trim()
     && imdbUrl.trim() && imdbId.trim();
 
-  const reset = () => {
+  const reset = useCallback(() => {
     setNewTitle('');
-    setNewDescription('');
+    setDescription('');
     setImgUrl('');
     setImdbUrl('');
     setImdbId('');
-  };
+  }, []);
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const handleSubmit = useCallback(
+    (event: React.FormEvent<HTMLFormElement>) => {
+      event.preventDefault();
 
-    setCount(prev => prev + 1);
+      setCount(prev => prev + 1);
 
-    if (formValidation) {
-      onAdd(movie);
-    }
+      if (formValidation) {
+        onAdd(movie);
+      }
 
-    reset();
-  };
+      reset();
+    }, [movie],
+  );
 
   return (
     <form
@@ -70,7 +71,7 @@ export const NewMovie: React.FC<Props> = (props) => {
         name="description"
         label="Description"
         value={description}
-        onChange={setNewDescription}
+        onChange={setDescription}
       />
 
       <TextField
@@ -111,4 +112,4 @@ export const NewMovie: React.FC<Props> = (props) => {
       </div>
     </form>
   );
-};
+});
