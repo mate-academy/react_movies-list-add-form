@@ -20,12 +20,20 @@ export const TextField: React.FC<Props> = ({
   required = false,
   onChange = () => {},
 }) => {
-  // generage a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
-
-  // To show errors only if the field was touched (onBlur)
   const [touched, setToched] = useState(false);
+  const [validUrl, setValidUrl] = useState(true);
+
   const hasError = touched && required && !value;
+
+  const urlValidator = (checkingName: string, url: string) => {
+    // eslint-disable-next-line max-len
+    const pattern = new RegExp(/^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/);
+
+    if (checkingName.includes('Url')) {
+      setValidUrl(pattern.test(url));
+    }
+  };
 
   return (
     <div className="field">
@@ -43,13 +51,19 @@ export const TextField: React.FC<Props> = ({
           type="text"
           placeholder={`Enter ${label}`}
           value={value}
-          onChange={event => onChange(event.target.value)}
-          onBlur={() => setToched(true)}
+          onChange={event => {
+            onChange(event.target.value);
+          }}
+          onBlur={(event) => {
+            onChange(event.target.value.trim());
+            setToched(true);
+            urlValidator(name, event.target.value);
+          }}
         />
       </div>
 
-      {hasError && (
-        <p className="help is-danger">{`${label} is required`}</p>
+      {(hasError || !validUrl) && (
+        <p className="help is-danger">{`${label} is not valid!`}</p>
       )}
     </div>
   );
