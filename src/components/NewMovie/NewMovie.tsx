@@ -8,7 +8,6 @@ type Props = {
 
 export const NewMovie: FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
-
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [imgUrl, setImgUrl] = useState('');
@@ -39,9 +38,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
     };
 
     onAdd(newMovie);
-
     clearForm();
-
     setCount(prev => prev + 1);
   };
 
