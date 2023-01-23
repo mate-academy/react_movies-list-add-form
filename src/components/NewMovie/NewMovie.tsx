@@ -32,10 +32,12 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setImdbId('');
   };
 
-  const canSubmit = title.trim() !== ''
-    && imgUrl.trim() !== ''
-    && imdbUrl.trim() !== ''
-    && imdbId.trim() !== '';
+  const canSubmit = Boolean(
+    title.trim()
+    && imgUrl.trim()
+    && imdbUrl.trim()
+    && imdbId.trim(),
+  );
 
   const handleOnSubmit = (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
