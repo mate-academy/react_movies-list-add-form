@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { FC, useCallback, useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
@@ -6,7 +6,7 @@ interface Props {
   onAdd: (newMovie: Movie) => void;
 }
 
-export const NewMovie: React.FC<Props> = ({ onAdd }) => {
+export const NewMovie: FC<Props> = React.memo(({ onAdd }) => {
   const [count, setCount] = useState(0);
   const [newMovie, setNewMovie] = useState({
     title: '',
@@ -31,9 +31,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     title, description, imgUrl, imdbUrl, imdbId,
   } = newMovie;
 
-  const handleAddField = (newValue: string, fieldtitle: string) => {
-    setNewMovie({ ...newMovie, [fieldtitle]: newValue });
-  };
+  const handleAddField = useCallback((newValue: string, fieldTitle: string) => {
+    setNewMovie({ ...newMovie, [fieldTitle]: newValue.trim() });
+  }, [newMovie]);
 
   const isdisabled = (!!title && !!imgUrl && !!imdbUrl && !!imdbId);
 
@@ -102,4 +102,4 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       </div>
     </form>
   );
-};
+});
