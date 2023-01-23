@@ -5,6 +5,11 @@ export const NewMovie = () => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
   const [count] = useState(0);
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [imageURL, setImageURL] = useState('');
+  const [imdbURL, setImdbURL] = useState('');
+  const [imdbID, setImdbID] = useState('');
 
   return (
     <form className="NewMovie" key={count}>
@@ -13,33 +18,37 @@ export const NewMovie = () => {
       <TextField
         name="title"
         label="Title"
-        value=""
-        onChange={() => {}}
+        value={title}
+        onChange={setTitle}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value=""
+        value={description}
+        onChange={setDescription}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value=""
+        value={imageURL}
+        onChange={setImageURL}
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value=""
+        value={imdbURL}
+        onChange={setImdbURL}
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value=""
+        value={imdbID}
+        onChange={setImdbID}
       />
 
       <div className="field is-grouped">
