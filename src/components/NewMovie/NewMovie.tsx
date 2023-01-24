@@ -3,12 +3,10 @@ import { Movie } from '../../types/Movie';
 import { TextField } from '../TextField';
 
  type Props = {
-   onAdd: (newMovietodasd: Movie) => void
+   onAdd: (newMovieToAdd: Movie) => void
  };
 
 export const NewMovie: FC<Props> = ({ onAdd }) => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
