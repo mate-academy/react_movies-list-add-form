@@ -9,7 +9,7 @@ import { TextField } from '../TextField';
 export const NewMovie: FC<Props> = ({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
-  const [count] = useState(0);
+  const [count, setCount] = useState(0);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [imageURL, setImageURL] = useState('');
@@ -26,10 +26,21 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
     imdbId: imdbID,
   };
 
+  const clearForm = () => {
+    setCount(state => state + 1);
+    setTitle('');
+    setDescription('');
+    setImageURL('');
+    setImdbURL('');
+    setImdbID('');
+  };
+
   const handleSubmitForm = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     onAdd(newMovieToAdd);
+
+    clearForm();
   };
 
   return (
