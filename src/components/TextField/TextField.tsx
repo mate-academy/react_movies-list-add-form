@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { useState } from 'react';
+import React, { useState, memo } from 'react';
 
 type Props = {
   name: string,
@@ -13,7 +13,7 @@ function getRandomDigits() {
   return Math.random().toString().slice(2);
 }
 
-export const TextField: React.FC<Props> = ({
+export const TextField: React.FC<Props> = memo(({
   name,
   value,
   label = name,
@@ -53,4 +53,4 @@ export const TextField: React.FC<Props> = ({
       )}
     </div>
   );
-};
+});

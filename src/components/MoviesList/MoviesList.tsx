@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 
 import './MoviesList.scss';
 import { MovieCard } from '../MovieCard';
@@ -8,7 +8,7 @@ interface Props {
   movies: Movie[];
 }
 
-export const MoviesList: React.FC<Props> = ({ movies }) => (
+export const MoviesList: React.FC<Props> = memo(({ movies }) => (
   <div className="movies">
     {movies.map(movie => (
       <MovieCard
@@ -17,4 +17,4 @@ export const MoviesList: React.FC<Props> = ({ movies }) => (
       />
     ))}
   </div>
-);
+));
