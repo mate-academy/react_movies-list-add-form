@@ -6,20 +6,20 @@ import moviesFromServer from './api/movies.json';
 import { Movie } from './types/Movie';
 
 export const App: React.FC = () => {
-  const [newMovie, setNewMovie] = useState(moviesFromServer);
+  const [movies, setMovies] = useState(moviesFromServer);
 
   const addMovie = useCallback((movie: Movie) => {
-    setNewMovie((prevListMovie) => {
-      const newListMovie = movie;
+    setMovies((oldMovieList) => {
+      const newMovie = movie;
 
-      return [...prevListMovie, newListMovie];
+      return [...oldMovieList, newMovie];
     });
   }, []);
 
   return (
     <div className="page">
       <div className="page-content">
-        <MoviesList movies={newMovie} />
+        <MoviesList movies={movies} />
       </div>
       <div className="sidebar">
         <NewMovie onAdd={(movie) => addMovie(movie)} />

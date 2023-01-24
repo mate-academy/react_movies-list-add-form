@@ -18,15 +18,7 @@ export const NewMovie: React.FC<Props> = memo((props) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const movie = {
-    title,
-    description,
-    imgUrl,
-    imdbUrl,
-    imdbId,
-  };
-
-  const formValidation = title.trim() && imgUrl.trim()
+  const isValidated = title.trim() && imgUrl.trim()
     && imdbUrl.trim() && imdbId.trim();
 
   const reset = useCallback(() => {
@@ -41,14 +33,23 @@ export const NewMovie: React.FC<Props> = memo((props) => {
     (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
 
+      const movie = {
+        title,
+        description,
+        imgUrl,
+        imdbUrl,
+        imdbId,
+      };
+
       setCount(prev => prev + 1);
 
-      if (formValidation) {
+      if (isValidated) {
         onAdd(movie);
       }
 
       reset();
-    }, [movie],
+    }, [description, isValidated, imdbId,
+      imdbUrl, imgUrl, onAdd, reset, title],
   );
 
   return (
@@ -104,7 +105,7 @@ export const NewMovie: React.FC<Props> = memo((props) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!formValidation}
+            disabled={!isValidated}
           >
             Add
           </button>
