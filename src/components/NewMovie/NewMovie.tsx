@@ -71,6 +71,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
         label="Image URL"
         value={imageURL}
         onChange={setImageURL}
+        validateUrl
         required
       />
 
@@ -79,6 +80,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
         label="Imdb URL"
         value={imdbURL}
         onChange={setImdbURL}
+        validateUrl
         required
       />
 
