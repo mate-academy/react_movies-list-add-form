@@ -32,10 +32,11 @@ export const NewMovie: FC<Props> = React.memo(({ onAdd }) => {
   } = newMovie;
 
   const handleAddField = useCallback((newValue: string, fieldTitle: string) => {
-    setNewMovie({ ...newMovie, [fieldTitle]: newValue.trim() });
+    setNewMovie({ ...newMovie, [fieldTitle]: newValue });
   }, [newMovie]);
 
-  const isdisabled = (!!title && !!imgUrl && !!imdbUrl && !!imdbId);
+  const isdisabled = (!!title.trim()
+  && !!imgUrl.trim() && !!imdbUrl.trim() && !!imdbId.trim());
 
   return (
     <form
