@@ -1,7 +1,12 @@
-import { useState } from 'react';
+import { FC, useState } from 'react';
+import { Movie } from '../../types/Movie';
 import { TextField } from '../TextField';
 
-export const NewMovie = () => {
+ type Props = {
+   onAdd: (newMovietodasd: Movie) => void
+ };
+
+export const NewMovie: FC<Props> = ({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
   const [count] = useState(0);
@@ -11,8 +16,28 @@ export const NewMovie = () => {
   const [imdbURL, setImdbURL] = useState('');
   const [imdbID, setImdbID] = useState('');
 
+  const hasValidFields = title && imageURL && imdbURL && imdbID;
+
+  const newMovieToAdd: Movie = {
+    title,
+    description,
+    imgUrl: imageURL,
+    imdbUrl: imdbURL,
+    imdbId: imdbID,
+  };
+
+  const handleSubmitForm = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    onAdd(newMovieToAdd);
+  };
+
   return (
-    <form className="NewMovie" key={count}>
+    <form
+      className="NewMovie"
+      key={count}
+      onSubmit={handleSubmitForm}
+    >
       <h2 className="title">Add a movie</h2>
 
       <TextField
@@ -35,6 +60,7 @@ export const NewMovie = () => {
         label="Image URL"
         value={imageURL}
         onChange={setImageURL}
+        required
       />
 
       <TextField
@@ -42,6 +68,7 @@ export const NewMovie = () => {
         label="Imdb URL"
         value={imdbURL}
         onChange={setImdbURL}
+        required
       />
 
       <TextField
@@ -49,6 +76,7 @@ export const NewMovie = () => {
         label="Imdb ID"
         value={imdbID}
         onChange={setImdbID}
+        required
       />
 
       <div className="field is-grouped">
@@ -57,6 +85,7 @@ export const NewMovie = () => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
+            disabled={!hasValidFields}
           >
             Add
           </button>
