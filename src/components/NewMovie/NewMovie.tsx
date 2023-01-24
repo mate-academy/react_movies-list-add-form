@@ -1,4 +1,4 @@
-import { FormEvent, useState } from 'react';
+import { FormEvent, memo, useState } from 'react';
 import { Movie } from '../../types/Movie';
 import { TextField } from '../TextField';
 
@@ -6,7 +6,7 @@ type Props = {
   onAdd: (movie: Movie) => void
 };
 
-export const NewMovie: React.FC<Props> = ({ onAdd }) => {
+export const NewMovie: React.FC<Props> = memo(({ onAdd }) => {
   const [count, setCount] = useState(0);
   const [title, setTitle] = useState('');
   const [imgUrl, setImgUrl] = useState('');
@@ -101,4 +101,4 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       </div>
     </form>
   );
-};
+});
