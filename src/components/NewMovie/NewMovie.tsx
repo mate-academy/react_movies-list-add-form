@@ -39,6 +39,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     return pattern.test(value);
   };
 
+  const disableAdd = !title || !imgUrl || !imdbUrl || !imdbId
+  || !validationUrl(imgUrl) || !validationUrl(imdbUrl);
+
   return (
     <form
       className="NewMovie"
@@ -107,8 +110,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!title || !imgUrl || !imdbUrl || !imdbId
-              || !validationUrl(imgUrl) || !validationUrl(imdbUrl)}
+            disabled={disableAdd}
           >
             Add
           </button>
