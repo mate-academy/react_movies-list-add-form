@@ -16,6 +16,8 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
+  const isFilled = title && imdbId && imgUrl && imdbUrl;
+
   const reset = () => {
     setTitle('');
     setDescription('');
@@ -24,18 +26,29 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
     setImdbId('');
   };
 
+  const handleSubmit = (event:React.FormEvent) => {
+    event.preventDefault();
+
+    const newMovie = {
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    };
+
+    onAdd(newMovie);
+
+    setCount((state) => state + 1);
+
+    reset();
+  };
+
   return (
     <form
       className="NewMovie"
       key={count}
-      onSubmit={((event) => {
-        event.preventDefault();
-
-        onAdd();
-        setCount((state) => state + 1);
-
-        reset();
-      })}
+      onSubmit={handleSubmit}
     >
       <h2 className="title">Add a movie</h2>
 
@@ -43,9 +56,7 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={title}
-        onChange={(newTitle) => {
-          setTitle(newTitle);
-        }}
+        onChange={(newtitle) => setTitle(newtitle)}
         required
       />
 
@@ -94,6 +105,7 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
+            disabled={!isFilled}
           >
             Add
           </button>
