@@ -14,7 +14,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const hasValidationError = title && imgUrl && imdbUrl && imdbId;
+  const hasValidSection = title && imgUrl && imdbUrl && imdbId;
 
   const addNewMovie: Movie = {
     title,
@@ -95,7 +95,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!hasValidationError}
+            disabled={!hasValidSection}
           >
             Add
           </button>
