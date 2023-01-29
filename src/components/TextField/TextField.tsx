@@ -25,6 +25,8 @@ export const TextField: React.FC<Props> = ({
 
   // To show errors only if the field was touched (onBlur)
   const [touched, setToched] = useState(false);
+
+  // eslint-disable-next-line no-param-reassign
   const hasError = touched && required && !value;
 
   return (
