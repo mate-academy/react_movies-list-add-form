@@ -5,12 +5,8 @@ import { NewMovie } from './components/NewMovie';
 import moviesFromServer from './api/movies.json';
 import { Movie } from './types/Movie';
 
-const preparedMovies = moviesFromServer.map(movie => ({
-  ...movie,
-}));
-
 export const App:React.FC = () => {
-  const [listMovieCards, setListMovieCards] = useState(preparedMovies);
+  const [listMovieCards, setListMovieCards] = useState(moviesFromServer);
 
   const addNewMovieCard = (newMovie: Movie) => {
     setListMovieCards([...listMovieCards, newMovie]);
