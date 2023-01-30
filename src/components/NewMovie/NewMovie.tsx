@@ -3,7 +3,7 @@ import { FC, FormEvent, useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
-import { validateUrl } from '../../utils/validateUrl';
+import { validateUrl } from '../../utils';
 
 interface Props {
   onAdd: (movie: Movie) => void,
@@ -17,8 +17,8 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const [isImgUrlValid, setIsImgUrlValid] = useState(false);
-  const [isImdbUrlValid, setIsImdbUrlValid] = useState(false);
+  const [isImgUrlValid, setIsImgUrlValid] = useState(true);
+  const [isImdbUrlValid, setIsImdbUrlValid] = useState(true);
 
   const isFilled = title && imgUrl && imdbUrl && imdbId;
   const isValid = isImdbUrlValid && isImgUrlValid;
@@ -59,7 +59,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={title}
-        onChange={setTitle}
+        setValue={setTitle}
         required
       />
 
@@ -67,15 +67,17 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={description}
-        onChange={setDescription}
+        setValue={setDescription}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={setImgUrl}
-        validate={(url) => setIsImgUrlValid(validateUrl(url))}
+        setValue={setImgUrl}
+        validate={(url) => {
+          setIsImgUrlValid(validateUrl(url));
+        }}
         valid={isImgUrlValid}
         required
       />
@@ -84,8 +86,10 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={setImdbUrl}
-        validate={(url) => setIsImdbUrlValid(validateUrl(url))}
+        setValue={setImdbUrl}
+        validate={(url) => {
+          setIsImdbUrlValid(validateUrl(url));
+        }}
         valid={isImdbUrlValid}
         required
       />
@@ -94,7 +98,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={setImdbId}
+        setValue={setImdbId}
         required
       />
 

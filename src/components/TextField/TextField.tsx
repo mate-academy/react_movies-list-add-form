@@ -1,12 +1,12 @@
 import classNames from 'classnames';
-import React, { useState } from 'react';
+import { FC, ChangeEvent, useState } from 'react';
 
 type Props = {
   name: string,
   value: string,
   label?: string,
   required?: boolean,
-  onChange?: (newValue: string) => void,
+  setValue?: (newValue: string) => void,
   validate?: (value: string) => void,
   valid?: boolean,
 };
@@ -15,12 +15,12 @@ function getRandomDigits() {
   return Math.random().toString().slice(2);
 }
 
-export const TextField: React.FC<Props> = ({
+export const TextField: FC<Props> = ({
   name,
   value,
   label = name,
   required = false,
-  onChange = () => {},
+  setValue = () => {},
   validate = () => true,
   valid = true,
 }) => {
@@ -29,6 +29,13 @@ export const TextField: React.FC<Props> = ({
   const [touched, setTouched] = useState(false);
   const hasRequiredError = touched && required && !value;
   const hasInvalidError = !valid && value;
+
+  const handleChange = (event : ChangeEvent<HTMLInputElement>) => {
+    const newValue = event.target.value;
+
+    setValue(newValue);
+    validate(newValue);
+  };
 
   return (
     <div className="field">
@@ -46,10 +53,7 @@ export const TextField: React.FC<Props> = ({
           type="text"
           placeholder={`Enter ${label}`}
           value={value}
-          onChange={event => {
-            onChange(event.target.value);
-            validate(value);
-          }}
+          onChange={handleChange}
           onBlur={() => setTouched(true)}
         />
       </div>
