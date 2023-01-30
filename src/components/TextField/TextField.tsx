@@ -30,7 +30,7 @@ export const TextField: React.FC<Props> = ({
   const hasError = touched && required && !value;
 
   const isValidUrl = urlValidation(value);
-  const hasUrlError = touched && !isValidUrl;
+  const hasUrlError = !hasError && touched && !isValidUrl;
 
   return (
     <div className="field">
