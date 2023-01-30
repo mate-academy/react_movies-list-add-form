@@ -67,7 +67,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={description}
-        onChange={(event) => setDescription(event)}        
+        onChange={(event) => setDescription(event)}
       />
 
       <TextField
