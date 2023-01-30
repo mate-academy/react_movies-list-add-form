@@ -1,14 +1,6 @@
-import { FormEvent, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { Movie } from '../../types/Movie';
 import { TextField } from '../TextField';
-
-const INITIAL_STATE: Movie = {
-  title: '',
-  description: '',
-  imgUrl: '',
-  imdbUrl: '',
-  imdbId: '',
-};
 
 type Props = {
   onAdd: (movie: Movie) => void,
@@ -16,74 +8,104 @@ type Props = {
 
 export const NewMovie:React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
-  const [movie, setMovie] = useState<Movie>(INITIAL_STATE);
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [imgUrl, setImgUrl] = useState('');
+  const [imdbUrl, setImdbUrl] = useState('');
+  const [imdbId, setImdbId] = useState('');
 
-  const handleChange = (field: string, newValue: string) => {
-    setMovie({
-      ...movie,
-      [field]: newValue,
-    });
+  const increaseCount = () => {
+    setCount(state => state + 1);
   };
 
-  const validateForm = () => {
-    const {
-      title, imgUrl, imdbId, imdbUrl,
-    } = movie;
+  const onChangeTitle = useCallback(
+    (newValue: string) => setTitle(newValue), [setTitle],
+  );
 
-    return title.length && imgUrl.length && imdbId.length && imdbUrl.length;
+  const onChangeDescription = useCallback(
+    (newValue: string) => setDescription(newValue), [setDescription],
+  );
+
+  const onChangeImgUrl = useCallback(
+    (newValue: string) => setImgUrl(newValue), [setImgUrl],
+  );
+
+  const onChangeImdbUrl = useCallback(
+    (newValue: string) => setImdbUrl(newValue), [setImdbUrl],
+  );
+
+  const onChangeImdbId = useCallback(
+    (newValue: string) => setImdbId(newValue), [setImdbId],
+  );
+
+  const clear = () => {
+    setTitle('');
+    setDescription('');
+    setImgUrl('');
+    setImdbUrl('');
+    setImdbId('');
   };
 
-  const handleSubmit = (event: FormEvent) => {
+  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    onAdd(movie);
-    setMovie(INITIAL_STATE);
-    setCount(count + 1);
+
+    const newMovie = {
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    };
+
+    onAdd(newMovie);
+    increaseCount();
+    clear();
   };
 
   return (
     <form
       className="NewMovie"
       key={count}
-      onSubmit={handleSubmit}
+      onSubmit={onSubmit}
     >
       <h2 className="title">Add a movie</h2>
 
       <TextField
         name="title"
         label="Title"
-        value={movie.title}
-        onChange={handleChange}
+        value={title}
+        onChange={onChangeTitle}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value={movie.description}
-        onChange={handleChange}
+        value={description}
+        onChange={onChangeDescription}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={movie.imgUrl}
-        onChange={handleChange}
+        value={imgUrl}
+        onChange={onChangeImgUrl}
         required
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={movie.imdbUrl}
-        onChange={handleChange}
+        value={imdbUrl}
+        onChange={onChangeImdbUrl}
         required
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={movie.imdbId}
-        onChange={handleChange}
+        value={imdbId}
+        onChange={onChangeImdbId}
         required
       />
 
@@ -93,7 +115,7 @@ export const NewMovie:React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!validateForm()}
+            disabled={!(title && imgUrl && imdbUrl && imdbId)}
           >
             Add
           </button>
