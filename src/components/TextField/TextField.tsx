@@ -6,8 +6,12 @@ type Props = {
   value: string,
   label?: string,
   required?: boolean,
-  onChange?: (field: string, newValue: string) => void,
+  onChange?: (newValue: string) => void,
+  hasValidUrl?: boolean | undefined,
 };
+
+// eslint-disable-next-line max-len
+const validUrl = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
 
 function getRandomDigits() {
   return Math.random().toString().slice(2);
@@ -19,11 +23,13 @@ export const TextField: React.FC<Props> = ({
   label = name,
   required = false,
   onChange = () => {},
+  hasValidUrl,
 }) => {
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
-  const [touched, setToched] = useState(false);
+  const [touched, setTouched] = useState(false);
   const hasError = touched && required && !value;
+  const isValid = hasValidUrl && touched && !validUrl.test(value);
 
   return (
     <div className="field">
@@ -36,18 +42,22 @@ export const TextField: React.FC<Props> = ({
           id={id}
           data-cy={`movie-${name}`}
           className={classNames('input', {
-            'is-danger': hasError,
+            'is-danger': hasError || isValid,
           })}
           type="text"
           placeholder={`Enter ${label}`}
           value={value}
-          onChange={event => onChange(name, event.target.value)}
-          onBlur={() => setToched(true)}
+          onChange={event => onChange(event.target.value)}
+          onBlur={() => setTouched(true)}
         />
       </div>
 
       {hasError && (
         <p className="help is-danger">{`${label} is required`}</p>
+      )}
+
+      {(isValid && !hasError) && (
+        <p className="help is-danger">{`Invalid ${label}`}</p>
       )}
     </div>
   );
