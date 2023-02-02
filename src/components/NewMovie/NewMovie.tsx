@@ -15,12 +15,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
   const [isDisabled, setIsDisabled] = useState(true);
+  const [isVerified, setIsVerified] = useState(false);
 
   useEffect(() => {
     if (title.length
         && imgUrl.length
         && imdbUrl.length
         && imdbId.length
+        && isVerified
     ) {
       setIsDisabled(false);
     } else {
@@ -54,21 +56,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     }
 
     clearData();
-  };
-
-  const inputValidation = (newValue: string) => {
-    // eslint-disable-next-line max-len
-    // const pattern = /^'((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$',\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$'/;
-    // const regex = new RegExp(pattern);
-    //
-    // if (newValue.match(regex)) {
-    //   // eslint-disable-next-line no-console
-    //   console.log(newValue);
-    //
-    //   return newValue;
-    // }
-
-    return newValue;
   };
 
   return (
@@ -105,8 +92,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Image URL"
         value={imgUrl}
         required
-        onChange={(newValue) => {
-          setImgUrl(inputValidation(newValue));
+        isValid
+        onChange={(newValue, verified) => {
+          setIsVerified(verified);
+          setImgUrl(newValue);
         }}
       />
 
@@ -115,8 +104,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Imdb URL"
         value={imdbUrl}
         required
-        onChange={(newValue) => {
-          setImdbUrl(inputValidation(newValue));
+        isValid
+        onChange={(newValue, verified) => {
+          setIsVerified(verified);
+          setImdbUrl(newValue);
         }}
       />
 
