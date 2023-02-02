@@ -1,14 +1,16 @@
 import { FormEvent, useState } from 'react';
 import { TextField } from '../TextField';
 
+type Movie = {
+  title: string,
+  description: string | '',
+  imgUrl: string,
+  imdbUrl: string,
+  imdbId: string,
+};
+
 type Props = {
-  onAdd: (
-    title: string,
-    description: string,
-    imgUrl: string,
-    imdbUrl: string,
-    imdbId: string,
-  ) => void,
+  onAdd: (movie: Movie) => void,
 };
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
@@ -22,11 +24,19 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
   const cantAdd = !title || !imgUrl || !imdbUrl || !imdbId;
 
+  const newMovie = {
+    title,
+    description,
+    imgUrl,
+    imdbUrl,
+    imdbId,
+  };
+
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     if (!cantAdd) {
-      onAdd(title, description, imgUrl, imdbUrl, imdbId);
+      onAdd(newMovie);
       setCount(current => current + 1);
 
       setTitle('');

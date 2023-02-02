@@ -4,25 +4,19 @@ import { MoviesList } from './components/MoviesList';
 import { NewMovie } from './components/NewMovie';
 import moviesFromServer from './api/movies.json';
 
+type Movie = {
+  title: string,
+  description: string | '',
+  imgUrl: string,
+  imdbUrl: string,
+  imdbId: string,
+};
+
 export const App = () => {
   const [movie, setMovie] = useState(moviesFromServer);
 
-  const addMovie = (
-    title: string,
-    description: string,
-    imgUrl: string,
-    imdbUrl: string,
-    imdbId: string,
-  ) => {
-    const newMovie = {
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    };
-
-    return setMovie([...movie, newMovie]);
+  const addMovie = (newMovie: Movie) => {
+    setMovie([...movie, newMovie]);
   };
 
   return (
