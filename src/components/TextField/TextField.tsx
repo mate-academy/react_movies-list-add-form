@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import { FC, ChangeEvent, useState } from 'react';
+import React, { FC, ChangeEvent, useState } from 'react';
 
 type Props = {
   name: string,
@@ -15,60 +15,64 @@ function getRandomDigits() {
   return Math.random().toString().slice(2);
 }
 
-export const TextField: FC<Props> = ({
-  name,
-  value,
-  label = name,
-  required = false,
-  setValue = () => {},
-  validate = () => true,
-  valid = true,
-}) => {
-  const [id] = useState(() => `${name}-${getRandomDigits()}`);
+export const TextField: FC<Props> = React.memo(
+  ({
+    name,
+    value,
+    label = name,
+    required = false,
+    setValue = () => {},
+    validate = () => true,
+    valid = true,
+  }) => {
+    const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
-  const [touched, setTouched] = useState(false);
-  const hasRequiredError = touched && required && !value;
-  const hasInvalidError = !valid && value;
+    const [touched, setTouched] = useState(false);
 
-  const handleChange = (event : ChangeEvent<HTMLInputElement>) => {
-    const newValue = event.target.value;
+    const hasIsRequiredError = touched && required && !value;
+    const hasIsInvalidError = !valid && value;
+    const hasError = hasIsRequiredError || hasIsInvalidError;
 
-    setValue(newValue);
-    validate(newValue);
-  };
+    const handleChange = (event : ChangeEvent<HTMLInputElement>) => {
+      const newValue = event.target.value;
 
-  return (
-    <div className="field">
-      <label className="label" htmlFor={id}>
-        {label}
-      </label>
+      setValue(newValue);
+      validate(newValue);
+    };
 
-      <div className="control">
-        <input
-          id={id}
-          data-cy={`movie-${name}`}
-          className={classNames('input', {
-            'is-danger': hasRequiredError || hasInvalidError,
-          })}
-          type="text"
-          placeholder={`Enter ${label}`}
-          value={value}
-          onChange={handleChange}
-          onBlur={() => setTouched(true)}
-        />
+    return (
+      <div className="field">
+        <label className="label" htmlFor={id}>
+          {label}
+        </label>
+
+        <div className="control">
+          <input
+            id={id}
+            data-cy={`movie-${name}`}
+            className={classNames('input', {
+              'is-danger': hasError,
+            })}
+            type="text"
+            placeholder={`Enter ${label}`}
+            value={value}
+            onChange={handleChange}
+            onBlur={() => setTouched(true)}
+          />
+        </div>
+
+        {hasIsRequiredError && (
+          <p className="help is-danger">
+            {`${label} is required`}
+          </p>
+        )}
+
+        {hasIsInvalidError && (
+          <p className="help is-danger">
+            {`${label} isn't valid`}
+          </p>
+        )}
       </div>
-
-      {hasRequiredError && (
-        <p className="help is-danger">
-          {`${label} is required`}
-        </p>
-      )}
-
-      {hasInvalidError && (
-        <p className="help is-danger">
-          {`${label} isn't valid`}
-        </p>
-      )}
-    </div>
-  );
-};
+    );
+  },
+);

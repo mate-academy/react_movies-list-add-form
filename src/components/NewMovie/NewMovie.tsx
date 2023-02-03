@@ -1,4 +1,6 @@
-import { FC, FormEvent, useState } from 'react';
+import {
+  FC, FormEvent, useCallback, useState,
+} from 'react';
 
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
@@ -47,6 +49,14 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
     resetForm();
   };
 
+  const validateImgUrl = useCallback((url) => {
+    setIsImgUrlValid(validateUrl(url));
+  }, []);
+
+  const validateImdbUrl = useCallback((url) => {
+    setIsImdbUrlValid(validateUrl(url));
+  }, []);
+
   return (
     <form
       className="NewMovie"
@@ -75,9 +85,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
         label="Image URL"
         value={imgUrl}
         setValue={setImgUrl}
-        validate={(url) => {
-          setIsImgUrlValid(validateUrl(url));
-        }}
+        validate={validateImgUrl}
         valid={isImgUrlValid}
         required
       />
@@ -87,9 +95,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
         label="Imdb URL"
         value={imdbUrl}
         setValue={setImdbUrl}
-        validate={(url) => {
-          setIsImdbUrlValid(validateUrl(url));
-        }}
+        validate={validateImdbUrl}
         valid={isImdbUrlValid}
         required
       />
