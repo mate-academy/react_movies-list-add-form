@@ -6,8 +6,7 @@ type Props = {
   onAdd: (movie: Movie) => void,
 };
 
-export const NewMovie: React.FC<Props> = (props) => {
-  const { onAdd } = props;
+export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -15,9 +14,9 @@ export const NewMovie: React.FC<Props> = (props) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const inputs = [title, description, imgUrl, imdbUrl, imdbId];
+  const requiredInputs = [title, imgUrl, imdbUrl, imdbId];
 
-  const callbacks = [
+  const setters = [
     setTitle,
     setDescription,
     setImgUrl,
@@ -25,30 +24,26 @@ export const NewMovie: React.FC<Props> = (props) => {
     setImdbUrl,
   ];
 
-  const isFormFilled = inputs
-    .map(input => input.trim())
-    .every(Boolean);
+  const isFormFilled = requiredInputs.every(input => !!input.trim());
 
   const clearForm = () => {
-    callbacks.forEach(callback => callback(''));
+    setCount(prevCount => prevCount + 1);
+    setters.forEach(setter => setter(''));
   };
 
-  const newMovie: Movie = {
-    title,
-    description,
-    imgUrl,
-    imdbUrl,
-    imdbId,
-  };
 
   const handleSubmit = (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (isFormFilled) {
-      onAdd(newMovie);
-      setCount(prevCount => prevCount + 1);
-      clearForm();
-    }
+    onAdd( {
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    });
+
+    clearForm();
   };
 
   return (
@@ -68,7 +63,6 @@ export const NewMovie: React.FC<Props> = (props) => {
         label="Description"
         value={description}
         onChange={setDescription}
-        required
       />
 
       <TextField
