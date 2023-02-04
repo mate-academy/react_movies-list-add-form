@@ -10,6 +10,8 @@ import moviesFromServer from './api/movies.json';
 export const App: FC = () => {
   const [movies, setMovies] = useState<Movie[]>([...moviesFromServer]);
 
+  const addMovie = (movie: Movie) => setMovies([...movies, movie]);
+
   return (
     <div className="page">
       <div className="page-content">
@@ -17,7 +19,7 @@ export const App: FC = () => {
       </div>
       <div className="sidebar">
         <NewMovie
-          onAdd={(movie) => setMovies([...movies, movie])}
+          onAdd={addMovie}
         />
       </div>
     </div>

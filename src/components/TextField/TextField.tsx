@@ -1,13 +1,15 @@
 import classNames from 'classnames';
-import React, { memo, useState } from 'react';
+import React, { ChangeEvent, memo, useState } from 'react';
 
 type Props = {
   name: string;
   value: string;
-  onChange: (newValue: string) => void;
+  setNewValue: (newValue: string) => void;
+  isFormatValid?: boolean;
+  setIsFormatValid?: (newValue: boolean) => void;
   label?: string;
   required?: boolean;
-  isFieldValid?: (newValue: string) => boolean;
+  isFieldValidCustom?: (newValue: string) => boolean;
 };
 
 function getRandomDigits() {
@@ -17,14 +19,35 @@ function getRandomDigits() {
 export const TextField: React.FC<Props> = memo(({
   name,
   value,
-  onChange,
+  setNewValue,
+  isFormatValid = true,
+  setIsFormatValid = () => {},
   label = name,
   required = false,
-  isFieldValid = () => true,
+  isFieldValidCustom = () => true,
 }) => {
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
   const [touched, setTouched] = useState(false);
-  const hasError = touched && required && (!value || !isFieldValid(value));
+  const [isFormatChanged, setIsFormatChanged] = useState(false);
+
+  const hasError = touched && required && !value.trim();
+
+  function onBlur(): void {
+    setTouched(true);
+
+    const isFieldValid = isFieldValidCustom(value);
+
+    setIsFormatValid(isFieldValid);
+    setIsFormatChanged(false);
+  }
+
+  function onChange(event: ChangeEvent<HTMLInputElement>): void {
+    const newValue = event.target.value;
+
+    setNewValue(newValue);
+    setIsFormatChanged(true);
+    setIsFormatValid(false);
+  }
 
   return (
     <div className="field">
@@ -36,19 +59,30 @@ export const TextField: React.FC<Props> = memo(({
         <input
           id={id}
           data-cy={`movie-${name}`}
-          className={classNames('input', {
-            'is-danger': hasError,
-          })}
+          className={classNames(
+            'input',
+            {
+              'is-danger': hasError || (!isFormatValid && !isFormatChanged),
+            },
+          )}
           type="text"
           placeholder={`Enter ${label}`}
           value={value}
-          onChange={event => onChange(event.target.value)}
-          onBlur={() => setTouched(true)}
+          onChange={onChange}
+          onBlur={onBlur}
         />
       </div>
 
       {hasError && (
-        <p className="help is-danger">{`${label} is required`}</p>
+        <p className="help is-danger">
+          {`${label} is required`}
+        </p>
+      )}
+
+      {(!isFormatValid && !hasError && !isFormatChanged) && (
+        <p className="help is-danger">
+          {`${label} format is not valid`}
+        </p>
       )}
     </div>
   );

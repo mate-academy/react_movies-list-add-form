@@ -21,9 +21,13 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  function isButtonDisabled(): boolean {
-    return !title || !imgUrl || !imdbUrl || !imdbId;
-  }
+  const [isImgUrlValid, setIsImgUrlValid] = useState(true);
+  const [isImdbUrlValid, setIsImdbUrlValid] = useState(true);
+
+  const isButtonDisabled = !title
+    || !imgUrl || !isImgUrlValid
+    || !imdbUrl || !isImdbUrlValid
+    || !imdbId;
 
   function handleSubmit(event: FormEvent<HTMLFormElement>): void {
     event.preventDefault();
@@ -70,7 +74,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={title}
-        onChange={setTitle}
+        setNewValue={setTitle}
         required
       />
 
@@ -78,15 +82,17 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={description}
-        onChange={setDescription}
+        setNewValue={setDescription}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={setImgUrl}
-        isFieldValid={isUrlValid}
+        setNewValue={setImgUrl}
+        isFormatValid={isImgUrlValid}
+        setIsFormatValid={setIsImgUrlValid}
+        isFieldValidCustom={isUrlValid}
         required
       />
 
@@ -94,8 +100,10 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={setImdbUrl}
-        isFieldValid={isUrlValid}
+        setNewValue={setImdbUrl}
+        isFormatValid={isImdbUrlValid}
+        setIsFormatValid={setIsImdbUrlValid}
+        isFieldValidCustom={isUrlValid}
         required
       />
 
@@ -103,7 +111,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={setImdbId}
+        setNewValue={setImdbId}
         required
       />
 
@@ -113,7 +121,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={isButtonDisabled()}
+            disabled={isButtonDisabled}
           >
             Add
           </button>
