@@ -7,8 +7,6 @@ type Props = {
 };
 
 export const NewMovie:React.FC<Props> = ({ onAdd }) => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -36,11 +34,9 @@ export const NewMovie:React.FC<Props> = ({ onAdd }) => {
 
   const handleSubmit = (event:React.FormEvent) => {
     event.preventDefault();
-    if (conditionToSubmit) {
-      onAdd(movie);
-      reset();
-      setCount(prevCount => prevCount + 1);
-    }
+    onAdd(movie);
+    reset();
+    setCount(prevCount => prevCount + 1);
   };
 
   return (
