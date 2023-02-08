@@ -1,12 +1,12 @@
 import classNames from 'classnames';
 import React, { useState } from 'react';
-
+/* eslint-disable no-console */
 type Props = {
   name: string,
   value: string,
   label?: string,
   required?: boolean,
-  onChange?: (newValue: string) => void,
+  onChange: (newValue: string) => void,
 };
 
 function getRandomDigits() {
@@ -18,14 +18,22 @@ export const TextField: React.FC<Props> = ({
   value,
   label = name,
   required = false,
-  onChange = () => {},
+  onChange,
 }) => {
-  // generage a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
-
-  // To show errors only if the field was touched (onBlur)
+  // eslint-disable-next-line max-len
+  // const pattern = /^(?:([A-Za-z]+):)?(\/{0,3})([0-9.\-A-Za-z]+)(?::(\d+))?(?:\/([^?#]*))?(?:\?([^#]*))?(?:#(.*))?$/;
   const [touched, setToched] = useState(false);
   const hasError = touched && required && !value;
+
+  // const hasWrongLinkFormat = (name === 'imgUrl' || name === 'imdbUrl')
+  //   ? value.match(pattern) && touched && !value
+  //   : false;
+  // const hasWrongLinkFormat = !!value.match(pattern) && touched && !value;
+
+  // if (name === 'imgUrl' || name === 'imdbUrl') {
+  //   console.log('value', hasWrongLinkFormat);
+  // }
 
   return (
     <div className="field">
@@ -51,6 +59,9 @@ export const TextField: React.FC<Props> = ({
       {hasError && (
         <p className="help is-danger">{`${label} is required`}</p>
       )}
+      {/* {!hasWrongLinkFormat && (name === 'imgUrl' || name === 'imdbUrl') && (
+        <p className="help is-danger">Invalid url adress</p>
+      )} */}
     </div>
   );
 };
