@@ -13,8 +13,15 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imgUrl, setImgUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
+  // eslint-disable-next-line max-len
+  const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
 
-  const requiredFilled = !!title && !!imgUrl && !!imdbUrl && !!imdbId;
+  function isValid(string: string): boolean {
+    return !!string.match(pattern);
+  }
+
+  const requiredFilled = !!title && !!imgUrl && !!imdbUrl && !!imdbId
+    && isValid(imdbUrl) && isValid(imgUrl);
 
   function fieldsResetter() {
     setCount(current => current + 1);
@@ -26,21 +33,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   }
 
   function submitHandler() {
-    // eslint-disable-next-line max-len
-    const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
-
-    if (!imgUrl.match(pattern)) {
-      setImgUrl('');
-
-      return;
-    }
-
-    if (!imdbUrl.match(pattern)) {
-      setImdbUrl('');
-
-      return;
-    }
-
     const newMovie = {
       title,
       description,
@@ -77,6 +69,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Image URL"
         value={imgUrl}
         onChange={setImgUrl}
+        isValid={isValid(imgUrl)}
         required
       />
 
@@ -85,6 +78,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Imdb URL"
         value={imdbUrl}
         onChange={setImdbUrl}
+        isValid={isValid(imdbUrl)}
         required
       />
 

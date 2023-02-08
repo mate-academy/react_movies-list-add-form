@@ -6,6 +6,7 @@ type Props = {
   value: string,
   label?: string,
   required?: boolean,
+  isValid?: boolean,
   onChange?: (newValue: string) => void,
 };
 
@@ -18,12 +19,14 @@ export const TextField: React.FC<Props> = ({
   value,
   label = name,
   required = false,
+  isValid = true,
   onChange = () => {},
 }) => {
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
   const [touched, setToched] = useState(false);
   const hasError = touched && required && !value;
+  const hasValidationError = !isValid && value;
 
   return (
     <div className="field">
@@ -36,7 +39,7 @@ export const TextField: React.FC<Props> = ({
           id={id}
           data-cy={`movie-${name}`}
           className={classNames('input', {
-            'is-danger': hasError,
+            'is-danger': hasError || hasValidationError,
           })}
           type="text"
           placeholder={`Enter ${label}`}
@@ -48,6 +51,10 @@ export const TextField: React.FC<Props> = ({
 
       {hasError && (
         <p className="help is-danger">{`${label} is required`}</p>
+      )}
+
+      {hasValidationError && (
+        <p className="help is-danger">URL is not valid</p>
       )}
     </div>
   );
