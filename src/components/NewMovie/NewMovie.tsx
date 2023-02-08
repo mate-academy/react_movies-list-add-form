@@ -8,36 +8,34 @@ type Props = {
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
-  const [title, setTietle] = useState('');
+  const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [imgUrl, setImgUrl] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const newMovie: Movie = {
-    title,
-    description,
-    imgUrl,
-    imdbUrl,
-    imdbId,
-  };
-
-  const handleSubmit = () => {
-    onAdd(newMovie);
-    setTietle('');
+  const resetForm = () => {
+    setCount(count + 1);
+    setTitle('');
     setDescription('');
     setImgUrl('');
     setImdbUrl('');
     setImdbId('');
-    setCount(count + 1);
   };
 
-  const hasFormValid = (
-    title.length > 0
-    && imgUrl.length > 0
-    && imdbUrl.length > 0
-    && imdbId.length > 0
-  );
+  const handleSubmit = () => {
+    onAdd({
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    });
+
+    resetForm();
+  };
+
+  const hasFormValid = title && imgUrl && imdbId && imdbUrl;
 
   return (
     <form
@@ -51,7 +49,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={title}
-        onChange={setTietle}
+        onChange={setTitle}
         required
       />
 
