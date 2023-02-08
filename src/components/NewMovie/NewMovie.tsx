@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
@@ -55,11 +55,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       ...newMovie,
       [name]: value,
     });
-
-    if (imgUrl || imdbUrl) {
-      setIsValidImgUrl(validateFields(imgUrl));
-      setIsValidImdbUrl(validateFields(imdbUrl));
-    }
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -72,6 +67,16 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     onAdd(newMovie);
     resetForm();
   };
+
+  useEffect(() => {
+    if (imgUrl) {
+      setIsValidImgUrl(validateFields(imgUrl));
+    }
+
+    if (imdbUrl) {
+      setIsValidImdbUrl(validateFields(imdbUrl));
+    }
+  }, [imgUrl, imdbUrl]);
 
   return (
     <form

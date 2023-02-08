@@ -22,13 +22,11 @@ export const TextField: React.FC<Props> = ({
   required = false,
   onChange = () => {},
 }) => {
-  // generage a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
-  // To show errors only if the field was touched (onBlur)
   const [touched, setToched] = useState(false);
   const hasError = touched && required && !value;
-  const isValidUrl = touched && isValid;
+  const isValidUrl = (touched && isValid);
 
   return (
     <div className="field">
@@ -42,7 +40,7 @@ export const TextField: React.FC<Props> = ({
           id={id}
           data-cy={`movie-${name}`}
           className={classNames('input', {
-            'is-danger': hasError || isValid,
+            'is-danger': hasError || isValidUrl,
           })}
           type="text"
           placeholder={`Enter ${label}`}
