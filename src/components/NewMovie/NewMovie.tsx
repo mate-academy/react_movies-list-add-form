@@ -41,9 +41,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const requiredFields = [title, imgUrl, imdbUrl, imdbId];
   const isWholeFormField = requiredFields.every(field => !!field.trim());
 
-  // const isWholeFormField = title.trim() && imgUrl.trim()
-  // && imdbUrl.trim() && imdbId.trim();
-
   return (
     <form
       className="NewMovie"
