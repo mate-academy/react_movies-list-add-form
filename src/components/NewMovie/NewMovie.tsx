@@ -15,6 +15,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imgUrl, setImgUrl] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
+  const [isUrlValid, setIsUrlValid] = useState(true);
+
+  // eslint-disable-next-line max-len
+  const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
 
   const clearForm = () => {
     setTitle('');
@@ -24,7 +28,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setImdbId('');
   };
 
-  const isAddButtonDisabled = !title || !imgUrl || !imdbUrl || !imdbId;
+  const isAddButtonDisabled = !title || !imgUrl || !imdbUrl || !imdbId
+    || !isUrlValid;
 
   const createNewMovie = (event: SyntheticEvent) => {
     event.preventDefault();
@@ -70,6 +75,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Image URL"
         value={imgUrl}
         onChange={setImgUrl}
+        validate={pattern}
+        setIsValid={setIsUrlValid}
         required
       />
 
@@ -78,6 +85,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Imdb URL"
         value={imdbUrl}
         onChange={setImdbUrl}
+        validate={pattern}
+        setIsValid={setIsUrlValid}
         required
       />
 
