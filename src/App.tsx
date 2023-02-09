@@ -1,4 +1,3 @@
-import './App.scss';
 import { useState } from 'react';
 import moviesFromServer from './api/movies.json';
 import { Movie } from './types/Movie';
