@@ -1,6 +1,7 @@
 import { FormEvent, useState } from 'react';
 import { Movie } from '../../types/Movie';
 import { TextField } from '../TextField';
+import { urlPattern } from '../utils/constants';
 
 type Props = {
   onAdd: (movie: Movie) => void,
@@ -16,10 +17,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  // eslint-disable-next-line max-len
-  const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
-
-  const isValidUrl = pattern.test(imgUrl) && pattern.test(imdbUrl);
+  const isValidUrl = urlPattern.test(imgUrl) && urlPattern.test(imdbUrl);
   const canSubmit = !!(title && imgUrl && imdbUrl && imdbId) && isValidUrl;
 
   const createMovieCard = () => {
@@ -44,7 +42,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    onAdd(createMovieCard());
+    const newMovie = createMovieCard();
+
+    onAdd(newMovie);
     setCount(currenCount => currenCount + 1);
     reset();
   };
