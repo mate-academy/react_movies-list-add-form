@@ -7,6 +7,7 @@ type Props = {
   label?: string,
   required?: boolean,
   onChange?: (newValue: string) => void,
+  validationCallback?: (value: string) => boolean,
 };
 
 function getRandomDigits() {
@@ -19,13 +20,24 @@ export const TextField: React.FC<Props> = ({
   label = name,
   required = false,
   onChange = () => {},
+  validationCallback,
 }) => {
   // generage a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
   // To show errors only if the field was touched (onBlur)
   const [touched, setToched] = useState(false);
-  const hasError = touched && required && !value;
+  const [isValid, setIsValid] = useState(true);
+  const hasError = touched && required && (!value || !isValid);
+
+  const handleBlur = () => {
+    setToched(true);
+    if (validationCallback) {
+      const isValueValid = validationCallback(value);
+
+      setIsValid(isValueValid);
+    }
+  };
 
   return (
     <div className="field">
@@ -44,7 +56,7 @@ export const TextField: React.FC<Props> = ({
           placeholder={`Enter ${label}`}
           value={value}
           onChange={event => onChange(event.target.value)}
-          onBlur={() => setToched(true)}
+          onBlur={handleBlur}
         />
       </div>
 
