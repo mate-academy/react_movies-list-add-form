@@ -15,7 +15,7 @@ export const NewMovie = ({ onAdd } : Props) => {
   const [imgUrl, setImgUrl] = useState('');
   const [imdbUrl, setImdbUr] = useState('');
   const [imdbId, setImdbId] = useState('');
-  const enabled = !(title && imgUrl && imdbUrl && imdbId);
+  const enableToAddFilm = !(title && imgUrl && imdbUrl && imdbId);
 
   const onReset = () => {
     setTitle('');
@@ -96,7 +96,7 @@ export const NewMovie = ({ onAdd } : Props) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={enabled}
+            disabled={enableToAddFilm}
           >
             Add
           </button>
