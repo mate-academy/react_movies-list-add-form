@@ -14,14 +14,6 @@ export const NewMovie: React.FC<NewMoviePropsType> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const newMovie: Movie = {
-    title,
-    description,
-    imgUrl,
-    imdbUrl,
-    imdbId,
-  };
-
   const clearInputs = () => {
     setTitle('');
     setImdbId('');
@@ -34,6 +26,14 @@ export const NewMovie: React.FC<NewMoviePropsType> = ({ onAdd }) => {
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
+
+    const newMovie: Movie = {
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    };
 
     onAdd(newMovie);
     clearInputs();
