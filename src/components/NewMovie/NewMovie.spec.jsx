@@ -4,7 +4,7 @@
 
 import React from 'react';
 import { mount } from '@cypress/react';
-import { NewMovie } from './NewMovie';
+import { AddMovieForm } from './NewMovie';
 
 const page = {
   getByDataCy: (name) => cy.get(`[data-cy="${name}"]`),
@@ -65,7 +65,7 @@ describe('NewMovie', () => {
   beforeEach(() => {
     onAdd = cy.stub();
 
-    mount(<NewMovie onAdd={onAdd} />);
+    mount(<AddMovieForm onAdd={onAdd} />);
   });
 
   it('should have empty fields by default', () => {

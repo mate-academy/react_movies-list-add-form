@@ -1,5 +1,11 @@
 /* eslint-disable no-alert */
 import { useState } from 'react';
+import { DEFAULT_INPUT_VALUE } from '../../constants/default-values';
+import {
+  IMDB_URL_ERROR_MESSAGE,
+  IMG_URL_ERROR_MESSAGE,
+} from '../../constants/error-messages';
+import { isUrlValid } from '../../helpers/is-url-valid';
 import { Movie } from '../../types/Movie';
 import { TextField } from '../TextField';
 
@@ -7,10 +13,7 @@ type Props = {
   onAdd: (movie: Movie) => void;
 };
 
-export const NewMovie: React.FC<Props> = ({ onAdd }) => {
-  // eslint-disable-next-line max-len
-  const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
-
+export const AddMovieForm: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
   const [title, setTitle] = useState('');
   const [imgUrl, setImgUrl] = useState('');
@@ -18,16 +21,12 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [description, setDescription] = useState('');
 
-  const defaultValue = '';
-
-  const isUrlValid = (value: string) => value.match(pattern);
-
   const reset = () => {
-    setTitle(defaultValue);
-    setDescription(defaultValue);
-    setImgUrl(defaultValue);
-    setImdbUrl(defaultValue);
-    setImdbId(defaultValue);
+    setTitle(DEFAULT_INPUT_VALUE);
+    setDescription(DEFAULT_INPUT_VALUE);
+    setImgUrl(DEFAULT_INPUT_VALUE);
+    setImdbUrl(DEFAULT_INPUT_VALUE);
+    setImdbId(DEFAULT_INPUT_VALUE);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -36,7 +35,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     if (!isUrlValid(imgUrl) || !isUrlValid(imdbUrl)) {
       reset();
 
-      alert('Looks like something went wrong, check your links');
+      return !isUrlValid(imgUrl)
+        ? alert(IMG_URL_ERROR_MESSAGE)
+        : alert(IMDB_URL_ERROR_MESSAGE);
     }
 
     const newMovie = {
@@ -47,13 +48,13 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       description,
     };
 
-    setCount(prev => prev + 1);
-
     onAdd(newMovie);
     reset();
+
+    return setCount(prev => prev + 1);
   };
 
-  const clickCondition = (title.trim() && imgUrl && imdbUrl && imdbId);
+  const isAddButtonDisabled = (title.trim() && imgUrl && imdbUrl && imdbId);
 
   return (
     <form
@@ -108,7 +109,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!clickCondition}
+            disabled={!isAddButtonDisabled}
           >
             Add
           </button>
