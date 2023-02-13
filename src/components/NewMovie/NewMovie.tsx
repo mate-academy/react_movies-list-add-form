@@ -14,7 +14,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [description, setDescription] = useState('');
   const [count, setCount] = useState(0);
 
-  const isButtonWork = (!title && !imgUrl && !imdbUrl && !imdbId);
+  const isButtonWork = (title && imgUrl && imdbUrl && imdbId);
 
   const toClearForm = () => {
     setTitle('');
@@ -95,7 +95,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={isButtonWork}
+            disabled={!isButtonWork}
           >
             Add
           </button>
