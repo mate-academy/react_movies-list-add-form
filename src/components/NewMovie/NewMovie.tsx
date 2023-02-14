@@ -17,7 +17,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbId, setImdbId] = useState('');
 
   const isFieldsFilled = title && imgUrl && imdbUrl && imdbId;
-  const isButtonDisabled = !isFieldsFilled;
 
   const isValidUrl = (url: string) => {
     // eslint-disable-next-line max-len
@@ -27,7 +26,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   };
 
   const clearForm = () => {
-    setCount(currentCount => currentCount + 1);
     setTitle('');
     setDescription('');
     setImgUrl('');
@@ -52,6 +50,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       imdbId,
     };
 
+    setCount(currentCount => currentCount + 1);
     onAdd(movie);
     clearForm();
   };
@@ -109,7 +108,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={isButtonDisabled}
+            disabled={!isFieldsFilled}
           >
             Add
           </button>
