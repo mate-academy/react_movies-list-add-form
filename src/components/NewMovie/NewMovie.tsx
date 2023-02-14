@@ -17,26 +17,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbId, setImdbId] = useState('');
   let isDisabled = true;
 
-  const handleInputTitle = (newTitle: string) => {
-    setTitle(newTitle);
-  };
-
-  const handleInputDescription = (newDescription: string) => {
-    setDescription(newDescription);
-  };
-
-  const handleImgUrl = (newImgUrl: string) => {
-    setImgUrl(newImgUrl);
-  };
-
-  const handleImdbUrl = (newImdbUrl: string) => {
-    setImdbUrl(newImdbUrl);
-  };
-
-  const handleImdbId = (newImdbId: string) => {
-    setImdbId(newImdbId);
-  };
-
   const reset = () => {
     setTitle('');
     setDescription('');
@@ -75,7 +55,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={title}
-        onChange={handleInputTitle}
+        onChange={setTitle}
         required
       />
 
@@ -83,14 +63,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={description}
-        onChange={handleInputDescription}
+        onChange={setDescription}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={handleImgUrl}
+        onChange={setImgUrl}
         required
       />
 
@@ -98,7 +78,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={handleImdbUrl}
+        onChange={setImdbUrl}
         required
       />
 
@@ -106,7 +86,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={handleImdbId}
+        onChange={setImdbId}
         required
       />
 
