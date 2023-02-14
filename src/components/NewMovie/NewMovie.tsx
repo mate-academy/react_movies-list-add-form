@@ -23,18 +23,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
   const isValid = inputTitle && inputImage && inputUrl && inputId;
 
-  const movie = {
-    title: inputTitle,
-    description: inputDescription,
-    imgUrl: inputImage,
-    imdbUrl: inputUrl,
-    imdbId: inputId,
-  };
-
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    onAdd(movie);
-    setCount(currCount => currCount + 1);
+  const resetFields = () => {
     setInputTitle('');
     setInputDescription('');
     setInputImage('');
@@ -42,13 +31,26 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setInputId('');
   };
 
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const movie = {
+      title: inputTitle,
+      description: inputDescription,
+      imgUrl: inputImage,
+      imdbUrl: inputUrl,
+      imdbId: inputId,
+    };
+
+    event.preventDefault();
+    onAdd(movie);
+    setCount(currCount => currCount + 1);
+    resetFields();
+  };
+
   return (
     <form
       className="NewMovie"
       key={count}
-      onSubmit={(event) => {
-        handleSubmit(event);
-      }}
+      onSubmit={handleSubmit}
     >
       <h2 className="title">Add a movie</h2>
 
@@ -56,7 +58,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={inputTitle}
-        onChange={(value) => setInputTitle(value)}
+        onChange={setInputTitle}
         required
       />
 
@@ -64,14 +66,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={inputDescription}
-        onChange={(value) => setInputDescription(value)}
+        onChange={setInputDescription}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={inputImage}
-        onChange={(value) => setInputImage(value)}
+        onChange={setInputImage}
         required
       />
 
@@ -79,7 +81,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={inputUrl}
-        onChange={(value) => setInputUrl(value)}
+        onChange={setInputUrl}
         required
       />
 
@@ -87,7 +89,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={inputId}
-        onChange={(value) => setInputId(value)}
+        onChange={setInputId}
         required
       />
 
