@@ -29,6 +29,9 @@ export const TextField: React.FC<Props> = ({
   const [touched, setToched] = useState(false);
   const [isValid, setIsValid] = useState(true);
   const hasError = touched && required && (!value || !isValid);
+  const errorText = value && !isValid
+    ? 'URL is not valid. Valid URL is required'
+    : `${label} is required`;
 
   const handleBlur = () => {
     setToched(true);
@@ -61,7 +64,7 @@ export const TextField: React.FC<Props> = ({
       </div>
 
       {hasError && (
-        <p className="help is-danger">{`${label} is required`}</p>
+        <p className="help is-danger">{errorText}</p>
       )}
     </div>
   );

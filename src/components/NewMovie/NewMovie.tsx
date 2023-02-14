@@ -3,7 +3,6 @@ import { validateUrl } from '../../helpers/validate-url';
 import { Movie } from '../../types/Movie';
 import { TextField } from '../TextField';
 
-
 interface Props {
   onAdd: (movie: Movie) => void;
 }
