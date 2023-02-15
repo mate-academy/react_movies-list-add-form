@@ -13,15 +13,15 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [imageUrl, setImageUrl] = useState('');
-  const [imbdUrl, setImbdUrl] = useState('');
+  const [imgUrl, setimgUrl] = useState('');
+  const [imdbUrl, setimdbUrl] = useState('');
   const [imbdId, setImbdId] = useState('');
 
   const createNewMovie = {
     title,
     description,
-    imgUrl: imageUrl,
-    imdbUrl: imbdUrl,
+    imgUrl: imgUrl,
+    imdbUrl: imdbUrl,
     imdbId: imbdId,
   };
 
@@ -33,8 +33,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const removeField = () => {
     setTitle('');
     setDescription('');
-    setImageUrl('');
-    setImbdUrl('');
+    setimgUrl('');
+    setimdbUrl('');
     setImbdId('');
   };
 
@@ -44,15 +44,15 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
     removeField();
 
-    if (!isValidUrl(imageUrl) || !isValidUrl(imbdUrl)) {
-      setImageUrl(!isValidUrl(imbdUrl) ? 'Invalid url' : imageUrl);
-      setImbdUrl(!isValidUrl(imageUrl) ? 'Invalid url' : imbdUrl);
+    if (!isValidUrl(imgUrl) || !isValidUrl(imdbUrl)) {
+      setimgUrl(!isValidUrl(imdbUrl) ? 'Invalid url' : imgUrl);
+      setimdbUrl(!isValidUrl(imgUrl) ? 'Invalid url' : imdbUrl);
     }
 
     setCount(current => current + 1);
   };
 
-  const submitBtnUnabled = title && imageUrl && imbdId && imbdUrl;
+  const submitBtnUnabled = title && imgUrl && imbdId && imdbUrl;
 
   return (
     <form className="NewMovie" key={count} onSubmit={onSubmit}>
@@ -76,16 +76,16 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={imageUrl}
-        onChange={setImageUrl}
+        value={imgUrl}
+        onChange={setimgUrl}
         required
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={imbdUrl}
-        onChange={setImbdUrl}
+        value={imdbUrl}
+        onChange={setimdbUrl}
         required
       />
 
