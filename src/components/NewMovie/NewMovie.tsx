@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import { Movie } from '../../types/Movie';
-import { TextField } from '../TextField';
+import { useState } from "react";
+import { Movie } from "../../types/Movie";
+import { TextField } from "../TextField";
 
 interface Props {
   onAdd: (movie: Movie) => void;
@@ -8,19 +8,20 @@ interface Props {
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
-  const isRequiredField = !title || !imgUrl || !imdbUrl || !imdbId;
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [imgUrl, setImgUrl] = useState("");
+  const [imdbUrl, setImdbUrl] = useState("");
+  const [imdbId, setImdbId] = useState("");
+
+  const isValid = !title || !imgUrl || !imdbUrl || !imdbId;
 
   const resetAllState = (): void => {
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
+    setTitle("");
+    setDescription("");
+    setImgUrl("");
+    setImdbUrl("");
+    setImdbId("");
   };
 
   const handleAddMovie = (event: React.SyntheticEvent) => {
@@ -88,7 +89,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={isRequiredField}
+            disabled={isValid}
           >
             Add
           </button>
