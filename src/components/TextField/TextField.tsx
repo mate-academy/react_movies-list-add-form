@@ -1,12 +1,13 @@
 import classNames from 'classnames';
-import React, { useState } from 'react';
+import { useState, ChangeEvent } from 'react';
+import { CommonValues } from '../../CommonValues';
 
 type Props = {
-  name: string,
-  value: string,
-  label?: string,
-  required?: boolean,
-  onChange?: (newValue: string) => void,
+  name: string;
+  value: string;
+  label?: string;
+  required?: boolean;
+  onChange?: (e: ChangeEvent) => void;
 };
 
 function getRandomDigits() {
@@ -27,6 +28,11 @@ export const TextField: React.FC<Props> = ({
   const [touched, setToched] = useState(false);
   const hasError = touched && required && !value;
 
+  const isUrlValid
+    = touched
+    && !CommonValues.VALIDATE_URL_REGEX.test(value)
+    && (name === 'imgUrl' || name === 'imdbUrl');
+
   return (
     <div className="field">
       <label className="label" htmlFor={id}>
@@ -42,14 +48,16 @@ export const TextField: React.FC<Props> = ({
           })}
           type="text"
           placeholder={`Enter ${label}`}
+          name={name}
           value={value}
-          onChange={event => onChange(event.target.value)}
+          onChange={(event) => onChange(event)}
           onBlur={() => setToched(true)}
         />
       </div>
 
-      {hasError && (
-        <p className="help is-danger">{`${label} is required`}</p>
+      {hasError && <p className="help is-danger">{`${label} is required`}</p>}
+      {isUrlValid && (
+        <p className="help is-danger">{`${label} is not valid`}</p>
       )}
     </div>
   );
