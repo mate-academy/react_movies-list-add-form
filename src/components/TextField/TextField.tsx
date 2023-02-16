@@ -1,12 +1,12 @@
 import classNames from 'classnames';
-import React, { useState } from 'react';
+import { useState, ChangeEvent } from 'react';
 
 type Props = {
   name: string;
   value: string;
   label?: string;
   required?: boolean;
-  onChange?: (name: string, newValue: string) => void;
+  onChange?: (e: ChangeEvent) => void;
 };
 
 function getRandomDigits() {
@@ -42,8 +42,9 @@ export const TextField: React.FC<Props> = ({
           })}
           type="text"
           placeholder={`Enter ${label}`}
+          name={name}
           value={value}
-          onChange={(event) => onChange(name, event.target.value)}
+          onChange={(event) => onChange(event)}
           onBlur={() => setToched(true)}
         />
       </div>

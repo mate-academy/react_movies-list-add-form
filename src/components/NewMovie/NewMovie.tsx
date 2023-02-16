@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
@@ -34,13 +34,12 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     isFormValid = false;
   }
 
-  const handleFormChange = (name: string, value: string) => {
-    setFormState((state) => {
-      return {
-        ...state,
-        [name]: value,
-      };
-    });
+  const handleFormChange = (e: ChangeEvent) => {
+    setFormState((state) => ({
+      ...state,
+      [(e.target as HTMLInputElement).name]: (e.target as HTMLInputElement)
+        .value,
+    }));
   };
 
   const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
