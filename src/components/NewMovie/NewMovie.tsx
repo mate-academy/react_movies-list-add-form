@@ -1,6 +1,7 @@
 import { ChangeEvent, useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
+import { CommonValues } from '../../CommonValues';
 
 type Props = {
   onAdd: (movie: Movie) => void;
@@ -26,9 +27,13 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
   const areAllInputsValid = !!title && !!imgUrl && !!imdbUrl && !!imdbId;
 
+  const areUrlsValid
+    = CommonValues.VALIDATE_URL_REGEX.test(imgUrl)
+    && CommonValues.VALIDATE_URL_REGEX.test(imdbUrl);
+
   let isFormValid = false;
 
-  if (areAllInputsValid) {
+  if (areAllInputsValid && areUrlsValid) {
     isFormValid = true;
   } else {
     isFormValid = false;

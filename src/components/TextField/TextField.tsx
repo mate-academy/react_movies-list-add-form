@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import { useState, ChangeEvent } from 'react';
+import { CommonValues } from '../../CommonValues';
 
 type Props = {
   name: string;
@@ -27,6 +28,11 @@ export const TextField: React.FC<Props> = ({
   const [touched, setToched] = useState(false);
   const hasError = touched && required && !value;
 
+  const isUrlValid
+    = touched
+    && !CommonValues.VALIDATE_URL_REGEX.test(value)
+    && (name === 'imgUrl' || name === 'imdbUrl');
+
   return (
     <div className="field">
       <label className="label" htmlFor={id}>
@@ -50,6 +56,9 @@ export const TextField: React.FC<Props> = ({
       </div>
 
       {hasError && <p className="help is-danger">{`${label} is required`}</p>}
+      {isUrlValid && (
+        <p className="help is-danger">{`${label} is not valid`}</p>
+      )}
     </div>
   );
 };
