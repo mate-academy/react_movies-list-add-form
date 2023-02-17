@@ -6,7 +6,7 @@ import moviesFromServer from './api/movies.json';
 import { Movie } from './types/Movie';
 
 export const App = () => {
-  const [movies, setMovies] = useState(moviesFromServer);
+  const [movies, setMovies] = useState<Movie[]>(moviesFromServer);
 
   const handleFormSubmit = (movie: Movie) => {
     setMovies((currentMovies) => [...currentMovies, movie]);
