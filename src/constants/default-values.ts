@@ -1,1 +1,7 @@
-export const DEFAULT_INPUT_VALUE = '';
+export const DEFAULT_STATE_VALUE = {
+  title: '',
+  description: '',
+  imgUrl: '',
+  imdbUrl: '',
+  imdbId: '',
+};
