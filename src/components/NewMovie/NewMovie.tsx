@@ -7,7 +7,7 @@ type Props = {
 };
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
-  const defaulData = {
+  const movieData = {
     title: '',
     description: '',
     imgUrl: '',
@@ -15,27 +15,21 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     imdbId: '',
   };
   const [count, setCount] = useState(0);
-  const [movieData, setMovieData] = useState(false);
-  const [movie, setTitle] = useState(defaulData);
+  const [isMovieEmpty, setIsMovieEmpty] = useState(false);
+  const [movie, setMovie] = useState(movieData);
 
   const clearMovie = () => {
-    setTitle(defaulData);
+    setMovie(movieData);
   };
 
   useEffect(() => {
-    if (
-      movie.title.trim()
-      && movie.description.trim()
-      && movie.imgUrl.trim()
-      && movie.imdbUrl.trim()
-      && movie.imdbId.trim()
-    ) {
-      setMovieData(true);
-
-      return;
-    }
-
-    setMovieData(false);
+    setIsMovieEmpty(
+      !!movie.title.trim()
+      && !!movie.description.trim()
+      && !!movie.imgUrl.trim()
+      && !!movie.imdbUrl.trim()
+      && !!movie.imdbId.trim(),
+    );
   },
   [
     movie.title,
@@ -48,7 +42,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const addNewMovie = (event:React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
 
-    setTitle((prev:Movie) => {
+    setMovie((prev:Movie) => {
       return {
         ...prev,
         [name]: value,
@@ -119,7 +113,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!movieData}
+            disabled={!isMovieEmpty}
           >
             Add
           </button>
