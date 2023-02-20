@@ -6,7 +6,14 @@ import moviesFromServer from './api/movies.json';
 import { Movie } from './types/Movie';
 
 export const App = () => {
-  const [visibleMovies, setVisibleMovies] = useState(moviesFromServer);
+  const [visibleMovies, setVisibleMovies] = useState<Movie[]>(moviesFromServer);
+
+  const onAdd = (movie: Movie) => {
+    setVisibleMovies((prevMovies) => [
+      ...prevMovies,
+      movie,
+    ]);
+  };
 
   return (
     <div className="page">
@@ -14,13 +21,7 @@ export const App = () => {
         <MoviesList movies={visibleMovies} />
       </div>
       <div className="sidebar">
-        <NewMovie onAdd={(movie: Movie) => {
-          setVisibleMovies((prevMovies) => [
-            ...prevMovies,
-            movie,
-          ]);
-        }}
-        />
+        <NewMovie onAdd={onAdd} />
       </div>
     </div>
   );
