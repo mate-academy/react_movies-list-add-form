@@ -26,14 +26,27 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     event.preventDefault();
     onAdd(newMovie);
     setCount(prevCount => prevCount + 1);
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
+
+    function reseting() {
+      setTitle('');
+      setDescription('');
+      setImgUrl('');
+      setImdbUrl('');
+      setImdbId('');
+    }
+
+    reseting();
   };
 
-  const buttonDisabled = !title || !imgUrl || !imdbUrl || !imdbId;
+  let buttonDisabled = !title || !imgUrl || !imdbUrl || !imdbId;
+
+  if (title.trim() === ''
+    || imgUrl.trim() === ''
+    || imdbUrl.trim() === ''
+    || imdbId.trim() === ''
+  ) {
+    buttonDisabled = true;
+  }
 
   return (
     <form

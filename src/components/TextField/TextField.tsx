@@ -18,7 +18,7 @@ export const TextField: React.FC<Props> = ({
   value,
   label = name,
   required = false,
-  onChange = () => {},
+  onChange = () => { },
 }) => {
   // generage a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
@@ -27,8 +27,22 @@ export const TextField: React.FC<Props> = ({
   const [touched, setToched] = useState(false);
   const hasError = touched && required && !value;
 
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (value.trim() === '') {
+      const input = document.querySelector('.input');
+
+      if (input) {
+        input.classList.add('is-danger');
+      }
+    }
+  };
+
   return (
-    <div className="field">
+    <form
+      className="field"
+      onSubmit={handleSubmit}
+    >
       <label className="label" htmlFor={id}>
         {label}
       </label>
@@ -51,6 +65,6 @@ export const TextField: React.FC<Props> = ({
       {hasError && (
         <p className="help is-danger">{`${label} is required`}</p>
       )}
-    </div>
+    </form>
   );
 };
