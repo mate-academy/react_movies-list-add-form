@@ -6,6 +6,7 @@ type Props = {
   name: string,
   value: string,
   label?: string,
+  isUrl?: boolean,
   required?: boolean,
   onChange?: (event: Input) => void,
 };
@@ -16,6 +17,7 @@ function getRandomDigits() {
 
 export const TextField: React.FC<Props> = ({
   name,
+  isUrl = false,
   value,
   label = name,
   required = false,
@@ -24,7 +26,7 @@ export const TextField: React.FC<Props> = ({
   const [touched, setToched] = useState(false);
 
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
-  const hasError = touched && required && !value;
+  const isEmpty = touched && required && !value;
 
   return (
     <div className="field">
@@ -38,7 +40,7 @@ export const TextField: React.FC<Props> = ({
           name={name}
           data-cy={`movie-${name}`}
           className={classNames('input', {
-            'is-danger': hasError,
+            'is-danger': isEmpty || isUrl,
           })}
           type="text"
           placeholder={`Enter ${label}`}
@@ -48,8 +50,10 @@ export const TextField: React.FC<Props> = ({
         />
       </div>
 
-      {hasError && (
-        <p className="help is-danger">{`${label} is required`}</p>
+      {(isEmpty || isUrl) && (
+        <p className="help is-danger">
+          {`${label} ${isEmpty ? ('is required') : ('is not correct')}`}
+        </p>
       )}
     </div>
   );

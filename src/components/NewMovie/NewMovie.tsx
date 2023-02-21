@@ -18,6 +18,8 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
     imdbId: '',
   });
   const [isDataMovie, setIsDataMovie] = useState(false);
+  const [isImgUrl, setIsImgUrl] = useState(!!newMovie.imgUrl);
+  const [isImdbUrl, setIsImdbUrl] = useState(!!newMovie.imdbUrl);
 
   // eslint-disable-next-line max-len
   const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
@@ -50,8 +52,16 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
     imdbId: '',
   });
 
-  const handleChange = (event: Input) => {
-    const { name, value } = event.target;
+  const handleChange = (e: Input) => {
+    const { name, value } = e.target;
+
+    if (name === 'imgUrl' && isImgUrl) {
+      setIsImgUrl(false);
+    }
+
+    if (name === 'imdbUrl' && isImdbUrl) {
+      setIsImdbUrl(false);
+    }
 
     setNewMovie((prev) => {
       return {
@@ -64,9 +74,15 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
   const handleSubmit = (e: Submit) => {
     e.preventDefault();
 
-    if (!newMovie.imgUrl.match(pattern) || !newMovie.imdbUrl.match(pattern)) {
-      alert('Check URLs');
+    if (!newMovie.imgUrl.match(pattern)) {
+      setIsImgUrl(true);
+    }
 
+    if (!newMovie.imdbUrl.match(pattern)) {
+      setIsImdbUrl(true);
+    }
+
+    if (!newMovie.imdbUrl.match(pattern) || !newMovie.imgUrl.match(pattern)) {
       return;
     }
 
@@ -104,6 +120,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
         value={newMovie.imgUrl}
         onChange={handleChange}
         required
+        isUrl={isImgUrl}
       />
 
       <TextField
@@ -112,6 +129,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
         value={newMovie.imdbUrl}
         onChange={handleChange}
         required
+        isUrl={isImdbUrl}
       />
 
       <TextField
