@@ -26,7 +26,7 @@ type InitialFields = {
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
-  const [initialFields, setFields] = useState<InitialFields>({
+  const EMPTY_STATE = {
     count: 0,
     title: '',
     description: '',
@@ -34,7 +34,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     imdbUrl: '',
     imdbId: '',
     validationError: false,
-  });
+  };
+  const [initialFields, setFields] = useState<InitialFields>(EMPTY_STATE);
 
   const isDisabled = !(
     !!initialFields.title
@@ -74,13 +75,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
     onAdd(movie);
     setFields(state => ({
+      ...EMPTY_STATE,
       count: state.count + 1,
-      title: '',
-      description: '',
-      imgUrl: '',
-      imdbUrl: '',
-      imdbId: '',
-      validationError: false,
     }));
   };
 
