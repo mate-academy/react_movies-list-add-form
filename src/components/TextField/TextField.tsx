@@ -8,7 +8,7 @@ type Props = {
   initValue: string,
   editMovie: (title: string, value: string) => void,
   approveField?: (name: string, newSet: boolean) => void,
-  validateHref?: (value: string) => boolean,
+  validHref?: (value: string) => boolean,
 };
 
 function getRandomDigits() {
@@ -22,7 +22,7 @@ export const TextField: React.FC<Props> = ({
   initValue,
   approveField,
   editMovie,
-  validateHref,
+  validHref,
 }) => {
   // generage a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
@@ -35,8 +35,8 @@ export const TextField: React.FC<Props> = ({
   const onBlur = () => {
     setToched(true);
 
-    if (validateHref) {
-      hasError = !validateHref(value);
+    if (validHref) {
+      hasError = !validHref(value);
     }
 
     const isValid = !hasError;

@@ -21,7 +21,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   };
 
   // initial value for all the fields
-  let initValue = '';
+  const initValue = '';
 
   // movie object to edit and eventually add to the database
   const newMovie: Movie = {
@@ -49,7 +49,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     = Object.values(validity)
       .reduce((a, item) => a + Number(item), 0);
 
-  // setting submit button accorgingly to quantity of completed fields
+  // setting submit button accordingly to quantity of completed fields
   useEffect(() => {
     const disabled = validCount !== Object.keys(validity).length;
 
@@ -65,10 +65,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     onAdd(movie);
     setMovie(newMovie);
     setValidity(initialValidity);
-    initValue = '';
   };
 
-  const validateHref = (value: string) => pattern.test(value);
+  const validHref = (value: string) => pattern.test(value);
 
   return (
     <form
@@ -100,7 +99,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         initValue={initValue}
         approveField={approveField}
         editMovie={editMovie}
-        validateHref={validateHref}
+        validHref={validHref}
         required
       />
 
@@ -110,7 +109,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         initValue={initValue}
         approveField={approveField}
         editMovie={editMovie}
-        validateHref={validateHref}
+        validHref={validHref}
         required
       />
 
