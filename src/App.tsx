@@ -8,7 +8,7 @@ import { Movie } from './types/Movie';
 
 export const App: React.FC = () => {
   const [listMovies, setListMovies] = useState(moviesFromServer);
-  
+
   const addMovie = (newMovie: Movie) => {
     setListMovies((movies) => [...movies, newMovie]);
   };
