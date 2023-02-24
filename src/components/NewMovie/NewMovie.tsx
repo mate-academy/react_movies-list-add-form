@@ -13,6 +13,8 @@ type Props = {
 };
 
 export const NewMovie: React.FC<Props> = ({ onAdd: handleOnAdd }) => {
+  const [count, setCount] = useState(0);
+
   const [movie, setMovie] = useState(newMovie);
 
   const [validityData, setValidity] = useState(initialValidity);
@@ -32,6 +34,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd: handleOnAdd }) => {
   const handleOnSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     handleOnAdd(movie);
+    setCount((currentCount) => currentCount + 1);
     setMovie(newMovie);
     setValidity(initialValidity);
     setSubmitDisabled(true);
@@ -40,6 +43,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd: handleOnAdd }) => {
   return (
     <form
       className="NewMovie"
+      key={count}
       onSubmit={handleOnSubmit}
     >
       <h2 className="title">Add a movie</h2>
