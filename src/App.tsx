@@ -8,13 +8,19 @@ import { getRandomDigits } from './components/TextField';
 export const App = () => {
   const [visibleMovies, setVisibleMovies] = useState(moviesFromServer);
 
-  const addMovie = (movie: MovieType) => {
+  const addMovie = ({
+    title,
+    description,
+    imgUrl,
+    imdbUrl,
+    imdbId,
+  }: MovieType) => {
     const newMovie = {
-      title: movie.title,
-      description: movie.description,
-      imgUrl: movie.imgUrl,
-      imdbUrl: movie.imdbUrl,
-      imdbId: movie.imdbId,
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
       id: getRandomDigits(),
     };
 

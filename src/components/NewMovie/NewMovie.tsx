@@ -23,9 +23,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const isDisabled = title && imgUrl && imdbUrl && imdbId;
+  const isEnabled = title && imgUrl && imdbUrl && imdbId;
 
-  const handlerSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     onAdd({
       title,
@@ -47,7 +47,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     <form
       className="NewMovie"
       key={count}
-      onSubmit={handlerSubmit}
+      onSubmit={handleSubmit}
     >
       <h2 className="title">Add a movie</h2>
 
@@ -55,7 +55,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={title}
-        onChange={(newValue) => setTitle(newValue)}
+        onChange={setTitle}
         required
       />
 
@@ -63,14 +63,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={description}
-        onChange={(newValue) => setDescription(newValue)}
+        onChange={setDescription}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={(newValue) => setImgUrl(newValue)}
+        onChange={setImgUrl}
         required
       />
 
@@ -78,7 +78,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={(newValue) => setImdbUrl(newValue)}
+        onChange={setImdbUrl}
         required
       />
 
@@ -86,7 +86,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={(newValue) => setImdbId(newValue)}
+        onChange={setImdbId}
         required
       />
 
@@ -96,7 +96,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!isDisabled}
+            disabled={!isEnabled}
           >
             Add
           </button>
