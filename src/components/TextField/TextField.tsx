@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { useState } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { LINK_REGEXP } from '../../constants/validation';
 import { initValue } from '../../constants/initial-values';
 
@@ -24,27 +24,27 @@ export const TextField: React.FC<Props> = ({
 }) => {
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
-  const [touched, setTouched] = useState(false);
+  const [isFieldCompleted, setFieldCompleted] = useState(false);
 
   const [value, setValue] = useState(initValue);
 
-  const hasErrors = () => {
-    const hasError = touched && required && !value;
+  const hasError = useMemo(() => {
+    const isEmpty = required && !value;
 
     const validUrl = name.toLocaleLowerCase().includes('url')
       ? LINK_REGEXP.test(value)
       : true;
 
-    return hasError || (!validUrl && touched);
-  };
+    return (isEmpty || !validUrl);
+  }, [value]);
 
-  const handleOnBlur = () => {
-    approveField?.(name, !hasErrors());
+  useEffect(() => {
+    approveField?.(name, !hasError);
 
-    if (!hasErrors()) {
+    if (!hasError) {
       editMovie(name, value);
     }
-  };
+  }, [value]);
 
   return (
     <div className="field">
@@ -57,18 +57,20 @@ export const TextField: React.FC<Props> = ({
           id={id}
           data-cy={`movie-${name}`}
           className={classNames('input', {
-            'is-danger': hasErrors(),
+            'is-danger': hasError && isFieldCompleted,
           })}
           type="text"
           placeholder={`Enter ${label}`}
           value={value}
-          onFocus={() => setTouched(true)}
-          onChange={(e) => setValue(e.target.value)}
-          onBlur={handleOnBlur}
+          onChange={(e) => {
+            setValue(e.target.value);
+          }}
+          onBlur={() => setFieldCompleted(true)}
+          onFocus={() => setFieldCompleted(false)}
         />
       </div>
 
-      {hasErrors() && (
+      {hasError && isFieldCompleted && (
         <p className="help is-danger">{`${label} is required`}</p>
       )}
     </div>

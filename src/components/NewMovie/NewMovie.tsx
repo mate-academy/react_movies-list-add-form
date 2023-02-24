@@ -1,4 +1,5 @@
-import { useState } from 'react';
+/* eslint-disable no-console */
+import React, { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 import useValidation from '../../helpers/useValidation';
@@ -12,35 +13,33 @@ type Props = {
 };
 
 export const NewMovie: React.FC<Props> = ({ onAdd: handleOnAdd }) => {
-  const [count, setCount] = useState(0);
-
   const [movie, setMovie] = useState(newMovie);
 
-  const [validity, setValidity] = useState(initialValidity);
+  const [validityData, setValidity] = useState(initialValidity);
 
-  const [submitDisabled, setSubmit] = useState(true);
+  const [isSubmitDisabled, setSubmitDisabled] = useState(true);
 
   const approveField = (title: string, newSet: boolean) => {
     setValidity(currentValidity => ({ ...currentValidity, [title]: newSet }));
   };
 
-  useValidation(validity, setSubmit);
-
   const editMovie = (title: string, value: string) => {
     setMovie(currentMovie => ({ ...currentMovie, [title]: value }));
   };
 
-  const handleOnSubmit = () => {
-    setCount(count + 1);
+  useValidation(validityData, setSubmitDisabled);
+
+  const handleOnSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     handleOnAdd(movie);
     setMovie(newMovie);
     setValidity(initialValidity);
+    setSubmitDisabled(true);
   };
 
   return (
     <form
       className="NewMovie"
-      key={count}
       onSubmit={handleOnSubmit}
     >
       <h2 className="title">Add a movie</h2>
@@ -89,7 +88,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd: handleOnAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={submitDisabled}
+            disabled={isSubmitDisabled}
           >
             Add
           </button>

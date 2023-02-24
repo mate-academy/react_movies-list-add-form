@@ -1,16 +1,17 @@
+/* eslint-disable no-console */
 import { useEffect } from 'react';
 import { Validity } from '../types/Validity';
 
 export default function useValidation(
-  validity: Validity, setSubmit: (disabled: boolean) => void,
+  validityData: Validity, setSubmitDisabled: (status: boolean) => void,
 ) {
   const validCount
-    = Object.values(validity)
-      .reduce((a: number, item) => a + Number(item), 0);
+    = Object.values(validityData)
+      .reduce((sum: number, isValid) => sum + Number(isValid), 0);
 
   useEffect(() => {
-    const disabled = validCount !== Object.keys(validity).length;
+    const disable = validCount !== Object.keys(validityData).length;
 
-    setSubmit(disabled);
+    setSubmitDisabled(disable);
   }, [validCount]);
 }
