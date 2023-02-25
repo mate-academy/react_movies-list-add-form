@@ -17,18 +17,19 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setimdbUrl] = useState('');
   const [imbdId, setImbdId] = useState('');
 
+  // const handleTitileChange = (event: React.ChangeEvent) => {
+  //   const { value } = even
+  // }
+
   const createNewMovie = {
     title,
     description,
-    imgUrl: imgUrl,
-    imdbUrl: imdbUrl,
+    imgUrl,
+    imdbUrl,
     imdbId: imbdId,
   };
 
   // eslint-disable-next-line no-useless-escape, max-len
-  const pattern = '/^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/';
-
-  const isValidUrl = (value: string) => value.includes(pattern);
 
   const removeField = () => {
     setTitle('');
@@ -43,11 +44,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     onAdd(createNewMovie);
 
     removeField();
-
-    if (!isValidUrl(imgUrl) || !isValidUrl(imdbUrl)) {
-      setimgUrl(!isValidUrl(imdbUrl) ? 'Invalid url' : imgUrl);
-      setimdbUrl(!isValidUrl(imgUrl) ? 'Invalid url' : imdbUrl);
-    }
 
     setCount(current => current + 1);
   };
