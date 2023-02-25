@@ -32,7 +32,7 @@ export const TextField: React.FC<Props> = ({
     const isEmpty = required && !value.trim();
 
     const validUrl = name.toLocaleLowerCase().includes('url')
-      ? LINK_REGEXP.test(value)
+      ? LINK_REGEXP.test(value.trim())
       : true;
 
     return (isEmpty || !validUrl);
