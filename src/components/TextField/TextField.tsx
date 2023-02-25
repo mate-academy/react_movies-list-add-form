@@ -9,7 +9,7 @@ type Props = {
   onChange?: (newValue: string) => void,
 };
 
-function getRandomDigits() {
+export function getRandomDigits() {
   return Math.random().toString().slice(2);
 }
 
@@ -43,7 +43,7 @@ export const TextField: React.FC<Props> = ({
           type="text"
           placeholder={`Enter ${label}`}
           value={value}
-          onChange={event => onChange(event.target.value)}
+          onChange={event => onChange(event.target.value.trimLeft())}
           onBlur={() => setToched(true)}
         />
       </div>
