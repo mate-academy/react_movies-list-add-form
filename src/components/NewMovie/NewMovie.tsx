@@ -27,6 +27,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     });
   };
 
+  const handleChange = (event: string, name: string) => {
+    setNewMovie(prevMovie => ({ ...prevMovie, [name]: event }));
+  };
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     onAdd(newMovie);
@@ -46,9 +50,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={newMovie.title}
-        onChange={(event) => {
-          setNewMovie({ ...newMovie, title: event });
-        }}
+        onChange={(event: string, name: string) => handleChange(event, name)}
         required
       />
 
@@ -56,18 +58,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={newMovie.description}
-        onChange={(event) => {
-          setNewMovie({ ...newMovie, description: event });
-        }}
+        onChange={(event: string, name: string) => handleChange(event, name)}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={newMovie.imgUrl}
-        onChange={(event) => {
-          setNewMovie({ ...newMovie, imgUrl: event });
-        }}
+        onChange={(event: string, name: string) => handleChange(event, name)}
         required
       />
 
@@ -75,9 +73,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={newMovie.imdbUrl}
-        onChange={(event) => {
-          setNewMovie({ ...newMovie, imdbUrl: event });
-        }}
+        onChange={(event: string, name: string) => handleChange(event, name)}
         required
       />
 
@@ -85,9 +81,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={newMovie.imdbId}
-        onChange={(event) => {
-          setNewMovie({ ...newMovie, imdbId: event });
-        }}
+        onChange={(event: string, name: string) => handleChange(event, name)}
         required
       />
 
