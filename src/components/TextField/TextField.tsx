@@ -1,12 +1,14 @@
 import classNames from 'classnames';
-import React, { useState } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
+import { LINK_REGEXP } from '../../constants/validation';
+import { initValue } from '../../constants/initial-values';
 
 type Props = {
   name: string,
-  value: string,
   label?: string,
   required?: boolean,
-  onChange?: (newValue: string) => void,
+  editMovie: (title: string, value: string) => void,
+  approveField?: (name: string, newSet: boolean) => void,
 };
 
 function getRandomDigits() {
@@ -15,17 +17,34 @@ function getRandomDigits() {
 
 export const TextField: React.FC<Props> = ({
   name,
-  value,
   label = name,
   required = false,
-  onChange = () => {},
+  approveField,
+  editMovie,
 }) => {
-  // generage a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
-  // To show errors only if the field was touched (onBlur)
-  const [touched, setToched] = useState(false);
-  const hasError = touched && required && !value;
+  const [isFieldCompleted, setFieldCompleted] = useState(false);
+
+  const [value, setValue] = useState(initValue);
+
+  const hasError = useMemo(() => {
+    const isEmpty = required && !value.trim();
+
+    const validUrl = name.toLocaleLowerCase().includes('url')
+      ? LINK_REGEXP.test(value.trim())
+      : true;
+
+    return (isEmpty || !validUrl);
+  }, [value]);
+
+  useEffect(() => {
+    approveField?.(name, !hasError);
+
+    if (!hasError) {
+      editMovie(name, value);
+    }
+  }, [value]);
 
   return (
     <div className="field">
@@ -38,17 +57,20 @@ export const TextField: React.FC<Props> = ({
           id={id}
           data-cy={`movie-${name}`}
           className={classNames('input', {
-            'is-danger': hasError,
+            'is-danger': hasError && isFieldCompleted,
           })}
           type="text"
           placeholder={`Enter ${label}`}
           value={value}
-          onChange={event => onChange(event.target.value)}
-          onBlur={() => setToched(true)}
+          onChange={(e) => {
+            setValue(e.target.value);
+          }}
+          onBlur={() => setFieldCompleted(true)}
+          onFocus={() => setFieldCompleted(false)}
         />
       </div>
 
-      {hasError && (
+      {hasError && isFieldCompleted && (
         <p className="help is-danger">{`${label} is required`}</p>
       )}
     </div>

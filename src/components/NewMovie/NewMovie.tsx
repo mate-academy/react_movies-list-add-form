@@ -1,45 +1,89 @@
-import { useState } from 'react';
+/* eslint-disable no-console */
+import React, { useState } from 'react';
 import { TextField } from '../TextField';
+import { Movie } from '../../types/Movie';
+import useValidation from '../../helpers/useValidation';
+import {
+  newMovie,
+  initialValidity,
+} from '../../constants/initial-values';
 
-export const NewMovie = () => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
-  const [count] = useState(0);
+type Props = {
+  handleAddMovie: (movie: Movie) => void,
+};
+
+export const NewMovie: React.FC<Props> = ({ handleAddMovie }) => {
+  const [count, setCount] = useState(0);
+
+  const [movie, setMovie] = useState(newMovie);
+
+  const [validityData, setValidity] = useState(initialValidity);
+
+  const [isSubmitDisabled, setSubmitDisabled] = useState(true);
+
+  const approveField = (title: string, newSet: boolean) => {
+    setValidity(currentValidity => ({ ...currentValidity, [title]: newSet }));
+  };
+
+  const editMovie = (title: string, value: string) => {
+    setMovie(currentMovie => ({ ...currentMovie, [title]: value }));
+  };
+
+  useValidation(validityData, setSubmitDisabled);
+
+  const handleOnSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    handleAddMovie(movie);
+    setCount((currentCount) => currentCount + 1);
+    setMovie(newMovie);
+    setValidity(initialValidity);
+    setSubmitDisabled(true);
+  };
 
   return (
-    <form className="NewMovie" key={count}>
+    <form
+      className="NewMovie"
+      key={count}
+      onSubmit={handleOnSubmit}
+    >
       <h2 className="title">Add a movie</h2>
 
       <TextField
         name="title"
         label="Title"
-        value=""
-        onChange={() => {}}
+        approveField={approveField}
+        editMovie={editMovie}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value=""
+        editMovie={editMovie}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value=""
+        approveField={approveField}
+        editMovie={editMovie}
+        required
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value=""
+        approveField={approveField}
+        editMovie={editMovie}
+        required
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value=""
+        approveField={approveField}
+        editMovie={editMovie}
+        required
       />
 
       <div className="field is-grouped">
@@ -48,6 +92,7 @@ export const NewMovie = () => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
+            disabled={isSubmitDisabled}
           >
             Add
           </button>
