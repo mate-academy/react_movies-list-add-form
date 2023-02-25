@@ -9,10 +9,10 @@ import {
 } from '../../constants/initial-values';
 
 type Props = {
-  onAdd: (movie: Movie) => void,
+  handleAddMovie: (movie: Movie) => void,
 };
 
-export const NewMovie: React.FC<Props> = ({ onAdd: handleOnAdd }) => {
+export const NewMovie: React.FC<Props> = ({ handleAddMovie }) => {
   const [count, setCount] = useState(0);
 
   const [movie, setMovie] = useState(newMovie);
@@ -33,7 +33,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd: handleOnAdd }) => {
 
   const handleOnSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    handleOnAdd(movie);
+    handleAddMovie(movie);
     setCount((currentCount) => currentCount + 1);
     setMovie(newMovie);
     setValidity(initialValidity);

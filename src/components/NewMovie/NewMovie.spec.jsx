@@ -65,7 +65,7 @@ describe('NewMovie', () => {
   beforeEach(() => {
     onAdd = cy.stub();
 
-    mount(<NewMovie onAdd={onAdd} />);
+    mount(<NewMovie handleAddMovie={onAdd} />);
   });
 
   it('should have empty fields by default', () => {
