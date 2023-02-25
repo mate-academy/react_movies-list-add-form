@@ -29,7 +29,7 @@ export const TextField: React.FC<Props> = ({
   const [value, setValue] = useState(initValue);
 
   const hasError = useMemo(() => {
-    const isEmpty = required && !value;
+    const isEmpty = required && !value.trim();
 
     const validUrl = name.toLocaleLowerCase().includes('url')
       ? LINK_REGEXP.test(value)
