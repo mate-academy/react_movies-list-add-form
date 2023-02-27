@@ -90,7 +90,11 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             disabled={!newMovie.title
                || !newMovie.imgUrl
                 || !newMovie.imdbUrl
-                 || !newMovie.imdbId}
+                 || !newMovie.imdbId
+                 || newMovie.title === ' '
+                 || newMovie.imgUrl === ' '
+                 || newMovie.imdbUrl === ' '
+                 || newMovie.imdbId === ' '}
           >
             Add
           </button>
