@@ -6,23 +6,39 @@ type Props = {
   onAdd: (movie: Movie) => void;
 };
 
-export const NewMovie: React.FC<Props> = ({ onAdd }) => {
-  const defaultMovieData = {
-    title: '',
-    description: '',
-    imgUrl: '',
-    imdbUrl: '',
-    imdbId: '',
-  };
+const defaultMovieData = {
+  count: 0,
+  title: '',
+  description: '',
+  imgUrl: '',
+  imdbUrl: '',
+  imdbId: '',
+};
 
+export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [newMovie, setNewMovie] = useState(
     defaultMovieData,
   );
 
+  const {
+    count,
+    title,
+    description,
+    imgUrl,
+    imdbUrl,
+    imdbId,
+  } = newMovie;
+
+  const isActiveButton = title.trim()
+  && imgUrl.trim()
+  && imdbUrl.trim()
+  && imdbId.trim();
+
   const resetForm = () => {
-    setNewMovie(
-      defaultMovieData,
-    );
+    setNewMovie(state => ({
+      ...defaultMovieData,
+      count: state.count + 1,
+    }));
   };
 
   const handleChange = (event: string, name: string) => {
@@ -38,6 +54,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   return (
     <form
       className="NewMovie"
+      key={count}
       onSubmit={(event) => handleSubmit(event)}
     >
       <h2 className="title">Add a movie</h2>
@@ -45,39 +62,39 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value={newMovie.title}
-        onChange={(event: string, name: string) => handleChange(event, name)}
+        value={title}
+        onChange={handleChange}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value={newMovie.description}
-        onChange={(event: string, name: string) => handleChange(event, name)}
+        value={description}
+        onChange={handleChange}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={newMovie.imgUrl}
-        onChange={(event: string, name: string) => handleChange(event, name)}
+        value={imgUrl}
+        onChange={handleChange}
         required
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={newMovie.imdbUrl}
-        onChange={(event: string, name: string) => handleChange(event, name)}
+        value={imdbUrl}
+        onChange={handleChange}
         required
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={newMovie.imdbId}
-        onChange={(event: string, name: string) => handleChange(event, name)}
+        value={imdbId}
+        onChange={handleChange}
         required
       />
 
@@ -87,14 +104,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!newMovie.title
-               || !newMovie.imgUrl
-                || !newMovie.imdbUrl
-                 || !newMovie.imdbId
-                 || newMovie.title === ' '
-                 || newMovie.imgUrl === ' '
-                 || newMovie.imdbUrl === ' '
-                 || newMovie.imdbId === ' '}
+            disabled={!isActiveButton}
           >
             Add
           </button>
