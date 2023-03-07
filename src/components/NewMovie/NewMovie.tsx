@@ -17,9 +17,19 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
   const isDisabled = () => {
     return !title
-      || !checkUrl(imgUrl)
-      || !checkUrl(imdbUrl)
+      || !imgUrl
+      || checkUrl(imgUrl) === false
+      || checkUrl(imdbUrl) === false
+      || !imdbUrl
       || !imdbId;
+  };
+
+  const resetForm = () => {
+    setTitle('');
+    setDescription('');
+    setImgUrl('');
+    setImdbUrl('');
+    setImdbId('');
   };
 
   const handleSumbit = () => {
@@ -33,15 +43,11 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       imdbId,
     });
 
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
+    resetForm();
   };
 
   return (
-    <form className="NewMovie" key={count} onSubmit={handleSumbit}>
+    <form className="NewMovie" key={count}>
       <h2 className="title">Add a movie</h2>
 
       <TextField
@@ -63,6 +69,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imgUrl"
         label="Image URL"
         onChange={setImgUrl}
+        onValidation={checkUrl}
         value={imgUrl}
         required
       />
@@ -71,6 +78,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         onChange={setImdbUrl}
+        onValidation={checkUrl}
         value={imdbUrl}
         required
       />
@@ -86,9 +94,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <div className="field is-grouped">
         <div className="control">
           <button
-            type="submit"
+            type="button"
             data-cy="submit-button"
             className="button is-link"
+            onClick={handleSumbit}
             disabled={isDisabled()}
           >
             Add
