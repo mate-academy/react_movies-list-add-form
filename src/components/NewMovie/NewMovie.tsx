@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 import { checkUrl } from '../../helpers/urlChecker';
@@ -8,21 +8,20 @@ type Props = {
 };
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
-  const [count, setCount] = useState(0);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [imgUrl, setImgUrl] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const isDisabled = () => {
+  const isDisabled = useCallback(() => {
     return !title
       || !imgUrl
-      || checkUrl(imgUrl) === false
-      || checkUrl(imdbUrl) === false
+      || !checkUrl(imgUrl)
+      || !checkUrl(imdbUrl)
       || !imdbUrl
       || !imdbId;
-  };
+  }, [title, imgUrl, imdbUrl, imdbId]);
 
   const resetForm = () => {
     setTitle('');
@@ -32,9 +31,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setImdbId('');
   };
 
-  const handleSumbit = () => {
-    setCount(state => state + 1);
-
+  const handleSubmit = useCallback(() => {
     onAdd({
       title,
       description,
@@ -44,10 +41,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     });
 
     resetForm();
-  };
+  }, [onAdd, title, description, imgUrl, imdbUrl, imdbId, resetForm]);
 
   return (
-    <form className="NewMovie" key={count}>
+    <form className="NewMovie">
       <h2 className="title">Add a movie</h2>
 
       <TextField
@@ -97,7 +94,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="button"
             data-cy="submit-button"
             className="button is-link"
-            onClick={handleSumbit}
+            onClick={handleSubmit}
             disabled={isDisabled()}
           >
             Add
