@@ -16,12 +16,12 @@ export const NewMovie = ({
 }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
-  const [count, countEdit] = useState(0);
-  const [titleName, titleNameEdit] = useState('');
-  const [descriptionName, descriptionNameEdit] = useState('');
-  const [imgUrlName, imgUrlNameEdit] = useState('');
-  const [imdbUrlName, imdbUrlNameEdit] = useState('');
-  const [imdbIdName, imdbIdNameEdit] = useState('');
+  const [count, setCount] = useState(0);
+  const [titleName, setTitleName] = useState('');
+  const [descriptionName, setDescriptionName] = useState('');
+  const [imgUrlName, setImgUrlName] = useState('');
+  const [imdbUrlName, setImdbUrlName] = useState('');
+  const [imdbIdName, setImdbIdName] = useState('');
 
   const [isDisabledButton, isDisabledButtonEdit] = useState(true);
 
@@ -40,11 +40,11 @@ export const NewMovie = ({
   }, [titleName, descriptionName, imgUrlName, imdbUrlName, imdbIdName]);
 
   const clearForm = () => {
-    titleNameEdit('');
-    descriptionNameEdit('');
-    imgUrlNameEdit('');
-    imdbUrlNameEdit('');
-    imdbIdNameEdit('');
+    setTitleName('');
+    setDescriptionName('');
+    setImgUrlName('');
+    setImdbUrlName('');
+    setImdbIdName('');
   };
 
   const handleSubmit = (
@@ -60,7 +60,7 @@ export const NewMovie = ({
       imdbId: imdbUrlName,
     };
 
-    countEdit((oldCount) => oldCount + 1);
+    setCount((oldCount) => oldCount + 1);
 
     onAdd((viewFilm) => [...viewFilm, newFilm]);
     clearForm();
@@ -76,7 +76,7 @@ export const NewMovie = ({
         name="title"
         label="Title"
         value={titleName}
-        onChange={titleNameEdit}
+        onChange={setTitleName}
         required
       />
 
@@ -84,14 +84,14 @@ export const NewMovie = ({
         name="description"
         label="Description"
         value={descriptionName}
-        onChange={descriptionNameEdit}
+        onChange={setDescriptionName}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={imgUrlName}
-        onChange={imgUrlNameEdit}
+        onChange={setImgUrlName}
         required
       />
 
@@ -99,7 +99,7 @@ export const NewMovie = ({
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrlName}
-        onChange={imdbUrlNameEdit}
+        onChange={setImdbUrlName}
         required
       />
 
@@ -107,7 +107,7 @@ export const NewMovie = ({
         name="imdbId"
         label="Imdb ID"
         value={imdbIdName}
-        onChange={imdbIdNameEdit}
+        onChange={setImdbIdName}
         required
       />
 
