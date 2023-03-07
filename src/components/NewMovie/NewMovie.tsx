@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useMemo } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 import { checkUrl } from '../../helpers/urlChecker';
@@ -14,7 +14,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const isDisabled = useCallback(() => {
+  const isDisabled = useMemo(() => {
     return !title
       || !imgUrl
       || !checkUrl(imgUrl)
@@ -95,7 +95,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             data-cy="submit-button"
             className="button is-link"
             onClick={handleSubmit}
-            disabled={isDisabled()}
+            disabled={isDisabled}
           >
             Add
           </button>
