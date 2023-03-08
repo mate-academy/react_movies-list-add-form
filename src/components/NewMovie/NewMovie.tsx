@@ -18,7 +18,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
   const [movie, setMovie] = useState(emptyMovie);
   // eslint-disable-next-line object-curly-newline
-  const { title, imdbId, imdbUrl, imgUrl } = movie;
+  const { title, description, imdbId, imdbUrl, imgUrl } = movie;
   const isDisabled: boolean = !title || !imdbId || !imdbUrl || !imgUrl;
 
   const setProperty = (property: string, value: string) => {
@@ -44,7 +44,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value={movie.title}
+        value={title}
         onChange={value => setProperty('title', value)}
         required
       />
@@ -52,14 +52,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="description"
         label="Description"
-        value={movie.description}
+        value={description}
         onChange={value => setProperty('description', value)}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={movie.imgUrl}
+        value={imgUrl}
         onChange={value => setProperty('imgUrl', value)}
         required
       />
@@ -67,7 +67,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={movie.imdbUrl}
+        value={imdbUrl}
         onChange={value => setProperty('imdbUrl', value)}
         required
       />
@@ -75,7 +75,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={movie.imdbId}
+        value={imdbId}
         onChange={value => setProperty('imdbId', value)}
         required
       />
