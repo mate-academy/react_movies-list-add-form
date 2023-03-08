@@ -6,7 +6,7 @@ type Props = {
   onAdd: (movie: Movie) => void
 };
 
-const emptyMovie = {
+const initialFormInputs = {
   title: '',
   description: '',
   imdbUrl: '',
@@ -16,28 +16,32 @@ const emptyMovie = {
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
-  const [movie, setMovie] = useState(emptyMovie);
+  const [formInputs, setFormInputs] = useState(initialFormInputs);
   // eslint-disable-next-line object-curly-newline
-  const { title, description, imdbId, imdbUrl, imgUrl } = movie;
+  const { title, description, imdbId, imdbUrl, imgUrl } = formInputs;
   const isDisabled: boolean = !title || !imdbId || !imdbUrl || !imgUrl;
 
-  const setProperty = (property: string, value: string) => {
-    setMovie(prevState => ({
+  const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+
+    setFormInputs(prevState => ({
       ...prevState,
-      [property]: value,
+      [name]: value,
     }));
+  };
+
+  const sendForm = (e: React.SyntheticEvent) => {
+    e.preventDefault();
+    setCount(count + 1);
+    onAdd(formInputs);
+    setFormInputs(initialFormInputs);
   };
 
   return (
     <form
       className="NewMovie"
       key={count}
-      onSubmit={(e) => {
-        e.preventDefault();
-        setCount(count + 1);
-        onAdd(movie);
-        setMovie(emptyMovie);
-      }}
+      onSubmit={sendForm}
     >
       <h2 className="title">Add a movie</h2>
 
@@ -45,7 +49,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={title}
-        onChange={value => setProperty('title', value)}
+        onChange={onChange}
         required
       />
 
@@ -53,14 +57,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={description}
-        onChange={value => setProperty('description', value)}
+        onChange={onChange}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={value => setProperty('imgUrl', value)}
+        onChange={onChange}
         required
       />
 
@@ -68,7 +72,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={value => setProperty('imdbUrl', value)}
+        onChange={onChange}
         required
       />
 
@@ -76,7 +80,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={value => setProperty('imdbId', value)}
+        onChange={onChange}
         required
       />
 
