@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
+import { pattern } from '../../utils';
 
 type Props = {
   onAdd: (movie: Movie) => void;
@@ -39,9 +40,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setCount(count + 1);
     clearForm();
   };
-
-  // eslint-disable-next-line
-  const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
 
   const isImgUrlValid = pattern.test(imgUrl);
   const isImdbUrlValid = pattern.test(imdbUrl);

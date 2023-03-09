@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import React, { useState } from 'react';
+import { pattern } from '../../utils';
 
 type Props = {
   name: string,
@@ -24,11 +25,10 @@ export const TextField: React.FC<Props> = ({
 
   const [touched, setToched] = useState(false);
 
-  // eslint-disable-next-line
-  const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
-
   const hasError = touched && required && !value;
-  const hasValidateError = touched && value && !pattern.test(value);
+  const hasValidateError = touched && value && !pattern.test(value) && (
+    label === 'Image URL' || label === 'Imdb URL'
+  );
 
   return (
     <div className="field">
@@ -55,7 +55,7 @@ export const TextField: React.FC<Props> = ({
         <p className="help is-danger">{`${label} is required`}</p>
       )}
 
-      {hasValidateError && (label === 'Image URL' || label === 'Imdb URL') && (
+      {hasValidateError && (
         <p className="help is-danger">{`${label} is invalid`}</p>
       )}
     </div>
