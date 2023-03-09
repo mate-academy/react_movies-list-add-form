@@ -1,18 +1,10 @@
 import React, { ChangeEvent, useState } from 'react';
-import { Movie } from '../../types/typedefs';
+import { Movie, FieldType } from '../../types/typedefs';
 import { TextField } from '../TextField';
 
 type Props = {
   onAdd: (movie: Movie) => void
 };
-
-enum FieldType {
-  TITLE = 'title',
-  DESCRIPTION = 'description',
-  IMAGEURL = 'imgUrl',
-  IMDBURL = 'imdbUrl',
-  IMDBID = 'imdbId',
-}
 
 const initialState = {
   [FieldType.TITLE]: '',
@@ -20,6 +12,19 @@ const initialState = {
   [FieldType.IMAGEURL]: '',
   [FieldType.IMDBURL]: '',
   [FieldType.IMDBID]: '',
+};
+
+type FieldsState = {
+  title: string;
+  description: string;
+  imgUrl: string;
+  imdbUrl: string;
+  imdbId: string;
+};
+
+type UrlsState = {
+  imgUrl: boolean;
+  imdbUrl: boolean;
 };
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
@@ -35,17 +40,28 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     [FieldType.IMDBURL]: false,
   });
 
-  const isDataValid = (state: any): boolean => {
-    const { title, imdbId } = state;
-    const { imdbUrl, imgUrl } = validUrls;
+  const isDataValid = (
+    fieldsState: FieldsState,
+    urlsState: UrlsState,
+  ): boolean => {
+    const { title, imdbId } = fieldsState;
+    const { imdbUrl, imgUrl } = urlsState;
 
     return Boolean(title && imdbId && imdbUrl && imgUrl);
   };
 
   const handleUrlValidation = (fieldName: string, status: boolean): void => {
-    setUrlValid({
-      ...validUrls,
-      [fieldName]: status,
+    setUrlValid((state) => {
+      const newState = {
+        ...state,
+        [fieldName]: status,
+      };
+
+      const isValid = isDataValid(textFields, newState);
+
+      disableButton(!isValid);
+
+      return newState;
     });
   };
 
@@ -58,7 +74,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         [name]: value,
       };
 
-      const isValid = isDataValid(newState);
+      const isValid = isDataValid(newState, validUrls);
 
       disableButton(!isValid);
 
