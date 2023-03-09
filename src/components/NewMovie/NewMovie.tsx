@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
@@ -15,15 +15,18 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imgUrl, setImage] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
+  const isDisabled = true;
+  const conditionInput = !title.trim()
+    || !imgUrl.trim() || !imdbId.trim() || !imdbUrl.trim();
 
-  const validButton = () => {
-    if (!title.trim() || !description.trim()
-    || !imgUrl.trim() || !imdbId.trim() || !imdbUrl.trim()) {
-      return true;
-    }
-
-    return false;
+  const validateButton = () => {
+    return conditionInput ? isDisabled : !isDisabled;
   };
+
+  const validatedButton = useMemo(
+    validateButton,
+    [conditionInput, isDisabled],
+  );
 
   const clearForm = () => {
     setCount(count + 1);
@@ -71,7 +74,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Description"
         value={description}
         onChange={setDescription}
-        required
       />
 
       <TextField
@@ -104,7 +106,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={validButton()}
+            disabled={validatedButton}
           >
             Add
           </button>
