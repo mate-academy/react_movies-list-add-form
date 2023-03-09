@@ -15,9 +15,17 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imgUrl, setImage] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
-  const isDisabled = true;
-  const validButton = !title || !description || !imgUrl || !imdbId || !imdbUrl;
-  const passForm = () => {
+
+  const validButton = () => {
+    if (!title.trim() || !description.trim()
+    || !imgUrl.trim() || !imdbId.trim() || !imdbUrl.trim()) {
+      return true;
+    }
+
+    return false;
+  };
+
+  const clearForm = () => {
     setCount(count + 1);
     setTitle('');
     setDescription('');
@@ -39,7 +47,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
     onAdd(movie);
 
-    passForm();
+    clearForm();
   };
 
   return (
@@ -54,7 +62,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={title}
-        onChange={(e) => setTitle(e)}
+        onChange={setTitle}
         required
       />
 
@@ -62,7 +70,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={description}
-        onChange={(e) => setDescription(e)}
+        onChange={setDescription}
         required
       />
 
@@ -70,7 +78,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={(e) => setImage(e)}
+        onChange={setImage}
         required
       />
 
@@ -78,7 +86,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={(e) => setImdbUrl(e)}
+        onChange={setImdbUrl}
         required
       />
 
@@ -86,7 +94,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={(e) => setImdbId(e)}
+        onChange={setImdbId}
         required
       />
 
@@ -96,7 +104,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={validButton ? isDisabled : !isDisabled}
+            disabled={validButton()}
           >
             Add
           </button>
