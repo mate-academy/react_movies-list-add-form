@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { ChangeEvent, useState } from 'react';
+import React, { useState } from 'react';
 import { FieldType } from '../../types/typedefs';
 
 type Props = {
@@ -8,18 +8,19 @@ type Props = {
   isValid?: boolean,
   label?: string,
   required?: boolean,
-  onChange?: (event: ChangeEvent<HTMLInputElement>) => void,
-  onValidation?: (name: string, status: boolean) => void,
+  onChange?: HandleTextFieldType,
+  validationPattern?: RegExp,
 };
+
+export type HandleTextFieldType = (
+  name: string,
+  value:string,
+  status: boolean
+) => void;
 
 function getRandomDigits() {
   return Math.random().toString().slice(2);
 }
-
-// eslint-disable-next-line max-len
-const patternUrl = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
-// eslint-disable-next-line max-len
-const patternImgUrl = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)\.(jpg|jpeg|png|gif)$/;
 
 export const TextField: React.FC<Props> = ({
   name,
@@ -28,38 +29,24 @@ export const TextField: React.FC<Props> = ({
   label = name,
   required = false,
   onChange = () => {},
-  onValidation = () => {},
+  validationPattern,
 }) => {
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
-
-  const [isUrl] = useState(() => {
-    if (name.toLowerCase().includes('url')) {
-      return true;
-    }
-
-    return false;
-  });
-
   const [touched, setToched] = useState(false);
 
   const hasError = touched && required && !value;
-  const hasInvalidError = !isValid && touched && isUrl && value;
+  const hasInvalidError = !isValid && validationPattern && value;
 
-  const handleUrlInput = (text: string, fieldName: string): void => {
-    let status = false;
-
-    switch (fieldName) {
-      case FieldType.IMDBURL:
-        status = patternUrl.test(text);
-        break;
-      case FieldType.IMAGEURL:
-        status = patternImgUrl.test(text);
-        break;
-      default:
-        throw new Error(`Unable to validate ${fieldName}`);
+  const isInputValid = (text: string): boolean => {
+    if (validationPattern) {
+      return validationPattern.test(text);
     }
 
-    onValidation(fieldName, status);
+    if (required) {
+      return text !== '';
+    }
+
+    return true;
   };
 
   return (
@@ -80,16 +67,11 @@ export const TextField: React.FC<Props> = ({
           placeholder={`Enter ${label}`}
           value={value}
           onChange={(event) => {
-            onChange(event);
+            const {
+              value: inputValue,
+            } = event.target;
 
-            if (isUrl) {
-              const {
-                name: fieldName,
-                value: fieldValue,
-              } = event.target;
-
-              handleUrlInput(fieldValue, fieldName);
-            }
+            onChange(name, inputValue, isInputValid(inputValue));
           }}
           onBlur={() => setToched(true)}
         />
