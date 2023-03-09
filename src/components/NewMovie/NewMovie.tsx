@@ -30,7 +30,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     }));
   };
 
-  const sendForm = (e: React.SyntheticEvent) => {
+  const sendForm = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setCount(count + 1);
     onAdd(formInputs);
