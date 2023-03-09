@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useState } from 'react';
-import { Movie } from '../../types/Movie';
+import { Movie } from '../../types/typedefs';
 import { TextField } from '../TextField';
 
 type Props = {
@@ -14,27 +14,29 @@ enum FieldType {
   IMDBID = 'imdbId',
 }
 
+const initialState = {
+  [FieldType.TITLE]: '',
+  [FieldType.DESCRIPTION]: '',
+  [FieldType.IMAGEURL]: '',
+  [FieldType.IMDBURL]: '',
+  [FieldType.IMDBID]: '',
+};
+
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `FieldType`s
   const [count, increaseCount] = useState(0);
   const [buttonDisabled, disableButton] = useState(true);
 
-  const [textFields, changeField] = useState({
-    [FieldType.TITLE]: '',
-    [FieldType.DESCRIPTION]: '',
-    [FieldType.IMAGEURL]: '',
-    [FieldType.IMDBURL]: '',
-    [FieldType.IMDBID]: '',
-  });
+  const [textFields, changeField] = useState(initialState);
 
   const [validUrls, setUrlValid] = useState({
     [FieldType.IMAGEURL]: false,
     [FieldType.IMDBURL]: false,
   });
 
-  const isDataValid = (): boolean => {
-    const { title, imdbId } = textFields;
+  const isDataValid = (state: any): boolean => {
+    const { title, imdbId } = state;
     const { imdbUrl, imgUrl } = validUrls;
 
     return Boolean(title && imdbId && imdbUrl && imgUrl);
@@ -50,31 +52,26 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const handleTextField = (event: ChangeEvent<HTMLInputElement>) => {
     const { value, name } = event.target;
 
-    changeField({
-      ...textFields,
-      [name]: value,
-    });
+    changeField((state) => {
+      const newState = {
+        ...state,
+        [name]: value,
+      };
 
-    disableButton(!isDataValid());
+      const isValid = isDataValid(newState);
+
+      disableButton(!isValid);
+
+      return newState;
+    });
   };
 
   const submitForm = () => {
     onAdd({
-      title: textFields[FieldType.TITLE],
-      description: textFields[FieldType.DESCRIPTION],
-      imgUrl: textFields[FieldType.IMAGEURL],
-      imdbUrl: textFields[FieldType.IMDBURL],
-      imdbId: textFields[FieldType.IMDBID],
+      ...textFields,
     });
 
-    changeField({
-      [FieldType.TITLE]: '',
-      [FieldType.DESCRIPTION]: '',
-      [FieldType.IMAGEURL]: '',
-      [FieldType.IMDBURL]: '',
-      [FieldType.IMDBID]: '',
-    });
-
+    changeField(initialState);
     increaseCount(prev => prev + 1);
     disableButton(true);
   };
