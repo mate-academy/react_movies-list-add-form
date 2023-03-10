@@ -24,7 +24,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     imdbUrl,
     imdbId,
   } = movie;
-  const isRequiredFieldsFilled = title && imgUrl && imdbUrl && imdbId;
+  const isRequiredFieldsFilled = title.trim()
+                                 && imgUrl.trim()
+                                 && imdbUrl.trim()
+                                 && imdbId.trim();
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
