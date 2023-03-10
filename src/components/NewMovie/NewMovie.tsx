@@ -7,14 +7,15 @@ type Props = {
   onAdd:(newMovie: Movie) => void,
 };
 
+const DEFAULT_EMPTY_FIELDS = {
+  title: '',
+  description: '',
+  imgUrl: '',
+  imdbUrl: '',
+  imdbId: '',
+};
+
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
-  const DEFAULT_EMPTY_FIELDS = {
-    title: '',
-    description: '',
-    imgUrl: '',
-    imdbUrl: '',
-    imdbId: '',
-  };
   const [count, setCount] = useState(0);
   const [newMovie, setMovie] = useState(DEFAULT_EMPTY_FIELDS);
   const onChange = (name: string, value: string) => {
