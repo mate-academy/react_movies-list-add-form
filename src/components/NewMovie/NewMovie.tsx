@@ -8,14 +8,15 @@ type Props = {
 };
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
-  const [count, setCount] = useState(0);
-  const [newMovie, setMovie] = useState({
+  const DEFAULT_EMPTY_FIELDS = {
     title: '',
     description: '',
     imgUrl: '',
     imdbUrl: '',
     imdbId: '',
-  });
+  };
+  const [count, setCount] = useState(0);
+  const [newMovie, setMovie] = useState(DEFAULT_EMPTY_FIELDS);
   const onChange = (name: string, value: string) => {
     setMovie(curr => ({
       ...curr,
@@ -24,13 +25,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   };
 
   const clearForm = () => {
-    setMovie({
-      title: '',
-      description: '',
-      imgUrl: '',
-      imdbUrl: '',
-      imdbId: '',
-    });
+    setMovie(DEFAULT_EMPTY_FIELDS);
   };
 
   const {
@@ -41,9 +36,11 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     imdbId,
   } = newMovie;
 
-  const disabledButton = !title
+  const isDisabled = !title
+    || !imgUrl
     || !urlCheck(imgUrl)
     || !urlCheck(imdbUrl)
+    || !imdbUrl
     || !imdbId;
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -84,6 +81,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Image URL"
         value={imgUrl}
         onChange={onChange}
+        isValid={urlCheck}
         required
       />
 
@@ -92,6 +90,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Imdb URL"
         value={imdbUrl}
         onChange={onChange}
+        isValid={urlCheck}
         required
       />
 
@@ -109,7 +108,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={disabledButton}
+            disabled={isDisabled}
           >
             Add
           </button>

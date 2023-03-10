@@ -7,11 +7,11 @@ import moviesFromServer from './api/movies.json';
 
 export const App = () => {
   const [movie, setMovie] = useState(moviesFromServer);
-  const onAdd = (newMovie: Movie) => {
-    setMovie(curr => ([
+  const onAddNewMovie = (newMovie: Movie) => {
+    setMovie(curr => [
       ...curr,
       newMovie,
-    ]));
+    ]);
   };
 
   return (
@@ -24,7 +24,7 @@ export const App = () => {
 
       <div className="sidebar">
         <NewMovie
-          onAdd={onAdd}
+          onAdd={onAddNewMovie}
         />
       </div>
     </div>
