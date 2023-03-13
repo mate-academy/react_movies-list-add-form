@@ -13,6 +13,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imgUrl, setImageNewUrl] = useState('');
   const [imdbUrl, setNewImdbUrl] = useState('');
   const [imdbId, setNewImdbId] = useState('');
+  const [textError, setTextError] = useState(' is required');
 
   // eslint-disable-next-line max-len
   const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
@@ -27,11 +28,17 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setNewImdbId('');
   };
 
+  const clearWrongFields = () => {
+    setTextError(' invalid. Please try again.');
+    setImageNewUrl('');
+    setNewImdbUrl('');
+  };
+
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
     if (!isUrlValid(imgUrl) || !isUrlValid(imdbUrl)) {
-      clearTheForm();
+      clearWrongFields();
 
       throw new Error('Invalid Url');
     }
@@ -79,6 +86,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={imgUrl}
         onChange={setImageNewUrl}
         required
+        textError={textError}
       />
 
       <TextField
@@ -87,6 +95,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={imdbUrl}
         onChange={setNewImdbUrl}
         required
+        textError={textError}
       />
 
       <TextField
