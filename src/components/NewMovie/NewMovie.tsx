@@ -9,25 +9,23 @@ type NewMovieProps = {
 export const NewMovie: React.FC<NewMovieProps> = ({
   onAdd,
 }) => {
-  const [count, setCount] = useState(0);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [imgUrl, setImgUrl] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
   const isValid = title && imgUrl && imdbUrl && imdbId;
-
   const resetForm = () => {
     setTitle('');
     setDescription('');
     setImgUrl('');
     setImdbUrl('');
     setImdbId('');
-    setCount(current => current + 1);
   };
-
+  const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
+    
     const movie: Movie = {
       title,
       description,
@@ -35,15 +33,17 @@ export const NewMovie: React.FC<NewMovieProps> = ({
       imdbUrl,
       imdbId,
     };
-
     resetForm();
     onAdd(movie);
+  };
+
+  const checkUrl = (url: string) => {
+    return (url.match(pattern) || [])[0] === url;
   };
 
   return (
     <form
       className="NewMovie"
-      key={count}
       onSubmit={handleSubmit}
     >
       <h2 className="title">Add a movie</h2>
@@ -68,6 +68,7 @@ export const NewMovie: React.FC<NewMovieProps> = ({
         label="Image URL"
         value={imgUrl}
         onChange={setImgUrl}
+        checkUrl={checkUrl}
         required
       />
 
@@ -76,6 +77,7 @@ export const NewMovie: React.FC<NewMovieProps> = ({
         label="Imdb URL"
         value={imdbUrl}
         onChange={setImdbUrl}
+        checkUrl={checkUrl}
         required
       />
 

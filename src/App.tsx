@@ -9,12 +9,10 @@ export const App = () => {
   const [movies, setMovies] = useState(moviesFromServer);
 
   const onAdd = (movie: Movie) => {
-    setMovies(current => {
-      return [
-        ...current,
-        movie,
-      ];
-    });
+    setMovies(current => ([
+      ...current,
+      movie,
+    ]));
   };
 
   return (
