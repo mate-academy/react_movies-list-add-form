@@ -8,57 +8,50 @@ type NewMovieType = {
 
 export const NewMovie: FC<NewMovieType> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
-  let isDisabled = true;
+  const [movie, setMovie] = useState({
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  });
+  let disabled = true;
 
-  const handleInputTitle = (newTitle: string) => {
-    setTitle(newTitle);
+  const handleInputTitle = (title: string) => {
+    setMovie(state => ({ ...state, title }));
   };
 
-  const handleInputDescription = (newDescription: string) => {
-    setDescription(newDescription);
+  const handleInputDescription = (description: string) => {
+    setMovie(state => ({ ...state, description }));
   };
 
-  const handleInputImgUrl = (newImgUrl: string) => {
-    setImgUrl(newImgUrl);
+  const handleInputImgUrl = (imgUrl: string) => {
+    setMovie(state => ({ ...state, imgUrl }));
   };
 
-  const handleInputImdbUrl = (newImdUrl: string) => {
-    setImdbUrl(newImdUrl);
+  const handleInputImdbUrl = (imdbUrl: string) => {
+    setMovie(state => ({ ...state, imdbUrl }));
   };
 
-  const handleInputImdbId = (newId: string) => {
-    setImdbId(newId);
+  const handleInputImdbId = (imdbId: string) => {
+    setMovie(state => ({ ...state, imdbId }));
   };
 
-  const resetFormField = () => {
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
-  };
-
-  const handlerSubmit = () => {
-    const movie = {
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    };
-
+  const handlerSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     onAdd(movie);
     setCount((prevCount) => prevCount + 1);
-    resetFormField();
+    setMovie({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
   };
 
-  if (title && imgUrl && imdbUrl && imdbId) {
-    isDisabled = false;
+  if (movie.title && movie.imgUrl && movie.imdbUrl && movie.imdbId) {
+    disabled = false;
   }
 
   return (
@@ -68,7 +61,7 @@ export const NewMovie: FC<NewMovieType> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value={title}
+        value={movie.title}
         onChange={handleInputTitle}
         required
       />
@@ -76,14 +69,14 @@ export const NewMovie: FC<NewMovieType> = ({ onAdd }) => {
       <TextField
         name="description"
         label="Description"
-        value={description}
+        value={movie.description}
         onChange={handleInputDescription}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={imgUrl}
+        value={movie.imgUrl}
         onChange={handleInputImgUrl}
         required
       />
@@ -91,7 +84,7 @@ export const NewMovie: FC<NewMovieType> = ({ onAdd }) => {
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={imdbUrl}
+        value={movie.imdbUrl}
         onChange={handleInputImdbUrl}
         required
       />
@@ -99,7 +92,7 @@ export const NewMovie: FC<NewMovieType> = ({ onAdd }) => {
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imdbId}
+        value={movie.imdbId}
         onChange={handleInputImdbId}
         required
       />
@@ -110,7 +103,7 @@ export const NewMovie: FC<NewMovieType> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={isDisabled}
+            disabled={disabled}
           >
             Add
           </button>

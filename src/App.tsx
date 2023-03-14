@@ -11,7 +11,7 @@ export const App: FC = () => {
   const [movies, setMovies] = useState<Movie[]>(moviesFromServer);
 
   const addMovie = (movie: Movie) => {
-    setMovies([...moviesFromServer, movie]);
+    setMovies(prev => [...prev, movie]);
   };
 
   return (
