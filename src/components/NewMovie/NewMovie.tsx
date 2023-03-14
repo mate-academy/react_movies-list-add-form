@@ -8,7 +8,6 @@ type Props = {
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const basicValues = {
-    count: 0,
     title: '',
     description: '',
     imgUrl: '',
@@ -16,36 +15,23 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     imdbId: '',
   };
 
-  const [formValues, setFormValues] = useState({
-    count: 0,
-    title: '',
-    description: '',
-    imgUrl: '',
-    imdbUrl: '',
-    imdbId: '',
-  });
+  const [count, setCount] = useState(0);
+  const [formValues, setFormValues] = useState(basicValues);
 
   const {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    count, title, description, imgUrl, imdbUrl, imdbId,
+    title, description, imgUrl, imdbUrl, imdbId,
   } = formValues;
 
-  // const [count, setCount] = useState(0);
-  // const [title, setTitle] = useState('');
-  // const [description, setDescription] = useState('');
-  // const [imgUrl, setImgUrl] = useState('');
-  // const [imdbUrl, setImdbUrl] = useState('');
-  // const [imdbId, setImdbId] = useState('');
-
-  const allFilled = !!title && !!imgUrl && !!imdbUrl && !!imdbId;
-
   const doReset = () => {
+    setCount(current => current + 1);
     setFormValues(() => (basicValues));
   };
 
-  const handleChange = (value: any) => {
-    return (setFormValues({ ...formValues, title: value }));
+  const handleChange = (value: string, name: string) => {
+    setFormValues({ ...formValues, [name]: value });
   };
+
+  const allFilled = !!title && !!imgUrl && !!imdbUrl && !!imdbId;
 
   const handleSubmit = () => {
     // eslint-disable-next-line max-len
@@ -93,11 +79,11 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         required
       />
 
-      {/* <TextField
+      <TextField
         name="description"
         label="Description"
         value={description}
-        onChange={handleChangeDescr}
+        onChange={handleChange}
         required
       />
 
@@ -105,7 +91,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={handleChangeImgUrl}
+        onChange={handleChange}
         required
       />
 
@@ -113,7 +99,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={handleChangeImdbUrl}
+        onChange={handleChange}
         required
       />
 
@@ -121,9 +107,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={handleChangeImdbId}
-        required */}
-      {/* /> */}
+        onChange={handleChange}
+        required
+      />
 
       <div className="field is-grouped">
         <div className="control">
