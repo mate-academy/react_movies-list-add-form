@@ -24,16 +24,10 @@ export const TextField: React.FC<Props> = ({
   required = false,
   onChange = () => {},
 }) => {
-  // generage a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
-
-  // To show errors only if the field was touched (onBlur)
   const [touched, setTouched] = useState(false);
-  // const hasError = touched && required && !value;
   const hasError = touched && required && !value;
-  const showErrorMessage = !hasError && touched && showError;
-  // const showErrorMessage = touched && showError;
-  const showErrorImgMessage = !hasError && touched && showErrorImg;
+  const showErrorMessage = !hasError && touched && (showError || showErrorImg);
 
   return (
     <div className="field">
@@ -52,7 +46,6 @@ export const TextField: React.FC<Props> = ({
           type="text"
           placeholder={`Enter ${label}`}
           value={value}
-          // onChange={event => onChange(event.target.value)}
           onChange={event => onChange(event)}
           onBlur={() => setTouched(true)}
         />
@@ -62,9 +55,6 @@ export const TextField: React.FC<Props> = ({
         <p className="help is-danger">{`${label} is required`}</p>
       )}
       { showErrorMessage && (
-        <p className="help is-info">{`${label} must be correct`}</p>
-      )}
-      { showErrorImgMessage && (
         <p className="help is-info">{`${label} must be correct`}</p>
       )}
     </div>
