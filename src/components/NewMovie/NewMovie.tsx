@@ -17,7 +17,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
   const [isValid, setIsValid] = useState(false);
 
-  const hanleChange = (newValue: string,
+  const handleChange = (newValue: string,
     stateSetterFunc: React.Dispatch<React.SetStateAction<string>>) => {
     stateSetterFunc(newValue);
 
@@ -54,7 +54,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={title}
-        onChange={(newValue: string) => hanleChange(newValue, setTitle)}
+        onChange={(newValue: string) => handleChange(newValue, setTitle)}
         required
       />
 
@@ -62,14 +62,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={description}
-        onChange={(newValue: string) => hanleChange(newValue, setDescription)}
+        onChange={(newValue: string) => handleChange(newValue, setDescription)}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={(newValue: string) => hanleChange(newValue, setImgUrl)}
+        onChange={(newValue: string) => handleChange(newValue, setImgUrl)}
         required
       />
 
@@ -77,7 +77,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={(newValue: string) => hanleChange(newValue, setImdbUrl)}
+        onChange={(newValue: string) => handleChange(newValue, setImdbUrl)}
         required
       />
 
@@ -85,7 +85,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={(newValue: string) => hanleChange(newValue, setImdbId)}
+        onChange={(newValue: string) => handleChange(newValue, setImdbId)}
         required
       />
 
