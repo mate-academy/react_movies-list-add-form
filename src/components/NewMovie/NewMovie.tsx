@@ -19,7 +19,11 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [formValues, setFormValues] = useState(basicValues);
 
   const {
-    title, description, imgUrl, imdbUrl, imdbId,
+    title,
+    description,
+    imgUrl,
+    imdbUrl,
+    imdbId,
   } = formValues;
 
   const doReset = () => {
@@ -31,7 +35,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setFormValues({ ...formValues, [nameOfValue]: value });
   };
 
-  const allFilled = !!title && !!imgUrl && !!imdbUrl && !!imdbId;
+  const allFilled = !!title.trim()
+    && !!imgUrl.trim()
+    && !!imdbUrl.trim()
+    && !!imdbId.trim();
 
   const handleSubmit = () => {
     // eslint-disable-next-line max-len
@@ -65,6 +72,11 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
     onAdd(newMovie);
     doReset();
+  };
+
+  const submit = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    event.preventDefault();
+    handleSubmit();
   };
 
   return (
@@ -117,10 +129,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            onClick={(event => {
-              event.preventDefault();
-              handleSubmit();
-            })}
+            onClick={submit}
             disabled={!allFilled}
           >
             Add
