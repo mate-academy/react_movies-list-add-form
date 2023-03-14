@@ -27,8 +27,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setFormValues(() => (basicValues));
   };
 
-  const handleChange = (value: string, name: string) => {
-    setFormValues({ ...formValues, [name]: value });
+  const handleChange = (value: string, nameOfValue: string) => {
+    setFormValues({ ...formValues, [nameOfValue]: value });
   };
 
   const allFilled = !!title && !!imgUrl && !!imdbUrl && !!imdbId;
