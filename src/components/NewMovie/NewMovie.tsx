@@ -33,7 +33,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setImgUrl('');
     setImdbUrl('');
     setImdbId('');
-  }
+  };
 
   const addMovie = (event: React.MouseEvent) => {
     event.preventDefault();
