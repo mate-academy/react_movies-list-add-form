@@ -21,29 +21,31 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     stateSetterFunc: React.Dispatch<React.SetStateAction<string>>) => {
     stateSetterFunc(newValue);
 
-    if (title.length > 0 && imgUrl.length > 0
-      && imdbUrl.length > 0 && imdbId.length > 0) {
+    if (title.trim().length > 0 && imgUrl.trim().length > 0
+      && imdbUrl.trim().length > 0 && imdbId.trim().length > 0) {
       setIsValid(true);
     }
   };
 
-  const addMovie = (event: React.MouseEvent) => {
-    event.preventDefault();
-
-    if (onAdd) {
-      onAdd({
-        title, description, imdbUrl, imgUrl, imdbId,
-      });
-      setCount((prev) => {
-        return prev + 1;
-      });
-    }
-
+  const resetForm = () => {
     setTitle('');
     setDescription('');
     setImgUrl('');
     setImdbUrl('');
     setImdbId('');
+  }
+
+  const addMovie = (event: React.MouseEvent) => {
+    event.preventDefault();
+
+    onAdd({
+      title, description, imdbUrl, imgUrl, imdbId,
+    });
+    setCount((prev) => {
+      return prev + 1;
+    });
+
+    resetForm();
   };
 
   return (

@@ -25,7 +25,7 @@ export const App = () => {
         <MoviesList movies={movies} />
       </div>
       <div className="sidebar">
-        <NewMovie onAdd={(movie: Movie) => onMovieAddedHandler(movie)} />
+        <NewMovie onAdd={onMovieAddedHandler} />
       </div>
     </div>
   );
