@@ -31,20 +31,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     && isVeryfied.imdbUrl
     && isVeryfied.imdbId;
 
-  const setVeryfication = (field: string, value: boolean) => {
-    setIsVeryfied(movieVer => ({
-      ...movieVer,
-      [field]: value,
-    }));
-  };
-
-  const changeMovieField = (field: string, newValue: string) => {
-    setNewMovie(movie => ({
-      ...movie,
-      [field]: newValue,
-    }));
-  };
-
   const customValidation = (value: string) => {
     // eslint-disable-next-line max-len
     const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
@@ -52,6 +38,24 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     const result = pattern.test(value);
 
     return result;
+  };
+
+  const setVeryfication = () => {
+    setIsVeryfied({
+      title: !!newMovie.title,
+      description: !!newMovie.description,
+      imgUrl: !!newMovie.imgUrl && customValidation(newMovie.imgUrl),
+      imdbUrl: !!newMovie.imdbUrl && customValidation(newMovie.imdbUrl),
+      imdbId: !!newMovie.imdbId,
+    });
+  };
+
+  const changeMovieField = (field: string, newValue: string) => {
+    setNewMovie(movie => ({
+      ...movie,
+      [field]: newValue,
+    }));
+    setVeryfication();
   };
 
   const reset = () => {
@@ -85,7 +89,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Title"
         value={newMovie.title}
         onChange={changeMovieField}
-        setVeryfication={setVeryfication}
         required
       />
 
@@ -94,7 +97,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Description"
         value={newMovie.description}
         onChange={changeMovieField}
-        setVeryfication={setVeryfication}
       />
 
       <TextField
@@ -102,7 +104,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Image URL"
         value={newMovie.imgUrl}
         onChange={changeMovieField}
-        setVeryfication={setVeryfication}
         customValidation={customValidation}
       />
 
@@ -111,7 +112,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Imdb URL"
         value={newMovie.imdbUrl}
         onChange={changeMovieField}
-        setVeryfication={setVeryfication}
         customValidation={customValidation}
       />
 
@@ -120,7 +120,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Imdb ID"
         value={newMovie.imdbId}
         onChange={changeMovieField}
-        setVeryfication={setVeryfication}
       />
 
       <div className="field is-grouped">

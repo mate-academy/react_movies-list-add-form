@@ -7,7 +7,7 @@ type Props = {
   label?: string,
   required?: boolean,
   onChange?: (field:string, newValue: string) => void,
-  setVeryfication: (field: string, value: boolean) => void,
+  // setVeryfication: (field: string, value: boolean) => void,
   customValidation?: (value: string) => boolean
 };
 
@@ -22,16 +22,17 @@ export const TextField: React.FC<Props> = ({
   required = false,
   onChange = () => {},
   customValidation = () => true,
-  setVeryfication,
+  // setVeryfication,
 }) => {
   // generage a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
   // To show errors only if the field was touched (onBlur)
   const [touched, setToched] = useState(false);
-  const hasError = touched && required && (!value || !customValidation(value));
+  const hasErrorRequired = touched && required && !value;
+  const hasErrorURL = touched && required && !customValidation(value);
 
-  setVeryfication(name, !hasError);
+  // setVeryfication(name, !hasError);
 
   return (
     <div className="field">
@@ -44,7 +45,7 @@ export const TextField: React.FC<Props> = ({
           id={id}
           data-cy={`movie-${name}`}
           className={classNames('input', {
-            'is-danger': hasError,
+            'is-danger': hasErrorRequired || hasErrorURL,
           })}
           type="text"
           placeholder={`Enter ${label}`}
@@ -54,8 +55,11 @@ export const TextField: React.FC<Props> = ({
         />
       </div>
 
-      {hasError && (
+      {hasErrorRequired && (
         <p className="help is-danger">{`${label} is required`}</p>
+      )}
+      {hasErrorURL && (
+        <p className="help is-danger">Please use correct url</p>
       )}
     </div>
   );
