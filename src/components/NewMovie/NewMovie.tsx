@@ -17,7 +17,26 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     imdbUrl: '',
     imdbId: '',
   });
-  const [isVeryfied, setIsVeryfied] = useState(true);
+  const [isVeryfied, setIsVeryfied] = useState({
+    title: false,
+    description: false,
+    imgUrl: false,
+    imdbUrl: false,
+    imdbId: false,
+  });
+
+  const isAllVeryfied = isVeryfied.title
+    && isVeryfied.description
+    && isVeryfied.imgUrl
+    && isVeryfied.imdbUrl
+    && isVeryfied.imdbId;
+
+  const setVeryfication = (field: string, value: boolean) => {
+    setIsVeryfied(movieVer => ({
+      ...movieVer,
+      [field]: value,
+    }));
+  };
 
   const changeMovieField = (field: string, newValue: string) => {
     setNewMovie(movie => ({
@@ -35,10 +54,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     return result;
   };
 
-  const setVeryfication = (value: boolean) => {
-    setIsVeryfied(value);
-  };
-
   const reset = () => {
     setNewMovie({
       title: '',
@@ -50,7 +65,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   };
 
   const handeSubmit = () => {
-    if (isVeryfied) {
+    if (isAllVeryfied) {
       setCount(oldValue => oldValue + 1);
       onAdd(newMovie);
       reset();

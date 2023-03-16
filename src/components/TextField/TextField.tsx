@@ -7,7 +7,7 @@ type Props = {
   label?: string,
   required?: boolean,
   onChange?: (field:string, newValue: string) => void,
-  setVeryfication: (value: boolean) => void,
+  setVeryfication: (field: string, value: boolean) => void,
   customValidation?: (value: string) => boolean
 };
 
@@ -31,9 +31,7 @@ export const TextField: React.FC<Props> = ({
   const [touched, setToched] = useState(false);
   const hasError = touched && required && (!value || !customValidation(value));
 
-  if (hasError) {
-    setVeryfication(!hasError);
-  }
+  setVeryfication(name, !hasError);
 
   return (
     <div className="field">
