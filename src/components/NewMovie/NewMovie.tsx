@@ -17,7 +17,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     imdbUrl: '',
     imdbId: '',
   });
-  const [isVeryfied, setIsVeryfied] = useState(false);
+  const [isVeryfied, setIsVeryfied] = useState(true);
 
   const changeMovieField = (field: string, newValue: string) => {
     setNewMovie(movie => ({
@@ -49,8 +49,20 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     });
   };
 
+  const handeSubmit = () => {
+    if (isVeryfied) {
+      setCount(oldValue => oldValue + 1);
+      onAdd(newMovie);
+      reset();
+    }
+  };
+
   return (
-    <form className="NewMovie" key={count}>
+    <form
+      className="NewMovie"
+      key={count}
+      onSubmit={handeSubmit}
+    >
       <h2 className="title">Add a movie</h2>
 
       <TextField
@@ -58,7 +70,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Title"
         value={newMovie.title}
         onChange={changeMovieField}
-        veryfied={setVeryfication}
+        setVeryfication={setVeryfication}
         required
       />
 
@@ -67,7 +79,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Description"
         value={newMovie.description}
         onChange={changeMovieField}
-        veryfied={setVeryfication}
+        setVeryfication={setVeryfication}
       />
 
       <TextField
@@ -75,7 +87,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Image URL"
         value={newMovie.imgUrl}
         onChange={changeMovieField}
-        veryfied={setVeryfication}
+        setVeryfication={setVeryfication}
         customValidation={customValidation}
       />
 
@@ -84,7 +96,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Imdb URL"
         value={newMovie.imdbUrl}
         onChange={changeMovieField}
-        veryfied={setVeryfication}
+        setVeryfication={setVeryfication}
         customValidation={customValidation}
       />
 
@@ -93,7 +105,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Imdb ID"
         value={newMovie.imdbId}
         onChange={changeMovieField}
-        veryfied={setVeryfication}
+        setVeryfication={setVeryfication}
       />
 
       <div className="field is-grouped">
@@ -103,13 +115,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             data-cy="submit-button"
             className="button is-link"
             disabled={!isVeryfied}
-            onClick={() => {
-              if (isVeryfied) {
-                setCount(oldValue => oldValue + 1);
-                onAdd(newMovie);
-                reset();
-              }
-            }}
           >
             Add
           </button>
