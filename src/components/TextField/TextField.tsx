@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import React, { useState } from 'react';
+import './TextField.scss';
 
 type Props = {
   name: string,
@@ -7,6 +8,7 @@ type Props = {
   label?: string,
   required?: boolean,
   onChange?: (newValue: string) => void,
+  isValid?: boolean,
 };
 
 function getRandomDigits() {
@@ -19,6 +21,7 @@ export const TextField: React.FC<Props> = ({
   label = name,
   required = false,
   onChange = () => {},
+  isValid,
 }) => {
   // generage a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
@@ -39,17 +42,24 @@ export const TextField: React.FC<Props> = ({
           data-cy={`movie-${name}`}
           className={classNames('input', {
             'is-danger': hasError,
-          })}
+          }, { 'not-valid': !isValid })}
           type="text"
           placeholder={`Enter ${label}`}
           value={value}
-          onChange={event => onChange(event.target.value)}
-          onBlur={() => setToched(true)}
+          onChange={event => {
+            onChange(event.target.value);
+          }}
+          onBlur={() => {
+            setToched(true);
+          }}
         />
       </div>
 
       {hasError && (
         <p className="help is-danger">{`${label} is required`}</p>
+      )}
+      {!isValid && (
+        <p className="explanation not-valid">{`${label} isn't valid`}</p>
       )}
     </div>
   );
