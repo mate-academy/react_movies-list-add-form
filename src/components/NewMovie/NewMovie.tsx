@@ -68,7 +68,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     });
   };
 
-  const handeSubmit = () => {
+  const handeSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
     if (isAllVeryfied) {
       setCount(oldValue => oldValue + 1);
       onAdd(newMovie);
