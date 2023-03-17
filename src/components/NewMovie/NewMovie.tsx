@@ -40,22 +40,20 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     return result;
   };
 
-  const setVeryfication = () => {
-    setIsVeryfied({
-      title: !!newMovie.title,
-      description: !!newMovie.description,
-      imgUrl: !!newMovie.imgUrl && customValidation(newMovie.imgUrl),
-      imdbUrl: !!newMovie.imdbUrl && customValidation(newMovie.imdbUrl),
-      imdbId: !!newMovie.imdbId,
-    });
-  };
-
   const changeMovieField = (field: string, newValue: string) => {
-    setNewMovie(movie => ({
-      ...movie,
+    const nextMovie = {
+      ...newMovie,
       [field]: newValue,
-    }));
-    setVeryfication();
+    };
+
+    setNewMovie(nextMovie);
+    setIsVeryfied({
+      title: !!nextMovie.title,
+      description: !!nextMovie.description,
+      imgUrl: !!nextMovie.imgUrl && customValidation(nextMovie.imgUrl),
+      imdbUrl: !!nextMovie.imdbUrl && customValidation(nextMovie.imdbUrl),
+      imdbId: !!nextMovie.imdbId,
+    });
   };
 
   const reset = () => {
@@ -115,6 +113,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={newMovie.imdbUrl}
         onChange={changeMovieField}
         customValidation={customValidation}
+        required
       />
 
       <TextField

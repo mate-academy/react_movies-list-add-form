@@ -7,7 +7,6 @@ type Props = {
   label?: string,
   required?: boolean,
   onChange?: (field:string, newValue: string) => void,
-  // setVeryfication: (field: string, value: boolean) => void,
   customValidation?: (value: string) => boolean
 };
 
@@ -22,7 +21,6 @@ export const TextField: React.FC<Props> = ({
   required = false,
   onChange = () => {},
   customValidation = () => true,
-  // setVeryfication,
 }) => {
   // generage a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
@@ -31,8 +29,6 @@ export const TextField: React.FC<Props> = ({
   const [touched, setToched] = useState(false);
   const hasErrorRequired = touched && required && !value;
   const hasErrorURL = touched && required && !customValidation(value);
-
-  // setVeryfication(name, !hasError);
 
   return (
     <div className="field">
