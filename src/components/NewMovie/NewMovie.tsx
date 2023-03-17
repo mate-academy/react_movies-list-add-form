@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { FormEvent, useState } from 'react';
 import { PATTERN_URL, PATTERN_URL_IMAGE } from '../../constants';
 import { Movie, FieldType } from '../../types/typedefs';
 import { TextField, HandleTextFieldType } from '../TextField';
@@ -42,7 +42,7 @@ const validationsInitialState: FieldsValidationsState = {
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `FieldType`s
-  const [count, increaseCount] = useState(0);
+  const [count, resetTouchedStatus] = useState(0);
   const [fieldsValues, setFieldsValues] = useState(fieldsInitialState);
 
   const [
@@ -67,7 +67,13 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const clearForm = () => {
     setFieldsValidations(validationsInitialState);
     setFieldsValues(fieldsInitialState);
-    increaseCount(prev => prev + 1);
+    resetTouchedStatus(prev => prev + 1);
+  };
+
+  const handleFormSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    onAdd({ ...fieldsValues });
+    clearForm();
   };
 
   const couldSubmitForm = Object.values(fieldsValidations)
@@ -77,11 +83,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     <form
       className="NewMovie"
       key={count}
-      onSubmit={(event) => {
-        event.preventDefault();
-        onAdd({ ...fieldsValues });
-        clearForm();
-      }}
+      onSubmit={handleFormSubmit}
     >
       <h2 className="title">Add a movie</h2>
 
