@@ -7,6 +7,7 @@ type Props = {
   label?: string,
   required?: boolean,
   onChange?: (newValue: string) => void,
+  urlValidation?: (url: string) => boolean,
 };
 
 function getRandomDigits() {
@@ -19,13 +20,13 @@ export const TextField: React.FC<Props> = ({
   label = name,
   required = false,
   onChange = () => {},
+  urlValidation,
 }) => {
-  // generage a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
-
-  // To show errors only if the field was touched (onBlur)
   const [touched, setToched] = useState(false);
   const hasError = touched && required && !value;
+  const isCorrectUrl = name.slice(-3) === 'Url' && touched && value
+    && (urlValidation ? !urlValidation(value) : true);
 
   return (
     <div className="field">
@@ -50,6 +51,9 @@ export const TextField: React.FC<Props> = ({
 
       {hasError && (
         <p className="help is-danger">{`${label} is required`}</p>
+      )}
+      {isCorrectUrl && (
+        <p className="help">{`${label} not correct`}</p>
       )}
     </div>
   );
