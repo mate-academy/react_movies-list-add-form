@@ -1,4 +1,5 @@
 import { FormEvent, useState } from 'react';
+import { checkUrlValidity } from '../../helpers';
 import { Movie } from '../../types/Movie';
 import { TextField } from '../TextField';
 
@@ -18,7 +19,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const handleAddMovie = (event: FormEvent) => {
     event.preventDefault();
 
-    if (!requiredFields.every(field => field)) {
+    if (!requiredFields.every(field => field.trim())
+      || checkUrlValidity(imdbUrl)
+      || checkUrlValidity(imgUrl)) {
       return;
     }
 
@@ -66,6 +69,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Image URL"
         value={imgUrl}
         onChange={setImgUrl}
+        validation={checkUrlValidity}
         required
       />
 
@@ -74,6 +78,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Imdb URL"
         value={imdbUrl}
         onChange={setImdbUrl}
+        validation={checkUrlValidity}
         required
       />
 
