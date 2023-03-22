@@ -7,7 +7,7 @@ type Props = {
   onAdd: (movie: Movie) => void;
 };
 
-const validateUrl = (url: string) => {
+const isValidUrl = (url: string): boolean => {
   return urlRegex.test(url);
 };
 
@@ -44,13 +44,17 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
 
   const shouldButtonBeEnabled = (
     title.trim()
-    && imgUrl.trim()
-    && imdbUrl.trim()
+    && isValidUrl(imgUrl.trim())
+    && isValidUrl(imdbUrl.trim())
     && imdbId.trim()
   );
 
   return (
-    <form className="NewMovie" key={count} onSubmit={handleFormSubmit}>
+    <form
+      className="NewMovie"
+      key={count}
+      onSubmit={handleFormSubmit}
+    >
       <h2 className="title">Add a movie</h2>
 
       <TextField
@@ -73,7 +77,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
         label="Image URL"
         value={imgUrl}
         onChange={setImgUrl}
-        validate={() => validateUrl(imgUrl)}
+        validate={() => isValidUrl(imgUrl)}
         required
       />
 
@@ -82,7 +86,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
         label="Imdb URL"
         value={imdbUrl}
         onChange={setImdbUrl}
-        validate={() => validateUrl(imdbUrl)}
+        validate={() => isValidUrl(imdbUrl)}
         required
       />
 
