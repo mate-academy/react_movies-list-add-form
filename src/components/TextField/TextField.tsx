@@ -6,7 +6,7 @@ type Props = {
   value: string,
   label?: string,
   required?: boolean,
-  onChange?: (newValue: string) => void,
+  onChange: (newValue: string) => void,
   validate?: (newValue: string) => boolean,
 };
 
@@ -19,7 +19,7 @@ export const TextField: React.FC<Props> = ({
   value,
   label = name,
   required = false,
-  onChange = () => { },
+  onChange,
   validate = () => true,
 }) => {
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
@@ -29,11 +29,13 @@ export const TextField: React.FC<Props> = ({
   const hasError = required && touched && (!value || !valid);
 
   const validateValue = (inputValue: string) => {
-    if (!inputValue) {
-      setValid(validate(inputValue));
-    } else {
+    if (!validate) {
       setValid(true);
+
+      return;
     }
+
+    setValid(validate(inputValue));
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
