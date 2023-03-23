@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { useState } from 'react';
+import React, { useState, ChangeEvent } from 'react';
 import uniqid from 'uniqid';
 
 type Props = {
@@ -7,7 +7,7 @@ type Props = {
   value: string,
   label: string,
   required?: boolean,
-  onChange: (newValue: string) => void,
+  onChange: (event: ChangeEvent<HTMLInputElement>) => void,
   onValidation?: (url: string) => boolean,
 };
 
@@ -17,12 +17,14 @@ export const TextField: React.FC<Props> = ({
   label,
   required = false,
   onChange,
-  onValidation = () => true,
+  onValidation,
 }) => {
   const [id] = useState(uniqid(`${name}-`));
   const [touched, setToched] = useState(false);
   const hasError = touched && required && !value;
-  const hasValidError = value && !onValidation(value);
+  const hasValidError = (onValidation)
+    ? value && !onValidation(value)
+    : false;
 
   return (
     <div className="field">
@@ -32,6 +34,7 @@ export const TextField: React.FC<Props> = ({
 
       <div className="control">
         <input
+          name={name}
           id={id}
           data-cy={`movie-${name}`}
           className={classNames('input', {
@@ -40,7 +43,7 @@ export const TextField: React.FC<Props> = ({
           type="text"
           placeholder={`Enter ${label}`}
           value={value}
-          onChange={event => onChange(event.target.value)}
+          onChange={onChange}
           onBlur={() => setToched(true)}
         />
       </div>
