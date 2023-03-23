@@ -1,45 +1,106 @@
-import { useState } from 'react';
-import { TextField } from '../TextField';
+import React, { FormEvent, useState } from 'react';
+import {
+  fieldsInitialState,
+  PATTERN_URL,
+  PATTERN_URL_IMAGE,
+  validationsInitialState,
+} from '../../constants';
+import { Movie, FieldType } from '../../types/typedefs';
+import { TextField, HandleTextFieldType } from '../TextField';
 
-export const NewMovie = () => {
+type Props = {
+  onAdd: (movie: Movie) => void
+};
+
+export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
-  const [count] = useState(0);
+  // to reset touched status of all the `FieldType`s
+  const [count, setStatus] = useState(0);
+  const [fieldsValues, setFieldsValues] = useState(fieldsInitialState);
+
+  const [
+    fieldsValidations,
+    setFieldsValidations,
+  ] = useState(validationsInitialState);
+
+  const handleFieldChange: HandleTextFieldType = (name, value, status) => {
+    setFieldsValues((state) => ({
+      ...state,
+      [name]: value,
+    }));
+
+    if (name !== FieldType.DESCRIPTION) {
+      setFieldsValidations((state) => ({
+        ...state,
+        [name]: status,
+      }));
+    }
+  };
+
+  const clearForm = () => {
+    setFieldsValidations(validationsInitialState);
+    setFieldsValues(fieldsInitialState);
+    setStatus(prev => prev + 1);
+  };
+
+  const handleFormSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    onAdd({ ...fieldsValues });
+    clearForm();
+  };
+
+  const couldSubmitForm = Object.values(fieldsValidations)
+    .every(value => value);
 
   return (
-    <form className="NewMovie" key={count}>
+    <form
+      className="NewMovie"
+      key={count}
+      onSubmit={handleFormSubmit}
+    >
       <h2 className="title">Add a movie</h2>
 
       <TextField
-        name="title"
+        name={FieldType.TITLE}
         label="Title"
-        value=""
-        onChange={() => {}}
+        value={fieldsValues[FieldType.TITLE]}
+        onChange={handleFieldChange}
         required
       />
 
       <TextField
-        name="description"
+        name={FieldType.DESCRIPTION}
         label="Description"
-        value=""
+        value={fieldsValues[FieldType.DESCRIPTION]}
+        onChange={handleFieldChange}
       />
 
       <TextField
-        name="imgUrl"
+        name={FieldType.IMAGEURL}
         label="Image URL"
-        value=""
+        value={fieldsValues[FieldType.IMAGEURL]}
+        isValid={fieldsValidations[FieldType.IMAGEURL]}
+        onChange={handleFieldChange}
+        validationPattern={PATTERN_URL_IMAGE}
+        required
       />
 
       <TextField
-        name="imdbUrl"
+        name={FieldType.IMDBURL}
         label="Imdb URL"
-        value=""
+        value={fieldsValues[FieldType.IMDBURL]}
+        isValid={fieldsValidations[FieldType.IMDBURL]}
+        validationPattern={PATTERN_URL}
+        onChange={handleFieldChange}
+        required
       />
 
       <TextField
-        name="imdbId"
+        name={FieldType.IMDBID}
         label="Imdb ID"
-        value=""
+        value={fieldsValues[FieldType.IMDBID]}
+        onChange={handleFieldChange}
+        required
       />
 
       <div className="field is-grouped">
@@ -48,6 +109,7 @@ export const NewMovie = () => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
+            disabled={!couldSubmitForm}
           >
             Add
           </button>
