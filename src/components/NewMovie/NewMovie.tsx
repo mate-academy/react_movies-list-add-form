@@ -1,5 +1,10 @@
 import React, { FormEvent, useState } from 'react';
-import { PATTERN_URL, PATTERN_URL_IMAGE } from '../../constants';
+import {
+  fieldsInitialState,
+  PATTERN_URL,
+  PATTERN_URL_IMAGE,
+  validationsInitialState,
+} from '../../constants';
 import { Movie, FieldType } from '../../types/typedefs';
 import { TextField, HandleTextFieldType } from '../TextField';
 
@@ -7,42 +12,10 @@ type Props = {
   onAdd: (movie: Movie) => void
 };
 
-type FieldsState = {
-  title: string;
-  description: string;
-  imgUrl: string;
-  imdbUrl: string;
-  imdbId: string;
-};
-
-type FieldsValidationsState = {
-  title: boolean;
-  description: boolean;
-  imgUrl: boolean;
-  imdbUrl: boolean;
-  imdbId: boolean;
-};
-
-const fieldsInitialState: FieldsState = {
-  [FieldType.TITLE]: '',
-  [FieldType.DESCRIPTION]: '',
-  [FieldType.IMAGEURL]: '',
-  [FieldType.IMDBURL]: '',
-  [FieldType.IMDBID]: '',
-};
-
-const validationsInitialState: FieldsValidationsState = {
-  [FieldType.TITLE]: false,
-  [FieldType.DESCRIPTION]: true,
-  [FieldType.IMAGEURL]: false,
-  [FieldType.IMDBURL]: false,
-  [FieldType.IMDBID]: false,
-};
-
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `FieldType`s
-  const [count, resetTouchedStatus] = useState(0);
+  const [count, setStatus] = useState(0);
   const [fieldsValues, setFieldsValues] = useState(fieldsInitialState);
 
   const [
@@ -67,7 +40,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const clearForm = () => {
     setFieldsValidations(validationsInitialState);
     setFieldsValues(fieldsInitialState);
-    resetTouchedStatus(prev => prev + 1);
+    setStatus(prev => prev + 1);
   };
 
   const handleFormSubmit = (event: FormEvent<HTMLFormElement>) => {

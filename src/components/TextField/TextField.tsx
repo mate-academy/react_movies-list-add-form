@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { useState } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import { FieldType } from '../../types/typedefs';
 
 type Props = {
@@ -22,6 +22,18 @@ function getRandomDigits() {
   return Math.random().toString().slice(2);
 }
 
+const isInputValid = (pattern: RegExp | null, text: string): boolean => {
+  if (pattern) {
+    return pattern.test(text);
+  }
+
+  if (pattern) {
+    return text !== '';
+  }
+
+  return true;
+};
+
 export const TextField: React.FC<Props> = ({
   name,
   value,
@@ -35,18 +47,18 @@ export const TextField: React.FC<Props> = ({
   const [touched, setToched] = useState(false);
 
   const hasError = touched && required && !value;
-  const hasInvalidError = !isValid && validationPattern && value;
+  const hasInvalidLink = !isValid && validationPattern && value;
 
-  const isInputValid = (text: string): boolean => {
-    if (validationPattern) {
-      return validationPattern.test(text);
-    }
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const {
+      value: inputValue,
+    } = event.target;
 
-    if (required) {
-      return text !== '';
-    }
-
-    return true;
+    onChange(
+      name,
+      inputValue,
+      isInputValid(validationPattern || null, inputValue),
+    );
   };
 
   return (
@@ -61,18 +73,12 @@ export const TextField: React.FC<Props> = ({
           id={id}
           data-cy={`movie-${name}`}
           className={classNames('input', {
-            'is-danger': hasError || hasInvalidError,
+            'is-danger': hasError || hasInvalidLink,
           })}
           type="text"
           placeholder={`Enter ${label}`}
           value={value}
-          onChange={(event) => {
-            const {
-              value: inputValue,
-            } = event.target;
-
-            onChange(name, inputValue, isInputValid(inputValue));
-          }}
+          onChange={handleInputChange}
           onBlur={() => setToched(true)}
         />
       </div>
@@ -83,7 +89,7 @@ export const TextField: React.FC<Props> = ({
         </p>
       )}
 
-      {hasInvalidError && (
+      {hasInvalidLink && (
         <p className="help is-danger">
           Link must start with www. or https://
           {name === FieldType.IMAGEURL && ' and end with .jpeg/.png/etc.'}

@@ -6,15 +6,13 @@ import { Movie } from './types/typedefs';
 import moviesFromServer from './api/movies.json';
 
 export const App: React.FC = () => {
-  const [movies, addMovie] = useState(moviesFromServer);
+  const [movies, setMovies] = useState(moviesFromServer);
 
   const onAdd = (movie: Movie) => {
-    addMovie((oldMoviesList) => {
-      return [
-        ...oldMoviesList,
-        movie,
-      ];
-    });
+    setMovies((oldMoviesList) => [
+      ...oldMoviesList,
+      movie,
+    ]);
   };
 
   return (
