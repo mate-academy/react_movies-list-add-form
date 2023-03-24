@@ -42,7 +42,13 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
 
   const inValid = !isValidUrl(imgUrl) && !isValidUrl(imdbUrl);
 
-  const disabledButton = !title || !imdbId || !imgUrl || !imdbUrl || inValid;
+  const shouldButtonBeDisabled = (
+    !title
+    || !imdbId
+    || !imgUrl
+    || !imdbUrl
+    || inValid
+  );
 
   return (
     <form
@@ -99,7 +105,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={disabledButton}
+            disabled={shouldButtonBeDisabled}
           >
             Add
           </button>
