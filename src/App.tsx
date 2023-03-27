@@ -13,14 +13,15 @@ export const App = () => {
       ...currentMovie,
       movie,
     ]));
-  }
+  };
+
   return (
     <div className="page">
       <div className="page-content">
         <MoviesList movies={movies} />
       </div>
       <div className="sidebar">
-        <NewMovie onAdd={addMovie}/>
+        <NewMovie onAdd={addMovie} />
       </div>
     </div>
   );
