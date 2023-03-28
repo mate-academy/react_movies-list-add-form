@@ -13,7 +13,8 @@ export const NewMovie = ({ onAdd }: Props) => {
   const [imgUrl, setImgUrl] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
-  const disabledButton = !title || !imgUrl || !imdbUrl || !imdbId;
+  const isDisabledButton
+  = !title.trim() || !imgUrl.trim() || !imdbUrl.trim() || !imdbId.trim();
 
   const resetForm = () => {
     setTitle('');
@@ -84,7 +85,7 @@ export const NewMovie = ({ onAdd }: Props) => {
         <div className="control">
           <button
             type="submit"
-            disabled={disabledButton}
+            disabled={isDisabledButton}
             data-cy="submit-button"
             className="button is-link"
           >
