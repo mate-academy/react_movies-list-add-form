@@ -8,80 +8,81 @@ type Props = {
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
-  const [valueTitle, setValue] = useState('');
-  const [valueDescription, setValueDescription] = useState('');
-  const [valueImageUrl, setValueImageUrl] = useState('');
-  const [valueImdbUrl, setValueImdbUrl] = useState('');
-  const [valueImdbId, setValueImdbId] = useState('');
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [imgUrl, setimgUrl] = useState('');
+  const [imdbUrl, setImdbUrl] = useState('');
+  const [imdbId, setImdbId] = useState('');
 
-  const checkButton
-    = valueTitle !== ''
-    && valueImageUrl !== ''
-    && valueImdbUrl !== ''
-    && valueImdbId !== '';
+  const areValuesEntered = title !== ''
+    && imgUrl !== ''
+    && imdbUrl !== ''
+    && imdbId !== '';
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    onAdd({
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    });
+
+    setTitle('');
+    setDescription('');
+    setimgUrl('');
+    setImdbUrl('');
+    setImdbId('');
+
+    setCount(current => current + 1);
+  };
 
   return (
     <form
       className="NewMovie"
       key={count}
-      onSubmit={(event) => {
-        event.preventDefault();
-
-        onAdd({
-          title: valueTitle,
-          description: valueDescription,
-          imgUrl: valueImageUrl,
-          imdbUrl: valueImdbUrl,
-          imdbId: valueImdbId,
-        });
-
-        setValue('');
-        setValueDescription('');
-        setValueImageUrl('');
-        setValueImdbUrl('');
-        setValueImdbId('');
-
-        setCount(current => current + 1);
-      }}
+      onSubmit={handleSubmit}
     >
       <h2 className="title">Add a movie</h2>
 
       <TextField
         name="title"
         label="Title"
-        value={valueTitle}
-        onChange={setValue}
+        value={title}
+        onChange={setTitle}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value={valueDescription}
-        onChange={setValueDescription}
+        value={description}
+        onChange={setDescription}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={valueImageUrl}
-        onChange={setValueImageUrl}
+        value={imgUrl}
+        onChange={setimgUrl}
         required
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={valueImdbUrl}
-        onChange={setValueImdbUrl}
+        value={imdbUrl}
+        onChange={setImdbUrl}
         required
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={valueImdbId}
-        onChange={setValueImdbId}
+        value={imdbId}
+        onChange={setImdbId}
         required
       />
 
@@ -91,7 +92,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!checkButton}
+            disabled={!areValuesEntered}
           >
             Add
           </button>
