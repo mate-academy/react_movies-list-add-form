@@ -1,14 +1,13 @@
 import { FormEvent, useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
+import { checkValidation } from '../../helpers';
 
 type Props = {
   onAdd: (movie: Movie) => void,
 };
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -40,11 +39,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     clearForm();
   };
 
+  const isUrlValid = checkValidation(imgUrl) && checkValidation(imdbUrl);
+
   const isDisabled = (
     !title
     || !imgUrl
     || !imdbUrl
     || !imdbId
+    || !isUrlValid
   );
 
   return (
@@ -75,6 +77,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Image URL"
         value={imgUrl}
         onChange={setImgUrl}
+        isValid={checkValidation}
         required
       />
 
@@ -83,6 +86,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Imdb URL"
         value={imdbUrl}
         onChange={setImdbUrl}
+        isValid={checkValidation}
         required
       />
 
