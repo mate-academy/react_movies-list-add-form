@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Movie } from '../../types/Movie';
+import { pattern } from '../regex';
 import { TextField } from '../TextField';
 
 type Props = {
@@ -14,12 +15,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const isAddedRequiredFilds = Boolean(
-    title.length
-    && imgUrl.length
-    && imdbUrl.length
-    && imdbId.length,
-  );
+  const checkUrl = (url: string): boolean => {
+    return pattern.test(url);
+  };
+
+  const isAddedRequiredFilds = title.length
+    && checkUrl(imgUrl)
+    && checkUrl(imdbUrl)
+    && imdbId.length;
 
   const movieMaker = (
     movieTitle: string,
@@ -38,7 +41,11 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   };
 
   const newMovie = movieMaker(
-    title, description, imgUrl, imdbUrl, imdbId,
+    title,
+    description,
+    imgUrl,
+    imdbUrl,
+    imdbId,
   );
 
   const clearData = () => {
@@ -49,6 +56,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setImdbId('');
   };
 
+  // eslint-disable-next-line max-len
+
   const handleAddNewMovie = (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
     setCount(count + 1);
@@ -57,11 +66,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   };
 
   return (
-    <form
-      className="NewMovie"
-      key={count}
-      onSubmit={handleAddNewMovie}
-    >
+    <form className="NewMovie" key={count} onSubmit={handleAddNewMovie}>
       <h2 className="title">Add a movie</h2>
 
       <TextField
