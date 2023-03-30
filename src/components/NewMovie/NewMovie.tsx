@@ -18,7 +18,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const imgUrlValid = pattern.test(imgUrl);
   const imdbUrlValid = pattern.test(imdbUrl);
 
-  const buttonEnable = title && imgUrl && imgUrlValid && imdbUrlValid;
+  const buttonEnable = title && imgUrl && imgUrlValid && imdbUrlValid && imdbId;
 
   const clearForm = () => {
     setTitle('');
