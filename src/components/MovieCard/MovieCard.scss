@@ -1,3 +1,26 @@
+.card {
+  padding-top: 30px;
+  padding-bottom: 30px;
+
+  border-radius: 20%;
+  background-color: dimgrey;
+}
+
+.card-image {
+  margin-bottom: 30px;
+}
+
 .card-image img {
   object-fit: contain;
+}
+
+.title,
+.content {
+  color: white;
+}
+
+.link {
+  font-size: 24px;
+
+  color: white;
 }
