@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
+import { isValidUrl } from '../../helpers';
 
 type Props = {
   onAdd: (movie: Movie) => void;
@@ -35,8 +36,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
   const canEnableButton = (
     title.trim()
-    && imgUrl.trim()
-    && imdbUrl.trim()
+    && isValidUrl(imgUrl.trim())
+    && isValidUrl(imdbUrl.trim())
     && imdbId.trim()
   );
 
@@ -68,6 +69,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Image URL"
         value={imgUrl}
         onChange={setImgUrl}
+        validation={(isValidUrl)}
         required
       />
 
@@ -76,6 +78,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Imdb URL"
         value={imdbUrl}
         onChange={setImdbUrl}
+        validation={(isValidUrl)}
         required
       />
 
