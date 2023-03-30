@@ -20,21 +20,23 @@ export const TextField: React.FC<Props> = ({
   label = name,
   required = false,
   onChange = () => {},
-  validation = () => {},
+  validation,
 }) => {
   // generage a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
   // To show errors only if the field was touched (onBlur)
   const [touched, setToched] = useState(false);
-  const [valid, setValid] = useState<boolean | void>(false);
-  const hasError = touched && required && (!value && !valid);
+  const [valid, setValid] = useState<boolean | void>(true);
+  const hasError = touched && required && (!value || !valid);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value: inputValue } = event.target;
 
     onChange(inputValue);
-    setValid(validation(value));
+    setValid(validation
+      ? validation(inputValue)
+      : true);
   };
 
   return (
@@ -60,9 +62,9 @@ export const TextField: React.FC<Props> = ({
 
       {hasError && (
         <p className="help is-danger">
-          {valid
-            ? `${label} is required`
-            : `${label} is invalid`}
+          {!valid
+            ? `${label} is invalid`
+            : `${label} is required`}
         </p>
       )}
     </div>
