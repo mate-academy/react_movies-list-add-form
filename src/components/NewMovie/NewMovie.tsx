@@ -19,7 +19,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [isVerified, setIsVerified] = useState(false);
 
   useEffect(() => {
-    if (title.length
+    if (title.trim().length
+      && description.trim().length
       && imgUrl.length
       && imdbUrl.length
       && imdbId.length
