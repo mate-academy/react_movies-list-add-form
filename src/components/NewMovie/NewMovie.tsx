@@ -1,126 +1,117 @@
-import React, { useState, useEffect, FormEvent } from 'react';
+import React, { useState, FormEvent } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
+
+// eslint-disable-next-line max-len
+const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
 
 type Props = {
   onAdd: (movie: Movie) => void,
 };
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
-  const [count, increaseCount] = useState(0);
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
-  const [isDisabled, setIsDisabled] = useState(true);
-  const [isVerified, setIsVerified] = useState(false);
-
-  useEffect(() => {
-    if (title.trim().length
-      && description.trim().length
-      && imgUrl.length
-      && imdbUrl.length
-      && imdbId.length
-      && isVerified
-    ) {
-      setIsDisabled(false);
-    } else {
-      setIsDisabled(true);
-    }
+  const [count, setCount] = useState(0);
+  const [movie, setMovie] = useState({
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
   });
 
-  const clearData = () => {
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
-    increaseCount(prevState => prevState + 1);
-    setIsDisabled(true);
+  const checkUrl = (url: string) => {
+    return (url.match(pattern) || [])[0] === url;
   };
+
+  const clearData = () => {
+    setMovie({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
+  };
+
+  const {
+    title,
+    description,
+    imgUrl,
+    imdbUrl,
+    imdbId,
+  } = movie;
+
+  const isDisableBtn = !title.trim()
+    || !imgUrl
+    || !checkUrl(imgUrl)
+    || !checkUrl(imdbUrl)
+    || !imdbUrl
+    || !imdbId
+    || !description.trim();
 
   const handlerOnSubmit = (event: FormEvent) => {
     event.preventDefault();
 
-    const newMovie: Movie = {
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    };
-
-    if (title !== ' ') {
-      onAdd(newMovie);
-    }
-
+    setCount(prevCount => prevCount + 1);
+    onAdd(movie);
     clearData();
+  };
+
+  const onChange = (name: string, value: string) => {
+    setMovie(curr => ({
+      ...curr,
+      [name]: value,
+    }));
   };
 
   return (
     <form
       className="NewMovie"
       key={count}
-      onSubmit={(event) => {
-        handlerOnSubmit(event);
-      }}
+      onSubmit={handlerOnSubmit}
     >
       <h2 className="title">Add a movie</h2>
 
       <TextField
         name="title"
         label="Title"
-        value={title}
-        onChange={(newValue) => {
-          setTitle(newValue);
-        }}
+        value={movie.title}
+        onChange={onChange}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value={description}
-        onChange={(newValue) => {
-          setDescription(newValue);
-        }}
+        value={movie.description}
+        required
+        onChange={onChange}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={imgUrl}
+        value={movie.imgUrl}
         required
-        isValid
-        onChange={(newValue, verified) => {
-          setIsVerified(verified);
-          setImgUrl(newValue);
-        }}
+        isValid={checkUrl}
+        onChange={onChange}
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={imdbUrl}
+        value={movie.imdbUrl}
         required
-        isValid
-        onChange={(newValue, veriied) => {
-          setIsVerified(veriied);
-          setImdbUrl(newValue);
-        }}
+        isValid={checkUrl}
+        onChange={onChange}
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imdbId}
+        value={movie.imdbId}
         required
-        onChange={(newValue) => {
-          setImdbId(newValue);
-        }}
+        onChange={onChange}
       />
 
       <div className="field is-grouped">
@@ -129,7 +120,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={isDisabled}
+            disabled={isDisableBtn}
           >
             Add
           </button>
