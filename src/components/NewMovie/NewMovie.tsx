@@ -12,8 +12,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setimdbUrl] = useState('');
-  const [imdbId, setimdbId] = useState('');
+  const [imdbUrl, setImdbUrl] = useState('');
+  const [imdbId, setImdbId] = useState('');
 
   const imgUrlValid = pattern.test(imgUrl);
   const imdbUrlValid = pattern.test(imdbUrl);
@@ -24,8 +24,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setTitle('');
     setDescription('');
     setImgUrl('');
-    setimdbUrl('');
-    setimdbId('');
+    setImdbUrl('');
+    setImdbId('');
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -79,7 +79,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={setimdbUrl}
+        onChange={setImdbUrl}
         required
       />
 
@@ -87,7 +87,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={setimdbId}
+        onChange={setImdbId}
         required
       />
 
