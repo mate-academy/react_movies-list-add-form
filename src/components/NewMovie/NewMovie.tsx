@@ -28,7 +28,7 @@ export const NewMovie: FC<NewMovieProps> = ({ onAdd }) => {
 
     onAdd(newMovie);
 
-    setCount(count + 1);
+    setCount(prevCount => prevCount + 1);
     setTitle('');
     setDescription('');
     setImgUrl('');
