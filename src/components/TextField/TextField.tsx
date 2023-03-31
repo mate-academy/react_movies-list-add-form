@@ -1,11 +1,12 @@
 import classNames from 'classnames';
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 
 type Props = {
   name: string,
   value: string,
   label?: string,
   required?: boolean,
+  validation?: (url: string) => boolean,
   onChange?: (newValue: string) => void,
 };
 
@@ -18,12 +19,16 @@ export const TextField: React.FC<Props> = ({
   value,
   label = name,
   required = false,
+  validation = () => true,
   onChange = () => {},
 }) => {
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
   const [touched, setTouched] = useState(false);
   const hasError = touched && required && !value;
+  const hasValidationError = useMemo(
+    () => !validation(value), [value],
+  ) && touched;
 
   return (
     <div className="field">
@@ -48,6 +53,10 @@ export const TextField: React.FC<Props> = ({
 
       {hasError && (
         <p className="help is-danger">{`${label} is required`}</p>
+      )}
+
+      {hasValidationError && (
+        <p className="help is-danger">{`${label} is not valid`}</p>
       )}
     </div>
   );

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Movie } from '../../types/Movie';
 import { TextField } from '../TextField';
+import { isValid } from '../../helpers';
 
 type Props = {
   onAdd: (newMovie: Movie) => void;
@@ -27,9 +28,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    setCount(count + 1);
 
-    if (!areRequiredFieldsFilled()) {
+    if (!areRequiredFieldsFilled()
+      || !isValid(imdbUrl)
+      || !isValid(imgUrl)) {
       return;
     }
 
@@ -46,6 +48,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setImgUrl('');
     setImdbUrl('');
     setImdbId('');
+    setCount(prev => prev + 1);
   };
 
   return (
@@ -75,6 +78,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
+        validation={isValid}
         onChange={setImgUrl}
         required
       />
@@ -83,6 +87,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
+        validation={isValid}
         onChange={setImdbUrl}
         required
       />
