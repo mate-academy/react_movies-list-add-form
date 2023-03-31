@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Movie } from '../../types/Movie';
-import { pattern } from '../regex';
+import { checkUrl } from '../regex';
 import { TextField } from '../TextField';
 
 type Props = {
@@ -14,10 +14,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imgUrl, setImgUrl] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
-
-  const checkUrl = (url: string): boolean => {
-    return pattern.test(url);
-  };
 
   const isAddedRequiredFilds = title.length
     && checkUrl(imgUrl)
@@ -56,8 +52,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setImdbId('');
   };
 
-  // eslint-disable-next-line max-len
-
   const handleAddNewMovie = (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
     setCount(count + 1);
@@ -89,6 +83,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Image URL"
         value={imgUrl}
         onChange={setImgUrl}
+        isValid={checkUrl}
         required
       />
 
@@ -97,6 +92,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Imdb URL"
         value={imdbUrl}
         onChange={setImdbUrl}
+        isValid={checkUrl}
         required
       />
 
