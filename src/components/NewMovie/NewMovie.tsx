@@ -8,20 +8,20 @@ type Props = {
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
-  const [newMovieTitle, setNewMovieTitle] = useState('');
-  const [newMovieDescription, setNewMovieDescription] = useState('');
-  const [newMovieImg, setNewMovieImg] = useState('');
-  const [newMovieIMDBUrl, setNewMovieIMDBUrl] = useState('');
-  const [newMovieIMDBId, setNewMovieIMDBId] = useState('');
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [imgUrl, setImgUrl] = useState('');
+  const [imdbUrl, setImdbUrl] = useState('');
+  const [imdbId, setImdbId] = useState('');
 
   const requiredFields = [
-    newMovieTitle,
-    newMovieImg,
-    newMovieIMDBUrl,
-    newMovieIMDBId,
+    title,
+    imgUrl,
+    imdbUrl,
+    imdbId,
   ];
 
-  const isRequiredFilled = (): boolean => {
+  const areRequiredFieldsFilled = (): boolean => {
     return requiredFields.every(Boolean);
   };
 
@@ -29,23 +29,23 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     event.preventDefault();
     setCount(count + 1);
 
-    if (!isRequiredFilled()) {
+    if (!areRequiredFieldsFilled()) {
       return;
     }
 
     onAdd({
-      title: newMovieTitle,
-      description: newMovieDescription,
-      imgUrl: newMovieImg,
-      imdbUrl: newMovieIMDBUrl,
-      imdbId: newMovieIMDBId,
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
     });
 
-    setNewMovieTitle('');
-    setNewMovieDescription('');
-    setNewMovieImg('');
-    setNewMovieIMDBUrl('');
-    setNewMovieIMDBId('');
+    setTitle('');
+    setDescription('');
+    setImgUrl('');
+    setImdbUrl('');
+    setImdbId('');
   };
 
   return (
@@ -59,39 +59,39 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value={newMovieTitle}
-        onChange={setNewMovieTitle}
+        value={title}
+        onChange={setTitle}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value={newMovieDescription}
-        onChange={setNewMovieDescription}
+        value={description}
+        onChange={setDescription}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={newMovieImg}
-        onChange={setNewMovieImg}
+        value={imgUrl}
+        onChange={setImgUrl}
         required
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={newMovieIMDBUrl}
-        onChange={setNewMovieIMDBUrl}
+        value={imdbUrl}
+        onChange={setImdbUrl}
         required
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={newMovieIMDBId}
-        onChange={setNewMovieIMDBId}
+        value={imdbId}
+        onChange={setImdbId}
         required
       />
 
@@ -101,7 +101,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!isRequiredFilled()}
+            disabled={!areRequiredFieldsFilled()}
           >
             Add
           </button>
