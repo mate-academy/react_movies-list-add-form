@@ -7,8 +7,6 @@ type Props = {
 };
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
   const [newMovie, setNewMovie] = useState({
     title: '',
@@ -105,6 +103,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={newMovie.imgUrl}
         onChange={changeMovieField}
         customValidation={customValidation}
+        required
       />
 
       <TextField
