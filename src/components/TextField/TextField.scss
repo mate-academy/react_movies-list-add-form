@@ -1,0 +1,9 @@
+.label {
+  color: #fff;
+}
+
+.input {
+  &::placeholder {
+    color: #534f4f;
+  }
+}

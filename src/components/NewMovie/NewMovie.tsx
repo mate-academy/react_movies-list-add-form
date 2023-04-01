@@ -1,3 +1,5 @@
+import './NewMovie.scss';
+
 import { useState } from 'react';
 import { Movie } from '../../types/Movie';
 import { TextField } from '../TextField';
@@ -105,7 +107,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
           <button
             type="submit"
             data-cy="submit-button"
-            className="button is-link"
+            className="button"
             disabled={!areRequiredFieldsFilled()}
           >
             Add

@@ -1,1 +1,25 @@
-// not empty
+.button {
+  padding: 0 15px;
+  height: 40px;
+  font-weight: 700;
+  width: 100%;
+  color: #fff;
+  background-color: #d89948;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+
+  &:hover {
+    background-color: #e6b16c;
+    color: #fff;
+  }
+
+  &:disabled {
+    color: #333;
+  }
+}
+
+.control {
+  width: 100%;
+}

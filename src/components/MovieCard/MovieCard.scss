@@ -1,3 +1,27 @@
+.card {
+  background-color: #534f4f;
+  box-shadow: #000 1px 20px 30px -10px;
+}
+
 .card-image img {
   object-fit: contain;
+  padding: 10px;
+}
+
+.title {
+  color: #fff;
+  font-size: 28px;
+}
+
+.content {
+  color: #fff;
+
+  >a {
+    color: #d89948;
+    transition: color 0.4s ease-in-out;
+
+    &:hover {
+      color: #e6b16c;
+    }
+  }
 }
