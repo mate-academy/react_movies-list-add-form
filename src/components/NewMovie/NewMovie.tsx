@@ -33,7 +33,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     // eslint-disable-next-line max-len
     const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
 
-    const result = pattern.test(value);
+    const result = pattern.test(value.trim());
 
     return result;
   };
@@ -46,11 +46,12 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
     setNewMovie(nextMovie);
     setIsVeryfied({
-      title: !!nextMovie.title,
-      description: !!nextMovie.description,
-      imgUrl: !!nextMovie.imgUrl && customValidation(nextMovie.imgUrl),
-      imdbUrl: !!nextMovie.imdbUrl && customValidation(nextMovie.imdbUrl),
-      imdbId: !!nextMovie.imdbId,
+      title: !!nextMovie.title.trim(),
+      description: true,
+      imgUrl: !!(nextMovie.imgUrl.trim()) && customValidation(nextMovie.imgUrl),
+      imdbUrl: !!nextMovie.imdbUrl.trim()
+        && customValidation(nextMovie.imdbUrl),
+      imdbId: !!nextMovie.imdbId.trim(),
     });
   };
 
@@ -120,6 +121,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Imdb ID"
         value={newMovie.imdbId}
         onChange={changeMovieField}
+        required
       />
 
       <div className="field is-grouped">
