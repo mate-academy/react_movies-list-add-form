@@ -57,7 +57,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const hadleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    // if (isValidUrl(event.currentTarget.imgUrl)) {
     setValidImgUrl(isValidUrl(imgUrl));
     setValidImdbUrl(isValidUrl(imdbUrl));
 
