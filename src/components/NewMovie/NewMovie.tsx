@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { isValidUrl } from '../../helpers/isValid';
 import { Movie } from '../../types/Movie';
 import { TextField } from '../TextField';
 
@@ -15,11 +16,16 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
+  const isValidImgUrl = isValidUrl(imgUrl);
+  const isValidImdbUrl = isValidUrl(imdbUrl);
+
   const isSubmitDisabled = (
     !title
     || !imdbId
     || !imgUrl
     || !imdbUrl
+    || !isValidImgUrl
+    || !isValidImdbUrl
   );
 
   const clearFields = () => {
