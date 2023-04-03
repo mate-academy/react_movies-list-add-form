@@ -6,7 +6,7 @@ type Props = {
   value: string,
   label?: string,
   required?: boolean,
-  onChange?: (newValue: string) => void,
+  onChange?: React.Dispatch<React.SetStateAction<string>>,
 };
 
 function getRandomDigits() {
