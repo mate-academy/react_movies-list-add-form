@@ -1,0 +1,43 @@
+$c-primary: #1E88E5;
+$c-secondary: #757575;
+$c-label: #fff;
+$c-input: #000;
+
+.field {
+  .label {
+    display: block;
+    margin-bottom: 4px;
+
+    font-size: 18px;
+    font-weight: 500;
+
+    color: $c-label;
+  }
+
+  .control {
+    position: relative;
+
+    input {
+      padding: 12px 16px;
+      font-size: 18px;
+      font-weight: 500;
+
+      border: 1px solid $c-label;
+      border-radius: 10px;
+
+      color: $c-input;
+      outline: none;
+      transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+
+      &:hover {
+        border-color: $c-secondary;
+        box-shadow: 0px 10px 4px rgba(0, 0, 0, 0.3);
+      }
+
+      &:focus {
+        border-color: $c-primary;
+        box-shadow: 0px 10px 6px rgba(30, 136, 229, 0.4);
+      }
+    }
+  }
+}

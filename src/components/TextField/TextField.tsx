@@ -1,5 +1,9 @@
-import classNames from 'classnames';
 import React, { useState } from 'react';
+import classNames from 'classnames';
+
+import './TextField.scss';
+
+import { linkRegex } from '../constants/constanats';
 
 type Props = {
   name: string,
@@ -7,7 +11,6 @@ type Props = {
   label?: string,
   required?: boolean,
   onChange?: (newValue: string) => void,
-  validate?: (url: string) => boolean,
 };
 
 function getRandomDigits() {
@@ -20,14 +23,17 @@ export const TextField: React.FC<Props> = ({
   label = name,
   required = false,
   onChange = () => {},
-  validate = () => true,
 }) => {
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
   const [touched, setToched] = useState(false);
   const hasError = touched && required && !value;
 
-  const isValid = validate(value);
+  const validateUrl = (url: string) => linkRegex.test(url);
+  const isUrlInput = name === 'imgUrl' || name === 'imdbUrl';
+  const isValid = isUrlInput
+    ? validateUrl(value)
+    : false;
 
   return (
     <div className="field">
@@ -54,7 +60,7 @@ export const TextField: React.FC<Props> = ({
         <p className="help is-danger">{`${label} is required`}</p>
       )}
 
-      {touched && !isValid && (
+      {touched && !isValid && isUrlInput && (
         <p className="help is-danger">
           Invalid URL
         </p>
