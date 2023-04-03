@@ -37,7 +37,11 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const isButton = !title || !description || !imgUrl || !imdbUrl || !imdbId;
 
   return (
-    <form className="NewMovie" key={count}>
+    <form
+      className="NewMovie"
+      key={count}
+      onSubmit={handelSubmit}
+    >
       <h2 className="title">Add a movie</h2>
 
       <TextField
@@ -86,7 +90,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            onSubmit={() => handelSubmit}
             disabled={isButton}
           >
             Add
