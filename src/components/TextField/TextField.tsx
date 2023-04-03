@@ -26,9 +26,7 @@ export const TextField: React.FC<Props> = ({
   const hasError = touched && required && !value;
 
   const handleChangeText = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value: inputValue } = event.target;
-
-    onChange(inputValue);
+    onChange(event.target.value);
   };
 
   return (
