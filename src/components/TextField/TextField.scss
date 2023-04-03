@@ -1,9 +1,12 @@
+$c--grey-light: #534f4f;
+$c--white: #fff;
+
 .label {
-  color: #fff;
+  color: $c--white;
 }
 
 .input {
   &::placeholder {
-    color: #534f4f;
+    color: $c--grey-light;
   }
 }

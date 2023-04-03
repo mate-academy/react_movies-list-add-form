@@ -1,22 +1,27 @@
+$c--orange: #d89948;
+$c--orange-light: #e6b16c;
+$c--white: #fff;
+$c--grey: #333;
+
 .button {
   padding: 0 15px;
   height: 40px;
   font-weight: 700;
   width: 100%;
-  color: #fff;
-  background-color: #d89948;
+  color: $c--white;
+  background-color: $c--orange;
   border: none;
   border-radius: 20px;
   cursor: pointer;
   transition: background-color 0.3s ease-in-out;
 
   &:hover {
-    background-color: #e6b16c;
-    color: #fff;
+    background-color: $c--orange-light;
+    color: $c--white;
   }
 
   &:disabled {
-    color: #333;
+    color: $c--grey;
   }
 }
 

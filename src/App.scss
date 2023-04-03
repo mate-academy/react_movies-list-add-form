@@ -1,3 +1,5 @@
+$padding-main: 20px;
+
 .page {
   display: grid;
   grid-template: auto / 1fr 400px;
@@ -9,9 +11,9 @@
 }
 
 .page-content {
-  padding: 20px;
+  padding: $padding-main;
 }
 
 .sidebar {
-  padding: 20px;
+  padding: $padding-main;
 }
