@@ -1,4 +1,4 @@
-$c-primary: #1E88E5;
+$c-primary: #1e88e5;
 $c-secondary: #757575;
 $c-label: #fff;
 $c-input: #000;
@@ -31,12 +31,12 @@ $c-input: #000;
 
       &:hover {
         border-color: $c-secondary;
-        box-shadow: 0px 10px 4px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 10px 4px rgba(0, 0, 0, 0.3);
       }
 
       &:focus {
         border-color: $c-primary;
-        box-shadow: 0px 10px 6px rgba(30, 136, 229, 0.4);
+        box-shadow: 0 10px 6px rgba(30, 136, 229, 0.4);
       }
     }
   }
