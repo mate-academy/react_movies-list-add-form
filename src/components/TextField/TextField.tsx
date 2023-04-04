@@ -25,9 +25,10 @@ export const TextField: React.FC<Props> = ({
 
   const [touched, setToched] = useState(false);
   const hasError = touched && required && !value;
-  const hasValidateError = touched && value && !pattern.test(value) && (
-    label === 'Image URL' || label === 'Imdb URL'
-  );
+  const hasValidateError = (label === 'Image URL' || label === 'Imdb URL')
+    && touched
+    && value
+    && !pattern.test(value);
 
   return (
     <div className="field">
