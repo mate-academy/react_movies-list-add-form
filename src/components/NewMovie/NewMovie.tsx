@@ -25,14 +25,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   ];
 
   const areRequiredFieldsFilled = requiredFields
-    .every(value => value.trim().length > 0);
+    .every(field => field.trim().length > 0)
+    && isUrlValid(imgUrl)
+    && isUrlValid(imdbUrl);
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (!areRequiredFieldsFilled
-      || !isUrlValid(imdbUrl)
-      || !isUrlValid(imgUrl)) {
+    if (!areRequiredFieldsFilled) {
       return;
     }
 
