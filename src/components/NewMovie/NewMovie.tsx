@@ -6,25 +6,18 @@ type Props = {
   onAdd: (movie: Movie) => void;
 };
 
-const isFilledRegex = /^\s*$/;
-
-const isFilled = (data: string): boolean => (
-  !(isFilledRegex.test(data))
-);
-
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
-
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [imgUrl, setImgUrl] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const isDataValid = isFilled(title)
-    && isFilled(imgUrl)
-    && isFilled(imdbUrl)
-    && isFilled(imdbId);
+  const isDataValid = title
+    && imgUrl
+    && imdbUrl
+    && imdbId;
 
   const handleSumbit = (event: React.SyntheticEvent) => {
     event.preventDefault();
