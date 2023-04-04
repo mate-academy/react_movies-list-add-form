@@ -1,7 +1,4 @@
-$c--orange: #d89948;
-$c--orange-light: #e6b16c;
-$c--grey-light: #534f4f;
-$c--white: #fff;
+@import "../../variables";
 
 .card {
   background-color: $c--grey-light;

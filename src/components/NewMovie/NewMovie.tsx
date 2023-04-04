@@ -3,7 +3,7 @@ import './NewMovie.scss';
 import { useState } from 'react';
 import { Movie } from '../../types/Movie';
 import { TextField } from '../TextField';
-import { isValid } from '../../helpers';
+import { isUrlValid } from '../../helpers';
 
 type Props = {
   onAdd: (newMovie: Movie) => void;
@@ -24,16 +24,15 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     imdbId,
   ];
 
-  const areRequiredFieldsFilled = (): boolean => {
-    return requiredFields.every(Boolean);
-  };
+  const areRequiredFieldsFilled = requiredFields
+    .every(value => value.trim().length > 0);
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (!areRequiredFieldsFilled()
-      || !isValid(imdbUrl)
-      || !isValid(imgUrl)) {
+    if (!areRequiredFieldsFilled
+      || !isUrlValid(imdbUrl)
+      || !isUrlValid(imgUrl)) {
       return;
     }
 
@@ -80,7 +79,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        validation={isValid}
+        validation={isUrlValid}
         onChange={setImgUrl}
         required
       />
@@ -89,7 +88,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        validation={isValid}
+        validation={isUrlValid}
         onChange={setImdbUrl}
         required
       />
@@ -108,7 +107,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button"
-            disabled={!areRequiredFieldsFilled()}
+            disabled={!areRequiredFieldsFilled}
           >
             Add
           </button>

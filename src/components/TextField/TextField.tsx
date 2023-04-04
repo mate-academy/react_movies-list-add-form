@@ -1,7 +1,7 @@
 import './TextField.scss';
 
 import classNames from 'classnames';
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 
 type Props = {
   name: string,
@@ -28,9 +28,7 @@ export const TextField: React.FC<Props> = ({
 
   const [touched, setTouched] = useState(false);
   const hasError = touched && required && !value;
-  const hasValidationError = useMemo(
-    () => !validation(value), [value],
-  ) && touched;
+  const hasValidationError = !validation(value) && touched;
 
   return (
     <div className="field">
