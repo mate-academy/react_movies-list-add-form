@@ -25,7 +25,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     return true;
   };
 
-  const [statee, setState] = useState({
+  const [inputFields, setInputFields] = useState({
     title: '',
     description: '',
     imgUrl: '',
@@ -33,11 +33,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     imdbId: '',
   });
   const onChange = (event: ChangeEvent<HTMLInputElement>): void => {
-    setState({ ...statee, [event.target.name]: trimText(event.target.value) });
+    setInputFields({
+      ...inputFields,
+      [event.target.name]: trimText(event.target.value),
+    });
   };
 
   const clearForm = () => {
-    setState({
+    setInputFields({
       title: '',
       description: '',
       imgUrl: '',
@@ -48,19 +51,19 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
   const addMovie = (event: React.SyntheticEvent) => {
     const movie: Movie = {
-      title: statee.title,
-      description: statee.description,
-      imgUrl: statee.imgUrl,
-      imdbUrl: statee.imdbUrl,
-      imdbId: statee.imdbId,
+      title: inputFields.title,
+      description: inputFields.description,
+      imgUrl: inputFields.imgUrl,
+      imdbUrl: inputFields.imdbUrl,
+      imdbId: inputFields.imdbId,
     };
 
     event.preventDefault();
 
-    setIsValidImgUrl(validator(statee.imgUrl));
-    setIsValidImdbUrl(validator(statee.imdbUrl));
+    setIsValidImgUrl(validator(inputFields.imgUrl));
+    setIsValidImdbUrl(validator(inputFields.imdbUrl));
 
-    if (validator(statee.imgUrl) && validator(statee.imdbUrl)) {
+    if (validator(inputFields.imgUrl) && validator(inputFields.imdbUrl)) {
       onAdd(movie);
       setCount(current => current + 1);
 
@@ -79,7 +82,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value={statee.title}
+        value={inputFields.title}
         onChange={onChange}
         required
       />
@@ -87,7 +90,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="description"
         label="Description"
-        value={statee.description}
+        value={inputFields.description}
         onChange={onChange}
         required={false}
       />
@@ -95,7 +98,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={statee.imgUrl}
+        value={inputFields.imgUrl}
         onChange={(event) => {
           onChange(event);
           setIsValidImgUrl(true);
@@ -107,7 +110,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={statee.imdbUrl}
+        value={inputFields.imdbUrl}
         onChange={(event) => {
           onChange(event);
           setIsValidImdbUrl(true);
@@ -119,7 +122,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={statee.imdbId}
+        value={inputFields.imdbId}
         onChange={onChange}
         required
       />
@@ -131,10 +134,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             data-cy="submit-button"
             className="button is-link"
             disabled={(
-              statee.title === ''
-              || statee.imgUrl === ''
-              || statee.imdbUrl === ''
-              || statee.imdbId === ''
+              inputFields.title === ''
+              || inputFields.imgUrl === ''
+              || inputFields.imdbUrl === ''
+              || inputFields.imdbId === ''
             )}
           >
             Add
