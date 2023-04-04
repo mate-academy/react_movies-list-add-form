@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, ChangeEvent } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
@@ -7,12 +7,11 @@ type Props = {
 };
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
+  const trimText = (text: string) => (
+    text[0] === ' ' ? text.trim() : text
+  );
   const [count, setCount] = useState(0);
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
+
   const [isValidImgUrl, setIsValidImgUrl] = useState(true);
   const [isValidImdbUrl, setIsValidImdbUrl] = useState(true);
   const validator = (url: string) => {
@@ -26,39 +25,48 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     return true;
   };
 
+  const [statee, setState] = useState({
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  });
+  const onChange = (event: ChangeEvent<HTMLInputElement>): void => {
+    setState({ ...statee, [event.target.name]: trimText(event.target.value) });
+  };
+
   const clearForm = () => {
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
+    setState({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
   };
 
   const addMovie = (event: React.SyntheticEvent) => {
     const movie: Movie = {
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
+      title: statee.title,
+      description: statee.description,
+      imgUrl: statee.imgUrl,
+      imdbUrl: statee.imdbUrl,
+      imdbId: statee.imdbId,
     };
 
     event.preventDefault();
 
-    setIsValidImgUrl(validator(imgUrl));
-    setIsValidImdbUrl(validator(imdbUrl));
+    setIsValidImgUrl(validator(statee.imgUrl));
+    setIsValidImdbUrl(validator(statee.imdbUrl));
 
-    if (validator(imgUrl) && validator(imdbUrl)) {
+    if (validator(statee.imgUrl) && validator(statee.imdbUrl)) {
       onAdd(movie);
       setCount(current => current + 1);
 
       clearForm();
     }
   };
-
-  const trimText = (text: string) => (
-    text[0] === ' ' ? text.trim() : text
-  );
 
   return (
     <form
@@ -71,25 +79,25 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value={title}
-        onChange={(event) => setTitle(trimText(event.target.value))}
+        value={statee.title}
+        onChange={onChange}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value={description}
-        onChange={(event) => setDescription(trimText(event.target.value))}
+        value={statee.description}
+        onChange={onChange}
         required={false}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={imgUrl}
+        value={statee.imgUrl}
         onChange={(event) => {
-          setImgUrl(trimText(event.target.value));
+          onChange(event);
           setIsValidImgUrl(true);
         }}
         required
@@ -99,9 +107,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={imdbUrl}
+        value={statee.imdbUrl}
         onChange={(event) => {
-          setImdbUrl(trimText(event.target.value));
+          onChange(event);
           setIsValidImdbUrl(true);
         }}
         required
@@ -111,8 +119,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imdbId}
-        onChange={(event) => setImdbId(trimText(event.target.value))}
+        value={statee.imdbId}
+        onChange={onChange}
         required
       />
 
@@ -123,7 +131,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             data-cy="submit-button"
             className="button is-link"
             disabled={(
-              title === '' || imgUrl === '' || imdbUrl === '' || imdbId === ''
+              statee.title === ''
+              || statee.imgUrl === ''
+              || statee.imdbUrl === ''
+              || statee.imdbId === ''
             )}
           >
             Add

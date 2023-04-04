@@ -6,7 +6,7 @@ type Props = {
   value: string,
   label?: string,
   required?: boolean,
-  onChange?: (newValue: ChangeEvent<HTMLInputElement>) => void,
+  onChange?: (event: ChangeEvent<HTMLInputElement>) => void,
   validation?: boolean,
 };
 
@@ -36,6 +36,7 @@ export const TextField: React.FC<Props> = ({
       <div className="control">
         <input
           id={id}
+          name={name}
           data-cy={`movie-${name}`}
           className={classNames('input', {
             'is-danger': hasError || hasValidationError,
