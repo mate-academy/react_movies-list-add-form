@@ -1,3 +1,29 @@
+@import "../../variables";
+
+.card {
+  background-color: $c--grey-light;
+  box-shadow: black 1px 20px 30px -10px;
+}
+
 .card-image img {
   object-fit: contain;
+  padding: 10px;
+}
+
+.title {
+  color: $c--white;
+  font-size: 1.75rem;
+}
+
+.content {
+  color: $c--white;
+
+  >a {
+    color: $c--orange;
+    transition: color 0.4s ease-in-out;
+
+    &:hover {
+      color: $c--orange-light;
+    }
+  }
 }

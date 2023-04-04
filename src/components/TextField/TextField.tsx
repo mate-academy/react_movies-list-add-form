@@ -1,3 +1,5 @@
+import './TextField.scss';
+
 import classNames from 'classnames';
 import React, { useState } from 'react';
 
@@ -6,6 +8,7 @@ type Props = {
   value: string,
   label?: string,
   required?: boolean,
+  validation?: (url: string) => boolean,
   onChange?: (newValue: string) => void,
 };
 
@@ -18,14 +21,14 @@ export const TextField: React.FC<Props> = ({
   value,
   label = name,
   required = false,
+  validation = () => true,
   onChange = () => {},
 }) => {
-  // generage a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
-  // To show errors only if the field was touched (onBlur)
-  const [touched, setToched] = useState(false);
+  const [touched, setTouched] = useState(false);
   const hasError = touched && required && !value;
+  const hasValidationError = !validation(value) && touched;
 
   return (
     <div className="field">
@@ -44,12 +47,16 @@ export const TextField: React.FC<Props> = ({
           placeholder={`Enter ${label}`}
           value={value}
           onChange={event => onChange(event.target.value)}
-          onBlur={() => setToched(true)}
+          onBlur={() => setTouched(true)}
         />
       </div>
 
       {hasError && (
         <p className="help is-danger">{`${label} is required`}</p>
+      )}
+
+      {hasValidationError && (
+        <p className="help is-danger">{`${label} is not valid`}</p>
       )}
     </div>
   );

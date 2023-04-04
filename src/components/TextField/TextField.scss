@@ -1,0 +1,11 @@
+@import "../../variables";
+
+.label {
+  color: $c--white;
+}
+
+.input {
+  &::placeholder {
+    color: $c--grey-light;
+  }
+}
