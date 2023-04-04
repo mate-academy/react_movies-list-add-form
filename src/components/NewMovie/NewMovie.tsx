@@ -16,13 +16,13 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const isActiveButton = (
-    title.length === 0
-    || imgUrl.length === 0
-    || imdbUrl.length === 0
-    || imdbId.length === 0);
+  const isNotActiveButton = (
+    title.trim().length === 0
+    || imgUrl.trim().length === 0
+    || imdbUrl.trim().length === 0
+    || imdbId.trim().length === 0);
 
-  const reset = () => {
+  const resetInputFields = () => {
     setTitle('');
     setDescription('');
     setImgUrl('');
@@ -30,7 +30,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setImdbId('');
   };
 
-  const addMovie = () => {
+  const createMovie = () => {
     const newMovie = {
       title,
       description,
@@ -39,18 +39,21 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       imdbId,
     };
 
-    onAdd(newMovie);
-    reset();
+    return newMovie;
+  };
+
+  const handleAddNewMovie = (event: React.ChangeEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    onAdd(createMovie());
+    resetInputFields();
+    setCount(count + 1);
   };
 
   return (
     <form
       className="NewMovie"
       key={count}
-      onSubmit={() => {
-        setCount(count + 1);
-        addMovie();
-      }}
+      onSubmit={handleAddNewMovie}
     >
       <h2 className="title">Add a movie</h2>
 
@@ -99,7 +102,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={isActiveButton}
+            disabled={isNotActiveButton}
           >
             Add
           </button>
