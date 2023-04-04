@@ -14,10 +14,12 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const isDataValid = title
-    && imgUrl
-    && imdbUrl
-    && imdbId;
+  const isDataValid = [
+    title,
+    imgUrl,
+    imdbUrl,
+    imdbId,
+  ].every(filedValue => Boolean(filedValue.trim()));
 
   const handleSumbit = (event: React.SyntheticEvent) => {
     event.preventDefault();
