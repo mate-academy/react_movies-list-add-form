@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Movie } from '../../types/Movie';
-import { checkUrl } from '../regex';
+import { checkValidUrl } from '../regex';
 import { TextField } from '../TextField';
 
 type Props = {
@@ -15,10 +15,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const isAddedRequiredFilds = title.length
-    && checkUrl(imgUrl)
-    && checkUrl(imdbUrl)
-    && imdbId.length;
+  const areRequiredFieldsFilled = title.trim().length
+    && checkValidUrl(imgUrl)
+    && checkValidUrl(imdbUrl)
+    && imdbId.trim().length;
 
   const movieMaker = (
     movieTitle: string,
@@ -60,8 +60,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   };
 
   return (
-    <form className="NewMovie" key={count} onSubmit={handleAddNewMovie}>
-      <h2 className="title">Add a movie</h2>
+    <form
+      className="NewMovie"
+      key={count}
+      onSubmit={handleAddNewMovie}
+    >
+      <h2 className="title">
+        Add a movie
+      </h2>
 
       <TextField
         name="title"
@@ -83,7 +89,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Image URL"
         value={imgUrl}
         onChange={setImgUrl}
-        isValid={checkUrl}
+        validateValue={checkValidUrl}
         required
       />
 
@@ -92,7 +98,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Imdb URL"
         value={imdbUrl}
         onChange={setImdbUrl}
-        isValid={checkUrl}
+        validateValue={checkValidUrl}
         required
       />
 
@@ -110,7 +116,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!isAddedRequiredFilds}
+            disabled={!areRequiredFieldsFilled}
           >
             Add
           </button>
