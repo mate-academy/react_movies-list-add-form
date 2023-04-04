@@ -1,7 +1,7 @@
 import { FC, FormEvent, useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
-import { getValidUrl } from '../../utils/helpers';
+import { checkIsValidUrl } from '../../utils/helpers';
 import { pattern } from '../../utils/constants';
 
 interface NewMovieProps {
@@ -15,6 +15,7 @@ export const NewMovie: FC<NewMovieProps> = ({ onAdd }) => {
   const [imgUrl, setImgUrl] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
+
   const handleSubmitForm = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -36,12 +37,12 @@ export const NewMovie: FC<NewMovieProps> = ({ onAdd }) => {
     setImdbId('');
   };
 
-  const correctImdbUrl = getValidUrl(pattern, imdbUrl);
-  const correctImgUrl = getValidUrl(pattern, imgUrl);
+  const correctImdbUrl = checkIsValidUrl(pattern, imdbUrl);
+  const correctImgUrl = checkIsValidUrl(pattern, imgUrl);
 
-  const isDisabled
-    = !title
-    || !imdbId
+  const isAddButtonDisabled
+    = !title.trim()
+    || !imdbId.trim()
     || !correctImdbUrl
     || !correctImgUrl;
 
@@ -98,7 +99,7 @@ export const NewMovie: FC<NewMovieProps> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={isDisabled}
+            disabled={isAddButtonDisabled}
           >
             Add
           </button>

@@ -1,3 +1,3 @@
-export const getValidUrl = (regExp: RegExp, url: string): boolean => {
+export const checkIsValidUrl = (regExp: RegExp, url: string): boolean => {
   return regExp.test(url);
 };

@@ -17,6 +17,7 @@ export const App: FC = () => {
       <div className="page-content">
         <MoviesList movies={movies} />
       </div>
+
       <div className="sidebar">
         <NewMovie onAdd={addNewMovie} />
       </div>

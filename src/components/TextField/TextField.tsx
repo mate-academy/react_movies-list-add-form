@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import React, { useState } from 'react';
-import { getValidUrl } from '../../utils/helpers';
+import { checkIsValidUrl } from '../../utils/helpers';
 import { pattern } from '../../utils/constants';
 
 type Props = {
@@ -25,14 +25,14 @@ export const TextField: React.FC<Props> = ({
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
   const [touched, setTouched] = useState(false);
-  const correctValue = getValidUrl(pattern, value);
   const hasError = touched && required && !value;
-  const hasValidateError
-    = touched
+  const hasValidateError = (
+    name === 'imdbUrl'
+      || name === 'imgUrl'
+  )
+    && touched
     && value
-    && !correctValue
-    && (name === 'imdbUrl'
-      || name === 'imgUrl');
+    && !checkIsValidUrl(pattern, value);
 
   return (
     <div className="field">
@@ -60,7 +60,7 @@ export const TextField: React.FC<Props> = ({
       )}
 
       {hasValidateError && (
-        <p className="help is-danger">{`Wrong ${label} address`}</p>
+        <p className="help is-danger">{`Invalid ${label} value`}</p>
       )}
     </div>
   );
