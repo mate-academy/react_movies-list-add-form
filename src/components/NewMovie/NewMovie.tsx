@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React, { useState } from 'react';
 import { TextField } from '../TextField';
 
@@ -8,19 +9,28 @@ type Props = {
 };
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
-  const [count, SetCount] = useState(0);
-  const [title, SetTitle] = useState('');
-  const [imgUrl, SetImgUrl] = useState('');
-  const [imdbUrl, SetImdbUrl] = useState('');
-  const [imdbId, SetImdbId] = useState('');
-  const [description, SetDescription] = useState('');
+  const [count, setCount] = useState(0);
+  const [title, setTitle] = useState('');
+  const [imgUrl, setImgUrl] = useState('');
+  const [imdbUrl, setImdbUrl] = useState('');
+  const [imdbId, setImdbId] = useState('');
+  const [description, setDescription] = useState('');
+
+  const isValidation = (url: string) => {
+    const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
+
+    return pattern.test(url);
+  };
+
+  const validationUrl = isValidation(imgUrl);
+  const validationImdbUrl = isValidation(imdbUrl);
 
   const formClear = () => {
-    SetTitle('');
-    SetImgUrl('');
-    SetImdbUrl('');
-    SetImdbId('');
-    SetDescription('');
+    setTitle('');
+    setImgUrl('');
+    setImdbUrl('');
+    setImdbId('');
+    setDescription('');
   };
 
   const handleForm = (event: React.FormEvent<HTMLFormElement>) => {
@@ -34,7 +44,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       description,
     });
 
-    SetCount(prev => prev + 1);
+    setCount(prev => prev + 1);
     formClear();
   };
 
@@ -50,7 +60,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={title}
-        onChange={SetTitle}
+        onChange={setTitle}
         required
       />
 
@@ -58,14 +68,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={description}
-        onChange={SetDescription}
+        onChange={setDescription}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={SetImgUrl}
+        onChange={setImgUrl}
         required
       />
 
@@ -73,7 +83,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={SetImdbUrl}
+        onChange={setImdbUrl}
         required
       />
 
@@ -81,7 +91,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={SetImdbId}
+        onChange={setImdbId}
         required
       />
 
@@ -96,7 +106,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
                 !title.trim()
                 || !imgUrl.trim()
                 || !imdbId.trim()
-                || !imdbUrl.trim(),
+                || !imdbUrl.trim()
+                || !validationUrl
+                || !validationImdbUrl,
               )
             }
           >
