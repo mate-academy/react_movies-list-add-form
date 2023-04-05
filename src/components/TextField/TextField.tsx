@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 type Props = {
   name: string,
   value: string,
+  isValid?: boolean,
   label?: string,
   required?: boolean,
   onChange?: (newValue: string) => void,
@@ -16,6 +17,7 @@ function getRandomDigits() {
 export const TextField: React.FC<Props> = ({
   name,
   value,
+  isValid = true,
   label = name,
   required = false,
   onChange = () => {},
@@ -25,7 +27,8 @@ export const TextField: React.FC<Props> = ({
 
   // To show errors only if the field was touched (onBlur)
   const [touched, setToched] = useState(false);
-  const hasError = touched && required && !value;
+  const hasError = (touched && required && !value)
+    || (touched && required && !isValid);
 
   return (
     <div className="field">
@@ -49,7 +52,11 @@ export const TextField: React.FC<Props> = ({
       </div>
 
       {hasError && (
-        <p className="help is-danger">{`${label} is required`}</p>
+        <p className="help is-danger">
+          {isValid
+            ? `${label} is required`
+            : 'Invalid url'}
+        </p>
       )}
     </div>
   );

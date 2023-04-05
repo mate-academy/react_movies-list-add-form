@@ -9,7 +9,6 @@ interface Props {
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
-
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [imgUrl, setImgUrl] = useState('');
@@ -20,10 +19,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const isValidImdbUrl = isValidUrl(imdbUrl);
 
   const isSubmitDisabled = (
-    !title
-    || !imdbId
-    || !imgUrl
-    || !imdbUrl
+    !title.trim()
+    || !imdbId.trim()
+    || !imgUrl.trim()
+    || !imdbUrl.trim()
     || !isValidImgUrl
     || !isValidImdbUrl
   );
@@ -78,6 +77,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="imgUrl"
         label="Image URL"
+        isValid={isValidImgUrl}
         value={imgUrl}
         onChange={setImgUrl}
         required
@@ -86,6 +86,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="imdbUrl"
         label="Imdb URL"
+        isValid={isValidImdbUrl}
         value={imdbUrl}
         onChange={setImdbUrl}
         required
