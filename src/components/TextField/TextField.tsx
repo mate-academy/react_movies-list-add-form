@@ -23,7 +23,7 @@ export const TextField: React.FC<Props> = ({
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
   const [touched, setToched] = useState(false);
-  const hasError = touched && required && !value;
+  const hasError = touched && required && (!value.trim());
 
   const handleChangeText = (event: React.ChangeEvent<HTMLInputElement>) => {
     onChange(event.target.value);

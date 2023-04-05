@@ -24,6 +24,7 @@ export const MovieCard: FC<Props> = ({ movie }) => {
           />
         </figure>
       </div>
+
       <div className="card-content">
         <div className="media">
           <div className="media-left">
@@ -34,6 +35,7 @@ export const MovieCard: FC<Props> = ({ movie }) => {
               />
             </figure>
           </div>
+
           <div className="media-content">
             <p className="title is-8">{title}</p>
           </div>

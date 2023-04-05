@@ -37,7 +37,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setCount(currentCount => currentCount + 1);
   };
 
-  const isButtonEnabled = (
+  const isAddButtonEnabled = (
     title.trim()
     && imdbId.trim()
     && imdbUrl.trim()
@@ -94,7 +94,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             data-cy="submit-button"
             className="button is-link"
             onClick={handleFormSubmit}
-            disabled={!isButtonEnabled}
+            disabled={!isAddButtonEnabled}
           >
             Add
           </button>
