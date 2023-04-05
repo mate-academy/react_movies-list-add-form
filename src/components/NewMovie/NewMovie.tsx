@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
-import { isValidUrl } from '../../helpers';
+import { checkIsValidUrl } from '../../helpers';
 
 type Props = {
   onAdd: (movie: Movie) => void;
@@ -15,6 +15,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
+  const resetForm = useCallback(() => {
+    setTitle('');
+    setDescription('');
+    setImgUrl('');
+    setImdbUrl('');
+    setImdbId('');
+  }, []);
+
   const handleFormSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
@@ -26,18 +34,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       imdbId,
     });
 
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
+    resetForm();
     setCount(prevCount => prevCount + 1);
   };
 
-  const canEnableButton = (
+  const isAddButtonEnabled = (
     title.trim()
-    && isValidUrl(imgUrl.trim())
-    && isValidUrl(imdbUrl.trim())
+    && checkIsValidUrl(imgUrl.trim())
+    && checkIsValidUrl(imdbUrl.trim())
     && imdbId.trim()
   );
 
@@ -69,7 +73,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Image URL"
         value={imgUrl}
         onChange={setImgUrl}
-        validation={(isValidUrl)}
+        validate={(checkIsValidUrl)}
         required
       />
 
@@ -78,7 +82,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Imdb URL"
         value={imdbUrl}
         onChange={setImdbUrl}
-        validation={(isValidUrl)}
+        validate={(checkIsValidUrl)}
         required
       />
 
@@ -96,7 +100,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!canEnableButton}
+            disabled={!isAddButtonEnabled}
           >
             Add
           </button>
