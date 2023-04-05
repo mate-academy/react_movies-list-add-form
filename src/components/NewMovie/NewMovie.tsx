@@ -3,7 +3,7 @@ import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
 type Props = {
-  onAdd: (currentState: any) => void,
+  onAdd: (currentState: Movie) => void,
 };
 
 export const NewMovie:React.FC<Props> = ({
@@ -22,50 +22,50 @@ export const NewMovie:React.FC<Props> = ({
 
   const areAllFieldsFilledIn = (obj: Movie) => {
     if (
-      obj.title === ''
-      || obj.imdbId === ''
-      || obj.imdbUrl === ''
-      || obj.imgUrl === '') {
+      obj.title.trim() === ''
+      || obj.imdbId.trim() === ''
+      || obj.imdbUrl.trim() === ''
+      || obj.imgUrl.trim() === '') {
       return true;
     }
 
     return false;
   };
 
+  const onSubmit = (event: { preventDefault: () => void; }) => {
+    event.preventDefault();
+
+    if (areAllFieldsFilledIn(objMovie)) {
+      return;
+    }
+
+    setCount(count + 1);
+
+    setObjMovie({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
+
+    onAdd(objMovie);
+  };
+
   return (
     <form
       className="NewMovie"
       key={count}
-      onSubmit={(event) => {
-        event.preventDefault();
-        if (areAllFieldsFilledIn(objMovie)) {
-          return;
-        }
-
-        setCount(count + 1);
-
-        setObjMovie({
-          title: '',
-          description: '',
-          imgUrl: '',
-          imdbUrl: '',
-          imdbId: '',
-        });
-
-        onAdd(objMovie);
-      }}
+      onSubmit={onSubmit}
     >
       <h2 className="title">Add a movie</h2>
       <TextField
         name="title"
         label="Title"
         value={objMovie.title}
-        onChange={titleOnInput => setObjMovie((currentState: Movie) => {
-          return {
-            ...currentState,
-            title: titleOnInput,
-          };
-        })}
+        onChange={title => setObjMovie(
+          (prevState) => ({ ...prevState, title }),
+        )}
         required
       />
 
@@ -73,24 +73,18 @@ export const NewMovie:React.FC<Props> = ({
         name="description"
         label="Description"
         value={objMovie.description}
-        onChange={titleOnInput => setObjMovie((currentState: Movie) => {
-          return {
-            ...currentState,
-            description: titleOnInput,
-          };
-        })}
+        onChange={description => setObjMovie(
+          (prevState) => ({ ...prevState, description }),
+        )}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={objMovie.imgUrl}
-        onChange={titleOnInput => setObjMovie((currentState: Movie) => {
-          return {
-            ...currentState,
-            imgUrl: titleOnInput,
-          };
-        })}
+        onChange={imgUrl => setObjMovie(
+          (prevState) => ({ ...prevState, imgUrl }),
+        )}
         required
       />
 
@@ -98,12 +92,9 @@ export const NewMovie:React.FC<Props> = ({
         name="imdbUrl"
         label="Imdb URL"
         value={objMovie.imdbUrl}
-        onChange={titleOnInput => setObjMovie((currentState: Movie) => {
-          return {
-            ...currentState,
-            imdbUrl: titleOnInput,
-          };
-        })}
+        onChange={imdbUrl => setObjMovie(
+          (prevState) => ({ ...prevState, imdbUrl }),
+        )}
         required
       />
 
@@ -111,12 +102,9 @@ export const NewMovie:React.FC<Props> = ({
         name="imdbId"
         label="Imdb ID"
         value={objMovie.imdbId}
-        onChange={titleOnInput => setObjMovie((currentState: Movie) => {
-          return {
-            ...currentState,
-            imdbId: titleOnInput,
-          };
-        })}
+        onChange={imdbId => setObjMovie(
+          (prevState) => ({ ...prevState, imdbId }),
+        )}
         required
       />
 
