@@ -3,7 +3,7 @@ import classNames from 'classnames';
 
 import './TextField.scss';
 
-import { linkRegex } from '../constants/constanats';
+import { getRandomDigits, validateUrl } from '../helpers';
 
 type Props = {
   name: string,
@@ -12,10 +12,6 @@ type Props = {
   required?: boolean,
   onChange?: (newValue: string) => void,
 };
-
-function getRandomDigits() {
-  return Math.random().toString().slice(2);
-}
 
 export const TextField: React.FC<Props> = ({
   name,
@@ -29,8 +25,7 @@ export const TextField: React.FC<Props> = ({
   const [touched, setToched] = useState(false);
   const hasError = touched && required && !value;
 
-  const validateUrl = (url: string) => linkRegex.test(url);
-  const isUrlInput = name === 'imgUrl' || name === 'imdbUrl';
+  const isUrlInput = ['imgUrl', 'imdbUrl'].includes(name);
   const isValid = isUrlInput
     ? validateUrl(value)
     : false;

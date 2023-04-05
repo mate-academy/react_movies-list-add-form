@@ -1,13 +1,16 @@
+@import "../../styles/variables/colors";
+@import "../../styles/variables/spacing";
+
 .card {
-  padding-top: 30px;
-  padding-bottom: 30px;
+  padding-top: $card-padding;
+  padding-bottom: $card-padding;
 
   border-radius: 20px;
-  background-color: dimgrey;
+  background-color: $card-bg-color;
 }
 
 .card-image {
-  margin-bottom: 30px;
+  margin-bottom: $card-padding;
 }
 
 .card-image img {
@@ -17,6 +20,10 @@
 .title,
 .content {
   color: #fff;
+}
+
+.description {
+  padding-bottom: 16px;
 }
 
 .link {

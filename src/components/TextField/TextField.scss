@@ -1,7 +1,4 @@
-$c-primary: #1e88e5;
-$c-secondary: #757575;
-$c-label: #fff;
-$c-input: #000;
+@import "../../styles/variables/colors";
 
 .field {
   .label {
@@ -11,7 +8,7 @@ $c-input: #000;
     font-size: 18px;
     font-weight: 500;
 
-    color: $c-label;
+    color: $text-field-label-color;
   }
 
   .control {
@@ -22,20 +19,20 @@ $c-input: #000;
       font-size: 18px;
       font-weight: 500;
 
-      border: 1px solid $c-label;
+      border: 1px solid $text-field-label-color;
       border-radius: 10px;
 
-      color: $c-input;
+      color: $text-field-input-color;
       outline: none;
       transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 
       &:hover {
-        border-color: $c-secondary;
+        border-color: $text-field-hover-color;
         box-shadow: 0 10px 4px rgba(0, 0, 0, 0.3);
       }
 
       &:focus {
-        border-color: $c-primary;
+        border-color: $text-field-focus-color;
         box-shadow: 0 10px 6px rgba(30, 136, 229, 0.4);
       }
     }
