@@ -7,8 +7,6 @@ type Props = {
 };
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -16,7 +14,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const clear = () => {
+  const clearForm = () => {
     setTitle('');
     setDescription('');
     setImgUrl('');
@@ -37,12 +35,15 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
     onAdd(newMovie);
     setCount(count + 1);
-    clear();
+    clearForm();
   };
 
-  const isBouttonActive = !(
-    title && imgUrl && imdbUrl && imdbId
-  );
+  const isSubmitDisabled = [
+    title,
+    imgUrl,
+    imdbUrl,
+    imdbId,
+  ].every(field => field.trim().length > 0) && imgUrl && imdbUrl && imdbId;
 
   return (
     <form
@@ -70,7 +71,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={imgUrl}
+        value={imgUrl.trim()}
         onChange={setImgUrl}
         required
       />
@@ -78,7 +79,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={imdbUrl}
+        value={imdbUrl.trim()}
         onChange={setImdbUrl}
         required
       />
@@ -86,7 +87,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imdbId}
+        value={imdbId.trim()}
         onChange={setImdbId}
         required
       />
@@ -97,7 +98,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={isBouttonActive}
+            disabled={!isSubmitDisabled}
           >
             Add
           </button>
