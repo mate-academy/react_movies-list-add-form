@@ -20,22 +20,22 @@ export const NewMovie:React.FC<Props> = ({
     imdbId: '',
   });
 
-  const areAllFieldsFilledIn = (obj: Movie) => {
+  const сheckEmptyFields = (obj: Movie) => {
     if (
-      obj.title.trim() === ''
-      || obj.imdbId.trim() === ''
-      || obj.imdbUrl.trim() === ''
-      || obj.imgUrl.trim() === '') {
-      return true;
+      obj.title.trim()
+      && obj.imdbId.trim()
+      && obj.imdbUrl.trim()
+      && obj.imgUrl.trim()) {
+      return false;
     }
 
-    return false;
+    return true;
   };
 
   const onSubmit = (event: { preventDefault: () => void; }) => {
     event.preventDefault();
 
-    if (areAllFieldsFilledIn(objMovie)) {
+    if (сheckEmptyFields(objMovie)) {
       return;
     }
 
@@ -114,7 +114,7 @@ export const NewMovie:React.FC<Props> = ({
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={areAllFieldsFilledIn(objMovie)}
+            disabled={сheckEmptyFields(objMovie)}
           >
             Add
           </button>
