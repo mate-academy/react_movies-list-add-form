@@ -73,7 +73,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Image URL"
         value={imgUrl}
         onChange={setImgUrl}
-        validate={(checkIsValidUrl)}
+        validate={checkIsValidUrl}
         required
       />
 
@@ -82,7 +82,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Imdb URL"
         value={imdbUrl}
         onChange={setImdbUrl}
-        validate={(checkIsValidUrl)}
+        validate={checkIsValidUrl}
         required
       />
 

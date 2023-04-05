@@ -20,23 +20,20 @@ export const TextField: React.FC<Props> = ({
   label = name,
   required = false,
   onChange = () => {},
-  validate = (inputValue) => inputValue,
+  validate = () => true,
 }) => {
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
   const [touched, setToched] = useState(false);
-  const [valid, setValid] = useState<boolean | string>(true);
+  const [isInputValid, setIsInputValid] = useState<boolean>(true);
   const hasError = touched
     && required
-    && (
-      (!value || value.split('').every(char => char === ' '))
-      || !valid
-    );
+    && (!value.trim() || !isInputValid);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value: inputValue } = event.target;
 
     onChange(inputValue);
-    setValid(validate(inputValue));
+    setIsInputValid(validate(inputValue));
   };
 
   return (
@@ -62,7 +59,7 @@ export const TextField: React.FC<Props> = ({
 
       {hasError && (
         <p className="help is-danger">
-          {!valid
+          {!isInputValid
             ? `${label} is invalid`
             : `${label} is required`}
         </p>
