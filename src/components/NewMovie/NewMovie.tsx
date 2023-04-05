@@ -14,7 +14,11 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const isAllDataFilled = title && imgUrl && imdbUrl && imdbId;
+  const isAllDataFilled = title.trim()
+    && imgUrl.trim()
+    && imdbUrl.trim()
+    && imdbId.trim();
+
   const addMovie = () => {
     const newMovie: Movie = {
       title,
