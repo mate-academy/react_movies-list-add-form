@@ -6,7 +6,7 @@
   padding-bottom: $card-padding;
 
   border-radius: 20px;
-  background-color: $card-bg-color;
+  background-color: $main-color;
 }
 
 .card-image {
@@ -19,7 +19,7 @@
 
 .title,
 .content {
-  color: #fff;
+  color: $text-color;
 }
 
 .description {
@@ -29,5 +29,5 @@
 .link {
   font-size: 24px;
 
-  color: #fff;
+  color: $text-color;
 }

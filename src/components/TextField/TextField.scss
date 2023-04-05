@@ -8,7 +8,7 @@
     font-size: 18px;
     font-weight: 500;
 
-    color: $text-field-label-color;
+    color: $text-color;
   }
 
   .control {
@@ -19,20 +19,20 @@
       font-size: 18px;
       font-weight: 500;
 
-      border: 1px solid $text-field-label-color;
+      border: 1px solid $text-color;
       border-radius: 10px;
 
-      color: $text-field-input-color;
+      color: $secondary-color;
       outline: none;
       transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 
       &:hover {
-        border-color: $text-field-hover-color;
+        border-color: $main-color;
         box-shadow: 0 10px 4px rgba(0, 0, 0, 0.3);
       }
 
       &:focus {
-        border-color: $text-field-focus-color;
+        border-color: $accent-color;
         box-shadow: 0 10px 6px rgba(30, 136, 229, 0.4);
       }
     }

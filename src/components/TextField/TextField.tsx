@@ -30,6 +30,8 @@ export const TextField: React.FC<Props> = ({
     ? validateUrl(value)
     : false;
 
+  const isTitleValid = Boolean(value.trim().length);
+
   return (
     <div className="field">
       <label className="label" htmlFor={id}>
@@ -58,6 +60,12 @@ export const TextField: React.FC<Props> = ({
       {touched && !isValid && isUrlInput && (
         <p className="help is-danger">
           Invalid URL
+        </p>
+      )}
+
+      {touched && !isTitleValid && (
+        <p className="help is-danger">
+          Invalid title name
         </p>
       )}
     </div>
