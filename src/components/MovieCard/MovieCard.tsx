@@ -1,10 +1,6 @@
 import React from 'react';
-import { Movie } from '../../types/Movie';
 import './MovieCard.scss';
-
-type Props = {
-  movie: Movie,
-};
+import { Props } from './MovieCard.types';
 
 export const MovieCard: React.FC<Props> = ({ movie }) => (
   <div className="card" data-cy="movie-card">

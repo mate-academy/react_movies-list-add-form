@@ -1,17 +1,7 @@
 import classNames from 'classnames';
 import React, { useState } from 'react';
-
-type Props = {
-  name: string,
-  value: string,
-  label?: string,
-  required?: boolean,
-  onChange?: (newValue: string) => void,
-};
-
-function getRandomDigits() {
-  return Math.random().toString().slice(2);
-}
+import { getRandomDigits } from '../../helpers/getRandomDigits';
+import { Props } from './TextField.types';
 
 export const TextField: React.FC<Props> = ({
   name,
@@ -19,13 +9,13 @@ export const TextField: React.FC<Props> = ({
   label = name,
   required = false,
   onChange = () => {},
+  isValidValue = true,
 }) => {
-  // generage a unique id once on component load
-  const [id] = useState(() => `${name}-${getRandomDigits()}`);
+  const [touched, setTouched] = useState(false);
 
-  // To show errors only if the field was touched (onBlur)
-  const [touched, setToched] = useState(false);
-  const hasError = touched && required && !value;
+  const id = `${name}-${getRandomDigits()}`;
+  const hasError = touched && required && !value.trim();
+  const hasValueError = touched && !isValidValue;
 
   return (
     <div className="field">
@@ -44,12 +34,16 @@ export const TextField: React.FC<Props> = ({
           placeholder={`Enter ${label}`}
           value={value}
           onChange={event => onChange(event.target.value)}
-          onBlur={() => setToched(true)}
+          onBlur={() => setTouched(true)}
         />
       </div>
 
       {hasError && (
         <p className="help is-danger">{`${label} is required`}</p>
+      )}
+
+      {hasValueError && (
+        <p className="help is-danger">Enter valid url</p>
       )}
     </div>
   );
