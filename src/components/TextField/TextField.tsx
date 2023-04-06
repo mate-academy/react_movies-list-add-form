@@ -7,7 +7,7 @@ type Props = {
   label?: string,
   required?: boolean,
   onChange?: (newValue: string) => void,
-  isValid?: (url: string) => boolean,
+  validate?: (value: string) => boolean,
 };
 
 function getRandomDigits() {
@@ -20,13 +20,13 @@ export const TextField: React.FC<Props> = ({
   label = name,
   required = false,
   onChange = () => {},
-  isValid = () => true,
+  validate = () => true,
 }) => {
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
   const [touched, setTouched] = useState(false);
   const hasError = touched && required && !value.trim();
-  const isInvalid = value && !isValid(value);
+  const isInvalid = value && !validate(value);
 
   return (
     <div className="field">
