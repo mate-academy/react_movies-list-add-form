@@ -1,7 +1,7 @@
 import { FormEvent, useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
-import { checkValidationOfUrl } from '../../helpers';
+import { checkIsValidUrl } from '../../helpers';
 
 type Props = {
   onAdd: (movie: Movie) => void,
@@ -39,8 +39,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     clearForm();
   };
 
-  const isUrlValid = checkValidationOfUrl(imgUrl)
-    && checkValidationOfUrl(imdbUrl);
+  const isUrlValid = checkIsValidUrl(imgUrl)
+    && checkIsValidUrl(imdbUrl);
 
   const isDisabled = (
     !title.trim()
@@ -78,7 +78,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Image URL"
         value={imgUrl.trim()}
         onChange={setImgUrl}
-        validate={checkValidationOfUrl}
+        validate={checkIsValidUrl}
         required
       />
 
@@ -87,7 +87,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Imdb URL"
         value={imdbUrl.trim()}
         onChange={setImdbUrl}
-        validate={checkValidationOfUrl}
+        validate={checkIsValidUrl}
         required
       />
 
