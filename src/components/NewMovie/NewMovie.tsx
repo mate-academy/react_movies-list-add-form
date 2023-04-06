@@ -14,8 +14,13 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const isRequired = title && imgUrl && imdbUrl && imdbId;
-  const isAddButtonDisabled = !isRequired;
+  const areRequiredValuesFilled
+   = title.trim()
+    && imgUrl.trim()
+    && imdbUrl.trim()
+    && imdbId.trim();
+
+  const isAddButtonDisabled = !areRequiredValuesFilled;
 
   const resetForm = () => {
     setTitle('');
