@@ -1,4 +1,4 @@
-import React, { FormEvent, useState } from 'react';
+import { FormEvent, useState } from 'react';
 import { checkUrlValidity } from '../../helpers/helperCheck';
 import { Movie } from '../../types/Movie';
 import { TextField } from '../TextField';
