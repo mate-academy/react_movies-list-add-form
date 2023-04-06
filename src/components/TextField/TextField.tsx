@@ -14,7 +14,7 @@ export const TextField: React.FC<Props> = ({
   const [touched, setTouched] = useState(false);
 
   const id = `${name}-${getRandomDigits()}`;
-  const hasError = touched && required && !value;
+  const hasError = touched && required && !value.trim();
   const hasValueError = touched && !isValidValue;
 
   return (

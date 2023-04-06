@@ -14,16 +14,11 @@ export const App = () => {
   return (
     <div className="page">
       <div className="page-content">
-
         <MoviesList movies={movies} />
-
       </div>
+
       <div className="sidebar">
-
-        <NewMovie
-          onAdd={handleOnAdd}
-        />
-
+        <NewMovie onAdd={handleOnAdd} />
       </div>
     </div>
   );
