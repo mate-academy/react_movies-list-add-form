@@ -4,7 +4,7 @@ import { Movie } from '../../types/Movie';
 import { TextField } from '../TextField';
 
 type Props = {
-  onAdd: (movie: Movie) => void
+  onAdd: (movie: Movie) => void,
 };
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
@@ -15,6 +15,15 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
   const requiredFields = [title, imgUrl, imdbUrl, imdbId];
+
+  const resetForm = () => {
+    setTitle('');
+    setDescription('');
+    setImgUrl('');
+    setImdbUrl('');
+    setImdbId('');
+    setCount(prev => prev + 1);
+  };
 
   const handleAddMovie = (event: FormEvent) => {
     event.preventDefault();
@@ -33,13 +42,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       imdbId,
     });
 
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
-    setCount(prev => prev + 1);
+    resetForm();
   };
+
+  const isSubmitDisabled = !requiredFields.every(field => field);
 
   return (
     <form
@@ -96,7 +102,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!requiredFields.every(field => field)}
+            disabled={isSubmitDisabled}
           >
             Add
           </button>

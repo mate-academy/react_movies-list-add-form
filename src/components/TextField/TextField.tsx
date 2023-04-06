@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 
 type Props = {
   name: string,
@@ -24,7 +24,7 @@ export const TextField: React.FC<Props> = ({
 }) => {
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
   const [touched, setToched] = useState(false);
-  const hasValidationError = useMemo(() => validation(value), [value])
+  const hasValidationError = validation(value)
     && touched;
   const hasError = touched && required && !value;
 
