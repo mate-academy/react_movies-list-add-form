@@ -16,6 +16,7 @@ export const MovieCard: React.FC<Props> = ({ movie }) => (
         />
       </figure>
     </div>
+
     <div className="card-content">
       <div className="media">
         <div className="media-left">
@@ -26,15 +27,18 @@ export const MovieCard: React.FC<Props> = ({ movie }) => (
             />
           </figure>
         </div>
+
         <div className="media-content">
           <p className="title is-8">{movie.title}</p>
         </div>
       </div>
 
       <div className="content">
-        {movie.description}
-        <br />
-        <a href={movie.imdbUrl}>IMDB</a>
+        <p className="description">
+          {movie.description}
+        </p>
+
+        <a className="link" href={movie.imdbUrl}>Go to IMDB</a>
       </div>
     </div>
   </div>

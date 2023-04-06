@@ -1,0 +1,40 @@
+@import "../../styles/variables/colors";
+
+.field {
+  .label {
+    display: block;
+    margin-bottom: 4px;
+
+    font-size: 18px;
+    font-weight: 500;
+
+    color: $text-color;
+  }
+
+  .control {
+    position: relative;
+
+    input {
+      padding: 12px 16px;
+      font-size: 18px;
+      font-weight: 500;
+
+      border: 1px solid $text-color;
+      border-radius: 10px;
+
+      color: $secondary-color;
+      outline: none;
+      transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+
+      &:hover {
+        border-color: $main-color;
+        box-shadow: 0 10px 4px rgba(0, 0, 0, 0.3);
+      }
+
+      &:focus {
+        border-color: $accent-color;
+        box-shadow: 0 10px 6px rgba(30, 136, 229, 0.4);
+      }
+    }
+  }
+}
