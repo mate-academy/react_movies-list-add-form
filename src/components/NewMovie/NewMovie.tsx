@@ -14,7 +14,16 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
   const [imdbId, setImdbId] = useState('');
   const [description, setDescription] = useState('');
 
-  const isSubmitDisabled = !(title && imgUrl && imdbUrl && imdbId);
+  const isSubmitDisabled = !(title && imgUrl && imdbUrl && imdbId).trim();
+
+  const handleReset = () => {
+    setTitle('');
+    setImgUrl('');
+    setImdbUrl('');
+    setImdbId('');
+    setCount(count + 1);
+    setDescription('');
+  };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -28,12 +37,7 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
 
     onAdd(newMovie);
 
-    setTitle('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
-    setCount(count + 1);
-    setDescription('');
+    handleReset();
   };
 
   return (
