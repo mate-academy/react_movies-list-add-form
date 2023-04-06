@@ -23,15 +23,12 @@ export const TextField: React.FC<Props> = ({
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
   const [touched, setToched] = useState(false);
-  const hasError = touched && required && !value;
+  const hasError = touched && required && !value.trim();
 
   const isUrlInput = ['imgUrl', 'imdbUrl'].includes(name);
   const isValid = isUrlInput
     ? validateUrl(value)
     : false;
-
-  const isTitle = name === 'title';
-  const isTitleValid = Boolean(value.trim().length);
 
   return (
     <div className="field">
@@ -61,12 +58,6 @@ export const TextField: React.FC<Props> = ({
       {touched && !isValid && isUrlInput && (
         <p className="help is-danger">
           Invalid URL
-        </p>
-      )}
-
-      {touched && !isTitleValid && isTitle && (
-        <p className="help is-danger">
-          Invalid title name
         </p>
       )}
     </div>
