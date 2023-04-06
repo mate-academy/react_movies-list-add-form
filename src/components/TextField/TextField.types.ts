@@ -4,5 +4,5 @@ export type Props = {
   label?: string,
   required?: boolean,
   onChange?: (newValue: string) => void,
-  isValidUrl?: boolean,
+  isValidValue?: boolean,
 };

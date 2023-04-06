@@ -9,13 +9,13 @@ export const TextField: React.FC<Props> = ({
   label = name,
   required = false,
   onChange = () => {},
-  isValidUrl = true,
+  isValidValue = true,
 }) => {
   const [touched, setTouched] = useState(false);
 
   const id = `${name}-${getRandomDigits()}`;
   const hasError = touched && required && !value;
-  const hasUrlError = touched && !isValidUrl;
+  const hasValueError = touched && !isValidValue;
 
   return (
     <div className="field">
@@ -42,7 +42,7 @@ export const TextField: React.FC<Props> = ({
         <p className="help is-danger">{`${label} is required`}</p>
       )}
 
-      {hasUrlError && (
+      {hasValueError && (
         <p className="help is-danger">Enter valid url</p>
       )}
     </div>

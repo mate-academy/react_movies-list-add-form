@@ -1,7 +1,7 @@
 import React, { FC, useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
-import { isValidUrl } from '../../helpers/isValidUrl';
+import { checkIsValidUrl } from '../../helpers/checkIsValidUrl';
 import { Props } from './NewMovie.types';
 
 export const NewMovie: FC<Props> = ({ onAdd }) => {
@@ -20,36 +20,39 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
     setImdbIdValue('');
   };
 
-  const isImdbUrlValid = isValidUrl(imgUrlValue);
-  const isImgUrlValid = isValidUrl(imgUrlValue);
+  const isImdbUrlValid = checkIsValidUrl(imgUrlValue);
+  const isImgUrlValid = checkIsValidUrl(imgUrlValue);
 
-  const isSubmitAllowed
-    = titleValue && imgUrlValue && imdbUrlValue
-    && imdbIdValue && isImdbUrlValid && isImgUrlValid;
+  const isSubmitAllowed = isImdbUrlValid && isImgUrlValid
+  && [titleValue, imgUrlValue, imdbUrlValue, imdbIdValue].every(
+    field => field.trim() !== '',
+  );
 
-  const onFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (isSubmitAllowed) {
-      const newMovie: Movie = {
-        title: titleValue,
-        description: descriptionValue,
-        imgUrl: imgUrlValue,
-        imdbUrl: imdbUrlValue,
-        imdbId: imdbIdValue,
-      };
-
-      onAdd(newMovie);
-      setCount(prevCount => prevCount + 1);
-      resetAll();
+    if (!isSubmitAllowed) {
+      return;
     }
+
+    const newMovie: Movie = {
+      title: titleValue,
+      description: descriptionValue,
+      imgUrl: imgUrlValue,
+      imdbUrl: imdbUrlValue,
+      imdbId: imdbIdValue,
+    };
+
+    onAdd(newMovie);
+    setCount(prevCount => prevCount + 1);
+    resetAll();
   };
 
   return (
     <form
       className="NewMovie"
       key={count}
-      onSubmit={(event) => onFormSubmit(event)}
+      onSubmit={handleFormSubmit}
     >
       <h2 className="title">Add a movie</h2>
 
@@ -57,9 +60,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={titleValue}
-        onChange={(newTitleValue) => {
-          setTitleValue(newTitleValue);
-        }}
+        onChange={setTitleValue}
         required
       />
 
@@ -67,19 +68,15 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={descriptionValue}
-        onChange={(newDescriptionValue) => {
-          setDescriptionValue(newDescriptionValue);
-        }}
+        onChange={setDescriptionValue}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={imgUrlValue}
-        onChange={(newImgUrlValue) => {
-          setImgUrlValue(newImgUrlValue);
-        }}
-        isValidUrl={isImgUrlValid}
+        onChange={setImgUrlValue}
+        isValidValue={isImgUrlValid}
         required
       />
 
@@ -87,10 +84,8 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrlValue}
-        onChange={(newImdbUrlValue) => {
-          setImdbUrlValue(newImdbUrlValue);
-        }}
-        isValidUrl={isImdbUrlValid}
+        onChange={setImdbUrlValue}
+        isValidValue={isImdbUrlValid}
         required
       />
 
@@ -98,9 +93,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbIdValue}
-        onChange={(newImdbIdValue) => {
-          setImdbIdValue(newImdbIdValue);
-        }}
+        onChange={setImdbIdValue}
         required
       />
 
