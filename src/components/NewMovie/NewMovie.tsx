@@ -43,7 +43,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     imgUrl,
     imdbUrl,
     imdbId,
-  ].every(field => field.trim().length > 0) && imgUrl && imdbUrl && imdbId;
+  ].every(field => field.trim().length > 0);
 
   return (
     <form
@@ -71,7 +71,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={imgUrl.trim()}
+        value={imgUrl}
         onChange={setImgUrl}
         required
       />
@@ -79,7 +79,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={imdbUrl.trim()}
+        value={imdbUrl}
         onChange={setImdbUrl}
         required
       />
@@ -87,7 +87,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imdbId.trim()}
+        value={imdbId}
         onChange={setImdbId}
         required
       />
