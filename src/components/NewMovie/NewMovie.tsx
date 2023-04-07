@@ -22,8 +22,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setImdbId('');
   };
 
+  const isSubmitDisabled = title.trim() && imgUrl && imdbUrl && imdbId;
+
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
+
+    if (!isSubmitDisabled) {
+      return;
+    }
 
     const newMovie = {
       title,
@@ -37,13 +43,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setCount(count + 1);
     clearForm();
   };
-
-  const isSubmitDisabled = [
-    title,
-    imgUrl,
-    imdbUrl,
-    imdbId,
-  ].every(field => field.trim().length > 0);
 
   return (
     <form
