@@ -14,33 +14,47 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const mustFilledFields = title && imgUrl && imdbUrl && imdbId;
+  const resetAll = () => {
+    setTitle('');
+    setDescription('');
+    setImgUrl('');
+    setImdbUrl('');
+    setImdbId('');
+  };
+
+  const areAllRequiredFieldsFilled = (
+    title
+    && imgUrl
+    && imdbUrl
+    && imdbId
+    && [title, imgUrl, imdbUrl, imdbId].every(
+      field => field.trim() !== '',
+    ));
+
+  const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    if (!areAllRequiredFieldsFilled) {
+      return;
+    }
+
+    onAdd({
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    });
+
+    setCount(prevCount => prevCount + 1);
+    resetAll();
+  };
 
   return (
     <form
       className="NewMovie"
       key={count}
-      onSubmit={(event) => {
-        event.preventDefault();
-
-        if (mustFilledFields) {
-          onAdd({
-            title,
-            description,
-            imgUrl,
-            imdbUrl,
-            imdbId,
-          });
-
-          setCount((prevState) => (prevState + 1));
-
-          setTitle('');
-          setDescription('');
-          setImgUrl('');
-          setImdbId('');
-          setImdbUrl('');
-        }
-      }}
+      onSubmit={handleFormSubmit}
     >
       <h2 className="title">Add a movie</h2>
 
@@ -89,7 +103,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!mustFilledFields}
+            disabled={!areAllRequiredFieldsFilled}
           >
             Add
           </button>
