@@ -45,16 +45,13 @@ export const NewMovie: React.FC<Props> = ({
 
     onAdd(movie);
 
-    setCount((prevCount) => {
-      return prevCount + 1;
-    });
+    setCount((prevCount) => prevCount + 1);
 
     resetAllFields();
   };
 
   const areAllRequirmentsMet
     = title !== ''
-    && title !== ''
     && isUrlValid(imgUrl)
     && isUrlValid(imdbUrl)
     && imdbId !== '';
