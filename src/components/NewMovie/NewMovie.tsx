@@ -6,22 +6,35 @@ type NewMovieProps = {
   onAdd: (movie: Movie) => void;
 };
 
+enum MovieField {
+  Title = 'title',
+  Description = 'description',
+  ImgUrl = 'imgUrl',
+  ImdbUrl = 'imdbUrl',
+  ImdbId = 'imdbId',
+}
+
+const emptyMovie: Movie = {
+  title: '',
+  description: '',
+  imgUrl: '',
+  imdbUrl: '',
+  imdbId: '',
+};
+
 // eslint-disable-next-line max-len
 const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
 
 export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
-  const [formFields, setFormFields] = useState<Movie>({
-    title: '',
-    description: '',
-    imgUrl: '',
-    imdbUrl: '',
-    imdbId: '',
-  });
-
+  const [{
+    title, description, imgUrl, imdbUrl, imdbId,
+  }, setFormFields] = useState<Movie>(emptyMovie);
   const [isFormValid, setIsFormValid] = useState<boolean>(false);
   const isURLValid = (url: string): boolean => pattern.test(url);
-  const handleChange = (name: string, newValue: string) => {
-    const updatedFormFields = { ...formFields, [name]: newValue };
+  const handleChange = (name: MovieField, newValue: string) => {
+    const updatedFormFields = {
+      title, description, imgUrl, imdbUrl, imdbId, [name]: newValue,
+    };
     const isTitleValid = updatedFormFields.title.length > 0;
     const isImgUrlValid = isURLValid(updatedFormFields.imgUrl);
     const isImdbUrlValid = isURLValid(updatedFormFields.imdbUrl);
@@ -35,59 +48,49 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    onAdd(formFields);
-    setFormFields({
-      title: '',
-      description: '',
-      imgUrl: '',
-      imdbUrl: '',
-      imdbId: '',
+    onAdd({
+      title, description, imgUrl, imdbUrl, imdbId,
     });
+    setFormFields(emptyMovie);
   };
 
   return (
     <form className="NewMovie" onSubmit={handleSubmit}>
       <h2 className="title">Add a movie</h2>
-
       <TextField
-        name="title"
+        name={MovieField.Title}
         label="Title"
-        value={formFields.title}
-        onChange={(newValue) => handleChange('title', newValue)}
+        value={title}
+        onChange={(newValue) => handleChange(MovieField.Title, newValue)}
         required
       />
-
       <TextField
-        name="description"
+        name={MovieField.Description}
         label="Description"
-        value={formFields.description}
-        onChange={(newValue) => handleChange('description', newValue)}
+        value={description}
+        onChange={(newValue) => handleChange(MovieField.Description, newValue)}
       />
-
       <TextField
-        name="imgUrl"
+        name={MovieField.ImgUrl}
         label="Image URL"
-        value={formFields.imgUrl}
-        onChange={(newValue) => handleChange('imgUrl', newValue)}
+        value={imgUrl}
+        onChange={(newValue) => handleChange(MovieField.ImgUrl, newValue)}
         required
       />
-
       <TextField
-        name="imdbUrl"
+        name={MovieField.ImdbUrl}
         label="Imdb URL"
-        value={formFields.imdbUrl}
-        onChange={(newValue) => handleChange('imdbUrl', newValue)}
+        value={imdbUrl}
+        onChange={(newValue) => handleChange(MovieField.ImdbUrl, newValue)}
         required
       />
-
       <TextField
-        name="imdbId"
+        name={MovieField.ImdbId}
         label="Imdb ID"
-        value={formFields.imdbId}
-        onChange={(newValue) => handleChange('imdbId', newValue)}
+        value={imdbId}
+        onChange={(newValue) => handleChange(MovieField.ImdbId, newValue)}
         required
       />
-
       <div className="field is-grouped">
         <div className="control">
           <button
