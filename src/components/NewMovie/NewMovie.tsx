@@ -18,12 +18,12 @@ export const NewMovie: React.FC<Props> = (props) => {
   const [imgUrl, setImgUrl] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
-  const [imgUrlIsValid, setImgUrlIsValid] = useState(false);
-  const [imdbUrlIsValid, setImdbUrlIsValid] = useState(false);
+  const [isImgUrlValid, setIsImgUrlValid] = useState(false);
+  const [isImdbUrlValid, setIsImdbUrlValid] = useState(false);
 
   const isDisabled = !(
     title.trim() && imdbId.trim() && imdbUrl.trim()
-    && imgUrl.trim() && !imdbUrlIsValid && !imgUrlIsValid
+    && imgUrl.trim() && !isImdbUrlValid && !isImgUrlValid
   );
 
   function resetForm() {
@@ -62,9 +62,7 @@ export const NewMovie: React.FC<Props> = (props) => {
         name="title"
         label="Title"
         value={title}
-        onChange={(value) => {
-          setTitle(value);
-        }}
+        onChange={setTitle}
         required
       />
 
@@ -72,9 +70,7 @@ export const NewMovie: React.FC<Props> = (props) => {
         name="description"
         label="Description"
         value={description}
-        onChange={(value) => {
-          setDescription(value);
-        }}
+        onChange={setDescription}
       />
 
       <TextField
@@ -83,9 +79,9 @@ export const NewMovie: React.FC<Props> = (props) => {
         value={imgUrl}
         onChange={(value) => {
           setImgUrl(value);
-          setImgUrlIsValid(!pattern.test(value));
+          setIsImgUrlValid(!pattern.test(value));
         }}
-        isValid={imgUrlIsValid}
+        isValid={isImgUrlValid}
         required
       />
 
@@ -95,9 +91,9 @@ export const NewMovie: React.FC<Props> = (props) => {
         value={imdbUrl}
         onChange={(value) => {
           setImdbUrl(value);
-          setImdbUrlIsValid(!pattern.test(value));
+          setIsImdbUrlValid(!pattern.test(value));
         }}
-        isValid={imdbUrlIsValid}
+        isValid={isImdbUrlValid}
         required
       />
 
@@ -105,9 +101,7 @@ export const NewMovie: React.FC<Props> = (props) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={(value) => {
-          setImdbId(value);
-        }}
+        onChange={setImdbId}
         required
       />
 
