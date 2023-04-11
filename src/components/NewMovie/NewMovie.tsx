@@ -34,7 +34,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     const isEmpty: boolean[] = [];
 
     keys.filter(key => key !== 'description').forEach(key => (
-      !movie[key as keyof Movie]
+      !movie[key as keyof Movie].trim()
         ? isEmpty.push(true)
         : isEmpty.push(false)
     ));
@@ -47,6 +47,16 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
   const submit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    setMovie((state) => (
+      {
+        title: state.title.trim(),
+        description: state.description.trim(),
+        imgUrl: state.imgUrl.trim(),
+        imdbUrl: state.imdbUrl.trim(),
+        imdbId: state.imdbId.trim(),
+      }
+    ));
 
     if (!checkRequired() && isUrlValid) {
       onAdd(movie);
