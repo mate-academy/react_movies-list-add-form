@@ -43,7 +43,10 @@ export const NewMovie: React.FC<Props> = (props) => {
     clearFields();
   };
 
-  const isAddButtonActive = title.trim() && imgUrl && imdbUrl && imdbId;
+  const isAddButtonActive = title
+     && isValidUrl(imgUrl)
+       && isValidUrl(imdbUrl)
+         && imdbId;
 
   return (
     <form
