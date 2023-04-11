@@ -10,16 +10,16 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, increaseCount] = useState(0);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [image, setImage] = useState('');
-  const [logo, setLogo] = useState('');
-  const [link, setLink] = useState('');
+  const [imgUrl, setimgUrl] = useState('');
+  const [imdbUrl, setimdbUrl] = useState('');
+  const [imdbId, setimdbId] = useState('');
 
   const clearForm = () => {
     setTitle('');
     setDescription('');
-    setImage('');
-    setLogo('');
-    setLink('');
+    setimgUrl('');
+    setimdbUrl('');
+    setimdbId('');
   };
 
   const handlerOnSubmit = (event: React.FormEvent) => {
@@ -27,19 +27,19 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     onAdd({
       title,
       description,
-      imgUrl: image,
-      imdbUrl: logo,
-      imdbId: link,
+      imgUrl,
+      imdbUrl,
+      imdbId,
     });
     clearForm();
     increaseCount(prevCount => prevCount + 1);
   };
 
-  const isButton = (
+  const isAddButtonEnabled = (
     title.trim()
-    && image.trim()
-    && logo.trim()
-    && link.trim()
+    && imgUrl.trim()
+    && imdbUrl.trim()
+    && imdbId.trim()
   );
 
   return (
@@ -68,24 +68,24 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={image}
-        onChange={setImage}
+        value={imgUrl}
+        onChange={setimgUrl}
         required
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={logo}
-        onChange={setLogo}
+        value={imdbUrl}
+        onChange={setimdbUrl}
         required
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={link}
-        onChange={setLink}
+        value={imdbId}
+        onChange={setimdbId}
         required
       />
 
@@ -95,7 +95,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!isButton}
+            disabled={!isAddButtonEnabled}
           >
             Add
           </button>
