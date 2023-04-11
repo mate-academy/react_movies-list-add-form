@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { isValidUrl } from '../../helpers';
 import { Movie } from '../../types/Movie';
 import { TextField } from '../TextField';
 
@@ -7,8 +8,6 @@ type Props = {
 };
 
 export const NewMovie: React.FC<Props> = (props) => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
   const { onAdd } = props;
 
   const [count, setCount] = useState(0);
@@ -27,12 +26,7 @@ export const NewMovie: React.FC<Props> = (props) => {
     imdbId,
   };
 
-  const handleSubmitForm = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-    onAdd(createdNewMovie);
-    setCount(prev => (prev + 1));
-
+  const clearFields = () => {
     setTitle('');
     setDescription('');
     setImgUrl('');
@@ -40,7 +34,16 @@ export const NewMovie: React.FC<Props> = (props) => {
     setImdbId('');
   };
 
-  const isButtonActive = title && imgUrl && imdbUrl && imdbId;
+  const handleSubmitForm = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    onAdd(createdNewMovie);
+    setCount(prev => (prev + 1));
+
+    clearFields();
+  };
+
+  const isAddButtonActive = title.trim() && imgUrl && imdbUrl && imdbId;
 
   return (
     <form
@@ -68,6 +71,7 @@ export const NewMovie: React.FC<Props> = (props) => {
       <TextField
         name="imgUrl"
         label="Image URL"
+        isValid={isValidUrl(imgUrl)}
         value={imgUrl}
         onChange={setImgUrl}
         required
@@ -76,6 +80,7 @@ export const NewMovie: React.FC<Props> = (props) => {
       <TextField
         name="imdbUrl"
         label="Imdb URL"
+        isValid={isValidUrl(imdbUrl)}
         value={imdbUrl}
         onChange={setImdbUrl}
         required
@@ -95,7 +100,7 @@ export const NewMovie: React.FC<Props> = (props) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!isButtonActive}
+            disabled={!isAddButtonActive}
           >
             Add
           </button>
