@@ -4,13 +4,10 @@ import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
 type Props = {
-  // onAdd: (event: React.ChangeEvent<HTMLInputElement>) => void,
   onAdd: (newMovie: Movie) => void,
 };
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
 
   const [newMovie, setNewMovie] = useState({
@@ -24,16 +21,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNewMovie({
       ...newMovie,
-      [event.target.name]: event.target.value,
+      [event.target.name]: event.target.value.replace(/[^a-z]/g, ''),
     });
-    console.log(event.target.value, event.target.name);
   };
 
   const handleSubmit = (event: { preventDefault: () => void; }) => {
     event.preventDefault();
-    const movie = newMovie;
 
-    onAdd(movie);
+    onAdd(newMovie);
 
     setCount(count + 1);
   };
