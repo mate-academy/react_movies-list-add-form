@@ -31,19 +31,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
   const checkRequired = (): boolean => {
     const keys = Object.keys(movie);
-    const isEmpty: boolean[] = [];
 
-    keys.filter(key => key !== 'description').forEach(key => (
-      !movie[key as keyof Movie].trim()
-        ? isEmpty.push(true)
-        : isEmpty.push(false)
-    ));
-
-    return isEmpty.some(el => el === true);
+    return keys.filter(key => key !== 'description')
+      .some(key => movie[key as keyof Movie].trim() === '');
   };
-
-  const isUrlValid = validationUrl(movie.imdbUrl)
-  && validationUrl(movie.imgUrl);
 
   const submit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -57,6 +48,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         imdbId: state.imdbId.trim(),
       }
     ));
+
+    const isUrlValid = validationUrl(movie.imdbUrl)
+    && validationUrl(movie.imgUrl);
 
     if (!checkRequired() && isUrlValid) {
       onAdd(movie);
@@ -128,7 +122,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={checkRequired() || !isUrlValid}
+            disabled={checkRequired()
+              || (!validationUrl(movie.imdbUrl)
+              || !validationUrl(movie.imgUrl))}
           >
             Add
           </button>
