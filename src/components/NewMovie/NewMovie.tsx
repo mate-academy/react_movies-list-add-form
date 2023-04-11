@@ -16,14 +16,20 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const isButtonDisabled = !(title && imgUrl && imdbUrl && imdbId);
+  const trimmedTitle = title.trim();
+  const trimmedImgUrl = imgUrl.trim();
+  const trimmedImdbUrl = imdbUrl.trim();
+  const trimmedImdbId = imdbId.trim();
+
+  const isButtonDisabled = !(trimmedTitle && trimmedImgUrl
+    && trimmedImdbUrl && trimmedImdbId);
 
   const newMovie = {
-    title,
+    title: trimmedTitle,
     description,
-    imgUrl,
-    imdbUrl,
-    imdbId,
+    imgUrl: trimmedImgUrl,
+    imdbUrl: trimmedImdbUrl,
+    imdbId: trimmedImdbId,
   };
 
   const handleSubmit = (event: FormEvent) => {

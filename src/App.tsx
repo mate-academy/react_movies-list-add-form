@@ -10,7 +10,8 @@ export const App: React.FC = () => {
 
   const addMovie = (movie: Movie) => {
     setMovies((curMovies) => ([
-      ...curMovies, movie,
+      ...curMovies,
+      movie,
     ]));
   };
 
