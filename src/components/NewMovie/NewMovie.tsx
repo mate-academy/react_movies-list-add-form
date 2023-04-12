@@ -1,29 +1,32 @@
 import React, { useState } from 'react';
 import { TextField } from '../TextField';
-import { Movie } from '../../types/Movie';
+import { Movie, ObjectKeys } from '../../types/Movie';
 
 type Props = {
   onAdd: (movie: Movie) => void,
 };
 
-const validationUrl = (value: string) => {
+const validationUrl = (value: string | null) => {
   // eslint-disable-next-line max-len
   const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
 
-  return pattern.test(value);
+  if (value !== null) {
+    return pattern.test(value);
+  }
+
+  return false;
 };
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
-  const [count, setCount] = useState(0);
-  const [movie, setMovie] = useState({
-    title: '',
+  const [movie, setMovie] = useState<ObjectKeys>({
+    title: null,
     description: '',
-    imgUrl: '',
-    imdbUrl: '',
-    imdbId: '',
+    imgUrl: null,
+    imdbUrl: null,
+    imdbId: null,
   });
+
+  const [isSubmited, setIsSubmited] = useState(false);
 
   const getNewMovie = (name:string, newValue: string) => {
     setMovie(state => ({ ...state, [name]: newValue }));
@@ -32,20 +35,19 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const checkRequired = (): boolean => {
     const keys = Object.keys(movie);
 
-    return keys.filter(key => key !== 'description')
-      .some(key => movie[key as keyof Movie].trim() === '');
+    return keys.filter((key) => key !== 'description')
+      .some(key => movie[key]?.trim() === '' || movie[key] === null);
   };
 
   const submit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
     setMovie((state) => (
       {
-        title: state.title.trim(),
+        title: state.title !== null ? state.title.trim() : null,
         description: state.description.trim(),
-        imgUrl: state.imgUrl.trim(),
-        imdbUrl: state.imdbUrl.trim(),
-        imdbId: state.imdbId.trim(),
+        imgUrl: state.imgUrl !== null ? state.imgUrl.trim() : null,
+        imdbUrl: state.imdbUrl !== null ? state.imdbUrl.trim() : null,
+        imdbId: state.imdbId !== null ? state.imdbId.trim() : null,
       }
     ));
 
@@ -55,22 +57,27 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     if (!checkRequired() && isUrlValid) {
       onAdd(movie);
 
-      setMovie({
-        title: '',
-        description: '',
-        imgUrl: '',
-        imdbUrl: '',
-        imdbId: '',
-      });
-
-      setCount(state => state + 1);
+      setMovie(
+        {
+          title: null,
+          description: '',
+          imgUrl: null,
+          imdbUrl: null,
+          imdbId: null,
+        },
+      );
     }
+
+    setIsSubmited(true);
   };
+
+  const isDisable = checkRequired()
+    || (!validationUrl(movie.imdbUrl)
+    || !validationUrl(movie.imgUrl));
 
   return (
     <form
       className="NewMovie"
-      key={count}
       onSubmit={submit}
     >
       <h2 className="title">Add a movie</h2>
@@ -80,6 +87,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Title"
         value={movie.title}
         onChange={getNewMovie}
+        isSubmited={isSubmited}
         required
       />
 
@@ -88,6 +96,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Description"
         value={movie.description}
         onChange={getNewMovie}
+        isSubmited={isSubmited}
       />
 
       <TextField
@@ -96,6 +105,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={movie.imgUrl}
         onChange={getNewMovie}
         onValid={validationUrl}
+        isSubmited={isSubmited}
         required
       />
 
@@ -105,6 +115,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={movie.imdbUrl}
         onChange={getNewMovie}
         onValid={validationUrl}
+        isSubmited={isSubmited}
         required
       />
 
@@ -113,6 +124,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Imdb ID"
         value={movie.imdbId}
         onChange={getNewMovie}
+        isSubmited={isSubmited}
         required
       />
 
@@ -122,9 +134,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={checkRequired()
-              || (!validationUrl(movie.imdbUrl)
-              || !validationUrl(movie.imgUrl))}
+            disabled={isDisable}
           >
             Add
           </button>

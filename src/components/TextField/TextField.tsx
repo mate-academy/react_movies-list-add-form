@@ -3,11 +3,12 @@ import React, { useState } from 'react';
 
 type Props = {
   name: string,
-  value: string,
+  value: string | null,
   label?: string,
   required?: boolean,
+  isSubmited: boolean,
   onChange?: (name: string, newValue: string) => void,
-  onValid?: (value: string) => boolean,
+  onValid?: (value: string | null) => boolean,
 };
 
 function getRandomDigits() {
@@ -19,16 +20,16 @@ export const TextField: React.FC<Props> = ({
   value,
   label = name,
   required = false,
+  isSubmited,
   onChange = () => {},
   onValid = () => true,
 }) => {
-  // generage a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
-  // To show errors only if the field was touched (onBlur)
   const [touched, setToched] = useState(false);
-  const hasError = touched && required && !value.trim();
-  const hasValidError = !onValid(value) && touched && value.trim();
+
+  const hasError = touched && required && !value?.trim() && !isSubmited;
+  const hasValidError = !onValid(value) && touched && value?.trim();
 
   return (
     <div className="field">
@@ -45,9 +46,11 @@ export const TextField: React.FC<Props> = ({
           })}
           type="text"
           placeholder={`Enter ${label}`}
-          value={value}
+          value={value !== null ? value : ''}
           onChange={event => onChange(name, event.target.value)}
-          onBlur={() => setToched(true)}
+          onBlur={() => (
+            setToched(true)
+          )}
         />
       </div>
 
