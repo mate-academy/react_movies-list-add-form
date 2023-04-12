@@ -23,11 +23,10 @@ export const NewMovie = ({ onAdd }: Props) => {
     imdbUrl: '',
     imdbId: '',
   });
-
-  const checkForm = (formData.title
+  const checkForm = (formData.title.trim().length !== 0
     && formData.imgUrl
     && formData.imdbUrl
-    && formData.imdbId
+    && formData.imdbId.trim().length !== 0
     && isUrlValid(formData.imgUrl)
     && isUrlValid(formData.imdbUrl)
   );
@@ -57,13 +56,22 @@ export const NewMovie = ({ onAdd }: Props) => {
     resetForm();
   };
 
-  const handleChange = ({ target }: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = target;
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
 
-    setFormData((prevState: Movie) => ({
-      ...prevState,
-      [name]: value,
-    }));
+    const isSingleWord = /^\S+$/.test(value);
+
+    if (isSingleWord) {
+      setFormData((prevState) => ({
+        ...prevState,
+        [name]: value.trim(),
+      }));
+    } else {
+      setFormData((prevState) => ({
+        ...prevState,
+        [name]: value,
+      }));
+    }
   };
 
   return (
