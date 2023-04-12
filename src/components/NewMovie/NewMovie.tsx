@@ -25,12 +25,20 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     });
   };
 
-  const handleSubmit = (event: { preventDefault: () => void; }) => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     onAdd(newMovie);
 
     setCount(count + 1);
+
+    setNewMovie({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
   };
 
   return (
