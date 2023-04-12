@@ -11,7 +11,7 @@ export const MovieCard: React.FC<Props> = ({ movie }) => (
     <div className="card-image">
       <figure className="image is-4by3">
         <img
-          src={movie.imgUrl}
+          src={movie.imgUrl !== null ? movie.imgUrl : ''}
           alt="Film logo"
         />
       </figure>
@@ -34,7 +34,13 @@ export const MovieCard: React.FC<Props> = ({ movie }) => (
       <div className="content">
         {movie.description}
         <br />
-        <a href={movie.imdbUrl}>IMDB</a>
+        <a
+          href={movie.imdbUrl !== null ? movie.imdbUrl : ''}
+          target="_blank"
+          rel="noreferrer"
+        >
+          IMDB
+        </a>
       </div>
     </div>
   </div>

@@ -1,7 +1,11 @@
 export interface Movie {
-  title: string;
+  title: string | null;
   description: string;
-  imgUrl: string;
-  imdbUrl: string;
-  imdbId: string;
+  imgUrl: string | null;
+  imdbUrl: string | null;
+  imdbId: string | null;
+}
+
+export interface ObjectKeys extends Movie {
+  [key: string]: string | null;
 }
