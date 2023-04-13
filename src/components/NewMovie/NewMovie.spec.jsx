@@ -60,12 +60,12 @@ const page = {
 };
 
 describe('NewMovie', () => {
-  let onAdd;
+  let handleAddNewMovie;
 
   beforeEach(() => {
-    onAdd = cy.stub();
+    handleAddNewMovie = cy.stub();
 
-    mount(<NewMovie onAdd={onAdd} />);
+    mount(<NewMovie handleAddNewMovie={handleAddNewMovie} />);
   });
 
   it('should have empty fields by default', () => {
@@ -250,7 +250,7 @@ describe('NewMovie', () => {
     page.assertNoErrors();
   });
 
-  it('should call onAdd after a successful submission', () => {
+  it('should call handleAddNewMovie after a successful submission', () => {
     const movie = {
       title: 'The Umbrella Academy',
       description: 'A family of former child heroes, now grown apart, must reunite to continue to protect the world.',
@@ -263,12 +263,12 @@ describe('NewMovie', () => {
 
     page.submitForm()
       .then(() => {
-        expect(onAdd)
+        expect(handleAddNewMovie)
           .to.be.calledWith(movie);
       });
   });
 
-  it('should call onAdd if description is empty', () => {
+  it('should call handleAddNewMovie if description is empty', () => {
     const movie = {
       title: 'The Umbrella Academy',
       description: '',
@@ -281,12 +281,12 @@ describe('NewMovie', () => {
 
     page.submitForm()
       .then(() => {
-        expect(onAdd)
+        expect(handleAddNewMovie)
           .to.be.calledWith(movie);
       });
   });
 
-  it('should not call onAdd if title is empty', () => {
+  it('should not call handleAddNewMovie if title is empty', () => {
     const movie = {
       title: '',
       description: 'A family of former child heroes, now grown apart, must reunite to continue to protect the world.',
@@ -299,12 +299,12 @@ describe('NewMovie', () => {
 
     page.submitForm()
       .then(() => {
-        expect(onAdd)
+        expect(handleAddNewMovie)
           .not.to.be.called;
       });
   });
 
-  it('should not call onAdd if imgUrl is empty', () => {
+  it('should not call handleAddNewMovie if imgUrl is empty', () => {
     const movie = {
       title: 'The Umbrella Academy',
       description: 'A family of former child heroes, now grown apart, must reunite to continue to protect the world.',
@@ -317,12 +317,12 @@ describe('NewMovie', () => {
 
     page.submitForm()
       .then(() => {
-        expect(onAdd)
+        expect(handleAddNewMovie)
           .not.to.be.called;
       });
   });
 
-  it('should not call onAdd if imdbUrl is empty', () => {
+  it('should not call handleAddNewMovie if imdbUrl is empty', () => {
     const movie = {
       title: 'The Umbrella Academy',
       description: 'A family of former child heroes, now grown apart, must reunite to continue to protect the world.',
@@ -335,12 +335,12 @@ describe('NewMovie', () => {
 
     page.submitForm()
       .then(() => {
-        expect(onAdd)
+        expect(handleAddNewMovie)
           .not.to.be.called;
       });
   });
 
-  it('should not call onAdd if imdbId is empty', () => {
+  it('should not call handleAddNewMovie if imdbId is empty', () => {
     const movie = {
       title: 'The Umbrella Academy',
       description: 'A family of former child heroes, now grown apart, must reunite to continue to protect the world.',
@@ -353,7 +353,7 @@ describe('NewMovie', () => {
 
     page.submitForm()
       .then(() => {
-        expect(onAdd)
+        expect(handleAddNewMovie)
           .not.to.be.called;
       });
   });

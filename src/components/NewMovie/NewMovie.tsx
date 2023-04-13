@@ -3,10 +3,10 @@ import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
 interface Props {
-  onAdd: (movie: Movie) => void,
+  handleAddNewMovie: (movie: Movie) => void,
 }
 
-export const NewMovie: React.FC<Props> = ({ onAdd }) => {
+export const NewMovie: React.FC<Props> = ({ handleAddNewMovie }) => {
   const [count, setCount] = useState(0);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -24,7 +24,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       imdbId,
     };
 
-    onAdd(newMovie);
+    handleAddNewMovie(newMovie);
 
     setCount(state => state + 1);
     setTitle('');
@@ -34,7 +34,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setImdbId('');
   };
 
-  const isButton = !title || !description || !imgUrl || !imdbUrl || !imdbId;
+  const isButtonAvailable = !title.trim() || !description.trim()
+    || !imgUrl.trim() || !imdbUrl.trim() || !imdbId.trim();
 
   return (
     <form
@@ -57,7 +58,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Description"
         value={description}
         onChange={setDescription}
-        required
       />
 
       <TextField
@@ -90,7 +90,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={isButton}
+            disabled={isButtonAvailable}
           >
             Add
           </button>
