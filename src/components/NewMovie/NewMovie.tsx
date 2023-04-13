@@ -1,5 +1,5 @@
 import { useState, FormEvent } from 'react';
-import { TextField } from '../TextField';
+import { TextField, isFieldValid } from '../TextField';
 import { Movie } from '../../types/Movie';
 
 type NewMovieProps = {
@@ -20,24 +20,6 @@ const emptyMovie = Object.keys(formFields)
 export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
   const [formValues, setFormValues] = useState<Movie>(emptyMovie);
   const [isFormValid, setIsFormValid] = useState<boolean>(false);
-
-  const isFieldValid = (field: keyof Movie, value: string): boolean => {
-    // eslint-disable-next-line max-len
-    const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
-
-    switch (field) {
-      case 'title':
-        return value.length > 0;
-      case 'imgUrl':
-        return pattern.test(value);
-      case 'imdbUrl':
-        return pattern.test(value);
-      case 'imdbId':
-        return value.length > 0;
-      default:
-        return true;
-    }
-  };
 
   const handleChange = (fieldName: keyof Movie, value: string) => {
     const updatedFormValues = { ...formValues, [fieldName]: value };
