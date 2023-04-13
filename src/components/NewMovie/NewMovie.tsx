@@ -10,14 +10,15 @@ type Props = {
 };
 
 export const NewMovie: React.FC<Props> = React.memo((props) => {
-  const [count, setCount] = useState(0);
-  const [movie, setMovie] = useState({
+  const movieInfo = {
     title: '',
     description: '',
     imgUrl: '',
     imdbUrl: '',
     imdbId: '',
-  });
+  };
+  const [count, setCount] = useState(0);
+  const [movie, setMovie] = useState(movieInfo);
   const [isImgUrlValid, setIsImgUrlValid] = useState(false);
   const [isImdbUrlValid, setIsImdbUrlValid] = useState(false);
 
@@ -34,21 +35,15 @@ export const NewMovie: React.FC<Props> = React.memo((props) => {
     && imgUrl.trim() && !isImdbUrlValid && !isImgUrlValid
   );
 
-  function handleSubmit(e: React.FormEvent) {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
     setCount(current => current + 1);
 
     props.onAdd(movie);
 
-    setMovie({
-      title: '',
-      description: '',
-      imdbId: '',
-      imdbUrl: '',
-      imgUrl: '',
-    });
-  }
+    setMovie(movieInfo);
+  };
 
   const handleTitleChange = (value: string) => {
     setMovie(state => ({ ...state, title: value }));
