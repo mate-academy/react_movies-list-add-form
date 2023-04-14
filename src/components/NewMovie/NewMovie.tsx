@@ -34,6 +34,9 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
     event.preventDefault();
     onAdd(formValues);
     setFormValues(emptyMovie);
+    const addButton = event.currentTarget.querySelector('[type="submit"]');
+
+    addButton?.setAttribute('disabled', 'true');
   };
 
   return (
