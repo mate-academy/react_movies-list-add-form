@@ -5,40 +5,39 @@ import { pattern } from '../../utils/variables';
 
 type Props = {
   onAdd: (movie: Movie) => void,
+  count: number,
 };
 
 export const NewMovie: React.FC<Props> = (
-  { onAdd },
+  { onAdd, count },
 ) => {
-  const [count, setCount] = useState(0);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [imgUrl, setImgUrl] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const increseCount = () => {
-    setCount(currentCount => currentCount + 1);
-  };
-
   const disabled = !title.trim()
     || !pattern.test(imgUrl)
     || !pattern.test(imdbUrl)
     || !imdbId.trim();
 
+  const addMovie = (event: React.ChangeEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    onAdd({
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    });
+  };
+
   return (
     <form
       className="NewMovie"
-      onSubmit={() => {
-        onAdd({
-          title,
-          description,
-          imgUrl,
-          imdbUrl,
-          imdbId,
-        });
-        increseCount();
-      }}
+      onSubmit={addMovie}
       key={count}
     >
       <h2 className="title">Add a movie</h2>

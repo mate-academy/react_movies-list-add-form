@@ -9,17 +9,13 @@ export const App: React.FC = () => {
   const [movies, setMovies] = useState(moviesFromServer);
   const [count, setCount] = useState(0);
 
-  const increseCount = () => {
-    setCount(currentCount => currentCount + 1);
-  };
-
   const addNewMovie = (newMovie: Movie) => {
     setMovies(currentMovies => ([
       ...currentMovies,
       newMovie,
     ]));
 
-    increseCount();
+    setCount(currentCount => currentCount + 1);
   };
 
   return (
@@ -28,7 +24,11 @@ export const App: React.FC = () => {
         <MoviesList movies={movies} />
       </div>
       <div className="sidebar">
-        <NewMovie onAdd={addNewMovie} key={count} />
+        <NewMovie
+          onAdd={addNewMovie}
+          key={count}
+          count={count}
+        />
       </div>
     </div>
   );
