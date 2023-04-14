@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import React, { useState } from 'react';
+import { pattern } from '../../utils/variables';
 
 type Props = {
   name: string,
@@ -20,12 +21,13 @@ export const TextField: React.FC<Props> = ({
   required = false,
   onChange = () => {},
 }) => {
-  // generage a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
-  // To show errors only if the field was touched (onBlur)
   const [touched, setToched] = useState(false);
-  const hasError = touched && required && !value;
+  const hasError = touched && required && !value.trim();
+
+  const isUrlInput = name === 'imdbUrl' || name === 'imgUrl';
+  const wrongUrl = isUrlInput && touched && !pattern.test(value);
 
   return (
     <div className="field">
@@ -38,7 +40,7 @@ export const TextField: React.FC<Props> = ({
           id={id}
           data-cy={`movie-${name}`}
           className={classNames('input', {
-            'is-danger': hasError,
+            'is-danger': hasError || wrongUrl,
           })}
           type="text"
           placeholder={`Enter ${label}`}
@@ -48,9 +50,11 @@ export const TextField: React.FC<Props> = ({
         />
       </div>
 
-      {hasError && (
-        <p className="help is-danger">{`${label} is required`}</p>
-      )}
+      {hasError
+        ? <p className="help is-danger">{`${label} is required`}</p>
+        : wrongUrl && (
+          <p className="help is-danger">Please enter correct URL</p>
+        )}
     </div>
   );
 };
