@@ -1,5 +1,6 @@
 import classNames from 'classnames';
-import React, { useState } from 'react';
+// import React, { useState } from 'react';
+import { useState } from 'react';
 
 type Props = {
   name: string,
@@ -44,6 +45,8 @@ export const TextField: React.FC<Props> = ({
           placeholder={`Enter ${label}`}
           value={value}
           onChange={event => onChange(event.target.value)}
+          // receive onChange that is a function called getFieldValue
+          // and then getFieldValue receives event.target.value
           onBlur={() => setToched(true)}
         />
       </div>
