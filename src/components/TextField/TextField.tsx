@@ -26,7 +26,7 @@ export const TextField: React.FC<Props> = ({
   const [touched, setToched] = useState(false);
   const hasValidationError = validation(value)
     && touched;
-  const hasError = touched && required && !value;
+  const hasError = (touched && required && !value) || hasValidationError;
 
   return (
     <div className="field">
