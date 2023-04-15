@@ -7,8 +7,6 @@ type Props = {
 };
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -16,8 +14,17 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const hasMovie = title && imdbUrl && imgUrl && imdbId;
-  const isSubmited = hasMovie === '';
+  const validation = (url: string) => {
+    // eslint-disable-next-line max-len
+    const pattern = new RegExp(/^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/);
+
+    return pattern.test(url);
+  };
+
+  const hasMovie = title.trim().length !== 0
+    && validation(imdbUrl)
+    && validation(imgUrl)
+    && imdbId.trim().length !== 0;
 
   const reset = () => {
     setTitle('');
@@ -27,23 +34,13 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setImdbId('');
   };
 
-  const validation = (url: string) => {
-    // eslint-disable-next-line max-len
-    const pattern = new RegExp(/^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/);
-
-    return pattern.test(url);
-  };
-
   const submitNewMovie = (
     e: React.BaseSyntheticEvent<Event,
     EventTarget & HTMLFormElement, EventTarget>,
   ) => {
     e.preventDefault();
 
-    // validation(imgUrl);
-    // validation(imdbUrl);
-
-    if (hasMovie && validation(imgUrl) && validation(imdbUrl)) {
+    if (hasMovie) {
       const newFilm = {
         title,
         description,
@@ -58,26 +55,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     }
   };
 
-  const changeTitle = (str: string) => {
-    setTitle(str.trim());
-  };
-
-  const changeDES = (str: string) => {
-    setDescription(str.trim());
-  };
-
-  const changeImgUrl = (str: string) => {
-    setImgUrl(str.trim());
-  };
-
-  const changeImdbUrl = (str: string) => {
-    setImdbUrl(str.trim());
-  };
-
-  const changeImdbId = (str: string) => {
-    setImdbId(str.trim());
-  };
-
   return (
     <form
       className="NewMovie"
@@ -90,7 +67,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={title}
-        onChange={changeTitle}
+        onChange={setTitle}
         required
       />
 
@@ -98,14 +75,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={description}
-        onChange={changeDES}
+        onChange={setDescription}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={changeImgUrl}
+        onChange={setImgUrl}
         required
         isValidateUrl={() => validation(imgUrl)}
       />
@@ -114,7 +91,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={changeImdbUrl}
+        onChange={setImdbUrl}
         required
         isValidateUrl={() => validation(imdbUrl)}
       />
@@ -123,7 +100,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={changeImdbId}
+        onChange={setImdbId}
         required
       />
 
@@ -133,7 +110,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={isSubmited}
+            disabled={!hasMovie}
           >
             Add
           </button>
