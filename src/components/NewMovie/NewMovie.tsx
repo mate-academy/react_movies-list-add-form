@@ -3,10 +3,10 @@ import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
 type Props = {
-  onAdd: (newMovie: Movie) => void;
+  handleMovieAdd: (newMovie: Movie) => void;
 };
 
-export const NewMovie: React.FC<Props> = ({ onAdd }) => {
+export const NewMovie: React.FC<Props> = ({ handleMovieAdd }) => {
   const [count, setCount] = useState(0);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -14,16 +14,16 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const validation = (url: string) => {
+  const validateUrl = (url: string) => {
     // eslint-disable-next-line max-len
     const pattern = new RegExp(/^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/);
 
     return pattern.test(url);
   };
 
-  const hasMovie = title.trim().length !== 0
-    && validation(imdbUrl)
-    && validation(imgUrl)
+  const isMovieValid = title.trim().length !== 0
+    && validateUrl(imdbUrl)
+    && validateUrl(imgUrl)
     && imdbId.trim().length !== 0;
 
   const reset = () => {
@@ -35,12 +35,11 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   };
 
   const submitNewMovie = (
-    e: React.BaseSyntheticEvent<Event,
-    EventTarget & HTMLFormElement, EventTarget>,
+    e: React.FormEvent<HTMLFormElement>,
   ) => {
     e.preventDefault();
 
-    if (hasMovie) {
+    if (isMovieValid) {
       const newFilm = {
         title,
         description,
@@ -49,7 +48,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         imdbId,
       };
 
-      onAdd(newFilm);
+      handleMovieAdd(newFilm);
       setCount(prev => prev + 1);
       reset();
     }
@@ -84,7 +83,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={imgUrl}
         onChange={setImgUrl}
         required
-        isValidateUrl={() => validation(imgUrl)}
+        isValidateUrl={() => validateUrl(imgUrl)}
       />
 
       <TextField
@@ -93,7 +92,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={imdbUrl}
         onChange={setImdbUrl}
         required
-        isValidateUrl={() => validation(imdbUrl)}
+        isValidateUrl={() => validateUrl(imdbUrl)}
       />
 
       <TextField
@@ -110,7 +109,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!hasMovie}
+            disabled={!isMovieValid}
           >
             Add
           </button>
