@@ -7,34 +7,33 @@ type Props = {
 };
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
-  const [count, setCount] = useState(0);
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
+  const [movie, setMovie] = useState({
+    count: 0,
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  });
 
   const resetForm = () => {
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
+    setMovie({
+      ...movie,
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
   };
 
   const handleFormSubmit = (event: React.SyntheticEvent) => {
     event.preventDefault();
 
-    onAdd({
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    });
+    onAdd(movie);
 
     resetForm();
-    setCount(currentCount => currentCount + 1);
+    setMovie(prevState => ({ ...prevState, count: prevState.count + 1 }));
   };
 
   const checkValid = (str:string) => {
@@ -44,19 +43,19 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     return pattern.test(str);
   };
 
-  const isRequiredFieldsFilled = title.trim()
-    && imdbId.trim()
-    && imdbUrl.trim()
-    && imgUrl.trim();
+  const isRequiredFieldsFilled = movie.title.trim()
+    && movie.imdbId.trim()
+    && movie.imdbUrl.trim()
+    && movie.imgUrl.trim();
 
-  const isFieldsValid = checkValid(imgUrl) && checkValid(imdbUrl);
+  const isFieldsValid = checkValid(movie.imgUrl) && checkValid(movie.imdbUrl);
 
   const isAddButtonDisabled = !isRequiredFieldsFilled || !isFieldsValid;
 
   return (
     <form
       className="NewMovie"
-      key={count}
+      key={movie.count}
       onSubmit={handleFormSubmit}
     >
       <h2 className="title">Add a movie</h2>
@@ -64,39 +63,39 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value={title}
-        onChange={setTitle}
+        value={movie.title}
+        onChange={(value: string) => setMovie({ ...movie, title: value })}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value={description}
-        onChange={setDescription}
+        value={movie.description}
+        onChange={(value: string) => setMovie({ ...movie, description: value })}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={imgUrl}
-        onChange={setImgUrl}
+        value={movie.imgUrl}
+        onChange={(value: string) => setMovie({ ...movie, imgUrl: value })}
         required
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={imdbUrl}
-        onChange={setImdbUrl}
+        value={movie.imdbUrl}
+        onChange={(value: string) => setMovie({ ...movie, imdbUrl: value })}
         required
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imdbId}
-        onChange={setImdbId}
+        value={movie.imdbId}
+        onChange={(value: string) => setMovie({ ...movie, imdbId: value })}
         required
       />
 
