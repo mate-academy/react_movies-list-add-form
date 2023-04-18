@@ -8,6 +8,12 @@ import { Movie } from './types/Movie';
 export const App = () => {
   const [movies, setMovies] = useState(moviesFromServer);
 
+  const addMovieToArr = (movie: Movie) => {
+    setMovies(
+      (prevState) => [...prevState, movie],
+    );
+  };
+
   return (
     <div className="page">
       <div className="page-content">
@@ -15,11 +21,8 @@ export const App = () => {
       </div>
       <div className="sidebar">
         <NewMovie
-          onAdd={(movie: Movie) => setMovies(
-            (prevState) => [...prevState, movie],
-          )}
+          onAdd={addMovieToArr}
         />
-        {/* onAdd = propsName, we pass a function to it that sets a new state with all previous movies + a new one from a filled form */}
       </div>
     </div>
   );

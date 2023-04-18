@@ -5,9 +5,6 @@ import { TextField } from '../TextField';
 export type AddMovieFunction = (movie: Movie) => void;
 
 export const NewMovie = ({ onAdd }: { onAdd: AddMovieFunction }) => {
-  // onAdd is a function here that sets a new state being called in onSumbit handler
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
   const [newMovieObj, setNewMovieObj] = useState({
     title: '',
@@ -17,37 +14,17 @@ export const NewMovie = ({ onAdd }: { onAdd: AddMovieFunction }) => {
     imdbId: '',
   });
 
-  // now I need to form an object from all values in my form and wrap it in an obj
-
   const getFieldValue = (name: string) => (value: string) => {
-    // function returns another function
     setNewMovieObj((prevState) => ({
       ...prevState,
       [name]: value,
     }));
   };
 
-  // const getFieldValue2 = (name: string) => {
-  //   // name='title'
-  //   return function(value) {
-  //     setNewMovieObj((prevState) => ({
-  //       ...prevState,
-  //       [name]: value,
-  //     }));
-  //   };
-  // };
-
-  // const handleOnChange = (value) => {
-  //   setNewMovieObj((prevState) => ({
-  //     ...prevState,
-  //     [name]: value,
-  //   }));
-  // };
-
-  const isDisabled = !newMovieObj.imdbId
-          || !newMovieObj.imdbUrl
-          || !newMovieObj.imgUrl
-          || !newMovieObj.title;
+  const isDisabled = !newMovieObj.imdbId.trim()
+          || !newMovieObj.imdbUrl.trim()
+          || !newMovieObj.imgUrl.trim()
+          || !newMovieObj.title.trim();
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();

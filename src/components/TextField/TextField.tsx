@@ -1,5 +1,4 @@
 import classNames from 'classnames';
-// import React, { useState } from 'react';
 import { useState } from 'react';
 
 type Props = {
@@ -26,7 +25,7 @@ export const TextField: React.FC<Props> = ({
 
   // To show errors only if the field was touched (onBlur)
   const [touched, setToched] = useState(false);
-  const hasError = touched && required && !value;
+  const hasError = touched && required && (!value.trim());
 
   return (
     <div className="field">
@@ -45,8 +44,6 @@ export const TextField: React.FC<Props> = ({
           placeholder={`Enter ${label}`}
           value={value}
           onChange={event => onChange(event.target.value)}
-          // receive onChange that is a function called getFieldValue
-          // and then getFieldValue receives event.target.value
           onBlur={() => setToched(true)}
         />
       </div>
