@@ -32,6 +32,10 @@ export const NewMovie: React.FC<Props> = ({
     return urlString.match(pattern);
   };
 
+  const isValidTitle = (titleString: string) => {
+    return titleString.trim() !== '' && titleString.replace(/\s/g, '') !== '';
+  };
+
   const resetAllFields = () => {
     setTitle('');
     setImgUrl('');
@@ -51,7 +55,7 @@ export const NewMovie: React.FC<Props> = ({
   };
 
   const areAllRequirmentsMet
-    = title !== ''
+    = isValidTitle(title)
     && isUrlValid(imgUrl)
     && isUrlValid(imdbUrl)
     && imdbId !== '';
