@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
+import { urlTestRegExp } from '../../utils/constants';
 
 type Props = {
   onAdd: (movie: Movie) => void;
@@ -9,27 +10,15 @@ type Props = {
 export const NewMovie: React.FC<Props> = ({
   onAdd,
 }) => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
   const [title, setTitle] = useState('');
   const [imgUrl, setImgUrl] = useState('');
   const [description, setDescription] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
-  const movie = ({
-    title,
-    description,
-    imgUrl,
-    imdbUrl,
-    imdbId,
-  });
 
   const isUrlValid = (urlString: string) => {
-    // eslint-disable-next-line max-len
-    const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
-
-    return urlString.match(pattern);
+    return urlString.match(urlTestRegExp);
   };
 
   const isValidTitle = (titleString: string) => {
@@ -44,21 +33,37 @@ export const NewMovie: React.FC<Props> = ({
     setImdbId('');
   };
 
+  const areAllRequirmentsMet
+  = isValidTitle(title)
+  && isUrlValid(imgUrl)
+  && isUrlValid(imdbUrl)
+  && imdbId !== '';
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    onAdd(movie);
+    if (areAllRequirmentsMet) {
+      const movie = ({
+        title,
+        description,
+        imgUrl,
+        imdbUrl,
+        imdbId,
+      });
 
-    setCount((prevCount) => prevCount + 1);
+      onAdd(movie);
 
-    resetAllFields();
+      setCount((prevCount) => prevCount + 1);
+
+      resetAllFields();
+    } else {
+      throw new Error(
+        `Seems like somebody or something\n
+        trying to call this handleSubmit() function\n
+        with no respect to its pre-requirements...`,
+      );
+    }
   };
-
-  const areAllRequirmentsMet
-    = isValidTitle(title)
-    && isUrlValid(imgUrl)
-    && isUrlValid(imdbUrl)
-    && imdbId !== '';
 
   return (
     <form
