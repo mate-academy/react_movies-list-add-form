@@ -38,7 +38,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setCount(prevCount => prevCount + 1);
   };
 
-  const disabledSubmit = !title.trim() || !imgUrl.trim()
+  const isSubmitDisabled = !title.trim() || !imgUrl.trim()
     || !imdbUrl.trim() || !imdbId.trim();
 
   return (
@@ -94,7 +94,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={disabledSubmit}
+            disabled={isSubmitDisabled}
           >
             Add
           </button>

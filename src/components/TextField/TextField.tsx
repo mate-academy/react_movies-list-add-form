@@ -32,7 +32,7 @@ export const TextField: React.FC<Props> = ({
   const [touched, setToched] = useState(false);
   const hasError = touched && required && !value.trim();
 
-  const validLabels = ['imgUrl', 'imdUrl'].includes(name);
+  const validLabels = ['imgUrl', 'imdbUrl'].includes(name);
   const notValid = validLabels && touched && !validation(value.trim());
 
   return (
@@ -56,12 +56,10 @@ export const TextField: React.FC<Props> = ({
         />
       </div>
 
-      {hasError && (
-        <p className="help is-danger">{`${label} is required`}</p>
-      )}
-
-      {notValid && (
-        <p className="help is-danger">{`Invalid ${label}`}</p>
+      {(hasError || notValid) && (
+        <p className="help is-danger">
+          {hasError ? `${label} is required` : `Invalid ${label}`}
+        </p>
       )}
     </div>
   );
