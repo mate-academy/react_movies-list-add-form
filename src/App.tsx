@@ -8,7 +8,7 @@ import { Movie } from './types/Movie';
 export const App = () => {
   const [currentMoviesList, setCurrentMoviesList] = useState(moviesFromServer);
 
-  const hanleSubmit = (movie: Movie) => {
+  const handleAddNewMovie = (movie: Movie) => {
     setCurrentMoviesList((prevState) => {
       return [...prevState, movie];
     });
@@ -17,10 +17,12 @@ export const App = () => {
   return (
     <div className="page">
       <div className="page-content">
+
         <MoviesList movies={currentMoviesList} />
       </div>
       <div className="sidebar">
-        <NewMovie onAdd={hanleSubmit} />
+
+        <NewMovie onAdd={handleAddNewMovie} />
       </div>
     </div>
   );

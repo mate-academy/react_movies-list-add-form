@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { FormEvent, useState } from 'react';
 import { Movie } from '../../types/Movie';
 import { TextField } from '../TextField';
 
@@ -14,33 +14,42 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const requiredFields = title && imgUrl && imdbUrl && imdbId;
+  const isFieldsFilled = title.trim()
+    && imgUrl.trim()
+    && imdbUrl.trim()
+    && imdbId.trim();
+
+  const clearFields = (): void => {
+    setTitle('');
+    setDescription('');
+    setImgUrl('');
+    setImdbUrl('');
+    setImdbId('');
+  };
+
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    if (isFieldsFilled) {
+      onAdd({
+        title,
+        description,
+        imgUrl,
+        imdbUrl,
+        imdbId,
+      });
+
+      setCount((prevCount) => (prevCount + 1));
+
+      clearFields();
+    }
+  };
 
   return (
     <form
       className="NewMovie"
       key={count}
-      onSubmit={(event) => {
-        event.preventDefault();
-
-        if (requiredFields) {
-          onAdd({
-            title,
-            description,
-            imgUrl,
-            imdbUrl,
-            imdbId,
-          });
-
-          setCount((prevCount) => (prevCount + 1));
-
-          setTitle('');
-          setDescription('');
-          setImgUrl('');
-          setImdbUrl('');
-          setImdbId('');
-        }
-      }}
+      onSubmit={handleSubmit}
     >
       <h2 className="title">Add a movie</h2>
 
@@ -89,7 +98,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!requiredFields}
+            disabled={!isFieldsFilled}
           >
             Add
           </button>
