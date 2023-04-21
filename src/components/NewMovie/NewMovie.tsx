@@ -6,15 +6,16 @@ type Props = {
   onAdd: (newMovie: Movie) => void,
 };
 
+let count = 0;
+
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
-  const [count, setCount] = useState(0);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [imgUrl, setImgUrl] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const resetForm = () => {
+  const handleResetForm = () => {
     setTitle('');
     setDescription('');
     setImgUrl('');
@@ -22,7 +23,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setImdbId('');
   };
 
-  const handleSubmitForm = () => {
+  const handleSubmitForm = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
     const newMovie = {
       title,
       description,
@@ -32,12 +35,12 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     };
 
     onAdd(newMovie);
-    setCount(prevCount => prevCount + 1);
-    resetForm();
+    count += 1;
+    handleResetForm();
   };
 
   const allRequiredFields = [title, imgUrl, imdbUrl, imdbId];
-  const disableButton = allRequiredFields.some(value => value.trim() === '');
+  const disableButton = allRequiredFields.some(value => !value.trim());
 
   return (
     <form
