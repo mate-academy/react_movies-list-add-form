@@ -1,6 +1,7 @@
 import classNames from 'classnames';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Movie } from '../../types/Movie';
+import { FieldNames } from '../../types/Fields';
 
 type Props = {
   name: string,
@@ -19,11 +20,11 @@ export const isFieldValid = (field: keyof Movie, value: string): boolean => {
   const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
 
   switch (field) {
-    case 'title':
-    case 'imdbId':
+    case FieldNames.Title:
+    case FieldNames.ImdbId:
       return value.trim().length > 0;
-    case 'imgUrl':
-    case 'imdbUrl':
+    case FieldNames.ImgUrl:
+    case FieldNames.ImdbUrl:
       return pattern.test(value);
     default:
       return true;
@@ -37,14 +38,12 @@ export const TextField: React.FC<Props> = ({
   required = false,
   onChange = () => { },
 }) => {
-  // generate a unique id once on component load
-  const [id] = useState(() => `${name}-${getRandomDigits()}`);
+  const id = `${name}-${getRandomDigits()}`;
   const [inputError, setInputError] = useState(false);
 
   const handleBlur = () => {
-    if (required && !value) {
-      setInputError(true);
-    } else if (value && !isFieldValid(name as keyof Movie, value)) {
+    if ((required && !value)
+      || (value && !isFieldValid(name as keyof Movie, value))) {
       setInputError(true);
     } else {
       setInputError(false);
