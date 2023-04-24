@@ -31,7 +31,7 @@ export const TextField: React.FC<Props> = ({
   let hasError = touched && required && !value;
 
   if (validate) {
-    hasError = touched && !validate(value);
+    hasError = touched && !validate(value.trim());
   }
 
   return (
