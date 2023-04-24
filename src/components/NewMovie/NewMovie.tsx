@@ -30,7 +30,7 @@ export const NewMovie = ({ onAdd }: { onAdd: (newMovie: Movie) => void }) => {
   };
 
   const isValidLength = (param: string) => {
-    return param.length >= 3;
+    return param.trim().length >= 3;
   };
 
   const isValidUrls = isValid(imgUrl) && isValid(imdbUrl);
