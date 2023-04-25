@@ -6,43 +6,25 @@ interface Props {
   onAdd: (movie: Movie) => void;
 }
 
-type Method = (value: string | ((prevTitle: string) => string)) => void;
-
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
-  let isDisabled = true;
-
-  const setStartValue = (method: Method) => {
-    const startValue = '';
-
-    method(startValue);
+  const initialMovieState = {
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
   };
+  const [movie, setMovie] = useState(initialMovieState);
 
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    const newMovie = {
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    };
-
-    setStartValue(setTitle);
-    setStartValue(setDescription);
-    setStartValue(setImgUrl);
-    setStartValue(setImdbUrl);
-    setStartValue(setImdbId);
-    setCount(count + 1);
-    onAdd(newMovie);
+  const handleChange = (inputValue: string, property: string) => {
+    setMovie(currentMovie => ({
+      ...currentMovie,
+      [property]: inputValue,
+    }
+    ));
   };
 
   const isMatch = (url: string) => {
@@ -56,10 +38,32 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     return pattern.test(url.trim());
   };
 
-  if (title
-    && imgUrl && imdbId && imdbUrl && isMatch(imdbUrl) && isMatch(imgUrl)) {
-    isDisabled = !isDisabled;
-  }
+  const checkForDisablingButton = () => {
+    const {
+      title,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    } = movie;
+
+    if (title.trim()
+      && imgUrl.trim()
+      && imdbId.trim()
+      && imdbUrl.trim()
+      && isMatch(imdbUrl)
+      && isMatch(imgUrl)) {
+      return false;
+    }
+
+    return true;
+  };
+
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setMovie(initialMovieState);
+    setCount(count + 1);
+    onAdd(movie);
+  };
 
   return (
     <form
@@ -72,53 +76,43 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value={title}
-        onChange={(value) => {
-          setTitle(value);
-        }}
+        value={movie.title}
+        onChange={(inputValue) => handleChange(inputValue, 'title')}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value={description}
-        onChange={(value) => {
-          setDescription(value);
-        }}
+        value={movie.description}
+        onChange={(inputValue) => handleChange(inputValue, 'description')}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={imgUrl}
-        onChange={(value) => {
-          setImgUrl(value);
-        }}
-        url={imgUrl}
-        isMatch={isMatch(imgUrl)}
+        value={movie.imgUrl}
+        onChange={(inputValue) => handleChange(inputValue, 'imgUrl')}
+        url={movie.imgUrl}
+        isMatch={isMatch(movie.imgUrl)}
         required
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={imdbUrl}
-        onChange={(value) => {
-          setImdbUrl(value);
-        }}
-        url={imdbUrl}
-        isMatch={isMatch(imdbUrl)}
+        value={movie.imdbUrl}
+        onChange={(inputValue) => handleChange(inputValue, 'imdbUrl')}
+        url={movie.imdbUrl}
+        isMatch={isMatch(movie.imdbUrl)}
         required
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imdbId}
-        onChange={(value) => {
-          setImdbId(value);
-        }}
+        value={movie.imdbId}
+        onChange={(inputValue) => handleChange(inputValue, 'imdbId')}
         required
       />
 
@@ -128,7 +122,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={isDisabled}
+            disabled={checkForDisablingButton()}
           >
             Add
           </button>
