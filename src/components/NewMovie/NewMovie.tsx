@@ -28,18 +28,21 @@ export const NewMovie = () => {
         name="imgUrl"
         label="Image URL"
         value=""
+        required
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
         value=""
+        required
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
         value=""
+        required
       />
 
       <div className="field is-grouped">
