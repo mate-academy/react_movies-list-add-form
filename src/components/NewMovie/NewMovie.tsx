@@ -5,6 +5,31 @@ export const NewMovie = () => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
   const [count] = useState(0);
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [imgUrl, setImgUrl] = useState('');
+  const [imdbUrl, setImdbUrl] = useState('');
+  const [imdbId, setImdbId] = useState('');
+
+  const handleTitleChange = (newValue: string) => {
+    setTitle(newValue);
+  };
+
+  const handleDescriptionChange = (newValue: string) => {
+    setDescription(newValue);
+  };
+
+  const handleImgUrlChange = (newValue: string) => {
+    setImgUrl(newValue);
+  };
+
+  const handleImdbUrlChange = (newValue: string) => {
+    setImdbUrl(newValue);
+  };
+
+  const handleImdbIdChange = (newValue: string) => {
+    setImdbId(newValue);
+  };
 
   return (
     <form className="NewMovie" key={count}>
@@ -13,35 +38,39 @@ export const NewMovie = () => {
       <TextField
         name="title"
         label="Title"
-        value=""
-        onChange={() => {}}
+        value={title}
+        onChange={handleTitleChange}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value=""
+        value={description}
+        onChange={handleDescriptionChange}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value=""
+        value={imgUrl}
+        onChange={handleImgUrlChange}
         required
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value=""
+        value={imdbUrl}
+        onChange={handleImdbUrlChange}
         required
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value=""
+        value={imdbId}
+        onChange={handleImdbIdChange}
         required
       />
 
