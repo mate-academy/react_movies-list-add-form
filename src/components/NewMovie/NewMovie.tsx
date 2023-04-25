@@ -19,7 +19,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const handler = (name: string, value: string) => {
     setNewMovie(prevMovie => ({
       ...prevMovie,
-      [name]: value.trim(),
+      [name]: value,
     }));
   };
 
@@ -76,6 +76,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={newMovie.description}
+        onChange={handler}
       />
 
       <TextField
