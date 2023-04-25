@@ -35,7 +35,7 @@ export const NewMovie:React.FC<Props> = ({ onAdd }) => {
     setFieldsState(allFieldsFilled);
   };
 
-  const handleClick = () => {
+  const handleSubmit = () => {
     setCount(current => current + 1);
     onAdd(movieFields);
     setMovieFields({
@@ -56,7 +56,11 @@ export const NewMovie:React.FC<Props> = ({ onAdd }) => {
   } = movieFields;
 
   return (
-    <form className="NewMovie" key={count}>
+    <form
+      className="NewMovie"
+      key={count}
+      onSubmit={handleSubmit}
+    >
       <h2 className="title">Add a movie</h2>
 
       <TextField
@@ -105,7 +109,6 @@ export const NewMovie:React.FC<Props> = ({ onAdd }) => {
             data-cy="submit-button"
             className="button is-link"
             disabled={!fieldIsFilled}
-            onClick={handleClick}
           >
             Add
           </button>
