@@ -8,7 +8,6 @@ type Props = {
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
-
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [imgUrl, setImgUrl] = useState('');
@@ -28,18 +27,15 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
     onAdd(newMovie);
 
-    // Form reset after submission
     setTitle('');
     setDescription('');
     setImgUrl('');
     setImdbUrl('');
     setImdbId('');
 
-    // Reset touched status of all the `Field`s
     setCount(current => current + 1);
   };
 
-  // Always true if all fields have at least one non-whitespace character
   const isRequiredFieldsFilled = title.trim()
     && imgUrl.trim()
     && imdbUrl.trim()
@@ -67,6 +63,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Title"
         value={title}
         onChange={setTitle}
+        onValidate={checkValid}
         required
       />
 
@@ -100,6 +97,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Imdb ID"
         value={imdbId}
         onChange={setImdbId}
+        onValidate={checkValid}
         required
       />
 
