@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { TextField } from '../TextField';
 
 export const NewMovie = () => {
@@ -10,6 +10,14 @@ export const NewMovie = () => {
   const [imgUrl, setImgUrl] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
+  const [isFormValid, setIsFormValid] = useState(false);
+
+  useEffect(() => {
+    setIsFormValid(title.trim() !== ''
+      && imgUrl.trim() !== ''
+      && imdbUrl.trim() !== ''
+      && imdbId.trim() !== '');
+  }, [title, imgUrl, imdbUrl, imdbId]);
 
   const handleTitleChange = (newValue: string) => {
     setTitle(newValue);
@@ -80,6 +88,7 @@ export const NewMovie = () => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
+            disabled={!isFormValid}
           >
             Add
           </button>
