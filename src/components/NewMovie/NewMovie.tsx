@@ -113,7 +113,7 @@ export const NewMovie = ({ onAdd }: Props) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!title || !description || !imgUrl || !imdbUrl || !imdbId}
+            disabled={!title || !imgUrl || !imdbUrl || !imdbId}
           >
             Add
           </button>
