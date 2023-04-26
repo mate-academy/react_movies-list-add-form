@@ -6,14 +6,18 @@ type Props = {
   onAdd: (movie: Movie) => void,
 };
 
+const defaultObject = {
+  title: '',
+  description: '',
+  imgUrl: '',
+  imdbUrl: '',
+  imdbId: '',
+};
+
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
   const [newMovie, setNewMovie] = useState({
-    title: '',
-    description: '',
-    imgUrl: '',
-    imdbUrl: '',
-    imdbId: '',
+    ...defaultObject,
   });
 
   const handler = (name: string, value: string) => {
@@ -25,11 +29,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
   const clearForm = () => {
     setNewMovie({
-      title: '',
-      description: '',
-      imgUrl: '',
-      imdbUrl: '',
-      imdbId: '',
+      ...defaultObject,
     });
   };
 
