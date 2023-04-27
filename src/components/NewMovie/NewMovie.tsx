@@ -41,6 +41,11 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   };
 
   const isFieldsValid = checkingFields();
+  const isValidImdbId = (id: string): boolean => {
+    const imdbIdPattern = /^tt\d{7}$/;
+
+    return imdbIdPattern.test(id);
+  };
 
   const isTitleValid = newMovie.title.trim().length > 0;
 
@@ -107,7 +112,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Imdb ID"
         value={newMovie.imdbId}
         onChange={handler}
-        checkURL={validationURL}
+        checkURL={isValidImdbId}
         required
       />
 
