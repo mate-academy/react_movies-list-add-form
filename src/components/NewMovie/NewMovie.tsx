@@ -40,6 +40,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       .filter(value => value.length).length < 4;
   };
 
+  const isFieldsValid = checkingFields();
+
   const isTitleValid = newMovie.title.trim().length > 0;
 
   const submitForm = (event: React.SyntheticEvent) => {
@@ -105,6 +107,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Imdb ID"
         value={newMovie.imdbId}
         onChange={handler}
+        checkURL={validationURL}
         required
       />
 
@@ -114,7 +117,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={checkingFields() || !isTitleValid}
+            disabled={isFieldsValid || !isTitleValid}
           >
             Add
           </button>
