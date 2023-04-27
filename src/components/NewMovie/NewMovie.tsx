@@ -34,10 +34,13 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   };
 
   const checkingFields = () => {
-    return Object.keys(newMovie).filter(key => key !== 'description')
+    return Object.keys(newMovie)
+      .filter(key => key !== 'description')
       .map(key => newMovie[key as keyof Movie])
       .filter(value => value.length).length < 4;
   };
+
+  const isTitleValid = newMovie.title.trim().length > 0;
 
   const submitForm = (event: React.SyntheticEvent) => {
     event.preventDefault();
@@ -111,7 +114,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={checkingFields()}
+            disabled={checkingFields() || !isTitleValid}
           >
             Add
           </button>
