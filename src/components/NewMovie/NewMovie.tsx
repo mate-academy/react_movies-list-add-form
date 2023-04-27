@@ -23,13 +23,6 @@ export const NewMovie = ({ onAdd }: Props) => {
   const isValidUrls = validateUrl(movie.imgUrl) && validateUrl(movie.imdbUrl);
 
   const isFormValid = movie.title && isValidUrls && movie.imdbId;
-
-  // const handleInputChange: ChangeEventHandler<HTMLInputElement> = (event) => {
-  //   const { name, value } = event.target;
-  //
-  //   setMovie((prevMovie) => ({ ...prevMovie, [name]: value }));
-  // };
-
   const handleInputChange = (key: string, value: string) => {
     setMovie({
       ...movie,
