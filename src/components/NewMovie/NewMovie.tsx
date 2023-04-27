@@ -18,9 +18,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imgUrl, setImgUrl] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
-  const [disable, setDisable] = useState(true);
-
-  const onChange = (name: string, value: string) => {
+  const [isDisabled, setIsDisabled] = useState(true);
+  const onChange = (name: string, value: string): void => {
     switch (name) {
       case 'title':
         setTitle(value);
@@ -46,12 +45,15 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         setTitle('');
     }
 
-    if (title && pattern.test(imgUrl) && pattern.test(imdbUrl) && imdbId) {
-      setDisable(false);
+    const allInputAreValid = title
+      && pattern.test(imgUrl) && pattern.test(imdbUrl) && imdbId;
+
+    if (allInputAreValid) {
+      setIsDisabled(false);
     }
   };
 
-  const addMovie = (event: React.FormEvent<HTMLFormElement>) => {
+  const addMovie = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
 
     const movie: Movie = {
@@ -70,7 +72,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       setImgUrl('');
       setImdbUrl('');
       setImdbId('');
-      setDisable(true);
+      setIsDisabled(true);
     }
   };
 
@@ -127,7 +129,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={disable}
+            disabled={isDisabled}
           >
             Add
           </button>
