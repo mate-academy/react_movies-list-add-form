@@ -6,7 +6,7 @@ interface Props {
   onAdd: (movie: Movie) => void,
 }
 
-export const NewMovie = ({ onAdd }: Props) => {
+export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
@@ -15,6 +15,7 @@ export const NewMovie = ({ onAdd }: Props) => {
   const [imgUrl, setImgUrl] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
+  const isAddDisabled = !title || !imgUrl || !imdbUrl || !imdbId;
 
   const handleOnChange = (string: string, label: string) => {
     switch (label) {
@@ -56,7 +57,7 @@ export const NewMovie = ({ onAdd }: Props) => {
     };
 
     onAdd(movie);
-    setCount(count + 1);
+    setCount(prevCount => prevCount + 1);
     resetForm();
   };
 
@@ -113,7 +114,7 @@ export const NewMovie = ({ onAdd }: Props) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!title || !imgUrl || !imdbUrl || !imdbId}
+            disabled={isAddDisabled}
           >
             Add
           </button>
