@@ -7,46 +7,31 @@ interface Props {
 }
 
 // eslint-disable-next-line max-len
-const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
+const urlIsValid = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
+  const [newMovie, setNewMovie] = useState({
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  });
   const [isDisabled, setIsDisabled] = useState(true);
   const onChange = (name: string, value: string): void => {
-    switch (name) {
-      case 'title':
-        setTitle(value);
-        break;
-
-      case 'description':
-        setDescription(value);
-        break;
-
-      case 'imgUrl':
-        setImgUrl(value);
-        break;
-
-      case 'imdbUrl':
-        setImdbUrl(value);
-        break;
-
-      case 'imdbId':
-        setImdbId(value);
-        break;
-
-      default:
-        setTitle('');
-    }
+    setNewMovie({ ...newMovie, [name]: value });
+    const {
+      title,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    } = newMovie;
 
     const allInputAreValid = title
-      && pattern.test(imgUrl) && pattern.test(imdbUrl) && imdbId;
+      && urlIsValid.test(imgUrl) && urlIsValid.test(imdbUrl) && imdbId;
 
     if (allInputAreValid) {
       setIsDisabled(false);
@@ -55,6 +40,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
   const addMovie = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
+
+    const {
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    } = newMovie;
 
     const movie: Movie = {
       title,
@@ -67,11 +60,13 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     if (title && imgUrl && imdbUrl && imdbId) {
       onAdd(movie);
       setCount(prevCount => prevCount + 1);
-      setTitle('');
-      setDescription('');
-      setImgUrl('');
-      setImdbUrl('');
-      setImdbId('');
+      setNewMovie({
+        title: '',
+        description: '',
+        imgUrl: '',
+        imdbUrl: '',
+        imdbId: '',
+      });
       setIsDisabled(true);
     }
   };
@@ -87,40 +82,45 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value={title}
+        value={newMovie.title}
         onChange={onChange}
         required
+        valueIsCorrect
       />
 
       <TextField
         name="description"
         label="Description"
-        value={description}
+        value={newMovie.description}
         onChange={onChange}
+        valueIsCorrect
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={imgUrl}
+        value={newMovie.imgUrl}
         onChange={onChange}
         required
+        valueIsCorrect={!urlIsValid.test(newMovie.imgUrl)}
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={imdbUrl}
+        value={newMovie.imdbUrl}
         onChange={onChange}
         required
+        valueIsCorrect={!urlIsValid.test(newMovie.imdbUrl)}
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imdbId}
+        value={newMovie.imdbId}
         onChange={onChange}
         required
+        valueIsCorrect
       />
 
       <div className="field is-grouped">
