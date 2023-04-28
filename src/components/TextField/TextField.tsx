@@ -6,6 +6,7 @@ type Props = {
   value: string,
   label?: string,
   required?: boolean,
+  isValidateUrl?: (newValue: string) => boolean,
   onChange?: (newValue: string) => void,
 };
 
@@ -18,14 +19,14 @@ export const TextField: React.FC<Props> = ({
   value,
   label = name,
   required = false,
+  isValidateUrl = () => true,
   onChange = () => {},
 }) => {
-  // generage a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
-  // To show errors only if the field was touched (onBlur)
   const [touched, setToched] = useState(false);
   const hasError = touched && required && !value;
+  const isEqual = name === 'imgUrl' || name === 'imdbUrl';
 
   return (
     <div className="field">
@@ -43,10 +44,17 @@ export const TextField: React.FC<Props> = ({
           type="text"
           placeholder={`Enter ${label}`}
           value={value}
-          onChange={event => onChange(event.target.value)}
+          onChange={(event) => onChange(event.target.value)}
           onBlur={() => setToched(true)}
+
         />
       </div>
+
+      {
+        value && !isValidateUrl(value) && isEqual
+          ? (<p className="help is-danger">Url is not correct</p>)
+          : required
+      }
 
       {hasError && (
         <p className="help is-danger">{`${label} is required`}</p>
