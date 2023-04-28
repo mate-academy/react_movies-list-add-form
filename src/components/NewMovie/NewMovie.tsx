@@ -36,9 +36,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   };
 
   const isDisabled = !(
-    imdbUrl
-    && imgUrl
-    && imdbId
+    title.trim()
+    && imdbUrl.trim()
+    && imgUrl.trim()
+    && imdbId.trim()
   );
 
   return (
