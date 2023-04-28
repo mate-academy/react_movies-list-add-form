@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
@@ -22,14 +22,16 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     return pattern.test(value);
   };
 
-  const isValidString = (value: string): boolean => {
-    return value.trim().length > 0;
-  };
+  const isValidString = useMemo(() => {
+    return (value: string): boolean => {
+      return value.trim().length > 0;
+    };
+  }, []);
 
-  const isAddButtonLocked = () => {
+  const isAddButtonLocked = useCallback(() => {
     return isValidUrl(imgUrl) && isValidUrl(imdbUrl)
     && isValidString(title) && isValidString(imdbId);
-  };
+  }, [imgUrl, imdbUrl, title, imdbId]);
 
   const clearForm = () => {
     setTitle('');
