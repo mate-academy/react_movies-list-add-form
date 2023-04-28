@@ -15,10 +15,11 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     imdbUrl: '',
     imdbId: '',
   });
+
   const handler = (name: string, value: string) => {
     setNewMovie(prevMovie => ({
       ...prevMovie,
-      [name]: value,
+      [name]: value.trim(),
     }));
   };
 
