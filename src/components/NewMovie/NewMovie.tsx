@@ -41,34 +41,16 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const addMovie = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
 
-    const {
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    } = newMovie;
-
-    const movie: Movie = {
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    };
-
-    if (title && imgUrl && imdbUrl && imdbId) {
-      onAdd(movie);
-      setCount(prevCount => prevCount + 1);
-      setNewMovie({
-        title: '',
-        description: '',
-        imgUrl: '',
-        imdbUrl: '',
-        imdbId: '',
-      });
-      setIsDisabled(true);
-    }
+    onAdd(newMovie);
+    setCount(prevCount => prevCount + 1);
+    setNewMovie({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
+    setIsDisabled(true);
   };
 
   return (
@@ -85,7 +67,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={newMovie.title}
         onChange={onChange}
         required
-        valueIsCorrect
       />
 
       <TextField
@@ -93,7 +74,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Description"
         value={newMovie.description}
         onChange={onChange}
-        valueIsCorrect
       />
 
       <TextField
@@ -120,7 +100,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={newMovie.imdbId}
         onChange={onChange}
         required
-        valueIsCorrect
       />
 
       <div className="field is-grouped">
