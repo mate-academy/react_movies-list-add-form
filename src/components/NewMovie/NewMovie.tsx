@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { TextField } from '../TextField';
+import { Movie } from '../../types/Movie';
 
 interface Props {
-  onAdd: CallableFunction;
+  onAdd: (movie: Movie) => void;
 }
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
@@ -22,6 +23,19 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     });
   };
 
+  const handleSubmit = (event: { preventDefault: () => void; }) => {
+    event.preventDefault();
+    onAdd(movie);
+    setMovie({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
+    setCount(count + 1);
+  };
+
   const isButtonDisabled = () => {
     return (
       !movie.title
@@ -35,18 +49,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     <form
       className="NewMovie"
       key={count}
-      onSubmit={(event) => {
-        event.preventDefault();
-        onAdd(movie);
-        setMovie({
-          title: '',
-          description: '',
-          imgUrl: '',
-          imdbUrl: '',
-          imdbId: '',
-        });
-        setCount(count + 1);
-      }}
+      onSubmit={handleSubmit}
     >
       <h2 className="title">Add a movie</h2>
 
