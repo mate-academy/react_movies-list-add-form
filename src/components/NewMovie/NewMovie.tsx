@@ -1,46 +1,104 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { TextField } from '../TextField';
+import { Movie } from '../../types/Movie';
+import { PATTERN } from '../../data/constants';
 
-export const NewMovie = () => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
-  const [count] = useState(0);
+enum MovieField {
+  title = 'title',
+  description = 'description',
+  imgUrl = 'imgUrl',
+  imdbUrl = 'imdbUrl',
+  imdbId = 'imdbId',
+}
+type Props = {
+  onAdd: (movie: Movie) => void,
+};
+
+export const NewMovie: React.FC<Props> = ({ onAdd }) => {
+  const [count, setCount] = useState(0);
+  const emptyMovie = {
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  };
+  const [newMovie, setNewMovie] = useState(emptyMovie);
+  const [isAddDisabled, setIsAddDisabled] = useState(true);
+
+  useEffect(() => {
+    setIsAddDisabled(() => {
+      return Object.entries(newMovie).some(([key, value]) => {
+        return key === MovieField.description ? false : !value;
+      });
+    });
+  }, [newMovie]);
+
+  const generateLabel = (str: string) => {
+    let label = str.replace(/([A-Z])/g, ' $1');
+
+    label = label.charAt(0).toUpperCase() + label.slice(1);
+
+    if (label.split(' ')[1]) {
+      const parts = label.split(' ');
+
+      parts[1] = parts[1].toUpperCase();
+      label = parts.join(' ');
+    }
+
+    return label;
+  };
+
+  const handleChange = (targetKey: string, value: string) => {
+    setNewMovie((prev) => {
+      const movieKey = targetKey as MovieField;
+      const movieCopy = { ...prev };
+
+      movieCopy[movieKey] = value;
+
+      return movieCopy;
+    });
+  };
+
+  const handleAdd = (e: React.MouseEvent) => {
+    e.preventDefault();
+    onAdd(newMovie);
+    setCount(prev => prev + 1);
+    setNewMovie(emptyMovie);
+  };
+
+  const validateCustom = ({ dataset, value }: HTMLInputElement) => {
+    const targetKey = dataset.cy?.split('-')[1];
+
+    // write custom requirements
+    switch (targetKey) {
+      case MovieField.imdbUrl:
+      case MovieField.imgUrl:
+        return !!value.match(PATTERN);
+      default:
+        return true;
+    }
+  };
 
   return (
     <form className="NewMovie" key={count}>
       <h2 className="title">Add a movie</h2>
 
-      <TextField
-        name="title"
-        label="Title"
-        value=""
-        onChange={() => {}}
-        required
-      />
+      {Object.entries(newMovie).map(([key, value]) => {
+        const label = generateLabel(key);
 
-      <TextField
-        name="description"
-        label="Description"
-        value=""
-      />
-
-      <TextField
-        name="imgUrl"
-        label="Image URL"
-        value=""
-      />
-
-      <TextField
-        name="imdbUrl"
-        label="Imdb URL"
-        value=""
-      />
-
-      <TextField
-        name="imdbId"
-        label="Imdb ID"
-        value=""
-      />
+        return (
+          <TextField
+            key={key}
+            name={key}
+            label={label}
+            value={value}
+            onChange={(newValue) => handleChange(key, newValue)}
+            required={key !== MovieField.description}
+            validateCustom={validateCustom}
+          />
+        );
+      })}
 
       <div className="field is-grouped">
         <div className="control">
@@ -48,6 +106,8 @@ export const NewMovie = () => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
+            disabled={isAddDisabled}
+            onClick={handleAdd}
           >
             Add
           </button>
