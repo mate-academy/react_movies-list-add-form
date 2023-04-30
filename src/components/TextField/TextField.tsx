@@ -32,6 +32,12 @@ export const TextField: React.FC<Props> = ({
     setCustomValid(validateCustom(target));
   };
 
+  const onTextFieldChange = (target: EventTarget & HTMLInputElement) => {
+    onChange(target.value);
+    checkCustom(target);
+    setCustomValid(true);
+  };
+
   return (
     <div className="field">
       <label className="label" htmlFor={id}>
@@ -48,11 +54,7 @@ export const TextField: React.FC<Props> = ({
           type="text"
           placeholder={`Enter ${label}`}
           value={value}
-          onChange={event => {
-            onChange(event.target.value);
-            checkCustom(event.target);
-            setCustomValid(true);
-          }}
+          onChange={event => onTextFieldChange(event.target)}
           onBlur={(event) => {
             setToched(true);
             checkCustom(event.target);
