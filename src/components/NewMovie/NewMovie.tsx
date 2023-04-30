@@ -44,15 +44,13 @@ export const NewMovie: React.FC<Props> = ({
 
     setCount((currentCount) => currentCount + 1);
 
-    if (count) {
-      setNewMovie({
-        title: '',
-        description: '',
-        imgUrl: '',
-        imdbUrl: '',
-        imdbId: '',
-      });
-    }
+    setNewMovie({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
   };
 
   return (
