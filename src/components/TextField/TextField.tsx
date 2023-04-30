@@ -7,7 +7,7 @@ type Props = {
   label?: string,
   required?: boolean,
   onChange?: (newValue: string) => void,
-  validateCustom: (target: HTMLInputElement) => boolean,
+  validateCustom?: (target: HTMLInputElement) => boolean,
 };
 
 function getRandomDigits() {
@@ -20,16 +20,16 @@ export const TextField: React.FC<Props> = ({
   label = name,
   required = false,
   onChange = () => {},
-  validateCustom = () => {},
+  validateCustom = () => true,
 }) => {
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
   const [touched, setToched] = useState(false);
-  const [customValid, setCustomValid] = useState(false);
+  const [customValid, setCustomValid] = useState(true);
 
-  const hasError = (touched && required && !value) || customValid;
+  const hasError = (touched && required && !value) || !customValid;
 
   const checkCustom = (target: HTMLInputElement) => {
-    setCustomValid(!validateCustom(target));
+    setCustomValid(validateCustom(target));
   };
 
   return (
@@ -51,7 +51,7 @@ export const TextField: React.FC<Props> = ({
           onChange={event => {
             onChange(event.target.value);
             checkCustom(event.target);
-            setCustomValid(false);
+            setCustomValid(true);
           }}
           onBlur={(event) => {
             setToched(true);

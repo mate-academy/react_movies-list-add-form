@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
+import { PATTERN } from '../../data/constants';
 
 enum MovieField {
   title = 'title',
@@ -27,7 +28,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
   useEffect(() => {
     setIsAddDisabled(() => {
-      return Object.values(newMovie).some((el, i) => (i === 1 ? false : !el));
+      return Object.entries(newMovie).some(([key, value]) => {
+        return key === MovieField.description ? false : !value;
+      });
     });
   }, [newMovie]);
 
@@ -66,15 +69,12 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
   const validateCustom = ({ dataset, value }: HTMLInputElement) => {
     const targetKey = dataset.cy?.split('-')[1];
-    // eslint-disable-next-line
-    const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
 
     // write custom requirements
     switch (targetKey) {
       case MovieField.imdbUrl:
       case MovieField.imgUrl:
-      case MovieField.imdbId:
-        return !!value.match(pattern);
+        return !!value.match(PATTERN);
       default:
         return true;
     }
