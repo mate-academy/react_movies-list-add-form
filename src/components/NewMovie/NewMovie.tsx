@@ -15,6 +15,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
   const [imgUrl, setImgUrl] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
+  const [correctValidation] = useState(false);
 
   const newMovie = {
     title,
@@ -27,7 +28,8 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
   const isDisablied: boolean = !title
   || !imgUrl
   || !imdbUrl
-  || !imdbId;
+  || !imdbId
+  || !correctValidation;
 
   const reset = () => {
     setTitle('');
@@ -54,7 +56,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={title}
-        onChange={(e) => setTitle(e)}
+        onChange={(e: string) => setTitle(e)}
         required
       />
 
@@ -62,7 +64,9 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={description}
-        onChange={setDescription}
+        onChange={
+          setDescription
+        }
       />
 
       <TextField
@@ -77,7 +81,9 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={setImdbUrl}
+        onChange={(e) => {
+          setImdbUrl(e);
+        }}
         required
       />
 
