@@ -28,6 +28,11 @@ export const NewMovie: React.FC<Props> = ({
 
   const isFormValid = title && imgUrl && imdbUrl && imdbId;
 
+  // eslint-disable-next-line max-len
+  const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
+
+  const checkValidUrl = (url: string) => pattern.test(url);
+
   const updateNewMovie = (key: string, value: string) => {
     setNewMovie((currentMovie) => ({
       ...currentMovie,
@@ -83,6 +88,7 @@ export const NewMovie: React.FC<Props> = ({
         label="Image URL"
         value={imgUrl}
         onChange={(newImgUrl) => updateNewMovie('imgUrl', newImgUrl)}
+        checkValidUrl={checkValidUrl}
         required
       />
 
@@ -91,6 +97,7 @@ export const NewMovie: React.FC<Props> = ({
         label="Imdb URL"
         value={imdbUrl}
         onChange={(newImdbUrl) => updateNewMovie('imdbUrl', newImdbUrl)}
+        checkValidUrl={checkValidUrl}
         required
       />
 
