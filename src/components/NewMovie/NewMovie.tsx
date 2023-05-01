@@ -16,6 +16,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
+  const clearForm = () => {
+    setTitle('');
+    setDescription('');
+    setImgUrl('');
+    setImdbUrl('');
+    setImdbId('');
+  };
+
   const addNewMovie = (event: FormEvent) => {
     event.preventDefault();
 
@@ -29,6 +37,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
     onAdd(newMovie);
     setCount(count + 1);
+    clearForm();
   };
 
   const isButtonDisabled = !(
