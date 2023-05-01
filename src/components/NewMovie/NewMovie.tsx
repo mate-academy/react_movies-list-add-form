@@ -7,7 +7,6 @@ type Props = {
 };
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
-  const [count, setCount] = useState(0);
   const [newTitle, setNewTitle] = useState('');
   const [newDescription, setNewDescription] = useState('');
   const [newImgUrl, setNewImgUrl] = useState('');
@@ -15,7 +14,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [newImdbId, setNewImdbId] = useState('');
   const [isFormValid, setIsFormValid] = useState(false);
 
-  const resetForm = () => {
+  const handleReset = () => {
     setNewTitle('');
     setNewDescription('');
     setNewImgUrl('');
@@ -35,26 +34,21 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     };
 
     onAdd(newMovie);
-    setCount(current => current + 1);
+    handleReset();
   };
 
   useEffect(() => {
-    resetForm();
-  }, [count]);
-
-  useEffect(() => {
     setIsFormValid(
-      newTitle.trim() !== ''
-        && newImgUrl.trim() !== ''
-        && newImdbUrl.trim() !== ''
-        && newImdbId.trim() !== '',
+      !!newTitle.trim()
+        && !!newImgUrl.trim()
+        && !!newImdbUrl.trim()
+        && !!newImdbId.trim(),
     );
   }, [newTitle, newImgUrl, newImdbUrl, newImdbId]);
 
   return (
     <form
       className="NewMovie"
-      key={count}
       onSubmit={handleFormSubmit}
     >
       <h2 className="title">Add a movie</h2>
