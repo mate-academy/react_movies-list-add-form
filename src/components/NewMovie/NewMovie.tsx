@@ -59,6 +59,13 @@ export const NewMovie: React.FC<Props> = ({
     }
   };
 
+  const submitDisabled
+    = title === ''
+    && imgUrl === ''
+    && description === ''
+    && imdbUrl === ''
+    && imdbId === '';
+
   return (
     <form
       className="NewMovie"
@@ -112,7 +119,7 @@ export const NewMovie: React.FC<Props> = ({
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            // disabled={!areAllRequirmentsMet}
+            disabled={submitDisabled}
           >
             Add
           </button>
