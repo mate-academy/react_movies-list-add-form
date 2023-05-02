@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-bind */
 import {
   FC, FormEvent, useEffect, useState,
 } from 'react';
@@ -18,8 +19,18 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
     imdbId: '',
   });
 
+  const {
+    title, description, imdbUrl, imgUrl, imdbId,
+  } = movie;
+
   function handleChange(key: string, value: string) {
-    setMovie({ ...movie, [key]: value });
+    let newValue = value;
+
+    if (value[0] === ' ') {
+      newValue = value.trim();
+    }
+
+    setMovie({ ...movie, [key]: newValue });
   }
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -29,12 +40,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
   }
 
   function isDisabled() {
-    if (
-      !movie.title.length
-      || !movie.imgUrl.length
-      || !movie.imdbUrl.length
-      || !movie.imdbId.length
-    ) {
+    if (!title || !imgUrl || !imdbUrl || !imdbId) {
       return true;
     }
 
@@ -58,7 +64,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value={movie.title}
+        value={title}
         onChange={handleChange}
         required
       />
@@ -66,14 +72,14 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
       <TextField
         name="description"
         label="Description"
-        value={movie.description}
+        value={description}
         onChange={handleChange}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={movie.imgUrl}
+        value={imgUrl}
         onChange={handleChange}
         required
       />
@@ -81,7 +87,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={movie.imdbUrl}
+        value={imdbUrl}
         onChange={handleChange}
         required
       />
@@ -89,7 +95,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={movie.imdbId}
+        value={imdbId}
         onChange={handleChange}
         required
       />
