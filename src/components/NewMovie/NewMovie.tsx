@@ -19,15 +19,22 @@ export const NewMovie:React.FC<Props> = ({ onAdd }) => {
   const [fieldIsFilled, setFieldsState] = useState(false);
 
   const handleChange = (key: string, value: string) => {
-    setMovie({
-      ...movie,
-      [key]: value,
-    });
+    if (value.trim() === '') {
+      setMovie({
+        ...movie,
+        [key]: undefined,
+      });
+    } else {
+      setMovie({
+        ...movie,
+        [key]: value,
+      });
+    }
 
     const allFieldsFilled = Object
       .entries(movie)
       .every(([fieldKey, fieldValue]) => {
-        return fieldKey === 'description' || fieldValue !== '';
+        return fieldKey === 'description' || fieldValue.trim() !== '';
       });
 
     setFieldsState(allFieldsFilled);
