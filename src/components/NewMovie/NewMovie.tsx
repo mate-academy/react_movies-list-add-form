@@ -38,7 +38,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     };
 
     onAdd(newMovie);
-    setCount(currentCount => currentCount + 1);
+    setCount(count + 1);
     resetInputsValue();
   };
 
