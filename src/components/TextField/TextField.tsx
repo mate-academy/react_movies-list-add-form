@@ -6,10 +6,10 @@ type Props = {
   value: string,
   label?: string,
   required?: boolean,
-  onChange?: (newValue: string) => void,
+  onChange?: (key : string, newValue: string) => void,
 };
 
-function getRandomDigits() {
+export function getRandomDigits() {
   return Math.random().toString().slice(2);
 }
 
@@ -43,7 +43,13 @@ export const TextField: React.FC<Props> = ({
           type="text"
           placeholder={`Enter ${label}`}
           value={value}
-          onChange={event => onChange(event.target.value)}
+          onChange={event => {
+            const { value: newValue } = event.target;
+
+            if (newValue.trim()) {
+              onChange(name, newValue);
+            }
+          }}
           onBlur={() => setToched(true)}
         />
       </div>
