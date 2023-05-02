@@ -26,7 +26,7 @@ export const NewMovie: React.FC<Props> = ({
     imdbId,
   } = newMovie;
 
-  const isFormValid = title && imgUrl && imdbUrl && imdbId;
+  const isFormValid = title.trim() && imgUrl && imdbUrl && imdbId.trim();
 
   // eslint-disable-next-line max-len
   const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
