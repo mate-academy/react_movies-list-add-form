@@ -22,8 +22,8 @@ export const NewMovie: FC<Props> = ({ onAdd = () => {} }) => {
     setImdbId('');
   };
 
-  const isNotDisabled = () => {
-    return title && imgUrl && imdbUrl && imdbId;
+  const isSubmitEnabled = () => {
+    return title.trim() && imgUrl.trim() && imdbUrl.trim() && imdbId.trim();
   };
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -37,7 +37,7 @@ export const NewMovie: FC<Props> = ({ onAdd = () => {} }) => {
       imdbId,
     };
 
-    if (!isNotDisabled()) {
+    if (isSubmitEnabled()) {
       setCount(count + 1);
     }
 
@@ -99,7 +99,7 @@ export const NewMovie: FC<Props> = ({ onAdd = () => {} }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!isNotDisabled()}
+            disabled={!isSubmitEnabled()}
           >
             Add
           </button>
