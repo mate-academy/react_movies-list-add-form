@@ -1,19 +1,13 @@
-import React, { useState } from 'react';
+import { FC, FormEvent, useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
+import { checkUrl } from '../checkUrl';
 
 interface Props {
   onAdd: (movie: Movie) => void;
 }
 
-function checkUrl(url: string) {
-  // eslint-disable-next-line max-len
-  const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
-
-  return pattern.test(url);
-}
-
-export const NewMovie: React.FC<Props> = ({ onAdd }) => {
+export const NewMovie: FC<Props> = ({ onAdd }) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [imgUrl, setImgUrl] = useState('');
@@ -26,44 +20,46 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     && checkUrl(imdbUrl)
     && !!imdbId;
 
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    if (!title) {
+      return;
+    }
+
+    if (!checkUrl(imgUrl)) {
+      return;
+    }
+
+    if (!checkUrl(imdbUrl)) {
+      return;
+    }
+
+    if (!imdbId) {
+      return;
+    }
+
+    onAdd({
+      title,
+      description: description || '',
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    });
+
+    setTitle('');
+    setDescription('');
+    setImgUrl('');
+    setImdbUrl('');
+    setImdbId('');
+    setCount(count + 1);
+  };
+
   return (
     <form
       className="NewMovie"
       key={count}
-      onSubmit={(event) => {
-        event.preventDefault();
-
-        if (!title) {
-          return;
-        }
-
-        if (!checkUrl(imgUrl)) {
-          return;
-        }
-
-        if (!checkUrl(imdbUrl)) {
-          return;
-        }
-
-        if (!imdbId) {
-          return;
-        }
-
-        onAdd({
-          title,
-          description: description || '',
-          imgUrl,
-          imdbUrl,
-          imdbId,
-        });
-
-        setTitle('');
-        setDescription('');
-        setImgUrl('');
-        setImdbUrl('');
-        setImdbId('');
-        setCount(count + 1);
-      }}
+      onSubmit={handleSubmit}
     >
       <h2 className="title">Add a movie</h2>
 
