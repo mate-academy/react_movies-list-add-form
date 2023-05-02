@@ -8,7 +8,7 @@ import moviesFromServer from './api/movies.json';
 export const App: React.FC = () => {
   const [visibleMovies, setVisibleMovies] = useState(moviesFromServer);
 
-  const onAdd = (newMovie: Movie) => {
+  const handleAdd = (newMovie: Movie) => {
     setVisibleMovies((currentMovies => [...currentMovies, newMovie]));
   };
 
@@ -18,7 +18,7 @@ export const App: React.FC = () => {
         <MoviesList movies={visibleMovies} />
       </div>
       <div className="sidebar">
-        <NewMovie onAdd={onAdd} />
+        <NewMovie onAdd={handleAdd} />
       </div>
     </div>
   );

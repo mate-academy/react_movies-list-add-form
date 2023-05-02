@@ -15,7 +15,18 @@ export const NewMovie:FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const isValidForm = title && imgUrl && imdbUrl && imdbId;
+  const isValidForm = title.trim()
+    && imgUrl.trim()
+    && imdbUrl.trim()
+    && imdbId.trim();
+
+  const handleReset = () => {
+    setTitle('');
+    setDescription('');
+    setImgUrl('');
+    setImdbUrl('');
+    setImdbId('');
+  };
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
@@ -29,12 +40,7 @@ export const NewMovie:FC<Props> = ({ onAdd }) => {
     };
 
     onAdd(newMovie);
-
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
+    handleReset();
 
     setCount((currentCount) => currentCount + 1);
   };
