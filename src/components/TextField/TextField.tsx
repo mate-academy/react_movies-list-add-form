@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import React, { useState } from 'react';
+import { checkUrl } from '../checkUrl';
 
 type Props = {
   name: string,
@@ -25,7 +26,11 @@ export const TextField: React.FC<Props> = ({
 
   // To show errors only if the field was touched (onBlur)
   const [touched, setToched] = useState(false);
-  const hasError = touched && required && !value;
+  let hasError = touched && required && !value;
+
+  if (name === 'imgUrl' || name === 'imdbUrl') {
+    hasError = touched && required && !checkUrl(value);
+  }
 
   return (
     <div className="field">
