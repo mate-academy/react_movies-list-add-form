@@ -14,9 +14,26 @@ export const NewMovie: React.FC<Props> = ({ onAdd, movies }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
   const [count, setCount] = useState(0);
+  const [isInvalidImg, setIsInvalidImg] = useState(false);
+  const [isInvalidImdb, setIsInvalidImdb] = useState(false);
+
+  // eslint-disable-next-line
+  const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
 
   const hendlerSubmit = (event: FormEvent) => {
     event.preventDefault();
+
+    if (!pattern.test(imgUrl)) {
+      setIsInvalidImg(true);
+
+      return;
+    }
+
+    if (!pattern.test(imdbUrl)) {
+      setIsInvalidImdb(true);
+
+      return;
+    }
 
     const newFilm = {
       title,
@@ -67,6 +84,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd, movies }) => {
       <TextField
         name="imgUrl"
         label="Image URL"
+        isInvalid={isInvalidImg}
+        setIsInvalid={setIsInvalidImg}
         value={imgUrl}
         onChange={setImgUrl}
         required
@@ -75,6 +94,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd, movies }) => {
       <TextField
         name="imdbUrl"
         label="Imdb URL"
+        isInvalid={isInvalidImdb}
+        setIsInvalid={setIsInvalidImdb}
         value={imdbUrl}
         onChange={setImdbUrl}
         required
