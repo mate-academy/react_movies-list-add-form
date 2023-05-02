@@ -7,9 +7,7 @@ type Props = {
   onAdd: (newMovie: Movie) => void,
 };
 
-export const NewMovie: React.FC<Props> = (
-  { onAdd },
-) => {
+export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [title, setName] = useState('');
   const [description, setDescription] = useState('');
   const [imgUrl, setImgUrl] = useState('');
@@ -17,7 +15,21 @@ export const NewMovie: React.FC<Props> = (
   const [imdbId, setImdbId] = useState('');
   const [count, setCount] = useState(0);
 
-  const isDisabled = !title || !imgUrl || !imdbUrl || !imdbId;
+  const isDisabled = (
+    !title.trim()
+    || !imgUrl.trim()
+    || !imdbUrl.trim()
+    || !imdbId.trim()
+  );
+
+  const resetForm = () => {
+    setName('');
+    setDescription('');
+    setImgUrl('');
+    setImdbUrl('');
+    setImdbId('');
+    setCount(count + 1);
+  };
 
   const handleAddMovie = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -30,13 +42,8 @@ export const NewMovie: React.FC<Props> = (
       imdbId,
     };
 
-    setCount(count + 1);
     onAdd(newMovie);
-    setName('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
+    resetForm();
   };
 
   return (
