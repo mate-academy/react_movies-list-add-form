@@ -7,7 +7,6 @@ interface Props {
 }
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
-  const [count, setCount] = useState(0);
   const [movie, setMovie] = useState({
     title: '',
     description: '',
@@ -23,9 +22,11 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     });
   };
 
-  const handleSubmit = (event: { preventDefault: () => void; }) => {
+  const handleSubmit = (event: React.FocusEvent<HTMLFormElement>) => {
     event.preventDefault();
+
     onAdd(movie);
+
     setMovie({
       title: '',
       description: '',
@@ -33,22 +34,18 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       imdbUrl: '',
       imdbId: '',
     });
-    setCount(count + 1);
   };
 
-  const isButtonDisabled = () => {
-    return (
-      !movie.title
-      || !movie.imgUrl
-      || !movie.imdbUrl
-      || !movie.imdbId
-    );
-  };
+  const isButtonDisabled = (
+    !movie.title.trim()
+    || !movie.imgUrl.trim()
+    || !movie.imdbUrl.trim()
+    || !movie.imdbId.trim()
+  );
 
   return (
     <form
       className="NewMovie"
-      key={count}
       onSubmit={handleSubmit}
     >
       <h2 className="title">Add a movie</h2>
@@ -98,7 +95,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={isButtonDisabled()}
+            disabled={isButtonDisabled}
           >
             Add
           </button>
