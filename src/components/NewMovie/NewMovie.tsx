@@ -15,7 +15,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
   const [imdbId, setImdbId] = useState('');
   const [count, setCount] = useState(0);
 
-  const isFilld: boolean = !!title
+  const isFilled: boolean = !!title
     && checkUrl(imgUrl)
     && checkUrl(imdbUrl)
     && !!imdbId;
@@ -86,7 +86,6 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        isUrl={checkUrl(imgUrl)}
         onChange={(newValue) => {
           setImgUrl(newValue);
         }}
@@ -97,7 +96,6 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        isUrl={checkUrl(imdbUrl)}
         onChange={(newValue) => {
           setImdbUrl(newValue);
         }}
@@ -120,7 +118,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!isFilld}
+            disabled={!isFilled}
           >
             Add
           </button>

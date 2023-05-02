@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import React, { useState } from 'react';
+import { checkUrl } from '../checkUrl';
 
 type Props = {
   name: string,
@@ -7,7 +8,6 @@ type Props = {
   label?: string,
   required?: boolean,
   onChange?: (newValue: string) => void,
-  isUrl?: boolean,
 };
 
 function getRandomDigits() {
@@ -20,7 +20,6 @@ export const TextField: React.FC<Props> = ({
   label = name,
   required = false,
   onChange = () => {},
-  isUrl = true,
 }) => {
   // generage a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
@@ -29,8 +28,8 @@ export const TextField: React.FC<Props> = ({
   const [touched, setToched] = useState(false);
   let hasError = touched && required && !value;
 
-  if (!isUrl) {
-    hasError = touched && required && !isUrl;
+  if (name === 'imgUrl' || name === 'imdbUrl') {
+    hasError = touched && required && !checkUrl(value);
   }
 
   return (
