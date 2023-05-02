@@ -1,10 +1,13 @@
 import React, { FC, useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
+import { urlPattern } from '../../regex';
 
 interface Props {
   onAdd: (movie: Movie) => void;
 }
+
+const urlValidation = (url: string) => (urlPattern.test(url));
 
 export const NewMovie: FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
@@ -13,6 +16,8 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
   const [imgUrl, setImgUrl] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
+
+  const isValidUrls = urlValidation(imgUrl) && urlValidation(imdbUrl);
 
   const resetForm = () => {
     setTitle('');
@@ -38,8 +43,9 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
     setCount(prevCount => prevCount + 1);
   };
 
-  const submitDisabled = !title.trim() || !imgUrl.trim()
-  || !imdbId.trim() || !imdbUrl.trim();
+  const submitDisabled = !title.trim()
+    || !imdbId.trim()
+    || !isValidUrls;
 
   return (
     <form
