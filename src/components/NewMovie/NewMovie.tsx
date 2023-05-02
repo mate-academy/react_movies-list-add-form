@@ -56,12 +56,6 @@ export const NewMovie: React.FC<Props> = ({
       setCount((prevCount) => prevCount + 1);
 
       resetAllFields();
-    } else {
-      throw new Error(
-        `Seems like somebody or something\n
-        trying to call this handleSubmit() function\n
-        with no respect to its pre-requirements...`,
-      );
     }
   };
 
@@ -118,7 +112,7 @@ export const NewMovie: React.FC<Props> = ({
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!areAllRequirmentsMet}
+            // disabled={!areAllRequirmentsMet}
           >
             Add
           </button>
