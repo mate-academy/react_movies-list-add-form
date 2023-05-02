@@ -14,7 +14,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const isValid = title
+  const isValid = title.trim()
     && imgUrl
     && imdbUrl
     && imdbId;
