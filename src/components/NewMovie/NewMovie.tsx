@@ -40,8 +40,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     clearForm();
   };
 
-  const isButtonDisabled = !(
-    title && imgUrl && imdbUrl && imdbId
+  const isButtonDisabled = !(title.trim()
+    && imgUrl.trim()
+    && imdbUrl.trim()
+    && imdbId.trim()
   );
 
   return (
