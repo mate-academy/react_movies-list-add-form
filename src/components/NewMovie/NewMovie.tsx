@@ -51,7 +51,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
   const isFieldsValid = checkValid(imgUrl) && checkValid(imdbUrl);
 
-  const isAddButtonDisabled = !isRequiredFieldsFilled || !isFieldsValid;
+  const isAddButtonDisabled = !isRequiredFieldsFilled && !isFieldsValid;
 
   return (
     <form
