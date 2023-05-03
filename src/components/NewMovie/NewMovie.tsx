@@ -15,7 +15,10 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
   const [imdbId, setImdbId] = useState('');
 
   const isFormValid = () => {
-    return title && imgUrl && imdbUrl && imdbId;
+    return title.trim()
+      && imgUrl.trim()
+      && imdbUrl.trim()
+      && imdbId.trim();
   };
 
   const resetForm = () => {

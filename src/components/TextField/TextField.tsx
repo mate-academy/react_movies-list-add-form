@@ -18,7 +18,7 @@ export const TextField: React.FC<Props> = ({
   value,
   label = name,
   required = false,
-  onChange = () => { },
+  onChange = () => {},
 }) => {
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
