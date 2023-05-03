@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Movie } from '../../types/Movie';
 import { TextField } from '../TextField';
+import { validationUrl } from '../../validation';
 
 type Props = {
   onAdd: (movie: Movie) => void,
@@ -14,13 +15,17 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
   const [isFormValid, setIsFormValid] = useState(false);
+  const [isImgUrlValid, setIsImgUrlValid] = useState(false);
+  const [isImdbUrlValid, setIsImdbUrlValid] = useState(false);
 
   useEffect(() => {
-    setIsFormValid(title.trim() !== ''
+    setIsFormValid(isImgUrlValid
+      && isImdbUrlValid
+      && title.trim() !== ''
       && imgUrl.trim() !== ''
       && imdbUrl.trim() !== ''
       && imdbId.trim() !== '');
-  }, [title, imgUrl, imdbUrl, imdbId]);
+  }, [title, imgUrl, imdbUrl, imdbId, isImgUrlValid, isImdbUrlValid]);
 
   const handleTitleChange = (newValue: string) => {
     setTitle(newValue);
@@ -32,10 +37,12 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
   const handleImgUrlChange = (newValue: string) => {
     setImgUrl(newValue);
+    setIsImgUrlValid(validationUrl(newValue));
   };
 
   const handleImdbUrlChange = (newValue: string) => {
     setImdbUrl(newValue);
+    setIsImdbUrlValid(validationUrl(newValue));
   };
 
   const handleImdbIdChange = (newValue: string) => {
@@ -92,6 +99,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Image URL"
         value={imgUrl}
         onChange={handleImgUrlChange}
+        validationUrl={validationUrl}
         required
       />
 
@@ -100,6 +108,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Imdb URL"
         value={imdbUrl}
         onChange={handleImdbUrlChange}
+        validationUrl={validationUrl}
         required
       />
 
