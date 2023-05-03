@@ -7,11 +7,11 @@ interface Props {
 }
 export const NewMovie: FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
-  const [newTitle, setNewTitle] = useState('');
-  const [newDescription, setNewDescription] = useState('');
-  const [newImgUrl, setNewImgUrl] = useState('');
-  const [newImdbUrl, setNewImdbUrl] = useState('');
-  const [newImdbId, setNewImdbId] = useState('');
+  const [title, setNewTitle] = useState('');
+  const [description, setNewDescription] = useState('');
+  const [imgUrl, setNewImgUrl] = useState('');
+  const [imdbUrl, setNewImdbUrl] = useState('');
+  const [imdbId, setNewImdbId] = useState('');
 
   const resetForm = () => {
     setNewTitle('');
@@ -23,11 +23,11 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     const newMovie: Movie = {
-      title: newTitle,
-      description: newDescription,
-      imgUrl: newImgUrl,
-      imdbUrl: newImdbUrl,
-      imdbId: newImdbId,
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
     };
 
     event.preventDefault();
@@ -36,10 +36,10 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
     resetForm();
   };
 
-  const isDisabled = !newTitle
-    || !newImgUrl
-    || !newImdbUrl
-    || !newImdbId;
+  const isDisabled = !title.trim()
+    || !imgUrl.trim()
+    || !imdbUrl.trim()
+    || !imdbId.trim();
 
   return (
     <form
@@ -52,7 +52,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value={newTitle}
+        value={title}
         onChange={setNewTitle}
         required
       />
@@ -60,14 +60,14 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
       <TextField
         name="description"
         label="Description"
-        value={newDescription}
+        value={description}
         onChange={setNewDescription}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={newImgUrl}
+        value={imgUrl}
         onChange={setNewImgUrl}
         required
       />
@@ -75,7 +75,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={newImdbUrl}
+        value={imdbUrl}
         onChange={setNewImdbUrl}
         required
       />
@@ -83,7 +83,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={newImdbId}
+        value={imdbId}
         onChange={setNewImdbId}
         required
       />
