@@ -2,6 +2,13 @@ import { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
+// eslint-disable-next-line max-len
+const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
+
+function validateURL(URL: string) {
+  return pattern.test(URL);
+}
+
 interface Props {
   onAdd: (movie: Movie) => void;
 }
@@ -15,7 +22,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const canSubmit = title && imgUrl && imdbUrl && imdbId;
+  const canSubmit = title.trim() && validateURL(imgUrl)
+    && validateURL(imdbUrl) && imdbId.trim();
 
   const handleResetForm = () => {
     setTitle('');
