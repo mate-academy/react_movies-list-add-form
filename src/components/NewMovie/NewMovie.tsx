@@ -15,6 +15,13 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
   const [newImdbId, setNewImdbId] = useState('');
   const [isFormValid, setIsFormValid] = useState(false);
 
+  // eslint-disable-next-line max-len
+  const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
+
+  const isValidUrl = (url: string) => {
+    return pattern.test(url);
+  };
+
   const handleReset = () => {
     setNewTitle('');
     setNewDescription('');
@@ -77,6 +84,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
         label="Image URL"
         value={newImgUrl}
         onChange={setNewImgUrl}
+        validated={isValidUrl}
         required
       />
 
@@ -85,6 +93,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
         label="Imdb URL"
         value={newImdbUrl}
         onChange={setNewImdbUrl}
+        validated={isValidUrl}
         required
       />
 
