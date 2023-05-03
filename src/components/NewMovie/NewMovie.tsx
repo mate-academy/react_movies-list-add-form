@@ -22,8 +22,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const canSubmit = title.trim() && validateURL(imgUrl)
-    && validateURL(imdbUrl) && imdbId.trim();
+  const canSubmit = (
+    title.trim() && validateURL(imgUrl) && validateURL(imdbUrl) && imdbId.trim()
+  );
 
   const handleResetForm = () => {
     setTitle('');
