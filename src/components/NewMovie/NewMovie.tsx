@@ -3,11 +3,10 @@ import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
 type Props = {
-  onAdd: (movie: Movie[]) => void;
-  movies: Movie[];
+  onAdd: (movie: Movie) => void;
 };
 
-export const NewMovie: React.FC<Props> = ({ onAdd, movies }) => {
+export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [imgUrl, setImgUrl] = useState('');
@@ -20,7 +19,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd, movies }) => {
   // eslint-disable-next-line
   const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
 
-  const hendlerSubmit = (event: FormEvent) => {
+  const hendleSubmit = (event: FormEvent) => {
     event.preventDefault();
 
     if (!pattern.test(imgUrl)) {
@@ -49,19 +48,19 @@ export const NewMovie: React.FC<Props> = ({ onAdd, movies }) => {
     setImdbUrl('');
     setImdbId('');
 
-    onAdd([...movies, newFilm]);
+    onAdd(newFilm);
 
     setCount(count + 1);
   };
 
   const isAllEntered = (
-    title !== '' && imgUrl !== '' && imdbUrl !== '' && imdbId !== ''
+    title && imgUrl && imdbUrl && imdbId
   );
 
   return (
     <form
       className="NewMovie"
-      onSubmit={hendlerSubmit}
+      onSubmit={hendleSubmit}
       key={count}
     >
       <h2 className="title">Add a movie</h2>

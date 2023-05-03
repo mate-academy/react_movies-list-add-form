@@ -31,7 +31,7 @@ export const TextField: React.FC<Props> = ({
   const [touched, setToched] = useState(false);
   const hasError = touched && required && !value;
 
-  const handlerOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (isInvalid && setIsInvalid) {
       setIsInvalid(false);
     }
@@ -55,7 +55,7 @@ export const TextField: React.FC<Props> = ({
           type="text"
           placeholder={`Enter ${label}`}
           value={value}
-          onChange={handlerOnChange}
+          onChange={handleOnChange}
           onBlur={() => setToched(true)}
         />
       </div>
