@@ -14,6 +14,13 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [newImdbUrl, setNewImdbUrl] = useState('');
   const [newImdbId, setNewImdbId] = useState('');
 
+  // eslint-disable-next-line max-len
+  const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
+
+  const isUrlValid = (urlValue: string) => {
+    return pattern.test(urlValue);
+  };
+
   const isAllFieldsFilled: boolean = (
     !!newTitle
     && !!newImgUrl
@@ -28,22 +35,26 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       return;
     }
 
-    onAdd(
-      {
+    const areUrlsValid = isUrlValid(newImgUrl) && isUrlValid(newImdbUrl);
+
+    if (areUrlsValid) {
+      const newMovie: Movie = {
         title: newTitle,
         description: newDescription || '',
         imgUrl: newImgUrl,
         imdbUrl: newImdbUrl,
         imdbId: newImdbId,
-      },
-    );
+      };
 
-    setNewTitle('');
-    setNewDescription('');
-    setNewImgUrl('');
-    setNewImdbUrl('');
-    setNewImdbId('');
-    setCount(count + 1);
+      onAdd(newMovie);
+
+      setNewTitle('');
+      setNewDescription('');
+      setNewImgUrl('');
+      setNewImdbUrl('');
+      setNewImdbId('');
+      setCount(count + 1);
+    }
   };
 
   return (
