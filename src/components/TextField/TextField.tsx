@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { useState } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 
 type Props = {
   name: string,
@@ -25,6 +25,16 @@ export const TextField: React.FC<Props> = ({
   const [touched, setToched] = useState(false);
   const hasError = touched && required && !value;
 
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const { value: str } = event.target;
+
+    if (str.trim() !== '') {
+      onChange(str, name);
+    } else {
+      onChange(str.trim(), name);
+    }
+  };
+
   return (
     <div className="field">
       <label className="label" htmlFor={id}>
@@ -41,7 +51,7 @@ export const TextField: React.FC<Props> = ({
           type="text"
           placeholder={`Enter ${label}`}
           value={value}
-          onChange={event => onChange(event.target.value, name)}
+          onChange={handleChange}
           onBlur={() => setToched(true)}
         />
       </div>
