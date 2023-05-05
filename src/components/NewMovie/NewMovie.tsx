@@ -23,6 +23,7 @@ export const NewMovie = ({ onAdd }: Props) => {
   const isValidUrls = validateUrl(movie.imgUrl) && validateUrl(movie.imdbUrl);
 
   const isFormValid = movie.title && isValidUrls && movie.imdbId;
+
   const handleInputChange = (key: string, value: string) => {
     setMovie({
       ...movie,
