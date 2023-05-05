@@ -1,58 +1,92 @@
-import { useState } from 'react';
+import { FC } from 'react';
+import { Form, Formik } from 'formik';
+import * as Yup from 'yup';
 import { TextField } from '../TextField';
+import { Movie } from '../../types/Movie';
+import { Button } from '../Button';
 
-export const NewMovie = () => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
-  const [count] = useState(0);
+type Props = {
+  onAdd: (movie: Movie) => void;
+  movies: Movie[],
+};
+
+const initialValues: Movie = {
+  title: '',
+  description: '',
+  imgUrl: '',
+  imdbUrl: '',
+  imdbId: '',
+};
+
+Yup.addMethod(Yup.string, 'whitespace', function f(message: string) {
+  // eslint-disable-next-line react/no-this-in-sfc
+  return this.test('whitespace', message, (str: string | undefined) => {
+    return str?.trim().length !== 0;
+  });
+});
+
+export const NewMovie: FC<Props> = ({ onAdd, movies }) => {
+  Yup.addMethod(Yup.string, 'unique', function f(message: string) {
+    // eslint-disable-next-line react/no-this-in-sfc
+    return this.test('unique', message, (str: string | undefined) => {
+      return movies.find((movie) => movie.title === str) === undefined;
+    });
+  });
 
   return (
-    <form className="NewMovie" key={count}>
-      <h2 className="title">Add a movie</h2>
+    <Formik
+      initialValues={initialValues}
+      validationSchema={Yup.object({
+        title: Yup.string()
+          .unique('Already exist!')
+          .required('Required!')
+          .whitespace('Write some title here not whitespaces!'),
+        description: Yup.string(),
+        imgUrl: Yup.string()
+          .url('Must be URL!')
+          .required(),
+        imdbUrl: Yup.string()
+          .url('Must be URL!')
+          .required(),
+        imdbId: Yup.string()
+          .required()
+          .whitespace('Write some id here!'),
+      })}
+      onSubmit={(values, { resetForm }) => {
+        onAdd(values);
+        resetForm();
+      }}
+    >
+      <Form className="NewMovie">
+        <h2 className="title">Add a movie</h2>
 
-      <TextField
-        name="title"
-        label="Title"
-        value=""
-        onChange={() => {}}
-        required
-      />
+        <TextField
+          name="title"
+          label="Title"
+        />
 
-      <TextField
-        name="description"
-        label="Description"
-        value=""
-      />
+        <TextField
+          name="description"
+          label="Description"
+        />
 
-      <TextField
-        name="imgUrl"
-        label="Image URL"
-        value=""
-      />
+        <TextField
+          name="imgUrl"
+          label="Image URL"
+        />
 
-      <TextField
-        name="imdbUrl"
-        label="Imdb URL"
-        value=""
-      />
+        <TextField
+          name="imdbUrl"
+          label="Imdb URL"
+        />
 
-      <TextField
-        name="imdbId"
-        label="Imdb ID"
-        value=""
-      />
+        <TextField
+          name="imdbId"
+          label="Imdb ID"
+        />
+        <Button />
+      </Form>
+    </Formik>
 
-      <div className="field is-grouped">
-        <div className="control">
-          <button
-            type="submit"
-            data-cy="submit-button"
-            className="button is-link"
-          >
-            Add
-          </button>
-        </div>
-      </div>
-    </form>
   );
 };
