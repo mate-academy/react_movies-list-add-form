@@ -30,4 +30,18 @@ const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(
 - Implement a solution following the [React task guideline](https://github.com/mate-academy/react_task-guideline#react-tasks-guideline).
 - Use the [React TypeScript cheat sheet](https://mate-academy.github.io/fe-program/js/extra/react-typescript).
 - Open one more terminal and run tests with `npm test` to ensure your solution is correct.
-- Replace `<your_account>` with your Github username in the [DEMO LINK](https://<your_account>.github.io/react_movies-list-add-form/) and add it to the PR description.
+- Replace `<your_account>` with your Github username in the [DEMO LINK](https://emxm.github.io/react_movies-list-add-form/) and add it to the PR description.
+
+У вас є `App` з формами `MoviesList` і `NewMovie`, які містять готові до використання компоненти `TextField`. Дізнайтеся, як це працює, і запровадьте можливість додавати фільми з [IMDB](https://www.imdb.com/).
+
+Якщо ви хочете перевірити свою сторінку, ви можете отримати перше зображення зі [movie page] (https://www.imdb.com/title/tt1312171) за допомогою `DevTools` -> `Network` -> `Img`
+
+1. `NewMovie` має перевіряти, чи введено `title`, `imgUrl`, `imdbUrl`, `imdbId`, коли введення втрачає фокус (`onBlur`), і показувати помилку та червону рамку, якщо потрібно (дізнайтеся, як це реалізовано в `TextField`);
+2. `description` необов'язковий;
+3. Вимкніть кнопку відправки, доки не будуть заповнені всі необхідні поля;
+4. Очистіть форму після додавання нового фільму.
+5. Помилки не повинні відображатися після очищення форми (змініть її ключ, щоб повторно ініціалізувати форму);
+
+## (Необов'язково) Розширена перевірка
+Реалізуйте можливість додавати власний зворотний виклик перевірки до `TextField`.
+Перевірте, чи `imgUrl` і `imdbUrl` є дійсними URL-адресами (ви можете використати наступний регулярний вираз)
