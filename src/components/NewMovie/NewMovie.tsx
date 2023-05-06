@@ -1,45 +1,114 @@
+/* eslint-disable default-case */
 import { useState } from 'react';
 import { TextField } from '../TextField';
+import { Movie } from '../../types/Movie';
+import { Input } from '../../types/Input';
 
-export const NewMovie = () => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
-  const [count] = useState(0);
+type Props = {
+  onAdd: (
+    newMovie: Movie,
+    event: React.FormEvent,
+    clearFunction: CallableFunction,
+  ) => void,
+};
+
+export const NewMovie: React.FC<Props> = ({ onAdd }) => {
+  const [count, setCount] = useState(0);
+  const [titleValue, setTitleValue] = useState('');
+  const [descriptionValue, setDescriptionValue] = useState('');
+  const [imgUrlValue, setImgUrlValue] = useState('');
+  const [imdbUrlValue, setImdbUrlValue] = useState('');
+  const [imdbIdValue, setImdbIdValue] = useState('');
+
+  const onChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value, name } = event.target;
+
+    switch (name) {
+      case Input.title:
+        setTitleValue(value);
+        break;
+      case Input.description:
+        setDescriptionValue(value);
+        break;
+      case Input.imgUrl:
+        setImgUrlValue(value);
+        break;
+      case Input.imdbUrl:
+        setImdbUrlValue(value);
+        break;
+      case Input.imdbId:
+        setImdbIdValue(value);
+    }
+  };
+
+  const newMovie = {
+    title: titleValue,
+    description: descriptionValue,
+    imgUrl: imgUrlValue,
+    imdbUrl: imdbUrlValue,
+    imdbId: imdbIdValue,
+  };
+
+  const clearForm = () => {
+    setTitleValue('');
+    setDescriptionValue('');
+    setImgUrlValue('');
+    setImdbUrlValue('');
+    setImdbIdValue('');
+    setCount(current => current + 1);
+  };
+
+  const isAble
+  = !titleValue
+  || !imgUrlValue
+  || !imdbUrlValue
+  || !imdbIdValue;
 
   return (
-    <form className="NewMovie" key={count}>
+    <form
+      className="NewMovie"
+      key={count}
+      onSubmit={(event) => onAdd(newMovie, event, clearForm)}
+    >
       <h2 className="title">Add a movie</h2>
 
       <TextField
         name="title"
         label="Title"
-        value=""
-        onChange={() => {}}
+        value={titleValue}
+        onChange={onChangeInput}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value=""
+        value={descriptionValue}
+        onChange={onChangeInput}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value=""
+        value={imgUrlValue}
+        onChange={onChangeInput}
+        required
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value=""
+        value={imdbUrlValue}
+        onChange={onChangeInput}
+        required
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value=""
+        value={imdbIdValue}
+        onChange={onChangeInput}
+        required
       />
 
       <div className="field is-grouped">
@@ -48,6 +117,7 @@ export const NewMovie = () => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
+            disabled={isAble}
           >
             Add
           </button>
