@@ -6,10 +6,15 @@ import moviesFromServer from './api/movies.json';
 import { Movie } from './types/Movie';
 
 export const App = () => {
-  const [movies, setMovies] = useState(moviesFromServer);
+  const [movies, setMovies] = useState<Movie[]>(moviesFromServer);
 
   const onAdd = (movie: Movie) => {
-    setMovies([...movies, movie]);
+    if (movies.some(addedMovie => addedMovie.imdbId === movie.imdbId)) {
+      // eslint-disable-next-line no-alert
+      alert('error - movie already added!');
+    } else {
+      setMovies([...movies, movie]);
+    }
   };
 
   return (
