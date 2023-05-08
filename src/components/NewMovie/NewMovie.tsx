@@ -18,6 +18,14 @@ type State = {
   formValid: boolean,
 };
 
+enum InputName {
+  title = 'title',
+  description = 'description',
+  imgUrl = 'imgUrl',
+  imdbUrl = 'imdbUrl',
+  imdbId = 'imdbId',
+}
+
 export class NewMovie extends Component<Props, State> {
   state: State = {
     newMovie: {
@@ -50,20 +58,20 @@ export class NewMovie extends Component<Props, State> {
       title, description, imgUrl, imdbUrl, imdbId,
     } = this.state.newMovie;
 
-    switch (event.target.name) {
-      case 'title':
+    switch (event.target.name as InputName) {
+      case InputName.title:
         this.setState({ title: title === '' });
         break;
-      case 'description':
+      case InputName.description:
         this.setState({ description: description === '' });
         break;
-      case 'imgUrl':
+      case InputName.imgUrl:
         this.setState({ imgUrl: imgUrl === imgUrl.replace(/^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/, '') });
         break;
-      case 'imdbUrl':
+      case InputName.imdbUrl:
         this.setState({ imdbUrl: imdbUrl === imdbUrl.replace(/^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/, '') });
         break;
-      case 'imdbId':
+      case InputName.imdbId:
         this.setState({ imdbId: imdbId === '' });
         break;
       default:
@@ -76,20 +84,20 @@ export class NewMovie extends Component<Props, State> {
   };
 
   handlerFocus = (event: React.ChangeEvent<HTMLInputElement>) => {
-    switch (event.target.name) {
-      case 'title':
+    switch (event.target.name as InputName) {
+      case InputName.title:
         this.setState({ title: false });
         break;
-      case 'description':
+      case InputName.description:
         this.setState({ description: false });
         break;
-      case 'imgUrl':
+      case InputName.imgUrl:
         this.setState({ imgUrl: false });
         break;
-      case 'imdbUrl':
+      case InputName.imdbUrl:
         this.setState({ imdbUrl: false });
         break;
-      case 'imdbId':
+      case InputName.imdbId:
         this.setState({ imdbId: false });
         break;
       default:
