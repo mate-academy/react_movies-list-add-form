@@ -8,7 +8,7 @@ import { Movie } from './types/Movie';
 export const App = () => {
   const [movies, setMovies] = useState(moviesFromServer);
 
-  const handleAdd = (movie: Movie) => {
+  const handleAdd = (movie: Movie): void => {
     setMovies([...movies, movie]);
   };
 

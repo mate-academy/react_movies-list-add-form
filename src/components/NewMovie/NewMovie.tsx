@@ -1,6 +1,7 @@
 import { FC, useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
+import { pattern } from '../../utils/validationPatterns';
 
 interface Props {
   onAdd: (movie: Movie) => void;
@@ -11,28 +12,26 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
   // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
   const [titleValue, setTitleValue] = useState('');
-  const [descritpionValue, setDescritpionValue] = useState('');
+  const [descriptionValue, setDescriptionValue] = useState('');
   const [imgUrlValue, setImgUrlValue] = useState('');
   const [imdbUrlValue, setImdbUrlValue] = useState('');
   const [imdbIdValue, setImdbIdValueValue] = useState('');
 
   // eslint-disable-next-line max-len
-  const isFieldFilled = titleValue.trimStart() && imgUrlValue.trimStart() && imdbIdValue.trimStart() && imdbUrlValue.trimStart();
-
-  // eslint-disable-next-line max-len
-  const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
+  const isFieldFilled = titleValue.trim() && imgUrlValue.trim() && imdbIdValue.trim() && imdbUrlValue.trim();
 
   const isUrlValid = (urlValue: string) => {
     return pattern.test(urlValue);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (event: { preventDefault: () => void; }) => {
+    event?.preventDefault();
     const areUrlsValid = isUrlValid(imgUrlValue) && isUrlValid(imdbUrlValue);
 
     if (isFieldFilled && areUrlsValid) {
       const newMovie: Movie = {
         title: titleValue,
-        description: descritpionValue,
+        description: descriptionValue,
         imgUrl: imgUrlValue,
         imdbUrl: imdbUrlValue,
         imdbId: imdbIdValue,
@@ -41,7 +40,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
       onAdd(newMovie);
 
       setTitleValue('');
-      setDescritpionValue('');
+      setDescriptionValue('');
       setImgUrlValue('');
       setImdbUrlValue('');
       setImdbIdValueValue('');
@@ -56,7 +55,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
         break;
 
       case 'description':
-        setDescritpionValue(value);
+        setDescriptionValue(value);
         break;
 
       case 'imgUrl': {
@@ -89,7 +88,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value={titleValue}
+        fieldValue={titleValue}
         onChange={handleChange}
         required
       />
@@ -97,14 +96,14 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
       <TextField
         name="description"
         label="Description"
-        value={descritpionValue}
+        fieldValue={descriptionValue}
         onChange={handleChange}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={imgUrlValue}
+        fieldValue={imgUrlValue}
         onChange={handleChange}
         required
       />
@@ -112,7 +111,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={imdbUrlValue}
+        fieldValue={imdbUrlValue}
         onChange={handleChange}
         required
       />
@@ -120,7 +119,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imdbIdValue}
+        fieldValue={imdbIdValue}
         onChange={handleChange}
         required
       />
