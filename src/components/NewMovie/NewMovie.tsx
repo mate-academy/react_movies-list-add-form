@@ -19,15 +19,17 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
 
   let isDisabled = true;
 
-  if (title.trim()
-  && imgUrl.trim()
-  && imdbUrl.trim()
-  && imdbUrl.trim()
-  && imdbId.trim()) {
+  if (
+    title.trim()
+      && imgUrl.trim()
+      && imdbUrl.trim()
+      && imdbUrl.trim()
+      && imdbId.trim()
+  ) {
     isDisabled = false;
   }
 
-  const formReset = () => {
+  const handleReset = () => {
     setTitle('');
     setDescription('');
     setImgUrl('');
@@ -47,7 +49,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
 
-    formReset();
+    handleReset();
     onAdd(addMovie);
   };
 
@@ -59,7 +61,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={title}
-        onChange={(event) => setTitle(event)}
+        onChange={setTitle}
         required
       />
 
@@ -67,14 +69,14 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={description}
-        onChange={(event) => setDescription(event)}
+        onChange={setDescription}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={(event) => setImgUrl(event)}
+        onChange={setImgUrl}
         required
       />
 
@@ -82,7 +84,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={(event) => setImdbUrl(event)}
+        onChange={setImdbUrl}
         required
       />
 
@@ -90,7 +92,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={(event) => setImdbId(event)}
+        onChange={setImdbId}
         required
       />
 
@@ -100,7 +102,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={isDisabled} // if error
+            disabled={isDisabled}
           >
             Add
           </button>
