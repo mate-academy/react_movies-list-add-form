@@ -125,6 +125,15 @@ export class NewMovie extends Component<Props, State> {
     this.clearForm();
   };
 
+  handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    const { key, target } = event;
+    const { value } = target as HTMLInputElement;
+
+    if (key === ' ' && !value.trim()) {
+      event.preventDefault();
+    }
+  };
+
   render() {
     const {
       title, description, imgUrl, imdbUrl, imdbId,
@@ -144,6 +153,7 @@ export class NewMovie extends Component<Props, State> {
           onChange={this.handleChange}
           onBlur={this.handleBlur}
           onFocus={this.handlerFocus}
+          onKeyPress={this.handleKeyPress}
         />
 
         {this.state.description && <div className="error">required field</div> }
@@ -156,6 +166,7 @@ export class NewMovie extends Component<Props, State> {
           onChange={this.handleChange}
           onBlur={this.handleBlur}
           onFocus={this.handlerFocus}
+          onKeyPress={this.handleKeyPress}
         />
 
         {this.state.imgUrl && <div className="error">required field - enter url</div> }
@@ -168,6 +179,7 @@ export class NewMovie extends Component<Props, State> {
           onChange={this.handleChange}
           onBlur={this.handleBlur}
           onFocus={this.handlerFocus}
+          onKeyPress={this.handleKeyPress}
         />
 
         {this.state.imdbUrl && <div className="error">required field - enter url</div> }
@@ -175,11 +187,12 @@ export class NewMovie extends Component<Props, State> {
           type="text"
           name="imdbUrl"
           className={classNames('form__item', { invalid: this.state.imdbUrl })}
-          placeholder="imdbUrl"
+          placeholder="IMDB URL"
           value={imdbUrl}
           onChange={this.handleChange}
           onBlur={this.handleBlur}
           onFocus={this.handlerFocus}
+          onKeyPress={this.handleKeyPress}
         />
 
         {this.state.imdbId && <div className="error">required field</div> }
@@ -192,6 +205,7 @@ export class NewMovie extends Component<Props, State> {
           onChange={this.handleChange}
           onBlur={this.handleBlur}
           onFocus={this.handlerFocus}
+          onKeyPress={this.handleKeyPress}
         />
 
         <button type="submit" disabled={this.state.formValid} className="form__button">Add movie</button>
