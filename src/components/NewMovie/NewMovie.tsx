@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import React, { FC, useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 import { pattern } from '../../utils/validationPatterns';
@@ -8,8 +8,6 @@ interface Props {
 }
 
 export const NewMovie: FC<Props> = ({ onAdd }) => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
   const [titleValue, setTitleValue] = useState('');
   const [descriptionValue, setDescriptionValue] = useState('');
@@ -17,35 +15,43 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
   const [imdbUrlValue, setImdbUrlValue] = useState('');
   const [imdbIdValue, setImdbIdValueValue] = useState('');
 
-  // eslint-disable-next-line max-len
-  const isFieldFilled = titleValue.trim() && imgUrlValue.trim() && imdbIdValue.trim() && imdbUrlValue.trim();
+  const isFieldFilled = titleValue.trim()
+  && imgUrlValue.trim()
+  && imdbIdValue.trim()
+  && imdbUrlValue.trim();
 
   const isUrlValid = (urlValue: string) => {
     return pattern.test(urlValue);
   };
 
-  const handleSubmit = (event: { preventDefault: () => void; }) => {
+  const handleResetFields = () => {
+    setTitleValue('');
+    setDescriptionValue('');
+    setImgUrlValue('');
+    setImdbUrlValue('');
+    setImdbIdValueValue('');
+  };
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event?.preventDefault();
     const areUrlsValid = isUrlValid(imgUrlValue) && isUrlValid(imdbUrlValue);
 
-    if (isFieldFilled && areUrlsValid) {
-      const newMovie: Movie = {
-        title: titleValue,
-        description: descriptionValue,
-        imgUrl: imgUrlValue,
-        imdbUrl: imdbUrlValue,
-        imdbId: imdbIdValue,
-      };
-
-      onAdd(newMovie);
-
-      setTitleValue('');
-      setDescriptionValue('');
-      setImgUrlValue('');
-      setImdbUrlValue('');
-      setImdbIdValueValue('');
-      setCount(count + 1);
+    if (!areUrlsValid) {
+      return;
     }
+
+    const newMovie: Movie = {
+      title: titleValue,
+      description: descriptionValue,
+      imgUrl: imgUrlValue,
+      imdbUrl: imdbUrlValue,
+      imdbId: imdbIdValue,
+    };
+
+    onAdd(newMovie);
+
+    handleResetFields();
+    setCount(count + 1);
   };
 
   const handleChange = (value: string, inputName: string) => {
