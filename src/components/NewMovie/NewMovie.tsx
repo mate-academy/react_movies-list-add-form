@@ -28,7 +28,13 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       && formValues.imdbUrl
       && formValues.imdbId
     ) {
-      onAdd(formValues);
+      onAdd({
+        title: '',
+        imgUrl: '',
+        imdbUrl: '',
+        imdbId: '',
+        description: '',
+      });
       setFormValues({
         title: '',
         imgUrl: '',
@@ -39,14 +45,18 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     }
   };
 
-  const isFormValid
+  const isFormInvalid
     = noSpaces(formValues.title)
     || noSpaces(formValues.imgUrl)
     || noSpaces(formValues.imdbUrl)
     || noSpaces(formValues.imdbId);
 
   return (
-    <form className="NewMovie" onSubmit={handleSubmit}>
+    <form
+      key={formValues.title}
+      className="NewMovie"
+      onSubmit={handleSubmit}
+    >
       <h2 className="title">Add a movie</h2>
 
       <TextField
@@ -96,7 +106,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={isFormValid}
+            disabled={isFormInvalid}
           >
             Add
           </button>

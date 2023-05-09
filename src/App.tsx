@@ -10,18 +10,8 @@ import './App.scss';
 export const App = () => {
   const [visibleMovie, setVisibleMovie] = useState([...moviesFromServer]);
 
-  const addMovie = (
-    movie: Movie,
-  ) => {
-    const newMovie = {
-      title: movie.title,
-      description: movie.description,
-      imgUrl: movie.imgUrl,
-      imdbUrl: movie.imdbUrl,
-      imdbId: movie.imdbId,
-    };
-
-    setVisibleMovie(prevValue => [...prevValue, newMovie]);
+  const addMovie = (movie: Movie) => {
+    setVisibleMovie(prevMovies => [...prevMovies, movie]);
   };
 
   return (
