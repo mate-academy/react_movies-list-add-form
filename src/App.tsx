@@ -9,7 +9,7 @@ export const App = () => {
   const [movies, setMovies] = useState(moviesFromServer);
 
   const onAdd = (movie: Movie) => {
-    setMovies([...movies, movie]);
+    setMovies((prevState => [...prevState, movie]));
   };
 
   return (
@@ -18,7 +18,7 @@ export const App = () => {
         <MoviesList movies={movies} />
       </div>
       <div className="sidebar">
-        <NewMovie onAdd={onAdd} />
+        <NewMovie handleAdd={onAdd} />
       </div>
     </div>
   );

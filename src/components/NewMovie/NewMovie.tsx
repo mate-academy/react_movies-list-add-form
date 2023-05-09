@@ -1,16 +1,15 @@
 import { FormEventHandler, useState } from 'react';
 import { Movie } from '../../types/Movie';
 import { TextField } from '../TextField';
-// eslint-disable-next-line max-len
-const URL_PATTERN = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
+import { urlPattern } from '../../pattern/regexp';
 
-const validateUrl = (url: string) => URL_PATTERN.test(url);
+const validateUrl = (url: string) => urlPattern.test(url);
 
 type Props = {
-  onAdd: (movie: Movie) => void;
+  handleAdd: (movie: Movie) => void;
 };
 
-export const NewMovie = ({ onAdd }: Props) => {
+export const NewMovie = ({ handleAdd }: Props) => {
   const [count, setCount] = useState(0);
   const [movie, setMovie] = useState<Movie>({
     title: '',
@@ -33,7 +32,7 @@ export const NewMovie = ({ onAdd }: Props) => {
 
   const submitHandler: FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
-    onAdd(movie);
+    handleAdd(movie);
     setMovie({
       title: '',
       description: '',
