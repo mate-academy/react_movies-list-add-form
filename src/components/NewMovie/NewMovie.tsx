@@ -15,6 +15,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     description: '',
   });
 
+  const withOutSpaces = (value: string) => {
+    return value.trim() === '';
+  };
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -36,10 +40,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   };
 
   const isFormValid
-    = !formValues.title
-    || !formValues.imgUrl
-    || !formValues.imdbUrl
-    || !formValues.imdbId;
+    = withOutSpaces(formValues.title)
+    || withOutSpaces(formValues.imgUrl)
+    || withOutSpaces(formValues.imdbUrl)
+    || withOutSpaces(formValues.imdbId);
 
   return (
     <form className="NewMovie" onSubmit={handleSubmit}>
