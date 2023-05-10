@@ -13,46 +13,49 @@ type Props = {
   onAdd:(tab: Movie) => void,
 };
 
-// eslint-disable-next-line max-len
-
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
+  const [movie, setMovie] = useState({
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  });
 
   const [count, setCount] = useState(0);
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
 
-  const newMovie = {
-    title,
-    description,
-    imgUrl,
-    imdbUrl,
-    imdbId,
-  };
+  // const newMovie = movie;
+
+  const {
+    title, imgUrl, imdbUrl, imdbId, description,
+  } = movie;
+
+  const isFormValid = !!title && !!imgUrl && !!imdbUrl && !!imdbId;
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    onAdd(newMovie);
+    onAdd(movie);
+
     setCount(newCount => newCount + 1);
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
+
+    setMovie(({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    }));
   };
 
   const handleChange = (
     event: string,
-    setFunc: any,
+    name: string,
   ) => {
-    setFunc(event);
+    setMovie(prevMovie => ({
+      ...prevMovie,
+      [name]: event,
+    }));
   };
-
-  const dis = !!title && !!imgUrl && !!imdbUrl && !!imdbId;
 
   return (
     <form
@@ -67,7 +70,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Title"
         value={title}
         onChange={(event) => {
-          handleChange(event, setTitle);
+          handleChange(event, 'title');
         }}
         required
       />
@@ -77,7 +80,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Description"
         value={description}
         onChange={(event) => {
-          handleChange(event, setDescription);
+          handleChange(event, 'description');
         }}
       />
 
@@ -86,7 +89,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Image URL"
         value={imgUrl}
         onChange={(event) => {
-          handleChange(event, setImgUrl);
+          handleChange(event, 'imgUrl');
         }}
         required
       />
@@ -96,7 +99,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Imdb URL"
         value={imdbUrl}
         onChange={(event) => {
-          handleChange(event, setImdbUrl);
+          handleChange(event, 'imdbUrl');
         }}
         required
       />
@@ -106,7 +109,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Imdb ID"
         value={imdbId}
         onChange={(event) => {
-          handleChange(event, setImdbId);
+          handleChange(event, 'imdbId');
         }}
         required
       />
@@ -117,7 +120,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!dis}
+            disabled={!isFormValid}
           >
             Add
           </button>
