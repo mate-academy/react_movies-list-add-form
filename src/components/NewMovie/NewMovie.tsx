@@ -21,10 +21,10 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
 
   if (
     title.trim()
-      && imgUrl.trim()
-      && imdbUrl.trim()
-      && imdbUrl.trim()
-      && imdbId.trim()
+    && imgUrl.trim()
+    && imdbUrl.trim()
+    && imdbUrl.trim()
+    && imdbId.trim()
   ) {
     isDisabled = false;
   }
@@ -35,7 +35,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
     setImgUrl('');
     setImdbUrl('');
     setImdbId('');
-    setCount(count + 1);
+    setCount(currentCount => currentCount + 1);
   };
 
   const addMovie = {
