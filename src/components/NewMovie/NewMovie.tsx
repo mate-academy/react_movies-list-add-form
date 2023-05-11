@@ -48,7 +48,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const handleChange = (
     event: { target: { name: string; value: string; }; },
   ) => {
-    setMovie({ ...movie, [event.target.name]: event.target.value });
+    setMovie({ ...movie, [event.target.name]: event.target.value.trimStart() });
   };
 
   return (
@@ -63,9 +63,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={title}
-        onChange={(event) => {
-          handleChange(event);
-        }}
+        onChange={handleChange}
         required
       />
 
@@ -73,18 +71,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={description}
-        onChange={(event) => {
-          handleChange(event);
-        }}
+        onChange={handleChange}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={(event) => {
-          handleChange(event);
-        }}
+        onChange={handleChange}
         required
       />
 
@@ -92,9 +86,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={(event) => {
-          handleChange(event);
-        }}
+        onChange={handleChange}
         required
       />
 
@@ -102,9 +94,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={(event) => {
-          handleChange(event);
-        }}
+        onChange={handleChange}
         required
       />
 
