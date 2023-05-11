@@ -51,6 +51,7 @@ export const TextField: React.FC<Props> = ({
             'is-danger': hasError,
           })}
           type="text"
+          name={name}
           placeholder={`Enter ${label}`}
           value={value}
           onChange={event => {
