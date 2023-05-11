@@ -6,7 +6,7 @@ type Props = {
   value: string,
   label?: string,
   required?: boolean,
-  onChange?: (event: any) => void,
+  onChange?: (event: { target: { name: string; value: string; }; }) => void,
 };
 
 function getRandomDigits() {
