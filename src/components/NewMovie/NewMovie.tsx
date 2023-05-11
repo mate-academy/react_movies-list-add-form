@@ -69,6 +69,7 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
+        isUrlValid={validateUrl(imgUrl)}
         onChange={setImgUrl}
         required
       />
@@ -77,6 +78,7 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
+        isUrlValid={validateUrl(imdbUrl)}
         onChange={setImdbUrl}
         required
       />
@@ -100,6 +102,7 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
             Add
           </button>
         </div>
+        {/* <span className="help is-danger">Urls are not valid</span> */}
       </div>
     </form>
   );
