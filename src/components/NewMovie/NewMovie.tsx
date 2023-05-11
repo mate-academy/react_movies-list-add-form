@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
@@ -13,19 +13,18 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imgUrl, setImgUrl] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
-  const [areSelectioned, setSelectioned] = useState(false);
 
-  const formReset = () => {
+  const handleReset = () => {
     setTitle('');
     setDescription('');
     setImgUrl('');
     setImdbUrl('');
     setImdbId('');
-    setSelectioned(false);
   };
 
   const handleFormSubmit = (event: React.FormEvent) => {
     event.preventDefault();
+
     const newMovie = {
       title,
       description,
@@ -36,14 +35,16 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
     onAdd(newMovie);
     setCount(curState => curState + 1);
-    formReset();
+    handleReset();
   };
 
-  useEffect(() => {
-    setSelectioned(
-      title !== '' && imgUrl !== '' && imdbUrl !== '' && imdbId !== '',
-    );
-  }, [title, imgUrl, imdbUrl, imdbId]);
+  function isDisabled() {
+    if (!title || !imgUrl || !imdbUrl || !imdbId) {
+      return true;
+    }
+
+    return false;
+  }
 
   return (
     <form
@@ -73,6 +74,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Image URL"
         value={imgUrl}
         onChange={setImgUrl}
+        required
       />
 
       <TextField
@@ -80,6 +82,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Imdb URL"
         value={imdbUrl}
         onChange={setImdbUrl}
+        required
       />
 
       <TextField
@@ -87,6 +90,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Imdb ID"
         value={imdbId}
         onChange={setImdbId}
+        required
       />
 
       <div className="field is-grouped">
@@ -95,7 +99,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!areSelectioned}
+            disabled={isDisabled()}
           >
             Add
           </button>
