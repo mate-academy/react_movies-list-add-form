@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
@@ -7,15 +7,12 @@ type Props = {
 };
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
   const [count] = useState(0);
   const [newTitle, setNewTitle] = useState('');
   const [newDescription, setNewDescription] = useState('');
   const [newImgUrl, setNewImgUrl] = useState('');
   const [newImdbUrl, setNewImdbUrl] = useState('');
   const [newImdbId, setNewImdbId] = useState('');
-  const [isFormValid, setIsFormValid] = useState(false);
 
   const handleReset = () => {
     setNewTitle('');
@@ -25,7 +22,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setNewImdbId('');
   };
 
-  const handleForSubmit = (event: React.FormEvent) => {
+  const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
     const movie: Movie = {
@@ -40,20 +37,16 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     handleReset();
   };
 
-  useEffect(() => {
-    setIsFormValid(
-      !!newTitle.trim()
-      && !!newImgUrl.trim()
-      && !!newImdbUrl.trim()
-      && !!newImdbId.trim(),
-    );
-  }, [newTitle, newImgUrl, newImdbUrl, newImdbId]);
+  const submitDisabled = newTitle.trim()
+      && newImgUrl.trim()
+      && newImdbUrl.trim()
+      && newImdbId.trim();
 
   return (
     <form
       className="NewMovie"
       key={count}
-      onSubmit={handleForSubmit}
+      onSubmit={handleSubmit}
     >
       <h2 className="title">Add a movie</h2>
 
@@ -102,7 +95,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!isFormValid}
+            disabled={!submitDisabled}
           >
             Add
           </button>
