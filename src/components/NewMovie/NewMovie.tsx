@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
@@ -6,6 +7,8 @@ type Props = {
   onAdd: (movies: Movie[]) => void
   movies : Movie[]
 };
+
+const inputs = ['title', 'description', 'imgUrl', 'imdbUrl', 'imdbId'];
 
 const defaultMovie = {
   title: '',
@@ -17,16 +20,28 @@ const defaultMovie = {
 
 export const NewMovie: React.FC<Props> = ({ onAdd, movies }) => {
   const [count, setCount] = useState(0);
-  const [disabled, setDisabled] = useState(true);
   const [movie, setMovie] = useState<Movie>({ ...defaultMovie });
-  const inputs = ['title', 'description', 'imgUrl', 'imdbUrl', 'imdbId'];
 
-  const addHendler = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const addHandler = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
     onAdd([...movies, movie]);
     setMovie({ ...defaultMovie });
     setCount(movies.length);
   };
+
+  function onChange(name: string, value: string) {
+    setMovie({ ...movie, ...{ [name]: value } });
+  }
+
+  const validUrl = (url: string) => {
+    const pattern = new RegExp(/^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/);
+
+    return pattern.test(url);
+  };
+
+  const isValueEmpty = Object.entries(movie)
+    .filter(item => item[0] !== 'description')
+    .every(item => item[1] !== '');
 
   const renderInput = (inputName: string) => {
     return (
@@ -34,10 +49,11 @@ export const NewMovie: React.FC<Props> = ({ onAdd, movies }) => {
         key={inputName}
         name={inputName}
         label={inputName}
-        value={movie}
+        value={movie[inputName]}
         required={inputName !== 'description'}
-        setDisabled={setDisabled}
-        onChange={setMovie}
+        isEqual={['imgUrl', 'imdbUrl'].includes(inputName) ? validUrl(movie[inputName]) : true}
+        // eslint-disable-next-line react/jsx-no-bind
+        onChange={onChange}
         count={count}
       />
     );
@@ -55,8 +71,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd, movies }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={disabled}
-            onClick={(e) => addHendler(e)}
+            disabled={!isValueEmpty || !validUrl(movie.imdbUrl) || !validUrl(movie.imgUrl)}
+            onClick={(e) => addHandler(e)}
           >
             Add
           </button>

@@ -1,15 +1,14 @@
 import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
-import { Movie } from '../../types/Movie';
 
 type Props = {
   name: string,
-  value: Movie,
+  value: string,
   label?: string,
   count: number,
   required: boolean,
-  onChange?: (movie: Movie) => void,
-  setDisabled: (value: boolean) => void,
+  onChange: (name: string, value: string) => void,
+  isEqual: boolean,
 };
 
 function getRandomDigits() {
@@ -21,34 +20,17 @@ export const TextField: React.FC<Props> = ({
   value,
   label = name,
   count,
-  required,
+  required = false,
   onChange = () => {},
-  setDisabled = () => {},
+  isEqual,
 }) => {
-  const isValueEmpty = Object.entries(value)
-    .filter(item => item[0] !== 'description')
-    .every(item => item[1] !== '');
-
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
   const [touched, setToched] = useState(false);
-  const hasError = touched && !value[name] && required;
+  const hasError = touched && !value && required;
 
-  useEffect(() => setToched(false), [count]);
-
-  const validUrl = (url: string) => {
-    // eslint-disable-next-line max-len
-    const pattern = new RegExp(/^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/);
-
-    return pattern.test(url);
-  };
-
-  const isEqual = name === 'imgUrl' || name === 'imdbUrl';
-
-  setDisabled(
-    !isValueEmpty
-    || !validUrl(value.imdbUrl)
-    || !validUrl(value.imgUrl),
-  );
+  useEffect(() => {
+    setToched(false);
+  }, [count]);
 
   return (
     <div className="field">
@@ -65,13 +47,13 @@ export const TextField: React.FC<Props> = ({
           })}
           type="text"
           placeholder={`Enter ${label}`}
-          value={value[name]}
-          onChange={event => onChange({ ...value, [name]: event.target.value })}
+          defaultValue={value}
+          onChange={event => onChange(name, event.currentTarget.value.trim())}
           onBlur={() => setToched(true)}
         />
       </div>
       {
-        value[name] && !validUrl(value[name]) && isEqual
+        value && !isEqual
           && (<p className="help is-danger">Url is not correct</p>)
       }
       {hasError && (<p className="help is-danger">{`${label} is required`}</p>)}
