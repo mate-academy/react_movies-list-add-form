@@ -24,8 +24,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
   const [count, setCount] = useState(0);
 
-  // const newMovie = movie;
-
   const {
     title, imgUrl, imdbUrl, imdbId, description,
   } = movie;
@@ -48,13 +46,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   };
 
   const handleChange = (
-    event: string,
-    name: string,
+    event: { target: { name: string; value: string; }; },
   ) => {
-    setMovie(prevMovie => ({
-      ...prevMovie,
-      [name]: event,
-    }));
+    setMovie({ ...movie, [event.target.name]: event.target.value });
   };
 
   return (
@@ -70,7 +64,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Title"
         value={title}
         onChange={(event) => {
-          handleChange(event, 'title');
+          handleChange(event);
         }}
         required
       />
@@ -80,7 +74,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Description"
         value={description}
         onChange={(event) => {
-          handleChange(event, 'description');
+          handleChange(event);
         }}
       />
 
@@ -89,7 +83,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Image URL"
         value={imgUrl}
         onChange={(event) => {
-          handleChange(event, 'imgUrl');
+          handleChange(event);
         }}
         required
       />
@@ -99,7 +93,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Imdb URL"
         value={imdbUrl}
         onChange={(event) => {
-          handleChange(event, 'imdbUrl');
+          handleChange(event);
         }}
         required
       />
@@ -109,7 +103,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Imdb ID"
         value={imdbId}
         onChange={(event) => {
-          handleChange(event, 'imdbId');
+          handleChange(event);
         }}
         required
       />
