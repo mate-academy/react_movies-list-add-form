@@ -102,7 +102,6 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
             Add
           </button>
         </div>
-        {/* <span className="help is-danger">Urls are not valid</span> */}
       </div>
     </form>
   );
