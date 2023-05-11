@@ -15,7 +15,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     description: '',
   });
 
-  const noSpaces = (value: string) => {
+  const isEmpty = (value: string) => {
     return value.trim() === '';
   };
 
@@ -28,13 +28,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       && formValues.imdbUrl
       && formValues.imdbId
     ) {
-      onAdd({
-        title: '',
-        imgUrl: '',
-        imdbUrl: '',
-        imdbId: '',
-        description: '',
-      });
+      onAdd(formValues);
       setFormValues({
         title: '',
         imgUrl: '',
@@ -46,14 +40,13 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   };
 
   const isFormInvalid
-    = noSpaces(formValues.title)
-    || noSpaces(formValues.imgUrl)
-    || noSpaces(formValues.imdbUrl)
-    || noSpaces(formValues.imdbId);
+    = isEmpty(formValues.title)
+    || isEmpty(formValues.imgUrl)
+    || isEmpty(formValues.imdbUrl)
+    || isEmpty(formValues.imdbId);
 
   return (
     <form
-      key={formValues.title}
       className="NewMovie"
       onSubmit={handleSubmit}
     >
