@@ -1,17 +1,22 @@
 import classNames from 'classnames';
-import React, { useState } from 'react';
+import React, { useState, ChangeEvent } from 'react';
 
 type Props = {
   name: string,
   value: string,
   label?: string,
   required?: boolean,
-  onChange?: (newValue: string) => void,
+  onChange?: (e: ChangeEvent<HTMLInputElement>) => void,
 };
 
-function getRandomDigits() {
-  return Math.random().toString().slice(2);
-}
+const getRandomDigits = () => Math.random().toString().slice(2);
+
+const checkIfUrl = (url: string) => {
+  // eslint-disable-next-line max-len
+  const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
+
+  return pattern.test(url);
+};
 
 export const TextField: React.FC<Props> = ({
   name,
@@ -20,12 +25,12 @@ export const TextField: React.FC<Props> = ({
   required = false,
   onChange = () => {},
 }) => {
-  // generage a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
+  const [touched, setTouched] = useState(false);
+  const [urlError, setUrlError] = useState(false);
 
-  // To show errors only if the field was touched (onBlur)
-  const [touched, setToched] = useState(false);
   const hasError = touched && required && !value;
+  const isUrlInput = name === 'imdbUrl' || name === 'imgUrl';
 
   return (
     <div className="field">
@@ -37,19 +42,33 @@ export const TextField: React.FC<Props> = ({
         <input
           id={id}
           data-cy={`movie-${name}`}
+          name={name}
           className={classNames('input', {
             'is-danger': hasError,
           })}
           type="text"
           placeholder={`Enter ${label}`}
           value={value}
-          onChange={event => onChange(event.target.value)}
-          onBlur={() => setToched(true)}
+          onChange={(e) => {
+            onChange(e);
+            setUrlError(false);
+          }}
+          onBlur={() => {
+            if (value && isUrlInput) {
+              setUrlError(!checkIfUrl(value));
+            }
+
+            setTouched(true);
+          }}
         />
       </div>
 
       {hasError && (
         <p className="help is-danger">{`${label} is required`}</p>
+      )}
+
+      {urlError && (
+        <p className="help is-danger">You should input proper URL</p>
       )}
     </div>
   );
