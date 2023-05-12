@@ -37,8 +37,9 @@ export const NewMovie = ({ onAdd }: PropsNewMovies) => {
       setIsUrl(false);
     } else {
       setIsUrl(true);
-      setImgUrl(url);
     }
+
+    setImgUrl(url);
   };
 
   const handleImdbUrl = (url: string) => {
@@ -46,8 +47,9 @@ export const NewMovie = ({ onAdd }: PropsNewMovies) => {
       setIsUrl(false);
     } else {
       setIsUrl(true);
-      setImdbUrl(url);
     }
+
+    setImdbUrl(url);
   };
 
   const handleSubmit = (event: React.FormEvent) => {
