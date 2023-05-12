@@ -1,46 +1,64 @@
+/* eslint-disable max-len */
 import { useState } from 'react';
 import { TextField } from '../TextField';
+import { Movie } from '../../types/Movie';
 
-export const NewMovie = () => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
-  const [count] = useState(0);
+type Props = {
+  onAdd: (movie: Movie) => void
+  movies : Movie[]
+};
+
+const inputs = ['title', 'description', 'imgUrl', 'imdbUrl', 'imdbId'];
+
+const defaultMovie = {
+  title: '',
+  description: '',
+  imgUrl: '',
+  imdbUrl: '',
+  imdbId: '',
+};
+
+export const NewMovie: React.FC<Props> = ({ onAdd, movies }) => {
+  const [count, setCount] = useState(0);
+  const [movie, setMovie] = useState<Movie>({ ...defaultMovie });
+
+  const addHandler = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.preventDefault();
+    onAdd(movie);
+    setMovie({ ...defaultMovie });
+    setCount(movies.length);
+  };
+
+  const validUrl = (url: string) => {
+    const pattern = new RegExp(/^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/);
+
+    return pattern.test(url);
+  };
+
+  const isValueEmpty = Object.entries(movie)
+    .filter(item => item[0] !== 'description')
+    .every(item => item[1] !== '');
+
+  const renderInput = (inputName: string) => {
+    return (
+      <TextField
+        key={inputName}
+        name={inputName}
+        label={inputName}
+        value={movie[inputName]}
+        required={inputName !== 'description'}
+        isEqual={['imgUrl', 'imdbUrl'].includes(inputName) ? validUrl(movie[inputName]) : true}
+        onChange={(name, value) => setMovie({ ...movie, [name]: value })}
+        count={count}
+      />
+    );
+  };
 
   return (
     <form className="NewMovie" key={count}>
       <h2 className="title">Add a movie</h2>
 
-      <TextField
-        name="title"
-        label="Title"
-        value=""
-        onChange={() => {}}
-        required
-      />
-
-      <TextField
-        name="description"
-        label="Description"
-        value=""
-      />
-
-      <TextField
-        name="imgUrl"
-        label="Image URL"
-        value=""
-      />
-
-      <TextField
-        name="imdbUrl"
-        label="Imdb URL"
-        value=""
-      />
-
-      <TextField
-        name="imdbId"
-        label="Imdb ID"
-        value=""
-      />
+      {inputs.map(input => renderInput(input))}
 
       <div className="field is-grouped">
         <div className="control">
@@ -48,6 +66,8 @@ export const NewMovie = () => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
+            disabled={!isValueEmpty || (!validUrl(movie.imdbUrl) || !validUrl(movie.imgUrl))}
+            onClick={(e) => addHandler(e)}
           >
             Add
           </button>
