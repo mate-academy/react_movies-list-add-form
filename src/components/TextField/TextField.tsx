@@ -20,12 +20,18 @@ export const TextField: React.FC<Props> = ({
   required = false,
   onChange = () => {},
 }) => {
-  // generage a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
-  // To show errors only if the field was touched (onBlur)
   const [touched, setToched] = useState(false);
   const hasError = touched && required && !value;
+
+  const handleChange = (str: string) => {
+    if (str.trim() !== '') {
+      onChange(str);
+    } else {
+      onChange(str.trim());
+    }
+  };
 
   return (
     <div className="field">
@@ -43,7 +49,7 @@ export const TextField: React.FC<Props> = ({
           type="text"
           placeholder={`Enter ${label}`}
           value={value}
-          onChange={event => onChange(event.target.value)}
+          onChange={event => handleChange(event.target.value)}
           onBlur={() => setToched(true)}
         />
       </div>
