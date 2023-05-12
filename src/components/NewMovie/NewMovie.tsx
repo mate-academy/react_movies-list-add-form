@@ -15,6 +15,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     description: '',
   });
 
+  const [count] = useState(0);
+
   const isEmpty = (value: string) => {
     return value.trim() === '';
   };
@@ -48,6 +50,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   return (
     <form
       className="NewMovie"
+      key={count}
       onSubmit={handleSubmit}
     >
       <h2 className="title">Add a movie</h2>
