@@ -6,6 +6,13 @@ type Props = {
   onAdd: (movie: Movie) => void,
 };
 
+// eslint-disable-next-line max-len
+const urlPattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
+
+const urlValidation = (url: string): boolean => {
+  return urlPattern.test(url);
+};
+
 export const NewMovie:React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
   const [newTitle, setNewTitle] = useState('');
@@ -33,6 +40,12 @@ export const NewMovie:React.FC<Props> = ({ onAdd }) => {
     setNewImdbURL('');
     setNewImdbId('');
   };
+
+  const isDisabled =
+    newTitle.trim()
+    && urlValidation(newImageURL)
+    && urlValidation(newImdbURL)
+    && newImdbId.trim();
 
   return (
     <form
@@ -87,12 +100,7 @@ export const NewMovie:React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={
-              !(newTitle.trim()
-              && newImageURL.trim()
-              && newImdbURL.trim()
-              && newImdbId.trim())
-            }
+            disabled={!isDisabled}
           >
             Add
           </button>
