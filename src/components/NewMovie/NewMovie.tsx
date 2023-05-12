@@ -16,8 +16,7 @@ export const NewMovie = ({ onAdd }: PropsNewMovies) => {
   const [imdbId, setImdbId] = useState('');
   const [isUrl, setIsUrl] = useState(true);
 
-  const isRequired = title && description && imgUrl && imdbUrl
-   && imdbId && isUrl;
+  const isRequired = title && imgUrl && imdbUrl && imdbId && isUrl;
   const resetValues = () => {
     setTitle('');
     setDescription('');
