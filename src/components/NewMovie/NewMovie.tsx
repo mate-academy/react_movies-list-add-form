@@ -35,17 +35,19 @@ export const NewMovie = ({ onAdd }: PropsNewMovies) => {
   const handleImgURL = (url: string) => {
     if (!validURL(url)) {
       setIsUrl(false);
+    } else {
+      setIsUrl(true);
+      setImgUrl(url);
     }
-
-    setImgUrl(url);
   };
 
   const handleImdbUrl = (url: string) => {
     if (!validURL(url)) {
       setIsUrl(false);
+    } else {
+      setIsUrl(true);
+      setImdbUrl(url);
     }
-
-    setImdbUrl(url);
   };
 
   const handleSubmit = (event: React.FormEvent) => {
