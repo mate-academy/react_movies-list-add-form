@@ -9,10 +9,6 @@ type Props = {
 // eslint-disable-next-line max-len
 const urlPattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
 
-const urlValidation = (url: string): boolean => {
-  return urlPattern.test(url);
-};
-
 export const NewMovie:React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
   const [newTitle, setNewTitle] = useState('');
@@ -39,6 +35,10 @@ export const NewMovie:React.FC<Props> = ({ onAdd }) => {
     setNewImageURL('');
     setNewImdbURL('');
     setNewImdbId('');
+  };
+
+  const urlValidation = (url: string): boolean => {
+    return urlPattern.test(url);
   };
 
   const isDisabled
@@ -76,6 +76,7 @@ export const NewMovie:React.FC<Props> = ({ onAdd }) => {
         value={newImageURL}
         required
         onChange={setNewImageURL}
+        validated={urlValidation}
       />
 
       <TextField
@@ -84,6 +85,7 @@ export const NewMovie:React.FC<Props> = ({ onAdd }) => {
         value={newImdbURL}
         required
         onChange={setNewImdbURL}
+        validated={urlValidation}
       />
 
       <TextField
