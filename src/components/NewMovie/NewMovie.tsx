@@ -41,8 +41,8 @@ export const NewMovie:React.FC<Props> = ({ onAdd }) => {
     setNewImdbId('');
   };
 
-  const isDisabled =
-    newTitle.trim()
+  const isDisabled
+    = newTitle.trim()
     && urlValidation(newImageURL)
     && urlValidation(newImdbURL)
     && newImdbId.trim();

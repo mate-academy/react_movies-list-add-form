@@ -30,7 +30,7 @@ export const TextField: React.FC<Props> = ({
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { value: str } = event.target;
 
-    if(str.trim() !== '') {
+    if (str.trim() !== '') {
       onChange(str, name);
     } else {
       onChange(str.trim(), name);
