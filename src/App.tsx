@@ -1,7 +1,6 @@
 import { useState } from 'react';
 
 import './App.scss';
-
 import { MoviesList } from './components/MoviesList';
 import { NewMovie } from './components/NewMovie';
 
@@ -11,7 +10,8 @@ import { Movie } from './types/Movie';
 
 export const App: React.FC = () => {
   const [visibleMovies, setVisibleMovies] = useState(moviesFromServer);
-  const addNewMovie = (movie: Movie): void => {
+
+  const handleAdd = (movie: Movie): void => {
     setVisibleMovies((prevMovies) => ([...prevMovies, movie]));
   };
 
@@ -22,7 +22,7 @@ export const App: React.FC = () => {
       </div>
 
       <div className="sidebar">
-        <NewMovie onAdd={addNewMovie} />
+        <NewMovie onAdd={handleAdd} />
       </div>
     </div>
   );
