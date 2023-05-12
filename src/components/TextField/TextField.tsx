@@ -11,6 +11,10 @@ type Props = {
   isEqual: boolean,
 };
 
+type Label = {
+  [key : string]: string,
+};
+
 function getRandomDigits() {
   return Math.random().toString().slice(2);
 }
@@ -32,10 +36,18 @@ export const TextField: React.FC<Props> = ({
     setToched(false);
   }, [count]);
 
+  const correctLabel: Label = {
+    title: 'Title',
+    description: 'Description',
+    imgUrl: 'Image Url',
+    imdbUrl: 'Imdb Url',
+    imdbId: 'Imdb ID',
+  };
+
   return (
     <div className="field">
       <label className="label" htmlFor={id}>
-        {label}
+        {correctLabel[label]}
       </label>
 
       <div className="control">
@@ -46,9 +58,9 @@ export const TextField: React.FC<Props> = ({
             'is-danger': hasError,
           })}
           type="text"
-          placeholder={`Enter ${label}`}
+          placeholder={`Enter ${correctLabel[label]}`}
           defaultValue={value}
-          onChange={event => onChange(name, event.currentTarget.value.trim())}
+          onChange={event => onChange(name, event.target.value.trim())}
           onBlur={() => setToched(true)}
         />
       </div>

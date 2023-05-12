@@ -4,7 +4,7 @@ import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
 type Props = {
-  onAdd: (movies: Movie[]) => void
+  onAdd: (movie: Movie) => void
   movies : Movie[]
 };
 
@@ -24,14 +24,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd, movies }) => {
 
   const addHandler = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
-    onAdd([...movies, movie]);
+    onAdd(movie);
     setMovie({ ...defaultMovie });
     setCount(movies.length);
   };
-
-  function onChange(name: string, value: string) {
-    setMovie({ ...movie, ...{ [name]: value } });
-  }
 
   const validUrl = (url: string) => {
     const pattern = new RegExp(/^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/);
@@ -52,8 +48,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd, movies }) => {
         value={movie[inputName]}
         required={inputName !== 'description'}
         isEqual={['imgUrl', 'imdbUrl'].includes(inputName) ? validUrl(movie[inputName]) : true}
-        // eslint-disable-next-line react/jsx-no-bind
-        onChange={onChange}
+        onChange={(name, value) => setMovie({ ...movie, [name]: value })}
         count={count}
       />
     );
@@ -71,7 +66,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd, movies }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!isValueEmpty || !validUrl(movie.imdbUrl) || !validUrl(movie.imgUrl)}
+            disabled={!isValueEmpty || (!validUrl(movie.imdbUrl) || !validUrl(movie.imgUrl))}
             onClick={(e) => addHandler(e)}
           >
             Add
