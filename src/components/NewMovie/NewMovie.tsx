@@ -17,6 +17,13 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
   const [count] = useState(0);
 
+  const isValidUrl = (value: string) => {
+    // eslint-disable-next-line
+    const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/; ;
+
+    return pattern.test(value);
+  };
+
   const isEmpty = (value: string) => {
     return value.trim() === '';
   };
@@ -78,6 +85,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={formValues.imgUrl}
         onChange={(value) => setFormValues({ ...formValues, imgUrl: value })}
         required
+        validator={isValidUrl}
       />
 
       <TextField
@@ -86,6 +94,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={formValues.imdbUrl}
         onChange={(value) => setFormValues({ ...formValues, imdbUrl: value })}
         required
+        validator={isValidUrl}
       />
 
       <TextField
