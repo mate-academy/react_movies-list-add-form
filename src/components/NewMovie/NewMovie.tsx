@@ -89,7 +89,8 @@ export const NewMovie = ({ onAdd }: PropsNewMovies) => {
         onChange={handleImgURL}
         required
       />
-      {!isImgUrl && (<p className="help is-danger">Check your URL address</p>)}
+      {!isImgUrl && imgUrl
+        && (<p className="help is-danger">Check correct URL address</p>)}
 
       <TextField
         name="imdbUrl"
@@ -98,7 +99,8 @@ export const NewMovie = ({ onAdd }: PropsNewMovies) => {
         onChange={handleImdbUrl}
         required
       />
-      {!isImdbUrl && (<p className="help is-danger">Check your URL address</p>)}
+      {!isImdbUrl && imdbUrl
+        && (<p className="help is-danger">Check correct URL address</p>)}
 
       <TextField
         name="imdbId"
