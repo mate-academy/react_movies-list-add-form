@@ -14,9 +14,12 @@ export const NewMovie = ({ onAdd }: PropsNewMovies) => {
   const [imgUrl, setImgUrl] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
-  const [isUrl, setIsUrl] = useState(true);
+  const [isImgUrl, setIsImgUrl] = useState(true);
+  const [isImdbUrl, setIsImdbUrl] = useState(true);
 
-  const isRequired = title && imgUrl && imdbUrl && imdbId && isUrl;
+  const isRequired = title && imgUrl && imdbUrl && imdbId
+    && isImgUrl && isImdbUrl;
+
   const resetValues = () => {
     setTitle('');
     setDescription('');
@@ -29,26 +32,16 @@ export const NewMovie = ({ onAdd }: PropsNewMovies) => {
     // eslint-disable-next-line max-len
     const pattern = new RegExp(/^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/);
 
-    return !!pattern.test(url);
+    return pattern.test(url);
   };
 
   const handleImgURL = (url: string) => {
-    if (!validURL(url)) {
-      setIsUrl(false);
-    } else {
-      setIsUrl(true);
-    }
-
+    setIsImgUrl(validURL(url));
     setImgUrl(url);
   };
 
   const handleImdbUrl = (url: string) => {
-    if (!validURL(url)) {
-      setIsUrl(false);
-    } else {
-      setIsUrl(true);
-    }
-
+    setIsImdbUrl(validURL(url));
     setImdbUrl(url);
   };
 
@@ -96,7 +89,7 @@ export const NewMovie = ({ onAdd }: PropsNewMovies) => {
         onChange={handleImgURL}
         required
       />
-      {!isUrl && (<p className="help is-danger">Check your URL address</p>)}
+      {!isImgUrl && (<p className="help is-danger">Check your URL address</p>)}
 
       <TextField
         name="imdbUrl"
@@ -105,7 +98,7 @@ export const NewMovie = ({ onAdd }: PropsNewMovies) => {
         onChange={handleImdbUrl}
         required
       />
-      {!isUrl && (<p className="help is-danger">Check your URL address</p>)}
+      {!isImdbUrl && (<p className="help is-danger">Check your URL address</p>)}
 
       <TextField
         name="imdbId"
