@@ -27,6 +27,7 @@ export const TextField: React.FC<Props> = ({
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
   const [touched, setTouched] = useState(false);
+
   const [error, setError] = useState<string | null>(null);
 
   const validateInput = (input: string): boolean => {
@@ -42,7 +43,7 @@ export const TextField: React.FC<Props> = ({
     const hasError = required && !value;
     const isValid = !hasError && validateInput(value);
 
-    setError(hasError ? `${label} is required` : null);
+    setError(!isValid && touched ? `${label} is invalid` : null);
     onBlur(isValid);
   };
 

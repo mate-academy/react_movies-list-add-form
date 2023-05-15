@@ -10,13 +10,15 @@ const IMDB_PATTERN = /^https?:\/\/(?:www\.)?imdb\.com\/title\/tt\d{7}\/?$/i;
 const IMAGE_PATTERN = /^https?:\/\/.+\/(.+)\.(jpe?g|png|gif)$/i;
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
-  const [movie, setMovie] = useState<Movie>({
+  const initMovie = {
     title: '',
     description: '',
     imgUrl: '',
     imdbUrl: '',
     imdbId: '',
-  });
+  };
+
+  const [movie, setMovie] = useState<Movie>(initMovie);
 
   const [isValidForm, setIsValidForm] = useState(false);
 
@@ -27,13 +29,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
     onAdd(movie);
 
-    setMovie({
-      title: '',
-      description: '',
-      imgUrl: '',
-      imdbUrl: '',
-      imdbId: '',
-    });
+    setMovie(initMovie);
     setIsValidForm(false);
 
     setCount(count + 1);
