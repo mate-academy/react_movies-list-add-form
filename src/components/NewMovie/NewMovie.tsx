@@ -7,14 +7,16 @@ type Props = {
 };
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
-  const [count, setCount] = useState(0);
-  const [movie, setMovie] = useState({
+  const initMovie = {
     title: '',
     description: '',
     imgUrl: '',
     imdbUrl: '',
     imdbId: '',
-  });
+  };
+
+  const [count, setCount] = useState(0);
+  const [movie, setMovie] = useState(initMovie);
 
   const checkUrls = (str: string) => {
     /* eslint-disable-next-line */
@@ -30,15 +32,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     && movie.imdbId.trim()
   );
 
-  const clearForm = () => {
-    setMovie({
-      title: '',
-      description: '',
-      imgUrl: '',
-      imdbUrl: '',
-      imdbId: '',
-    });
-  };
+  const clearForm = () => setMovie(initMovie);
 
   const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
