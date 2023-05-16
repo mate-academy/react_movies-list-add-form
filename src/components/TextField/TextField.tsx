@@ -32,8 +32,9 @@ export const TextField: React.FC<Props> = ({
   const [touched, setToched] = useState(false);
   const hasError = touched && required && !value.trim();
 
-  const isValidLabels = ['imgUrl', 'imbdUrl'].includes(name);
-  const isNotValid = isValidLabels && touched && !validation(value.trim());
+  const isValidLabels = ['imgUrl', 'imdbUrl'].includes(name);
+  const isNotValid = isValidLabels && touched
+  && !validation(value.trim()) && !hasError;
 
   return (
     <div className="field">
