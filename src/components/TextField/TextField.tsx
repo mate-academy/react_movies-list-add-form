@@ -29,10 +29,10 @@ export const TextField: React.FC<Props> = ({
     return pattern.test(url);
   };
 
-  const [touched, setToched] = useState(false);
+  const [touched, setTouched] = useState(false);
   const hasError = touched && required && !value.trim();
 
-  const isValidLabels = ['imgUrl', 'imdbUrl'].includes(name);
+  const isValidLabels = name.includes('Url');
   const isNotValid = isValidLabels && touched
   && !validation(value.trim()) && !hasError;
 
@@ -53,7 +53,7 @@ export const TextField: React.FC<Props> = ({
           placeholder={`Enter ${label}`}
           value={value}
           onChange={event => onChange(event.target.value)}
-          onBlur={() => setToched(true)}
+          onBlur={() => setTouched(true)}
         />
       </div>
 

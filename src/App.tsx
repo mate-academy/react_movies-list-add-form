@@ -6,11 +6,11 @@ import moviesFromServer from './api/movies.json';
 import { Movie } from './types/Movie';
 
 export const App = () => {
-  const [movies, setNewMovies] = useState(moviesFromServer);
+  const [movies, setMovies] = useState(moviesFromServer);
 
   const addNewMovie = (newMovie: Movie) => {
-    setNewMovies((prevMovie) => ([
-      ...prevMovie,
+    setMovies((previousMovie) => ([
+      ...previousMovie,
       newMovie,
     ]));
   };
