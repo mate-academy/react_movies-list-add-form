@@ -1,52 +1,23 @@
 import { useState, FormEvent } from 'react';
 import { TextField } from '../TextField';
+import { Movie, IsMovie } from '../../types/Movie';
 
 interface Props {
-  title: string,
-  description: string,
-  imgUrl: string,
-  imdbUrl: string,
-  imdbId: string,
-  isDisabled: boolean,
-  touchedName: boolean,
-  touchedImgUrl: boolean,
-  touchedImdbUrl: boolean,
-  touchedImdbId: boolean,
-  setTitle: (newValue: string) => void,
-  setDescription: (newValue: string) => void,
-  setImgUrl: (newValue: string) => void,
-  setImdbUrl: (newValue: string) => void,
-  setimdbId: (newValue: string) => void,
+  newMovie: Movie,
+  touchedMovies: IsMovie,
+  setNewMovie: (newValue: Movie) => void,
+  setTouchedMovies: (newValue: IsMovie) => void,
   addOn: () => void,
-  setIsDisabled: (newValue: boolean) => void,
-  setTouchedName: (newValue: boolean) => void,
-  setTouchedImgUrl: (newValue: boolean) => void,
-  setTouchedImdbUrl: (newValue: boolean) => void,
-  setTouchedImdbId: (newValue: boolean) => void,
+  isButtonDisabled: boolean,
 }
 
 export const NewMovie: React.FC<Props> = ({
-  title,
-  description,
-  imgUrl,
-  imdbUrl,
-  imdbId,
-  isDisabled,
-  touchedName,
-  touchedImgUrl,
-  touchedImdbUrl,
-  touchedImdbId,
-  setTouchedImgUrl,
-  setTouchedImdbUrl,
-  setTouchedImdbId,
-  setTouchedName,
-  setIsDisabled,
-  setTitle,
-  setDescription,
-  setImgUrl,
-  setImdbUrl,
-  setimdbId,
+  newMovie,
+  touchedMovies,
+  setTouchedMovies,
   addOn,
+  setNewMovie,
+  isButtonDisabled,
 }) => {
   const [count] = useState(0);
 
@@ -66,116 +37,107 @@ export const NewMovie: React.FC<Props> = ({
 
       <TextField
         name="title"
-        label="title"
-        value={title}
+        label="Title"
+        value={newMovie.title}
         required
-        setTitle={setTitle}
-        setDescription={setDescription}
-        setImgUrl={setImgUrl}
-        setImdbUrl={setImdbUrl}
-        setimdbId={setimdbId}
-        setIsDisabled={setIsDisabled}
-        setTouchedName={setTouchedName}
-        setTouchedImgUrl={setTouchedImgUrl}
-        setTouchedImdbId={setTouchedImdbId}
-        setTouchedImdbUrl={setTouchedImdbUrl}
-        touchedName={touchedName}
-        touchedImgUrl={touchedImgUrl}
-        touchedImdbUrl={touchedImdbUrl}
-        touchedImdbId={touchedImdbId}
+        onChange={(event) => {
+          const updatedObjectTitle = { ...newMovie, title: event };
+
+          setNewMovie(updatedObjectTitle);
+        }}
+        onDisabledChange={(event) => {
+          const updatedObjectTitle
+           = { ...touchedMovies, title: event };
+
+          setTouchedMovies(updatedObjectTitle);
+        }}
+        touchedMovies={touchedMovies}
       />
 
       <TextField
         name="description"
         label="Description"
-        value={description}
-        setDescription={setDescription}
-        setTitle={setTitle}
-        setImgUrl={setImgUrl}
-        setImdbUrl={setImdbUrl}
-        setimdbId={setimdbId}
-        setIsDisabled={setIsDisabled}
-        setTouchedName={setTouchedName}
-        setTouchedImgUrl={setTouchedImgUrl}
-        setTouchedImdbUrl={setTouchedImdbUrl}
-        setTouchedImdbId={setTouchedImdbId}
-        touchedName={touchedName}
-        touchedImgUrl={touchedImgUrl}
-        touchedImdbUrl={touchedImdbUrl}
-        touchedImdbId={touchedImdbId}
+        required
+        value={newMovie.description}
+        onChange={(event) => {
+          const updatedObjectDescription = { ...newMovie, description: event };
+
+          setNewMovie(updatedObjectDescription);
+        }}
+        onDisabledChange={(event) => {
+          const updatedObjectDescription
+           = { ...touchedMovies, description: event };
+
+          setTouchedMovies(updatedObjectDescription);
+        }}
+        touchedMovies={touchedMovies}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={imgUrl}
+        value={newMovie.imgUrl}
         required
-        setImgUrl={setImgUrl}
-        setTitle={setTitle}
-        setDescription={setDescription}
-        setImdbUrl={setImdbUrl}
-        setimdbId={setimdbId}
-        setIsDisabled={setIsDisabled}
-        setTouchedName={setTouchedName}
-        setTouchedImgUrl={setTouchedImgUrl}
-        setTouchedImdbUrl={setTouchedImdbUrl}
-        setTouchedImdbId={setTouchedImdbId}
-        touchedName={touchedName}
-        touchedImgUrl={touchedImgUrl}
-        touchedImdbUrl={touchedImdbUrl}
-        touchedImdbId={touchedImdbId}
+        onChange={(event) => {
+          const updatedObjectImgUrl = { ...newMovie, imgUrl: event };
+
+          setNewMovie(updatedObjectImgUrl);
+        }}
+        onDisabledChange={(event) => {
+          const updatedObjectimgUrl
+           = { ...touchedMovies, imgUrl: event };
+
+          setTouchedMovies(updatedObjectimgUrl);
+        }}
+        touchedMovies={touchedMovies}
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={imdbUrl}
+        value={newMovie.imdbUrl}
         required
-        setImdbUrl={setImdbUrl}
-        setTitle={setTitle}
-        setDescription={setDescription}
-        setImgUrl={setImgUrl}
-        setimdbId={setimdbId}
-        setIsDisabled={setIsDisabled}
-        setTouchedName={setTouchedName}
-        setTouchedImgUrl={setTouchedImgUrl}
-        setTouchedImdbId={setTouchedImdbId}
-        setTouchedImdbUrl={setTouchedImdbUrl}
-        touchedName={touchedName}
-        touchedImgUrl={touchedImgUrl}
-        touchedImdbUrl={touchedImdbUrl}
-        touchedImdbId={touchedImdbId}
+        onChange={(event) => {
+          const updatedObjectImdUrl = { ...newMovie, imdbUrl: event };
+
+          setNewMovie(updatedObjectImdUrl);
+        }}
+        onDisabledChange={(event) => {
+          const updatedObjectimdbUrl
+           = { ...touchedMovies, imdbUrl: event };
+
+          setTouchedMovies(updatedObjectimdbUrl);
+        }}
+        touchedMovies={touchedMovies}
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imdbId}
-        setimdbId={setimdbId}
+        value={newMovie.imdbId}
         required
-        setTitle={setTitle}
-        setDescription={setDescription}
-        setImgUrl={setImgUrl}
-        setImdbUrl={setImdbUrl}
-        setIsDisabled={setIsDisabled}
-        setTouchedName={setTouchedName}
-        setTouchedImgUrl={setTouchedImgUrl}
-        setTouchedImdbUrl={setTouchedImdbUrl}
-        setTouchedImdbId={setTouchedImdbId}
-        touchedName={touchedName}
-        touchedImgUrl={touchedImgUrl}
-        touchedImdbUrl={touchedImdbUrl}
-        touchedImdbId={touchedImdbId}
+        onChange={(event) => {
+          const updatedObjectImdbId = { ...newMovie, imdbId: event };
+
+          setNewMovie(updatedObjectImdbId);
+        }}
+        onDisabledChange={(event) => {
+          const updatedObjectimdbId
+           = { ...touchedMovies, imdbId: event };
+
+          setTouchedMovies(updatedObjectimdbId);
+        }}
+        touchedMovies={touchedMovies}
       />
 
       <div className="field is-grouped">
         <div className="control">
           <button
-            disabled={isDisabled}
+            disabled={isButtonDisabled}
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            onClick={() => addOn()}
+            onClick={addOn}
           >
             Add
           </button>

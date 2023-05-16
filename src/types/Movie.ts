@@ -5,3 +5,11 @@ export interface Movie {
   imdbUrl: string;
   imdbId: string;
 }
+
+export interface IsMovie {
+  title: boolean;
+  description: boolean;
+  imgUrl: boolean;
+  imdbUrl: boolean;
+  imdbId: boolean;
+}

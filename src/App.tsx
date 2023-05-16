@@ -1,49 +1,72 @@
 import './App.scss';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { MoviesList } from './components/MoviesList';
 import { NewMovie } from './components/NewMovie';
+import { IsMovie } from './types/Movie';
 import moviesFromServer from './api/movies.json';
 
 export const App = () => {
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setimdbId] = useState('');
-  const [movies, setTodos] = useState(moviesFromServer);
-  const [isDisabled, setIsDisabled] = useState(false);
-  const [touchedName, setTouchedName] = useState(false);
-  const [touchedImgUrl, setTouchedImgUrl] = useState(false);
-  const [touchedImdbUrl, setTouchedImdbUrl] = useState(false);
-  const [touchedImdbId, setTouchedImdbId] = useState(false);
-
-  const movie = {
-    title,
-    description,
-    imgUrl,
-    imdbUrl,
-    imdbId,
-  };
+  const [movies, setMovies] = useState(moviesFromServer);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+  const [touchedMovies, setTouchedMovies] = useState<IsMovie>(
+    {
+      title: false,
+      description: false,
+      imgUrl: false,
+      imdbUrl: false,
+      imdbId: false,
+    },
+  );
+  const [newMovie, setNewMovie] = useState({
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  });
 
   const addOn = () => {
-    if (title !== ''
-      && imdbId !== ''
-      && imgUrl !== ''
-      && imdbUrl !== '') {
-      setTodos([...movies, movie]);
-      setTitle('');
-      setDescription('');
-      setImgUrl('');
-      setImdbUrl('');
-      setimdbId('');
+    setMovies([...movies, newMovie]);
+
+    if (newMovie.title.length === 0
+      && newMovie.description.length === 0
+      && newMovie.imgUrl.length === 0
+      && newMovie.imdbUrl.length === 0
+      && newMovie.imdbId.length === 0) {
+      setIsButtonDisabled(true);
+
+      const updatedObjectImdbId = {
+        ...newMovie,
+        title: true,
+        description: true,
+        imdbId: true,
+        imgUrl: true,
+        imdbUrl: true,
+      };
+
+      setTouchedMovies(updatedObjectImdbId);
     } else {
-      setIsDisabled(true);
-      setTouchedName(true);
-      setTouchedImgUrl(true);
-      setTouchedImdbUrl(true);
-      setTouchedImdbId(true);
+      setMovies([...movies, newMovie]);
+      newMovie.title = '';
+      newMovie.description = '';
+      newMovie.imgUrl = '';
+      newMovie.imdbUrl = '';
+      newMovie.imdbId = '';
     }
   };
+
+  useEffect(() => {
+    if (newMovie.title.length !== 0
+      && newMovie.description.length !== 0
+      && newMovie.imgUrl.length !== 0
+      && newMovie.imdbUrl.length !== 0
+      && newMovie.imdbId.length !== 0) {
+      setIsButtonDisabled(false);
+    }
+  }, [newMovie.title,
+    newMovie.imgUrl,
+    newMovie.imdbUrl,
+    newMovie.imdbId]);
 
   return (
     <div className="page">
@@ -52,27 +75,12 @@ export const App = () => {
       </div>
       <div className="sidebar">
         <NewMovie
-          title={title}
-          setTitle={setTitle}
-          description={description}
-          setDescription={setDescription}
-          imgUrl={imgUrl}
-          setImgUrl={setImgUrl}
-          imdbUrl={imdbUrl}
-          setImdbUrl={setImdbUrl}
-          imdbId={imdbId}
-          setimdbId={setimdbId}
+          newMovie={newMovie}
+          setNewMovie={setNewMovie}
+          isButtonDisabled={isButtonDisabled}
+          touchedMovies={touchedMovies}
+          setTouchedMovies={setTouchedMovies}
           addOn={addOn}
-          isDisabled={isDisabled}
-          setIsDisabled={setIsDisabled}
-          touchedName={touchedName}
-          setTouchedName={setTouchedName}
-          touchedImgUrl={touchedImgUrl}
-          touchedImdbUrl={touchedImdbUrl}
-          touchedImdbId={touchedImdbId}
-          setTouchedImgUrl={setTouchedImgUrl}
-          setTouchedImdbUrl={setTouchedImdbUrl}
-          setTouchedImdbId={setTouchedImdbId}
         />
       </div>
     </div>
