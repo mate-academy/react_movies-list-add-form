@@ -8,13 +8,15 @@ type Props = {
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
-  const [newMovie, setNewMovie] = useState({
+  const initMovie = {
     title: '',
     description: '',
     imgUrl: '',
     imdbUrl: '',
     imdbId: '',
-  });
+  };
+
+  const [newMovie, setNewMovie] = useState(initMovie);
   const handler = (name: string, value: string) => {
     setNewMovie(prevMovie => ({
       ...prevMovie,
@@ -23,13 +25,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   };
 
   const resetForm = () => {
-    setNewMovie({
-      title: '',
-      description: '',
-      imgUrl: '',
-      imdbUrl: '',
-      imdbId: '',
-    });
+    setNewMovie(initMovie);
   };
 
   const onSubmit = (event: React.FormEvent) => {
