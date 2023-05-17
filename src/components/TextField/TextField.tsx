@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import React, { useState } from 'react';
+import { getRandomDigits } from '../../helpers/helpers';
 
 type Props = {
   name: string,
@@ -7,50 +8,52 @@ type Props = {
   label?: string,
   required?: boolean,
   onChange?: (newValue: string) => void,
+  isValidUrl?: boolean,
 };
 
-function getRandomDigits() {
-  return Math.random().toString().slice(2);
-}
+export const TextField: React.FC<Props> = React.memo(
+  ({
+    name,
+    value,
+    label = name,
+    required = false,
+    onChange = () => {},
+    isValidUrl = true,
+  }) => {
+    const [id] = useState(() => `${name}-${getRandomDigits()}`);
+    const [touched, setToched] = useState(false);
 
-export const TextField: React.FC<Props> = ({
-  name,
-  value,
-  label = name,
-  required = false,
-  onChange = () => {},
-}) => {
-  // generage a unique id once on component load
-  const [id] = useState(() => `${name}-${getRandomDigits()}`);
+    const hasError = touched && required && !value.trim();
 
-  // To show errors only if the field was touched (onBlur)
-  const [touched, setToched] = useState(false);
-  const hasError = touched && required && !value;
+    return (
+      <div className="field">
+        <label className="label" htmlFor={id}>
+          {label}
+        </label>
 
-  return (
-    <div className="field">
-      <label className="label" htmlFor={id}>
-        {label}
-      </label>
+        <div className="control">
+          <input
+            id={id}
+            data-cy={`movie-${name}`}
+            className={classNames('input', {
+              'is-danger': hasError,
+            })}
+            type="text"
+            placeholder={`Enter ${label}`}
+            value={value}
+            onChange={event => onChange(event.target.value)}
+            onBlur={() => setToched(true)}
+          />
+        </div>
 
-      <div className="control">
-        <input
-          id={id}
-          data-cy={`movie-${name}`}
-          className={classNames('input', {
-            'is-danger': hasError,
-          })}
-          type="text"
-          placeholder={`Enter ${label}`}
-          value={value}
-          onChange={event => onChange(event.target.value)}
-          onBlur={() => setToched(true)}
-        />
+        {hasError && (
+          <p className="help is-danger">{`${label} is required`}</p>
+        )}
+
+        {!isValidUrl && touched && (
+          <p className="help is-danger">Invalid URL</p>
+        )}
       </div>
-
-      {hasError && (
-        <p className="help is-danger">{`${label} is required`}</p>
-      )}
-    </div>
-  );
-};
+    );
+  },
+);
