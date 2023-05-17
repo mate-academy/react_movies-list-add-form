@@ -21,6 +21,8 @@ export const NewMovie: React.FunctionComponent<{
     { target }: React.ChangeEvent<HTMLInputElement>,
   ) => setNewMoview(prev => ({ ...prev, [target.name]: target.value }));
 
+  // console.log(newMovie);
+
   const handleSubmit = () => {
     onAdd(newMovie);
     setNewMoview(INITIAL_NEW_MOVIE);
@@ -72,7 +74,7 @@ export const NewMovie: React.FunctionComponent<{
         <div className="control">
           <button
             type="submit"
-            disabled={Object.values(newMovie).some(v => !v)}
+            disabled={Object.values(newMovie).some(v => !v.trim())}
             data-cy="submit-button"
             className="button is-link"
           >
