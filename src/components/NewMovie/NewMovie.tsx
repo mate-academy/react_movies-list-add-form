@@ -1,6 +1,5 @@
-/* eslint-disable implicit-arrow-linebreak */
 import { ChangeEvent, FormEventHandler, useState } from 'react';
-import { TextField } from '../TextField';
+import { TextField, checkIfUrl } from '../TextField';
 import { Movie } from '../../types/Movie';
 
 type NewMovieProps = {
@@ -26,7 +25,7 @@ export const NewMovie = ({ onAdd }: NewMovieProps) => {
   const onChange = ({ target }: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = target;
 
-    setFormValues(prevState => ({
+    setFormValues((prevState) => ({
       ...prevState,
       [name]: value,
     }));
@@ -38,17 +37,18 @@ export const NewMovie = ({ onAdd }: NewMovieProps) => {
     onAdd(formValues);
 
     setFormValues(initialFormValues);
-    setCount(prevState => prevState + 1);
+    setCount((prevState) => prevState + 1);
   };
 
-  const isDisabled = !title || !imdbId || !imdbUrl || !imgUrl;
+  const isDisabled = !title
+    || !imdbId
+    || !imdbUrl
+    || !imgUrl
+    || !checkIfUrl(imdbUrl)
+    || !checkIfUrl(imdbUrl);
 
   return (
-    <form
-      className="NewMovie"
-      key={count}
-      onSubmit={onSubmit}
-    >
+    <form className="NewMovie" key={count} onSubmit={onSubmit}>
       <h2 className="title">Add a movie</h2>
 
       <TextField
