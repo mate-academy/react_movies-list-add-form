@@ -45,6 +45,7 @@ export const TextField: React.FC<Props> = ({
           value={value}
           onChange={event => onChange(event.target.value.trim())}
           onBlur={() => setToched(true)}
+          pattern="^\S.*$"
         />
       </div>
 
