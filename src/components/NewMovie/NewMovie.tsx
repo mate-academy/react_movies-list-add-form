@@ -1,5 +1,8 @@
 import { ChangeEvent, FormEventHandler, useState } from 'react';
-import { TextField, checkIfUrl } from '../TextField';
+
+import { TextField } from '../TextField';
+import { checkIfUrl, getRandomDigits, prepareLabel } from '../../utils/helper';
+
 import { Movie } from '../../types/Movie';
 
 type NewMovieProps = {
@@ -19,7 +22,7 @@ export const NewMovie = ({ onAdd }: NewMovieProps) => {
   const [count, setCount] = useState(0);
 
   const {
-    title, description, imdbId, imdbUrl, imgUrl,
+    title, imdbId, imdbUrl, imgUrl,
   } = formValues;
 
   const onChange = ({ target }: ChangeEvent<HTMLInputElement>) => {
@@ -51,45 +54,25 @@ export const NewMovie = ({ onAdd }: NewMovieProps) => {
     <form className="NewMovie" key={count} onSubmit={onSubmit}>
       <h2 className="title">Add a movie</h2>
 
-      <TextField
-        name="title"
-        label="Title"
-        value={title}
-        onChange={onChange}
-        required
-      />
+      {
+        Object.keys(initialFormValues).map(input => {
+          const label = prepareLabel(input);
+          const isRequired = input !== 'description';
 
-      <TextField
-        name="description"
-        label="Description"
-        onChange={onChange}
-        value={description}
-      />
-
-      <TextField
-        name="imgUrl"
-        label="Image URL"
-        onChange={onChange}
-        value={imgUrl}
-        required
-      />
-
-      <TextField
-        name="imdbUrl"
-        label="Imdb URL"
-        onChange={onChange}
-        value={imdbUrl}
-        required
-      />
-
-      <TextField
-        name="imdbId"
-        label="Imdb ID"
-        onChange={onChange}
-        value={imdbId}
-        required
-      />
-
+          return (
+            <TextField
+              key={input}
+              id={`${input}-${getRandomDigits()}`}
+              name={input}
+              label={label}
+              placeholder={`Enter ${label}`}
+              value={formValues[input as keyof Movie]}
+              onChange={onChange}
+              required={isRequired}
+            />
+          );
+        })
+      }
       <div className="field is-grouped">
         <div className="control">
           <button
