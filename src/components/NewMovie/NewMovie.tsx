@@ -1,51 +1,80 @@
 import { useState } from 'react';
 import { TextField } from '../TextField';
+import { Movie } from '../../types/Movie';
 
-export const NewMovie = () => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
-  const [count] = useState(0);
+const INITIAL_NEW_MOVIE = {
+  title: '',
+  description: '',
+  imgUrl: '',
+  imdbUrl: '',
+  imdbId: '',
+};
+
+export const NewMovie: React.FunctionComponent<{
+  onAdd: (movie: Movie) => void
+}> = ({ onAdd }) => {
+  const [count, setCount] = useState(0);
+
+  const [newMovie, setNewMoview] = useState<Movie>(INITIAL_NEW_MOVIE);
+
+  const handleChange = (
+    { target }: React.ChangeEvent<HTMLInputElement>,
+  ) => setNewMoview(prev => ({ ...prev, [target.name]: target.value }));
+
+  // console.log(newMovie);
+
+  const handleSubmit = () => {
+    onAdd(newMovie);
+    setNewMoview(INITIAL_NEW_MOVIE);
+    setCount(prev => prev + 1);
+  };
 
   return (
-    <form className="NewMovie" key={count}>
+    <form className="NewMovie" key={count} onSubmit={handleSubmit}>
       <h2 className="title">Add a movie</h2>
 
       <TextField
         name="title"
         label="Title"
-        value=""
-        onChange={() => {}}
+        value={newMovie.title}
+        onChange={handleChange}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value=""
+        value={newMovie.description}
+        onChange={handleChange}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value=""
+        value={newMovie.imgUrl}
+        onChange={handleChange}
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value=""
+        value={newMovie.imdbUrl}
+        onChange={handleChange}
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value=""
+        value={newMovie.imdbId}
+        onChange={handleChange}
+
       />
 
       <div className="field is-grouped">
         <div className="control">
           <button
             type="submit"
+            disabled={Object.values(newMovie).some(v => !v.trim())}
             data-cy="submit-button"
             className="button is-link"
           >
