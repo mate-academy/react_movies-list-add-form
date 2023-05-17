@@ -1,31 +1,24 @@
 import classNames from 'classnames';
-import React, { useState } from 'react';
+import React, { useState, HTMLProps } from 'react';
+import { checkIfUrl } from '../../utils/helper';
 
-type Props = {
-  name: string,
-  value: string,
-  label?: string,
-  required?: boolean,
-  onChange?: (newValue: string) => void,
-};
-
-function getRandomDigits() {
-  return Math.random().toString().slice(2);
-}
-
-export const TextField: React.FC<Props> = ({
-  name,
-  value,
-  label = name,
+export const TextField: React.FC<HTMLProps<HTMLInputElement>> = ({
   required = false,
   onChange = () => {},
+  ...props
 }) => {
-  // generage a unique id once on component load
-  const [id] = useState(() => `${name}-${getRandomDigits()}`);
+  const [touched, setTouched] = useState(false);
+  const [urlError, setUrlError] = useState(false);
 
-  // To show errors only if the field was touched (onBlur)
-  const [touched, setToched] = useState(false);
+  const {
+    name,
+    label,
+    value,
+    id,
+  } = props;
+
   const hasError = touched && required && !value;
+  const isUrlInput = name === 'imdbUrl' || name === 'imgUrl';
 
   return (
     <div className="field">
@@ -35,21 +28,29 @@ export const TextField: React.FC<Props> = ({
 
       <div className="control">
         <input
-          id={id}
           data-cy={`movie-${name}`}
           className={classNames('input', {
             'is-danger': hasError,
           })}
-          type="text"
-          placeholder={`Enter ${label}`}
-          value={value}
-          onChange={event => onChange(event.target.value)}
-          onBlur={() => setToched(true)}
+          onChange={(e) => {
+            onChange(e);
+            setUrlError(false);
+          }}
+          onBlur={() => {
+            if (value && isUrlInput) {
+              setUrlError(!checkIfUrl(value as string));
+            }
+
+            setTouched(true);
+          }}
+          {...props}
         />
       </div>
 
-      {hasError && (
-        <p className="help is-danger">{`${label} is required`}</p>
+      {hasError && <p className="help is-danger">{`${label} is required`}</p>}
+
+      {urlError && (
+        <p className="help is-danger">You should input proper URL</p>
       )}
     </div>
   );
