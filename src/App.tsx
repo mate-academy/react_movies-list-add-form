@@ -24,15 +24,20 @@ export const App = () => {
     imdbUrl: '',
     imdbId: '',
   });
+  const {
+    title,
+    description,
+    imgUrl,
+    imdbUrl,
+    imdbId,
+  } = newMovie;
 
   const addOn = () => {
-    setMovies([...movies, newMovie]);
-
-    if (newMovie.title.length === 0
-      && newMovie.description.length === 0
-      && newMovie.imgUrl.length === 0
-      && newMovie.imdbUrl.length === 0
-      && newMovie.imdbId.length === 0) {
+    if (!title.length
+      && !description.length
+      && !imgUrl.length
+      && !imdbUrl.length
+      && !imdbId.length) {
       setIsButtonDisabled(true);
 
       const updatedObjectImdbId = {
@@ -47,26 +52,44 @@ export const App = () => {
       setTouchedMovies(updatedObjectImdbId);
     } else {
       setMovies([...movies, newMovie]);
-      newMovie.title = '';
-      newMovie.description = '';
-      newMovie.imgUrl = '';
-      newMovie.imdbUrl = '';
-      newMovie.imdbId = '';
     }
   };
 
+  const valueDelete = () => {
+    setNewMovie({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
+  };
+
   useEffect(() => {
-    if (newMovie.title.length !== 0
-      && newMovie.description.length !== 0
-      && newMovie.imgUrl.length !== 0
-      && newMovie.imdbUrl.length !== 0
-      && newMovie.imdbId.length !== 0) {
+    if (title.length
+      && description.length
+      && imgUrl.length
+      && imdbUrl.length
+      && imdbId.length) {
       setIsButtonDisabled(false);
     }
-  }, [newMovie.title,
-    newMovie.imgUrl,
-    newMovie.imdbUrl,
-    newMovie.imdbId]);
+
+    if (touchedMovies.title
+      && touchedMovies.description
+      && touchedMovies.imgUrl
+      && touchedMovies.imdbId
+      && touchedMovies.imdbUrl) {
+      setIsButtonDisabled(true);
+    }
+  }, [title,
+    imgUrl,
+    imdbUrl,
+    imdbId,
+    touchedMovies.title,
+    touchedMovies.description,
+    touchedMovies.imgUrl,
+    touchedMovies.imdbId,
+    touchedMovies.imdbUrl]);
 
   return (
     <div className="page">
@@ -81,6 +104,7 @@ export const App = () => {
           touchedMovies={touchedMovies}
           setTouchedMovies={setTouchedMovies}
           addOn={addOn}
+          valueDelete={valueDelete}
         />
       </div>
     </div>

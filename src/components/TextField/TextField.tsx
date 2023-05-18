@@ -6,8 +6,8 @@ type Props = {
   name: string,
   value: string,
   label?: string,
-  onChange: (newValue: string) => void,
-  onDisabledChange: (newValue: boolean) => void,
+  onChange: (newValue: string, secondValue: string) => void,
+  onDisabledChange: (newValue: boolean, secondValue: string) => void,
   touchedMovies: IsMovie,
   required: boolean,
 };
@@ -27,44 +27,35 @@ export const TextField: React.FC<Props> = ({
 }) => {
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
   const [hasError, setHasError] = useState(false);
+  const {
+    title,
+    description,
+    imgUrl,
+    imdbUrl,
+    imdbId,
+  } = touchedMovies;
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    onChange(event.target.value);
+    onChange(event.target.value, name);
   };
 
-  const blurring = () => {
+  const onBlur = () => {
     if (value.length === 0) {
-      onDisabledChange(true);
+      onDisabledChange(true, name);
     } else {
-      onDisabledChange(false);
+      onDisabledChange(false, name);
     }
   };
 
   useEffect(() => {
-    switch (name) {
-      case 'title':
-        setHasError(touchedMovies.title && required && !value);
-        break;
-      case 'description':
-        setHasError(touchedMovies.description && required && !value);
-        break;
-      case 'imgUrl':
-        setHasError(touchedMovies.imgUrl && required && !value);
-        break;
-      case 'imdbUrl':
-        setHasError(touchedMovies.imdbUrl && required && !value);
-        break;
-      case 'imdbId':
-        setHasError(touchedMovies.imdbId && required && !value);
-        break;
-      default:
-        setHasError(touchedMovies.title && required && !value);
-    }
-  }, [touchedMovies.title,
-    touchedMovies.description,
-    touchedMovies.imgUrl,
-    touchedMovies.imdbUrl,
-    touchedMovies.imdbId,
+    const key = name;
+
+    setHasError(touchedMovies[key as keyof IsMovie] && required && !value);
+  }, [title,
+    description,
+    imgUrl,
+    imdbUrl,
+    imdbId,
     value]);
 
   return (
@@ -85,7 +76,7 @@ export const TextField: React.FC<Props> = ({
           value={value}
           onChange={handleInputChange}
           onBlur={() => {
-            blurring();
+            onBlur();
           }}
         />
       </div>
