@@ -8,8 +8,14 @@ export interface Movie {
 
 export interface IsMovie {
   title: boolean;
-  description: boolean;
   imgUrl: boolean;
   imdbUrl: boolean;
   imdbId: boolean;
+}
+
+export interface SmallerMovieGroup {
+  title: string;
+  imgUrl: string;
+  imdbUrl: string;
+  imdbId: string;
 }

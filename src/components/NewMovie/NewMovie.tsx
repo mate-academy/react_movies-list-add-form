@@ -1,6 +1,6 @@
-import { useState, FormEvent } from 'react';
+import { useState, FormEvent, useEffect } from 'react';
 import { TextField } from '../TextField';
-import { Movie, IsMovie } from '../../types/Movie';
+import { Movie, IsMovie, SmallerMovieGroup } from '../../types/Movie';
 
 interface Props {
   newMovie: Movie,
@@ -22,6 +22,7 @@ export const NewMovie: React.FC<Props> = ({
   isButtonDisabled,
 }) => {
   const [count] = useState(0);
+  const [hasError, setHasError] = useState(false);
   const {
     title,
     description,
@@ -30,23 +31,53 @@ export const NewMovie: React.FC<Props> = ({
     imdbId,
   } = newMovie;
 
+  type MovieKey = keyof SmallerMovieGroup;
+
+  type TouchedKeys = {
+    [key in MovieKey]: boolean;
+  };
+
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
   };
 
   const addMovieComponent = (event: string, secondValue: string) => {
     const key = secondValue;
-    const updatedObjectTitle = { ...newMovie, [key]: event.trim() };
+    const updatedObjectTitle = { ...newMovie, [key]: event };
 
     setNewMovie(updatedObjectTitle);
   };
 
-  const addTouchedComponent = (event: boolean, componentName: string) => {
+  const addTouchedComponent = (
+    event: boolean,
+    componentName: string,
+    isRequired: boolean,
+  ) => {
     const compKey = componentName;
     const updatedObjectDescription = { ...touchedMovies, [compKey]: event };
+    const zeroValue = newMovie[compKey as keyof IsMovie];
 
     setTouchedMovies(updatedObjectDescription);
+
+    if (!zeroValue.length
+      && isRequired) {
+      setHasError(true);
+    }
   };
+
+  useEffect(() => {
+    const properties: MovieKey[]
+     = ['title', 'imgUrl', 'imdbUrl', 'imdbId'];
+    const update: TouchedKeys = { ...touchedMovies };
+
+    properties.forEach((property) => {
+      if (newMovie[property].length > 0) {
+        update[property] = false;
+      }
+    });
+
+    setTouchedMovies(update);
+  }, [newMovie]);
 
   return (
     <form
@@ -66,24 +97,25 @@ export const NewMovie: React.FC<Props> = ({
         onChange={(event, secondValue) => {
           addMovieComponent(event, secondValue);
         }}
-        onDisabledChange={(event, componentName) => {
-          addTouchedComponent(event, componentName);
+        onDisabledChange={(event, componentName, isRequired) => {
+          addTouchedComponent(event, componentName, isRequired);
         }}
         touchedMovies={touchedMovies}
+        hasError={hasError}
       />
 
       <TextField
         name="description"
         label="Description"
-        required
         value={description}
         onChange={(event, secondValue) => {
           addMovieComponent(event, secondValue);
         }}
-        onDisabledChange={(event, componentName) => {
-          addTouchedComponent(event, componentName);
+        onDisabledChange={(event, componentName, isRequired) => {
+          addTouchedComponent(event, componentName, isRequired);
         }}
         touchedMovies={touchedMovies}
+        hasError={hasError}
       />
 
       <TextField
@@ -94,10 +126,11 @@ export const NewMovie: React.FC<Props> = ({
         onChange={(event, secondValue) => {
           addMovieComponent(event, secondValue);
         }}
-        onDisabledChange={(event, componentName) => {
-          addTouchedComponent(event, componentName);
+        onDisabledChange={(event, componentName, isRequired) => {
+          addTouchedComponent(event, componentName, isRequired);
         }}
         touchedMovies={touchedMovies}
+        hasError={hasError}
       />
 
       <TextField
@@ -108,10 +141,11 @@ export const NewMovie: React.FC<Props> = ({
         onChange={(event, secondValue) => {
           addMovieComponent(event, secondValue);
         }}
-        onDisabledChange={(event, componentName) => {
-          addTouchedComponent(event, componentName);
+        onDisabledChange={(event, componentName, isRequired) => {
+          addTouchedComponent(event, componentName, isRequired);
         }}
         touchedMovies={touchedMovies}
+        hasError={hasError}
       />
 
       <TextField
@@ -122,10 +156,11 @@ export const NewMovie: React.FC<Props> = ({
         onChange={(event, secondValue) => {
           addMovieComponent(event, secondValue);
         }}
-        onDisabledChange={(event, componentName) => {
-          addTouchedComponent(event, componentName);
+        onDisabledChange={(event, componentName, isRequired) => {
+          addTouchedComponent(event, componentName, isRequired);
         }}
         touchedMovies={touchedMovies}
+        hasError={hasError}
       />
 
       <div className="field is-grouped">

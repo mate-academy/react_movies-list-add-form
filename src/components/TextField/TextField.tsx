@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { IsMovie } from '../../types/Movie';
 
 type Props = {
@@ -7,9 +7,11 @@ type Props = {
   value: string,
   label?: string,
   onChange: (newValue: string, secondValue: string) => void,
-  onDisabledChange: (newValue: boolean, secondValue: string) => void,
+  onDisabledChange:
+  (newValue: boolean, secondValue: string, thirdValue: boolean) => void,
   touchedMovies: IsMovie,
-  required: boolean,
+  required?: boolean,
+  hasError: boolean,
 };
 
 function getRandomDigits() {
@@ -23,17 +25,16 @@ export const TextField: React.FC<Props> = ({
   onChange,
   onDisabledChange,
   touchedMovies,
-  required,
+  required = false,
+  hasError,
 }) => {
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
-  const [hasError, setHasError] = useState(false);
-  const {
-    title,
-    description,
-    imgUrl,
-    imdbUrl,
-    imdbId,
-  } = touchedMovies;
+  // const {
+  //   title,
+  //   imgUrl,
+  //   imdbUrl,
+  //   imdbId,
+  // } = touchedMovies;
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     onChange(event.target.value, name);
@@ -41,22 +42,21 @@ export const TextField: React.FC<Props> = ({
 
   const onBlur = () => {
     if (value.length === 0) {
-      onDisabledChange(true, name);
+      onDisabledChange(true, name, required);
     } else {
-      onDisabledChange(false, name);
+      onDisabledChange(false, name, required);
     }
   };
 
-  useEffect(() => {
-    const key = name;
+  // useEffect(() => {
+  //   const key = name;
 
-    setHasError(touchedMovies[key as keyof IsMovie] && required && !value);
-  }, [title,
-    description,
-    imgUrl,
-    imdbUrl,
-    imdbId,
-    value]);
+  //   setHasError(touchedMovies[key as keyof IsMovie] && required && !value);
+  // }, [title,
+  //   imgUrl,
+  //   imdbUrl,
+  //   imdbId,
+  //   value]);
 
   return (
     <div className="field">
@@ -69,19 +69,22 @@ export const TextField: React.FC<Props> = ({
           id={id}
           data-cy={`movie-${name}`}
           className={classNames('input', {
-            'is-danger': hasError,
+            'is-danger':
+            touchedMovies[name as keyof IsMovie]
+            && hasError
+            && name !== 'description',
           })}
           type="text"
           placeholder={`Enter ${label}`}
           value={value}
           onChange={handleInputChange}
-          onBlur={() => {
-            onBlur();
-          }}
+          onBlur={onBlur}
         />
       </div>
 
-      {hasError && (
+      {touchedMovies[name as keyof IsMovie]
+      && hasError
+      && name !== 'description' && (
         <p className="help is-danger">{`${label} is required`}</p>
       )}
     </div>

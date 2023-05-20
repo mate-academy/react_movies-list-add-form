@@ -5,13 +5,18 @@ import { NewMovie } from './components/NewMovie';
 import { IsMovie } from './types/Movie';
 import moviesFromServer from './api/movies.json';
 
+function areObjectPropertiesOnlySpaces(obj: {
+  [key: string]: string }): boolean {
+  return Object.keys(obj).some((key) => obj[key].trim().length === 0
+   && key !== 'description');
+}
+
 export const App = () => {
   const [movies, setMovies] = useState(moviesFromServer);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   const [touchedMovies, setTouchedMovies] = useState<IsMovie>(
     {
       title: false,
-      description: false,
       imgUrl: false,
       imdbUrl: false,
       imdbId: false,
@@ -26,18 +31,15 @@ export const App = () => {
   });
   const {
     title,
-    description,
     imgUrl,
     imdbUrl,
     imdbId,
   } = newMovie;
 
+  const onlySpaces = areObjectPropertiesOnlySpaces(newMovie);
+
   const addOn = () => {
-    if (!title.length
-      && !description.length
-      && !imgUrl.length
-      && !imdbUrl.length
-      && !imdbId.length) {
+    if (onlySpaces) {
       setIsButtonDisabled(true);
 
       const updatedObjectImdbId = {
@@ -50,7 +52,7 @@ export const App = () => {
       };
 
       setTouchedMovies(updatedObjectImdbId);
-    } else {
+    } else if (!onlySpaces) {
       setMovies([...movies, newMovie]);
     }
   };
@@ -66,16 +68,13 @@ export const App = () => {
   };
 
   useEffect(() => {
-    if (title.length
-      && description.length
-      && imgUrl.length
-      && imdbUrl.length
-      && imdbId.length) {
+    if (!onlySpaces) {
       setIsButtonDisabled(false);
+    } else {
+      setIsButtonDisabled(true);
     }
 
     if (touchedMovies.title
-      && touchedMovies.description
       && touchedMovies.imgUrl
       && touchedMovies.imdbId
       && touchedMovies.imdbUrl) {
@@ -86,7 +85,6 @@ export const App = () => {
     imdbUrl,
     imdbId,
     touchedMovies.title,
-    touchedMovies.description,
     touchedMovies.imgUrl,
     touchedMovies.imdbId,
     touchedMovies.imdbUrl]);
