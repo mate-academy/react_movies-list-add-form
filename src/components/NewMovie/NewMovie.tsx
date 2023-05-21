@@ -35,10 +35,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   };
 
   const inputsFilled = (
-    title
-    && imgUrl
-    && imdbUrl
-    && imdbId
+    title.trim()
+    && imgUrl.trim()
+    && imdbUrl.trim()
+    && imdbId.trim()
   );
 
   const handleSubmit = (event: React.FormEvent) => {
