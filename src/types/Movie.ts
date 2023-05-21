@@ -6,16 +6,9 @@ export interface Movie {
   imdbId: string;
 }
 
-export interface IsMovie {
+export interface RequiredMovieFields {
   title: boolean;
   imgUrl: boolean;
   imdbUrl: boolean;
   imdbId: boolean;
-}
-
-export interface SmallerMovieGroup {
-  title: string;
-  imgUrl: string;
-  imdbUrl: string;
-  imdbId: string;
 }

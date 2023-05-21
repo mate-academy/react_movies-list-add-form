@@ -1,14 +1,16 @@
 import { useState, FormEvent, useEffect } from 'react';
 import { TextField } from '../TextField';
-import { Movie, IsMovie, SmallerMovieGroup } from '../../types/Movie';
+import { Movie, RequiredMovieFields } from '../../types/Movie';
 
 interface Props {
   newMovie: Movie,
-  touchedMovies: IsMovie,
+  touchedMovies: RequiredMovieFields,
   setNewMovie: (newValue: Movie) => void,
-  setTouchedMovies: (newValue: IsMovie) => void,
+  setTouchedMovies:
+  (newValue: RequiredMovieFields | ((prevTouchedMovies: RequiredMovieFields)
+  => RequiredMovieFields)) => void,
   valueDelete: () => void,
-  addOn: () => void,
+  handleMovieAdd: () => void,
   isButtonDisabled: boolean,
 }
 
@@ -16,7 +18,7 @@ export const NewMovie: React.FC<Props> = ({
   newMovie,
   touchedMovies,
   setTouchedMovies,
-  addOn,
+  handleMovieAdd,
   setNewMovie,
   valueDelete,
   isButtonDisabled,
@@ -31,7 +33,7 @@ export const NewMovie: React.FC<Props> = ({
     imdbId,
   } = newMovie;
 
-  type MovieKey = keyof SmallerMovieGroup;
+  type MovieKey = keyof RequiredMovieFields;
 
   type TouchedKeys = {
     [key in MovieKey]: boolean;
@@ -39,10 +41,28 @@ export const NewMovie: React.FC<Props> = ({
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
+
+    const requiredFields: MovieKey[] = ['title', 'imgUrl', 'imdbUrl', 'imdbId'];
+    let hasAnError = true;
+
+    requiredFields.forEach((field) => {
+      if (!newMovie[field as keyof RequiredMovieFields]) {
+        setTouchedMovies((prevTouchedMovies) => ({
+          ...prevTouchedMovies,
+          [field]: false,
+        }));
+        hasAnError = false;
+      }
+    });
+
+    if (!hasAnError) {
+      handleMovieAdd();
+      valueDelete();
+    }
   };
 
-  const addMovieComponent = (event: string, secondValue: string) => {
-    const key = secondValue;
+  const addMovieComponent = (event: string, movieName: string) => {
+    const key = movieName;
     const updatedObjectTitle = { ...newMovie, [key]: event };
 
     setNewMovie(updatedObjectTitle);
@@ -55,7 +75,7 @@ export const NewMovie: React.FC<Props> = ({
   ) => {
     const compKey = componentName;
     const updatedObjectDescription = { ...touchedMovies, [compKey]: event };
-    const zeroValue = newMovie[compKey as keyof IsMovie];
+    const zeroValue = newMovie[compKey as keyof RequiredMovieFields];
 
     setTouchedMovies(updatedObjectDescription);
 
@@ -94,8 +114,8 @@ export const NewMovie: React.FC<Props> = ({
         label="Title"
         required
         value={title}
-        onChange={(event, secondValue) => {
-          addMovieComponent(event, secondValue);
+        onChange={(event, movieName) => {
+          addMovieComponent(event, movieName);
         }}
         onDisabledChange={(event, componentName, isRequired) => {
           addTouchedComponent(event, componentName, isRequired);
@@ -108,8 +128,8 @@ export const NewMovie: React.FC<Props> = ({
         name="description"
         label="Description"
         value={description}
-        onChange={(event, secondValue) => {
-          addMovieComponent(event, secondValue);
+        onChange={(event, movieName) => {
+          addMovieComponent(event, movieName);
         }}
         onDisabledChange={(event, componentName, isRequired) => {
           addTouchedComponent(event, componentName, isRequired);
@@ -123,8 +143,8 @@ export const NewMovie: React.FC<Props> = ({
         label="Image URL"
         required
         value={imgUrl}
-        onChange={(event, secondValue) => {
-          addMovieComponent(event, secondValue);
+        onChange={(event, movieName) => {
+          addMovieComponent(event, movieName);
         }}
         onDisabledChange={(event, componentName, isRequired) => {
           addTouchedComponent(event, componentName, isRequired);
@@ -138,8 +158,8 @@ export const NewMovie: React.FC<Props> = ({
         label="Imdb URL"
         required
         value={imdbUrl}
-        onChange={(event, secondValue) => {
-          addMovieComponent(event, secondValue);
+        onChange={(event, movieName) => {
+          addMovieComponent(event, movieName);
         }}
         onDisabledChange={(event, componentName, isRequired) => {
           addTouchedComponent(event, componentName, isRequired);
@@ -153,8 +173,8 @@ export const NewMovie: React.FC<Props> = ({
         label="Imdb ID"
         required
         value={imdbId}
-        onChange={(event, secondValue) => {
-          addMovieComponent(event, secondValue);
+        onChange={(event, movieName) => {
+          addMovieComponent(event, movieName);
         }}
         onDisabledChange={(event, componentName, isRequired) => {
           addTouchedComponent(event, componentName, isRequired);
@@ -171,7 +191,7 @@ export const NewMovie: React.FC<Props> = ({
             data-cy="submit-button"
             className="button is-link"
             onClick={() => {
-              addOn();
+              handleMovieAdd();
               valueDelete();
             }}
           >

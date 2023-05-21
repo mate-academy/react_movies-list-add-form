@@ -2,10 +2,10 @@ import './App.scss';
 import { useEffect, useState } from 'react';
 import { MoviesList } from './components/MoviesList';
 import { NewMovie } from './components/NewMovie';
-import { IsMovie } from './types/Movie';
+import { RequiredMovieFields } from './types/Movie';
 import moviesFromServer from './api/movies.json';
 
-function areObjectPropertiesOnlySpaces(obj: {
+function checkEmptyInputs(obj: {
   [key: string]: string }): boolean {
   return Object.keys(obj).some((key) => obj[key].trim().length === 0
    && key !== 'description');
@@ -14,7 +14,7 @@ function areObjectPropertiesOnlySpaces(obj: {
 export const App = () => {
   const [movies, setMovies] = useState(moviesFromServer);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
-  const [touchedMovies, setTouchedMovies] = useState<IsMovie>(
+  const [touchedMovies, setTouchedMovies] = useState<RequiredMovieFields>(
     {
       title: false,
       imgUrl: false,
@@ -36,23 +36,12 @@ export const App = () => {
     imdbId,
   } = newMovie;
 
-  const onlySpaces = areObjectPropertiesOnlySpaces(newMovie);
+  const hasEmptyRequiredFields = checkEmptyInputs(newMovie);
 
-  const addOn = () => {
-    if (onlySpaces) {
+  const handleMovieAdd = () => {
+    if (hasEmptyRequiredFields) {
       setIsButtonDisabled(true);
-
-      const updatedObjectImdbId = {
-        ...newMovie,
-        title: true,
-        description: true,
-        imdbId: true,
-        imgUrl: true,
-        imdbUrl: true,
-      };
-
-      setTouchedMovies(updatedObjectImdbId);
-    } else if (!onlySpaces) {
+    } else if (!hasEmptyRequiredFields) {
       setMovies([...movies, newMovie]);
     }
   };
@@ -68,7 +57,7 @@ export const App = () => {
   };
 
   useEffect(() => {
-    if (!onlySpaces) {
+    if (!hasEmptyRequiredFields) {
       setIsButtonDisabled(false);
     } else {
       setIsButtonDisabled(true);
@@ -101,7 +90,7 @@ export const App = () => {
           isButtonDisabled={isButtonDisabled}
           touchedMovies={touchedMovies}
           setTouchedMovies={setTouchedMovies}
-          addOn={addOn}
+          handleMovieAdd={handleMovieAdd}
           valueDelete={valueDelete}
         />
       </div>

@@ -1,15 +1,15 @@
 import classNames from 'classnames';
 import React, { useState } from 'react';
-import { IsMovie } from '../../types/Movie';
+import { RequiredMovieFields } from '../../types/Movie';
 
 type Props = {
   name: string,
   value: string,
   label?: string,
-  onChange: (newValue: string, secondValue: string) => void,
+  onChange: (newValue: string, inputName: string) => void,
   onDisabledChange:
-  (newValue: boolean, secondValue: string, thirdValue: boolean) => void,
-  touchedMovies: IsMovie,
+  (newValue: boolean, inputName: string, isRequired: boolean) => void,
+  touchedMovies: RequiredMovieFields,
   required?: boolean,
   hasError: boolean,
 };
@@ -29,34 +29,18 @@ export const TextField: React.FC<Props> = ({
   hasError,
 }) => {
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
-  // const {
-  //   title,
-  //   imgUrl,
-  //   imdbUrl,
-  //   imdbId,
-  // } = touchedMovies;
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     onChange(event.target.value, name);
   };
 
-  const onBlur = () => {
+  const handleBlur = () => {
     if (value.length === 0) {
       onDisabledChange(true, name, required);
     } else {
       onDisabledChange(false, name, required);
     }
   };
-
-  // useEffect(() => {
-  //   const key = name;
-
-  //   setHasError(touchedMovies[key as keyof IsMovie] && required && !value);
-  // }, [title,
-  //   imgUrl,
-  //   imdbUrl,
-  //   imdbId,
-  //   value]);
 
   return (
     <div className="field">
@@ -70,7 +54,7 @@ export const TextField: React.FC<Props> = ({
           data-cy={`movie-${name}`}
           className={classNames('input', {
             'is-danger':
-            touchedMovies[name as keyof IsMovie]
+            touchedMovies[name as keyof RequiredMovieFields]
             && hasError
             && name !== 'description',
           })}
@@ -78,11 +62,11 @@ export const TextField: React.FC<Props> = ({
           placeholder={`Enter ${label}`}
           value={value}
           onChange={handleInputChange}
-          onBlur={onBlur}
+          onBlur={handleBlur}
         />
       </div>
 
-      {touchedMovies[name as keyof IsMovie]
+      {touchedMovies[name as keyof RequiredMovieFields]
       && hasError
       && name !== 'description' && (
         <p className="help is-danger">{`${label} is required`}</p>
