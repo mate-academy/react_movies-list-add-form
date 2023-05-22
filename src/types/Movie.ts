@@ -5,3 +5,10 @@ export interface Movie {
   imdbUrl: string;
   imdbId: string;
 }
+
+export interface RequiredMovieFields {
+  title: boolean;
+  imgUrl: boolean;
+  imdbUrl: boolean;
+  imdbId: boolean;
+}
