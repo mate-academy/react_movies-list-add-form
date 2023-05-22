@@ -35,11 +35,7 @@ export const TextField: React.FC<Props> = ({
   };
 
   const handleBlur = () => {
-    if (value.length === 0) {
-      onDisabledChange(true, name, required);
-    } else {
-      onDisabledChange(false, name, required);
-    }
+    onDisabledChange(!value.length, name, required);
   };
 
   return (

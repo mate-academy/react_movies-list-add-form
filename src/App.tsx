@@ -1,5 +1,5 @@
 import './App.scss';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { MoviesList } from './components/MoviesList';
 import { NewMovie } from './components/NewMovie';
 import { RequiredMovieFields } from './types/Movie';
@@ -7,21 +7,19 @@ import moviesFromServer from './api/movies.json';
 
 function checkEmptyInputs(obj: {
   [key: string]: string }): boolean {
-  return Object.keys(obj).some((key) => obj[key].trim().length === 0
+  return Object.keys(obj).some((key) => !obj[key].trim().length
    && key !== 'description');
 }
 
 export const App = () => {
   const [movies, setMovies] = useState(moviesFromServer);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
-  const [touchedMovies, setTouchedMovies] = useState<RequiredMovieFields>(
-    {
-      title: false,
-      imgUrl: false,
-      imdbUrl: false,
-      imdbId: false,
-    },
-  );
+  const [touchedMovies, setTouchedMovies] = useState<RequiredMovieFields>({
+    title: false,
+    imgUrl: false,
+    imdbUrl: false,
+    imdbId: false,
+  });
   const [newMovie, setNewMovie] = useState({
     title: '',
     description: '',
@@ -36,14 +34,14 @@ export const App = () => {
     imdbId,
   } = newMovie;
 
-  const hasEmptyRequiredFields = checkEmptyInputs(newMovie);
+  const hasEmptyRequiredFields = useMemo(() => {
+    return checkEmptyInputs(newMovie);
+  }, [newMovie]);
 
   const handleMovieAdd = () => {
-    if (hasEmptyRequiredFields) {
-      setIsButtonDisabled(true);
-    } else if (!hasEmptyRequiredFields) {
-      setMovies([...movies, newMovie]);
-    }
+    return hasEmptyRequiredFields
+      ? setIsButtonDisabled(true)
+      : setMovies([...movies, newMovie]);
   };
 
   const valueDelete = () => {
@@ -57,26 +55,27 @@ export const App = () => {
   };
 
   useEffect(() => {
-    if (!hasEmptyRequiredFields) {
-      setIsButtonDisabled(false);
-    } else {
-      setIsButtonDisabled(true);
-    }
-
     if (touchedMovies.title
       && touchedMovies.imgUrl
       && touchedMovies.imdbId
       && touchedMovies.imdbUrl) {
       setIsButtonDisabled(true);
     }
-  }, [title,
-    imgUrl,
-    imdbUrl,
-    imdbId,
-    touchedMovies.title,
+  }, [touchedMovies.title,
     touchedMovies.imgUrl,
     touchedMovies.imdbId,
     touchedMovies.imdbUrl]);
+
+  useEffect(() => {
+    if (!hasEmptyRequiredFields) {
+      setIsButtonDisabled(false);
+    } else {
+      setIsButtonDisabled(true);
+    }
+  }, [title,
+    imgUrl,
+    imdbUrl,
+    imdbId]);
 
   return (
     <div className="page">

@@ -14,6 +14,14 @@ interface Props {
   isButtonDisabled: boolean,
 }
 
+type MovieKey = keyof RequiredMovieFields;
+
+type TouchedKeys = {
+  [key in MovieKey]: boolean;
+};
+
+const requiredFields: MovieKey[] = ['title', 'imgUrl', 'imdbUrl', 'imdbId'];
+
 export const NewMovie: React.FC<Props> = ({
   newMovie,
   touchedMovies,
@@ -33,16 +41,9 @@ export const NewMovie: React.FC<Props> = ({
     imdbId,
   } = newMovie;
 
-  type MovieKey = keyof RequiredMovieFields;
-
-  type TouchedKeys = {
-    [key in MovieKey]: boolean;
-  };
-
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
 
-    const requiredFields: MovieKey[] = ['title', 'imgUrl', 'imdbUrl', 'imdbId'];
     let hasAnError = true;
 
     requiredFields.forEach((field) => {
@@ -85,12 +86,15 @@ export const NewMovie: React.FC<Props> = ({
     }
   };
 
+  const buttonAction = () => {
+    handleMovieAdd();
+    valueDelete();
+  };
+
   useEffect(() => {
-    const properties: MovieKey[]
-     = ['title', 'imgUrl', 'imdbUrl', 'imdbId'];
     const update: TouchedKeys = { ...touchedMovies };
 
-    properties.forEach((property) => {
+    requiredFields.forEach((property) => {
       if (newMovie[property].length > 0) {
         update[property] = false;
       }
@@ -190,10 +194,7 @@ export const NewMovie: React.FC<Props> = ({
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            onClick={() => {
-              handleMovieAdd();
-              valueDelete();
-            }}
+            onClick={buttonAction}
           >
             Add
           </button>
