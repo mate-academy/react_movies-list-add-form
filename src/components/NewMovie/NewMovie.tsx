@@ -17,6 +17,14 @@ export const NewMovie = ({ onAdd }: NewMovieProps) => {
 
   const disableButton = title && imgUrl && imdbUrl && imdbId;
 
+  const resetFormInputs = () => {
+    setTitle('');
+    setDescription('');
+    setImgUrl('');
+    setImdbUrl('');
+    setImdbId('');
+  };
+
   const handleSubmit: React.FormEventHandler = (event) => {
     event.preventDefault();
 
@@ -28,11 +36,7 @@ export const NewMovie = ({ onAdd }: NewMovieProps) => {
       imdbId,
     });
 
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
+    resetFormInputs();
     setCount(count + 1);
   };
 
