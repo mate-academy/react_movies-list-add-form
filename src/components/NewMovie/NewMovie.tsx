@@ -4,7 +4,6 @@ import { Movie } from '../../types/Movie';
 
 interface PropsNewMovies {
   onAdd: (newMovie: Movie) => void;
-
 }
 
 export const NewMovie = ({ onAdd }: PropsNewMovies) => {
@@ -14,11 +13,8 @@ export const NewMovie = ({ onAdd }: PropsNewMovies) => {
   const [imgUrl, setImgUrl] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
-  const [isImgUrl, setIsImgUrl] = useState(true);
-  const [isImdbUrl, setIsImdbUrl] = useState(true);
-
-  const isRequired = title && imgUrl && imdbUrl && imdbId
-    && isImgUrl && isImdbUrl;
+  // const [isImgUrl, setIsImgUrl] = useState(true);
+  // const [isImdbUrl, setIsImdbUrl] = useState(true);
 
   const resetValues = () => {
     setTitle('');
@@ -28,20 +24,20 @@ export const NewMovie = ({ onAdd }: PropsNewMovies) => {
     setImdbId('');
   };
 
-  const validURL = (url: string) => {
-    // eslint-disable-next-line max-len
-    const pattern = new RegExp(/^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/);
+  // eslint-disable-next-line max-len
+  const pattern = new RegExp(/^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/);
 
+  const validURL = (url: string) => {
     return pattern.test(url);
   };
 
   const handleImgURL = (url: string) => {
-    setIsImgUrl(validURL(url));
+    // setIsImgUrl(validURL(url));
     setImgUrl(url);
   };
 
   const handleImdbUrl = (url: string) => {
-    setIsImdbUrl(validURL(url));
+    // setIsImdbUrl(validURL(url));
     setImdbUrl(url);
   };
 
@@ -63,8 +59,14 @@ export const NewMovie = ({ onAdd }: PropsNewMovies) => {
     resetValues();
   };
 
+  const isRequired = title && validURL(imgUrl) && validURL(imdbUrl) && imdbId;
+
   return (
-    <form className="NewMovie" key={count}>
+    <form
+      className="NewMovie"
+      key={count}
+      onSubmit={handleSubmit}
+    >
       <h2 className="title">Add a movie</h2>
 
       <TextField
@@ -89,7 +91,7 @@ export const NewMovie = ({ onAdd }: PropsNewMovies) => {
         onChange={handleImgURL}
         required
       />
-      {!isImgUrl && imgUrl
+      {!validURL(imgUrl) && imgUrl
         && (<p className="help is-danger">Check correct URL address</p>)}
 
       <TextField
@@ -99,7 +101,7 @@ export const NewMovie = ({ onAdd }: PropsNewMovies) => {
         onChange={handleImdbUrl}
         required
       />
-      {!isImdbUrl && imdbUrl
+      {imdbUrl && !validURL(imdbUrl)
         && (<p className="help is-danger">Check correct URL address</p>)}
 
       <TextField
@@ -117,7 +119,6 @@ export const NewMovie = ({ onAdd }: PropsNewMovies) => {
             data-cy="submit-button"
             className="button is-link"
             disabled={!isRequired}
-            onClick={handleSubmit}
           >
             Add
           </button>
