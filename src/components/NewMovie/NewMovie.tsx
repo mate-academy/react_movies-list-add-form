@@ -17,7 +17,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const allImputAdd = !title || !description || !imgUrl || !imdbUrl || !imdbId;
+  const allImputAdd = !title || !imgUrl || !imdbUrl || !imdbId;
 
   const addMoive = () => {
     const moive = {
