@@ -61,9 +61,7 @@ export const TextField: React.FC<Props> = ({
       )}
 
       {notValidUrl && (
-        <p className="help is-danger">
-          URL is not valid
-        </p>
+        <p className="help is-danger">{`${label} is not valid`}</p>
       )}
     </div>
   );
