@@ -6,7 +6,7 @@ interface TextFieldProps {
   value: string,
   label?: string,
   required?: boolean,
-  onChange?: (name: string, newValue: string) => void,
+  onChange?: (newValue: string) => void,
   validateUrl?: (value: string) => boolean,
 }
 
@@ -46,7 +46,7 @@ export const TextField: React.FC<TextFieldProps> = ({
           placeholder={`Enter ${label}`}
           value={value}
           onBlur={() => setWasTouched(true)}
-          onChange={event => onChange(event.target.name, event.target.value)}
+          onChange={event => onChange(event.target.value)}
         />
       </div>
 
