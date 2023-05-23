@@ -6,7 +6,7 @@ type Props = {
   value: string,
   label?: string,
   required?: boolean,
-  onChange?: (newValue: string) => void,
+  onChange?: (key: string, value: string) => void,
 };
 
 function getRandomDigits() {
@@ -27,6 +27,12 @@ export const TextField: React.FC<Props> = ({
   const [touched, setToched] = useState(false);
   const hasError = touched && required && !value;
 
+  const onChangeHandler = (
+    { target }: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    onChange(name, target.value);
+  };
+
   return (
     <div className="field">
       <label className="label" htmlFor={id}>
@@ -43,7 +49,7 @@ export const TextField: React.FC<Props> = ({
           type="text"
           placeholder={`Enter ${label}`}
           value={value}
-          onChange={event => onChange(event.target.value)}
+          onChange={onChangeHandler}
           onBlur={() => setToched(true)}
         />
       </div>
