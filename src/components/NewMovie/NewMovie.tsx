@@ -21,7 +21,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const urlIsNotValid = !imgUrlIsValid || !imdbUrlIsValid;
 
   const submitIsDisabled
-    = !title || !imageUrl || !imdbUrl || !imdbId || urlIsNotValid;
+    = !title.trim() || !imageUrl || !imdbUrl || !imdbId || urlIsNotValid;
 
   const resetForm = () => {
     setTitle('');
@@ -68,7 +68,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={title}
-        onChange={(newTitle) => setTitle(newTitle)}
+        onChange={setTitle}
         required
       />
 
@@ -76,15 +76,15 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={description}
-        onChange={(newDescription) => setDescription(newDescription)}
+        onChange={setDescription}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={imageUrl}
-        onChange={(newImageUrl) => setImageUrl(newImageUrl)}
-        validateUrl={(url) => setImgUrlIsValid(validateUrl(url))}
+        onChange={setImageUrl}
+        onSetUrlIsValid={(url) => setImgUrlIsValid(validateUrl(url))}
         urlIsValid={imgUrlIsValid}
         required
       />
@@ -93,8 +93,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={(newImdbUrl) => setImdbUrl(newImdbUrl)}
-        validateUrl={(url) => setImdbUrlIsValid(validateUrl(url))}
+        onChange={setImdbUrl}
+        onSetUrlIsValid={(url) => setImdbUrlIsValid(validateUrl(url))}
         urlIsValid={imdbUrlIsValid}
         required
       />
@@ -103,7 +103,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={(newImdbId) => setImdbId(newImdbId)}
+        onChange={setImdbId}
         required
       />
 
