@@ -63,7 +63,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Title"
         value={title}
         onChange={setTitle}
-        onValidate={checkValid}
         required
       />
 
@@ -97,7 +96,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Imdb ID"
         value={imdbId}
         onChange={setImdbId}
-        onValidate={checkValid}
         required
       />
 
