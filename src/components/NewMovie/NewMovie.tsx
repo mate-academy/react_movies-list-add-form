@@ -13,8 +13,6 @@ export const NewMovie = ({ onAdd }: PropsNewMovies) => {
   const [imgUrl, setImgUrl] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
-  // const [isImgUrl, setIsImgUrl] = useState(true);
-  // const [isImdbUrl, setIsImdbUrl] = useState(true);
 
   const resetValues = () => {
     setTitle('');
@@ -32,12 +30,10 @@ export const NewMovie = ({ onAdd }: PropsNewMovies) => {
   };
 
   const handleImgURL = (url: string) => {
-    // setIsImgUrl(validURL(url));
     setImgUrl(url);
   };
 
   const handleImdbUrl = (url: string) => {
-    // setIsImdbUrl(validURL(url));
     setImdbUrl(url);
   };
 
