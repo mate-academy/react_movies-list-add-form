@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
+import { validateUrl } from '../../utils/validateURL';
 
 type Props = {
   onAdd: (movie: Movie) => void;
@@ -13,10 +14,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imageUrl, setImageUrl] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
-  const [imgUrlIsValid, setImgUrlIsValid] = useState(true);
-  const [imdbUrlIsValid, setImdbUrlIsValid] = useState(true);
 
-  const urlIsNotValid = !imgUrlIsValid || !imdbUrlIsValid;
+  const urlIsNotValid = !validateUrl(imageUrl) || !validateUrl(imdbUrl);
 
   const submitIsDisabled
     = !title.trim() || !imageUrl || !imdbUrl || !imdbId || urlIsNotValid;
@@ -27,13 +26,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setImageUrl('');
     setImdbUrl('');
     setImdbId('');
-  };
-
-  const validateUrl = (url: string) => {
-    // eslint-disable-next-line max-len
-    const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
-
-    return pattern.test(url);
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -82,8 +74,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Image URL"
         value={imageUrl}
         onChange={setImageUrl}
-        onSetUrlIsValid={(url) => setImgUrlIsValid(validateUrl(url))}
-        urlIsValid={imgUrlIsValid}
+        onValidateUrl={validateUrl}
         required
       />
 
@@ -92,8 +83,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Imdb URL"
         value={imdbUrl}
         onChange={setImdbUrl}
-        onSetUrlIsValid={(url) => setImdbUrlIsValid(validateUrl(url))}
-        urlIsValid={imdbUrlIsValid}
+        onValidateUrl={validateUrl}
         required
       />
 

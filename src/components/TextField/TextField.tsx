@@ -7,8 +7,7 @@ type Props = {
   label?: string,
   required?: boolean,
   onChange?: (newValue: string) => void,
-  onSetUrlIsValid?: (url: string) => void,
-  urlIsValid?: boolean,
+  onValidateUrl?: (url: string) => boolean,
 };
 
 function getRandomDigits() {
@@ -21,18 +20,20 @@ export const TextField: React.FC<Props> = ({
   label = name,
   required = false,
   onChange = () => {},
-  onSetUrlIsValid = () => {},
-  urlIsValid = true,
+  onValidateUrl = () => true,
 }) => {
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
   const [touched, setToched] = useState(false);
+  const [isValidUrl, setIsValidUrl] = useState(true);
   const hasError = touched && required && !value.trim();
-  const notValidUrl = touched && value.trim() && !urlIsValid;
+  const notValidUrl = touched && value.trim() && !isValidUrl;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onChange(e.target.value);
 
-    onSetUrlIsValid(e.target.value);
+    const isValid = onValidateUrl(e.target.value);
+
+    setIsValidUrl(isValid);
   };
 
   return (
