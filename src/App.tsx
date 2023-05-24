@@ -7,7 +7,7 @@ import { Movie } from './types/Movie';
 
 export const App = () => {
   const [currentMoviesList,
-    setCurrentMoviesList] = useState([...moviesFromServer]);
+    setCurrentMoviesList] = useState(moviesFromServer);
 
   const addMovie = (movie: Movie) => {
     setCurrentMoviesList(previousMoviesList => {

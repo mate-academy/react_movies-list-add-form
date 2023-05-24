@@ -9,74 +9,37 @@ interface NewMovieProps {
 export const NewMovie = ({ onAdd }: NewMovieProps) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
-  const defaultMovie = {
-    title: '',
-    description: '',
-    imgUrl: '',
-    imdbUrl: '',
-    imdbId: '',
-  };
 
   const [count, setCount] = useState(0);
-  const [movie, setMovie] = useState<Movie>({ ...defaultMovie });
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [imgUrl, setImgUrl] = useState('');
+  const [imdbId, setImdbId] = useState('');
+  const [imdbUrl, setImdbUrl] = useState('');
 
-  const {
-    title,
-    description,
-    imgUrl,
-    imdbId,
-    imdbUrl,
-  } = movie;
+  const isValid = title && imgUrl
+      && imdbUrl && imdbId;
 
-  const isValid = title.length && imgUrl.length
-      && imdbUrl.length && imdbId.length;
+  const resetFormInputs = () => {
+    setTitle('');
+    setDescription('');
+    setImgUrl('');
+    setImdbId('');
+    setImdbUrl('');
+  };
 
   const submitMovie = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    // const isValid = title.length && imgUrl.length
-    //   && imdbUrl.length && imdbId.length;
-
     if (isValid) {
+      const movie = {
+        title, description, imgUrl, imdbId, imdbUrl,
+      };
+
       onAdd(movie);
       setCount(prevCount => prevCount + 1);
-      setMovie({ ...defaultMovie });
+      resetFormInputs();
     }
-  };
-
-  const setTitle = (newTitle: string) => {
-    setMovie({
-      ...movie,
-      title: newTitle,
-    });
-  };
-
-  const setDescription = (newDescription: string) => {
-    setMovie({
-      ...movie,
-      description: newDescription,
-    });
-  };
-
-  const setImgUrl = (newImgUrl: string) => {
-    setMovie({
-      ...movie,
-      imgUrl: newImgUrl,
-    });
-  };
-
-  const setImdbUrl = (newImdbUrl: string) => {
-    setMovie({
-      ...movie,
-      imdbUrl: newImdbUrl,
-    });
-  };
-
-  const setImdbId = (newImdbId: string) => {
-    setMovie({
-      ...movie,
-      imdbId: newImdbId,
-    });
   };
 
   return (
