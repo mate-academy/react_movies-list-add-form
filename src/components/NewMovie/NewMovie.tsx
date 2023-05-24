@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
-import { patternLetterAndNumbers, patternUrl } from '../../constants/constants';
+import { patternUrl } from '../../constants/constants';
 
 type Props = {
   onAdd: (movie: Movie) => void,
@@ -24,7 +24,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   };
 
   const error = state.title.trim()
-  && patternLetterAndNumbers.test(state.imdbId.trim())
+  && state.imdbId.trim()
   && patternUrl.test(state.imdbUrl.trim())
   && patternUrl.test(state.imgUrl.trim());
 
@@ -32,7 +32,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     event.preventDefault();
 
     onAdd(state);
-    addCount(count + 1);
+    addCount(prevState => prevState + count);
     setState({
       title: '',
       description: '',
