@@ -3,7 +3,7 @@ import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
 interface Props {
-  onAdd: (moive: Movie) => void,
+  onAdd: (movie: Movie) => void,
 }
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   // Increase the count after successful form submission
@@ -17,11 +17,11 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const allImputAdd = !title.trim() || !imgUrl.trim()
+  const allInputsValid = !title.trim() || !imgUrl.trim()
   || !imdbUrl.trim() || !imdbId.trim();
 
-  const addMoive = () => {
-    const moive = {
+  const addMovie = () => {
+    const movie = {
       title: title.trim(),
       description,
       imgUrl,
@@ -29,7 +29,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       imdbId,
     };
 
-    onAdd(moive);
+    onAdd(movie);
     setTitle('');
     setDescription('');
     setImgUrl('');
@@ -42,7 +42,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     <form
       className="NewMovie"
       key={count}
-      onSubmit={addMoive}
+      onSubmit={addMovie}
     >
       <h2 className="title">Add a movie</h2>
 
@@ -91,7 +91,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={allImputAdd}
+            disabled={allInputsValid}
           >
             Add
           </button>
