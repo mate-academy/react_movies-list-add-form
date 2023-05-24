@@ -4,37 +4,36 @@ import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
 type AddNewMovieProp = {
-  onAdd: (param: Movie) => void;
+  onAdd: (movie: Movie) => void;
 };
 
 export const NewMovie: React.FC<AddNewMovieProp> = ({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
-  const [count, SetCount] = useState(0);
-  const [newTitle, SetNewTitle] = useState('');
-  const [newDescription, SetNewDescription] = useState('');
-  const [newImgUrl, SetNewImgUrl] = useState('');
-  const [newImdbUrl, SetNewImdbUrl] = useState('');
-  const [newImdbId, SetNewImdbId] = useState('');
+  const [count, setCount] = useState(0);
+  const [newTitle, setNewTitle] = useState('');
+  const [newDescription, setNewDescription] = useState('');
+  const [newImgUrl, setNewImgUrl] = useState('');
+  const [newImdbUrl, setNewImdbUrl] = useState('');
+  const [newImdbId, setNewImdbId] = useState('');
 
   const resetForm = () => {
-    SetNewTitle('');
-    SetNewDescription('');
-    SetNewImgUrl('');
-    SetNewImdbUrl('');
-    SetNewImdbId('');
+    setNewTitle('');
+    setNewDescription('');
+    setNewImgUrl('');
+    setNewImdbUrl('');
+    setNewImdbId('');
   };
 
-  const submitDisabled = !newTitle.trim()
-  || !newDescription.trim()
-  || !newImgUrl.trim()
+  const submitDisabled
+   = !newImgUrl.trim()
   || !newImdbUrl.trim()
   || !newImdbId.trim();
 
   const submitMovie = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    SetCount(count + 1);
+    setCount(count + 1);
 
     const newMovie = {
       title: newTitle,
@@ -56,16 +55,15 @@ export const NewMovie: React.FC<AddNewMovieProp> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={newTitle}
-        onChange={(event) => SetNewTitle(event)}
+        onChange={setNewTitle}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        required
         value={newDescription}
-        onChange={(event) => SetNewDescription(event)}
+        onChange={setNewDescription}
       />
 
       <TextField
@@ -73,7 +71,7 @@ export const NewMovie: React.FC<AddNewMovieProp> = ({ onAdd }) => {
         label="Image URL"
         required
         value={newImgUrl}
-        onChange={(event) => SetNewImgUrl(event)}
+        onChange={setNewImgUrl}
       />
 
       <TextField
@@ -81,7 +79,7 @@ export const NewMovie: React.FC<AddNewMovieProp> = ({ onAdd }) => {
         label="Imdb URL"
         required
         value={newImdbUrl}
-        onChange={(event) => SetNewImdbUrl(event)}
+        onChange={setNewImdbUrl}
       />
 
       <TextField
@@ -89,7 +87,7 @@ export const NewMovie: React.FC<AddNewMovieProp> = ({ onAdd }) => {
         label="Imdb ID"
         required
         value={newImdbId}
-        onChange={(event) => SetNewImdbId(event)}
+        onChange={setNewImdbId}
       />
 
       <div className="field is-grouped">
