@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
+import { patternLetterAndNumbers, patternUrl } from '../../constants/constants';
 
 type Props = {
   onAdd: (movie: Movie) => void,
@@ -22,11 +23,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setState({ ...state, [key]: value });
   };
 
-  // eslint-disable-next-line max-len
-  const patternUrl = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
-  // eslint-disable-next-line max-len
-  const patternLetterAndNumbers = /^([a-zA-Z0-9\u0600-\u06FF\u0660-\u0669\u06F0-\u06F9 _.-]+)$/;
-  const error = patternLetterAndNumbers.test(state.title.trim())
+  const error = state.title.trim()
   && patternLetterAndNumbers.test(state.imdbId.trim())
   && patternUrl.test(state.imdbUrl.trim())
   && patternUrl.test(state.imgUrl.trim());
@@ -36,8 +33,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
     onAdd(state);
     addCount(count + 1);
-    // eslint-disable-next-line no-console
-    console.log(count);
     setState({
       title: '',
       description: '',

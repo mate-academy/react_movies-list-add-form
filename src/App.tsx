@@ -9,8 +9,7 @@ export const App = () => {
   const [newMovie, setNewMovie] = useState(moviesFromServer);
 
   const handleMovies = (movie: Movie) => {
-    // eslint-disable-next-line max-len
-    setNewMovie([...newMovie, movie]);
+    setNewMovie((previousState) => [movie, ...previousState]);
   };
 
   return (
