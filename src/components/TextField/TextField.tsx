@@ -1,4 +1,5 @@
 import classNames from 'classnames';
+
 import React, { useState } from 'react';
 
 type Props = {
@@ -45,6 +46,7 @@ export const TextField: React.FC<Props> = ({
           value={value}
           onChange={event => onChange(event.target.value)}
           onBlur={() => setToched(true)}
+          required={required}
         />
       </div>
 
