@@ -24,16 +24,11 @@ export const TextField: React.FC<Props> = ({
 }) => {
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
   const [touched, setToched] = useState(false);
-  const [isValidUrl, setIsValidUrl] = useState(true);
   const hasError = touched && required && !value.trim();
-  const notValidUrl = touched && value.trim() && !isValidUrl;
+  const notValidUrl = touched && value.trim() && !onValidateUrl(value);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onChange(e.target.value);
-
-    const isValid = onValidateUrl(e.target.value);
-
-    setIsValidUrl(isValid);
   };
 
   return (
