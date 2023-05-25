@@ -1,37 +1,40 @@
 import { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
+// import { MovieCard } from '../MovieCard';
 
 type Add = (movie: Movie) => void;
 
 export const NewMovie = ({ onAdd } : { onAdd: Add }) => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imgUrl, setImageUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
+  const [moveiState, setMovieState] = useState({
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  });
+
+  const {
+    title, imgUrl, imdbUrl, imdbId,
+  } = moveiState;
   const allRequiredFiels = !(title && imgUrl && imdbUrl && imdbId);
 
-  const newMovie = {
-    title,
-    description,
-    imgUrl,
-    imdbUrl,
-    imdbId,
+  const resetMovieState = () => {
+    setMovieState({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
   };
 
   const handlerSubmit = (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault();
-    onAdd(newMovie);
-    setCount(count + 1);
-    setTitle('');
-    setDescription('');
-    setImageUrl('');
-    setImdbUrl('');
-    setImdbId('');
+    onAdd(moveiState);
+    setCount(prevCount => prevCount + 1);
+    resetMovieState();
   };
 
   return (
@@ -41,9 +44,12 @@ export const NewMovie = ({ onAdd } : { onAdd: Add }) => {
       <TextField
         name="title"
         label="Title"
-        value={title}
+        value={moveiState.title}
         onChange={(value) => {
-          setTitle(value);
+          setMovieState(prevState => ({
+            ...prevState,
+            title: value,
+          }));
         }}
         required
       />
@@ -51,18 +57,24 @@ export const NewMovie = ({ onAdd } : { onAdd: Add }) => {
       <TextField
         name="description"
         label="Description"
-        value={description}
-        onChange={value => {
-          setDescription(value);
+        value={moveiState.description}
+        onChange={(value) => {
+          setMovieState(prevState => ({
+            ...prevState,
+            description: value,
+          }));
         }}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={imgUrl}
-        onChange={value => {
-          setImageUrl(value);
+        value={moveiState.imgUrl}
+        onChange={(value) => {
+          setMovieState(prevState => ({
+            ...prevState,
+            imgUrl: value,
+          }));
         }}
         required
       />
@@ -70,9 +82,12 @@ export const NewMovie = ({ onAdd } : { onAdd: Add }) => {
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={imdbUrl}
-        onChange={value => {
-          setImdbUrl(value);
+        value={moveiState.imdbUrl}
+        onChange={(value) => {
+          setMovieState(prevState => ({
+            ...prevState,
+            imdbUrl: value,
+          }));
         }}
         required
       />
@@ -80,9 +95,12 @@ export const NewMovie = ({ onAdd } : { onAdd: Add }) => {
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imdbId}
-        onChange={value => {
-          setImdbId(value);
+        value={moveiState.imdbId}
+        onChange={(value) => {
+          setMovieState(prevState => ({
+            ...prevState,
+            imdbId: value,
+          }));
         }}
         required
       />
