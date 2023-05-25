@@ -2,9 +2,11 @@ import { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
-export const NewMovie: React.FC<
-{ onAdd:(movie: Movie)=>void }
-> = ({ onAdd }) => {
+interface NewMovieProps {
+  onAdd:(movie: Movie)=>void
+}
+
+export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
@@ -14,26 +16,31 @@ export const NewMovie: React.FC<
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
+  const clear = () => {
+    setTitle('');
+    setDescription('');
+    setImdbId('');
+    setImdbUrl('');
+    setImgUrl('');
+  };
+
+  const handleSubmit = () => {
+    setCount(oldCount => oldCount + 1);
+    onAdd({
+      title,
+      description,
+      imdbId,
+      imdbUrl,
+      imgUrl,
+    });
+    clear();
+  };
+
   return (
     <form
       className="NewMovie"
       key={count}
-      onSubmit={() => {
-        setCount(oldCount => oldCount + 1);
-        onAdd({
-          title,
-          description,
-          imdbId,
-          imdbUrl,
-          imgUrl,
-        });
-
-        setTitle('');
-        setDescription('');
-        setImdbId('');
-        setImdbUrl('');
-        setImgUrl('');
-      }}
+      onSubmit={handleSubmit}
     >
       <h2 className="title">Add a movie</h2>
 
@@ -83,10 +90,10 @@ export const NewMovie: React.FC<
             data-cy="submit-button"
             className="button is-link"
             disabled={!(
-              title.length !== 0
-            && imdbId.length !== 0
-            && imdbUrl.length !== 0
-            && imgUrl.length !== 0)}
+              title
+            && imdbId
+            && imdbUrl
+            && imgUrl)}
           >
             Add
           </button>
