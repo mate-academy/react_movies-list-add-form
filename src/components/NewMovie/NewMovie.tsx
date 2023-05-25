@@ -16,6 +16,12 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
+  const isDisabled = !(
+    title
+  && imdbId
+  && imdbUrl
+  && imgUrl);
+
   const clear = () => {
     setTitle('');
     setDescription('');
@@ -89,11 +95,7 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!(
-              title
-            && imdbId
-            && imdbUrl
-            && imgUrl)}
+            disabled={isDisabled}
           >
             Add
           </button>
