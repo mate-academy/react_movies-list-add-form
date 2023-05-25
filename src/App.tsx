@@ -10,8 +10,6 @@ export const App = () => {
 
   const addMovie = (movie: Movie) => {
     setMovies(current => [...current, movie]);
-    console.log('pushd');
-    console.log(movies);
   };
 
   return (
