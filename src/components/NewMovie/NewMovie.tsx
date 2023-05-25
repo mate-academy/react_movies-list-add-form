@@ -7,8 +7,6 @@ type Props = {
 };
 
 export const NewMovie: React.FC<Props> = ({ onAdd = () => {} }) => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
   const [newMovie, setNewMovie] = useState({
     title: '',
@@ -25,7 +23,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd = () => {} }) => {
     } = newMovie;
 
     setValidForm(
-      (!!title && !!imgUrl && !!imdbUrl && !!imdbId)
+      (!!title.trim() && !!imgUrl && !!imdbUrl && !!imdbId.trim())
       && document.querySelectorAll('.is-danger').length === 0,
     );
   }, [newMovie]);
