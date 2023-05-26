@@ -20,7 +20,12 @@ export const NewMovie = ({ onAdd } : { onAdd: Add }) => {
     imdbUrl,
     imdbId,
   } = movieState;
-  const allRequiredFiels = !(title && imgUrl && imdbUrl && imdbId);
+
+  const allRequiredFields = !(
+    title.trim()
+    && imgUrl.trim()
+    && imdbUrl.trim()
+    && imdbId.trim());
 
   const resetMovieState = () => {
     setMovieState({
@@ -39,6 +44,13 @@ export const NewMovie = ({ onAdd } : { onAdd: Add }) => {
     resetMovieState();
   };
 
+  const handleInputChange = (name: string, value: string) => {
+    setMovieState((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
   return (
     <form className="NewMovie" key={count}>
       <h2 className="title">Add a movie</h2>
@@ -47,12 +59,7 @@ export const NewMovie = ({ onAdd } : { onAdd: Add }) => {
         name="title"
         label="Title"
         value={movieState.title}
-        onChange={(value) => {
-          setMovieState(prevState => ({
-            ...prevState,
-            title: value,
-          }));
-        }}
+        onChange={(value) => handleInputChange('title', value)}
         required
       />
 
@@ -60,24 +67,14 @@ export const NewMovie = ({ onAdd } : { onAdd: Add }) => {
         name="description"
         label="Description"
         value={movieState.description}
-        onChange={(value) => {
-          setMovieState(prevState => ({
-            ...prevState,
-            description: value,
-          }));
-        }}
+        onChange={(value) => handleInputChange('description', value)}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={movieState.imgUrl}
-        onChange={(value) => {
-          setMovieState(prevState => ({
-            ...prevState,
-            imgUrl: value,
-          }));
-        }}
+        onChange={(value) => handleInputChange('imgUrl', value)}
         required
       />
 
@@ -85,12 +82,7 @@ export const NewMovie = ({ onAdd } : { onAdd: Add }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={movieState.imdbUrl}
-        onChange={(value) => {
-          setMovieState(prevState => ({
-            ...prevState,
-            imdbUrl: value,
-          }));
-        }}
+        onChange={(value) => handleInputChange('imdbUrl', value)}
         required
       />
 
@@ -98,12 +90,7 @@ export const NewMovie = ({ onAdd } : { onAdd: Add }) => {
         name="imdbId"
         label="Imdb ID"
         value={movieState.imdbId}
-        onChange={(value) => {
-          setMovieState(prevState => ({
-            ...prevState,
-            imdbId: value,
-          }));
-        }}
+        onChange={(value) => handleInputChange('imdbId', value)}
         required
       />
 
@@ -114,7 +101,7 @@ export const NewMovie = ({ onAdd } : { onAdd: Add }) => {
             data-cy="submit-button"
             className="button is-link"
             onClick={handleSubmit}
-            disabled={allRequiredFiels}
+            disabled={allRequiredFields}
           >
             Add
           </button>
