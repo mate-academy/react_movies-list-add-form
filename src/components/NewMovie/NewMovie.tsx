@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Movie } from '../../types/Movie';
+import { pattern } from '../../validations/pattern';
 import { TextField } from '../TextField';
 
 type Props = {
@@ -23,8 +24,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd = () => {} }) => {
     } = newMovie;
 
     setValidForm(
-      (!!title.trim() && !!imgUrl && !!imdbUrl && !!imdbId.trim())
-      && document.querySelectorAll('.is-danger').length === 0,
+      !!title.trim()
+      && !!imdbId.trim()
+      && pattern.test(imgUrl)
+      && pattern.test(imdbUrl),
     );
   }, [newMovie]);
 
