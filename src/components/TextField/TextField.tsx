@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import React, { useState } from 'react';
+import { pattern } from '../../validations/pattern';
 
 type Props = {
   name: string,
@@ -20,12 +21,21 @@ export const TextField: React.FC<Props> = ({
   required = false,
   onChange = () => {},
 }) => {
-  // generage a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
-  // To show errors only if the field was touched (onBlur)
-  const [touched, setToched] = useState(false);
-  const hasError = touched && required && !value;
+  const [touched, setTouched] = useState(false);
+  const [validated, setValidated] = useState(true);
+
+  function handleBlur() {
+    setTouched(true);
+
+    if (name.match('Url')) {
+      setValidated(pattern.test(value));
+    }
+  }
+
+  const hasError = touched && required && !value.trim();
+  const unvalidatedData = value && !validated;
 
   return (
     <div className="field">
@@ -44,12 +54,16 @@ export const TextField: React.FC<Props> = ({
           placeholder={`Enter ${label}`}
           value={value}
           onChange={event => onChange(event.target.value)}
-          onBlur={() => setToched(true)}
+          onBlur={() => handleBlur()}
         />
       </div>
 
       {hasError && (
         <p className="help is-danger">{`${label} is required`}</p>
+      )}
+
+      {unvalidatedData && (
+        <p className="help is-danger">{`${label} should have the valid format`}</p>
       )}
     </div>
   );
