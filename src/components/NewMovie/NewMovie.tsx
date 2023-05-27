@@ -23,7 +23,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
     imdbId,
   } = movieState;
 
-  const allRequiredFields = !(
+  const isSubmitDisabled = !(
     title.trim()
     && imgUrl.trim()
     && imdbUrl.trim()
@@ -103,7 +103,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
             data-cy="submit-button"
             className="button is-link"
             onClick={handleSubmit}
-            disabled={allRequiredFields}
+            disabled={isSubmitDisabled}
           >
             Add
           </button>
