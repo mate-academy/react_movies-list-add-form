@@ -6,15 +6,17 @@ type Props = {
   onAdd: (movie: Movie) => void;
 };
 
+const defaultValue = {
+  title: '',
+  description: '',
+  imgUrl: '',
+  imdbUrl: '',
+  imdbId: '',
+};
+
 export const NewMovie: FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
-  const [movieState, setMovieState] = useState({
-    title: '',
-    description: '',
-    imgUrl: '',
-    imdbUrl: '',
-    imdbId: '',
-  });
+  const [movieState, setMovieState] = useState(defaultValue);
 
   const {
     title,
@@ -30,13 +32,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
     && imdbId.trim());
 
   const resetMovieState = () => {
-    setMovieState({
-      title: '',
-      description: '',
-      imgUrl: '',
-      imdbUrl: '',
-      imdbId: '',
-    });
+    setMovieState(defaultValue);
   };
 
   const handleSubmit = (event: React.MouseEvent<HTMLElement>) => {
