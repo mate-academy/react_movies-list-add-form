@@ -99,5 +99,5 @@ export const NewMovie: React.FC<MovieProps> = ({ onAdd }) => {
         </div>
       </div>
     </form>
-);
+  );
 };
