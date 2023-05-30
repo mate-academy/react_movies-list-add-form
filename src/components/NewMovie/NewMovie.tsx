@@ -6,34 +6,45 @@ type Props = {
   onAdd: (movie: Movie) => void;
 };
 
+const initialFormState = {
+  title: '',
+  description: '',
+  imgUrl: '',
+  imdbUrl: '',
+  imdbId: '',
+};
+
 export const NewMovie: FC<Props> = memo(({ onAdd }) => {
   const [count, setCount] = useState(0);
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
+  const [formState, setFormState] = useState(initialFormState);
+
+  const {
+    title,
+    description,
+    imgUrl,
+    imdbUrl,
+    imdbId,
+  } = formState;
+
+  const clearFormState = () => {
+    setFormState(initialFormState);
+  };
+
+  const changeFormState = (key: string, value: string) => {
+    setFormState((currentState) => ({
+      ...currentState,
+      [key]: value,
+    }));
+  };
 
   const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const movie = {
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    };
-
-    onAdd(movie);
+    onAdd(formState);
 
     setCount((currentCount) => currentCount + 1);
 
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
+    clearFormState();
   };
 
   const isSubmitButtonActive = title.trim()
@@ -53,7 +64,7 @@ export const NewMovie: FC<Props> = memo(({ onAdd }) => {
         name="title"
         label="Title"
         value={title}
-        onChange={setTitle}
+        onChange={(value) => changeFormState('title', value)}
         required
       />
 
@@ -61,14 +72,14 @@ export const NewMovie: FC<Props> = memo(({ onAdd }) => {
         name="description"
         label="Description"
         value={description}
-        onChange={setDescription}
+        onChange={(value) => changeFormState('description', value)}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={setImgUrl}
+        onChange={(value) => changeFormState('imgUrl', value)}
         required
       />
 
@@ -76,7 +87,7 @@ export const NewMovie: FC<Props> = memo(({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={setImdbUrl}
+        onChange={(value) => changeFormState('imdbUrl', value)}
         required
       />
 
@@ -84,7 +95,7 @@ export const NewMovie: FC<Props> = memo(({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={setImdbId}
+        onChange={(value) => changeFormState('imdbId', value)}
         required
       />
 
