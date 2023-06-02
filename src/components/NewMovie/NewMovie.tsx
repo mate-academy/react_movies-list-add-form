@@ -15,9 +15,18 @@ export const NewMovie = ({ onAdd }: NewMovieProps) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
   const [description, setDescription] = useState('');
+  const disabled = !title || !imgUrl || !imdbId || !imdbUrl;
 
   const handleSubmit: FormEventHandler = (event) => {
     event.preventDefault();
+
+    const clearForm = () => {
+      setTitle('');
+      setImgUrl('');
+      setImdbUrl('');
+      setImdbId('');
+      setDescription('');
+    };
 
     onAdd({
       title,
@@ -28,11 +37,7 @@ export const NewMovie = ({ onAdd }: NewMovieProps) => {
     });
 
     setCount(count + 1);
-    setTitle('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
-    setDescription('');
+    clearForm();
   };
 
   return (
@@ -88,7 +93,7 @@ export const NewMovie = ({ onAdd }: NewMovieProps) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!title || !imgUrl || !imdbId || !imdbUrl}
+            disabled={disabled}
           >
             Add
           </button>
