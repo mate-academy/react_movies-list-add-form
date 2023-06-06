@@ -1,11 +1,13 @@
 import classNames from 'classnames';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { pattern } from '../../utils/pattern';
 
 type Props = {
   name: string,
   value: string,
   label?: string,
   required?: boolean,
+  setErrorCount: (newValue: number) => void,
   onChange?: (newValue: string) => void,
 };
 
@@ -18,14 +20,37 @@ export const TextField: React.FC<Props> = ({
   value,
   label = name,
   required = false,
+  setErrorCount = () => {},
   onChange = () => {},
 }) => {
-  // generage a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
+  const [touched, setToched] = useState(false);
+  const [isValid, setIsValid] = useState(false);
 
-  // To show errors only if the field was touched (onBlur)
-  const [touched, setTouched] = useState(false);
-  const hasError = touched && required && !value;
+  const hasError = touched && required && !isValid;
+
+  const validateInput = (newValue: string) => {
+    switch (name) {
+      case 'description':
+        return true;
+
+      case 'imgUrl':
+      case 'imdbUrl':
+        return pattern.isLink.test(newValue);
+
+      default:
+        return pattern.isNotEmpty.test(newValue);
+    }
+  };
+
+  const handleBlur = () => {
+    setToched(true);
+    setIsValid(validateInput(value));
+  };
+
+  useEffect(() => {
+    setErrorCount(document.querySelectorAll('.help').length);
+  }, [isValid]);
 
   return (
     <div className="field">
@@ -44,12 +69,12 @@ export const TextField: React.FC<Props> = ({
           placeholder={`Enter ${label}`}
           value={value}
           onChange={event => onChange(event.target.value)}
-          onBlur={() => setTouched(true)}
+          onBlur={() => handleBlur()}
         />
       </div>
 
-      {hasError && (
-        <p className="help is-danger">{`${label} is required`}</p>
+      { hasError && (
+        <p className="help is-danger">{`valid ${label} is required`}</p>
       )}
     </div>
   );
