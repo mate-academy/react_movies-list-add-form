@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
+// import { event } from 'cypress/types/jquery';
 
 type Props = {
   onAdd: (movie: Movie) => void
@@ -30,6 +31,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     );
   };
 
+  const handleOnChenge = (name: string, value: string) => {
+    setMovie((prevState) => ({ ...prevState, [name]: value }));
+  };
+
   const {
     title, description, imgUrl, imdbUrl, imdbId,
   } = movie;
@@ -55,9 +60,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={title}
-        onChange={(value) => {
-          setMovie((prevState) => ({ ...prevState, title: value }));
-        }}
+        onChange={(event: string) => handleOnChenge('title', event)}
         required
       />
 
@@ -65,39 +68,31 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={description}
-        onChange={(value) => {
-          setMovie((prevState) => ({ ...prevState, description: value }));
-        }}
+        onChange={(event: string) => handleOnChenge('description', event)}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={imgUrl}
+        value={imgUrl.trim()}
         required
-        onChange={(value) => {
-          setMovie((prevState) => ({ ...prevState, imgUrl: value.trim() }));
-        }}
+        onChange={(event: string) => handleOnChenge('imgUrl', event)}
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={imdbUrl}
+        value={imdbUrl.trim()}
         required
-        onChange={(value) => {
-          setMovie((prevState) => ({ ...prevState, imdbUrl: value.trim() }));
-        }}
+        onChange={(event: string) => handleOnChenge('imdbUrl', event)}
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imdbId}
+        value={imdbId.trim()}
         required
-        onChange={(value) => {
-          setMovie((prevState) => ({ ...prevState, imdbId: value.trim() }));
-        }}
+        onChange={(event: string) => handleOnChenge('imdbId', event)}
       />
 
       <div className="field is-grouped">
