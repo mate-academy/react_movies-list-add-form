@@ -1,11 +1,12 @@
 import classNames from 'classnames';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 type Props = {
   name: string,
   value: string,
   label?: string,
   required?: boolean,
+  setErrorCount: (newValue: number) => void,
   onChange?: (newValue: string) => void,
 };
 
@@ -18,14 +19,38 @@ export const TextField: React.FC<Props> = ({
   value,
   label = name,
   required = false,
+  setErrorCount = () => {},
   onChange = () => {},
 }) => {
-  // generage a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
-
-  // To show errors only if the field was touched (onBlur)
   const [touched, setToched] = useState(false);
-  const hasError = touched && required && !value;
+  const [isValid, setIsValid] = useState(false);
+
+  const hasError = touched && required && !isValid;
+
+  const pattern = {
+    // eslint-disable-next-line max-len
+    isLink: /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/,
+    isNotEmpty: /[\S\s]+[\S]+/,
+  };
+
+  const validateInput = (newValue: string) => {
+    switch (name) {
+      case 'description':
+        return true;
+
+      case 'imgUrl':
+      case 'imdbUrl':
+        return pattern.isLink.test(newValue);
+
+      default:
+        return pattern.isNotEmpty.test(newValue);
+    }
+  };
+
+  useEffect(() => {
+    setErrorCount(document.querySelectorAll('.help').length);
+  }, [isValid]);
 
   return (
     <div className="field">
@@ -44,12 +69,15 @@ export const TextField: React.FC<Props> = ({
           placeholder={`Enter ${label}`}
           value={value}
           onChange={event => onChange(event.target.value)}
-          onBlur={() => setToched(true)}
+          onBlur={() => {
+            setToched(true);
+            setIsValid(validateInput(value));
+          }}
         />
       </div>
 
-      {hasError && (
-        <p className="help is-danger">{`${label} is required`}</p>
+      { hasError && (
+        <p className="help is-danger">{`valid ${label} is required`}</p>
       )}
     </div>
   );
