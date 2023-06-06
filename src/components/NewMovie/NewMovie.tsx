@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
-// import { event } from 'cypress/types/jquery';
 
 type Props = {
   onAdd: (movie: Movie) => void
@@ -31,8 +30,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     );
   };
 
-  const handleOnChenge = (name: string, value: string) => {
-    setMovie((prevState) => ({ ...prevState, [name]: value }));
+  const handleOnChange = (value: string, name: string) => {
+    setMovie((prevState) => (
+      { ...prevState, [name]: value }));
   };
 
   const {
@@ -60,7 +60,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={title}
-        onChange={(event: string) => handleOnChenge('title', event)}
+        onChange={handleOnChange}
         required
       />
 
@@ -68,7 +68,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={description}
-        onChange={(event: string) => handleOnChenge('description', event)}
+        onChange={handleOnChange}
       />
 
       <TextField
@@ -76,7 +76,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Image URL"
         value={imgUrl.trim()}
         required
-        onChange={(event: string) => handleOnChenge('imgUrl', event)}
+        onChange={handleOnChange}
       />
 
       <TextField
@@ -84,7 +84,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Imdb URL"
         value={imdbUrl.trim()}
         required
-        onChange={(event: string) => handleOnChenge('imdbUrl', event)}
+        onChange={handleOnChange}
       />
 
       <TextField
@@ -92,7 +92,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Imdb ID"
         value={imdbId.trim()}
         required
-        onChange={(event: string) => handleOnChenge('imdbId', event)}
+        onChange={handleOnChange}
       />
 
       <div className="field is-grouped">
