@@ -2,12 +2,20 @@ import classNames from 'classnames';
 import React, { useState, useEffect } from 'react';
 import { pattern } from '../../utils/pattern';
 
+enum InputName {
+  title = 'title',
+  description = 'description',
+  imgUrl = 'imgUrl',
+  imdbUrl = 'imdbUrl',
+  imdbId = 'imdbId',
+}
+
 type Props = {
   name: string,
   value: string,
   label?: string,
   required?: boolean,
-  setErrorCount: (newValue: number) => void,
+  setHasError: (newValue: boolean) => void,
   onChange?: (newValue: string) => void,
 };
 
@@ -20,7 +28,7 @@ export const TextField: React.FC<Props> = ({
   value,
   label = name,
   required = false,
-  setErrorCount = () => {},
+  setHasError = () => {},
   onChange = () => {},
 }) => {
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
@@ -29,27 +37,29 @@ export const TextField: React.FC<Props> = ({
 
   const hasError = touched && required && !isValid;
 
-  const validateInput = (newValue: string) => {
-    switch (name) {
-      case 'description':
+  const validateInput = (nameType: InputName) => {
+    switch (nameType) {
+      case InputName.description:
         return true;
 
-      case 'imgUrl':
-      case 'imdbUrl':
-        return pattern.isLink.test(newValue);
+      case InputName.imgUrl:
+      case InputName.imdbUrl:
+        return pattern.isLink.test(value);
 
       default:
-        return pattern.isNotEmpty.test(newValue);
+        return pattern.isNotEmpty.test(value);
     }
   };
 
   const handleBlur = () => {
+    const nameType = name as keyof typeof InputName;
+
     setToched(true);
-    setIsValid(validateInput(value));
+    setIsValid(validateInput(InputName[nameType]));
   };
 
   useEffect(() => {
-    setErrorCount(document.querySelectorAll('.help').length);
+    setHasError(document.querySelectorAll('.help').length !== 0);
   }, [isValid]);
 
   return (
@@ -69,11 +79,11 @@ export const TextField: React.FC<Props> = ({
           placeholder={`Enter ${label}`}
           value={value}
           onChange={event => onChange(event.target.value)}
-          onBlur={() => handleBlur()}
+          onBlur={handleBlur}
         />
       </div>
 
-      { hasError && (
+      {hasError && (
         <p className="help is-danger">{`valid ${label} is required`}</p>
       )}
     </div>

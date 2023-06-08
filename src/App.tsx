@@ -8,8 +8,8 @@ import './App.scss';
 export const App = () => {
   const [newMovieList, setNewMovieList] = useState(moviesFromServer);
 
-  const onAdd = (newMovieObj: Movie) => {
-    setNewMovieList([...newMovieList, newMovieObj]);
+  const onAdd = (newMovie: Movie) => {
+    setNewMovieList([...newMovieList, newMovie]);
   };
 
   return (

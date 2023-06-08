@@ -13,8 +13,7 @@ export const NewMovie = ({ onAdd }: Props) => {
   const [imgUrl, setImgUrl] = useState('');
   const [imdbUrl, setmdbUrl] = useState('');
 
-  const [count, setCount] = useState(0);
-  const [errorCount, setErrorCount] = useState(0);
+  const [hasError, setHasError] = useState(false);
 
   const newMovie: Movie = {
     title,
@@ -36,26 +35,21 @@ export const NewMovie = ({ onAdd }: Props) => {
     event.preventDefault();
 
     onAdd(newMovie);
-    setCount(current => (current + 1));
-    setErrorCount(0);
+    setHasError(false);
     resetForm();
   };
 
-  const isFormValid = title && imdbId && imdbUrl && imgUrl && errorCount === 0;
+  const isFormValid = title && imdbId && imdbUrl && imgUrl && !hasError;
 
   return (
-    <form
-      className="NewMovie"
-      key={count}
-      onSubmit={handleSabmit}
-    >
+    <form className="NewMovie" onSubmit={handleSabmit}>
       <h2 className="title">Add a movie</h2>
 
       <TextField
         name="title"
         value={title}
         onChange={setTitle}
-        setErrorCount={setErrorCount}
+        setHasError={setHasError}
         required
       />
 
@@ -63,7 +57,7 @@ export const NewMovie = ({ onAdd }: Props) => {
         name="description"
         value={description}
         onChange={setDescription}
-        setErrorCount={setErrorCount}
+        setHasError={setHasError}
         required
       />
 
@@ -71,7 +65,7 @@ export const NewMovie = ({ onAdd }: Props) => {
         name="imgUrl"
         value={imgUrl}
         onChange={setImgUrl}
-        setErrorCount={setErrorCount}
+        setHasError={setHasError}
         required
       />
 
@@ -79,7 +73,7 @@ export const NewMovie = ({ onAdd }: Props) => {
         name="imdbUrl"
         value={imdbUrl}
         onChange={setmdbUrl}
-        setErrorCount={setErrorCount}
+        setHasError={setHasError}
         required
       />
 
@@ -87,7 +81,7 @@ export const NewMovie = ({ onAdd }: Props) => {
         name="imdbId"
         value={imdbId}
         onChange={setImdbId}
-        setErrorCount={setErrorCount}
+        setHasError={setHasError}
         required
       />
 
