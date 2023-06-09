@@ -1,59 +1,58 @@
-import { FC, useEffect, useState } from 'react';
-import { TextField } from '../TextField';
+import { FC, useState } from 'react';
+import { ChangeEvent, TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
+const initialFormData = {
+  title: '',
+  description: '',
+  imgUrl: '',
+  imdbUrl: '',
+  imdbId: '',
+};
+
 type Props = {
-  onAdd: (movie: Movie) => void,
+  onAdd: (movie: Movie) => void;
 };
 
 export const NewMovie: FC<Props> = ({ onAdd }) => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
-  const [disabledButton, setDisabledButton] = useState(true);
+  const [formData, setFormData] = useState(initialFormData);
+  const {
+    title,
+    description,
+    imgUrl,
+    imdbUrl,
+    imdbId,
+  } = formData;
 
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
+  const disabledButton = Boolean(
+    title.trim()
+    && imgUrl.trim()
+    && imdbUrl.trim()
+    && imdbId.trim(),
+  );
 
-  const [formData, setFormData] = useState({});
-
-  useEffect(() => {
-    if (count > 0) {
-      onAdd(formData as Movie);
-    }
-  }, [count]);
-
-  useEffect(() => {
-    if (title && imgUrl && imdbUrl && imdbId) {
-      setDisabledButton(false);
-    }
-  }, [title, imgUrl, imdbUrl, imdbId]);
-
-  const resetForm = () => {
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
+  const clearFormData = () => {
+    setFormData(initialFormData);
   };
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    setCount(count + 1);
+    onAdd(formData as Movie);
 
-    setFormData({
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    });
+    setCount((curCount) => curCount + 1);
 
-    resetForm();
+    clearFormData();
+  };
+
+  const handleChange = (event: ChangeEvent) => {
+    const { newValue, newName } = event;
+
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [newName]: newValue,
+    }));
   };
 
   return (
@@ -70,9 +69,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={title}
-        onChange={(event) => {
-          setTitle(event);
-        }}
+        onChange={handleChange}
         required
       />
 
@@ -80,18 +77,14 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={description}
-        onChange={(event) => {
-          setDescription(event);
-        }}
+        onChange={handleChange}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={(event) => {
-          setImgUrl(event);
-        }}
+        onChange={handleChange}
         required
       />
 
@@ -99,9 +92,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={(event) => {
-          setImdbUrl(event);
-        }}
+        onChange={handleChange}
         required
       />
 
@@ -109,9 +100,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={(event) => {
-          setImdbId(event);
-        }}
+        onChange={handleChange}
         required
       />
 
@@ -121,7 +110,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={disabledButton}
+            disabled={!disabledButton}
           >
             Add
           </button>

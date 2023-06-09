@@ -1,12 +1,17 @@
 import classNames from 'classnames';
 import React, { useState } from 'react';
 
+export type ChangeEvent = {
+  newValue: string;
+  newName: string;
+};
+
 type Props = {
   name: string,
   value: string,
   label?: string,
   required?: boolean,
-  onChange?: (newValue: string) => void,
+  onChange?: (event: ChangeEvent) => void,
 };
 
 function getRandomDigits() {
@@ -40,10 +45,14 @@ export const TextField: React.FC<Props> = ({
           className={classNames('input', {
             'is-danger': hasError,
           })}
+          name={name}
           type="text"
           placeholder={`Enter ${label}`}
           value={value}
-          onChange={event => onChange(event.target.value)}
+          onChange={event => onChange({
+            newValue: event.target.value,
+            newName: event.target.name,
+          })}
           onBlur={() => setTouched(true)}
         />
       </div>
