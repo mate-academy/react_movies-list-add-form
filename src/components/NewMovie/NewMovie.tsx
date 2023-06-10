@@ -14,7 +14,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const allInputsValid = !title.trim() || !imgUrl.trim()
+  const isValid = !title.trim() || !imgUrl.trim()
   || !imdbUrl.trim() || !imdbId.trim();
 
   const handleReset = () => {
@@ -94,7 +94,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={allInputsValid}
+            disabled={isValid}
           >
             Add
           </button>

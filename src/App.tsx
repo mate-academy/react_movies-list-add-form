@@ -7,6 +7,7 @@ import './App.scss';
 
 export const App = () => {
   const [movies, setMovies] = useState(moviesFromServer);
+
   const handleAddMovie = (movie: Movie) => {
     setMovies((prev) => [...prev, movie]);
   };
