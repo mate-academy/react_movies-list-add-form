@@ -25,7 +25,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
     imdbId,
   } = formData;
 
-  const disabledButton = Boolean(
+  const isFormValid = Boolean(
     title.trim()
     && imgUrl.trim()
     && imdbUrl.trim()
@@ -38,6 +38,10 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
+
+    if (!isFormValid) {
+      return;
+    }
 
     onAdd(formData as Movie);
 
@@ -110,7 +114,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!disabledButton}
+            disabled={!isFormValid}
           >
             Add
           </button>
