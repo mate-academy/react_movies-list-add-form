@@ -46,6 +46,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
     onAdd(form);
     setCount(count + 1);
+    setForm(formBlank);
   };
 
   return (
