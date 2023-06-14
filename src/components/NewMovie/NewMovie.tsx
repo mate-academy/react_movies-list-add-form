@@ -20,7 +20,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const handler = (name: string, value: string) => {
     setNewMovie(prevMovie => ({
       ...prevMovie,
-      [name]: value.trim(),
+      [name]: value,
     }));
   };
 
@@ -36,8 +36,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setCount(prevCount => prevCount + 1);
   };
 
-  const submitDisables = !newMovie.title.trim() || !newMovie.imgUrl.trim()
-  || !newMovie.imdbUrl.trim() || !newMovie.imdbId.trim();
+  const submitDisables = !newMovie.title || !newMovie.imgUrl
+  || !newMovie.imdbUrl || !newMovie.imdbId;
 
   return (
     <form
