@@ -14,13 +14,8 @@ const formBlank = {
   imdbId: '',
 };
 
-const pattern = new RegExp(
-  /^((([A-Za-z]{3,9}:(?:\/\/)?)/.source
-  + /(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]/.source
-  + /+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)/.source
-  + /((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)/.source
-  + /#?(?:[,.!/\\\w]*))?)$/.source,
-);
+// eslint-disable-next-line max-len
+const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)$/;
 
 const validateUrl = (url: string) => pattern.test(url);
 
