@@ -36,10 +36,8 @@ export const MovieCard: React.FC<Props> = ({ movie }) => (
         <br />
         <a
           href={movie.imdbUrl}
-          onClick={(event) => {
-            event.preventDefault();
-            window.open(event.currentTarget.href, '_blank');
-          }}
+          target="_blank"
+          rel="noreferrer"
         >
           IMDB
         </a>

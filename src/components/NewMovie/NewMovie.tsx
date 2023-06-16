@@ -23,16 +23,23 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    onAdd(newMovie);
-    setCount(prevState => prevState + 1);
-    setNewMovie({
-      title: '',
-      description: '',
-      imgUrl: '',
-      imdbUrl: '',
-      imdbId: '',
-    });
-    setIsDisabled(true);
+    if (newMovie.title.trim() !== ''
+      && newMovie.description.trim() !== ''
+      && newMovie.imgUrl.trim() !== ''
+      && newMovie.imdbUrl.trim() !== ''
+      && newMovie.imdbId.trim() !== ''
+    ) {
+      onAdd(newMovie);
+      setCount(prevState => prevState + 1);
+      setIsDisabled(true);
+      setNewMovie({
+        title: '',
+        description: '',
+        imgUrl: '',
+        imdbUrl: '',
+        imdbId: '',
+      });
+    }
   };
 
   const handleInputChange = (name: string, value: string): void => {
@@ -49,7 +56,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     } = newMovie;
 
     const allInputAreValid = title
-      && urlIsValid.test(imgUrl) && urlIsValid.test(imdbUrl) && imdbId;
+      && urlIsValid.test(imgUrl)
+      && urlIsValid.test(imdbUrl) && imdbId;
 
     if (allInputAreValid) {
       setIsDisabled(false);
