@@ -6,6 +6,7 @@ type Props = {
   value: string,
   label?: string,
   required?: boolean,
+  pattern?: RegExp
   onChange?: (newValue: string) => void,
 };
 
@@ -13,11 +14,23 @@ function getRandomDigits() {
   return Math.random().toString().slice(2);
 }
 
+function isValidByPattern(
+  value: string,
+  pattern: RegExp | undefined,
+) {
+  if (!pattern) {
+    return true;
+  }
+
+  return value.length === value.replaceAll(pattern, '').length;
+}
+
 export const TextField: React.FC<Props> = ({
   name,
   value,
   label = name,
   required = false,
+  pattern,
   onChange = () => {},
 }) => {
   // generage a unique id once on component load
@@ -25,7 +38,16 @@ export const TextField: React.FC<Props> = ({
 
   // To show errors only if the field was touched (onBlur)
   const [touched, setTouched] = useState(false);
+
   const hasError = touched && required && !value;
+
+  const changed = (newValue: string) => {
+    if (pattern && !isValidByPattern(newValue, pattern)) {
+      return;
+    }
+
+    onChange(newValue);
+  };
 
   return (
     <div className="field">
@@ -43,7 +65,7 @@ export const TextField: React.FC<Props> = ({
           type="text"
           placeholder={`Enter ${label}`}
           value={value}
-          onChange={event => onChange(event.target.value)}
+          onChange={event => changed(event.target.value)}
           onBlur={() => setTouched(true)}
         />
       </div>
