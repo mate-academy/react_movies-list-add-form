@@ -25,14 +25,15 @@ function isValidByPattern(
   return value.length === value.replaceAll(pattern, '').length;
 }
 
-export const TextField: React.FC<Props> = ({
-  name,
-  value,
-  label = name,
-  required = false,
-  pattern,
-  onChange = () => {},
-}) => {
+export const TextField: React.FC<Props> = (props) => {
+  const {
+    name,
+    value,
+    label = name,
+    required = false,
+    pattern,
+    onChange = () => {},
+  } = props;
   // generage a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
