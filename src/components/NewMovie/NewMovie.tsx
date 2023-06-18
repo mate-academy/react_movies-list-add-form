@@ -19,18 +19,23 @@ export const NewMovie = ({ onAdd }: NewMovieProps) => {
 
   const canSubmit = title && imageUrl && imdbUrl && imdbId;
 
-  const movie: Movie = {
-    title,
-    description,
-    imgUrl: imageUrl,
-    imdbUrl,
-    imdbId,
-  };
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    const movie: Movie = {
+      title,
+      description,
+      imgUrl: imageUrl,
+      imdbUrl,
+      imdbId,
+    };
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>, newMovie: Movie) => {
     event.preventDefault();
-    onAdd(newMovie);
+    onAdd(movie);
     setCount(count + 1);
+    setTitle('');
+    setDescription('');
+    setImageUrl('');
+    setImdbUrl('');
+    setImdbId('');
   };
 
   return (
@@ -38,7 +43,7 @@ export const NewMovie = ({ onAdd }: NewMovieProps) => {
       className="NewMovie"
       key={count}
       onSubmit={(event) => {
-        handleSubmit(event, movie);
+        handleSubmit(event);
       }}
     >
       <h2 className="title">Add a movie</h2>
@@ -47,9 +52,7 @@ export const NewMovie = ({ onAdd }: NewMovieProps) => {
         name="title"
         label="Title"
         value={title}
-        onChange={(input) => {
-          setTitle(input);
-        }}
+        onChange={setTitle}
         required
       />
 
@@ -57,18 +60,14 @@ export const NewMovie = ({ onAdd }: NewMovieProps) => {
         name="description"
         label="Description"
         value={description}
-        onChange={(input) => {
-          setDescription(input);
-        }}
+        onChange={setDescription}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={imageUrl}
-        onChange={(input) => {
-          setImageUrl(input);
-        }}
+        onChange={setImageUrl}
         required
       />
 
@@ -76,9 +75,7 @@ export const NewMovie = ({ onAdd }: NewMovieProps) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={(input) => {
-          setImdbUrl(input);
-        }}
+        onChange={setImdbUrl}
         required
       />
 
@@ -86,9 +83,7 @@ export const NewMovie = ({ onAdd }: NewMovieProps) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={(input) => {
-          setImdbId(input);
-        }}
+        onChange={setImdbId}
         required
       />
 
