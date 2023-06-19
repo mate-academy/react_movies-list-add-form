@@ -14,7 +14,7 @@ export const App = () => {
     imdbId: '',
   });
   const [movies, setMovies] = useState(moviesFromServer);
-  const handlerChange = ({ name, value }: {
+  const handleChange = ({ name, value }: {
     name: string,
     value: string,
   }) => {
@@ -56,7 +56,7 @@ export const App = () => {
       </div>
       <div className="sidebar">
         <NewMovie
-          onChange={handlerChange}
+          onChange={handleChange}
           formInputs={formInputs}
           onAdd={addMovies}
         />
