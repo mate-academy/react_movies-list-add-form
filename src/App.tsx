@@ -13,7 +13,7 @@ export const App = () => {
     imdbUrl: '',
     imdbId: '',
   });
-  const [allMovies, setAllMovies] = useState([...moviesFromServer]);
+  const [movies, setMovies] = useState(moviesFromServer);
   const handlerChange = ({ name, value }: {
     name: string,
     value: string,
@@ -31,15 +31,13 @@ export const App = () => {
     imdbUrl,
     imdbId,
   }: Movie) => {
-    setAllMovies(prevState => ([
-      ...prevState,
-      {
-        title,
-        description,
-        imgUrl,
-        imdbUrl,
-        imdbId,
-      },
+    setMovies(prevState => ([...prevState, {
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    },
     ]));
 
     setFormInputs({
@@ -54,7 +52,7 @@ export const App = () => {
   return (
     <div className="page">
       <div className="page-content">
-        <MoviesList movies={allMovies} />
+        <MoviesList movies={movies} />
       </div>
       <div className="sidebar">
         <NewMovie

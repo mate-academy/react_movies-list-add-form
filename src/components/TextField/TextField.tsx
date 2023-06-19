@@ -32,6 +32,7 @@ export const TextField: React.FC<Props> = ({
   const [touched, setTouched] = useState(false);
   const hasError = touched && required && !value;
   const urlError = touched && required && !value.match(pattern);
+  const urlCheck = (name === 'imgUrl' || name === 'imdbUrl') && urlError;
 
   return (
     <div className="field">
@@ -59,7 +60,7 @@ export const TextField: React.FC<Props> = ({
         <p className="help is-danger">{`${label} is required`}</p>
       )}
 
-      {(name === 'imgUrl' || name === 'imdbUrl') && urlError && (
+      {urlCheck && (
         <p className="help is-danger">The url address is not correct</p>
       )}
     </div>

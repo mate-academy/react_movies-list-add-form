@@ -1,25 +1,16 @@
 import { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
+import { Change } from '../../types/Change';
+import { pattern } from '../../utils/pattern';
 
 type Props = {
-  onChange: ({ name, value }: {
-    name: string,
-    value: string,
-  }) => void,
+  onChange: (inputValues: Change) => void,
   formInputs: Movie,
-  onAdd: ({
-    title,
-    description,
-    imgUrl,
-    imdbUrl,
-    imdbId,
-  }: Movie) => void,
+  onAdd: (newMovie: Movie) => void,
 };
 
 export const NewMovie: React.FC<Props> = ({ onChange, formInputs, onAdd }) => {
-  // eslint-disable-next-line max-len
-  const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
   const [count, setCount] = useState(0);
 
   return (
