@@ -35,6 +35,11 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setCount(state => state + 1);
   };
 
+  const validateLink = (link: string) => {
+    // eslint-disable-next-line max-len
+    return !!link && /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/.test(link);
+  };
+
   const isValidForSubmit = title && imgUrl && imdbUrl && imdbId;
 
   return (
@@ -65,6 +70,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Image URL"
         value={imgUrl}
         onChange={setImgUrl}
+        validate={validateLink}
         required
       />
 
@@ -73,6 +79,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Imdb URL"
         value={imdbUrl}
         onChange={setImdbUrl}
+        validate={validateLink}
         required
       />
 
