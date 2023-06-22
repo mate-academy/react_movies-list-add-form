@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
+import { pattern } from '../../helpers/valideUrl';
 
 type Props = {
   onAdd: (movie: Movie) => void;
@@ -28,8 +29,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     imdbId,
   } = formState;
 
-  const valideForm = title && imgUrl && imdbUrl && imdbId;
-
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -40,12 +39,18 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setCount(current => current + 1);
   };
 
+  const valideUrl = (url: string) : boolean => {
+    return pattern.test(url);
+  };
+
   const changeFormState = (key: string, value: string) => {
     setFormState((currentState) => ({
       ...currentState,
       [key]: value,
     }));
   };
+
+  const valideForm = title && valideUrl(imgUrl) && valideUrl(imdbUrl) && imdbId;
 
   return (
     <form
