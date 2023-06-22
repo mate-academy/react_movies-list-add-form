@@ -29,14 +29,13 @@ export const TextField: React.FC<Props> = ({
 
   const hasError = touched && required && !value;
   const showErrorMessage = hasError || isValid === false;
-  const validInvalidText = isValid === false
+  const validInvalidText = value && isValid === false
     ? 'incorrect'
     : 'required';
   const errorMessage = `${label} is ${validInvalidText}`;
 
-  const handleOnBLur = (event: React.FocusEvent<HTMLInputElement>) => {
+  const handleOnBLur = () => {
     setTouched(true);
-    setIsValid(validate(event.target.value));
   };
 
   return (
@@ -55,7 +54,10 @@ export const TextField: React.FC<Props> = ({
           type="text"
           placeholder={`Enter ${label}`}
           value={value}
-          onChange={event => onChange(event.target.value, name)}
+          onChange={event => {
+            setIsValid(validate(event.target.value));
+            onChange(event.target.value, name);
+          }}
           onBlur={handleOnBLur}
         />
       </div>

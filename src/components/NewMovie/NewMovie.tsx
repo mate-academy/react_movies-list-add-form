@@ -42,14 +42,24 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setCount(state => state + 1);
   };
 
-  const handleChange = (value: string, key: string) => {
+  const handleChange = (
+    value: string,
+    key: string,
+  ) => {
     setFormState(state => ({
       ...state,
       [key]: value,
     }));
   };
 
-  const isValidForSubmit = title && imgUrl && imdbUrl && imdbId;
+  const isValidForSubmit = [title, imgUrl, imdbUrl, imdbId]
+    .every((key, i) => {
+      if (i === 1 || i === 2) {
+        return validateLink(key);
+      }
+
+      return validateString(key);
+    });
 
   return (
     <form
