@@ -15,8 +15,6 @@ const originalFormState = {
 };
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
   const [formState, setFormState] = useState(originalFormState);
 
@@ -28,7 +26,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     imdbId,
   } = formState;
 
-  const isAbleAddButton = title && imdbUrl && imgUrl && imdbId;
+  const isAbleAddButton = title.trim()
+    && imdbUrl.trim()
+    && imgUrl.trim()
+    && imdbId.trim();
 
   const changeFormState = (key: string, value: string) => {
     setFormState(currentFormState => ({
