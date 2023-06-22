@@ -81,6 +81,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={imgUrl}
         onChange={(value) => changeFormState('imgUrl', value)}
         required
+        valideUrl={valideUrl(imgUrl)}
       />
 
       <TextField
@@ -89,6 +90,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={imdbUrl}
         onChange={(value) => changeFormState('imdbUrl', value)}
         required
+        valideUrl={valideUrl(imdbUrl)}
       />
 
       <TextField
