@@ -2,52 +2,63 @@ import { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 import { pattern } from '../../helpers/regex';
+import './NewMovie.scss';
 
 type Props = {
   onAdd: (movie: Movie) => void;
 };
 
-const isUrlValid = (url: string) => (pattern.exec(url));
+const initialFormState = {
+  title: '',
+  description: '',
+  imgUrl: '',
+  imdbUrl: '',
+  imdbId: '',
+};
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
 
-  // const [imgUrlOnBlur, setImgUrlOnBlur] = useState(false);
+  const [newMovieDetails, setNewMovieDetails] = useState(initialFormState);
+  // const [isUrlInvalid, setIsUrlInvalid] = useState(false);
+
+  const handleChange = (key: string, value: string) => {
+    setNewMovieDetails(prevState => ({
+      ...prevState,
+      [key]: value,
+    }));
+  };
 
   const resetFields = () => {
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
+    setNewMovieDetails(initialFormState);
   };
+
+  const {
+    title,
+    description,
+    imgUrl,
+    imdbUrl,
+    imdbId,
+  } = newMovieDetails;
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const newMovie = {
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    };
-
-    onAdd(newMovie);
+    onAdd(newMovieDetails);
     resetFields();
     setCount(prevCount => prevCount + 1);
   };
 
-  const areUrlsValid = isUrlValid(imgUrl) && isUrlValid(imdbUrl);
+  const validateUrl = (url: string): boolean => {
+    return pattern.test(url);
+  };
+
+  const allFieldsAreValid = title.trim() && imdbId.trim()
+      && validateUrl(imdbUrl) && validateUrl(imgUrl);
 
   const isSubmitDisabled = !title.trim()
   || !imdbId.trim()
-  || !areUrlsValid;
+  || !allFieldsAreValid;
 
   return (
     <form
@@ -61,7 +72,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={title}
-        onChange={setTitle}
+        onChange={(value) => handleChange('title', value)}
         required
       />
 
@@ -69,30 +80,49 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={description}
-        onChange={setDescription}
+        onChange={(value) => handleChange('description', value)}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={setImgUrl}
+        onChange={(value) => handleChange('imgUrl', value)}
         required
       />
-
+      {!validateUrl(imgUrl)
+      && imgUrl !== ''
+      && (
+        <p className="errorMessage">
+          {'Please enter a correct URL '}
+          <i className="urlExample">
+            http(s)://sub.domain.tld/
+          </i>
+        </p>
+      )}
       <TextField
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={setImdbUrl}
+        onChange={(value) => handleChange('imdbUrl', value)}
         required
       />
+      {!validateUrl(imdbUrl)
+      && imdbUrl !== ''
+      && (
+        <p className="errorMessage">
+          {'Please enter a correct URL '}
+          <i className="urlExample">
+            http(s)://sub.domain.tld/
+          </i>
+        </p>
+      )}
 
       <TextField
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={setImdbId}
+        onChange={(value) => handleChange('imdbId', value)}
         required
       />
 
