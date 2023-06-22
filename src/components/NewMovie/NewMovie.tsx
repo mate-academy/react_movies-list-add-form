@@ -7,16 +7,16 @@ type Props = {
 
 };
 
+const preparedForm: Movie = {
+  title: '',
+  description: '',
+  imgUrl: '',
+  imdbUrl: '',
+  imdbId: '',
+};
+
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
-
-  const preparedForm: Movie = {
-    title: '',
-    description: '',
-    imgUrl: '',
-    imdbUrl: '',
-    imdbId: '',
-  };
 
   const [movieForm, setMovieForm] = useState(preparedForm);
 
@@ -44,7 +44,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setMovieForm(preparedForm);
   };
 
-  const requiredFieldsAdded = title && imdbId && imdbUrl && imgUrl;
+  const requiredFieldsAdded = title.trim()
+    && imdbId.trim()
+    && imdbUrl.trim()
+    && imgUrl.trim();
 
   return (
 
