@@ -1,10 +1,15 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { TextField } from '../TextField';
+import { Movie } from '../../types/Movie';
 
-export const NewMovie = () => {
+type Props = {
+  onAdd: (newValue: Movie) => void,
+};
+
+export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
-  const [count] = useState(0);
+  const [count, setCount] = useState(0);
   const [movieTitle, setMovieTitle] = useState('');
   const [movieDescription, setMovieDescription] = useState('');
   const [movieImgUrl, setMovieImgUrl] = useState('');
@@ -12,9 +17,29 @@ export const NewMovie = () => {
   const [movieImdbId, setMovieImdbId] = useState('');
   const isEveryRequiredDataProvided = movieTitle
     && movieImdbId && movieImdbUrl && movieImgUrl;
+  const newMovieData = {
+    title: movieTitle,
+    description: movieDescription,
+    imgUrl: movieImgUrl,
+    imdbUrl: movieImdbUrl,
+    imdbId: movieImdbId,
+  };
 
   return (
-    <form className="NewMovie" key={count}>
+    <form
+      className="NewMovie"
+      key={count}
+      onSubmit={(event) => {
+        event.preventDefault();
+        onAdd(newMovieData);
+        setMovieTitle('');
+        setMovieDescription('');
+        setMovieImgUrl('');
+        setMovieImdbUrl('');
+        setMovieImdbId('');
+        setCount((prevCount) => (prevCount + 1));
+      }}
+    >
       <h2 className="title">Add a movie</h2>
 
       <TextField
