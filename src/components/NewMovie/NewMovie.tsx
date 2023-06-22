@@ -34,7 +34,7 @@ export const NewMovie:FC<Props> = ({ onAdd }) => {
     } = formValues;
     const fields = [title, imdbUrl, imgUrl, imdbId];
 
-    return fields.every(field => field);
+    return fields.every(field => field.trim());
   };
 
   const clearForm = () => {
