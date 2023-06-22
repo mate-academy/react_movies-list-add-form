@@ -8,9 +8,9 @@ import { Movie } from './types/Movie';
 export const App: React.FC = () => {
   const [movies, setMovies] = useState(moviesFromServer);
 
-  const onAdd:(movie:Movie)=> void = (movie) => {
-    setMovies(() => (
-      [...movies, movie]
+  const addMovie = (movie:Movie) => {
+    setMovies((prevState) => (
+      [...prevState, movie]
     ));
   };
 
@@ -20,7 +20,7 @@ export const App: React.FC = () => {
         <MoviesList movies={movies} />
       </div>
       <div className="sidebar">
-        <NewMovie onAdd={onAdd} />
+        <NewMovie addMovie={addMovie} />
       </div>
     </div>
   );
