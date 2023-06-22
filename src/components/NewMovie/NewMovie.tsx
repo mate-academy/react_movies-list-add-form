@@ -25,12 +25,14 @@ export const NewMovie: React.FC <Props> = ({ onAdd }) => {
     setNewImdbId('');
   };
 
+  const validateTextField = (textField: string): string => textField.trim();
+
   const canUseButton = () => {
     return (
-      newTitle
-      && newImgUrl
-      && newImdbUrl
-      && newImdbId
+      validateTextField(newTitle)
+      && validateTextField(newImgUrl)
+      && validateTextField(newImdbUrl)
+      && validateTextField(newImdbId)
     );
   };
 
@@ -38,11 +40,11 @@ export const NewMovie: React.FC <Props> = ({ onAdd }) => {
     event.preventDefault();
 
     const newMovie = {
-      title: newTitle,
-      description: newDescription,
-      imgUrl: newImgUrl,
-      imdbUrl: newImdbUrl,
-      imdbId: newImdbId,
+      title: validateTextField(newTitle),
+      description: validateTextField(newDescription),
+      imgUrl: validateTextField(newImgUrl),
+      imdbUrl: validateTextField(newImdbUrl),
+      imdbId: validateTextField(newImdbId),
     };
 
     onAdd(newMovie);
