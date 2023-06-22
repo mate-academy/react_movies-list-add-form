@@ -10,10 +10,7 @@ export const App = () => {
 
   const addMovie = (movie: Movie) => {
     setMovies(prevState => (
-      [
-        ...prevState,
-        movie,
-      ]
+      [...prevState, movie]
     ));
   };
 
