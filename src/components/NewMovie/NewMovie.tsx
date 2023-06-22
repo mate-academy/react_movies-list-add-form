@@ -6,23 +6,41 @@ type NewMovieProps = {
   onAdd: (movie: Movie) => void;
 };
 
+const ititialFormState = {
+  title: '',
+  description: '',
+  imgUrl: '',
+  imdbUrl: '',
+  imdbId: '',
+};
+
 export const NewMovie: FC<NewMovieProps> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
+  const [formState, setFormState] = useState(ititialFormState);
 
-  const isAllFieldsFilled = title && imgUrl && imdbUrl && imdbId;
+  const {
+    title,
+    description,
+    imgUrl,
+    imdbUrl,
+    imdbId,
+  } = formState;
+
+  const handleChange = (name: string, value: string) => {
+    setFormState(prevState => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
 
   const resetForm = () => {
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
+    setFormState(ititialFormState);
   };
+
+  const isAllFieldsFilled = title.trim()
+    && imgUrl.trim()
+    && imdbUrl.trim()
+    && imdbId.trim();
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -34,6 +52,8 @@ export const NewMovie: FC<NewMovieProps> = ({ onAdd }) => {
       imdbUrl,
       imdbId,
     };
+
+    resetForm();
 
     onAdd(newMovie);
     setCount(prevCount => prevCount + 1);
@@ -52,7 +72,9 @@ export const NewMovie: FC<NewMovieProps> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={title}
-        onChange={setTitle}
+        onChange={(value) => {
+          handleChange('title', value);
+        }}
         required
       />
 
@@ -60,14 +82,18 @@ export const NewMovie: FC<NewMovieProps> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={description}
-        onChange={setDescription}
+        onChange={(value) => {
+          handleChange('description', value);
+        }}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={setImgUrl}
+        onChange={(value) => {
+          handleChange('imgUrl', value);
+        }}
         required
       />
 
@@ -75,7 +101,9 @@ export const NewMovie: FC<NewMovieProps> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={setImdbUrl}
+        onChange={(value) => {
+          handleChange('imdbUrl', value);
+        }}
         required
       />
 
@@ -83,7 +111,9 @@ export const NewMovie: FC<NewMovieProps> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={setImdbId}
+        onChange={(value) => {
+          handleChange('imdbId', value);
+        }}
         required
       />
 
