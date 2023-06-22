@@ -34,8 +34,9 @@ export const TextField: React.FC<Props> = ({
     : 'required';
   const errorMessage = `${label} is ${validInvalidText}`;
 
-  const handleOnBLur = () => {
+  const handleOnBLur = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTouched(true);
+    setIsValid(validate(event.target.value));
   };
 
   return (
@@ -55,7 +56,6 @@ export const TextField: React.FC<Props> = ({
           placeholder={`Enter ${label}`}
           value={value}
           onChange={event => {
-            setIsValid(validate(event.target.value));
             onChange(event.target.value, name);
           }}
           onBlur={handleOnBLur}
