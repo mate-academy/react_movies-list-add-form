@@ -3,20 +3,21 @@ import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
 type Props = {
-  addMovie:(movie:Movie)=> void
+  onAdd:(movie:Movie)=> void
 };
 
-export const NewMovie:React.FC<Props> = ({ addMovie }) => {
-  const initialState = {
-    title: '',
-    description: '',
-    imgUrl: '',
-    imdbUrl: '',
-    imdbId: '',
-  };
-  const [count] = useState(0);
+const initialState = {
+  title: '',
+  description: '',
+  imgUrl: '',
+  imdbUrl: '',
+  imdbId: '',
+};
+
+export const NewMovie:React.FC<Props> = ({ onAdd }) => {
+  const [count, setCount] = useState(0);
   const [formData, setFormData] = useState(initialState);
-  const [disabledButton, setdisabledButton] = useState(true);
+  const [disabledButton, setDisabledButton] = useState(true);
 
   const {
     title,
@@ -27,20 +28,16 @@ export const NewMovie:React.FC<Props> = ({ addMovie }) => {
   } = formData;
 
   useEffect(() => {
-    // const isDisabledButton = !title && !imgUrl && !imdbUrl && !imdbId;
-    // it doesn`t work
-
-    // i think this wiil be okey
     const isDisabledButton = [title, imgUrl, imdbUrl, imdbId]
-      .every(elem => elem !== '');
+      .every(elem => elem.trim() !== '');
 
-    setdisabledButton(isDisabledButton);
+    setDisabledButton(isDisabledButton);
   }, [title, imgUrl, imdbUrl, imdbId]);
 
-  const handleChange = (titleName: string, value: string) => {
+  const handleChange = (fieldName: string, value: string) => {
     setFormData(prevState => ({
       ...prevState,
-      [titleName]: value,
+      [fieldName]: value,
     }));
   };
 
@@ -54,7 +51,9 @@ export const NewMovie:React.FC<Props> = ({ addMovie }) => {
       imdbId,
     };
 
-    addMovie(movie);
+    onAdd(movie);
+    setFormData(initialState);
+    setCount(prevState => prevState + 1);
   };
 
   return (
