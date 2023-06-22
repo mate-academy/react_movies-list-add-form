@@ -3,7 +3,7 @@ import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
 interface Props {
-  onAdd: React.Dispatch<React.SetStateAction<Movie[]>>
+  onAdd: (movie :Movie) => void;
 }
 
 export const NewMovie:FC<Props> = ({ onAdd }) => {
@@ -54,20 +54,15 @@ export const NewMovie:FC<Props> = ({ onAdd }) => {
     clearForm();
     setCount((currentCount) => currentCount + 1);
 
-    onAdd((movies) => {
-      const newMovie = {
-        title,
-        imdbUrl,
-        imgUrl,
-        imdbId,
-        description,
-      };
+    const newMovie = {
+      title,
+      imdbUrl,
+      imgUrl,
+      imdbId,
+      description,
+    };
 
-      return [
-        ...movies,
-        newMovie,
-      ];
-    });
+    onAdd(newMovie);
   };
 
   return (
