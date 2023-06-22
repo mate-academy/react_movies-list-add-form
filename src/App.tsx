@@ -58,6 +58,7 @@ export const App = () => {
         <NewMovie
           onChange={handleChange}
           formInputs={formInputs}
+          setFormInputs={setFormInputs}
           onAdd={addMovies}
         />
       </div>

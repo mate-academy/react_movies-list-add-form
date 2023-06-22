@@ -7,11 +7,28 @@ import { pattern } from '../../utils/pattern';
 type Props = {
   onChange: (inputValues: Change) => void,
   formInputs: Movie,
+  setFormInputs: React.Dispatch<React.SetStateAction<Movie>>,
   onAdd: (newMovie: Movie) => void,
 };
 
-export const NewMovie: React.FC<Props> = ({ onChange, formInputs, onAdd }) => {
+export const NewMovie: React.FC<Props> = ({
+  onChange,
+  formInputs,
+  setFormInputs,
+  onAdd,
+}) => {
   const [count, setCount] = useState(0);
+  const checkButton = !formInputs.title
+  || !formInputs.imdbId
+  || !formInputs.imdbUrl
+  || !formInputs.imgUrl
+  || !formInputs.imdbUrl.match(pattern)
+  || !formInputs.imgUrl.match(pattern);
+  const handleButton = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    onAdd(formInputs);
+    setCount(prevState => prevState + 1);
+  };
 
   return (
     <form className="NewMovie" key={count}>
@@ -22,6 +39,7 @@ export const NewMovie: React.FC<Props> = ({ onChange, formInputs, onAdd }) => {
         label="Title"
         value={formInputs.title}
         onChange={onChange}
+        setFormInputs={setFormInputs}
         required
       />
 
@@ -55,6 +73,7 @@ export const NewMovie: React.FC<Props> = ({ onChange, formInputs, onAdd }) => {
         label="Imdb ID"
         value={formInputs.imdbId}
         onChange={onChange}
+        setFormInputs={setFormInputs}
         required
       />
 
@@ -64,19 +83,8 @@ export const NewMovie: React.FC<Props> = ({ onChange, formInputs, onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            onClick={(e) => {
-              e.preventDefault();
-              onAdd(formInputs);
-              setCount(prevState => prevState + 1);
-            }}
-            disabled={
-              !formInputs.title
-              || !formInputs.imdbId
-              || !formInputs.imdbUrl
-              || !formInputs.imgUrl
-              || !formInputs.imdbUrl.match(pattern)
-              || !formInputs.imgUrl.match(pattern)
-            }
+            onClick={handleButton}
+            disabled={checkButton}
           >
             Add
           </button>

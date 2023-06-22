@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import React, { useState } from 'react';
+import { Movie } from '../../types/Movie';
 
 type Props = {
   name: string,
@@ -10,6 +11,7 @@ type Props = {
     name: string,
     value: string,
   }) => void,
+  setFormInputs?: React.Dispatch<React.SetStateAction<Movie>>,
   pattern?: RegExp,
 };
 
@@ -23,6 +25,7 @@ export const TextField: React.FC<Props> = ({
   label = name,
   required = false,
   onChange = () => {},
+  setFormInputs,
   pattern = '',
 }) => {
   // generage a unique id once on component load
@@ -33,6 +36,16 @@ export const TextField: React.FC<Props> = ({
   const hasError = touched && required && !value;
   const urlError = touched && required && !value.match(pattern);
   const urlCheck = (name === 'imgUrl' || name === 'imdbUrl') && urlError;
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    if (setFormInputs) {
+      setFormInputs((prev: Movie) => ({
+        ...prev,
+        [e.target.name]: prev[e.target.name as keyof Movie].trim(),
+      }));
+    }
+
+    setTouched(true);
+  };
 
   return (
     <div className="field">
@@ -52,7 +65,7 @@ export const TextField: React.FC<Props> = ({
           placeholder={`Enter ${label}`}
           value={value}
           onChange={event => onChange(event.target)}
-          onBlur={() => setTouched(true)}
+          onBlur={handleBlur}
         />
       </div>
 
