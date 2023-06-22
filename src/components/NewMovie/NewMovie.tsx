@@ -6,37 +6,51 @@ interface Props {
   onAdd: (movie: Movie) => void;
 }
 
+const initialFormState = {
+  title: '',
+  description: '',
+  imgUrl: '',
+  imdbUrl: '',
+  imdbId: '',
+}
+
 export const NewMovie: FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
+  const [formState, setFormState] = useState(initialFormState);
+
+  const {
+    title,
+    description,
+    imgUrl,
+    imdbUrl,
+    imdbId,
+  } = formState;
 
   const isSubmitDisabled = !title || !imgUrl || !imdbUrl || !imdbId;
 
   const resetForm = () => {
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdUrl('');
-    setImdbId('');
+   setFormState(initialFormState);
+   setCount(current => current + 1)
   };
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    onAdd({
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    });
+    if (!title.trim() || !imgUrl.trim() || !imdbUrl.trim() || !imdbId.trim()) {
+      return;
+    }
+
+    onAdd(formState);
 
     resetForm();
     setCount(count + 1);
+  };
+
+  const changeFromState = (key: string, value: string) => {
+    setFormState ((currentState) => ({
+      ...currentState,
+      [key]: value,
+    }));
   };
 
   return (
@@ -51,7 +65,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={title}
-        onChange={setTitle}
+        onChange={(value) => changeFromState('title', value)}
         required
       />
 
@@ -59,14 +73,14 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={description}
-        onChange={setDescription}
+        onChange={(value) => changeFromState('description', value)}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={setImgUrl}
+        onChange={(value) => changeFromState('imgUrl', value)}
         required
       />
 
@@ -74,7 +88,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={setImdUrl}
+        onChange={(value) => changeFromState('imdbUrl', value)}
         required
       />
 
@@ -82,7 +96,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={setImdbId}
+        onChange={(value) => changeFromState('imdbId', value)}
         required
       />
 
