@@ -28,7 +28,13 @@ export const TextField: React.FC<Props> = ({
   // To show errors only if the field was touched (onBlur)
   const [touched, setTouched] = useState(false);
   const [isValid, setIsValid] = useState<null | boolean>(null);
+
   const hasError = touched && required && !value;
+  const showErrorMessage = hasError || isValid === false;
+  const validInvalidText = isValid === false
+    ? 'incorrect'
+    : 'required';
+  const errorMessage = `${label} is ${validInvalidText}`;
 
   const handleOnBLur = (event: React.FocusEvent<HTMLInputElement>) => {
     setTouched(true);
@@ -56,8 +62,8 @@ export const TextField: React.FC<Props> = ({
         />
       </div>
 
-      {(hasError || isValid === false) && (
-        <p className="help is-danger">{`${label} is ${isValid === false ? 'incorrect' : 'required'}`}</p>
+      {(showErrorMessage) && (
+        <p className="help is-danger">{errorMessage}</p>
       )}
     </div>
   );
