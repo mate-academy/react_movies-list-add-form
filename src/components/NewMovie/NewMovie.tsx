@@ -1,45 +1,124 @@
-import { useState } from 'react';
+import { FC, useState } from 'react';
 import { TextField } from '../TextField';
+import { Movie } from '../../types/Movie';
 
-export const NewMovie = () => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
-  const [count] = useState(0);
+interface Props {
+  onAdd: (movie: Movie) => void
+}
+
+export const NewMovie: FC<Props> = ({ onAdd }) => {
+  const [count, setCount] = useState(0);
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [imgUrl, setImgUrl] = useState('');
+  const [imdbUrl, setImdbUrl] = useState('');
+  const [imdbId, setImdbId] = useState('');
+
+  const requiredTextFields = (title && imgUrl && imdbUrl && imdbId) === '';
+
+  const handleTitle = (value: string) => {
+    setTitle(value);
+  };
+
+  const handleDescription = (value: string) => {
+    setDescription(value);
+  };
+
+  const handleImgUrl = (value: string) => {
+    setImgUrl(value);
+  };
+
+  const handleImdbUrl = (value: string) => {
+    setImdbUrl(value);
+  };
+
+  const handleImdbId = (value: string) => {
+    setImdbId(value);
+  };
+
+  const clearForm = () => {
+    setTitle('');
+    setDescription('');
+    setImgUrl('');
+    setImdbUrl('');
+    setImdbId('');
+    setCount(prevCount => prevCount + 1);
+  };
+
+  const submitHandler = () => {
+    const movie = {
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    };
+
+    onAdd(movie);
+
+    clearForm();
+  };
 
   return (
-    <form className="NewMovie" key={count}>
+    <form
+      className="NewMovie"
+      key={count}
+      onSubmit={(event) => {
+        event.preventDefault();
+        submitHandler();
+      }}
+    >
+
       <h2 className="title">Add a movie</h2>
 
       <TextField
         name="title"
         label="Title"
-        value=""
-        onChange={() => {}}
+        value={title}
+        onChange={(value) => {
+          handleTitle(value);
+        }}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value=""
+        value={description}
+        onChange={(value) => {
+          handleDescription(value);
+        }}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value=""
+        value={imgUrl}
+        onChange={(value) => {
+          handleImgUrl(value);
+        }}
+        required
+
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value=""
+        value={imdbUrl}
+        onChange={(value) => {
+          handleImdbUrl(value);
+        }}
+        required
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value=""
+        value={imdbId}
+        onChange={(value) => {
+          handleImdbId(value);
+        }}
+        required
       />
 
       <div className="field is-grouped">
@@ -48,11 +127,13 @@ export const NewMovie = () => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
+            disabled={requiredTextFields}
           >
             Add
           </button>
         </div>
       </div>
+
     </form>
   );
 };
