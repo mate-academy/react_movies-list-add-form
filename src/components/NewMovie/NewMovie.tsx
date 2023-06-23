@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
@@ -17,7 +17,6 @@ const initialState = {
 export const NewMovie:React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
   const [formData, setFormData] = useState(initialState);
-  const [disabledButton, setDisabledButton] = useState(true);
 
   const {
     title,
@@ -27,12 +26,8 @@ export const NewMovie:React.FC<Props> = ({ onAdd }) => {
     imdbId,
   } = formData;
 
-  useEffect(() => {
-    const isDisabledButton = [title, imgUrl, imdbUrl, imdbId]
-      .every(elem => elem.trim() !== '');
-
-    setDisabledButton(isDisabledButton);
-  }, [title, imgUrl, imdbUrl, imdbId]);
+  const isSubmitButtonActive = title.trim()
+  && imgUrl.trim() && imdbUrl.trim() && imdbId.trim();
 
   const handleChange = (fieldName: string, value: string) => {
     setFormData(prevState => ({
@@ -43,15 +38,7 @@ export const NewMovie:React.FC<Props> = ({ onAdd }) => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const movie = {
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    };
-
-    onAdd(movie);
+    onAdd(formData);
     setFormData(initialState);
     setCount(prevState => prevState + 1);
   };
@@ -109,7 +96,7 @@ export const NewMovie:React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!disabledButton}
+            disabled={!isSubmitButtonActive}
           >
             Add
           </button>
