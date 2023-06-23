@@ -55,7 +55,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const changeFormState = (key: string, value: string) => {
     setFormState((currentState) => ({
       ...currentState,
-      [key]: value,
+      [key]: value.trim(),
     }));
   };
 
