@@ -31,7 +31,7 @@ export const TextField: React.FC<Props> = ({
   const validationError = touched && !isValid;
   const showErrorMessage = hasError || validationError;
 
-  const errorText = value && isValid === false
+  const errorText = value && validationError
     ? 'incorrect'
     : 'required';
   const errorMessage = `${label} is ${errorText}`;
