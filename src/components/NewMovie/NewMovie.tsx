@@ -41,14 +41,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setCount((prevCount) => (prevCount + 1));
   };
 
-  const submitData = () => {
-    onAdd(formState);
-    cleanForm();
-  };
-
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    submitData();
+    onAdd(formState);
+    cleanForm();
   };
 
   const handleChanges = (key: string, newData: string) => (
