@@ -26,7 +26,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
     imdbId,
   } = formState;
 
-  const isFormFilled = title && imdbUrl && imdbUrl && imdbId;
+  const isFormFilled = title && imgUrl && imdbUrl && imdbId;
 
   const clearForm = () => {
     setFormState(initialFormState);
