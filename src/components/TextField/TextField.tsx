@@ -25,14 +25,16 @@ export const TextField: React.FC<Props> = ({
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
   const [touched, setTouched] = useState(false);
-  const [isValid, setIsValid] = useState<null | boolean>(null);
+  const [isValid, setIsValid] = useState(false);
 
   const hasError = touched && required && !value;
-  const showErrorMessage = hasError || isValid === false;
-  const validInvalidText = value && isValid === false
+  const validationError = touched && !isValid;
+  const showErrorMessage = hasError || validationError;
+
+  const errorText = value && isValid === false
     ? 'incorrect'
     : 'required';
-  const errorMessage = `${label} is ${validInvalidText}`;
+  const errorMessage = `${label} is ${errorText}`;
 
   const handleOnBLur = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTouched(true);
