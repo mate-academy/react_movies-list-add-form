@@ -32,7 +32,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     imdbId,
   };
 
-  const isEveryRequiredDataProvided = title && imgUrl && imdbUrl && imdbId;
+  const isRequiredDataProvided = title && imgUrl && imdbUrl && imdbId;
 
   const cleanForm = () => {
     setFormState({
@@ -53,7 +53,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     submitData();
-  }
+  };
 
   return (
     <form
@@ -133,7 +133,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!isEveryRequiredDataProvided}
+            disabled={!isRequiredDataProvided}
           >
             Add
           </button>
