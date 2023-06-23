@@ -48,9 +48,13 @@ export const NewMovie: React.FC<NewMovieProps> = ({ addMovie }) => {
   };
 
   const changeFormState = (key: string, value: string) => {
+    const normalizedValue = value
+      .toLowerCase()
+      .replace(/\s{2,}/g, ' '); // replaces 2 and more spaces in row to 1 space
+
     setFormState((currentFormState) => ({
       ...currentFormState,
-      [key]: value,
+      [key]: normalizedValue,
     }));
   };
 
@@ -113,9 +117,9 @@ export const NewMovie: React.FC<NewMovieProps> = ({ addMovie }) => {
           </button>
 
           {isInvalidUrl && (
-            <span style={{ color: 'red' }}>
-              Please, enter valid url value!
-            </span>
+            <h5 style={{ color: 'red' }}>
+              Please, enter the valid url value!
+            </h5>
           )}
         </div>
       </div>
