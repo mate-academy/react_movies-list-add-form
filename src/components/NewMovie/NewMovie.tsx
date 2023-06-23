@@ -37,13 +37,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    onAdd({
-      title: title.trim(),
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    });
+    onAdd(formState);
     setCount((prevCount) => prevCount + 1);
     setFormstate(initialFormState);
   };
