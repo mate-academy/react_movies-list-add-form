@@ -51,6 +51,13 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     submitData();
   };
 
+  const handleChanges = (key: string, newData: string) => (
+    setFormState((prevForm) => ({
+      ...prevForm,
+      [key]: newData,
+    }))
+  );
+
   return (
     <form
       className="NewMovie"
@@ -63,12 +70,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={title}
-        onChange={(key, newData) => (
-          setFormState((prevForm) => ({
-            ...prevForm,
-            [key]: newData,
-          }))
-        )}
+        onChange={handleChanges}
         required
       />
 
@@ -76,24 +78,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={description}
-        onChange={(key, newData) => (
-          setFormState((prevForm) => ({
-            ...prevForm,
-            [key]: newData,
-          }))
-        )}
+        onChange={handleChanges}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={(key, newData) => (
-          setFormState((prevForm) => ({
-            ...prevForm,
-            [key]: newData,
-          }))
-        )}
+        onChange={handleChanges}
         required
       />
 
@@ -101,12 +93,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={(key, newData) => (
-          setFormState((prevForm) => ({
-            ...prevForm,
-            [key]: newData,
-          }))
-        )}
+        onChange={handleChanges}
         required
       />
 
@@ -114,12 +101,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={(key, newData) => (
-          setFormState((prevForm) => ({
-            ...prevForm,
-            [key]: newData,
-          }))
-        )}
+        onChange={handleChanges}
         required
       />
 

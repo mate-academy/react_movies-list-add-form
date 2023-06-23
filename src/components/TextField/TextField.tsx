@@ -4,9 +4,9 @@ import React, { useState } from 'react';
 type Props = {
   name: string,
   value: string,
-  label?: string,
+  label: string,
   required?: boolean,
-  onChange?: (key: string, newValue: string) => void,
+  onChange: (key: string, newValue: string) => void,
 };
 
 function getRandomDigits() {
