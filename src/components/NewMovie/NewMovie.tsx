@@ -6,15 +6,17 @@ type Props = {
   onAdd: (newValue: Movie) => void,
 };
 
+const initialForm = {
+  title: '',
+  description: '',
+  imgUrl: '',
+  imdbUrl: '',
+  imdbId: '',
+};
+
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
-  const [formState, setFormState] = useState({
-    title: '',
-    description: '',
-    imgUrl: '',
-    imdbUrl: '',
-    imdbId: '',
-  });
+  const [formState, setFormState] = useState(initialForm);
 
   const {
     title,
@@ -24,29 +26,23 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     imdbId,
   } = formState;
 
-  const newMovieData = {
-    title,
-    description,
-    imgUrl,
-    imdbUrl,
-    imdbId,
-  };
+  // const newMovieData = {
+  //   title,
+  //   description,
+  //   imgUrl,
+  //   imdbUrl,
+  //   imdbId,
+  // };
 
   const isRequiredDataProvided = title && imgUrl && imdbUrl && imdbId;
 
   const cleanForm = () => {
-    setFormState({
-      title: '',
-      description: '',
-      imgUrl: '',
-      imdbUrl: '',
-      imdbId: '',
-    });
+    setFormState(initialForm);
     setCount((prevCount) => (prevCount + 1));
   };
 
   const submitData = () => {
-    onAdd(newMovieData);
+    onAdd(formState);
     cleanForm();
   };
 
