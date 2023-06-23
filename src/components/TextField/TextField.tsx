@@ -23,7 +23,7 @@ export const TextField: React.FC<Props> = ({
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
   const [touched, setTouched] = useState(false);
-  const hasError = touched && required && !value;
+  const hasError = touched && required && value.trim() === '';
 
   return (
     <div className="field">
@@ -47,7 +47,9 @@ export const TextField: React.FC<Props> = ({
       </div>
 
       {hasError && (
-        <p className="help is-danger">{`${label} is required`}</p>
+        value
+          ? <p className="help is-danger">{`${label} can not consist of spaces only`}</p>
+          : <p className="help is-danger">{`${label} is required`}</p>
       )}
     </div>
   );

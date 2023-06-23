@@ -34,7 +34,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   //   imdbId,
   // };
 
-  const isRequiredDataProvided = title && imgUrl && imdbUrl && imdbId;
+  const isRequiredDataProvided = title.trim()
+    && imgUrl.trim() && imdbUrl.trim() && imdbId.trim();
 
   const cleanForm = () => {
     setFormState(initialForm);
