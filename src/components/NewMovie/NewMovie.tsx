@@ -26,15 +26,21 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
     imdbId,
   } = formState;
 
-  const enteredRequiredFields = title && imgUrl && imdbUrl && imdbId;
+  const enteredRequiredFields
+    = title.trim()
+    && imgUrl.trim()
+    && imdbUrl.trim()
+    && imdbId.trim();
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    onAdd(formState);
+    if (enteredRequiredFields) {
+      onAdd(formState);
 
-    setCount(current => current + 1);
-    setFormState(initialEmptyForm);
+      setCount(current => current + 1);
+      setFormState(initialEmptyForm);
+    }
   };
 
   const changeFormState = (key: string, value: string) => {
