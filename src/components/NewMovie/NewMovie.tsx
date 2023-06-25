@@ -22,9 +22,10 @@ export const NewMovie: FC<NewMovieProps> = ({ onAdd }) => {
     setImdbId('');
   };
 
-  const isValidForm = (): boolean => {
-    return title !== '' && imgUrl !== '' && imdbUrl !== '' && imdbId !== '';
-  };
+  const isValidForm = title.trim() !== ''
+    && imgUrl.trim() !== ''
+    && imdbUrl.trim() !== ''
+    && imdbId.trim() !== '';
 
   const submit = (event: FormEvent) => {
     event.preventDefault();
@@ -34,7 +35,7 @@ export const NewMovie: FC<NewMovieProps> = ({ onAdd }) => {
       imgUrl,
       imdbUrl,
       imdbId,
-    } as Movie);
+    });
 
     setCount(prev => prev + 1);
     clearForm();
@@ -93,7 +94,7 @@ export const NewMovie: FC<NewMovieProps> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!isValidForm()}
+            disabled={!isValidForm}
           >
             Add
           </button>

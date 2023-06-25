@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import React, { useState } from 'react';
+import { isValidByPattern } from '../../helpers/isValidByPattern';
 
 type Props = {
   name: string,
@@ -12,17 +13,6 @@ type Props = {
 
 function getRandomDigits() {
   return Math.random().toString().slice(2);
-}
-
-function isValidByPattern(
-  value: string,
-  pattern: RegExp | undefined,
-) {
-  if (!pattern) {
-    return true;
-  }
-
-  return value.length === value.replaceAll(pattern, '').length;
 }
 
 export const TextField: React.FC<Props> = (props) => {
@@ -39,15 +29,23 @@ export const TextField: React.FC<Props> = (props) => {
 
   // To show errors only if the field was touched (onBlur)
   const [touched, setTouched] = useState(false);
+  const [isEmptyValue, setIsEmptyValue] = useState(false);
 
-  const hasError = touched && required && !value;
+  const hasError = touched && required && (!value || isEmptyValue);
 
   const changed = (newValue: string) => {
     if (pattern && !isValidByPattern(newValue, pattern)) {
       return;
     }
 
+    setIsEmptyValue(!newValue.trim());
+
     onChange(newValue);
+  };
+
+  const blurHandler = () => {
+    setIsEmptyValue(!value.trim());
+    setTouched(true);
   };
 
   return (
@@ -67,7 +65,7 @@ export const TextField: React.FC<Props> = (props) => {
           placeholder={`Enter ${label}`}
           value={value}
           onChange={event => changed(event.target.value)}
-          onBlur={() => setTouched(true)}
+          onBlur={blurHandler}
         />
       </div>
 
