@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
@@ -6,33 +6,47 @@ interface Props {
   onAdd: (movieToAdd: Movie) => void;
 }
 
+const initialFormState = {
+  newTitle: '',
+  newDescription: '',
+  newImgUrl: '',
+  newImdbUrl: '',
+  newImdbId: '',
+};
+
 export const NewMovie: React.FC <Props> = ({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
+  const [newMovieInfo, setNewMovieInfo] = useState(initialFormState);
 
-  const [newTitle, setNewTitle] = useState('');
-  const [newDescription, setNewDescription] = useState('');
-  const [newImgUrl, setNewImgUrl] = useState('');
-  const [newImdbUrl, setNewImdbUrl] = useState('');
-  const [newImdbId, setNewImdbId] = useState('');
+  const {
+    newTitle,
+    newDescription,
+    newImgUrl,
+    newImdbUrl,
+    newImdbId,
+  } = newMovieInfo;
 
-  const clearForm = () => {
-    setNewTitle('');
-    setNewDescription('');
-    setNewImgUrl('');
-    setNewImdbUrl('');
-    setNewImdbId('');
+  const handleChange = (formField: string | number, value: string | number) => {
+    setNewMovieInfo((pevMovieInfo) => ({
+      ...pevMovieInfo,
+      [formField]: value,
+    }));
   };
 
-  const validateTextField = (textField: string): string => textField.trim();
+  const clearForm = () => {
+    setNewMovieInfo(initialFormState);
+  };
+
+  const trimTextField = (textField: string): string => textField.trim();
 
   const canUseButton = () => {
     return (
-      validateTextField(newTitle)
-      && validateTextField(newImgUrl)
-      && validateTextField(newImdbUrl)
-      && validateTextField(newImdbId)
+      trimTextField(newTitle)
+      && trimTextField(newImgUrl)
+      && trimTextField(newImdbUrl)
+      && trimTextField(newImdbId)
     );
   };
 
@@ -40,11 +54,11 @@ export const NewMovie: React.FC <Props> = ({ onAdd }) => {
     event.preventDefault();
 
     const newMovie = {
-      title: validateTextField(newTitle),
-      description: validateTextField(newDescription),
-      imgUrl: validateTextField(newImgUrl),
-      imdbUrl: validateTextField(newImdbUrl),
-      imdbId: validateTextField(newImdbId),
+      title: trimTextField(newTitle),
+      description: trimTextField(newDescription),
+      imgUrl: trimTextField(newImgUrl),
+      imdbUrl: trimTextField(newImdbUrl),
+      imdbId: trimTextField(newImdbId),
     };
 
     onAdd(newMovie);
@@ -64,7 +78,7 @@ export const NewMovie: React.FC <Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={newTitle}
-        onChange={(newValue) => setNewTitle(newValue)}
+        onChange={(newValue) => handleChange('newTitle', newValue)}
         required
       />
 
@@ -72,14 +86,14 @@ export const NewMovie: React.FC <Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={newDescription}
-        onChange={(newValue) => setNewDescription(newValue)}
+        onChange={(newValue) => handleChange('newDescription', newValue)}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={newImgUrl}
-        onChange={(newValue) => setNewImgUrl(newValue)}
+        onChange={(newValue) => handleChange('newImgUrl', newValue)}
         required
       />
 
@@ -87,7 +101,7 @@ export const NewMovie: React.FC <Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={newImdbUrl}
-        onChange={(newValue) => setNewImdbUrl(newValue)}
+        onChange={(newValue) => handleChange('newImdbUrl', newValue)}
         required
       />
 
@@ -95,7 +109,7 @@ export const NewMovie: React.FC <Props> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={newImdbId}
-        onChange={(newValue) => setNewImdbId(newValue)}
+        onChange={(newValue) => handleChange('newImdbId', newValue)}
         required
       />
 
