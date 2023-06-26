@@ -14,10 +14,7 @@ const initialFormState: Movie = {
   imdbId: '',
 };
 
-export const NewMovie: React.FC<Props> = (props) => {
-  const {
-    onAdd,
-  } = props;
+export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
   const [formState, setFormState] = useState(initialFormState);
 
@@ -29,8 +26,8 @@ export const NewMovie: React.FC<Props> = (props) => {
     imdbId,
   } = formState;
 
-  const allRequiredFieldsAreFilled = formState.title
-  && formState.imgUrl && formState.imdbUrl && formState.imdbId;
+  const allRequiredFieldsAreFilled = title.trim()
+  && imgUrl.trim() && imdbUrl.trim() && imdbId.trim();
 
   const clearForm = () => {
     setFormState(initialFormState);
@@ -65,7 +62,7 @@ export const NewMovie: React.FC<Props> = (props) => {
         name="title"
         label="Title"
         value={title}
-        onChange={(value) => handlerChange('title', value.trimStart())}
+        onChange={(value) => handlerChange('title', value)}
         required
       />
 
@@ -73,14 +70,14 @@ export const NewMovie: React.FC<Props> = (props) => {
         name="description"
         label="Description"
         value={description}
-        onChange={(value => handlerChange('description', value.trimStart()))}
+        onChange={(value => handlerChange('description', value))}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={(value) => handlerChange('imgUrl', value.trimStart())}
+        onChange={(value) => handlerChange('imgUrl', value)}
         required
       />
 
@@ -88,7 +85,7 @@ export const NewMovie: React.FC<Props> = (props) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={(value) => handlerChange('imdbUrl', value.trimStart())}
+        onChange={(value) => handlerChange('imdbUrl', value)}
         required
       />
 
@@ -96,7 +93,7 @@ export const NewMovie: React.FC<Props> = (props) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={(value) => handlerChange('imdbId', value.trimStart())}
+        onChange={(value) => handlerChange('imdbId', value)}
         required
       />
 
