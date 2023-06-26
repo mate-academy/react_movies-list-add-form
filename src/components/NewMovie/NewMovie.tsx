@@ -15,8 +15,6 @@ const initialFormState: Movie = {
 };
 
 export const NewMovie: FC<Props> = ({ onAdd }) => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
   const [formState, setFormState] = useState<Movie>(initialFormState);
   const [count, setCount] = useState(0);
 
@@ -28,11 +26,19 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
     imdbId,
   } = formState;
 
-  const chackedRequiredFields = title && imgUrl && imdbUrl && imdbId;
+  const chackedRequiredFields = (...requiredFields: string[]): boolean => {
+    let chackResult = true;
+
+    [...requiredFields].forEach(field => {
+      chackResult = chackResult && Boolean(field.trim());
+    });
+
+    return chackResult;
+  };
 
   const changeFormState = (key: keyof Movie, value: string):void => {
-    setFormState((prew) => ({
-      ...prew,
+    setFormState((currentFormState) => ({
+      ...currentFormState,
       [key]: value,
     }));
   };
@@ -103,7 +109,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!chackedRequiredFields}
+            disabled={!chackedRequiredFields(title, imgUrl, imdbUrl, imdbId)}
           >
             Add
           </button>
