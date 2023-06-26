@@ -1,31 +1,52 @@
 import classNames from 'classnames';
 import React, { useState } from 'react';
+import { isValidByPattern } from '../../helpers/isValidByPattern';
 
 type Props = {
   name: string,
   value: string,
   label?: string,
   required?: boolean,
-  onChange?: (newValue: string) => void,
+  pattern?: RegExp
+  onChange?: (key: string, value: string) => void,
 };
 
 function getRandomDigits() {
   return Math.random().toString().slice(2);
 }
 
-export const TextField: React.FC<Props> = ({
-  name,
-  value,
-  label = name,
-  required = false,
-  onChange = () => {},
-}) => {
+export const TextField: React.FC<Props> = (props) => {
+  const {
+    name,
+    value,
+    label = name,
+    required = false,
+    pattern,
+    onChange = () => {},
+  } = props;
   // generage a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
   // To show errors only if the field was touched (onBlur)
   const [touched, setTouched] = useState(false);
-  const hasError = touched && required && !value;
+  const [isEmptyValue, setIsEmptyValue] = useState(false);
+
+  const hasError = touched && required && (!value || isEmptyValue);
+
+  const changed = (key: string, newValue: string) => {
+    if (pattern && !isValidByPattern(newValue, pattern)) {
+      return;
+    }
+
+    setIsEmptyValue(!newValue.trim());
+
+    onChange(key, newValue);
+  };
+
+  const blurHandler = () => {
+    setIsEmptyValue(!value.trim());
+    setTouched(true);
+  };
 
   return (
     <div className="field">
@@ -43,8 +64,8 @@ export const TextField: React.FC<Props> = ({
           type="text"
           placeholder={`Enter ${label}`}
           value={value}
-          onChange={event => onChange(event.target.value)}
-          onBlur={() => setTouched(true)}
+          onChange={event => changed(name, event.target.value)}
+          onBlur={blurHandler}
         />
       </div>
 
