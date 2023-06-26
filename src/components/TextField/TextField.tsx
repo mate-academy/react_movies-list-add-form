@@ -8,7 +8,7 @@ type Props = {
   label?: string,
   required?: boolean,
   pattern?: RegExp
-  onChange?: (newValue: string) => void,
+  onChange?: (key: string, value: string) => void,
 };
 
 function getRandomDigits() {
@@ -33,14 +33,14 @@ export const TextField: React.FC<Props> = (props) => {
 
   const hasError = touched && required && (!value || isEmptyValue);
 
-  const changed = (newValue: string) => {
+  const changed = (key: string, newValue: string) => {
     if (pattern && !isValidByPattern(newValue, pattern)) {
       return;
     }
 
     setIsEmptyValue(!newValue.trim());
 
-    onChange(newValue);
+    onChange(key, newValue);
   };
 
   const blurHandler = () => {
@@ -64,7 +64,7 @@ export const TextField: React.FC<Props> = (props) => {
           type="text"
           placeholder={`Enter ${label}`}
           value={value}
-          onChange={event => changed(event.target.value)}
+          onChange={event => changed(name, event.target.value)}
           onBlur={blurHandler}
         />
       </div>

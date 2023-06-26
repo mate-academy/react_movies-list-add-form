@@ -6,20 +6,34 @@ type NewMovieProps = {
   onAdd: (movie: Movie) => void
 };
 
+const initialFormState: Movie = {
+  title: '',
+  description: '',
+  imgUrl: '',
+  imdbUrl: '',
+  imdbId: '',
+};
+
 export const NewMovie: FC<NewMovieProps> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
+  const [formState, setFormState] = useState<Movie>(initialFormState);
+  const {
+    title,
+    description,
+    imgUrl,
+    imdbUrl,
+    imdbId,
+  } = formState;
+
+  const updateFormState = (key: string, value: string) => {
+    setFormState(prev => ({
+      ...prev,
+      [key]: value,
+    }));
+  };
 
   const clearForm = () => {
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
+    setFormState(initialFormState);
   };
 
   const isValidForm = title.trim() !== ''
@@ -29,13 +43,7 @@ export const NewMovie: FC<NewMovieProps> = ({ onAdd }) => {
 
   const submit = (event: FormEvent) => {
     event.preventDefault();
-    onAdd({
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    });
+    onAdd(formState);
 
     setCount(prev => prev + 1);
     clearForm();
@@ -53,7 +61,7 @@ export const NewMovie: FC<NewMovieProps> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={title}
-        onChange={(newTitle) => setTitle(newTitle)}
+        onChange={updateFormState}
         required
       />
 
@@ -61,14 +69,14 @@ export const NewMovie: FC<NewMovieProps> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={description}
-        onChange={(newDescription) => setDescription(newDescription)}
+        onChange={updateFormState}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={(newImageUrl) => setImgUrl(newImageUrl)}
+        onChange={updateFormState}
         required
       />
 
@@ -76,7 +84,7 @@ export const NewMovie: FC<NewMovieProps> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={(newImdbUrl) => setImdbUrl(newImdbUrl)}
+        onChange={updateFormState}
         required
       />
 
@@ -84,7 +92,7 @@ export const NewMovie: FC<NewMovieProps> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={(newImdbId) => setImdbId(newImdbId)}
+        onChange={updateFormState}
         required
       />
 
