@@ -3,13 +3,7 @@ import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
 type Props = {
-  onAdd: ({
-    title,
-    description,
-    imgUrl,
-    imdbUrl,
-    imdbId,
-  }: Movie) => void,
+  onAdd: (movie: Movie) => void,
 };
 
 const initialFormState: Movie = {
@@ -71,7 +65,7 @@ export const NewMovie: React.FC<Props> = (props) => {
         name="title"
         label="Title"
         value={title}
-        onChange={(value) => handlerChange('title', value)}
+        onChange={(value) => handlerChange('title', value.trimStart())}
         required
       />
 
@@ -79,14 +73,14 @@ export const NewMovie: React.FC<Props> = (props) => {
         name="description"
         label="Description"
         value={description}
-        onChange={(value => handlerChange('description', value))}
+        onChange={(value => handlerChange('description', value.trimStart()))}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={(value) => handlerChange('imgUrl', value)}
+        onChange={(value) => handlerChange('imgUrl', value.trimStart())}
         required
       />
 
@@ -94,7 +88,7 @@ export const NewMovie: React.FC<Props> = (props) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={(value) => handlerChange('imdbUrl', value)}
+        onChange={(value) => handlerChange('imdbUrl', value.trimStart())}
         required
       />
 
@@ -102,7 +96,7 @@ export const NewMovie: React.FC<Props> = (props) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={(value) => handlerChange('imdbId', value)}
+        onChange={(value) => handlerChange('imdbId', value.trimStart())}
         required
       />
 
@@ -112,7 +106,7 @@ export const NewMovie: React.FC<Props> = (props) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!allRequiredFieldsAreFilled && true}
+            disabled={!allRequiredFieldsAreFilled}
           >
             Add
           </button>
