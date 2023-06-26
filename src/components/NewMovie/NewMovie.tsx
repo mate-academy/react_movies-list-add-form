@@ -6,79 +6,88 @@ type Props = {
   onAdd: (movieToAdd: Movie) => void;
 };
 
-export const NewMovie: FC<Props> = ({ onAdd }) => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
-  const [count, setCount] = useState(0);
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
+const defaultFormState: Movie = {
+  title: '',
+  description: '',
+  imgUrl: '',
+  imdbUrl: '',
+  imdbId: '',
+};
 
-  const submitButtonIsDisabled = (
-    !title.trim() || !imgUrl.trim() || !imdbUrl.trim() || !imdbId.trim()
+export const NewMovie: FC<Props> = (props: Props) => {
+  const [count, setCount] = useState(0);
+
+  const [formState, setFormState] = useState(defaultFormState);
+
+  const { onAdd } = props;
+
+  const isSubmitButtonDisabled = (
+    !formState.title.trim()
+    || !formState.imgUrl.trim()
+    || !formState.imdbUrl.trim()
+    || !formState.imdbId.trim()
   );
+
+  const handleFormChange = (key: string, newValue: string) => {
+    setFormState(prevState => ({
+      ...prevState,
+      [key]: newValue,
+    }));
+  };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    onAdd({
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    });
+    onAdd(formState);
 
     setCount(prev => prev + 1);
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
+    setFormState(defaultFormState);
   };
 
   return (
-    <form className="NewMovie" key={count} onSubmit={handleSubmit}>
+    <form
+      className="NewMovie"
+      key={count}
+      onSubmit={handleSubmit}
+    >
       <h2 className="title">Add a movie</h2>
 
       <TextField
         name="title"
         label="Title"
-        value={title}
-        onChange={setTitle}
+        value={formState.title}
+        onChange={value => handleFormChange('title', value)}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value={description}
-        onChange={setDescription}
+        value={formState.description}
+        onChange={value => handleFormChange('description', value)}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={imgUrl}
-        onChange={setImgUrl}
+        value={formState.imgUrl}
+        onChange={value => handleFormChange('imgUrl', value)}
         required
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={imdbUrl}
-        onChange={setImdbUrl}
+        value={formState.imdbUrl}
+        onChange={value => handleFormChange('imdbUrl', value)}
         required
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imdbId}
-        onChange={setImdbId}
+        value={formState.imdbId}
+        onChange={value => handleFormChange('imdbId', value)}
         required
       />
 
@@ -88,7 +97,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={submitButtonIsDisabled}
+            disabled={isSubmitButtonDisabled}
           >
             Add
           </button>

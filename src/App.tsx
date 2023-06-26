@@ -8,18 +8,8 @@ import { Movie } from './types/Movie';
 export const App = () => {
   const [visibleMovies, setVisibleMovies] = useState(moviesFromServer);
 
-  const addMovieHandler = ({
-    title, description, imgUrl, imdbUrl, imdbId,
-  }: Movie) => {
-    const movieToAdd = {
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    };
-
-    setVisibleMovies(prevMovies => [...prevMovies, movieToAdd]);
+  const addMovie = (movie: Movie) => {
+    setVisibleMovies(prevMovies => [...prevMovies, movie]);
   };
 
   return (
@@ -28,7 +18,7 @@ export const App = () => {
         <MoviesList movies={visibleMovies} />
       </div>
       <div className="sidebar">
-        <NewMovie onAdd={addMovieHandler} />
+        <NewMovie onAdd={addMovie} />
       </div>
     </div>
   );
