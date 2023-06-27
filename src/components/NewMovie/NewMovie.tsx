@@ -6,18 +6,17 @@ type Props = {
   onAdd: (movie: Movie) => void;
 };
 
+const initialFormState: Movie = {
+  title: '',
+  description: '',
+  imgUrl: '',
+  imdbUrl: '',
+  imdbId: '',
+};
+
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
-
-  const preparedForm: Movie = {
-    title: '',
-    description: '',
-    imgUrl: '',
-    imdbUrl: '',
-    imdbId: '',
-  };
-
-  const [movieForm, setMovieForm] = useState(preparedForm);
+  const [movieForm, setMovieForm] = useState(initialFormState);
 
   const {
     title,
@@ -27,7 +26,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     imdbId,
   } = movieForm;
 
-  const onChange = (key: string, value: string) => {
+  const handleFormChange = (key: string, value: string) => {
     setMovieForm((prevState) => ({
       ...prevState,
       [key]: value,
@@ -48,7 +47,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     onAdd(movieForm);
 
     setCount((prevCount) => prevCount + 1);
-    setMovieForm(preparedForm);
+    setMovieForm(initialFormState);
   };
 
   const requiredFieldsAdded = title.trim()
@@ -64,9 +63,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={title}
-        onChange={(value) => {
-          onChange('title', value);
-        }}
+        onChange={value => handleFormChange('title', value)}
         required
       />
 
@@ -74,18 +71,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={description}
-        onChange={(value) => {
-          onChange('description', value);
-        }}
+        onChange={value => handleFormChange('description', value)}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={(value) => {
-          onChange('imgUrl', value);
-        }}
+        onChange={value => handleFormChange('imgUrl', value)}
         required
       />
 
@@ -93,9 +86,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={(value) => {
-          onChange('imdbUrl', value);
-        }}
+        onChange={value => handleFormChange('imdbUrl', value)}
         required
       />
 
@@ -103,9 +94,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={(value) => {
-          onChange('imdbId', value);
-        }}
+        onChange={value => handleFormChange('imdbId', value)}
         required
       />
 
