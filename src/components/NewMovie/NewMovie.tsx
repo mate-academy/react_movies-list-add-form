@@ -56,7 +56,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd, listMovie }) => {
   };
 
   useEffect(() => {
-    setIsDisable(Boolean(title && imgUrl && imdbUrl && imdbId));
+    setIsDisable(!(title && imgUrl && imdbUrl && imdbId));
   }, [title, imgUrl, imdbUrl, imdbId]);
 
   return (
