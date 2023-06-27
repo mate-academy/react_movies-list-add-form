@@ -48,7 +48,6 @@ export const NewMovie: React.FC<NewMovieProps> = ({ addMovie }) => {
 
   const changeFormState = (key: string, value: string) => {
     const normalizedValue = value
-      .toLowerCase()
       .replace(/\s{2,}/g, ' '); // replaces 2 and more spaces in row to 1 space
 
     setFormState((currentFormState) => ({
