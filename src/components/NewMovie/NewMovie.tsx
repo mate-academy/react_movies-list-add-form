@@ -19,6 +19,19 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
   const [formState, setFormState] = useState(initialFormState);
 
+  const {
+    title,
+    description,
+    imgUrl,
+    imdbUrl,
+    imdbId,
+  } = formState;
+
+  const fieldsValidation
+    = title.trim() && imgUrl.trim() && imdbUrl.trim() && imdbId.trim();
+  const isDisabled = !fieldsValidation
+    || !title || !imgUrl || !imdbUrl || !imdbId;
+
   const handleInputChange = (
     value: string,
     name: string,
@@ -33,37 +46,24 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setFormState(initialFormState);
   };
 
-  const {
-    title,
-    description,
-    imgUrl,
-    imdbUrl,
-    imdbId,
-  } = formState;
-
   const addNewMovie = () => {
-    const movie = {
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    };
-
-    onAdd(movie);
+    onAdd(formState);
     resetForm();
 
     setCount((prevCount) => prevCount + 1);
+  };
+
+  const handleSubmit = (event: React.ChangeEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    addNewMovie();
   };
 
   return (
     <form
       className="NewMovie"
       key={count}
-      onSubmit={(event) => {
-        event.preventDefault();
-        addNewMovie();
-      }}
+      onSubmit={handleSubmit}
     >
       <h2 className="title">Add a movie</h2>
 
@@ -112,7 +112,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!title || !imgUrl || !imdbUrl || !imdbId}
+            disabled={isDisabled}
           >
             Add
           </button>
