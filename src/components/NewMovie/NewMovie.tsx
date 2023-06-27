@@ -7,25 +7,23 @@ interface Props {
 }
 
 const initialFormState = {
-  newTitle: '',
-  newDescription: '',
-  newImgUrl: '',
-  newImdbUrl: '',
-  newImdbId: '',
+  title: '',
+  description: '',
+  imgUrl: '',
+  imdbUrl: '',
+  imdbId: '',
 };
 
 export const NewMovie: React.FC <Props> = ({ onAdd }) => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
   const [newMovieInfo, setNewMovieInfo] = useState(initialFormState);
 
   const {
-    newTitle,
-    newDescription,
-    newImgUrl,
-    newImdbUrl,
-    newImdbId,
+    title,
+    description,
+    imgUrl,
+    imdbUrl,
+    imdbId,
   } = newMovieInfo;
 
   const handleChange = (formField: string | number, value: string | number) => {
@@ -41,27 +39,18 @@ export const NewMovie: React.FC <Props> = ({ onAdd }) => {
 
   const trimTextField = (textField: string): string => textField.trim();
 
-  const canUseButton = () => {
+  const isAllRequiredFieldsFilled = () => {
     return (
-      trimTextField(newTitle)
-      && trimTextField(newImgUrl)
-      && trimTextField(newImdbUrl)
-      && trimTextField(newImdbId)
+      trimTextField(title)
+      && trimTextField(imgUrl)
+      && trimTextField(imdbUrl)
+      && trimTextField(imdbId)
     );
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
-    const newMovie = {
-      title: trimTextField(newTitle),
-      description: trimTextField(newDescription),
-      imgUrl: trimTextField(newImgUrl),
-      imdbUrl: trimTextField(newImdbUrl),
-      imdbId: trimTextField(newImdbId),
-    };
-
-    onAdd(newMovie);
+    onAdd(newMovieInfo);
     setCount((prevCount) => prevCount + 1);
     clearForm();
   };
@@ -77,45 +66,45 @@ export const NewMovie: React.FC <Props> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value={newTitle}
-        onChange={(newValue) => handleChange('newTitle', newValue)}
+        value={title}
+        onChange={(newValue) => handleChange('title', newValue)}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value={newDescription}
-        onChange={(newValue) => handleChange('newDescription', newValue)}
+        value={description}
+        onChange={(newValue) => handleChange('description', newValue)}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={newImgUrl}
-        onChange={(newValue) => handleChange('newImgUrl', newValue)}
+        value={imgUrl}
+        onChange={(newValue) => handleChange('imgUrl', newValue)}
         required
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={newImdbUrl}
-        onChange={(newValue) => handleChange('newImdbUrl', newValue)}
+        value={imdbUrl}
+        onChange={(newValue) => handleChange('imdbUrl', newValue)}
         required
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={newImdbId}
-        onChange={(newValue) => handleChange('newImdbId', newValue)}
+        value={imdbId}
+        onChange={(newValue) => handleChange('imdbId', newValue)}
         required
       />
 
       <div className="field is-grouped">
         <div className="control">
-          {canUseButton()
+          {isAllRequiredFieldsFilled()
             ? (
               <button
                 type="submit"
