@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { FormEvent, useEffect, useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
@@ -18,33 +19,56 @@ export const NewMovie: React.FC<Props> = ({ onAdd, listMovie }) => {
   const [imdbId, setId] = useState('');
   const [isDisable, setIsDisable] = useState(true);
 
-  const onFormSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
+  const patternCheck = (str: string) => {
     // eslint-disable-next-line max-len
     const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
 
-    if (!pattern.test(imgUrl)) {
+    return pattern.test(str);
+  };
+
+  const isEmptyValue = () => {
+    if (!title.trim() || !imgUrl.trim() || !imdbUrl.trim() || !imdbId.trim()) {
+      setTitle(title.trim());
+      setImgUrl(imgUrl.trim());
+      setImdbUrl(imdbUrl.trim());
+      setId(imdbId.trim());
+
+      return true;
+    }
+
+    return false;
+  };
+
+  const onFormSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    if (isEmptyValue()) {
+      return;
+    }
+
+    if (!patternCheck(imgUrl)) {
       setImgUrl('');
 
       return;
     }
 
-    if (!pattern.test(imdbUrl)) {
+    if (!patternCheck(imdbUrl)) {
       setImdbUrl('');
 
       return;
     }
 
+    const newMovie = {
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    };
+
     onAdd(() => ([
       ...listMovie,
-      {
-        title,
-        description,
-        imgUrl,
-        imdbUrl,
-        imdbId,
-      },
+      newMovie,
     ]));
     setTitle('');
     setDescription('');
@@ -66,26 +90,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd, listMovie }) => {
       onSubmit={onFormSubmit}
     >
       <h2 className="title">Add a movie</h2>
-      {isDisable && (
-        <button
-          type="button"
-          onClick={() => {
-            setTitle('The Umbrella Academy');
-            setDescription(`A family of former child heroes,
-          now grown apart, must reunite to
-          continue to protect the world.`);
-            setImgUrl('https://m.media-amazon.com/images/'
-          + 'M/MV5BNTZlNTY4ZGMtMzJjZC00NWFkLWFkZjItZ'
-          + 'Dc2Y2Y1NGUyNzFhXkEyXkFqcGdeQXVyMTE5MTg5NDIw.'
-          + '_V1_QL75_UX380_CR0,4,380,562_.jpg');
-            setImdbUrl('https://www.imdb.com/title/tt1312171/');
-            setId('tt1312171');
-          }}
-        >
-          add Sample for test
-        </button>
-      )}
-
       <TextField
         name="title"
         label="Title"
