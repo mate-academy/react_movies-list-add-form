@@ -1,20 +1,17 @@
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
-import { Change } from '../../types/Change';
 import { pattern } from '../../utils/pattern';
 
 type Props = {
-  onChange: (inputValues: Change) => void,
+  onChange: (inputValues: ChangeEvent<HTMLInputElement>) => void,
   formInputs: Movie,
-  setFormInputs: React.Dispatch<React.SetStateAction<Movie>>,
   onAdd: (newMovie: Movie) => void,
 };
 
 export const NewMovie: React.FC<Props> = ({
   onChange,
   formInputs,
-  setFormInputs,
   onAdd,
 }) => {
   const [count, setCount] = useState(0);
@@ -22,6 +19,8 @@ export const NewMovie: React.FC<Props> = ({
   || !formInputs.imdbId
   || !formInputs.imdbUrl
   || !formInputs.imgUrl
+  || !formInputs.title.trim()
+  || !formInputs.imdbId.trim()
   || !formInputs.imdbUrl.match(pattern)
   || !formInputs.imgUrl.match(pattern);
   const handleButton = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -29,6 +28,10 @@ export const NewMovie: React.FC<Props> = ({
     onAdd(formInputs);
     setCount(prevState => prevState + 1);
   };
+
+  const onCheckUrl = (value: string) => (
+    !value.match(pattern)
+  );
 
   return (
     <form className="NewMovie" key={count}>
@@ -39,7 +42,6 @@ export const NewMovie: React.FC<Props> = ({
         label="Title"
         value={formInputs.title}
         onChange={onChange}
-        setFormInputs={setFormInputs}
         required
       />
 
@@ -55,7 +57,7 @@ export const NewMovie: React.FC<Props> = ({
         label="Image URL"
         value={formInputs.imgUrl}
         onChange={onChange}
-        pattern={pattern}
+        urlCheck={onCheckUrl}
         required
       />
 
@@ -64,7 +66,7 @@ export const NewMovie: React.FC<Props> = ({
         label="Imdb URL"
         value={formInputs.imdbUrl}
         onChange={onChange}
-        pattern={pattern}
+        urlCheck={onCheckUrl}
         required
       />
 
@@ -73,7 +75,6 @@ export const NewMovie: React.FC<Props> = ({
         label="Imdb ID"
         value={formInputs.imdbId}
         onChange={onChange}
-        setFormInputs={setFormInputs}
         required
       />
 

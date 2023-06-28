@@ -1,18 +1,13 @@
 import classNames from 'classnames';
-import React, { useState } from 'react';
-import { Movie } from '../../types/Movie';
+import React, { ChangeEvent, useState } from 'react';
 
 type Props = {
   name: string,
   value: string,
   label?: string,
   required?: boolean,
-  onChange?: ({ name, value }: {
-    name: string,
-    value: string,
-  }) => void,
-  setFormInputs?: React.Dispatch<React.SetStateAction<Movie>>,
-  pattern?: RegExp,
+  onChange?: (event: ChangeEvent<HTMLInputElement>) => void,
+  urlCheck?: (value: string) => boolean,
 };
 
 function getRandomDigits() {
@@ -25,27 +20,17 @@ export const TextField: React.FC<Props> = ({
   label = name,
   required = false,
   onChange = () => {},
-  setFormInputs,
-  pattern = '',
+  urlCheck = () => false,
 }) => {
   // generage a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
-  // To show errors only if the field was touched (onBlur)
   const [touched, setTouched] = useState(false);
-  const hasError = touched && required && !value;
-  const urlError = touched && required && !value.match(pattern);
-  const urlCheck = (name === 'imgUrl' || name === 'imdbUrl') && urlError;
-  const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
-    if (setFormInputs) {
-      setFormInputs((prev: Movie) => ({
-        ...prev,
-        [e.target.name]: prev[e.target.name as keyof Movie].trim(),
-      }));
-    }
+  const hasError = touched && required && !value.trim();
+  const urlError = touched && required && urlCheck(value);
 
-    setTouched(true);
-  };
+  // eslint-disable-next-line no-console
+  console.log();
 
   return (
     <div className="field">
@@ -64,8 +49,8 @@ export const TextField: React.FC<Props> = ({
           type="text"
           placeholder={`Enter ${label}`}
           value={value}
-          onChange={event => onChange(event.target)}
-          onBlur={handleBlur}
+          onChange={event => onChange(event)}
+          onBlur={() => setTouched(true)}
         />
       </div>
 
@@ -73,7 +58,7 @@ export const TextField: React.FC<Props> = ({
         <p className="help is-danger">{`${label} is required`}</p>
       )}
 
-      {urlCheck && (
+      {urlError && (
         <p className="help is-danger">The url address is not correct</p>
       )}
     </div>

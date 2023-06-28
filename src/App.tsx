@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import './App.scss';
 import { MoviesList } from './components/MoviesList';
 import { NewMovie } from './components/NewMovie';
@@ -14,10 +14,9 @@ export const App = () => {
     imdbId: '',
   });
   const [movies, setMovies] = useState(moviesFromServer);
-  const handleChange = ({ name, value }: {
-    name: string,
-    value: string,
-  }) => {
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+
     setFormInputs(prevState => ({
       ...prevState,
       [name]: value,
@@ -58,7 +57,6 @@ export const App = () => {
         <NewMovie
           onChange={handleChange}
           formInputs={formInputs}
-          setFormInputs={setFormInputs}
           onAdd={addMovies}
         />
       </div>
