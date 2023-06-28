@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { trimTextField } from '../../helpers';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
@@ -37,16 +38,10 @@ export const NewMovie: React.FC <Props> = ({ onAdd }) => {
     setNewMovieInfo(initialFormState);
   };
 
-  const trimTextField = (textField: string): string => textField.trim();
-
-  const isAllRequiredFieldsFilled = () => {
-    return (
-      trimTextField(title)
+  const isAllRequiredFieldsFilled = trimTextField(title)
       && trimTextField(imgUrl)
       && trimTextField(imdbUrl)
-      && trimTextField(imdbId)
-    );
-  };
+      && trimTextField(imdbId);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -104,25 +99,14 @@ export const NewMovie: React.FC <Props> = ({ onAdd }) => {
 
       <div className="field is-grouped">
         <div className="control">
-          {isAllRequiredFieldsFilled()
-            ? (
-              <button
-                type="submit"
-                data-cy="submit-button"
-                className="button is-link"
-              >
-                Add
-              </button>
-            ) : (
-              <button
-                type="submit"
-                data-cy="submit-button"
-                className="button is-link"
-                disabled
-              >
-                Add
-              </button>
-            )}
+          <button
+            type="submit"
+            data-cy="submit-button"
+            className="button is-link"
+            disabled={!isAllRequiredFieldsFilled}
+          >
+            Add
+          </button>
         </div>
       </div>
     </form>
