@@ -10,21 +10,11 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
-
   const [title, setTitle] = useState('');
-  // const [hasTitleError, setHasTitleError] = useState(false);
-
   const [description, setDescription] = useState('');
-  // const [hasTitleError, setHasTitleError] = useState(false);
-
   const [imgUrl, setImgUrl] = useState('');
-  // const [hasImgUrlError, setHasImgUrlError] = useState(false);
-
   const [imdbUrl, setImdbUrl] = useState('');
-  // const [hasImdbUrlError, setHasImdbUrlError] = useState(false);
-
   const [imdbId, setImdbId] = useState('');
-  // const [hasImdbIdError, setHasImdbIdError] = useState(false);
 
   const clearFormFields = () => {
     setTitle('');
