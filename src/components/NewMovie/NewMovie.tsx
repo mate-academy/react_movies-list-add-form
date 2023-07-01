@@ -6,55 +6,46 @@ interface Props {
   onAdd: (movie: Movie) => void
 }
 
+const initialFormState = {
+  title: '',
+  description: '',
+  imgUrl: '',
+  imdbUrl: '',
+  imdbId: '',
+};
+
 export const NewMovie: FC<Props> = ({ onAdd }) => {
+  const [formState, setFormState] = useState(initialFormState);
   const [count, setCount] = useState(0);
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
+  const {
+    title,
+    description,
+    imgUrl,
+    imdbUrl,
+    imdbId,
+  } = formState;
 
-  const requiredTextFields = (title && imgUrl && imdbUrl && imdbId) === '';
+  const validationOfFormState = title.trim()
+  && imdbId.trim()
+  && imdbUrl.trim()
+  && imgUrl.trim();
 
-  const handleTitle = (value: string) => {
-    setTitle(value);
-  };
-
-  const handleDescription = (value: string) => {
-    setDescription(value);
-  };
-
-  const handleImgUrl = (value: string) => {
-    setImgUrl(value);
-  };
-
-  const handleImdbUrl = (value: string) => {
-    setImdbUrl(value);
-  };
-
-  const handleImdbId = (value: string) => {
-    setImdbId(value);
+  const handleFormState = (key: string, value: string) => {
+    setFormState((previusFormState) => ({
+      ...previusFormState,
+      [key]: value,
+    }));
   };
 
   const clearForm = () => {
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
+    setFormState(initialFormState);
     setCount(prevCount => prevCount + 1);
   };
 
-  const submitHandler = () => {
-    const movie = {
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    };
+  const submitHandler = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
 
-    onAdd(movie);
+    onAdd(formState);
 
     clearForm();
   };
@@ -63,10 +54,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
     <form
       className="NewMovie"
       key={count}
-      onSubmit={(event) => {
-        event.preventDefault();
-        submitHandler();
-      }}
+      onSubmit={submitHandler}
     >
 
       <h2 className="title">Add a movie</h2>
@@ -75,9 +63,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={title}
-        onChange={(value) => {
-          handleTitle(value);
-        }}
+        onChange={(value) => handleFormState('title', value)}
         required
       />
 
@@ -85,18 +71,14 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={description}
-        onChange={(value) => {
-          handleDescription(value);
-        }}
+        onChange={(value) => handleFormState('description', value)}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={(value) => {
-          handleImgUrl(value);
-        }}
+        onChange={(value) => handleFormState('imgUrl', value)}
         required
 
       />
@@ -105,9 +87,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={(value) => {
-          handleImdbUrl(value);
-        }}
+        onChange={(value) => handleFormState('imdbUrl', value)}
         required
       />
 
@@ -115,9 +95,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={(value) => {
-          handleImdbId(value);
-        }}
+        onChange={(value) => handleFormState('imdbId', value)}
         required
       />
 
@@ -127,7 +105,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={requiredTextFields}
+            disabled={!validationOfFormState}
           >
             Add
           </button>
