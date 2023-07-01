@@ -7,7 +7,7 @@ type Props = {
   label?: string,
   placeholder?: string,
   required?: boolean,
-  onChange?: (newValue: string) => void,
+  onChangeCallback?: (newValue: string, hasError: boolean) => void,
 };
 
 function getRandomDigits() {
@@ -16,8 +16,27 @@ function getRandomDigits() {
     .slice(2);
 }
 
-// eslint-disable-next-line max-len
-const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
+function validateFormField(
+  label: string,
+  fieldData: string,
+  isUrl: boolean,
+): string {
+  // eslint-disable-next-line max-len
+  const patternUrl = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
+
+  if (fieldData && isUrl && !fieldData.match(patternUrl)) {
+    return 'Please insert correct url';
+  }
+
+  switch (true) {
+    case !fieldData:
+      return `${label} is required`;
+    case (fieldData.length < 3) && !isUrl:
+      return `${label} requires min 3 characters`;
+    default:
+      return '';
+  }
+}
 
 export const TextField: React.FC<Props> = ({
   name,
@@ -25,30 +44,22 @@ export const TextField: React.FC<Props> = ({
   label = name,
   placeholder = `Enter ${label}`,
   required = false,
-  onChange = () => {},
+  onChangeCallback = () => {},
 }) => {
   // generage a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
   const [fieldErrorMessage, setFieldErrorMessage] = useState('');
+  const handlerInputChange
+    = (event: React.ChangeEvent<HTMLInputElement>): void => {
+      const fieldErrorText = validateFormField(
+        label,
+        event.target.value,
+        label.toLowerCase().includes('url'),
+      );
 
-  const validateTextField = (fieldData: string, isUrl = false): void => {
-    if (isUrl && !fieldData.match(pattern) && fieldData) {
-      setFieldErrorMessage('Please insert correct url');
-
-      return;
-    }
-
-    switch (true) {
-      case !fieldData:
-        setFieldErrorMessage(`${label} is required`);
-        break;
-      case (fieldData.length < 3) && !isUrl:
-        setFieldErrorMessage(`${label} requires min 2 characters`);
-        break;
-      default:
-        setFieldErrorMessage('');
-    }
-  };
+      setFieldErrorMessage(fieldErrorText);
+      onChangeCallback(event.target.value, !!fieldErrorText);
+    };
 
   const hasError = required && fieldErrorMessage;
 
@@ -68,11 +79,8 @@ export const TextField: React.FC<Props> = ({
           })}
           placeholder={placeholder}
           value={value}
-          onChange={event => onChange(event.target.value)}
-          onBlur={(event) => validateTextField(
-            event.target.value,
-            label.toLowerCase().includes('url'),
-          )}
+          onChange={(event) => onChangeCallback(event.target.value, false)}
+          onBlur={(event) => handlerInputChange(event)}
         />
       </div>
 
