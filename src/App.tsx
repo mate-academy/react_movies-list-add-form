@@ -1,8 +1,8 @@
 import './App.scss';
+import React, { useState } from 'react';
 import { MoviesList } from './components/MoviesList';
 import { NewMovie } from './components/NewMovie';
 import moviesFromServer from './api/movies.json';
-import React, { useState } from 'react';
 import { Movie } from './types/Movie';
 
 export const App: React.FC = () => {
@@ -12,8 +12,8 @@ export const App: React.FC = () => {
     setMovies(prev => (
       [...prev, movie]
     ));
-  }
-  
+  };
+
   return (
     <div className="page">
       <div className="page-content">

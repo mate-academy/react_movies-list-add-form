@@ -4,7 +4,7 @@ import { Movie } from '../../types/Movie';
 
 type Props = {
   onAdd: (movie: Movie) => void;
-}
+};
 
 const initialFields: Movie = {
   title: '',
@@ -15,9 +15,9 @@ const initialFields: Movie = {
 };
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
-  const [ count, setCount ] = useState(0);
+  const [count, setCount] = useState(0);
 
-  const [ fields, setFields ] = useState(initialFields);
+  const [fields, setFields] = useState(initialFields);
 
   const {
     title,
@@ -30,25 +30,24 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const increaseCount = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    onAdd(fields)
+    onAdd(fields);
 
     setCount((current: number) => current + 1);
     setFields(initialFields);
-  }
+  };
 
   const handlerValue = (field: string, value: string) => {
-     setFields(prevProps => ({
+    setFields(prevProps => ({
       ...prevProps,
-      [field]: value
-     }));
-  }
+      [field]: value,
+    }));
+  };
 
-  const IsEntered =
-  title.trim() &&
-  imgUrl.trim() &&
-  imdbUrl.trim() &&
-  imdbId.trim();
-
+  const IsEntered
+  = title.trim()
+  && imgUrl.trim()
+  && imdbUrl.trim()
+  && imdbId.trim();
 
   return (
     <form className="NewMovie" key={count} onSubmit={increaseCount}>
