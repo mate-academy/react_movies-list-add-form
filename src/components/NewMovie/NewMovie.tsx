@@ -27,7 +27,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     imdbId,
   } = fields;
 
-  const increaseCount = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     onAdd(fields);
@@ -36,28 +36,28 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setFields(initialFields);
   };
 
-  const handlerValue = (field: string, value: string) => {
+  const handleFieldValueChange = (field: string, value: string) => {
     setFields(prevProps => ({
       ...prevProps,
       [field]: value,
     }));
   };
 
-  const IsEntered
-  = title.trim()
-  && imgUrl.trim()
-  && imdbUrl.trim()
-  && imdbId.trim();
+  const іsEntered
+  = title
+  && imgUrl
+  && imdbUrl
+  && imdbId;
 
   return (
-    <form className="NewMovie" key={count} onSubmit={increaseCount}>
+    <form className="NewMovie" key={count} onSubmit={handleSubmit}>
       <h2 className="title">Add a movie</h2>
 
       <TextField
         name="title"
         label="Title"
         value={title}
-        onChange={(value) => handlerValue('title', value)}
+        onChange={(value) => handleFieldValueChange('title', value)}
         required
       />
 
@@ -65,14 +65,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={description}
-        onChange={(value) => handlerValue('description', value)}
+        onChange={(value) => handleFieldValueChange('description', value)}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={(value) => handlerValue('imgUrl', value)}
+        onChange={(value) => handleFieldValueChange('imgUrl', value)}
         required
       />
 
@@ -80,7 +80,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={(value) => handlerValue('imdbUrl', value)}
+        onChange={(value) => handleFieldValueChange('imdbUrl', value)}
         required
       />
 
@@ -88,7 +88,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={(value) => handlerValue('imdbId', value)}
+        onChange={(value) => handleFieldValueChange('imdbId', value)}
         required
       />
 
@@ -98,7 +98,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!IsEntered}
+            disabled={!іsEntered}
           >
             Add
           </button>
