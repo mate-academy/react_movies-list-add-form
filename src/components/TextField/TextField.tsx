@@ -9,7 +9,6 @@ type Props = {
   required?: boolean,
   onChange?: (newValue: string) => void,
 };
-
 function getRandomDigits() {
   return Math.random()
     .toFixed(16)
@@ -36,7 +35,6 @@ export const TextField: React.FC<Props> = ({
       <label className="label" htmlFor={id}>
         {label}
       </label>
-
       <div className="control">
         <input
           type="text"
@@ -51,7 +49,6 @@ export const TextField: React.FC<Props> = ({
           onBlur={() => setTouched(true)}
         />
       </div>
-
       {hasError && (
         <p className="help is-danger">{`${label} is required`}</p>
       )}
