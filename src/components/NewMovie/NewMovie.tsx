@@ -26,7 +26,12 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     imdbId,
   } = formValues;
 
-  const isDisabled = !title || !imgUrl || !imdbUrl || !imdbId;
+  const validValues = title.trim()
+    && imgUrl.trim()
+    && imdbUrl.trim()
+    && imdbId.trim();
+
+  const isDisabled = !title || !imgUrl || !imdbUrl || !imdbId || !validValues;
 
   const handleFormChange = (name: string, value: string) => {
     setFormValues({
