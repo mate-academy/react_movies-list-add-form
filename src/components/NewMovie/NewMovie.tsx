@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
+import { isValidUrl } from '../../utils/validation';
+
 interface Props {
   onAdd: (newMovie: Movie) => void;
 }
@@ -17,6 +19,8 @@ const initialFormValues: Movie = {
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
   const [formValues, setFormValues] = useState(initialFormValues);
+  const [imgUrlError, setImgUrlError] = useState('');
+  const [imbdUrlError, setImbdUrlError] = useState('');
 
   const {
     title,
@@ -31,9 +35,25 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     && imdbUrl.trim()
     && imdbId.trim();
 
-  const isDisabled = !title || !imgUrl || !imdbUrl || !imdbId || !validValues;
+  const isDisabled = !validValues || !!imgUrlError || !!imbdUrlError;
 
   const handleFormChange = (name: string, value: string) => {
+    if (name === 'imgUrl') {
+      if (!isValidUrl(value)) {
+        setImgUrlError('Invalid image URL');
+      } else {
+        setImgUrlError('');
+      }
+    }
+
+    if (name === 'imdbUrl') {
+      if (!isValidUrl(value)) {
+        setImbdUrlError('Invalid imbd URL');
+      } else {
+        setImbdUrlError('');
+      }
+    }
+
     setFormValues({
       ...formValues,
       [name]: value,
@@ -46,18 +66,11 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    const newMovie = {
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    };
 
     handleReset();
     setCount((prevCount) => prevCount + 1);
 
-    onAdd(newMovie);
+    onAdd(formValues);
   };
 
   return (
@@ -68,9 +81,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     >
       <h2 className="title">
         Add a movie
-
-        { count}
-
       </h2>
 
       <TextField
@@ -93,6 +103,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Image URL"
         value={imgUrl}
         onChange={value => handleFormChange('imgUrl', value)}
+        errorMessage={imgUrlError}
         required
       />
 
@@ -101,6 +112,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Imdb URL"
         value={imdbUrl}
         onChange={value => handleFormChange('imdbUrl', value)}
+        errorMessage={imbdUrlError}
         required
       />
 
