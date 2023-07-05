@@ -6,40 +6,54 @@ type Props = {
   onAdd: (newMovie: Movie) => void;
 };
 
+const clearMovieForm = {
+  title: '',
+  description: '',
+  imgUrl: '',
+  imdbUrl: '',
+  imdbId: '',
+};
+
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
-  const [titleValue, setTitleValue] = useState('');
-  const [descValue, setDescValue] = useState('');
-  const [imgUrlValue, setImgUrlValue] = useState('');
-  const [imdbUrlValue, setImdbUrlValue] = useState('');
-  const [imdbIdValue, setImdbIdValue] = useState('');
+  const [movieForm, setMovieForm] = useState(clearMovieForm);
 
-  const submitDisabled = !titleValue || !imgUrlValue
-    || !imdbUrlValue || !imdbIdValue;
+  const {
+    title,
+    description,
+    imgUrl,
+    imdbUrl,
+    imdbId,
+  } = movieForm;
+
+  const submitDisabled = !title.trim() || !imgUrl.trim()
+    || !imdbUrl.trim() || !imdbId.trim();
 
   const clearForm = () => {
-    setTitleValue('');
-    setDescValue('');
-    setImgUrlValue('');
-    setImdbUrlValue('');
-    setImdbIdValue('');
+    setMovieForm(clearMovieForm);
   };
 
-  const addNewMovie = (e: React.FormEvent) => {
+  const addNewMovie = (event: React.FormEvent<Element>) => {
+    event.preventDefault();
+    event.stopPropagation();
+
     const newMovie = {
-      title: titleValue,
-      description: descValue,
-      imgUrl: imgUrlValue,
-      imdbUrl: imdbUrlValue,
-      imdbId: imdbIdValue,
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
     };
 
-    e.preventDefault();
     onAdd(newMovie);
-    setCount(count + 1);
+    setCount((prevCount) => prevCount + 1);
     clearForm();
+  };
+
+  const onChangeHandler = (value: string, field: string) => {
+    setMovieForm((prevMovieForm) => ({ ...prevMovieForm, [field]: value }));
   };
 
   return (
@@ -49,39 +63,39 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value={titleValue}
-        onChange={(value) => setTitleValue(value)}
+        value={title}
+        onChange={(value) => onChangeHandler(value, 'title')}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value={descValue}
-        onChange={(value) => setDescValue(value)}
+        value={description}
+        onChange={(value) => onChangeHandler(value, 'description')}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={imgUrlValue}
-        onChange={(value) => setImgUrlValue(value)}
+        value={imgUrl}
+        onChange={(value) => onChangeHandler(value, 'imgUrl')}
         required
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={imdbUrlValue}
-        onChange={(value) => setImdbUrlValue(value)}
+        value={imdbUrl}
+        onChange={(value) => onChangeHandler(value, 'imdbUrl')}
         required
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imdbIdValue}
-        onChange={(value) => setImdbIdValue(value)}
+        value={imdbId}
+        onChange={(value) => onChangeHandler(value, 'imdbId')}
         required
       />
 

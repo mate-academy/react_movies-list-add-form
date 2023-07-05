@@ -18,14 +18,31 @@ export const TextField: React.FC<Props> = ({
   value,
   label = name,
   required = false,
-  onChange = () => {},
+  onChange = () => { },
 }) => {
   // generage a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
   // To show errors only if the field was touched (onBlur)
   const [touched, setTouched] = useState(false);
+  const [invalidUrl, setInvalidUrl] = useState(false);
   const hasError = touched && required && !value;
+
+  const handlerBlur = (event: React.BaseSyntheticEvent) => {
+    // eslint-disable-next-line
+    const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
+    const { typedValue } = event.target;
+
+    if (name === 'imgUrl' || name === 'imdbUrl') {
+      if (typedValue.match(pattern)) {
+        setInvalidUrl(false);
+      } else {
+        setInvalidUrl(true);
+      }
+    }
+
+    setTouched(true);
+  };
 
   return (
     <div className="field">
@@ -43,13 +60,17 @@ export const TextField: React.FC<Props> = ({
           type="text"
           placeholder={`Enter ${label}`}
           value={value}
-          onChange={(e) => onChange(e.target.value)}
-          onBlur={() => setTouched(true)}
+          onChange={(event) => onChange(event.target.value)}
+          onBlur={handlerBlur}
         />
       </div>
 
       {hasError && (
         <p className="help is-danger">{`${label} is required`}</p>
+      )}
+
+      {invalidUrl && (
+        <p className="help is-danger">{`${label} is not valid`}</p>
       )}
     </div>
   );
