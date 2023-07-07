@@ -40,7 +40,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     reset();
   };
 
-  const toggleDisabled = !title || !imgUrl || !imdbUrl || !imdbId;
+  const toggleDisabled = !title.trim()
+    || !imgUrl.trim()
+    || !imdbUrl.trim()
+    || !imdbId.trim();
 
   return (
     <form
