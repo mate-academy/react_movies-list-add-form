@@ -12,7 +12,7 @@ const initialMovies: Movie[] = moviesFromServer.map(movie => ({
 export const App = () => {
   const [movies, setMovies] = useState<Movie[]>(initialMovies);
   const onAdd = (newMovie: Movie) => {
-    setMovies(currentMovies => [newMovie, ...currentMovies]);
+    setMovies(currentMovies => [...currentMovies, newMovie]);
   };
 
   return (
