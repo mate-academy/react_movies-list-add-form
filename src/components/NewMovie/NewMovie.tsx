@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import { TextField } from '../TextField';
-import { Movie } from '../../types/Movie'; 
+import { Movie } from '../../types/Movie';
 import { pattern } from '../../services/pattern';
 
 type Props = {
   onAdd: (movie: Movie) => void;
-}
+};
 
-export const NewMovie: React.FC<Props> = ({onAdd}) => {
+export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -15,14 +15,14 @@ export const NewMovie: React.FC<Props> = ({onAdd}) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const hasImgUrlError: boolean = !pattern.test(imgUrl);
-  const hasImdbUrlError: boolean = !pattern.test(imdbUrl);
+  const hasImgUrlError = !pattern.test(imgUrl);
+  const hasImdbUrlError = !pattern.test(imdbUrl);
 
-  const disabled: boolean = !title 
-    || !imgUrl 
-    || !imdbUrl 
-    || !imdbId 
-    || hasImgUrlError 
+  const disabled: boolean = !title
+    || !imgUrl
+    || !imdbUrl
+    || !imdbId
+    || hasImgUrlError
     || hasImdbUrlError;
 
   const reset = () => {
@@ -31,7 +31,7 @@ export const NewMovie: React.FC<Props> = ({onAdd}) => {
     setImgUrl('');
     setImdbUrl('');
     setImdbId('');
-  }
+  };
 
   const submitHandler = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -42,12 +42,12 @@ export const NewMovie: React.FC<Props> = ({onAdd}) => {
       imgUrl,
       imdbUrl,
       imdbId,
-    }
+    };
 
     onAdd(newMovie);
     setCount(count + 1);
     reset();
-  }
+  };
 
   return (
     <form className="NewMovie" key={count} onSubmit={submitHandler}>
