@@ -10,6 +10,17 @@ type Props = {
   onChange?: (newValue: string) => void,
 };
 
+// const checkInputUrl = (name, inputUrl: string) => {
+//   // eslint-disable-next-line max-len
+//   const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
+
+//   if (name === 'imgUrl' || name === 'imdbUrl') {
+//     return pattern.test(inputUrl);
+//   }
+
+//   return true;
+// };
+
 function getRandomDigits() {
   return Math.random()
     .toFixed(16)
@@ -22,14 +33,29 @@ export const TextField: React.FC<Props> = ({
   label = name,
   placeholder = `Enter ${label}`,
   required = false,
-  onChange = () => {},
+  onChange = () => { },
 }) => {
   // generage a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
-
   // To show errors only if the field was touched (onBlur)
   const [touched, setTouched] = useState(false);
+  const [urlCheck, setUrlCheck] = useState(false);
   const hasError = touched && required && !value;
+
+  const handleOnBlur = (valueCheck: string) => {
+    // eslint-disable-next-line max-len
+    const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
+
+    if (name === 'imgUrl' || name === 'imdbUrl') {
+      if (!pattern.test(valueCheck)) {
+        setUrlCheck(true);
+      } else {
+        setUrlCheck(false);
+      }
+    }
+
+    setTouched(true);
+  };
 
   return (
     <div className="field">
@@ -48,12 +74,15 @@ export const TextField: React.FC<Props> = ({
           placeholder={placeholder}
           value={value}
           onChange={event => onChange(event.target.value)}
-          onBlur={() => setTouched(true)}
+          onBlur={() => handleOnBlur(value)}
         />
       </div>
 
       {hasError && (
         <p className="help is-danger">{`${label} is required`}</p>
+      )}
+      {urlCheck && (
+        <p className="help is-danger">{`${label} is invalid`}</p>
       )}
     </div>
   );
