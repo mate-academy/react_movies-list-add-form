@@ -5,6 +5,7 @@ type Props = {
   name: string,
   value: string,
   label?: string,
+  valid?: boolean,
   placeholder?: string,
   required?: boolean,
   onChange?: (newValue: string) => void,
@@ -20,6 +21,7 @@ export const TextField: React.FC<Props> = ({
   name,
   value,
   label = name,
+  valid,
   placeholder = `Enter ${label}`,
   required = false,
   onChange = () => {},
@@ -27,6 +29,11 @@ export const TextField: React.FC<Props> = ({
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
   const [touched, setTouched] = useState(false);
   const hasError = touched && required && !value;
+
+  function checkIfValid() {
+    return !valid && value.length > 1
+      && (label === 'Image URL' || label === 'Imdb URL');
+  }
 
   return (
     <div className="field">
@@ -51,6 +58,10 @@ export const TextField: React.FC<Props> = ({
 
       {hasError && (
         <p className="help is-danger">{`${label} is required`}</p>
+      )}
+
+      {checkIfValid() && (
+        <p className="help is-danger">{`Invalid ${label}`}</p>
       )}
     </div>
   );
