@@ -16,7 +16,7 @@ const initInputs = {
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
-  const [newMovie, setNewMovie] = useState(initInputs);
+  const [newMovie, setNewMovie] = useState <Movie>(initInputs);
 
   const isEmptyField = Object.values(newMovie).some(input => !input.trim());
   const disabled = isEmptyField;
