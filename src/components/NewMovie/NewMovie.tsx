@@ -15,8 +15,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [description, setDescription] = useState('');
 
   const [imgUrl, setImgUrl] = useState('');
+  const [isImgUrlValid, setIsImgUrlValid] = useState(false);
 
   const [imdbUrl, setImdbUrl] = useState('');
+  const [isImdbUrlValid, setIsImdbUrlValid] = useState(false);
 
   const [imdbId, setImdbId] = useState('');
 
@@ -73,6 +75,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={imgUrl}
         onChange={value => setImgUrl(value)}
         isUrl
+        setIsLinkValid={(isValid) => setIsImdbUrlValid(isValid)}
         required
       />
 
@@ -82,6 +85,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={imdbUrl}
         onChange={value => setImdbUrl(value)}
         isUrl
+        setIsLinkValid={(isValid) => setIsImgUrlValid(isValid)}
         required
       />
 
@@ -99,7 +103,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!title || !imgUrl || !imdbUrl || !imdbId}
+            disabled={!title || !imgUrl
+              || !imdbUrl || !imdbId
+              || !isImgUrlValid || !isImdbUrlValid}
           >
             Add
           </button>

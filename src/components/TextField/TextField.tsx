@@ -9,6 +9,7 @@ type Props = {
   required?: boolean,
   onChange?: (newValue: string) => void,
   isUrl?: boolean,
+  setIsLinkValid?: (isValid: boolean) => void;
 };
 
 function getRandomDigits() {
@@ -29,6 +30,7 @@ export const TextField: React.FC<Props> = ({
   required = false,
   onChange = () => {},
   isUrl = false,
+  setIsLinkValid = () => {},
 }) => {
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
@@ -56,8 +58,14 @@ export const TextField: React.FC<Props> = ({
     if (!regexp.test(valueStr)) {
       const error = `${label} is not valid url!`;
 
+      setIsLinkValid(false);
       setErrorMessage(error);
+
+      return;
     }
+
+    setIsLinkValid(true);
+    setErrorMessage('');
   };
 
   return (
