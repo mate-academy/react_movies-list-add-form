@@ -14,7 +14,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrlValue, setImdbUrlValue] = useState('');
   const [imdbIdValue, setImdbIdValue] = useState('');
 
-  const canSendForm = !titleValue || !imgUrlValue
+  const cantSendForm = !titleValue || !imgUrlValue
     || !imdbUrlValue || !imdbIdValue;
 
   const reset = () => {
@@ -28,7 +28,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (canSendForm) {
+    if (cantSendForm) {
       return;
     }
 
@@ -97,7 +97,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={canSendForm}
+            disabled={cantSendForm}
           >
             Add
           </button>
