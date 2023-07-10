@@ -6,11 +6,11 @@ type Props = {
   onAdd: (movie: Movie) => void;
 };
 
-export const NewMovie:React.FC<Props> = ({ onAdd }) => {
+export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
-  const [title, steTitle] = useState<string>('');
+  const [title, setTitle] = useState<string>('');
   const [description, setDescription] = useState<string>('');
   const [imgUrl, setImgUrl] = useState<string>('');
   const [imdbUrl, setImdbUrl] = useState<string>('');
@@ -18,8 +18,19 @@ export const NewMovie:React.FC<Props> = ({ onAdd }) => {
 
   const isButtonDisabled = !title || !imgUrl || !imdbUrl || !imdbId;
 
+  // eslint-disable-next-line max-len
+  const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
+
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
+
+    if (!pattern.test(imgUrl)) {
+      return;
+    }
+
+    if (!pattern.test(imdbUrl)) {
+      return;
+    }
 
     onAdd({
       title,
@@ -29,7 +40,7 @@ export const NewMovie:React.FC<Props> = ({ onAdd }) => {
       imdbId,
     });
 
-    steTitle('');
+    setTitle('');
     setDescription('');
     setImgUrl('');
     setImdbUrl('');
@@ -49,7 +60,7 @@ export const NewMovie:React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={title}
-        onChange={steTitle}
+        onChange={event => setTitle(event)}
         required
       />
 
@@ -57,22 +68,24 @@ export const NewMovie:React.FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={description}
-        onChange={setDescription}
+        onChange={event => setDescription(event)}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
+        pattern={pattern}
         value={imgUrl}
-        onChange={setImgUrl}
+        onChange={event => setImgUrl(event)}
         required
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
+        pattern={pattern}
         value={imdbUrl}
-        onChange={setImdbUrl}
+        onChange={event => setImdbUrl(event)}
         required
       />
 
@@ -80,10 +93,9 @@ export const NewMovie:React.FC<Props> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={setImdbId}
+        onChange={event => setImdbId(event)}
         required
       />
-
       <div className="field is-grouped">
         <div className="control">
           <button

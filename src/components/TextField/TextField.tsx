@@ -8,8 +8,8 @@ type Props = {
   placeholder?: string,
   required?: boolean,
   onChange?: (newValue: string) => void,
+  pattern?: RegExp,
 };
-
 function getRandomDigits() {
   return Math.random()
     .toFixed(16)
@@ -22,32 +22,20 @@ export const TextField: React.FC<Props> = ({
   label = name,
   placeholder = `Enter ${label}`,
   required = false,
-  onChange = () => { },
+  onChange = () => {},
+  pattern = undefined,
 }) => {
   // generage a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
   // To show errors only if the field was touched (onBlur)
   const [touched, setTouched] = useState(false);
-  const [urlCheck, setUrlCheck] = useState(false);
+  const checkUrl = pattern ? pattern?.test(value) : false;
   const hasError = touched && required && !value;
-
-  const handleOnBlur = (valueCheck: string) => {
-    // eslint-disable-next-line max-len
-    const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
-
-    if (name === 'imgUrl' || name === 'imdbUrl') {
-      if (!pattern.test(valueCheck)) {
-        setUrlCheck(true);
-      } else {
-        setUrlCheck(false);
-      }
-    }
-
-    setTouched(true);
-  };
+  const hasUrlError = !checkUrl && pattern && touched;
 
   return (
     <div className="field">
+
       <label className="label" htmlFor={id}>
         {label}
       </label>
@@ -63,14 +51,14 @@ export const TextField: React.FC<Props> = ({
           placeholder={placeholder}
           value={value}
           onChange={event => onChange(event.target.value)}
-          onBlur={() => handleOnBlur(value)}
+          onBlur={() => setTouched(true)}
         />
       </div>
 
       {hasError && (
         <p className="help is-danger">{`${label} is required`}</p>
       )}
-      {urlCheck && (
+      {hasUrlError && (
         <p className="help is-danger">{`${label} is invalid`}</p>
       )}
     </div>
