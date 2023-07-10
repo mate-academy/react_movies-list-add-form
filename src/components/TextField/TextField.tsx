@@ -34,7 +34,7 @@ export const TextField: React.FC<Props> = ({
   const [touched, setTouched] = useState(false);
   let hasError = touched && required;
 
-  if (!value) {
+  if (!value.trim()) {
     errorMessage = `${label} is required`;
   } else if (urlValidate(value, name)) {
     errorMessage = `${label} should have valid URLs`;

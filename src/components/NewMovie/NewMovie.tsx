@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 import { urlValidate } from '../../services/validate';
-import { PostUrls } from '../../data/data';
+import { PostUrls } from '../../types/PostUrls';
 
 type Props = {
   onAdd: (movie: Movie) => void;
@@ -36,7 +36,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   };
 
   const isDisabled = !(
-    titleValue && imageUrlValue && imbdbUrlValue && imbdbIdValue
+    titleValue.trim() && imageUrlValue.trim()
+    && imbdbUrlValue.trim() && imbdbIdValue.trim()
     && !urlValidate(imageUrlValue, PostUrls.image)
     && !urlValidate(imbdbUrlValue, PostUrls.imdb)
   );
