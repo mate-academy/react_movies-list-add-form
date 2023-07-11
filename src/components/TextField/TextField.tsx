@@ -23,7 +23,7 @@ export const TextField: React.FC<Props> = ({
   label = name,
   placeholder = `Enter ${label}`,
   required = false,
-  onChange = () => { },
+  onChange = () => {},
   pattern = undefined,
 }) => {
   // generage a unique id once on component load
