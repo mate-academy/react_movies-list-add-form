@@ -46,8 +46,8 @@ export const TextField: React.FC<Props> = ({
             'is-danger': hasError,
           })}
           placeholder={placeholder}
-          value={value.trim()}
-          onChange={event => onChange(event.target.value)}
+          value={value}
+          onChange={event => onChange(event.target.value.trim())}
           onBlur={() => setTouched(true)}
         />
       </div>
