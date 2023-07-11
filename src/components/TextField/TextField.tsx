@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import React, { useState } from 'react';
+import { checkIsValidUrl } from '../../services/movie';
 
 type Props = {
   name: string,
@@ -29,21 +30,27 @@ export const TextField: React.FC<Props> = ({
   const [touched, setTouched] = useState(false);
   const [hasUrlError, setHasUrlError] = useState(false);
   const hasError = touched && required && !value;
-  const checkIsValidUrl = (url: string) => {
-    // eslint-disable-next-line
-    const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
 
-    return pattern.test(url);
-  };
+  function checkUrlValidation(newValue: string) {
+    const isValidUrl = checkIsValidUrl(newValue);
+
+    setHasUrlError(() => !isValidUrl);
+  }
 
   const handleFieldBlur = () => {
     if (name === 'imgUrl' || name === 'imdbUrl') {
-      const isValidUrl = checkIsValidUrl(value);
-
-      setHasUrlError(!isValidUrl);
+      checkUrlValidation(value);
     }
 
     setTouched(true);
+  };
+
+  const handleFieldChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    onChange(event.target.value);
+
+    if (touched && (name === 'imgUrl' || name === 'imdbUrl')) {
+      checkUrlValidation(event.target.value);
+    }
   };
 
   return (
@@ -62,7 +69,7 @@ export const TextField: React.FC<Props> = ({
           })}
           placeholder={placeholder}
           value={value}
-          onChange={event => onChange(event.target.value)}
+          onChange={handleFieldChange}
           onBlur={handleFieldBlur}
         />
       </div>

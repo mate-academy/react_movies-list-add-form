@@ -1,43 +1,52 @@
 import React, { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
+import { checkIsValidUrl } from '../../services/movie';
 
 type Props = {
   onAdd: (movie: Movie) => void;
 };
 
+interface State {
+  title: string;
+  description: string;
+  imgUrl: string;
+  imdbUrl: string;
+  imdbId: string;
+}
+
+const initialState: State = {
+  title: '',
+  description: '',
+  imgUrl: '',
+  imdbUrl: '',
+  imdbId: '',
+};
+
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
+  const [state, setState] = useState<State>(initialState);
 
-  const hasInvalidFields = !title || !imgUrl || !imdbUrl || !imdbId;
+  const hasInvalidFields = !state.title
+    || !state.imgUrl
+    || !state.imdbUrl
+    || !state.imdbId;
 
   const resetForm = () => {
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
+    setState(initialState);
   };
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (hasInvalidFields) {
+    const isValidImgUrl = checkIsValidUrl(state.imgUrl);
+    const isValidImdbUrl = checkIsValidUrl(state.imdbUrl);
+
+    if (hasInvalidFields || !isValidImgUrl || !isValidImdbUrl) {
       return;
     }
 
-    onAdd({
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    });
+    onAdd(state);
 
     resetForm();
     setCount(currentCount => currentCount + 1);
@@ -54,39 +63,54 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value={title}
-        onChange={(newValue) => setTitle(newValue)}
+        value={state.title}
+        onChange={(newValue) => setState({
+          ...state,
+          title: newValue,
+        })}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value={description}
-        onChange={(newValue) => setDescription(newValue)}
+        value={state.description}
+        onChange={(newValue) => setState({
+          ...state,
+          description: newValue,
+        })}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={imgUrl}
-        onChange={(newValue) => setImgUrl(newValue)}
+        value={state.imgUrl}
+        onChange={(newValue) => setState({
+          ...state,
+          imgUrl: newValue,
+        })}
         required
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={imdbUrl}
-        onChange={(newValue) => setImdbUrl(newValue)}
+        value={state.imdbUrl}
+        onChange={(newValue) => setState({
+          ...state,
+          imdbUrl: newValue,
+        })}
         required
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imdbId}
-        onChange={(newValue) => setImdbId(newValue)}
+        value={state.imdbId}
+        onChange={(newValue) => setState({
+          ...state,
+          imdbId: newValue,
+        })}
         required
       />
 
