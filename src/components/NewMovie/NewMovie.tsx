@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
+import { pattern } from '../../utils';
 
 type Props = {
   onAdd: (movie: Movie) => void,
@@ -10,30 +11,32 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
-  const bluePrint = {
+  const initialState = {
     title: '',
     description: '',
     imgUrl: '',
     imdbUrl: '',
     imdbId: '',
   };
-  const [state, setState] = useState(bluePrint);
+  const [movie, setMovie] = useState(initialState);
   const buttonHandler = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) => {
     event.preventDefault();
     setCount(prevState => (prevState + 1));
-    onAdd(state);
-    setState(bluePrint);
+    onAdd(movie);
+    setMovie(initialState);
   };
 
-  /* eslint-disable max-len */
-  const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
+  const {
+    title, imdbUrl, imgUrl, imdbId,
+  } = movie;
 
-  const formIsReady = (state.title) && (state.imdbUrl.match(pattern) !== null) && (state.imgUrl.match(pattern) !== null) && state.imdbId.length > 0;
+  const formIsReady = (title) && (imdbUrl.match(pattern) !== null)
+    && (imgUrl.match(pattern) !== null) && imdbId.length > 0;
 
   const textFieldHandler = (name: string, event: string) => {
-    setState(prevState => ({
+    setMovie(prevState => ({
       ...prevState,
       [name]: event,
     }));
@@ -46,7 +49,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value={state.title}
+        value={movie.title}
         onChange={(event) => textFieldHandler('title', event)}
         required
       />
@@ -54,14 +57,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="description"
         label="Description"
-        value={state.description}
+        value={movie.description}
         onChange={(event) => textFieldHandler('description', event)}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={state.imgUrl}
+        value={movie.imgUrl}
         onChange={(event) => textFieldHandler('imgUrl', event)}
         required
       />
@@ -69,7 +72,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={state.imdbUrl}
+        value={movie.imdbUrl}
         onChange={(event) => textFieldHandler('imdbUrl', event)}
         required
       />
@@ -77,7 +80,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={state.imdbId}
+        value={movie.imdbId}
         onChange={(event) => textFieldHandler('imdbId', event)}
         required
       />
@@ -88,7 +91,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            onClick={(event) => buttonHandler(event)}
+            onClick={buttonHandler}
             disabled={!formIsReady}
           >
             Add
