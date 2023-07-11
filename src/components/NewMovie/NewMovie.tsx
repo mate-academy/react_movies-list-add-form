@@ -10,6 +10,7 @@ type Props = {
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
+
   const [titleValue, setTitleValue] = useState('');
   const [descriptionValue, setDescriptionValue] = useState('');
   const [imageUrlValue, setImageUrlValue] = useState('');
@@ -51,21 +52,21 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Title"
         value={titleValue}
         required
-        onChange={(newValue: string) => setTitleValue(newValue)}
+        onChange={setTitleValue}
       />
 
       <TextField
         name="description"
         label="Description"
         value={descriptionValue}
-        onChange={(newValue: string) => setDescriptionValue(newValue)}
+        onChange={setDescriptionValue}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={imageUrlValue}
-        onChange={(newValue: string) => setImageUrlValue(newValue)}
+        onChange={setImageUrlValue}
         required
       />
 
@@ -73,7 +74,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imbdbUrlValue}
-        onChange={(newValue: string) => setImbdbUrlValue(newValue)}
+        onChange={setImbdbUrlValue}
         required
       />
 
@@ -81,7 +82,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={imbdbIdValue}
-        onChange={(newValue: string) => setImbdbIdValue(newValue)}
+        onChange={setImbdbIdValue}
         required
       />
 
