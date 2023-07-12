@@ -31,7 +31,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [hasImdbIdError, setHasImdbIdError] = useState(true);
 
   const disabled = hasTitleError || hasImgUrlError || hasImdbUrlError
-    || hasImdbIdError;
+    || hasImdbIdError || hasImgUrlLinkErr || hasImdbUrlLinkErr;
 
   const handleTitle = (newValue: string) => {
     setTitle(newValue);
