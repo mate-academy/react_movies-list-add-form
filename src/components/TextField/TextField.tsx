@@ -23,13 +23,13 @@ export const TextField: React.FC<Props> = ({
   label = name,
   placeholder = `Enter ${label}`,
   required = false,
-  onChange = () => { },
+  onChange = () => {},
   errorMessage = '',
 }) => {
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
   const [touched, setTouched] = useState(false);
-  const hasError = (touched && required && !value);
+  const hasError = touched && required && !value;
 
   return (
     <div className="field">

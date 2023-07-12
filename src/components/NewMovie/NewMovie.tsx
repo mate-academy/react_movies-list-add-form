@@ -47,7 +47,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
     if (name === 'imdbUrl') {
       if (!isValidUrl(value)) {
-        setImbdUrlError('Invalid imbd URL');
+        setImbdUrlError('Invalid imdb URL');
       } else {
         setImbdUrlError('');
       }
@@ -66,10 +66,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    handleReset();
     setCount((prevCount) => prevCount + 1);
 
     onAdd(formValues);
+    handleReset();
   };
 
   return (
