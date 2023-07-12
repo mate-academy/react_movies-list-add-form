@@ -3,14 +3,7 @@ import './App.scss';
 import { MoviesList } from './components/MoviesList';
 import { NewMovie } from './components/NewMovie';
 import moviesFromServer from './api/movies.json';
-
-interface Movie {
-  title: string,
-  description: string,
-  imgUrl: string,
-  imdbUrl: string,
-  imdbId: string,
-}
+import { Movie } from './types/Movie';
 
 export const App = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -22,7 +15,7 @@ export const App = () => {
       movie,
     ];
 
-    setMovies(newMovies);
+    setMovies(() => newMovies);
   };
 
   return (

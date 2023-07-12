@@ -36,12 +36,12 @@ export const TextField: React.FC<Props> = ({
 
   const [touched, setTouched] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-  const hasError = touched && required && (!value || errorMessage);
+  const hasError = touched && required && (!value.trim() || errorMessage);
 
   const handleOnBlur = (valueStr: string) => {
     setTouched(true);
 
-    if (!valueStr) {
+    if (!valueStr.trim()) {
       const error = `${label} is required!`;
 
       setErrorMessage(error);
