@@ -3,10 +3,10 @@ import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
 type Props = {
-  whileAdd: (movie: Movie) => void;
+  onAdd: (movie: Movie) => void;
 };
 
-export const NewMovie: React.FC<Props> = ({ whileAdd }) => {
+export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
   const [titleField, setTitleField] = useState('');
   const [descriptionField, setDescriptionField] = useState('');
@@ -33,7 +33,7 @@ export const NewMovie: React.FC<Props> = ({ whileAdd }) => {
       imdbId,
     };
 
-    whileAdd(sendedObject);
+    onAdd(sendedObject);
     setCount((previous) => (previous + 1));
     reset();
   };
