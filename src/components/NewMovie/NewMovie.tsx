@@ -9,7 +9,7 @@ type Props = {
 enum URL {
   ImgUrl = 'img',
   Imdb = 'imdb',
-};
+}
 
 export const NewMovie: FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
@@ -22,8 +22,6 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
 
   const [isValidImg, setIsValidImg] = useState<boolean>(true);
   const [isValidImdb, setIsValidImdb] = useState<boolean>(true);
-
-  const isSomeEmptyField = !title || !imgUrl || !imdbUrl || !imdbUrl || !imdbId;
 
   // eslint-disable-next-line max-len
   const validUrl = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
@@ -38,6 +36,10 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
 
   const isUrlValid = (url: string) => {
     return validUrl.test(url);
+  };
+
+  const isEmptyField = (text: string) => {
+    return text.trim().length === 0;
   };
 
   const handleChangeUrl = (newValue: string, urlType: URL) => {
@@ -79,6 +81,11 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
     setCount(prevCount => prevCount + 1);
     resetForm();
   };
+
+  const isSomeEmptyField = isEmptyField(title)
+    || isEmptyField(imgUrl)
+    || isEmptyField(imdbUrl)
+    || isEmptyField(imdbId);
 
   return (
     <form
