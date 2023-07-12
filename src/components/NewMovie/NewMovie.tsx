@@ -18,10 +18,10 @@ export const NewMovie = ({ onAdd }: Props) => {
   const [count, setCount] = useState(0);
   const [details, setDetails] = useState(initialForm);
 
-  const filled = details.title
-    && details.imdbId
-    && details.imdbUrl
-    && details.imgUrl;
+  const filled = details.title.trim()
+    && details.imdbId.trim()
+    && details.imdbUrl.trim()
+    && details.imgUrl.trim();
 
   const handleTextFieldChanges = (name: string, value: string) => {
     setDetails(prev => ({
