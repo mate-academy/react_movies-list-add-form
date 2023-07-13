@@ -25,10 +25,8 @@ export const TextField: React.FC<Props> = ({
   required = false,
   onChange = () => {},
 }) => {
-  // generage a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
-  // To show errors only if the field was touched (onBlur)
   const [touched, setTouched] = useState(false);
   const hasError = touched && required && !value;
   const hasErrorRegex = touched && required && (value.match(pattern) === null);
@@ -37,26 +35,6 @@ export const TextField: React.FC<Props> = ({
   };
 
   const thisIsUrl = name === 'imdbUrl' || name === 'imgUrl';
-
-  const error = () => {
-    if (thisIsUrl) {
-      return (
-        <>
-          {hasErrorRegex && (
-            <p className="help is-danger">{`${label} should be a valid url`}</p>
-          )}
-        </>
-      );
-    }
-
-    return (
-      <>
-        {hasError && (
-          <p className="help is-danger">{`${label} is required`}</p>
-        )}
-      </>
-    );
-  };
 
   return (
     <div className="field">
@@ -78,8 +56,21 @@ export const TextField: React.FC<Props> = ({
           onBlur={onBlurHandler}
         />
       </div>
-
-      {error()}
+      {thisIsUrl
+        ? (
+          <>
+            {hasErrorRegex && (
+              <p className="help is-danger">{`${label} should be a valid url`}</p>
+            )}
+          </>
+        )
+        : (
+          <>
+            {hasError && (
+              <p className="help is-danger">{`${label} is required`}</p>
+            )}
+          </>
+        )}
     </div>
   );
 };
