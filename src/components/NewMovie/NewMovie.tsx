@@ -53,6 +53,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       setHasImgUrlError(false);
       if (!pattern.test(newValue)) {
         setHasImgUrlLinkErr(true);
+      } else {
+        setHasImgUrlLinkErr(false);
       }
     }
   };
@@ -67,6 +69,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       setHasImdbUrlError(false);
       if (!pattern.test(newValue)) {
         setHasImdbUrlLinkErr(true);
+      } else {
+        setHasImdbUrlLinkErr(false);
       }
     }
   };
