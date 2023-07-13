@@ -12,8 +12,9 @@ export const NewMovie = ({ onAdd }: { onAdd: (movie: Movie) => void }) => {
   const [imdbUrlValue, setImdbUrlValue] = useState('');
   const [imdbIdValue, setImdbIdValue] = useState('');
 
-  const isDisabled = !titleValue || !imgUrlValue || !imdbUrlValue
-    || !imdbIdValue || !isValidLink(imdbUrlValue) || !isValidLink(imgUrlValue);
+  const isDisabled = !(titleValue.trim()) || !(imgUrlValue.trim())
+    || !(imdbUrlValue.trim()) || !(imdbIdValue.trim())
+    || !isValidLink(imdbUrlValue) || !isValidLink(imgUrlValue);
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
