@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import React, { useState } from 'react';
+import { checkIsValidUrl } from '../../services/checkIsValidUrl';
 
 type Props = {
   name: string,
@@ -7,7 +8,7 @@ type Props = {
   label?: string,
   placeholder?: string,
   required?: boolean,
-  onChange?: (newValue: string) => void,
+  onChange?: React.ChangeEventHandler,
 };
 
 function getRandomDigits() {
@@ -22,14 +23,25 @@ export const TextField: React.FC<Props> = ({
   label = name,
   placeholder = `Enter ${label}`,
   required = false,
-  onChange = () => {},
+  onChange = () => { },
 }) => {
-  // generage a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
-  // To show errors only if the field was touched (onBlur)
   const [touched, setTouched] = useState(false);
+  const [hasUrlError, setHasUrlError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(`${label} is required`);
   const hasError = touched && required && !value;
+
+  const isValidUrl = checkIsValidUrl(value);
+
+  const handleFieldBlur = () => {
+    if (name === 'imgUrl' || name === 'imdbUrl') {
+      setHasUrlError(!isValidUrl);
+      setErrorMessage(`${label} is not valid url`);
+    }
+
+    setTouched(true);
+  };
 
   return (
     <div className="field">
@@ -47,13 +59,14 @@ export const TextField: React.FC<Props> = ({
           })}
           placeholder={placeholder}
           value={value}
-          onChange={event => onChange(event.target.value)}
-          onBlur={() => setTouched(true)}
+          name={name}
+          onChange={onChange}
+          onBlur={() => handleFieldBlur}
         />
       </div>
 
-      {hasError && (
-        <p className="help is-danger">{`${label} is required`}</p>
+      {!hasUrlError && hasError && (
+        <p className="help is-danger">{errorMessage}</p>
       )}
     </div>
   );
