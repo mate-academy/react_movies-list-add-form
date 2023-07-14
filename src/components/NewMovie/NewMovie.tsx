@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
+import { initialMovieState } from '../../services/initialMovieState';
 
 type Props = {
   onAdd: (movie: Movie) => void;
@@ -8,13 +9,6 @@ type Props = {
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
-  const initialMovieState = {
-    title: '',
-    description: '',
-    imgUrl: '',
-    imdbUrl: '',
-    imdbId: '',
-  };
 
   const [movie, setMovie] = useState(initialMovieState);
 

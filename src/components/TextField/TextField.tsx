@@ -29,13 +29,15 @@ export const TextField: React.FC<Props> = ({
 
   const [touched, setTouched] = useState(false);
   const [hasUrlError, setHasUrlError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(`${label} is required`);
   const hasError = touched && required && !value;
+
+  const isValidUrl = checkIsValidUrl(value);
 
   const handleFieldBlur = () => {
     if (name === 'imgUrl' || name === 'imdbUrl') {
-      const isValidUrl = checkIsValidUrl(value);
-
       setHasUrlError(!isValidUrl);
+      setErrorMessage(`${label} is not valid url`);
     }
 
     setTouched(true);
@@ -64,7 +66,7 @@ export const TextField: React.FC<Props> = ({
       </div>
 
       {!hasUrlError && hasError && (
-        <p className="help is-danger">{`${label} is required`}</p>
+        <p className="help is-danger">{errorMessage}</p>
       )}
     </div>
   );
