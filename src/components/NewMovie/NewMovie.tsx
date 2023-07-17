@@ -38,7 +38,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     reset();
   };
 
-  const disabled = !titleField || !imgUrl || !imdbUrl || !imdbId;
+  const disabled = !titleField.trim()
+  || !imgUrl.trim()
+  || !imdbUrl.trim()
+  || !imdbId.trim();
 
   return (
     <form className="NewMovie" key={count} onSubmit={submit}>
