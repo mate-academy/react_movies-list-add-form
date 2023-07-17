@@ -19,7 +19,7 @@ function getRandomDigits() {
 export const TextField: React.FC<Props> = ({
   name,
   value,
-  label = name,
+  label,
   placeholder = `Enter ${label}`,
   required = false,
   onChange = () => {},
