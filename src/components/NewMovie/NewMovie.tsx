@@ -24,15 +24,20 @@ export const NewMovie: React.FC<Movies> = ({ onAdd }) => {
     setImdbId('');
   };
 
+  const isEmpty = !title.trim().length
+    || !imgUrl.trim().length
+    || !imdbUrl.trim().length
+    || !imdbId.trim().length;
+
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
     onAdd({
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
+      title: title.trim(),
+      description: description.trim(),
+      imgUrl: imgUrl.trim(),
+      imdbUrl: imdbUrl.trim(),
+      imdbId: imdbId.trim(),
     });
 
     clearFields();
@@ -89,25 +94,14 @@ export const NewMovie: React.FC<Movies> = ({ onAdd }) => {
 
       <div className="field is-grouped">
         <div className="control">
-          {title && imgUrl && imdbUrl && imdbId
-            ? (
-              <button
-                type="submit"
-                data-cy="submit-button"
-                className="button is-link"
-              >
-                Add
-              </button>
-            ) : (
-              <button
-                type="submit"
-                data-cy="submit-button"
-                className="button is-link"
-                disabled
-              >
-                Add
-              </button>
-            )}
+          <button
+            type="submit"
+            data-cy="submit-button"
+            className="button is-link"
+            disabled={isEmpty}
+          >
+            Add
+          </button>
         </div>
       </div>
     </form>
