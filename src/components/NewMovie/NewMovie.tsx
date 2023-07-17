@@ -14,10 +14,10 @@ export const NewMovie = ({ onAdd }: Prop) => {
   const [imdbId, setImdbId] = useState('');
   const [description, setDescription] = useState('');
 
-  const emptyForms = title === ''
-    || imgUrl === ''
-    || imdbUrl === ''
-    || imdbId === '';
+  const emptyForms = title.trim() === ''
+    || imgUrl.trim() === ''
+    || imdbUrl.trim() === ''
+    || imdbId.trim() === '';
 
   const reset = () => {
     setTile('');
