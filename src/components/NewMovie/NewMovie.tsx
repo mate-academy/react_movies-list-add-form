@@ -27,7 +27,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     || !toTrim(imdbUrl)
     || !toTrim(imdbId);
 
-
   const reset = () => {
     setTitle('');
     setDescription('');
