@@ -27,6 +27,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [state, setState] = useState(defaultState);
 
   const hasEmptyFields = !state.title
+    || state.title.trim() === ''
     || !state.imgUrl
     || !state.imdbUrl
     || !state.imdbId;
