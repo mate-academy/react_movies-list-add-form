@@ -2,6 +2,13 @@ import React, { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
+const urlValidation = (url: string): boolean => {
+  // eslint-disable-next-line max-len
+  const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
+
+  return pattern.test(url);
+};
+
 const formValidation = (
   {
     title,
@@ -10,12 +17,9 @@ const formValidation = (
     imdbId,
   }: Movie,
 ):boolean => {
-  // eslint-disable-next-line max-len
-  const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
-
   const titleValid = title.trim().length > 0;
-  const imgUrlValid = pattern.test(imgUrl);
-  const imdbUrlValid = pattern.test(imdbUrl);
+  const imgUrlValid = urlValidation(imgUrl);
+  const imdbUrlValid = urlValidation(imdbUrl);
   const imdbIdValid = imdbId.trim().length > 0;
 
   return titleValid && imgUrlValid && imdbUrlValid && imdbIdValid;
@@ -86,6 +90,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Image URL"
         value={imgUrl}
         onChange={setImgUrl}
+        urlValidation={urlValidation(imgUrl)}
         required
       />
 
@@ -94,6 +99,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Imdb URL"
         value={imdbUrl}
         onChange={setImdbUrl}
+        urlValidation={urlValidation(imdbUrl)}
         required
       />
 
