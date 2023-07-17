@@ -13,26 +13,32 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imgUrl, setImgUrl] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
-  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+
+  const isButtonDisabled = !title || !imgUrl || !imdbUrl || !imdbId;
 
   const onTitleChange = (value: string) => {
     setTitle(value);
-    setIsButtonDisabled(!value || !imgUrl || !imdbUrl || !imdbId);
   };
 
   const onImgUrlChange = (value: string) => {
     setImgUrl(value);
-    setIsButtonDisabled(!title || !value || !imdbUrl || !imdbId);
   };
 
   const onImdbUrlChange = (value: string) => {
     setImdbUrl(value);
-    setIsButtonDisabled(!title || !imgUrl || !value || !imdbId);
   };
 
   const onImdbIdChange = (value: string) => {
     setImdbId(value);
-    setIsButtonDisabled(!title || !imgUrl || !imdbUrl || !value);
+  };
+
+  const resetFields = () => {
+    setTitle('');
+    setDescription('');
+    setImgUrl('');
+    setImdbUrl('');
+    setImdbId('');
+    setCount(count + 1);
   };
 
   const onSubmit = () => {
@@ -43,13 +49,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       imdbUrl,
       imdbId,
     });
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
-    setIsButtonDisabled(true);
-    setCount(count + 1);
+
+    resetFields();
   };
 
   return (
