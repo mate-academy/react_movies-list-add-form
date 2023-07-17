@@ -1,4 +1,3 @@
-/* eslint-disable prefer-const */
 import { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
@@ -8,14 +7,20 @@ type Props = {
 };
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
-  let [count, setCount] = useState(0);
+  const [count, setCount] = useState(0);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [imgUrl, setImgUrl] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImbdId] = useState('');
 
-  console.log(count);
+  const reset = () => {
+    setTitle('');
+    setDescription('');
+    setImgUrl('');
+    setImdbUrl('');
+    setImbdId('');
+  };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -28,7 +33,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       imdbId,
     });
 
-    setCount(count += 1);
+    setCount(prevCount => prevCount + 1);
+    reset();
   };
 
   const disabled = !title || !imdbUrl || !imgUrl || !imdbId;
