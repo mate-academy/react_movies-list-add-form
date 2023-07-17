@@ -74,6 +74,7 @@ export const NewMovie: React.FC<Props> = (
         value={imgUrl}
         onChange={setImgUrl}
         required
+        isUrl
       />
 
       <TextField
@@ -82,6 +83,7 @@ export const NewMovie: React.FC<Props> = (
         value={imdbUrl}
         onChange={setImdbUrl}
         required
+        isUrl
       />
 
       <TextField
