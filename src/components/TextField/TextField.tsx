@@ -29,8 +29,9 @@ export const TextField: React.FC<Props> = ({
 
   const [touched, setTouched] = useState(false);
   const [hasUrlError, setHasUrlError] = useState(false);
-  const [errorMessage, setErrorMessage] = useState(`${label} is required`);
-  const hasError = touched && required && !value;
+  const [hasFieldError, setHasFieldError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  const hasError = touched && required && !value.trim().length;
 
   const isValidUrl = checkIsValidUrl(value);
 
@@ -38,6 +39,9 @@ export const TextField: React.FC<Props> = ({
     if (name === 'imgUrl' || name === 'imdbUrl') {
       setHasUrlError(!isValidUrl);
       setErrorMessage(`${label} is not a valid URL`);
+    } else {
+      setErrorMessage(`${label} is required`);
+      setHasFieldError(true);
     }
 
     setTouched(true);
@@ -54,17 +58,17 @@ export const TextField: React.FC<Props> = ({
           id={id}
           data-cy={`movie-${name}`}
           className={classNames('input', {
-            'is-danger': hasError || hasUrlError,
+            'is-danger': hasError || hasUrlError || hasFieldError,
           })}
           placeholder={placeholder}
           value={value}
           name={name}
           onChange={onChange}
-          onBlur={handleFieldBlur} // Fixed: Removed unnecessary arrow function wrapper
+          onBlur={handleFieldBlur}
         />
       </div>
 
-      {(hasError || hasUrlError) && (
+      {(hasError || hasUrlError || hasFieldError) && (
         <p className="help is-danger">{errorMessage}</p>
       )}
     </div>

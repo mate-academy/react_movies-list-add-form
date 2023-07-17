@@ -9,7 +9,6 @@ type Props = {
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
-
   const [movie, setMovie] = useState(initialMovieState);
 
   const hasInvalidFields = !movie.title || !movie.imgUrl
