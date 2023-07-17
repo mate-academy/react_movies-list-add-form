@@ -30,11 +30,11 @@ export const NewMovie: React.FC<AddNewMovie> = ({ onAdd }) => {
     event.preventDefault();
 
     const newMovie = {
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
+      title: normalizedString(title),
+      description: normalizedString(description),
+      imgUrl: normalizedString(imgUrl),
+      imdbUrl: normalizedString(imdbUrl),
+      imdbId: normalizedString(imdbId),
     };
 
     onAdd(newMovie);
@@ -72,7 +72,7 @@ export const NewMovie: React.FC<AddNewMovie> = ({ onAdd }) => {
         name="imgUrl"
         label="Image Url"
         value={imgUrl}
-        onChange={value => setImgUrl(normalizedString(value))}
+        onChange={value => setImgUrl((value))}
         required
       />
 
@@ -80,7 +80,7 @@ export const NewMovie: React.FC<AddNewMovie> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb Url"
         value={imdbUrl}
-        onChange={value => setImdbUrl(normalizedString(value))}
+        onChange={value => setImdbUrl((value))}
         required
       />
 
@@ -88,7 +88,7 @@ export const NewMovie: React.FC<AddNewMovie> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={value => setImdbId(normalizedString(value))}
+        onChange={value => setImdbId((value))}
         required
       />
 
