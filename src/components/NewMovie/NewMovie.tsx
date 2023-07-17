@@ -14,6 +14,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imgUrl, setImgUrl] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
+  const [isImgUrlError, setIsImgUrlError] = useState(false);
+  const [isImdbUrlError, setIsImdbUrlError] = useState(false);
 
   const handlerReset = () => {
     setTitle('');
@@ -54,7 +56,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const isSubmitButtonActive = title.trim()
     && imgUrl.trim()
     && imdbUrl.trim()
-    && imdbId.trim();
+    && imdbId.trim()
+    && !isImgUrlError
+    && !isImdbUrlError;
 
   return (
     <form className="NewMovie" key={count} onSubmit={handlerSubmit}>
@@ -81,6 +85,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={imgUrl}
         onChange={setImgUrl}
         validation={urlValidation}
+        setIsImgUrlError={setIsImgUrlError}
+        setIsImdbUrlError={setIsImdbUrlError}
         required
       />
 
@@ -90,6 +96,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={imdbUrl}
         onChange={setImdbUrl}
         validation={urlValidation}
+        setIsImgUrlError={setIsImgUrlError}
+        setIsImdbUrlError={setIsImdbUrlError}
         required
       />
 

@@ -9,6 +9,8 @@ type Props = {
   required?: boolean,
   onChange?: (newValue: string) => void,
   validation?: (value: string) => boolean,
+  setIsImgUrlError?: React.Dispatch<React.SetStateAction<boolean>>,
+  setIsImdbUrlError?: React.Dispatch<React.SetStateAction<boolean>>,
 };
 
 function getRandomDigits() {
@@ -25,6 +27,8 @@ export const TextField: React.FC<Props> = ({
   required = false,
   onChange = () => { },
   validation,
+  setIsImgUrlError,
+  setIsImdbUrlError,
 }) => {
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
@@ -36,6 +40,14 @@ export const TextField: React.FC<Props> = ({
     onChange(eventValue);
 
     if (validation) {
+      if (name === 'imgUrl' && setIsImgUrlError) {
+        setIsImgUrlError(!validation(eventValue));
+      }
+
+      if (name === 'imdbUrl' && setIsImdbUrlError) {
+        setIsImdbUrlError(!validation(eventValue));
+      }
+
       setValidationError(!validation(eventValue));
     }
   };
