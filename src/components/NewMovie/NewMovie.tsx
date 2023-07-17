@@ -28,7 +28,14 @@ export const NewMovie: React.FC<Props> = (
     }
   };
 
-  const handleSubmit = (event:React.FormEvent) => {
+  // eslint-disable-next-line max-len
+  const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
+
+  const hasUrlError = (value:string) => {
+    return !pattern.test(value);
+  };
+
+  const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
     const newMovie = {
@@ -44,10 +51,12 @@ export const NewMovie: React.FC<Props> = (
     clearForm();
   };
 
-  const isDisabledButton = !title
-    || !imgUrl
-    || !imdbId
-    || !imdbUrl;
+  const isDisabledButton = !title.trim()
+    || !imgUrl.trim()
+    || !imdbId.trim()
+    || !imdbUrl.trim()
+    || hasUrlError(imgUrl)
+    || hasUrlError(imdbUrl);
 
   return (
     <form className="NewMovie" key={count} onSubmit={handleSubmit}>
@@ -74,7 +83,7 @@ export const NewMovie: React.FC<Props> = (
         value={imgUrl}
         onChange={setImgUrl}
         required
-        isUrl
+        isValidUrl={hasUrlError(imgUrl)}
       />
 
       <TextField
@@ -83,7 +92,7 @@ export const NewMovie: React.FC<Props> = (
         value={imdbUrl}
         onChange={setImdbUrl}
         required
-        isUrl
+        isValidUrl={hasUrlError(imdbUrl)}
       />
 
       <TextField
