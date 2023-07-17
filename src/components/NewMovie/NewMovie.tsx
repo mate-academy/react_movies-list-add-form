@@ -26,21 +26,26 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setImdbId('');
   };
 
+  const normalizedTitle = title.trim();
+  const normalizedImageUrl = imageUrl.trim();
+  const normalizedImdbUrl = imdbUrl.trim();
+  const normalizedimdbId = imdbId.trim();
+
   const handleSubmitButton = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     if (
-      title
-      && imageUrl
-      && imdbUrl
-      && imdbId
+      normalizedTitle
+      && normalizedImageUrl
+      && normalizedImdbUrl
+      && normalizedimdbId
     ) {
       onAdd({
-        title,
+        title: normalizedTitle,
         description,
-        imgUrl: imageUrl,
-        imdbUrl,
-        imdbId,
+        imgUrl: normalizedImageUrl,
+        imdbUrl: normalizedImdbUrl,
+        imdbId: normalizedimdbId,
       });
       setCount(count + 1);
       reset();
@@ -103,10 +108,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             data-cy="submit-button"
             className="button is-link"
             disabled={
-              !title
-              || !imageUrl
-              || !imdbUrl
-              || !imdbId
+              !normalizedTitle
+              || !normalizedImageUrl
+              || !normalizedImdbUrl
+              || !normalizedimdbId
             }
           >
             Add
