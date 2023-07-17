@@ -26,11 +26,15 @@ const initialState: State = {
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
   const [state, setState] = useState<State>(initialState);
+  const isValidImgUrl = checkIsValidUrl(state.imgUrl);
+  const isValidImdbUrl = checkIsValidUrl(state.imdbUrl);
 
   const hasInvalidFields = !state.title
     || !state.imgUrl
     || !state.imdbUrl
-    || !state.imdbId;
+    || !state.imdbId
+    || !isValidImgUrl
+    || !isValidImdbUrl;
 
   const resetForm = () => {
     setState(initialState);
@@ -39,10 +43,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    const isValidImgUrl = checkIsValidUrl(state.imgUrl);
-    const isValidImdbUrl = checkIsValidUrl(state.imdbUrl);
-
-    if (hasInvalidFields || !isValidImgUrl || !isValidImdbUrl) {
+    if (hasInvalidFields) {
       return;
     }
 
