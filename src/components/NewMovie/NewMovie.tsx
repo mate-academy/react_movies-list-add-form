@@ -13,10 +13,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [imgUrl, setImgUrl] = useState('');
+  const [isImgUrlValid, setIsImgUrlValid] = useState(false);
   const [imdbUrl, setImdbUrl] = useState('');
+  const [isImdbUrlValid, setIsImdbUrlValid] = useState(false);
+
   const [imdbId, setImdbId] = useState('');
 
-  const canSubmit = title && imgUrl && imdbUrl && imdbId;
+  const canSubmit = title && imgUrl && imdbUrl && imdbId
+    && isImdbUrlValid && isImgUrlValid;
 
   // eslint-disable-next-line max-len
   const validationPattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
@@ -72,7 +76,11 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Image URL"
         value={imgUrl}
         onChange={(data) => setImgUrl(data)}
-        validation={(data) => validationPattern.test(data)}
+        validation={(data) => {
+          setIsImgUrlValid(validationPattern.test(data));
+
+          return validationPattern.test(data);
+        }}
         required
       />
 
@@ -81,7 +89,11 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Imdb URL"
         value={imdbUrl}
         onChange={(data) => setImdbUrl(data)}
-        validation={(data) => validationPattern.test(data)}
+        validation={(data) => {
+          setIsImdbUrlValid(validationPattern.test(data));
+
+          return validationPattern.test(data);
+        }}
         required
       />
 
