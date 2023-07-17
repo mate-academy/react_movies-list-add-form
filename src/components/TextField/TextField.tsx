@@ -42,6 +42,7 @@ export const TextField: React.FC<Props> = ({
       checkUrlValidation(value);
     }
 
+    onChange(value.trim());
     setTouched(true);
   };
 
