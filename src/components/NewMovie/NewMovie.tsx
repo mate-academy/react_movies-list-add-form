@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
+import { pattern } from '../../services/validation';
 
 type Props = {
   onAdd: (movie: Movie) => void;
@@ -46,6 +47,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     });
   };
 
+  const urlValidation = (value: string) => {
+    return pattern.test(value);
+  };
+
   const isSubmitButtonActive = title.trim()
     && imgUrl.trim()
     && imdbUrl.trim()
@@ -75,6 +80,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Image URL"
         value={imgUrl}
         onChange={setImgUrl}
+        validation={urlValidation}
         required
       />
 
@@ -83,6 +89,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Imdb URL"
         value={imdbUrl}
         onChange={setImdbUrl}
+        validation={urlValidation}
         required
       />
 
