@@ -1,58 +1,127 @@
 import { useState } from 'react';
 import { TextField } from '../TextField';
+import { Movie } from '../../types/Movie';
 
-export const NewMovie = () => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
-  const [count] = useState(0);
+type Props = {
+  onAdd: (movie: Movie) => void;
+};
 
-  return (
-    <form className="NewMovie" key={count}>
-      <h2 className="title">Add a movie</h2>
+export const NewMovie: React.FC<Props> = ({ onAdd }) => {
+  const [count, setCount] = useState(0);
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [imgUrl, setImgUrl] = useState('');
+  const [imdbUrl, setImdbUrl] = useState('');
+  const [imdbId, setImdbId] = useState('');
 
-      <TextField
-        name="title"
-        label="Title"
-        value=""
-        onChange={() => {}}
-        required
-      />
+  const handleSubmit = (event: React.SyntheticEvent) => {
+    event.preventDefault();
 
-      <TextField
-        name="description"
-        label="Description"
-        value=""
-      />
+    if (!title || !imgUrl || !imdbUrl || !imdbId) {
+      return;
+    }
 
-      <TextField
-        name="imgUrl"
-        label="Image URL"
-        value=""
-      />
+    setCount(count + 1);
 
-      <TextField
-        name="imdbUrl"
-        label="Imdb URL"
-        value=""
-      />
+    onAdd({
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    });
+  };
 
-      <TextField
-        name="imdbId"
-        label="Imdb ID"
-        value=""
-      />
+  const reset = () => {
+    setTitle('');
+    setTitle('');
+    setDescription('');
+    setImgUrl('');
+    setImdbId('');
+  };
 
+  function SubmitButton() {
+    if (title && imgUrl && imdbUrl && imdbId) {
+      return (
+        <div className="field is-grouped">
+          <div className="control">
+            <button
+              type="submit"
+              data-cy="submit-button"
+              className="button is-link"
+            >
+              Add
+            </button>
+          </div>
+        </div>
+      );
+    }
+
+    return (
       <div className="field is-grouped">
         <div className="control">
           <button
             type="submit"
             data-cy="submit-button"
             className="button is-link"
+            disabled
           >
             Add
           </button>
         </div>
       </div>
+    );
+  }
+
+  return (
+    <form
+      className="NewMovie"
+      key={count}
+      onSubmit={handleSubmit}
+      onReset={reset}
+    >
+      <h2 className="title">Add a movie</h2>
+
+      <TextField
+        name="title"
+        label="Title"
+        value={title}
+        onChange={setTitle}
+        required
+      />
+
+      <TextField
+        name="description"
+        label="Description"
+        value={description}
+        onChange={setDescription}
+      />
+
+      <TextField
+        name="imgUrl"
+        label="Image URL"
+        value={imgUrl}
+        onChange={setImgUrl}
+        required
+      />
+
+      <TextField
+        name="imdbUrl"
+        label="Imdb URL"
+        value={imdbUrl}
+        onChange={setImdbUrl}
+        required
+      />
+
+      <TextField
+        name="imdbId"
+        label="Imdb ID"
+        value={imdbId}
+        onChange={setImdbId}
+        required
+      />
+
+      <SubmitButton />
     </form>
   );
 };
