@@ -40,10 +40,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   };
 
   const hasEmptyFields
-    = !title
-    || !imgUrl
-    || !imdbUrl
-    || !imdbId;
+    = !title.trim()
+    || !imgUrl.trim()
+    || !imdbUrl.trim()
+    || !imdbId.trim();
 
   return (
     <form
