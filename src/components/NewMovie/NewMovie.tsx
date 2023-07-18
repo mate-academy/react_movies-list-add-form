@@ -14,7 +14,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const isNotValid = !title || !imgUrl || !imdbId || !imdbUrl;
+  const isNotValid = !title.trim()
+    || !imgUrl.trim()
+    || !imdbId.trim()
+    || !imdbUrl.trim();
 
   const reset = () => {
     setTitle('');
