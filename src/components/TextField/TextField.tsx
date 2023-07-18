@@ -32,13 +32,15 @@ export const TextField: React.FC<Props> = ({
 
   // To show errors only if the field was touched (onBlur)
   const [touched, setTouched] = useState(false);
-  const [valid, setValid] = useState(true);
+  const [isNoValid, setIsNotValid] = useState(false);
 
-  const hasError = touched && required && !(value.trim()) && valid;
+  const hasError = touched
+    && required
+    && (value.trim().length < 1 || isNoValid);
 
   const handleBlur = () => {
     if (name === 'imgUrl' || name === 'imdbUrl') {
-      setValid(!pattern.test(value));
+      setIsNotValid(!pattern.test(value));
     }
 
     setTouched(true);
