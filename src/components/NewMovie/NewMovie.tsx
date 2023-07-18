@@ -11,8 +11,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
   const [movie, setMovie] = useState(initialMovieState);
 
-  const hasInvalidFields = !movie.title || !movie.imgUrl
-    || !movie.imdbUrl || !movie.imdbId;
+  const hasInvalidFields = movie.title.trim() !== ''
+    || movie.description.trim() !== '' || movie.imgUrl.trim() !== ''
+    || movie.imdbUrl.trim() !== '' || movie.imdbId.trim() !== '';
 
   const resetForm = () => {
     setMovie(initialMovieState);
@@ -21,7 +22,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (hasInvalidFields) {
+    if (!hasInvalidFields) {
       return;
     }
 
@@ -90,7 +91,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={hasInvalidFields}
+            disabled={!hasInvalidFields}
           >
             Add
           </button>

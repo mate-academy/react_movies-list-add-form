@@ -40,8 +40,8 @@ export const TextField: React.FC<Props> = ({
       setHasUrlError(!isValidUrl);
       setErrorMessage(`${label} is not a valid URL`);
     } else {
-      setErrorMessage(`${label} is required`);
-      setHasFieldError(true);
+      setHasFieldError(name.trim() === '');
+      setErrorMessage(`${label} is not a valid`);
     }
 
     setTouched(true);
