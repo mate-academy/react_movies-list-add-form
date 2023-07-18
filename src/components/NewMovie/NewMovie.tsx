@@ -12,8 +12,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [movie, setMovie] = useState(initialMovieState);
 
   const hasInvalidFields = movie.title.trim() !== ''
-    || movie.description.trim() !== '' || movie.imgUrl.trim() !== ''
-    || movie.imdbUrl.trim() !== '' || movie.imdbId.trim() !== '';
+    && movie.description.trim() !== '' && movie.imgUrl.trim() !== ''
+    && movie.imdbUrl.trim() !== '' && movie.imdbId.trim() !== '';
 
   const resetForm = () => {
     setMovie(initialMovieState);
