@@ -6,43 +6,66 @@ type Props = {
   onAdd: (movie: Movie) => void;
 };
 
+const initialState = {
+  title: '',
+  description: '',
+  imgUrl: '',
+  imdbUrl: '',
+  imdbId: '',
+};
+
+// eslint-disable-next-line max-len
+const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
+
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImbdId] = useState('');
+  const [values, setValues] = useState(initialState);
+  const [isImgUrlValid, setIsImgUrlValid] = useState(true);
+  const [isImdbUrlValid, setIsImdbUrlValid] = useState(true);
 
   const isDisabledButton = () => {
-    return !title.trim()
-      || !imdbUrl.trim()
-      || !imdbId.trim()
-      || !imgUrl.trim();
+    return !values.title.trim()
+      || !values.imdbUrl.trim()
+      || !values.imdbId.trim()
+      || !values.imgUrl.trim();
   };
 
   const reset = () => {
-    setTitle('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImbdId('');
-    setDescription('');
+    setValues(initialState);
+    setIsImgUrlValid(true);
+    setIsImdbUrlValid(true);
 
     setCount(currentCount => currentCount + 1);
   };
 
   const newMovie: Movie = {
-    title,
-    imgUrl,
-    description,
-    imdbUrl,
-    imdbId,
+    title: values.title,
+    imgUrl: values.imgUrl,
+    description: values.description,
+    imdbUrl: values.imdbUrl,
+    imdbId: values.imdbId,
+  };
+
+  const handleChange = (name: string, value: string) => {
+    setValues((prevValues) => ({
+      ...prevValues,
+      [name]: value,
+    }));
+
+    if (name === 'imgUrl') {
+      setIsImgUrlValid(pattern.test(value));
+    } else if (name === 'imdbUrl') {
+      setIsImdbUrlValid(pattern.test(value));
+    }
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    onAdd(newMovie);
+    if (isImgUrlValid && isImdbUrlValid) {
+      onAdd(newMovie);
+    }
+
     reset();
   };
 
@@ -57,39 +80,39 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value={title}
-        onChange={event => setTitle(event)}
+        value={values.title}
+        onChange={(event) => handleChange('title', event)}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value={description}
-        onChange={event => setDescription(event)}
+        value={values.description}
+        onChange={(event) => handleChange('description', event)}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={imgUrl}
-        onChange={event => setImgUrl(event)}
+        value={values.imgUrl}
+        onChange={(event) => handleChange('imgUrl', event)}
         required
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={imdbUrl}
-        onChange={event => setImdbUrl(event)}
+        value={values.imdbUrl}
+        onChange={(event) => handleChange('imdbUrl', event)}
         required
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imdbId}
-        onChange={event => setImbdId(event)}
+        value={values.imdbId}
+        onChange={(event) => handleChange('imdbId', event)}
         required
       />
 
