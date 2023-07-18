@@ -41,7 +41,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       key={count}
       onSubmit={handleSubmit}
     >
-      <h2 className="title">Add a movie</h2>
+      <h2 className="title">Add a movie to the list</h2>
 
       <TextField
         name="title"
