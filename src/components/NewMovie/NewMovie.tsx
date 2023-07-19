@@ -1,45 +1,121 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { TextField } from '../TextField';
+import { Movie } from '../../types/Movie';
 
-export const NewMovie = () => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
-  const [count] = useState(0);
+type Props = {
+  onAdd: (movie: Movie) => void,
+};
+
+type State = {
+  title: string,
+  description: string,
+  imgUrl: string,
+  imdbUrl: string,
+  imdbId: string,
+};
+
+// eslint-disable-next-line max-len
+const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
+
+export const NewMovie: React.FC<Props> = ({ onAdd }) => {
+  const defaultState: State = {
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  };
+
+  const [count, setCount] = useState(0);
+  const [state, setState] = useState(defaultState);
+
+  const hasEmptyFields = !state.title
+    || state.title.trim() === ''
+    || state.imgUrl.trim() === ''
+    || state.imdbUrl.trim() === ''
+    || state.imdbId.trim() === ''
+    || !state.imgUrl
+    || !state.imdbUrl
+    || !state.imdbId
+    || !pattern.test(state.imgUrl)
+    || !pattern.test(state.imdbUrl);
+
+  function resetAllFields() {
+    setState(defaultState);
+  }
+
+  function handleSubmit(event: React.FormEvent) {
+    event.preventDefault();
+
+    if (hasEmptyFields) {
+      return;
+    }
+
+    onAdd(state);
+    resetAllFields();
+    setCount(currCount => currCount + 1);
+  }
 
   return (
-    <form className="NewMovie" key={count}>
+    <form
+      className="NewMovie"
+      key={count}
+      onSubmit={handleSubmit}
+    >
       <h2 className="title">Add a movie</h2>
 
       <TextField
         name="title"
         label="Title"
-        value=""
-        onChange={() => {}}
+        value={state.title}
+        onChange={newValue => setState({
+          ...state,
+          title: newValue,
+        })}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value=""
+        value={state.description}
+        onChange={newValue => setState({
+          ...state,
+          description: newValue,
+        })}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value=""
+        value={state.imgUrl}
+        onChange={newValue => setState({
+          ...state,
+          imgUrl: newValue,
+        })}
+        required
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value=""
+        value={state.imdbUrl}
+        onChange={newValue => setState({
+          ...state,
+          imdbUrl: newValue,
+        })}
+        required
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value=""
+        value={state.imdbId}
+        onChange={newValue => setState({
+          ...state,
+          imdbId: newValue,
+        })}
+        required
       />
 
       <div className="field is-grouped">
@@ -48,6 +124,7 @@ export const NewMovie = () => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
+            disabled={hasEmptyFields}
           >
             Add
           </button>
