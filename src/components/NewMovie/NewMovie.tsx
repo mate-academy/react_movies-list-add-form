@@ -14,6 +14,9 @@ type State = {
   imdbId: string,
 };
 
+// eslint-disable-next-line max-len
+const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
+
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const defaultState: State = {
     title: '',
@@ -28,9 +31,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
   const hasEmptyFields = !state.title
     || state.title.trim() === ''
+    || state.imgUrl.trim() === ''
+    || state.imdbUrl.trim() === ''
+    || state.imdbId.trim() === ''
     || !state.imgUrl
     || !state.imdbUrl
-    || !state.imdbId;
+    || !state.imdbId
+    || !pattern.test(state.imgUrl)
+    || !pattern.test(state.imdbUrl);
 
   function resetAllFields() {
     setState(defaultState);
