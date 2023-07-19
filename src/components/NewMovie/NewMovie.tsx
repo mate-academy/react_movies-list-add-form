@@ -25,19 +25,19 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   };
 
   const onTitleChange = (value: string) => {
-    setTitle(value.trim());
+    setTitle(value);
   };
 
   const onImgUrlChange = (value: string) => {
-    setImgUrl(value.trim());
+    setImgUrl(value);
   };
 
   const onImdbUrlChange = (value: string) => {
-    setImdbUrl(value.trim());
+    setImdbUrl(value);
   };
 
   const onImdbIdChange = (value: string) => {
-    setImdbId(value.trim());
+    setImdbId(value);
   };
 
   const resetFields = () => {
@@ -50,10 +50,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   };
 
   const onSubmit = () => {
-    if (newMovie.title !== ''
-      && newMovie.imgUrl !== ''
-      && newMovie.imdbUrl !== ''
-      && newMovie.imdbId !== ''
+    if (newMovie.title.trim() !== ''
+      && newMovie.imgUrl.trim() !== ''
+      && newMovie.imdbUrl.trim() !== ''
+      && newMovie.imdbId.trim() !== ''
     ) {
       onAdd(newMovie);
     }
