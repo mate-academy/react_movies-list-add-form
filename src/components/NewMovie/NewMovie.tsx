@@ -16,7 +16,9 @@ export const NewMovie = ({ onAdd }: Props) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const isEverythingFilled = Boolean(title && imgUrl && imdbUrl && imdbId);
+  const isEverythingFilled = Boolean(
+    title.trim() && imgUrl.trim() && imdbUrl.trim() && imdbId.trim(),
+  );
 
   const reset = () => {
     setTitle('');
@@ -30,11 +32,11 @@ export const NewMovie = ({ onAdd }: Props) => {
     event.preventDefault();
 
     onAdd({
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
+      title: title.trim(),
+      description: description.trim(),
+      imgUrl: imgUrl.trim(),
+      imdbUrl: imdbUrl.trim(),
+      imdbId: imdbId.trim(),
     });
 
     reset();
