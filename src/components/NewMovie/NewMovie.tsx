@@ -44,9 +44,9 @@ export const NewMovie: React.FC<AddNewMovie> = ({ onAdd }) => {
 
   const isDisabledButton = (
     !normalizedString(title)
-    || !imgUrl
-    || !imdbUrl
-    || !imdbId
+    || !normalizedString(imgUrl)
+    || !normalizedString(imdbUrl)
+    || !normalizedString(imdbId)
   );
 
   return (
