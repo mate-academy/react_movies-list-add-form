@@ -16,20 +16,28 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
   const isButtonDisabled = !title || !imgUrl || !imdbUrl || !imdbId;
 
+  const newMovie: Movie = {
+    title,
+    description,
+    imgUrl,
+    imdbUrl,
+    imdbId,
+  };
+
   const onTitleChange = (value: string) => {
-    setTitle(value);
+    setTitle(value.trim());
   };
 
   const onImgUrlChange = (value: string) => {
-    setImgUrl(value);
+    setImgUrl(value.trim());
   };
 
   const onImdbUrlChange = (value: string) => {
-    setImdbUrl(value);
+    setImdbUrl(value.trim());
   };
 
   const onImdbIdChange = (value: string) => {
-    setImdbId(value);
+    setImdbId(value.trim());
   };
 
   const resetFields = () => {
@@ -42,13 +50,13 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   };
 
   const onSubmit = () => {
-    onAdd({
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    });
+    if (newMovie.title !== ''
+      && newMovie.imgUrl !== ''
+      && newMovie.imdbUrl !== ''
+      && newMovie.imdbId !== ''
+    ) {
+      onAdd(newMovie);
+    }
 
     resetFields();
   };
