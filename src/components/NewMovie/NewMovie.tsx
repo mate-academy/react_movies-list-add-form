@@ -39,7 +39,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   };
 
   const isButtonEnabled = (
-    title && imdbId && imdbUrl && imgUrl
+    title.trim()
+    && imdbId.trim()
+    && imdbUrl.trim()
+    && imgUrl.trim()
   );
 
   return (
