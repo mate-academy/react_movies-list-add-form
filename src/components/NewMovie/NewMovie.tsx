@@ -25,27 +25,35 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     });
   };
 
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+
+    if (!titleValue.trim() || !imgUrlValue.trim()
+    || !imbdIdValue.trim() || !imbdUrlValue.trim()) {
+      return;
+    }
+
+    onAdd({
+      title: titleValue,
+      imgUrl: imgUrlValue,
+      imdbUrl: imbdUrlValue,
+      imdbId: imbdIdValue,
+      description: descriptionValue,
+    });
+
+    increaseCount();
+    setTitleValue('');
+    setImgUrlValue('');
+    setImbdUrlValue('');
+    setImbdIdValue('');
+    setDescriptionValue('');
+  };
+
   return (
     <form
       className="NewMovie"
       key={count}
-      onSubmit={event => {
-        event.preventDefault();
-        onAdd({
-          title: titleValue,
-          imgUrl: imgUrlValue,
-          imdbUrl: imbdUrlValue,
-          imdbId: imbdIdValue,
-          description: descriptionValue,
-        });
-
-        increaseCount();
-        setTitleValue('');
-        setImgUrlValue('');
-        setImbdUrlValue('');
-        setImbdIdValue('');
-        setDescriptionValue('');
-      }}
+      onSubmit={handleSubmit}
     >
       <h2 className="title">Add a movie</h2>
 
@@ -96,7 +104,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             data-cy="submit-button"
             className="button is-link"
             disabled={
-              !titleValue || !imgUrlValue || !imbdIdValue || !imbdUrlValue
+              !titleValue.trim() || !imgUrlValue.trim()
+              || !imbdIdValue.trim() || !imbdUrlValue.trim()
             }
           >
             Add
