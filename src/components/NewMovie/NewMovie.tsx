@@ -15,11 +15,15 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState<string>('');
   const [imdbId, setImdbId] = useState<string>('');
 
+  const buttonDisabled: boolean = !title.trim()
+    || !imgUrl.trim()
+    || !imdbUrl.trim()
+    || !imdbId.trim();
+
   const reset: () => void = () => {
     setTitle('');
     setDescription('');
     setImgUrl('');
-    setImdbUrl('');
     setImdbUrl('');
     setImdbId('');
   };
@@ -38,8 +42,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     reset();
     setCount(prev => prev + 1);
   };
-
-  const buttonDisabled: boolean = !title || !imgUrl || !imdbUrl || !imdbId;
 
   return (
     <form
