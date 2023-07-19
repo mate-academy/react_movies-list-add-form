@@ -44,7 +44,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     reset();
   };
 
-  const disabled = !titleField || !imgUrl || !imdbId || !imdbUrl;
+  const disabled = !titleField.trim()
+    || !imgUrl.trim()
+    || !imdbId.trim()
+    || !imdbUrl.trim();
 
   return (
     <form
@@ -67,7 +70,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Description"
         value={descriptionField}
         onChange={(value) => setDescriptionField(value)}
-        required
       />
 
       <TextField

@@ -5,12 +5,11 @@ import { NewMovie } from './components/NewMovie';
 import { Movie } from './types/Movie';
 import moviesFromServer from './api/movies.json';
 
-
 export const App = () => {
   const [movieList, setMovieList] = useState(moviesFromServer);
 
   const addMovie = (movie: Movie) => {
-   setMovieList(currentList => [...currentList, movie])
+    setMovieList(currentList => [...currentList, movie]);
   };
 
   return (
