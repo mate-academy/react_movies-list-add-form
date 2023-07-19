@@ -39,7 +39,11 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setImdbId("");
   };
 
-  const disabled = !titleField || !imdbUrl || !imgUrl || !imdbId;
+  const disabled =
+    !titleField.trim()
+    || !imdbUrl.trim()
+    || !imgUrl.trim()
+    || !imdbId.trim();
 
   return (
     <form className="NewMovie" key={count} onSubmit={submitForm}>
@@ -49,7 +53,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={titleField}
-        onChange={(value) => setTitleField(value)}
+        onChange={setTitleField}
         required
       />
 
@@ -57,14 +61,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={descrField}
-        onChange={(value) => setDescrField(value)}
+        onChange={setDescrField}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={(value) => setImgUrl(value)}
+        onChange={setImgUrl}
         required
       />
 
@@ -72,7 +76,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={(value) => setImdbUrl(value)}
+        onChange={setImdbUrl}
         required
       />
 
@@ -80,7 +84,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={(value) => setImdbId(value)}
+        onChange={setImdbId}
         required
       />
 
