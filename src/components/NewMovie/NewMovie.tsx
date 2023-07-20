@@ -6,6 +6,13 @@ type Props = {
   onAdd: (movie: Movie) => void;
 };
 
+const urlCheck = (url: string) => {
+  // eslint-disable-next-line max-len
+  const regex = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
+
+  return !regex.test(url.trim());
+};
+
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
@@ -18,19 +25,36 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [isValidImgUrl, setIsValidImgUrl] = useState(false);
   const [isValidImdbUrl, setIsValidImdbUrl] = useState(false);
 
-  const urlCheck = (url: string) => {
-    // eslint-disable-next-line max-len
-    const regex = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
-
-    return !regex.test(url);
-  };
-
   const newMovie: Movie = {
     title,
     description,
     imgUrl,
     imdbUrl,
     imdbId,
+  };
+
+  const reset = () => {
+    setTitle('');
+    setDescription('');
+    setImgUrl('');
+    setImdbUrl('');
+    setImdbId('');
+  };
+
+  const handleSubmit = () => {
+    onAdd(newMovie);
+    setCount(count + 1);
+    reset();
+  };
+
+  const handleImgUrl = (newImgUrl: string) => {
+    setImgUrl(newImgUrl);
+    setIsValidImgUrl(urlCheck(newImgUrl));
+  };
+
+  const handleImdbUrl = (newImdbUrl: string) => {
+    setImdbUrl(newImdbUrl);
+    setIsValidImdbUrl(urlCheck(newImdbUrl));
   };
 
   const isValid = !(
@@ -46,15 +70,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     <form
       className="NewMovie"
       key={count}
-      onSubmit={() => {
-        onAdd(newMovie);
-        setCount(count + 1);
-        setTitle('');
-        setDescription('');
-        setImgUrl('');
-        setImdbUrl('');
-        setImdbId('');
-      }}
+      onSubmit={() => handleSubmit()}
     >
       <h2 className="title">Add a movie</h2>
 
@@ -78,10 +94,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Image URL"
         value={imgUrl}
         isValidUrl={isValidImgUrl}
-        onChange={(newImgUrl) => {
-          setImgUrl(newImgUrl);
-          setIsValidImgUrl(urlCheck(newImgUrl));
-        }}
+        onChange={(newImgUrl) => handleImgUrl(newImgUrl)}
         required
       />
 
@@ -90,10 +103,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Imdb URL"
         value={imdbUrl}
         isValidUrl={isValidImdbUrl}
-        onChange={(newImdbUrl) => {
-          setImdbUrl(newImdbUrl);
-          setIsValidImdbUrl(urlCheck(newImdbUrl));
-        }}
+        onChange={(newImdbUrl) => handleImdbUrl(newImdbUrl)}
         required
       />
 
