@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 type Props = {
   name: string,
   value: string,
+  isValidUrl?: boolean
   label?: string,
   placeholder?: string,
   required?: boolean,
@@ -19,17 +20,17 @@ function getRandomDigits() {
 export const TextField: React.FC<Props> = ({
   name,
   value,
+  isValidUrl = false,
   label = name,
   placeholder = `Enter ${label}`,
   required = false,
   onChange = () => {},
 }) => {
-  // generage a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
-
-  // To show errors only if the field was touched (onBlur)
   const [touched, setTouched] = useState(false);
-  const hasError = touched && required && !value;
+
+  const hasError = touched && required && !value.trim();
+  const hasUrlError = touched && isValidUrl;
 
   return (
     <div className="field">
@@ -43,7 +44,7 @@ export const TextField: React.FC<Props> = ({
           id={id}
           data-cy={`movie-${name}`}
           className={classNames('input', {
-            'is-danger': hasError,
+            'is-danger': hasError || hasUrlError,
           })}
           placeholder={placeholder}
           value={value}
@@ -54,6 +55,10 @@ export const TextField: React.FC<Props> = ({
 
       {hasError && (
         <p className="help is-danger">{`${label} is required`}</p>
+      )}
+
+      {hasUrlError && (
+        <p className="help is-danger">URL is not correct</p>
       )}
     </div>
   );
