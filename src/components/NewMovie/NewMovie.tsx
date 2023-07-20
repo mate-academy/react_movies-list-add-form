@@ -13,8 +13,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imgUrl, setImgUrl] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
-  const [validImg, setValidImg] = useState(true);
-  const [validImdb, setValidImdb] = useState(true);
+  const [isValidImg, setIsValidImg] = useState(true);
+  const [isValidImdb, setIsValidImdb] = useState(true);
 
   function handleTextField(setText: (value: string) => void) {
     const handleText = (value: string) => {
@@ -24,11 +24,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     return handleText;
   }
 
-  let disabledButton = true;
+  let cantSubmit = true;
 
-  if (title && imgUrl && imdbUrl && imdbId && validImg === true
-    && validImdb === true) {
-    disabledButton = false;
+  if (title && imgUrl && imdbUrl && imdbId && isValidImg && isValidImdb) {
+    cantSubmit = false;
   }
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -47,8 +46,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setImgUrl('');
     setImdbUrl('');
     setImdbId('');
-    setValidImg(true);
-    setValidImdb(true);
+    setIsValidImg(true);
+    setIsValidImdb(true);
     setCount((countPrev) => countPrev + 1);
   };
 
@@ -64,8 +63,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={title}
-        setValidImg={setValidImg}
-        setValidImdb={setValidImdb}
+        setIsValidImg={setIsValidImg}
+        setIsValidImdb={setIsValidImdb}
         onChange={handleTextField(setTitle)}
         required
       />
@@ -74,8 +73,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={description}
-        setValidImg={setValidImg}
-        setValidImdb={setValidImdb}
+        setIsValidImg={setIsValidImg}
+        setIsValidImdb={setIsValidImdb}
         onChange={handleTextField(setDescription)}
       />
 
@@ -83,8 +82,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        setValidImg={setValidImg}
-        setValidImdb={setValidImdb}
+        setIsValidImg={setIsValidImg}
+        setIsValidImdb={setIsValidImdb}
         onChange={handleTextField(setImgUrl)}
         required
       />
@@ -93,8 +92,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        setValidImg={setValidImg}
-        setValidImdb={setValidImdb}
+        setIsValidImg={setIsValidImg}
+        setIsValidImdb={setIsValidImdb}
         onChange={handleTextField(setImdbUrl)}
         required
       />
@@ -103,8 +102,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        setValidImg={setValidImg}
-        setValidImdb={setValidImdb}
+        setIsValidImg={setIsValidImg}
+        setIsValidImdb={setIsValidImdb}
         onChange={handleTextField(setImdbId)}
         required
       />
@@ -115,7 +114,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={disabledButton}
+            disabled={cantSubmit}
           >
             Add
           </button>

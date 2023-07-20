@@ -8,8 +8,8 @@ type Props = {
   placeholder?: string,
   required?: boolean,
   onChange?: (newValue: string) => void,
-  setValidImg: (newValue: boolean) => void,
-  setValidImdb: (newValue: boolean) => void,
+  setIsValidImg: (newValue: boolean) => void,
+  setIsValidImdb: (newValue: boolean) => void,
 };
 
 function getRandomDigits() {
@@ -25,8 +25,8 @@ export const TextField: React.FC<Props> = ({
   placeholder = `Enter ${label}`,
   required = false,
   onChange = () => {},
-  setValidImg,
-  setValidImdb,
+  setIsValidImg,
+  setIsValidImdb,
 
 }) => {
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
@@ -53,19 +53,19 @@ export const TextField: React.FC<Props> = ({
     isValidInput = pattern.test(newValue);
 
     if (!isValidInput && newValue && name === 'imgUrl') {
-      setValidImg(false);
+      setIsValidImg(false);
     }
 
     if (!isValidInput && newValue && name === 'imdbUrl') {
-      setValidImdb(false);
+      setIsValidImdb(false);
     }
 
     if (isValidInput && newValue && name === 'imgUrl') {
-      setValidImg(true);
+      setIsValidImg(true);
     }
 
     if (isValidInput && newValue && name === 'imdbUrl') {
-      setValidImdb(true);
+      setIsValidImdb(true);
     }
 
     onChange(newValue);
