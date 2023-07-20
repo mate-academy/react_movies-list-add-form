@@ -30,7 +30,7 @@ export const TextField: React.FC<Props> = ({
 
   const checkUrl = pattern ? pattern.test(value) : true;
   const [touched, setTouched] = useState(false);
-  const hasError = touched && required && !value && !pattern;
+  const hasError = touched && required && !value.trim() && !pattern;
   const hasErrorUrl = touched && required && pattern && !checkUrl;
 
   return (
