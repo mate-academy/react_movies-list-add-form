@@ -24,11 +24,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     return handleText;
   }
 
-  let cantSubmit = true;
-
-  if (title && imgUrl && imdbUrl && imdbId && isValidImg && isValidImdb) {
-    cantSubmit = false;
-  }
+  const cantSubmit = (
+    !(title.trim() && imgUrl.trim() && imdbUrl.trim()
+    && imdbId.trim() && isValidImg && isValidImdb)
+  );
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
