@@ -39,7 +39,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     reset();
   };
 
-  const isDisabled = !title || !imdbUrl || !imgUrl || !imdbId;
+  const isDisabled = !title.trim()
+    || !imdbUrl.trim()
+    || !imgUrl.trim()
+    || !imdbId.trim();
 
   return (
     <form
