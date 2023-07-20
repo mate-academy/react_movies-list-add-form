@@ -27,7 +27,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     return !values.title.trim()
       || !values.imdbUrl.trim()
       || !values.imdbId.trim()
-      || !values.imgUrl.trim();
+      || !values.imgUrl.trim()
+      || !isImdbUrlValid
+      || !isImgUrlValid;
   };
 
   const reset = () => {
@@ -100,6 +102,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         required
       />
 
+      {!isImgUrlValid && (
+        <p className="error">Invalid Image URL</p>
+      )}
+
       <TextField
         name="imdbUrl"
         label="Imdb URL"
@@ -107,6 +113,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         onChange={(event) => handleChange('imdbUrl', event)}
         required
       />
+
+      {!isImdbUrlValid && (
+        <p className="error">Invalid Imdb URL</p>
+      )}
 
       <TextField
         name="imdbId"
