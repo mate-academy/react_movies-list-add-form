@@ -37,7 +37,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     reset();
   };
 
-  const disabled = !title || !imdbUrl || !imgUrl || !imdbId;
+  const disabled = !title.trim() || !imdbUrl.trim()
+    || !imgUrl.trim() || !imdbId.trim();
 
   return (
     <form
