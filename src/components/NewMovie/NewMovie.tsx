@@ -15,7 +15,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
 
   const hasError = () => {
-    return !imgUrl || !title || !imdbId || !imdbUrl;
+    return !imgUrl.trim() || !title.trim() || !imdbId.trim() || !imdbUrl.trim();
   };
 
   const handleAdd = (event: React.FormEvent) => {
