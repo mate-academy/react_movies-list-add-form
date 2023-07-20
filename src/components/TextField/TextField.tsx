@@ -30,6 +30,7 @@ export const TextField: React.FC<Props> = ({
   const [touched, setTouched] = useState(false);
 
   const hasError = touched && required && !value;
+  const hasUrlError = touched && isValidUrl;
 
   return (
     <div className="field">
@@ -43,7 +44,7 @@ export const TextField: React.FC<Props> = ({
           id={id}
           data-cy={`movie-${name}`}
           className={classNames('input', {
-            'is-danger': hasError || isValidUrl,
+            'is-danger': hasError || hasUrlError,
           })}
           placeholder={placeholder}
           value={value}
@@ -56,8 +57,8 @@ export const TextField: React.FC<Props> = ({
         <p className="help is-danger">{`${label} is required`}</p>
       )}
 
-      {isValidUrl && (
-        <p className="help is-danger">URL not correct</p>
+      {hasUrlError && (
+        <p className="help is-danger">URL is not correct</p>
       )}
     </div>
   );
