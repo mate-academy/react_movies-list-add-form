@@ -31,9 +31,8 @@ export const TextField: React.FC<Props> = ({
 }) => {
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
-  const [touched, setTouched] = useState(false);
-  const hasError = touched && required && !value.trim();
-  let hasUrlError = false;
+  const [hasError, setHasError] = useState(false);
+  const [hasUrlError, setHasUrlError] = useState(false);
 
   const pattern = new RegExp(
     /^([A-Za-z]{3,9}:(?:\/\/)?)/.source
@@ -43,32 +42,34 @@ export const TextField: React.FC<Props> = ({
     + /(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*)?$/.source,
   );
 
-  let isValidInput = pattern.test(value);
-
-  if (!isValidInput && value && (name === 'imgUrl' || name === 'imdbUrl')) {
-    hasUrlError = true;
-  }
-
   const handleChange = (newValue: string) => {
-    isValidInput = pattern.test(newValue);
+    const isValidInput = pattern.test(newValue);
 
-    if (!isValidInput && newValue && name === 'imgUrl') {
-      setIsValidImg(false);
+    if (name === 'imgUrl') {
+      setIsValidImg(isValidInput);
     }
 
-    if (!isValidInput && newValue && name === 'imdbUrl') {
-      setIsValidImdb(false);
+    if (name === 'imdbUrl') {
+      setIsValidImdb(isValidInput);
     }
 
-    if (isValidInput && newValue && name === 'imgUrl') {
-      setIsValidImg(true);
-    }
-
-    if (isValidInput && newValue && name === 'imdbUrl') {
-      setIsValidImdb(true);
+    if (!isValidInput && newValue
+      && (name === 'imgUrl' || name === 'imdbUrl')) {
+      setHasUrlError(true);
+    } else {
+      setHasUrlError(false);
     }
 
     onChange(newValue);
+  };
+
+  const handleBlur = () => {
+    setHasError(required && !value.trim());
+  };
+
+  const handleFocus = () => {
+    setHasError(false);
+    setHasUrlError(false);
   };
 
   return (
@@ -88,7 +89,8 @@ export const TextField: React.FC<Props> = ({
           placeholder={placeholder}
           value={value}
           onChange={event => handleChange(event.target.value)}
-          onBlur={() => setTouched(true)}
+          onBlur={handleBlur}
+          onFocus={handleFocus}
         />
       </div>
 

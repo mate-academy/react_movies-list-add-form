@@ -16,14 +16,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [isValidImg, setIsValidImg] = useState(true);
   const [isValidImdb, setIsValidImdb] = useState(true);
 
-  function handleTextField(setText: (value: string) => void) {
-    const handleText = (value: string) => {
-      setText(value);
-    };
-
-    return handleText;
-  }
-
   const cantSubmit = (
     !(title.trim() && imgUrl.trim() && imdbUrl.trim()
     && imdbId.trim() && isValidImg && isValidImdb)
@@ -64,7 +56,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={title}
         setIsValidImg={setIsValidImg}
         setIsValidImdb={setIsValidImdb}
-        onChange={handleTextField(setTitle)}
+        onChange={(value) => setTitle(value)}
         required
       />
 
@@ -74,7 +66,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={description}
         setIsValidImg={setIsValidImg}
         setIsValidImdb={setIsValidImdb}
-        onChange={handleTextField(setDescription)}
+        onChange={(value) => setDescription(value)}
       />
 
       <TextField
@@ -83,7 +75,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={imgUrl}
         setIsValidImg={setIsValidImg}
         setIsValidImdb={setIsValidImdb}
-        onChange={handleTextField(setImgUrl)}
+        onChange={(value) => setImgUrl(value)}
         required
       />
 
@@ -93,7 +85,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={imdbUrl}
         setIsValidImg={setIsValidImg}
         setIsValidImdb={setIsValidImdb}
-        onChange={handleTextField(setImdbUrl)}
+        onChange={(value) => setImdbUrl(value)}
         required
       />
 
@@ -103,7 +95,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={imdbId}
         setIsValidImg={setIsValidImg}
         setIsValidImdb={setIsValidImdb}
-        onChange={handleTextField(setImdbId)}
+        onChange={(value) => setImdbId(value)}
         required
       />
 
