@@ -6,22 +6,28 @@ type Props = {
   onAdd: (movie: Movie) => void;
 };
 
+const initialValue = {
+  title: '',
+  description: '',
+  imgUrl: '',
+  imdbId: '',
+  imdbUrl: '',
+};
+
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
+  const [values, setValues] = useState(initialValue);
+  const {
+    title,
+    description,
+    imgUrl,
+    imdbId,
+    imdbUrl,
+  } = values;
+
   const [count, setCount] = useState(0);
 
   const reset = () => {
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
+    setValues(initialValue);
   };
 
   const handleSubmit = (event: React.FormEvent) => {
@@ -60,7 +66,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={title}
-        onChange={setTitle}
+        onChange={(newValue) => setValues({ ...values, title: newValue })}
         required
       />
 
@@ -68,30 +74,32 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={description}
-        onChange={setDescription}
+        onChange={(newValue) => setValues({ ...values, description: newValue })}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={setImgUrl}
+        onChange={(newValue) => setValues({ ...values, imgUrl: newValue })}
         required
+        customValidation
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={setImdbUrl}
+        onChange={(newValue) => setValues({ ...values, imdbUrl: newValue })}
         required
+        customValidation
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={setImdbId}
+        onChange={(newValue) => setValues({ ...values, imdbId: newValue })}
         required
       />
 
