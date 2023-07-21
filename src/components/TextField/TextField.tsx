@@ -17,12 +17,12 @@ function getRandomDigits() {
 }
 
 export const TextField: React.FC<Props> = ({
-  name,
-  value,
+  name = '',
+  value = '',
   label = name,
   placeholder = `Enter ${label}`,
   required = false,
-  onChange = () => {},
+  onChange = () => { },
 }) => {
   // generage a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
