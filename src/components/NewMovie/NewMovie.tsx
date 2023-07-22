@@ -11,52 +11,31 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
 
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
+  const [formFields, setFormFields] = useState({
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  });
 
-  const isReadyToSubmit = title && imgUrl && imdbUrl && imdbId;
-
-  const handleTitleChange = (newTitle: string) => {
-    setTitle(newTitle);
-  };
-
-  const handleDescriptionChange = (newDescription: string) => {
-    setDescription(newDescription);
-  };
-
-  const handleImgUrlChange = (newImgUrl: string) => {
-    setImgUrl(newImgUrl);
-  };
-
-  const handleImdbUrlChange = (newImdbUrl: string) => {
-    setImdbUrl(newImdbUrl);
-  };
-
-  const handleImdbIdChange = (newImdbId: string) => {
-    setImdbId(newImdbId);
-  };
+  const isReadyToSubmit = formFields.title && formFields.imgUrl
+    && formFields.imdbUrl && formFields.imdbId;
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    onAdd({
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    });
+    onAdd(formFields);
 
     setCount(currentCount => currentCount + 1);
 
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
+    setFormFields({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
   };
 
   return (
@@ -70,39 +49,49 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value={title}
-        onChange={handleTitleChange}
+        value={formFields.title}
+        onChange={value => setFormFields({
+          ...formFields, title: value,
+        })}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value={description}
-        onChange={handleDescriptionChange}
+        value={formFields.description}
+        onChange={value => setFormFields({
+          ...formFields, description: value,
+        })}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={imgUrl}
-        onChange={handleImgUrlChange}
+        value={formFields.imgUrl}
+        onChange={value => setFormFields({
+          ...formFields, imgUrl: value,
+        })}
         required
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={imdbUrl}
-        onChange={handleImdbUrlChange}
+        value={formFields.imdbUrl}
+        onChange={value => setFormFields({
+          ...formFields, imdbUrl: value,
+        })}
         required
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imdbId}
-        onChange={handleImdbIdChange}
+        value={formFields.imdbId}
+        onChange={value => setFormFields({
+          ...formFields, imdbId: value,
+        })}
         required
       />
 
