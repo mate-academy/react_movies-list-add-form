@@ -14,31 +14,37 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const isDisabled = () => {
-    if (!title || !imdbId || !imdbUrl || !imgUrl) {
-      return true;
-    }
+  // eslint-disable-next-line max-len
+  const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
 
-    return false;
+  const isDisabled = () => {
+    return (!title
+      || !imdbId
+      || !pattern.test(imdbUrl)
+      || !pattern.test(imgUrl));
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (title && imdbId && imdbUrl && imgUrl) {
-      onAdd({
-        title,
-        description,
-        imgUrl,
-        imdbUrl,
-        imdbId,
-      });
-      setCount(count + 1);
-      setTitle('');
-      setDescription('');
-      setImgUrl('');
-      setImdbUrl('');
-      setImdbId('');
-    }
+
+    onAdd({
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    });
+
+    setCount(count + 1);
+    setTitle('');
+    setDescription('');
+    setImgUrl('');
+    setImdbUrl('');
+    setImdbId('');
+  };
+
+  const validTitle = (newValue: string) => {
+    setTitle(newValue);
   };
 
   return (
@@ -49,7 +55,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={title}
-        onChange={(newValue) => setTitle(newValue)}
+        onChange={validTitle}
         required
       />
 
@@ -64,7 +70,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={(newValue) => setImgUrl(newValue)}
+        onChange={(newValue) => setImgUrl(newValue.trim())}
+        validate={(value) => pattern.test(value)}
         required
       />
 
@@ -72,7 +79,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={(newValue) => setImdbUrl(newValue)}
+        onChange={(newValue) => setImdbUrl(newValue.trim())}
+        validate={(value) => pattern.test(value)}
         required
       />
 
@@ -80,7 +88,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={(newValue) => setImdbId(newValue)}
+        onChange={(newValue) => setImdbId(newValue.trim())}
         required
       />
 
