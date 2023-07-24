@@ -18,22 +18,23 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   };
   const [movie, setMovie] = useState(initialState);
   const buttonHandler = (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) => {
-    event.preventDefault();
     setCount(prevState => (prevState + 1));
     onAdd(movie);
     setMovie(initialState);
   };
 
   const {
-    title, imdbUrl, imgUrl, imdbId,
+    title,
+    imdbUrl,
+    imgUrl,
+    imdbId,
   } = movie;
 
   const formIsReady = (title) && (imdbUrl.match(pattern) !== null)
     && (imgUrl.match(pattern) !== null) && imdbId.length > 0;
 
-  const textFieldHandler = (name: string, event: string) => {
+  const handleInputField = (name: string, event: string) => {
     setMovie(prevState => ({
       ...prevState,
       [name]: event,
@@ -41,14 +42,18 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   };
 
   return (
-    <form className="NewMovie" key={count}>
+    <form
+      className="NewMovie"
+      key={count}
+      onSubmit={buttonHandler}
+    >
       <h2 className="title">Add a movie</h2>
 
       <TextField
         name="title"
         label="Title"
         value={movie.title}
-        onChange={(event) => textFieldHandler('title', event)}
+        onChange={(event) => handleInputField('title', event)}
         required
       />
 
@@ -56,14 +61,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={movie.description}
-        onChange={(event) => textFieldHandler('description', event)}
+        onChange={(event) => handleInputField('description', event)}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={movie.imgUrl}
-        onChange={(event) => textFieldHandler('imgUrl', event)}
+        onChange={(event) => handleInputField('imgUrl', event)}
         required
       />
 
@@ -71,7 +76,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={movie.imdbUrl}
-        onChange={(event) => textFieldHandler('imdbUrl', event)}
+        onChange={(event) => handleInputField('imdbUrl', event)}
         required
       />
 
@@ -79,7 +84,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={movie.imdbId}
-        onChange={(event) => textFieldHandler('imdbId', event)}
+        onChange={(event) => handleInputField('imdbId', event)}
         required
       />
 
@@ -89,7 +94,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            onClick={buttonHandler}
             disabled={!formIsReady}
           >
             Add
