@@ -2,13 +2,11 @@ import React, { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
-interface Props {
-  onAdd: (movies: Movie) => void
+interface NewMovieProps {
+  onAdd: (movie: Movie) => void
 }
 
-export const NewMovie: React.FC<Props> = ({ onAdd }: Props) => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
+export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }: NewMovieProps) => {
   const [count] = useState(0);
 
   const [title, setTitle] = useState('');
