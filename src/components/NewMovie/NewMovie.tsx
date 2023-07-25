@@ -9,7 +9,7 @@ type Props = {
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
 
-  const initialFormFields = {
+  const initialFormFields: Movie = {
     title: '',
     description: '',
     imgUrl: '',
@@ -22,8 +22,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const validForm = movie.title.trim()
     && movie.imgUrl.trim()
     && movie.imdbUrl.trim()
-    && movie.imdbId.trim()
-    && movie.description.trim();
+    && movie.imdbId.trim();
 
   const increaseCount = (event: React.FormEvent) => {
     event.preventDefault();
@@ -58,7 +57,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         onChange={value => setMovie({
           ...movie, description: value,
         })}
-        required
       />
 
       <TextField
@@ -97,7 +95,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!validForm && true}
+            disabled={!validForm}
           >
             Add
           </button>
