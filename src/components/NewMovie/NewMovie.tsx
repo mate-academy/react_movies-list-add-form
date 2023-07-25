@@ -27,11 +27,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
+    const trimmedImgUrl = imgUrl.trim();
+    const trimmedImdbUrl = imdbUrl.trim();
+
     onAdd({
       title,
       description,
-      imgUrl,
-      imdbUrl,
+      imgUrl: trimmedImgUrl,
+      imdbUrl: trimmedImdbUrl,
       imdbId,
     });
 
@@ -70,7 +73,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={(newValue) => setImgUrl(newValue.trim())}
+        onChange={(newValue) => setImgUrl(newValue)}
         validate={(value) => pattern.test(value)}
         required
       />
@@ -79,7 +82,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={(newValue) => setImdbUrl(newValue.trim())}
+        onChange={(newValue) => setImdbUrl(newValue)}
         validate={(value) => pattern.test(value)}
         required
       />
