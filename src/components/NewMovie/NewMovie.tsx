@@ -17,7 +17,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     imdbId: '',
   };
   const [movie, setMovie] = useState(initialState);
-  const buttonHandler = (
+  const handleButtonCLick = (
   ) => {
     setCount(prevState => (prevState + 1));
     onAdd(movie);
@@ -31,8 +31,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     imdbId,
   } = movie;
 
-  const formIsReady = (title) && (imdbUrl.match(pattern) !== null)
-    && (imgUrl.match(pattern) !== null) && imdbId.length > 0;
+  const formIsReady = (title) && imdbUrl.match(pattern)
+    && imgUrl.match(pattern) && imdbId.length > 0;
 
   const handleInputField = (name: string, event: string) => {
     setMovie(prevState => ({
@@ -45,7 +45,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     <form
       className="NewMovie"
       key={count}
-      onSubmit={buttonHandler}
+      onSubmit={handleButtonCLick}
     >
       <h2 className="title">Add a movie</h2>
 

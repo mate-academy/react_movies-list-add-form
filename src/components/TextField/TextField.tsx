@@ -29,7 +29,7 @@ export const TextField: React.FC<Props> = ({
 
   const [touched, setTouched] = useState(false);
   const hasError = touched && required && !value;
-  const hasErrorRegex = touched && required && (value.match(pattern) === null);
+  const hasErrorRegex = touched && required && !value.match(pattern);
   const onBlurHandler = () => {
     setTouched(true);
   };
