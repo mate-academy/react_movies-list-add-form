@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import React, { useState } from 'react';
-import { pattern } from '../Service/RegularFunction';
+import { pattern } from '../../constants/pattern';
 
 type Props = {
   name: string,

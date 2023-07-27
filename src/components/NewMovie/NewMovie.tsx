@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Movie } from '../../types/Movie';
 import { TextField } from '../TextField';
-import { pattern } from '../Service/RegularFunction';
+import { pattern } from '../../constants/pattern';
 
 const initialMovieState: Movie = {
   title: '',
@@ -19,22 +19,26 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
   const [movie, setMovie] = useState<Movie>(initialMovieState);
   const handleMovieChange = (event: React.ChangeEvent<HTMLInputElement>,
-    key: string) => {
+    key: keyof Movie) => {
     setMovie(prevMovie => ({ ...prevMovie, [key]: event.target.value }));
   };
 
-  const isFormValid = (newMovie: Movie): boolean => {
-    if (!newMovie.title.trim() || !newMovie.imgUrl.trim()
-    || !newMovie.imdbId.trim() || !newMovie.imdbUrl.trim()) {
-      return false;
-    }
+  const isFormValid = (newMovie: Movie) => {
+    const {
+      title,
+      imgUrl,
+      imdbId,
+      imdbUrl,
+    } = newMovie;
 
-    if ((!newMovie.imgUrl.match(pattern) && newMovie.imgUrl !== '')
-    || (!newMovie.imdbUrl.match(pattern) && newMovie.imdbUrl !== '')) {
-      return false;
-    }
-
-    return true;
+    return (
+      title.trim()
+      && imgUrl.trim()
+      && imdbId.trim()
+      && imdbUrl.trim()
+      && imgUrl.match(pattern)
+      && imdbUrl.match(pattern)
+    );
   };
 
   const handleSubmit = (event: React.FormEvent) => {
