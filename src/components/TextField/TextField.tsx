@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import React, { useState } from 'react';
+import { pattern } from '../../constants/pattern';
 
 type Props = {
   name: string,
@@ -7,7 +8,7 @@ type Props = {
   label?: string,
   placeholder?: string,
   required?: boolean,
-  onChange?: (newValue: string) => void,
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void,
 };
 
 function getRandomDigits() {
@@ -24,12 +25,29 @@ export const TextField: React.FC<Props> = ({
   required = false,
   onChange = () => {},
 }) => {
-  // generage a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
-  // To show errors only if the field was touched (onBlur)
   const [touched, setTouched] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
   const hasError = touched && required && !value;
+
+  const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    onChange(event);
+    setErrorMessage('');
+  };
+
+  const handleOnBlur = () => {
+    if (value === '' && name !== 'description') {
+      setErrorMessage(`${label} is required`);
+    }
+
+    if ((name === 'imgUrl' && !value.match(pattern) && value !== '')
+    || (name === 'imdbUrl' && !value.match(pattern) && value !== '')) {
+      setErrorMessage(`${label} is not a valid URL`);
+    }
+
+    setTouched(true);
+  };
 
   return (
     <div className="field">
@@ -43,17 +61,17 @@ export const TextField: React.FC<Props> = ({
           id={id}
           data-cy={`movie-${name}`}
           className={classNames('input', {
-            'is-danger': hasError,
+            'is-danger': hasError || errorMessage,
           })}
           placeholder={placeholder}
           value={value}
-          onChange={event => onChange(event.target.value)}
-          onBlur={() => setTouched(true)}
+          onChange={handleOnChange}
+          onBlur={handleOnBlur}
         />
       </div>
 
-      {hasError && (
-        <p className="help is-danger">{`${label} is required`}</p>
+      {(hasError || errorMessage) && (
+        <p className="help is-danger">{errorMessage}</p>
       )}
     </div>
   );
