@@ -8,24 +8,37 @@ type MovieProps = {
 
 export const NewMovie: React.FC<MovieProps> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
+  const [movie, setMovie] = useState({
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  });
 
-  const validInputs = title.trim() === ''
-  || imgUrl.trim() === ''
-  || imdbUrl.trim() === ''
-  || imdbId.trim() === '';
+  const {
+    title, description, imgUrl, imdbUrl, imdbId,
+  } = movie;
+
+  const validInputs
+    = title.trim() === ''
+    || imgUrl.trim() === ''
+    || imdbUrl.trim() === ''
+    || imdbId.trim() === '';
 
   const reset = () => {
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
+    setMovie({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
     setCount(prev => prev + 1);
+  };
+
+  const handleChange = (value: string, name: string) => {
+    setMovie({ ...movie, [name]: value });
   };
 
   const onAddMovieHandler = (event: React.FormEvent<HTMLFormElement>) => {
@@ -51,7 +64,7 @@ export const NewMovie: React.FC<MovieProps> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={title}
-        onChange={setTitle}
+        onChange={(value) => handleChange(value, 'title')}
         required
       />
 
@@ -59,14 +72,14 @@ export const NewMovie: React.FC<MovieProps> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={description}
-        onChange={setDescription}
+        onChange={(value) => handleChange(value, 'description')}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={setImgUrl}
+        onChange={(value) => handleChange(value, 'imgUrl')}
         required
       />
 
@@ -74,7 +87,7 @@ export const NewMovie: React.FC<MovieProps> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={setImdbUrl}
+        onChange={(value) => handleChange(value, 'imdbUrl')}
         required
       />
 
@@ -82,7 +95,7 @@ export const NewMovie: React.FC<MovieProps> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={setImdbId}
+        onChange={(value) => handleChange(value, 'imdbId')}
         required
       />
 
