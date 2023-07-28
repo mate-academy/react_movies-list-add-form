@@ -20,12 +20,7 @@ export const NewMovie: React.FC<MovieProps> = ({ onAdd }) => {
     title, description, imgUrl, imdbUrl, imdbId,
   } = movie;
 
-  const validInputs
-    = title.trim() === ''
-    || imgUrl.trim() === ''
-    || imdbUrl.trim() === ''
-    || imdbId.trim() === '';
-
+  const isValidInputs = !title || !imgUrl || !imdbUrl || !imdbId;
   const reset = () => {
     setMovie({
       title: '',
@@ -105,7 +100,7 @@ export const NewMovie: React.FC<MovieProps> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={validInputs}
+            disabled={isValidInputs}
           >
             Add
           </button>
