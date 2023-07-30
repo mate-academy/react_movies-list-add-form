@@ -26,15 +26,16 @@ export const TextField: React.FC<Props> = ({
   onChange = () => {},
 }) => {
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
-
+  const thisIsUrl = name === 'imdbUrl' || name === 'imgUrl';
   const [touched, setTouched] = useState(false);
-  const hasError = touched && required && !value;
-  const hasErrorRegex = touched && required && !value.match(pattern);
+  const hasError = touched && required && !value.trim();
+  const hasErrorRegex = touched
+    && required && !value.match(pattern) && value.trim() && thisIsUrl;
   const onBlurHandler = () => {
     setTouched(true);
   };
 
-  const thisIsUrl = name === 'imdbUrl' || name === 'imgUrl';
+  const urlHasError = thisIsUrl && hasErrorRegex;
 
   return (
     <div className="field">
@@ -56,21 +57,7 @@ export const TextField: React.FC<Props> = ({
           onBlur={onBlurHandler}
         />
       </div>
-      {thisIsUrl
-        ? (
-          <>
-            {hasErrorRegex && (
-              <p className="help is-danger">{`${label} should be a valid url`}</p>
-            )}
-          </>
-        )
-        : (
-          <>
-            {hasError && (
-              <p className="help is-danger">{`${label} is required`}</p>
-            )}
-          </>
-        )}
+      {(hasError || hasErrorRegex) && (<p className="help is-danger">{urlHasError ? `${label} is invalid` : `${label} is required`}</p>)}
     </div>
   );
 };

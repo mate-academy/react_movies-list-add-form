@@ -37,7 +37,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const handleInputField = (name: string, event: string) => {
     setMovie(prevState => ({
       ...prevState,
-      [name]: event,
+      [name]: event.trim(),
     }));
   };
 
