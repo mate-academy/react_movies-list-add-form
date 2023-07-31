@@ -40,7 +40,7 @@ export const TextField: React.FC<Props> = ({
     if (required && !value) {
       setErrorMessage(`${label} is required`);
     } else if (!validation(value)) {
-      setErrorMessage('Url has incorrect format');
+      setErrorMessage(`${label} is not valid`);
     }
   };
 
