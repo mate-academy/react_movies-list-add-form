@@ -7,7 +7,7 @@ type Props = {
   label?: string,
   placeholder?: string,
   required?: boolean,
-  onChange?: (newValue: string) => void,
+  onChange?: (name: string, value: string) => void,
   validation?: (value: string) => boolean,
 };
 
@@ -32,7 +32,7 @@ export const TextField: React.FC<Props> = ({
   const [errorMessage, setErrorMessage] = useState('');
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    onChange(event.target.value);
+    onChange(name, event.target.value);
     setErrorMessage('');
   };
 
