@@ -1,45 +1,123 @@
 import { useState } from 'react';
 import { TextField } from '../TextField';
+import { Movie } from '../../types/Movie';
 
-export const NewMovie = () => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
-  const [count] = useState(0);
+type Props = {
+  onAdd: (movie: Movie) => void
+};
+
+export const NewMovie: React.FC<Props> = ({ onAdd }) => {
+  const [movieInfo, setMovieInfo] = useState({
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  });
+
+  const [isImgUrlValid, setIsImgUrlValid] = useState(false);
+  const [isImdbUrlValid, setIsImdbUrlValid] = useState(false);
+
+  const isEmptyField = !movieInfo.title
+    || !movieInfo.imgUrl
+    || !movieInfo.imdbUrl
+    || !movieInfo.imdbId;
+
+  const handleMovieInfoSet = (
+    name: string,
+    value: string,
+  ) => {
+    setMovieInfo(prevInfo => (
+      { ...prevInfo, [name]: value }
+    ));
+  };
+
+  const onSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+
+    onAdd(movieInfo);
+
+    setMovieInfo({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
+  };
+
+  const urlValidation = (
+    url: string,
+    setValidity: (value: boolean) => void,
+  ): boolean => {
+    // eslint-disable-next-line max-len
+    const urlPattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
+
+    if (urlPattern.test(url)) {
+      setValidity(true);
+
+      return true;
+    }
+
+    setValidity(false);
+
+    return false;
+  };
+
+  const imgUrlValidation = (url: string) => {
+    return urlValidation(url, setIsImgUrlValid);
+  };
+
+  const imdbUrlValidation = (url: string) => {
+    return urlValidation(url, setIsImdbUrlValid);
+  };
 
   return (
-    <form className="NewMovie" key={count}>
+    <form
+      className="NewMovie"
+      onSubmit={onSubmit}
+    >
       <h2 className="title">Add a movie</h2>
 
       <TextField
         name="title"
         label="Title"
-        value=""
-        onChange={() => {}}
+        value={movieInfo.title}
+        onChange={handleMovieInfoSet}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value=""
+        value={movieInfo.description}
+        onChange={handleMovieInfoSet}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value=""
+        value={movieInfo.imgUrl}
+        onChange={handleMovieInfoSet}
+        required
+        validation={imgUrlValidation}
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value=""
+        value={movieInfo.imdbUrl}
+        onChange={handleMovieInfoSet}
+        required
+        validation={imdbUrlValidation}
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value=""
+        value={movieInfo.imdbId}
+        onChange={handleMovieInfoSet}
+        required
       />
 
       <div className="field is-grouped">
@@ -48,6 +126,7 @@ export const NewMovie = () => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
+            disabled={isEmptyField || !isImgUrlValid || !isImdbUrlValid}
           >
             Add
           </button>
