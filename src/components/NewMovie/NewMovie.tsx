@@ -1,10 +1,10 @@
 /* eslint-disable max-len */
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
 interface Props {
-  onAdd: (movie: Movie) => void,
+  onAdd: (movie: Movie) => void;
 }
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
@@ -25,10 +25,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     imdbId: '',
   });
 
-  const isDisabled = !toTrim(newMovie.title)
-    || !toTrim(newMovie.imgUrl)
-    || !toTrim(newMovie.imdbUrl)
-    || !toTrim(newMovie.imdbId);
+  const isDisabled = !toTrim(newMovie.title) || !toTrim(newMovie.imgUrl) || !toTrim(newMovie.imdbUrl) || !toTrim(newMovie.imdbId);
 
   const reset = () => {
     setNewMovie({
@@ -39,6 +36,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       imdbId: '',
     });
     setCount(count + 1);
+  };
+
+  const handleChange = (name: string, value: string) => {
+    setNewMovie({ ...newMovie, [name]: value });
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -56,7 +57,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     <form
       className="NewMovie"
       key={count}
-      onSubmit={event => handleSubmit(event)}
+      onSubmit={(event) => handleSubmit(event)}
     >
       <h2 className="title">Add a movie</h2>
 
@@ -64,7 +65,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={newMovie.title}
-        onChange={(value) => setNewMovie({ ...newMovie, title: value })}
+        onChange={(newValue) => handleChange('title', newValue)}
         required
       />
 
@@ -72,14 +73,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={newMovie.description}
-        onChange={(value) => setNewMovie({ ...newMovie, description: value })}
+        onChange={(newValue) => handleChange('description', newValue)}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={newMovie.imgUrl}
-        onChange={(value) => setNewMovie({ ...newMovie, imgUrl: value })}
+        onChange={(newValue) => handleChange('imgUrl', newValue)}
         required
       />
 
@@ -87,7 +88,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={newMovie.imdbUrl}
-        onChange={(value) => setNewMovie({ ...newMovie, imdbUrl: value })}
+        onChange={(newValue) => handleChange('imdbUrl', newValue)}
         required
       />
 
@@ -95,7 +96,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={newMovie.imdbId}
-        onChange={(value) => setNewMovie({ ...newMovie, imdbId: value })}
+        onChange={(newValue) => handleChange('imdbId', newValue)}
         required
       />
 
