@@ -15,8 +15,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     imdbId: '',
   });
 
-  const [imgUrlValidity, setImgUrlValidity] = useState(false);
-  const [imdbUrlValidity, setImdbUrlValidity] = useState(false);
+  const [isValidImgUrl, setIsValidImgUrl] = useState(false);
+  const [isValidImdbUrl, setIsValidImdbUrl] = useState(false);
 
   const isEmptyField = !movieInfo.title
     || !movieInfo.imgUrl
@@ -65,11 +65,11 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   };
 
   const imgUrlValidation = (url: string) => {
-    return urlValidation(url, setImgUrlValidity);
+    return urlValidation(url, setIsValidImgUrl);
   };
 
   const imdbUrlValidation = (url: string) => {
-    return urlValidation(url, setImdbUrlValidity);
+    return urlValidation(url, setIsValidImdbUrl);
   };
 
   return (
@@ -126,7 +126,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={isEmptyField || !imgUrlValidity || !imdbUrlValidity}
+            disabled={isEmptyField || !isValidImgUrl || !isValidImdbUrl}
           >
             Add
           </button>
