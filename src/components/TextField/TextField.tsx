@@ -52,7 +52,7 @@ export const TextField: React.FC<Props> = ({
 
   const handleChangeOnInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     onChange(event.target.value);
-    isValidURL(hasURLError);
+    isValidURL(!hasURLError);
   };
 
   return (

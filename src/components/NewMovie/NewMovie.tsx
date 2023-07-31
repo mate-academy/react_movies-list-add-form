@@ -43,7 +43,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [isValidImgUrl, setIsValidImgUrl] = useState(false);
   const [isValidImdbUrl, setIsValidImdbUrl] = useState(false);
 
-  const hasURLErrors = isValidImgUrl || isValidImdbUrl;
+  const hasURLErrors = !isValidImgUrl || !isValidImdbUrl;
 
   const hasErrors = () => {
     if (!title.trim()
