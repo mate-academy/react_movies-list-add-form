@@ -7,7 +7,7 @@ type Props = {
   label?: string,
   placeholder?: string,
   required?: boolean,
-  onChange?: (newValue: string) => void,
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void,
 };
 
 enum URLs {
@@ -46,10 +46,15 @@ export const TextField: React.FC<Props> = ({
     errorMessage = `Please enter valid URL for ${label}`;
   }
 
-  if (!value) {
+  if (!value.trim()) {
     isError = touched && required && !value;
     errorMessage = `${label} is required`;
   }
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTouched(true);
+    onChange(event); // Call the provided onChange callback with the event
+  };
 
   return (
     <div className="field">
@@ -61,13 +66,14 @@ export const TextField: React.FC<Props> = ({
         <input
           type="text"
           id={id}
+          name={name}
+          onChange={handleChange}
           data-cy={`movie-${name}`}
           className={classNames('input', {
             'is-danger': isError,
           })}
           placeholder={placeholder}
           value={value}
-          onChange={event => onChange(event.target.value)}
           onBlur={() => setTouched(true)}
         />
       </div>
