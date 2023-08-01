@@ -26,16 +26,19 @@ export const TextField: React.FC<Props> = ({
   onChange = () => {},
 }) => {
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
-  const thisIsUrl = name === 'imdbUrl' || name === 'imgUrl';
+  const isUrl = name === 'imdbUrl' || name === 'imgUrl';
   const [touched, setTouched] = useState(false);
   const hasError = touched && required && !value.trim();
   const hasErrorRegex = touched
-    && required && !value.match(pattern) && value.trim() && thisIsUrl;
+    && required
+    && !value.match(pattern)
+    && value.trim()
+    && isUrl;
   const onBlurHandler = () => {
     setTouched(true);
   };
 
-  const urlHasError = thisIsUrl && hasErrorRegex;
+  const urlHasError = isUrl && hasErrorRegex;
 
   return (
     <div className="field">
