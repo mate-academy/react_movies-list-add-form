@@ -23,8 +23,16 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     }));
   };
 
-  const validInput = newValue.title
-  && newValue.imgUrl && newValue.imdbUrl && newValue.imdbId;
+  const {
+    title,
+    description,
+    imgUrl,
+    imdbUrl,
+    imdbId,
+  } = newValue;
+  const validInput = [title, imgUrl, imdbUrl, imdbId].every(
+    (value) => value.trim(),
+  );
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -53,7 +61,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value={newValue.title}
+        value={title}
         onChange={(value) => handleTextFieldChange('title', value)}
         required
       />
@@ -61,14 +69,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="description"
         label="Description"
-        value={newValue.description}
+        value={description}
         onChange={(value) => handleTextFieldChange('description', value)}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={newValue.imgUrl}
+        value={imgUrl}
         onChange={(value) => handleTextFieldChange('imgUrl', value)}
         required
       />
@@ -76,7 +84,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={newValue.imdbUrl}
+        value={imdbUrl}
         onChange={(value) => handleTextFieldChange('imdbUrl', value)}
         required
       />
@@ -84,7 +92,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={newValue.imdbId}
+        value={imdbId}
         onChange={(value) => handleTextFieldChange('imdbId', value)}
         required
       />
