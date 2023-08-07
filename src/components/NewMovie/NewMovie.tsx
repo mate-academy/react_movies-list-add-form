@@ -22,30 +22,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  // const [titleError, setTitleError] = useState(false);
-  // const [imgUrlError, setImgUrlError] = useState(false);
-  // const [imdbUrlError, setImdbUrlError] = useState(false);
-  // const [imdbIdError, setImdbIdError] = useState(false);
-
-  // const handleBlur = (field: string) => {
-  //  switch (field) {
-  //    case 'title':
-  //      setTitleError(!title);
-  //      break;
-  //    case 'imgUrl':
-  //      setImgUrlError(!imgUrl);
-  //      break;
-  //    case 'imdbUrl':
-  //      setImdbUrlError(!imdbUrl);
-  //      break;
-  //    case 'imdbId':
-  //      setImdbIdError(!imdbId);
-  //      break;
-  //    default:
-  //      break;
-  //  }
-  // };
-
   const resetFormValues = () => {
     setTitle('');
     setDescription('');
@@ -88,9 +64,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={title}
         onChange={setTitle}
         required
-        // onBlur={() => handleBlur('title')}
-        // error={titleError}
-        // helperText={titleError ? 'Title is required' : ''}
       />
 
       <TextField
@@ -106,9 +79,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={imgUrl}
         onChange={setImgUrl}
         required
-        // onBlur={() => handleBlur('imgUrl')}
-        // error={imgUrlError}
-        // helperText={imgUrlError ? 'ImgUrl is required' : ''}
       />
 
       <TextField
@@ -117,9 +87,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={imdbUrl}
         onChange={setImdbUrl}
         required
-        // onBlur={() => handleBlur('imdbUrl')}
-        // error={imgUrlError}
-        // helperText={imdbUrlError ? 'ImdbUrl is required' : ''}
       />
 
       <TextField
@@ -128,9 +95,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={imdbId}
         onChange={setImdbId}
         required
-        // onBlur={() => handleBlur('imdbId')}
-        // error={imgUrlError}
-        // helperText={imdbIdError ? 'ImdbId is required' : ''}
       />
 
       <div className="field is-grouped">
