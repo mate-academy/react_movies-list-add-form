@@ -5,7 +5,6 @@ import { Movie } from '../../types/Movie';
 type Props = {
   name: string,
   value: string,
-  movie: Movie,
   label?: string,
   placeholder?: string,
   required?: boolean,
@@ -21,11 +20,10 @@ function getRandomDigits() {
 export const TextField: React.FC<Props> = ({
   name,
   value,
-  movie,
   label = name,
   placeholder = `Enter ${label}`,
   required = false,
-  onChange = () => {},
+  onChange = () => { },
 }) => {
   // generage a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
@@ -33,6 +31,10 @@ export const TextField: React.FC<Props> = ({
   // To show errors only if the field was touched (onBlur)
   const [touched, setTouched] = useState(false);
   const hasError = touched && required && !(value.trim());
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    onChange(prevMovie => ({ ...prevMovie, [e.target.name]: e.target.value }));
+  };
 
   return (
     <div className="field">
@@ -51,9 +53,7 @@ export const TextField: React.FC<Props> = ({
           })}
           placeholder={placeholder}
           value={value}
-          onChange={event => onChange(
-            { ...movie, [event.target.name]: event.target.value },
-          )}
+          onChange={handleChange}
           onBlur={() => setTouched(true)}
         />
       </div>

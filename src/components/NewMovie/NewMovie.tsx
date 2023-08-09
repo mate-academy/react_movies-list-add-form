@@ -58,45 +58,40 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        movie={movie}
         value={movie.title}
-        onChange={setMovie}
+        onChange={newMovie => setMovie(newMovie)}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        movie={movie}
         value={movie.description}
-        onChange={setMovie}
+        onChange={newMovie => setMovie(newMovie)}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        movie={movie}
         value={movie.imgUrl}
         required
-        onChange={setMovie}
+        onChange={newMovie => setMovie(newMovie)}
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        movie={movie}
         value={movie.imdbUrl}
         required
-        onChange={setMovie}
+        onChange={newMovie => setMovie(newMovie)}
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        movie={movie}
         value={movie.imdbId}
         required
-        onChange={setMovie}
+        onChange={newMovie => setMovie(newMovie)}
       />
 
       <div className="field is-grouped">
