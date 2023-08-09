@@ -30,7 +30,7 @@ export const TextField: React.FC<Props> = ({
 
   const [touched, setTouched] = useState(false);
   const hasError = touched && required && !value;
-  const hasLinkError = touched && pattern && !pattern.test(value);
+  const hasLinkError = touched && pattern && !pattern.test(value) && !hasError;
 
   return (
     <div className="field">
