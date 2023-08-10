@@ -7,7 +7,7 @@ type Props = {
   label?: string,
   placeholder?: string,
   required?: boolean,
-  pattern?: RegExp | undefined,
+  pattern?: RegExp,
   onChange?: (newValue: string) => void,
 };
 
@@ -24,7 +24,7 @@ export const TextField: React.FC<Props> = ({
   placeholder = `Enter ${label}`,
   required = false,
   pattern,
-  onChange = () => {},
+  onChange = () => { },
 }) => {
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
