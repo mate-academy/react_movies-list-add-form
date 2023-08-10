@@ -1,6 +1,5 @@
 import classNames from 'classnames';
 import React, { useState } from 'react';
-import { Movie } from '../../types/Movie';
 
 type Props = {
   name: string,
@@ -8,7 +7,7 @@ type Props = {
   label?: string,
   placeholder?: string,
   required?: boolean,
-  onChange?: React.Dispatch<React.SetStateAction<Movie>>,
+  onChange?: (newValue: string) => void,
 };
 
 function getRandomDigits() {
@@ -31,10 +30,7 @@ export const TextField: React.FC<Props> = ({
   const hasError = touched && required && !(value.trim());
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    onChange(prevMovie => ({
-      ...prevMovie,
-      [event.target.name]: event.target.value,
-    }));
+    onChange(event.target.value);
   };
 
   return (
