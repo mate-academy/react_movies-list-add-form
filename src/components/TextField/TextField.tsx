@@ -8,7 +8,7 @@ type Props = {
   placeholder?: string,
   required?: boolean,
   onChange?: (newValue: string) => void,
-  pattern?: RegExp | undefined,
+  pattern?: RegExp,
 };
 
 function getRandomDigits() {
@@ -29,8 +29,19 @@ export const TextField: React.FC<Props> = ({
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
   const [touched, setTouched] = useState(false);
+  const [hasLinkError, setHasLinkError] = useState(false);
   const hasError = touched && required && !value;
-  const hasLinkError = touched && pattern && !pattern.test(value) && !hasError;
+  // const hasLinkError = touched && pattern && !pattern.test(value) && !hasError;
+
+  const checkLinkError = () => {
+    if (pattern && !pattern.test(value) && value) {
+      setHasLinkError(true);
+
+      return;
+    }
+
+    setTouched(true);
+  };
 
   return (
     <div className="field">
@@ -50,7 +61,7 @@ export const TextField: React.FC<Props> = ({
           placeholder={placeholder}
           value={value}
           onChange={event => onChange(event.target.value)}
-          onBlur={() => setTouched(true)}
+          onBlur={() => checkLinkError()}
         />
       </div>
 
