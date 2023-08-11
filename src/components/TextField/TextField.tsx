@@ -7,6 +7,7 @@ type Props = {
   label?: string,
   placeholder?: string,
   required?: boolean,
+  pattern?: RegExp | undefined,
   onChange?: (newValue: string) => void,
 };
 
@@ -19,6 +20,7 @@ function getRandomDigits() {
 export const TextField: React.FC<Props> = ({
   name,
   value,
+  pattern,
   label = name,
   placeholder = `Enter ${label}`,
   required = false,
@@ -28,6 +30,7 @@ export const TextField: React.FC<Props> = ({
 
   const [touched, setTouched] = useState(false);
   const hasError = touched && required && !(value.trim());
+  const hasUrlError = pattern && !pattern?.test(value) && touched;
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     onChange(event.target.value);
@@ -58,6 +61,11 @@ export const TextField: React.FC<Props> = ({
       {hasError && (
         <p className="help is-danger">{`${label} is required`}</p>
       )}
+
+      {hasUrlError && !hasError && (
+        <p className="help is-danger">URL is invalid</p>
+      )}
+
     </div>
   );
 };

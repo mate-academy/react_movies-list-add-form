@@ -6,17 +6,22 @@ type Props = {
   onAdd: (movie: Movie) => void;
 };
 
-export const NewMovie: React.FC<Props> = ({ onAdd }) => {
-  const EMPTY_MOVIE = {
-    title: '',
-    description: '',
-    imgUrl: '',
-    imdbUrl: '',
-    imdbId: '',
-  };
+const EMPTY_MOVIE = {
+  title: '',
+  description: '',
+  imgUrl: '',
+  imdbUrl: '',
+  imdbId: '',
+};
 
+// eslint-disable-next-line max-len
+const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
+
+export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
   const [movie, setMovie] = useState<Movie>(EMPTY_MOVIE);
+  const [isImgUrlValid, setIsImgUrlValid] = useState(true);
+  const [isImdbIdValid, setIsImdbIdValid] = useState(true);
 
   const resetForm = () => {
     setCount(count + 1);
@@ -31,6 +36,18 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   );
 
   const handleFieldChange = (field: string, value: string) => {
+    if (field === 'imgUrl') {
+      const isValid = pattern.test(value);
+
+      setIsImgUrlValid(isValid);
+    }
+
+    if (field === 'imdbId') {
+      const isValid = pattern.test(value);
+
+      setIsImdbIdValid(isValid);
+    }
+
     setMovie(newMovie => ({
       ...newMovie,
       [field]: value,
@@ -40,7 +57,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (isFilled) {
+    if (isFilled || !isImgUrlValid || !isImdbIdValid) {
       return;
     }
 
@@ -84,6 +101,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
           (newImgUrl) => handleFieldChange('imgUrl', newImgUrl)
         }
         required
+        pattern={pattern}
       />
 
       <TextField
@@ -94,6 +112,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
           (newImdbUrl) => handleFieldChange('imdbUrl', newImdbUrl)
         }
         required
+        pattern={pattern}
       />
 
       <TextField
