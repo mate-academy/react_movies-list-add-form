@@ -3,15 +3,12 @@ import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
 type Props = {
-  onAdd: (movie: Movie) => void;
+  onAdd: (movie: Movie) => void,
 };
 
 export const NewMovie: React.FC<Props> = ({
   onAdd,
 }) => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
-
   const [count] = useState(0);
   const [newMovie, setNewMovie] = useState<Movie>({
     title: '',
@@ -36,7 +33,7 @@ export const NewMovie: React.FC<Props> = ({
 
     setNewMovie({
       ...newMovie,
-      [name]: value,
+      [name]: value.trimStart(),
     });
   };
 
