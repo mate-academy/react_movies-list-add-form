@@ -57,7 +57,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (isFilled || !isImgUrlValid || !isImdbIdValid) {
+    if (isFilled && isImgUrlValid && isImdbIdValid) {
       return;
     }
 
