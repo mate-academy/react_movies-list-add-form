@@ -1,1 +1,11 @@
-// not empty
+.NewMovie {
+  .title {
+    &--light {
+      color: #292929;
+    }
+
+    &--dark {
+      color: #fff;
+    }
+  }
+}
