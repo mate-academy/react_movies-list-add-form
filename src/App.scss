@@ -2,9 +2,7 @@
   display: grid;
   grid-template-rows: 100px 1fr;
   grid-template-columns: 1fr 400px;
-  grid-template-areas:
-    'header header'
-    'movies sidebar';
+  grid-template-areas: "header header" "movies sidebar";
   column-gap: 20px;
   min-height: 100vh;
 

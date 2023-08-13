@@ -54,15 +54,13 @@ const handlerSubmit = (
 };
 
 export const NewMovie: React.FC<Props> = ({ theme, onAdd }) => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState<number>(0);
 
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
+  const [title, setTitle] = useState<string>('');
+  const [description, setDescription] = useState<string>('');
+  const [imgUrl, setImgUrl] = useState<string>('');
+  const [imdbUrl, setImdbUrl] = useState<string>('');
+  const [imdbId, setImdbId] = useState<string>('');
 
   const checkFields = () => !(title && imgUrl && imdbUrl && imdbId);
 

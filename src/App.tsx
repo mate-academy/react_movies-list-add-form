@@ -9,8 +9,8 @@ import { Header } from './components/Header';
 import { Movie } from './types/Movie';
 
 export const App = () => {
-  const [movies, setMovies] = useState([...moviesFromServer]);
-  const [theme, setTheme] = useState('light');
+  const [movies, setMovies] = useState<Movie[]>([...moviesFromServer]);
+  const [theme, setTheme] = useState<'light' | 'dark'>('light');
 
   const addMovie = (movie: Movie): void => {
     setMovies([...movies, movie]);
