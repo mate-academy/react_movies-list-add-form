@@ -6,8 +6,12 @@ type Props = {
   value: string,
   label?: string,
   placeholder?: string,
-  required?: boolean,
+  submit?: boolean,
+  isUrl?: (newValue: string) => boolean,
   onChange?: (newValue: string) => void,
+  setError?: (newValue: boolean) => void,
+  link?: boolean,
+  required?: boolean,
 };
 
 function getRandomDigits() {
@@ -21,15 +25,20 @@ export const TextField: React.FC<Props> = ({
   value,
   label = name,
   placeholder = `Enter ${label}`,
+  submit = false,
+  isUrl = () => { },
+  onChange = () => { },
+  setError = () => { },
+  link = false,
   required = false,
-  onChange = () => {},
 }) => {
-  // generage a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
-  // To show errors only if the field was touched (onBlur)
   const [touched, setTouched] = useState(false);
-  const hasError = touched && required && !value;
+
+  const [url, setUrl] = useState('');
+
+  const urlVerification = isUrl(url) as boolean;
 
   return (
     <div className="field">
@@ -43,16 +52,34 @@ export const TextField: React.FC<Props> = ({
           id={id}
           data-cy={`movie-${name}`}
           className={classNames('input', {
-            'is-danger': hasError,
+            'is-danger': link
+              ? (touched && !urlVerification && required && !submit)
+              : touched && required && !value && !submit,
           })}
           placeholder={placeholder}
           value={value}
-          onChange={event => onChange(event.target.value)}
-          onBlur={() => setTouched(true)}
+          onChange={event => {
+            if (event.target.value.length === 0) {
+              setError(false);
+            }
+
+            onChange(event.target.value);
+
+            if (link) {
+              setUrl(event.target.value);
+            }
+          }}
+          onBlur={() => {
+            setTouched(true);
+          }}
         />
       </div>
 
-      {hasError && (
+      {((touched && value && !urlVerification && link && !submit)) && (
+        <p className="help is-danger">{`${label} is not a link`}</p>
+      )}
+
+      {(touched && !value && required && !submit) && (
         <p className="help is-danger">{`${label} is required`}</p>
       )}
     </div>
