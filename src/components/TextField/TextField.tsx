@@ -32,6 +32,8 @@ export const TextField: React.FC<Props> = ({
   const hasError = touched && required && !value;
   const hasUrlFormatError = (name === 'imdbUrl' || name === 'imgUrl')
     && touched && value && !urlPattern.test(value);
+  const hasTextFormatError = (name === 'title' || name === 'description'
+    || name === 'imdbId') && touched && value && !value.trim();
 
   return (
     <div className="field">
@@ -57,7 +59,7 @@ export const TextField: React.FC<Props> = ({
       {hasError && (
         <p className="help is-danger">{`${label} is required`}</p>
       )}
-      {hasUrlFormatError && (
+      {(hasUrlFormatError || hasTextFormatError) && (
         <p className="help is-danger">{`${label} must be valid`}</p>
       )}
     </div>
