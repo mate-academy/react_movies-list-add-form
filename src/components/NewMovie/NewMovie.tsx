@@ -18,6 +18,14 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
     imdbId: '',
   });
   const [buttonDisabled, setButtonDisabled] = useState(true);
+  // eslint-disable-next-line max-len
+  const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
+  // тут !'' = true значить кнопка disabled
+  const notFilled = !newMovie.title || !newMovie.imgUrl
+    || !newMovie.imdbUrl || !newMovie.imdbId;
+
+  const isValidImgUrl = pattern.test(newMovie.imgUrl);
+  const isValidImdbUrl = pattern.test(newMovie.imdbUrl);
 
   const handleFieldChange = (fieldName: string, value: string) => {
     setNewMovie(prevState => ({
@@ -41,15 +49,14 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
 
     onAdd(newMovie);
     clearForm();
-    setCount(1);
+    setCount(prevCount => prevCount + 1);
   };
 
   const checkFields = () => {
-    // тут !'' = true значить кнопка disabled
-    const fieldsAreFilled = !newMovie.title || !newMovie.imgUrl
-      || !newMovie.imdbUrl || !newMovie.imdbId;
-
-    setButtonDisabled(fieldsAreFilled);
+    if ((notFilled === false)
+      && (isValidImgUrl === true) && (isValidImdbUrl === true)) {
+      setButtonDisabled(notFilled);
+    }
   };
 
   useEffect(() => {
@@ -72,6 +79,7 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
         onChange={value => handleFieldChange('title', value)}
         required
         count={count}
+        setCount={setCount}
       />
 
       <TextField
@@ -80,6 +88,7 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
         value={newMovie.description}
         onChange={value => handleFieldChange('description', value)}
         count={count}
+        setCount={setCount}
       />
 
       <TextField
@@ -89,6 +98,8 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
         required
         onChange={value => handleFieldChange('imgUrl', value)}
         count={count}
+        setCount={setCount}
+        isValidImgUrl={isValidImgUrl}
       />
 
       <TextField
@@ -98,6 +109,8 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
         required
         onChange={value => handleFieldChange('imdbUrl', value)}
         count={count}
+        setCount={setCount}
+        isValidImdbUrl={isValidImdbUrl}
       />
 
       <TextField
@@ -107,6 +120,7 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
         required
         onChange={value => handleFieldChange('imdbId', value)}
         count={count}
+        setCount={setCount}
       />
 
       <div className="field is-grouped">
