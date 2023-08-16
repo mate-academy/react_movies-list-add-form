@@ -7,7 +7,7 @@ type Props = {
   label?: string,
   placeholder?: string,
   required?: boolean,
-  onChange?: (newValue: string) => void,
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void,
   pattern?: RegExp,
 };
 
@@ -31,6 +31,10 @@ export const TextField: React.FC<Props> = ({
   const checkUrl = pattern ? pattern?.test(value) : false;
   const hasErrorUrl = !checkUrl && pattern && touched;
 
+  const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    onChange(event);
+  };
+
   return (
     <div className="field">
       <label className="label" htmlFor={id}>
@@ -47,9 +51,7 @@ export const TextField: React.FC<Props> = ({
           })}
           placeholder={placeholder}
           value={value}
-          onChange={event => {
-            onChange(event.target.value);
-          }}
+          onChange={handleOnChange}
           onBlur={() => setTouched(true)}
         />
       </div>

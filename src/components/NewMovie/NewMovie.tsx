@@ -8,41 +8,39 @@ type Props = {
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
+  const initMovie = {
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  };
+
+  const [newMovie, setNewMovie] = useState(initMovie);
+  const handleMovieChange = (event: React.ChangeEvent<HTMLInputElement>,
+    key: keyof Movie) => {
+    setNewMovie(prevMovie => (
+      { ...prevMovie, [key]: event.target.value }
+    ));
+  };
 
   // eslint-disable-next-line max-len
   const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
 
   const resetForm = () => {
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
+    setNewMovie(initMovie);
   };
 
   const onSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (!pattern.test(imdbUrl)) {
+    if (!pattern.test(newMovie.imdbUrl)) {
       return;
     }
 
-    if (!pattern.test(imgUrl)) {
+    if (!pattern.test(newMovie.imgUrl)) {
       return;
     }
-
-    const newMovie: Movie = {
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    };
 
     onAdd(newMovie);
 
@@ -50,10 +48,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setCount(prevCount => prevCount + 1);
   };
 
-  const isDisabled = !title.trim()
-  || !imgUrl.trim()
-  || !imdbUrl.trim()
-  || !imdbId.trim();
+  const isDisabled = !newMovie.title.trim()
+  || !newMovie.imgUrl.trim()
+  || !newMovie.imdbUrl.trim()
+  || !newMovie.imdbId.trim();
 
   return (
     <form
@@ -66,24 +64,24 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value={title}
-        onChange={event => setTitle(event)}
+        value={newMovie.title}
+        onChange={e => handleMovieChange(e, 'title')}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value={description}
-        onChange={event => setDescription(event)}
+        value={newMovie.description}
+        onChange={e => handleMovieChange(e, 'description')}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={imgUrl}
+        value={newMovie.imgUrl}
         pattern={pattern}
-        onChange={event => setImgUrl(event)}
+        onChange={e => handleMovieChange(e, 'imgUrl')}
         required
 
       />
@@ -91,17 +89,17 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={imdbUrl}
+        value={newMovie.imdbUrl}
         pattern={pattern}
-        onChange={event => setImdbUrl(event)}
+        onChange={e => handleMovieChange(e, 'imdbUrl')}
         required
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imdbId}
-        onChange={event => setImdbId(event)}
+        value={newMovie.imdbId}
+        onChange={e => handleMovieChange(e, 'imdbId')}
       />
 
       <div className="field is-grouped">
