@@ -28,13 +28,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     event.preventDefault();
     const trimmedImgUrl = imgUrl.trim();
     const trimmedImdbUrl = imdbUrl.trim();
+    const trimmedImdbId = imdbId.trim();
 
     onAdd({
       title,
       description,
       imgUrl: trimmedImgUrl,
       imdbUrl: trimmedImdbUrl,
-      imdbId,
+      imdbId: trimmedImdbId,
     });
 
     setCount(count + 1);
@@ -90,7 +91,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={(newValue) => setImdbId(newValue.trim())}
+        onChange={(newValue) => setImdbId(newValue)}
         required
       />
 
