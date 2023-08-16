@@ -12,8 +12,6 @@ type Props = {
 };
 
 export const NewMovie = ({ onAdd }: Props) => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -38,7 +36,6 @@ export const NewMovie = ({ onAdd }: Props) => {
     setImgUrl('');
     setImdbUrl('');
     setImdbId('');
-
     setCount((prevCount) => prevCount + 1);
   };
 
@@ -54,7 +51,6 @@ export const NewMovie = ({ onAdd }: Props) => {
         name="title"
         label="Title"
         value={title}
-        // onChange={() => {}}
         onChange={setTitle}
         required
       />
@@ -63,7 +59,6 @@ export const NewMovie = ({ onAdd }: Props) => {
         name="description"
         label="Description"
         value={description}
-        // onChange={() => {}}
         onChange={setDescription}
       />
 
@@ -71,7 +66,6 @@ export const NewMovie = ({ onAdd }: Props) => {
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        // onChange={() => {}}
         onChange={setImgUrl}
         required
       />
@@ -80,7 +74,6 @@ export const NewMovie = ({ onAdd }: Props) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        // onChange={() => {}}
         onChange={setImdbUrl}
         required
       />
@@ -89,7 +82,6 @@ export const NewMovie = ({ onAdd }: Props) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        // onChange={() => {}}
         onChange={setImdbId}
         required
       />
