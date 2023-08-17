@@ -50,6 +50,7 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
     onAdd(newMovie);
     clearForm();
     setCount(prevCount => prevCount + 1);
+    setButtonDisabled(true);
   };
 
   const checkFields = () => {
