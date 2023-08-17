@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import React, { useState } from 'react';
+import { pattern } from '../../constants/pattern';
 
 type Props = {
   name: string,
@@ -8,7 +9,6 @@ type Props = {
   placeholder?: string,
   required?: boolean,
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void,
-  pattern?: RegExp,
 };
 
 function getRandomDigits() {
@@ -22,17 +22,29 @@ export const TextField: React.FC<Props> = ({
   placeholder = `Enter ${label}`,
   required = false,
   onChange = () => {},
-  pattern = undefined,
 }) => {
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
   const [touched, setTouched] = useState(false);
   const hasError = touched && required && !value;
-  const checkUrl = pattern ? pattern?.test(value) : false;
-  const hasErrorUrl = !checkUrl && pattern && touched;
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     onChange(event);
+    setErrorMessage('');
+  };
+
+  const handleOnBlur = () => {
+    if (value === '' && name !== 'description') {
+      setErrorMessage(`${label} is required`);
+    }
+
+    if ((name === 'imgUrl' && !value.match(pattern) && value !== '')
+    || (name === 'imdbUrl' && !value.match(pattern) && value !== '')) {
+      setErrorMessage(`${label} is not a valid URL`);
+    }
+
+    setTouched(true);
   };
 
   return (
@@ -47,20 +59,16 @@ export const TextField: React.FC<Props> = ({
           id={id}
           data-cy={`movie-${name}`}
           className={classNames('input', {
-            'is-danger': hasError,
+            'is-danger': hasError || errorMessage,
           })}
           placeholder={placeholder}
           value={value}
           onChange={handleOnChange}
-          onBlur={() => setTouched(true)}
+          onBlur={handleOnBlur}
         />
       </div>
 
-      {hasError && (
-        <p className="help is-danger">{`${label} is required`}</p>
-      )}
-
-      {hasErrorUrl && (
+      {(hasError || errorMessage) && (
         <p className="help is-danger">{`${label} is invalid`}</p>
       )}
     </div>

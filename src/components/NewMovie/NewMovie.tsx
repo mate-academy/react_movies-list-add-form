@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
+import { pattern } from '../../constants/pattern';
 
 type Props = {
   onAdd: (NewMovie: Movie) => void
@@ -23,9 +24,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       { ...prevMovie, [key]: event.target.value }
     ));
   };
-
-  // eslint-disable-next-line max-len
-  const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
 
   const resetForm = () => {
     setNewMovie(initMovie);
@@ -51,7 +49,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const isDisabled = !newMovie.title.trim()
   || !newMovie.imgUrl.trim()
   || !newMovie.imdbUrl.trim()
-  || !newMovie.imdbId.trim();
+  || !newMovie.imdbId.trim()
+  || !newMovie.imdbUrl.match(pattern)
+  || !newMovie.imgUrl.match(pattern);
 
   return (
     <form
@@ -80,7 +80,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imgUrl"
         label="Image URL"
         value={newMovie.imgUrl}
-        pattern={pattern}
         onChange={e => handleMovieChange(e, 'imgUrl')}
         required
 
@@ -90,7 +89,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={newMovie.imdbUrl}
-        pattern={pattern}
         onChange={e => handleMovieChange(e, 'imdbUrl')}
         required
       />
