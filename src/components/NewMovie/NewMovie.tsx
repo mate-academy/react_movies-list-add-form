@@ -14,7 +14,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const addMovie: Movie = {
+  const newMovie: Movie = {
     title,
     description,
     imgUrl,
@@ -38,7 +38,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       return;
     }
 
-    onAdd(addMovie);
+    onAdd(newMovie);
     reset();
     setCount(prev => prev + 1);
   };
@@ -71,6 +71,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Image URL"
         value={imgUrl}
         onChange={(value) => setImgUrl(value)}
+        required
       />
 
       <TextField
@@ -78,6 +79,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Imdb URL"
         value={imdbUrl}
         onChange={(value) => setImdbUrl(value)}
+        required
       />
 
       <TextField
@@ -85,6 +87,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Imdb ID"
         value={imdbId}
         onChange={(value) => setImdbId(value)}
+        required
       />
 
       <div className="field is-grouped">
