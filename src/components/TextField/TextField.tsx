@@ -31,7 +31,7 @@ export const TextField: React.FC<Props> = ({
   const isValidUrl = pattern.test(value);
   let errorMessage = '';
 
-  if ((name === 'imgUrl' || name === 'imbdUrl') && value && !isValidUrl) {
+  if ((name === 'imgUrl' || name === 'imdbUrl') && value && !isValidUrl) {
     errorMessage = 'Not valid URL';
   }
 
