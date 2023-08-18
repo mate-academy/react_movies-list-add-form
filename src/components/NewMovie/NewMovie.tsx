@@ -29,11 +29,7 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
   const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const movie: Movie = {
-      ...newMovie,
-    };
-
-    onAdd(movie);
+    onAdd(newMovie);
     resetForm();
     setCount(count + 1);
   };

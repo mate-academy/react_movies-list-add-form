@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import React, { useState } from 'react';
+import { pattern } from '../Regex/pattern';
 
 type Props = {
   name: string,
@@ -31,6 +32,11 @@ export const TextField: React.FC<Props> = ({
   const [touched, setTouched] = useState(false);
   const hasError = touched && required && !value;
 
+  const errorUrl = (name === 'imdbUrl' || name === 'imgUrl')
+  && touched && value && !pattern.test(value);
+  const errorText = (name === 'title' || name === 'description'
+  || name === 'imdbId') && touched && value && !value.trim();
+
   return (
     <div className="field">
       <label className="label" htmlFor={id}>
@@ -44,7 +50,7 @@ export const TextField: React.FC<Props> = ({
           name={name}
           data-cy={`movie-${name}`}
           className={classNames('input', {
-            'is-danger': hasError,
+            'is-danger': hasError || errorUrl,
           })}
           placeholder={placeholder}
           value={value}
@@ -56,6 +62,9 @@ export const TextField: React.FC<Props> = ({
 
       {hasError && (
         <p className="help is-danger">{`${label} is required`}</p>
+      )}
+      {(errorUrl || errorText) && (
+        <p className="help is-danger">{`${label} must be valid`}</p>
       )}
     </div>
   );
