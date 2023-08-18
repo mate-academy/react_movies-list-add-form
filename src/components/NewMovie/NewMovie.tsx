@@ -15,7 +15,7 @@ const initialMovieState = {
 };
 
 // eslint-disable-next-line max-len
-const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
+// const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
 
 export const NewMovie: React.FC<Props> = ({
   onAdd,
@@ -37,15 +37,15 @@ export const NewMovie: React.FC<Props> = ({
   };
 
   const handleDisabled = () => {
-    if (title.trim()
-    && imdbId.trim()
-    && pattern.test(imgUrl)
-    && pattern.test(imdbUrl)) {
-      return false;
-    }
-    // if (title && imgUrl && imdbId && imdbUrl) {
+    // if (title.trim()
+    // && imdbId.trim()
+    // && pattern.test(imgUrl)
+    // && pattern.test(imdbUrl)) {
     //   return false;
     // }
+    if (title && imgUrl && imdbId && imdbUrl) {
+      return false;
+    }
 
     return true;
   };
@@ -116,6 +116,7 @@ export const NewMovie: React.FC<Props> = ({
         label="Image URL"
         value={imgUrl}
         required
+        // pattern={pattern}
         onChange={handleInputChange}
       />
 

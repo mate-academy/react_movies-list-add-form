@@ -7,6 +7,7 @@ type Props = {
   label?: string,
   placeholder?: string,
   required?: boolean,
+  // pattern?: string,
   onChange?: (key: string, value: string) => void,
 };
 
@@ -17,6 +18,7 @@ function getRandomDigits() {
 }
 
 export const TextField: React.FC<Props> = ({
+  // pattern,
   name,
   value,
   label = name,
@@ -24,6 +26,9 @@ export const TextField: React.FC<Props> = ({
   required = false,
   onChange = () => {},
 }) => {
+  // eslint-disable-next-line max-len
+  // const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
+
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
   const [touched, setTouched] = useState(false);
@@ -56,6 +61,9 @@ export const TextField: React.FC<Props> = ({
       {hasError && (
         <p className="help is-danger">{`${label} is required`}</p>
       )}
+      {/* {pattern.test(value) && (
+        <p className="help is-danger">{`${label} is required`}</p>
+      )} */}
     </div>
   );
 };
