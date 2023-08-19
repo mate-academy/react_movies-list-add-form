@@ -37,7 +37,8 @@ export const NewMovie: React.FC<Props> = ({
   };
 
   const handleDisabled = () => {
-    if (title.trim() && imgUrl && imdbId.trim() && imdbUrl) {
+    // if (title.trim() && imgUrl && imdbId.trim() && imdbUrl) {
+    if (title && imgUrl && imdbId && imdbUrl) {
       return false;
     }
 

@@ -30,6 +30,27 @@ export const TextField: React.FC<Props> = ({
   const [touched, setTouched] = useState(false);
   const hasError = touched && required && !value;
   const [hasInvalidError, setInvalidError] = useState(false);
+  const blurHandle = () => {
+    setTouched(true);
+
+    switch (true) {
+      case name === 'title' && !value.trim():
+      case name === 'imdbId' && !value.trim():
+        setInvalidError(true);
+        break;
+
+      case name === 'description':
+        setInvalidError(false);
+        break;
+
+      case name === 'imgUrl' && !pattern?.test(value):
+      case name === 'imdbUrl' && !pattern?.test(value):
+        setInvalidError(true);
+        break;
+
+      default: setInvalidError(false);
+    }
+  };
 
   return (
     <div className="field">
@@ -51,16 +72,7 @@ export const TextField: React.FC<Props> = ({
           onChange={event => {
             onChange(event.target.name, event.target.value);
           }}
-          onBlur={() => {
-            setTouched(true);
-            if ((name === 'imgUrl'
-            || name === 'imdbUrl')
-            && !pattern?.test(value)) {
-              setInvalidError(true);
-            } else {
-              setInvalidError(false);
-            }
-          }}
+          onBlur={blurHandle}
         />
       </div>
 
