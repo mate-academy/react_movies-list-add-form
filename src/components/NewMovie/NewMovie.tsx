@@ -36,15 +36,7 @@ export const NewMovie: React.FC<Props> = ({
     setMovie(initialMovieState);
   };
 
-  // const [urlIsValid, ]
-
   const handleDisabled = () => {
-    // if (title.trim()
-    // && imdbId.trim()
-    // && pattern.test(imgUrl)
-    // && pattern.test(imdbUrl)) {
-    //   return false;
-    // }
     if (title.trim() && imgUrl && imdbId.trim() && imdbUrl) {
       return false;
     }
@@ -54,30 +46,6 @@ export const NewMovie: React.FC<Props> = ({
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-
-    // if (title.trim().length < 1) {
-    //   alert('incorrect title');
-
-    //   return;
-    // }
-
-    // if (imdbId.trim().length < 1) {
-    //   alert('incorrect imdbId');
-
-    //   return;
-    // }
-
-    // if (!pattern.test(imgUrl)) {
-    //   alert('incorrect imgUrl');
-
-    //   return;
-    // }
-
-    // if (!pattern.test(imdbUrl)) {
-    //   alert('incorrect imdbUrl');
-
-    //   return;
-    // }
 
     onAdd({
       title,
@@ -118,7 +86,7 @@ export const NewMovie: React.FC<Props> = ({
         label="Image URL"
         value={imgUrl}
         required
-        pattern={!imgUrl || pattern.test(imgUrl)}
+        pattern={pattern}
         onChange={handleInputChange}
       />
 
@@ -127,7 +95,7 @@ export const NewMovie: React.FC<Props> = ({
         label="Imdb URL"
         value={imdbUrl}
         required
-        pattern={!imdbUrl || pattern.test(imdbUrl)}
+        pattern={pattern}
         onChange={handleInputChange}
       />
 
