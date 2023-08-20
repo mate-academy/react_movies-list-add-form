@@ -7,7 +7,7 @@ interface NewMovieProps {
 }
 
 export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }: NewMovieProps) => {
-  const [count] = useState(0);
+  const [count, setCount] = useState(0);
 
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -23,6 +23,7 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }: NewMovieProps) => {
     setImgUrl('');
     setImdbUrl('');
     setImdbId('');
+    setCount(count + 1);
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
