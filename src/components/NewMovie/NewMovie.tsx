@@ -2,28 +2,24 @@ import React, { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
+const MovieTemplate = {
+  title: '',
+  description: '',
+  imgUrl: '',
+  imdbUrl: '',
+  imdbId: '',
+};
+
 type NewMovieProps = {
   onAdd: (movie: Movie) => void;
 };
 
 export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
-  const [newMovie, setNewMovie] = useState<Movie>({
-    title: '',
-    description: '',
-    imgUrl: '',
-    imdbUrl: '',
-    imdbId: '',
-  });
+  const [newMovie, setNewMovie] = useState<Movie>(MovieTemplate);
 
   const resetForm = () => {
-    setNewMovie({
-      title: '',
-      description: '',
-      imgUrl: '',
-      imdbUrl: '',
-      imdbId: '',
-    });
+    setNewMovie(MovieTemplate);
   };
 
   const handleSubmit = (event: React.FormEvent) => {
