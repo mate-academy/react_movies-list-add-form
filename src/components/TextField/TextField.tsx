@@ -29,7 +29,7 @@ export const TextField: React.FC<Props> = ({
 
   // To show errors only if the field was touched (onBlur)
   const [touched, setTouched] = useState(false);
-  const hasError = touched && required && !value;
+  const hasError = touched && required && !value.trim();
 
   return (
     <div className="field">
@@ -39,6 +39,7 @@ export const TextField: React.FC<Props> = ({
 
       <div className="control">
         <input
+          name={name}
           type="text"
           id={id}
           data-cy={`movie-${name}`}
@@ -49,6 +50,7 @@ export const TextField: React.FC<Props> = ({
           value={value}
           onChange={event => onChange(event.target.value)}
           onBlur={() => setTouched(true)}
+          required={required}
         />
       </div>
 
