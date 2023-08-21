@@ -53,7 +53,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       return;
     }
 
-    onAdd(movie);
+    onAdd(newMovie);
 
     reset();
 
