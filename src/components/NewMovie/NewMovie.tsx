@@ -8,11 +8,33 @@ type Props = {
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
+
+  const [newMovie, setNewMovie] = useState({
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  });
+
+  const {
+    title, description, imgUrl, imdbUrl, imdbId,
+  } = newMovie;
+
+  const handleInputChange = (newValue: string, name: string) => {
+    setNewMovie((prevMovie) => ({
+      ...prevMovie,
+      [name]: newValue,
+    }));
+  };
+
+  const movie = {
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  };
 
   // eslint-disable-next-line max-len
   const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
@@ -21,11 +43,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   && imdbUrl.match(pattern) && imdbId.trim();
 
   const reset = () => {
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
+    setNewMovie(movie);
   };
 
   function handleSubmit(event: React.FormEvent) {
@@ -35,13 +53,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       return;
     }
 
-    onAdd({
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    });
+    onAdd(movie);
 
     reset();
 
@@ -61,7 +73,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={title}
-        onChange={setTitle}
+        onChange={handleInputChange}
         required
       />
 
@@ -69,7 +81,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={description}
-        onChange={setDescription}
+        onChange={handleInputChange}
       />
 
       <TextField
@@ -77,7 +89,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Image URL"
         pattern={pattern}
         value={imgUrl}
-        onChange={setImgUrl}
+        onChange={handleInputChange}
         required
       />
 
@@ -86,7 +98,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Imdb URL"
         pattern={pattern}
         value={imdbUrl}
-        onChange={setImdbUrl}
+        onChange={handleInputChange}
         required
       />
 
@@ -94,7 +106,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={setImdbId}
+        onChange={handleInputChange}
         required
       />
 
