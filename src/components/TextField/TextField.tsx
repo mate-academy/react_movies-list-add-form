@@ -29,8 +29,10 @@ export const TextField: React.FC<Props> = ({
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
   const [touched, setTouched] = useState(false);
-  const hasError = touched && ((required && !value)
-    || (validationPattern && !validationPattern.test(value)));
+  const hasError = touched && (
+    (required && !value)
+    || (validationPattern && !validationPattern.test(value))
+  );
 
   return (
     <div className="field">
@@ -56,7 +58,7 @@ export const TextField: React.FC<Props> = ({
       {hasError && (
         <p className="help is-danger">
           {
-            validationPattern && !validationPattern.test(value)
+            value && validationPattern && !validationPattern.test(value)
               ? `${label} is not a valid URL`
               : `${label} is required`
           }
