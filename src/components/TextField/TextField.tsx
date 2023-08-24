@@ -8,7 +8,7 @@ type Props = {
   placeholder?: string,
   required?: boolean,
   validationPattern?: RegExp,
-  onChange?: (newValue: string) => void,
+  onChange?: (name: string, newValue: string) => void,
 };
 
 function getRandomDigits() {
@@ -27,12 +27,31 @@ export const TextField: React.FC<Props> = ({
   onChange = () => { },
 }) => {
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
-
   const [touched, setTouched] = useState(false);
+
+  const trimmedValue = value.trim();
+
   const hasError = touched && (
-    (required && !value)
-    || (validationPattern && !validationPattern.test(value))
+    (required && !value.trim())
+    || (validationPattern && !validationPattern.test(value.trim()))
   );
+
+  const erorMessage = () => {
+    if (!trimmedValue) {
+      return `${label} is required`;
+    }
+
+    if (validationPattern && !validationPattern.test(trimmedValue)) {
+      return `${label} is not a valid URL`;
+    }
+
+    return '';
+  };
+
+  const handleBlur = () => {
+    onChange(name, value.trim());
+    setTouched(true);
+  };
 
   return (
     <div className="field">
@@ -50,18 +69,14 @@ export const TextField: React.FC<Props> = ({
           })}
           placeholder={placeholder}
           value={value}
-          onChange={event => onChange(event.target.value)}
-          onBlur={() => setTouched(true)}
+          onChange={event => onChange(name, event.target.value)}
+          onBlur={handleBlur}
         />
       </div>
 
       {hasError && (
         <p className="help is-danger">
-          {
-            value && validationPattern && !validationPattern.test(value)
-              ? `${label} is not a valid URL`
-              : `${label} is required`
-          }
+          {erorMessage()}
         </p>
       )}
     </div>
