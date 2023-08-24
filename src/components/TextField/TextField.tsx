@@ -32,12 +32,22 @@ export const TextField: React.FC<Props> = ({
 
   // To show errors only if the field was touched (onBlur)
   const [touched, setTouched] = useState(false);
-  const [isValid, setIsValid] = useState(true);
+  const [urlError, setUrlError] = useState(false);
   const hasError = touched && required && !value;
 
-  const handleValidation = () => {
+  const handleValidUrl = () => {
+    if (required && !value) {
+      setTouched(true);
+
+      return;
+    }
+
     if (name === 'imgUrl' || name === 'imdbUrl') {
-      setIsValid(pattern.test(value));
+      const validUrl = pattern.test(value);
+
+      setUrlError(!validUrl);
+    } else {
+      setTouched(true);
     }
   };
 
@@ -53,24 +63,25 @@ export const TextField: React.FC<Props> = ({
           id={id}
           data-cy={`movie-${name}`}
           className={classNames('input', {
-            'is-danger': hasError,
+            'is-danger': hasError || urlError,
           })}
           placeholder={placeholder}
           value={value}
-          onChange={event => onChange(event.target.value)}
+          onChange={(event) => {
+            onChange(event.target.value);
+          }}
           onBlur={() => {
-            handleValidation();
-            setTouched(true);
+            handleValidUrl();
           }}
         />
       </div>
 
-      {hasError && (
+      {hasError && !urlError && (
         <p className="help is-danger">{`${label} is required`}</p>
       )}
 
-      {!isValid && (
-        <p className="help is-danger">{`${label} is not email address`}</p>
+      {urlError && (
+        <p className="help is-danger">{`${label} is not valid`}</p>
       )}
     </div>
   );
