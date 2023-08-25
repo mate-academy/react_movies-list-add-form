@@ -19,10 +19,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    // if (!title || !imgUrl || !imdbUrl || !imdbId) {
-    //   return;
-    // }
-
     onAdd({
       title,
       description,
