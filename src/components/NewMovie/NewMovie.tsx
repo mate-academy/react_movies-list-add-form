@@ -9,29 +9,29 @@ type Props = {
 export const NewMovie:React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
 
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
+  const [movie, setMovie] = useState({
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: ''
+  });
 
   const resetForm = () => {
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
+    setMovie({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: ''
+    });
   };
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
     const newMovie: Movie = {
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
+      ...movie
     };
 
     onAdd(newMovie);
@@ -40,11 +40,13 @@ export const NewMovie:React.FC<Props> = ({ onAdd }) => {
     resetForm();
   };
 
-  const hasError = !title
-    || !imgUrl
-    || !imdbUrl
-    || !imdbId
-    || !imgUrl;
+  // eslint-disable-next-line max-len
+  const urlPattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
+
+  const hasError = !movie.title.trim()
+    || (!movie.imgUrl.trim() || !movie.imgUrl.trim().match(urlPattern))
+    || (!movie.imdbUrl.trim() || !movie.imdbUrl.trim().match(urlPattern))
+    || !movie.imdbId.trim()
 
   return (
     <form
@@ -57,29 +59,23 @@ export const NewMovie:React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value={title}
-        onChange={(value) => {
-          setTitle(value);
-        }}
+        value={movie.title}
+        onChange={(value) => setMovie({ ...movie, title: value })}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value={description}
-        onChange={(value) => {
-          setDescription(value);
-        }}
+        value={movie.description}
+        onChange={(value) => setMovie({ ...movie, description: value })}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={imgUrl}
-        onChange={(value) => {
-          setImgUrl(value);
-        }}
+        value={movie.imgUrl}
+        onChange={(value) => setMovie({ ...movie, imgUrl: value })}
         required
         isUrl
       />
@@ -87,10 +83,8 @@ export const NewMovie:React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={imdbUrl}
-        onChange={(value) => {
-          setImdbUrl(value);
-        }}
+        value={movie.imdbUrl}
+        onChange={(value) => setMovie({ ...movie, imdbUrl: value })}
         required
         isUrl
       />
@@ -98,10 +92,8 @@ export const NewMovie:React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imdbId}
-        onChange={(value) => {
-          setImdbId(value);
-        }}
+        value={movie.imdbId}
+        onChange={(value) => setMovie({ ...movie, imdbId: value })}
         required
       />
 
