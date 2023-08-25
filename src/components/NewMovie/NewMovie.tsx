@@ -7,15 +7,17 @@ type Props = {
 };
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
-  const [count, setCount] = useState(0);
-
-  const [newMovie, setNewMovie] = useState({
+  const EMPTY_MOVIE = {
     title: '',
     description: '',
     imgUrl: '',
     imdbUrl: '',
     imdbId: '',
-  });
+  };
+
+  const [count, setCount] = useState(0);
+
+  const [newMovie, setNewMovie] = useState(EMPTY_MOVIE);
 
   const handleChange = (name: string, value: string) => {
     setNewMovie({
@@ -25,13 +27,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   };
 
   const reset = () => {
-    setNewMovie({
-      title: '',
-      description: '',
-      imgUrl: '',
-      imdbUrl: '',
-      imdbId: '',
-    });
+    setNewMovie(EMPTY_MOVIE);
   };
 
   const handleSubmit = (event: React.FormEvent) => {
@@ -107,9 +103,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             className="button is-link"
             disabled={
               !newMovie.title
-                || !newMovie.imgUrl
-                || !newMovie.imdbUrl
-                || !newMovie.imdbId
+              || !newMovie.imgUrl
+              || !newMovie.imdbUrl
+              || !newMovie.imdbId
             }
           >
             Add
