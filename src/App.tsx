@@ -10,7 +10,7 @@ export const App = () => {
 
   const onAdd = (movie: Movie) => {
     setMovies([...movies, movie]);
-  }
+  };
 
   return (
     <div className="page">
