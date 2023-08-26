@@ -11,40 +11,42 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
 
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
-
-  const reset = () => {
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
+  const EMPTY_MOVIE = {
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
   };
 
-  const onSubmit = (e:React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const [movie, setMovie] = useState(EMPTY_MOVIE);
 
-    const newMovie = {
-      title: title.trim(),
-      description: description.trim(),
-      imgUrl: imgUrl.trim(),
-      imdbUrl: imdbUrl.trim(),
-      imdbId: imdbId.trim(),
+  const reset = () => {
+    setMovie(EMPTY_MOVIE);
+  };
+
+  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const newMovie: Movie = {
+      ...movie,
     };
 
     onAdd(newMovie);
-    setCount(newCount => newCount + 1);
+    setCount(count + 1);
+
     reset();
   };
 
-  const hasError = !title.trim()
-  || !imdbUrl.trim()
-  || !imgUrl.trim()
-  || !imdbId.trim();
+  // eslint-disable-next-line max-len
+  const urlPattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
+
+  const hasError = !movie.title.trim()
+  || (!movie.imdbUrl.trim()
+  || !movie.imgUrl.trim().match(urlPattern))
+  || (!movie.imdbId.trim()
+  || !movie.imdbUrl.trim().match(urlPattern))
+  || !movie.imdbId.trim();
 
   return (
     <form
@@ -57,37 +59,42 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value={title}
-        onChange={(value) => setTitle(value)}
+        value={movie.title}
+        onChange={(value) => setMovie({ ...movie, title: value })}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value={description}
-        onChange={(value) => setDescription(value)}
+        value={movie.description}
+        onChange={(value) => setMovie({ ...movie, description: value })}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={imgUrl}
-        onChange={(value) => setImgUrl(value)}
+        value={movie.imgUrl}
+        onChange={(value) => setMovie({ ...movie, imgUrl: value })}
+        required
+        isUrl
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={imdbUrl}
-        onChange={(value) => setImdbUrl(value)}
+        value={movie.imdbUrl}
+        onChange={(value) => setMovie({ ...movie, imdbUrl: value })}
+        required
+        isUrl
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imdbId}
-        onChange={(value) => setImdbId(value)}
+        value={movie.imdbId}
+        onChange={(value) => setMovie({ ...movie, imdbId: value })}
+        required
       />
 
       <div className="field is-grouped">
