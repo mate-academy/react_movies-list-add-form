@@ -1,23 +1,14 @@
 import React, { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
+import { EMPTY_MOVIE } from '../../types/EmptyMovie';
 
 type Props = {
   onAdd: (movie: Movie) => void;
 };
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
-
-  const EMPTY_MOVIE = {
-    title: '',
-    description: '',
-    imgUrl: '',
-    imdbUrl: '',
-    imdbId: '',
-  };
 
   const [movie, setMovie] = useState(EMPTY_MOVIE);
 
@@ -28,8 +19,20 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
+    const {
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    } = movie;
+
     const newMovie: Movie = {
-      ...movie,
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
     };
 
     onAdd(newMovie);
