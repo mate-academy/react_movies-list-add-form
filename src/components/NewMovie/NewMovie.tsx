@@ -42,6 +42,11 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
     newMovie.title && newMovie.imgUrl && newMovie.imdbUrl && newMovie.imdbId
   );
 
+  const hasError = !newMovie.title.trim()
+  || !newMovie.imdbUrl.trim()
+  || !newMovie.imdbId.trim()
+  || !newMovie.imdbId.trim();
+
   return (
     <form
       className="NewMovie"
@@ -95,7 +100,7 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!isReadyToAdd}
+            disabled={!isReadyToAdd || hasError}
           >
             Add
           </button>
