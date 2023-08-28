@@ -2,8 +2,6 @@ import { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
-const emptyString = '';
-
 type NewMovieProps = {
   onAdd: (movie: Movie) => void
 };
@@ -11,35 +9,47 @@ type NewMovieProps = {
 export const NewMovie = ({ onAdd }: NewMovieProps) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
-  const [count, increaseCount] = useState(3);
-  const [title, setTitle] = useState(emptyString);
-  const [description, setDescription] = useState(emptyString);
-  const [imgUrl, setImgUrl] = useState(emptyString);
-  const [imdbUrl, setImdbUrl] = useState(emptyString);
-  const [imdbId, setImdbId] = useState(emptyString);
-  const addMovie = (event: React.FormEvent) => {
+  const [count, increaseCount] = useState(0);
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [imgUrl, setImgUrl] = useState('');
+  const [imdbUrl, setImdbUrl] = useState('');
+  const [imdbId, setImdbId] = useState('');
+
+  const resetFormValues = () => {
+    setTitle('');
+    setDescription('');
+    setImgUrl('');
+    setImdbUrl('');
+    setImdbId('');
+  };
+
+  const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    onAdd({
+
+    const newMovie = {
       title,
       description,
       imgUrl,
       imdbUrl,
       imdbId,
-      movieId: `${Date.now()}${imdbId}`,
-    });
+    };
+
+    onAdd(newMovie);
     increaseCount(oldCount => oldCount + 1);
-    setTitle(emptyString);
-    setDescription(emptyString);
-    setImgUrl(emptyString);
-    setImdbUrl(emptyString);
-    setImdbId(emptyString);
+    resetFormValues();
   };
+
+  const isButtonEnabled = title === ''
+    || imgUrl === ''
+    || imdbUrl === ''
+    || imdbId === '';
 
   return (
     <form
       className="NewMovie"
       key={count}
-      onSubmit={(event) => addMovie(event)}
+      onSubmit={(event) => handleSubmit(event)}
     >
       <h2 className="title">Add a movie</h2>
 
@@ -85,12 +95,7 @@ export const NewMovie = ({ onAdd }: NewMovieProps) => {
       <div className="field is-grouped">
         <div className="control">
           <button
-            disabled={
-              title === emptyString
-              || imgUrl === emptyString
-              || imdbUrl === emptyString
-              || imdbId === emptyString
-            }
+            disabled={isButtonEnabled}
             type="submit"
             data-cy="submit-button"
             className="button is-link"

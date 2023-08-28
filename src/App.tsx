@@ -5,28 +5,22 @@ import { NewMovie } from './components/NewMovie';
 import moviesFromServer from './api/movies.json';
 import { Movie } from './types/Movie';
 
-const movies = moviesFromServer.map((movie) => ({
-  ...movie,
-  movieId: movie.imdbId,
-}));
-
 export const App = () => {
-  const [moviesCount, increaseMoviesCount] = useState(movies.length);
-
-  const onAdd = (movie: Movie) => {
-    if (moviesCount === movies.length) {
-      movies.push(movie);
-      increaseMoviesCount(oldMoviesCount => oldMoviesCount + 1);
-    }
+  const [moviesList, setMoviesList] = useState(moviesFromServer);
+  const addNewMovie = (newMovie: Movie) => {
+    setMoviesList(initialMovies => {
+      return [...initialMovies,
+        newMovie];
+    });
   };
 
   return (
     <div className="page">
       <div className="page-content">
-        <MoviesList movies={movies} />
+        <MoviesList movies={moviesList} />
       </div>
       <div className="sidebar">
-        <NewMovie onAdd={onAdd} />
+        <NewMovie onAdd={addNewMovie} />
       </div>
     </div>
   );
