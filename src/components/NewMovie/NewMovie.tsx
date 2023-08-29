@@ -7,14 +7,48 @@ type Props = {
 };
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [imgUrl, setImgUrl] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
+
+  const onChange = (inputType: string) => {
+    switch (inputType) {
+      case 'title': {
+        return (event: React.ChangeEvent<HTMLInputElement>) => {
+          setTitle(event.target.value);
+        };
+      }
+
+      case 'description': {
+        return (event: React.ChangeEvent<HTMLInputElement>) => {
+          setDescription(event.target.value);
+        };
+      }
+
+      case 'imgUrl': {
+        return (event: React.ChangeEvent<HTMLInputElement>) => {
+          setImgUrl(event.target.value);
+        };
+      }
+
+      case 'imdbUrl': {
+        return (event: React.ChangeEvent<HTMLInputElement>) => {
+          setImdbUrl(event.target.value);
+        };
+      }
+
+      case 'imdbId': {
+        return (event: React.ChangeEvent<HTMLInputElement>) => {
+          setImdbId(event.target.value);
+        };
+      }
+
+      default: throw new Error('undefined statement');
+    }
+  };
 
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -47,9 +81,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={title}
-        onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-          setTitle(event.target.value);
-        }}
+        onChange={onChange('title')}
         required
       />
 
@@ -57,18 +89,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={description}
-        onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-          setDescription(event.target.value);
-        }}
+        onChange={onChange('description')}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-          setImgUrl(event.target.value);
-        }}
+        onChange={onChange('imgUrl')}
         required
       />
 
@@ -76,9 +104,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-          setImdbUrl(event.target.value);
-        }}
+        onChange={onChange('imdbUrl')}
         required
       />
 
@@ -86,9 +112,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-          setImdbId(event.target.value);
-        }}
+        onChange={onChange('imdbId')}
         required
       />
 
@@ -98,7 +122,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!title || !imgUrl || !imdbUrl || !imdbId}
+            disabled={
+              !title.trim() || !imgUrl.trim()
+              || !imdbUrl.trim() || !imdbId.trim()
+            }
           >
             Add
           </button>
