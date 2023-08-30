@@ -7,8 +7,6 @@ type NewMovieProps = {
 };
 
 export const NewMovie: React.FC<NewMovieProps> = ({ addMovie }) => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
   const [inputTitle, setTitle] = useState('');
   const [inputDescription, setDescription] = useState('');
@@ -16,11 +14,16 @@ export const NewMovie: React.FC<NewMovieProps> = ({ addMovie }) => {
   const [inputImdbUrl, setImdbUrl] = useState('');
   const [inputImdbId, setImdbId] = useState('');
 
+  const [isImageUrlValid, setImageUrlValid] = useState(true);
+  const [isImdbUrlValid, setImdbUrlValid] = useState(true);
+
   const isFormValid
-  = inputTitle !== ''
-  && inputImageUrl !== ''
-  && inputImdbUrl !== ''
-  && inputImdbId !== '';
+  = inputTitle.trim() !== ''
+  && inputImageUrl.trim() !== ''
+  && inputImdbUrl.trim() !== ''
+  && inputImdbId.trim() !== ''
+  && isImageUrlValid
+  && isImdbUrlValid;
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -56,6 +59,7 @@ export const NewMovie: React.FC<NewMovieProps> = ({ addMovie }) => {
         label="Title"
         value={inputTitle}
         onChange={setTitle}
+        validateNoExtraWhitespace
         required
       />
 
@@ -64,6 +68,7 @@ export const NewMovie: React.FC<NewMovieProps> = ({ addMovie }) => {
         label="Description"
         value={inputDescription}
         onChange={setDescription}
+        validateNoExtraWhitespace
       />
 
       <TextField
@@ -71,6 +76,8 @@ export const NewMovie: React.FC<NewMovieProps> = ({ addMovie }) => {
         label="Image URL"
         value={inputImageUrl}
         onChange={setImageUrl}
+        validateUrl
+        setIsValid={setImageUrlValid}
         required
       />
 
@@ -79,6 +86,8 @@ export const NewMovie: React.FC<NewMovieProps> = ({ addMovie }) => {
         label="Imdb URL"
         value={inputImdbUrl}
         onChange={setImdbUrl}
+        validateUrl
+        setIsValid={setImdbUrlValid}
         required
       />
 
@@ -97,7 +106,6 @@ export const NewMovie: React.FC<NewMovieProps> = ({ addMovie }) => {
             data-cy="submit-button"
             className="button is-link"
             disabled={!isFormValid}
-            // update moviesFromServer and re-render MoviesList
           >
             Add
           </button>
