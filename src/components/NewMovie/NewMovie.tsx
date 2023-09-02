@@ -24,12 +24,12 @@ export const NewMovie = ({ onAdd }: INewMovie) => {
 
   const handeSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    onAdd({ ...fields });
+    onAdd(fields);
     setCount(count + 1);
   };
 
   const handleChange = (fieldKey: keyof MovieFields) => (value: string) => {
-    setFields((s) => ({ ...s, [fieldKey]: value }));
+    setFields((s) => ({ ...s, [fieldKey]: value.trim() }));
   };
 
   const isFormInvalid = !fields.title
