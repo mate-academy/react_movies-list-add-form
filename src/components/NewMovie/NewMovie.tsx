@@ -24,18 +24,19 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setImbdId('');
   };
 
-  const isFormValid = title && imgUrl && imdbUrl && imdbId;
+  const isFormValid = title.trim()
+    && imgUrl.trim() && imdbUrl.trim() && imdbId.trim();
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
     if (isFormValid) {
       onAdd({
-        title,
-        description,
-        imgUrl,
-        imdbUrl,
-        imdbId,
+        title: title.trim(),
+        description: description.trim(),
+        imgUrl: imgUrl.trim(),
+        imdbUrl: imdbUrl.trim(),
+        imdbId: imdbId.trim(),
       });
     }
 
