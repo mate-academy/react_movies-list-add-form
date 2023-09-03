@@ -8,7 +8,9 @@ import { Movie } from './types/Movie';
 export const App = () => {
   const [movies, setMovies] = useState<Movie[]>(moviesFromServer);
   const addMovie = (newMovie: Movie) => {
-    if (!moviesFromServer.find(movie => movie.title === newMovie.title)) {
+    if (!moviesFromServer.find(movie => movie.title === newMovie.title
+      || movie.imgUrl === newMovie.imgUrl
+      || movie.imdbUrl === newMovie.imdbUrl)) {
       setMovies(currentMovies => [...currentMovies, newMovie]);
     }
   };
