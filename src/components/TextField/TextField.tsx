@@ -8,7 +8,7 @@ type Props = {
   placeholder?: string,
   required?: boolean,
   onChange?: (newValue: string) => void,
-  validateNoExtraWhitespace?: boolean;
+  hasWhiteSpaceError?: boolean;
   validateUrl?: boolean;
   setIsValid?: (isValid: boolean) => void;
 };
@@ -32,7 +32,7 @@ export const TextField: React.FC<Props> = ({
   placeholder = `Enter ${label}`,
   required = false,
   onChange = () => {},
-  validateNoExtraWhitespace = false,
+  hasWhiteSpaceError = false,
   validateUrl = false,
   setIsValid,
 }) => {
@@ -43,14 +43,7 @@ export const TextField: React.FC<Props> = ({
   const [touched, setTouched] = useState(false);
   const hasError = touched && required && !value;
 
-  const isValidNoExtraWhitespace = (
-    str: string,
-  ) => (!/^[\s]+$/.test(str) && !/^\s+/.test(str));
-
-  const hasWhitespaceValidationError
-  = validateNoExtraWhitespace && !isValidNoExtraWhitespace(value);
-
-  const isValidUrl = (evaluationValue: string) => pattern.test(evaluationValue);
+  const isValidUrl = (url: string) => pattern.test(url);
   const hasValidationError = touched && validateUrl && !isValidUrl(value);
 
   useEffect(() => {
@@ -88,7 +81,7 @@ export const TextField: React.FC<Props> = ({
       {hasValidationError && (
         <p className="help is-danger">{`${label} must be a valid URL`}</p>
       )}
-      {hasWhitespaceValidationError && (
+      {hasWhiteSpaceError && (
         <p className="help is-danger">{`${label} should not contain leading/trailing/multiple spaces.`}</p>
       )}
     </div>

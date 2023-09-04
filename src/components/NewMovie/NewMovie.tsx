@@ -17,8 +17,37 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
   const [isImageUrlValid, setImageUrlValid] = useState(true);
   const [isImdbUrlValid, setImdbUrlValid] = useState(true);
 
+  const [
+    titleHasWhiteSpaceError,
+    setTitleHasWhiteSpaceError] = useState(false);
+  const [
+    descriptionHasWhiteSpaceError,
+    setDescriptionHasWhiteSpaceError] = useState(false);
+
+  const isValidNoExtraWhitespace = (str: string) => (
+    !/^[\s]+$/.test(str)
+      && !/^\s+/.test(str)
+      && !/\s{2,}/.test(str)
+  );
+
+  const handleTitleChange = (newTitle: string) => {
+    setTitle(newTitle);
+    const hasWhiteSpaceErrorTitle = !isValidNoExtraWhitespace(newTitle);
+
+    setTitleHasWhiteSpaceError(hasWhiteSpaceErrorTitle);
+  };
+
+  const handleDescChange = (newDesc: string) => {
+    setDescription(newDesc);
+    const hasWhiteSpaceErrorDesc = !isValidNoExtraWhitespace(newDesc);
+
+    setDescriptionHasWhiteSpaceError(hasWhiteSpaceErrorDesc);
+  };
+
   const isFormValid
   = inputTitle.trim() !== ''
+  && isValidNoExtraWhitespace(inputTitle)
+  && isValidNoExtraWhitespace(inputDescription)
   && inputImageUrl.trim() !== ''
   && inputImdbUrl.trim() !== ''
   && inputImdbId.trim() !== ''
@@ -58,8 +87,8 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={inputTitle}
-        onChange={setTitle}
-        validateNoExtraWhitespace
+        onChange={handleTitleChange} // here we changed handling of validation
+        hasWhiteSpaceError={titleHasWhiteSpaceError}
         required
       />
 
@@ -67,8 +96,8 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={inputDescription}
-        onChange={setDescription}
-        validateNoExtraWhitespace
+        onChange={handleDescChange}
+        hasWhiteSpaceError={descriptionHasWhiteSpaceError}
       />
 
       <TextField
