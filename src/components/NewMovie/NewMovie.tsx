@@ -35,8 +35,8 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
   };
 
   const checkFields = () => {
-    const notFilled = !newMovie.title || !newMovie.imgUrl
-  || !newMovie.imdbUrl || !newMovie.imdbId;
+    const notFilled = !newMovie.title.trim() || !newMovie.imgUrl.trim()
+  || !newMovie.imdbUrl.trim() || !newMovie.imdbId.trim();
 
     const isValid
     = !notFilled && isValidUrl(newMovie.imgUrl) && isValidUrl(newMovie.imdbUrl);
@@ -71,7 +71,9 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
         name={`${MovieField.Description}`}
         label="Description"
         value={newMovie.description}
-        onChange={value => handleFieldChange(MovieField.Description, value)}
+        onChange={value => {
+          handleFieldChange(MovieField.Description, value);
+        }}
         count={count}
         setCount={setCount}
       />

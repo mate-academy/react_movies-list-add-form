@@ -48,7 +48,7 @@ export const TextField: React.FC<Props> = ({
     checkCount();
   }, [count]);
 
-  const hasError = touched && required && !value;
+  const hasError = touched && required && !value.trim();
   const hasInvalidImgUrl = touched && required
     && value && !isValidImgUrl && (name === MovieField.ImgUrl);
   const hasInvalidImdbUrl = touched && required

@@ -8,7 +8,16 @@ import { Movie } from './types/Movie';
 export const App = () => {
   const [movies, setMovies] = useState(moviesFromServer);
   const addMovies = (movie: Movie) => {
-    setMovies(prevMovies => [...prevMovies, movie]);
+    const trimmedMovie = {
+      ...movie,
+      title: movie.title.trim(),
+      description: movie.description.trim(),
+      imgUrl: movie.imgUrl.trim(),
+      imdbUrl: movie.imdbUrl.trim(),
+      imdbId: movie.imdbId.trim(),
+    };
+
+    setMovies(prevMovies => [...prevMovies, trimmedMovie]);
   };
 
   return (
