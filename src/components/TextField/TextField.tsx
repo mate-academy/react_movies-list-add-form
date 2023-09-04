@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 type Props = {
   name: string,
@@ -7,10 +7,10 @@ type Props = {
   label?: string,
   placeholder?: string,
   required?: boolean,
-  onChange?: (newValue: string) => void,
+  onChange: (newValue: string) => void,
   hasWhiteSpaceError?: boolean;
-  validateUrl?: boolean;
-  setIsValid?: (isValid: boolean) => void;
+  hasValidUrlError?: boolean;
+  hasValidImdbError?: boolean;
 };
 
 function getRandomDigits() {
@@ -18,12 +18,6 @@ function getRandomDigits() {
     .toFixed(16)
     .slice(2);
 }
-
-const pattern = new RegExp(
-  '^((([A-Za-z]{3,9}:(?:\\/\\/)?)(?:[-;:&=+$,\\w]+@)?[A-Za-z0-9.-]+|'
-  + '(?:www\\.|[-;:&=+$,\\w]+@)[A-Za-z0-9.-]+)'
-  + '((?:\\/[+~%/.\\w-_]*)?\\??(?:[-+=&;%@,.\\w_]*)#?(?:[,.!/\\\\\\w]*))?)$',
-);
 
 export const TextField: React.FC<Props> = ({
   name,
@@ -33,8 +27,8 @@ export const TextField: React.FC<Props> = ({
   required = false,
   onChange = () => {},
   hasWhiteSpaceError = false,
-  validateUrl = false,
-  setIsValid,
+  hasValidUrlError,
+  hasValidImdbError,
 }) => {
   // generage a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
@@ -43,16 +37,7 @@ export const TextField: React.FC<Props> = ({
   const [touched, setTouched] = useState(false);
   const hasError = touched && required && !value;
 
-  const isValidUrl = (url: string) => pattern.test(url);
-  const hasValidationError = touched && validateUrl && !isValidUrl(value);
-
-  useEffect(() => {
-    if (setIsValid) {
-      setIsValid(!hasValidationError && (
-        !required || (required && value.trim() !== '')
-      ));
-    }
-  }, [value, touched]);
+  const hasValidationError = touched && hasValidUrlError;
 
   return (
     <div className="field">
@@ -66,7 +51,7 @@ export const TextField: React.FC<Props> = ({
           id={id}
           data-cy={`movie-${name}`}
           className={classNames('input', {
-            'is-danger': hasError || (touched && !isValidUrl),
+            'is-danger': hasError || (touched && hasValidUrlError),
           })}
           placeholder={placeholder}
           value={value}
@@ -84,6 +69,21 @@ export const TextField: React.FC<Props> = ({
       {hasWhiteSpaceError && (
         <p className="help is-danger">{`${label} should not contain leading/trailing/multiple spaces.`}</p>
       )}
+      {hasValidImdbError && (
+        <p className="help is-danger">{`${label} should be in the format 'tt' followed by numbers`}</p>
+      )}
+
     </div>
   );
 };
+
+// const handleInputChange = (
+//   newValue: string,
+//   setter: React.Dispatch<React.SetStateAction<string>>,
+//   setError: React.Dispatch<React.SetStateAction<boolean>>,
+// ) => {
+//   setter(newValue);
+//   const hasWhiteSpaceError = !isValidNoExtraWhitespace(newValue);
+
+//   setError(hasWhiteSpaceError);
+// };

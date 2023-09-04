@@ -14,9 +14,6 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
   const [inputImdbUrl, setImdbUrl] = useState('');
   const [inputImdbId, setImdbId] = useState('');
 
-  const [isImageUrlValid, setImageUrlValid] = useState(true);
-  const [isImdbUrlValid, setImdbUrlValid] = useState(true);
-
   const [
     titleHasWhiteSpaceError,
     setTitleHasWhiteSpaceError] = useState(false);
@@ -44,15 +41,50 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
     setDescriptionHasWhiteSpaceError(hasWhiteSpaceErrorDesc);
   };
 
+  const [isImageUrlValid, setHasValidImageUrl] = useState(false);
+
+  const pattern = new RegExp(
+    '^((([A-Za-z]{3,9}:(?:\\/\\/)?)(?:[-;:&=+$,\\w]+@)?[A-Za-z0-9.-]+|'
+    + '(?:www\\.|[-;:&=+$,\\w]+@)[A-Za-z0-9.-]+)'
+    + '((?:\\/[+~%/.\\w-_]*)?\\??(?:[-+=&;%@,.\\w_]*)#?(?:[,.!/\\\\\\w]*))?)$',
+  );
+
+  const isValidUrl = (url: string) => pattern.test(url);
+
+  const handleImageUrlChange = (newUrl: string) => {
+    setImageUrl(newUrl);
+    const hasUrlErrorImage = !isValidUrl(newUrl);
+
+    setHasValidImageUrl(hasUrlErrorImage);
+  };
+
+  const [isImdbUrlValid, setHasValidImdbUrl] = useState(false);
+
+  const handleImdbUrlChange = (newImdbId: string) => {
+    setImdbUrl(newImdbId);
+    const hasUrlErrorImdbUrl = !isValidUrl(newImdbId);
+
+    setHasValidImdbUrl(hasUrlErrorImdbUrl);
+  };
+
+  const [isImdbIdValid, setHasValidImdbId] = useState(false);
+
+  const handleImdbIdChange = (newId: string) => {
+    setImdbId(newId);
+    const hasIdError = !/^tt\d+$/.test(newId);
+
+    setHasValidImdbId(hasIdError);
+  };
+
   const isFormValid
   = inputTitle.trim() !== ''
   && isValidNoExtraWhitespace(inputTitle)
   && isValidNoExtraWhitespace(inputDescription)
   && inputImageUrl.trim() !== ''
+  && isValidUrl(inputImageUrl)
   && inputImdbUrl.trim() !== ''
-  && inputImdbId.trim() !== ''
-  && isImageUrlValid
-  && isImdbUrlValid;
+  && isValidUrl(inputImdbUrl)
+  && inputImdbId.trim() !== '';
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -87,7 +119,7 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={inputTitle}
-        onChange={handleTitleChange} // here we changed handling of validation
+        onChange={handleTitleChange}
         hasWhiteSpaceError={titleHasWhiteSpaceError}
         required
       />
@@ -104,9 +136,8 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
         name="imgUrl"
         label="Image URL"
         value={inputImageUrl}
-        onChange={setImageUrl}
-        validateUrl
-        setIsValid={setImageUrlValid}
+        onChange={handleImageUrlChange}
+        hasValidUrlError={isImageUrlValid}
         required
       />
 
@@ -114,9 +145,8 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={inputImdbUrl}
-        onChange={setImdbUrl}
-        validateUrl
-        setIsValid={setImdbUrlValid}
+        onChange={handleImdbUrlChange}
+        hasValidUrlError={isImdbUrlValid}
         required
       />
 
@@ -124,7 +154,8 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={inputImdbId}
-        onChange={setImdbId}
+        onChange={handleImdbIdChange}
+        hasValidImdbError={isImdbIdValid}
         required
       />
 
