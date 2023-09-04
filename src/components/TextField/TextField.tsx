@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
+import { MovieField } from '../../types/Movie';
 
 type Props = {
   name: string,
@@ -32,10 +33,8 @@ export const TextField: React.FC<Props> = ({
   isValidImgUrl,
   isValidImdbUrl,
 }) => {
-  // generage a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
-  // To show errors only if the field was touched (onBlur)
   const [touched, setTouched] = useState(false);
 
   const checkCount = () => {
@@ -51,9 +50,9 @@ export const TextField: React.FC<Props> = ({
 
   const hasError = touched && required && !value;
   const hasInvalidImgUrl = touched && required
-    && value && !isValidImgUrl && (name === 'imgUrl');
+    && value && !isValidImgUrl && (name === MovieField.ImgUrl);
   const hasInvalidImdbUrl = touched && required
-    && value && !isValidImdbUrl && (name === 'imdbUrl');
+    && value && !isValidImdbUrl && (name === MovieField.ImdbUrl);
 
   const shouldAddDangerClass = hasError
     || hasInvalidImgUrl || hasInvalidImdbUrl;
