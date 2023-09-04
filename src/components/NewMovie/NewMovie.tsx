@@ -8,40 +8,21 @@ type NewMovieProps = {
 
 export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
-  const [inputTitle, setTitle] = useState('');
-  const [inputDescription, setDescription] = useState('');
-  const [inputImageUrl, setImageUrl] = useState('');
-  const [inputImdbUrl, setImdbUrl] = useState('');
-  const [inputImdbId, setImdbId] = useState('');
+  const initialState = {
+    title: { value: '', hasError: false },
+    description: { value: '', hasError: false },
+    imgUrl: { value: '', hasError: false },
+    imdbUrl: { value: '', hasError: false },
+    imdbId: { value: '', hasError: false },
+  };
 
-  const [
-    titleHasWhiteSpaceError,
-    setTitleHasWhiteSpaceError] = useState(false);
-  const [
-    descriptionHasWhiteSpaceError,
-    setDescriptionHasWhiteSpaceError] = useState(false);
+  const [state, setState] = useState(initialState);
 
   const isValidNoExtraWhitespace = (str: string) => (
     !/^[\s]+$/.test(str)
       && !/^\s+/.test(str)
       && !/\s{2,}/.test(str)
   );
-
-  const handleTitleChange = (newTitle: string) => {
-    setTitle(newTitle);
-    const hasWhiteSpaceErrorTitle = !isValidNoExtraWhitespace(newTitle);
-
-    setTitleHasWhiteSpaceError(hasWhiteSpaceErrorTitle);
-  };
-
-  const handleDescChange = (newDesc: string) => {
-    setDescription(newDesc);
-    const hasWhiteSpaceErrorDesc = !isValidNoExtraWhitespace(newDesc);
-
-    setDescriptionHasWhiteSpaceError(hasWhiteSpaceErrorDesc);
-  };
-
-  const [isImageUrlValid, setHasValidImageUrl] = useState(false);
 
   const pattern = new RegExp(
     '^((([A-Za-z]{3,9}:(?:\\/\\/)?)(?:[-;:&=+$,\\w]+@)?[A-Za-z0-9.-]+|'
@@ -51,59 +32,56 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
 
   const isValidUrl = (url: string) => pattern.test(url);
 
-  const handleImageUrlChange = (newUrl: string) => {
-    setImageUrl(newUrl);
-    const hasUrlErrorImage = !isValidUrl(newUrl);
+  const isValidImdbId = (str: string) => (/^tt\d+$/.test(str));
 
-    setHasValidImageUrl(hasUrlErrorImage);
+  const handleInputChange = (
+    fieldName: string,
+    value: string,
+    validator: (str: string) => boolean,
+  ) => {
+    const hasError = !validator(value);
+
+    setState(prevState => ({
+      ...prevState,
+      [fieldName]: {
+        value,
+        hasError,
+      },
+    }));
   };
 
-  const [isImdbUrlValid, setHasValidImdbUrl] = useState(false);
+  const isFormValid = () => {
+    return Object.entries(state)
+      .every(([key, { value, hasError }]) => {
+        if (key === 'description') {
+          return !hasError;
+        }
 
-  const handleImdbUrlChange = (newImdbId: string) => {
-    setImdbUrl(newImdbId);
-    const hasUrlErrorImdbUrl = !isValidUrl(newImdbId);
-
-    setHasValidImdbUrl(hasUrlErrorImdbUrl);
+        return value.trim() !== '' && !hasError;
+      });
   };
-
-  const [isImdbIdValid, setHasValidImdbId] = useState(false);
-
-  const handleImdbIdChange = (newId: string) => {
-    setImdbId(newId);
-    const hasIdError = !/^tt\d+$/.test(newId);
-
-    setHasValidImdbId(hasIdError);
-  };
-
-  const isFormValid
-  = inputTitle.trim() !== ''
-  && isValidNoExtraWhitespace(inputTitle)
-  && isValidNoExtraWhitespace(inputDescription)
-  && inputImageUrl.trim() !== ''
-  && isValidUrl(inputImageUrl)
-  && inputImdbUrl.trim() !== ''
-  && isValidUrl(inputImdbUrl)
-  && inputImdbId.trim() !== '';
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
     const newMovieFromForm = {
-      title: inputTitle,
-      description: inputDescription,
-      imgUrl: inputImageUrl,
-      imdbUrl: inputImdbUrl,
-      imdbId: inputImdbId,
+      title: state.title.value,
+      description: state.description.value,
+      imgUrl: state.imgUrl.value,
+      imdbUrl: state.imdbUrl.value,
+      imdbId: state.imdbId.value,
     };
 
     onAdd(newMovieFromForm);
 
-    setTitle('');
-    setDescription('');
-    setImageUrl('');
-    setImdbUrl('');
-    setImdbId('');
+    setState({
+      title: { value: '', hasError: false },
+      description: { value: '', hasError: false },
+      imgUrl: { value: '', hasError: false },
+      imdbUrl: { value: '', hasError: false },
+      imdbId: { value: '', hasError: false },
+    });
+
     setCount(count + 1);
   };
 
@@ -118,44 +96,64 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value={inputTitle}
-        onChange={handleTitleChange}
-        hasWhiteSpaceError={titleHasWhiteSpaceError}
+        value={state.title.value}
+        onChange={(newValue: string) => handleInputChange(
+          'title',
+          newValue,
+          isValidNoExtraWhitespace,
+        )}
+        hasWhiteSpaceError={state.title.hasError}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value={inputDescription}
-        onChange={handleDescChange}
-        hasWhiteSpaceError={descriptionHasWhiteSpaceError}
+        value={state.description.value}
+        onChange={(newValue: string) => handleInputChange(
+          'description',
+          newValue,
+          isValidNoExtraWhitespace,
+        )}
+        hasWhiteSpaceError={state.description.hasError}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={inputImageUrl}
-        onChange={handleImageUrlChange}
-        hasValidUrlError={isImageUrlValid}
+        value={state.imgUrl.value}
+        onChange={(newValue: string) => handleInputChange(
+          'imgUrl',
+          newValue,
+          isValidUrl,
+        )}
+        hasValidUrlError={state.imgUrl.hasError}
         required
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={inputImdbUrl}
-        onChange={handleImdbUrlChange}
-        hasValidUrlError={isImdbUrlValid}
+        value={state.imdbUrl.value}
+        onChange={(newValue: string) => handleInputChange(
+          'imdbUrl',
+          newValue,
+          isValidUrl,
+        )}
+        hasValidUrlError={state.imdbUrl.hasError}
         required
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={inputImdbId}
-        onChange={handleImdbIdChange}
-        hasValidImdbError={isImdbIdValid}
+        value={state.imdbId.value}
+        onChange={(newValue: string) => handleInputChange(
+          'imdbId',
+          newValue,
+          isValidImdbId,
+        )}
+        hasValidImdbError={state.imdbId.hasError}
         required
       />
 
@@ -165,7 +163,7 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!isFormValid}
+            disabled={!isFormValid()}
           >
             Add
           </button>
