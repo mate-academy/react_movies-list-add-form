@@ -76,14 +76,3 @@ export const TextField: React.FC<Props> = ({
     </div>
   );
 };
-
-// const handleInputChange = (
-//   newValue: string,
-//   setter: React.Dispatch<React.SetStateAction<string>>,
-//   setError: React.Dispatch<React.SetStateAction<boolean>>,
-// ) => {
-//   setter(newValue);
-//   const hasWhiteSpaceError = !isValidNoExtraWhitespace(newValue);
-
-//   setError(hasWhiteSpaceError);
-// };

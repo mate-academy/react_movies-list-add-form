@@ -41,6 +41,22 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
   ) => {
     const hasError = !validator(value);
 
+    if (fieldName === 'imdbUrl' && !hasError) {
+      const imdbIdMatch = value.match(/\/tt(\d+)/);
+
+      if (imdbIdMatch && imdbIdMatch[1]) {
+        const newImdbId = `tt${imdbIdMatch[1]}`;
+
+        setState(prevState => ({
+          ...prevState,
+          imdbId: {
+            value: newImdbId,
+            hasError: false,
+          },
+        }));
+      }
+    }
+
     setState(prevState => ({
       ...prevState,
       [fieldName]: {
