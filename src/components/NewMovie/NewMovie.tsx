@@ -84,9 +84,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        // value=""
         value={title}
-        // onChange={() => {}}
         onChange={handleTitleChange}
         required
       />
@@ -94,7 +92,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="description"
         label="Description"
-        // value=""
         value={description}
         onChange={handleDescriptionChange}
       />
@@ -102,7 +99,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="imgUrl"
         label="Image URL"
-        // value=""
         value={imgUrl}
         onChange={handleImgUrlChange}
         required
@@ -111,7 +107,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        // value=""
         value={imdbUrl}
         onChange={handleImdbUrlChange}
         required
@@ -120,7 +115,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="imdbId"
         label="Imdb ID"
-        // value=""
         value={imdbId}
         onChange={handleImdbIdChange}
         required
