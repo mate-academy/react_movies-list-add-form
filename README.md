@@ -4,7 +4,7 @@ You have the `App` with the `MoviesList` and `NewMovie` form containing ready
 to use `TextField` components. Learn how it works and implement an ability to
 add movies from [IMDB](https://www.imdb.com/).
 
-If you want to test your page you can get first image from a [movie page](https://www.imdb.com/title/tt1312171) using `DevTools` -> `Network` -> `Img` 
+If you want to test your page you can get first image from a [movie page](https://www.imdb.com/title/tt1312171) using `DevTools` -> `Network` -> `Img`
 
 > Here is [the demo page](https://mate-academy.github.io/react_movies-list-add-form/)
 
@@ -30,4 +30,4 @@ const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(
 - Implement a solution following the [React task guideline](https://github.com/mate-academy/react_task-guideline#react-tasks-guideline).
 - Use the [React TypeScript cheat sheet](https://mate-academy.github.io/fe-program/js/extra/react-typescript).
 - Open one more terminal and run tests with `npm test` to ensure your solution is correct.
-- Replace `<your_account>` with your Github username in the [DEMO LINK](https://<your_account>.github.io/react_movies-list-add-form/) and add it to the PR description.
+- Replace `<your_account>` with your Github username in the [DEMO LINK](https://desevoker.github.io/react_movies-list-add-form/) and add it to the PR description.
