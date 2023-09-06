@@ -22,7 +22,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setImdbId('');
   };
 
-  const isFormFilled = title && imgUrl && imdbUrl && imdbId;
+  const isFormFilled = title.trim()
+    && imgUrl.trim()
+    && imdbUrl.trim()
+    && imdbId.trim();
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
