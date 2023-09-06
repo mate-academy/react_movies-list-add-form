@@ -1,5 +1,10 @@
 import classNames from 'classnames';
 import React, { useState } from 'react';
+import { getRandomDigits } from '../../utils';
+import {
+  ERROR_MESSAGE_FOR_EMPTY_INPUT,
+  ERROR_MESSAGE_FOR_VALIDATION,
+} from './consts';
 
 type Props = {
   name: string,
@@ -7,14 +12,9 @@ type Props = {
   label?: string,
   placeholder?: string,
   required?: boolean,
-  onChange?: (newValue: string) => void,
+  error?: boolean,
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void,
 };
-
-function getRandomDigits() {
-  return Math.random()
-    .toFixed(16)
-    .slice(2);
-}
 
 export const TextField: React.FC<Props> = ({
   name,
@@ -22,14 +22,15 @@ export const TextField: React.FC<Props> = ({
   label = name,
   placeholder = `Enter ${label}`,
   required = false,
+  error,
   onChange = () => {},
 }) => {
-  // generage a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
-
-  // To show errors only if the field was touched (onBlur)
   const [touched, setTouched] = useState(false);
-  const hasError = touched && required && !value;
+  const hasError = touched && ((required && !value) || error);
+  const errorMessage = `${label} ${(required && !value
+    ? ERROR_MESSAGE_FOR_EMPTY_INPUT
+    : ERROR_MESSAGE_FOR_VALIDATION)}`;
 
   return (
     <div className="field">
@@ -39,6 +40,7 @@ export const TextField: React.FC<Props> = ({
 
       <div className="control">
         <input
+          name={name}
           type="text"
           id={id}
           data-cy={`movie-${name}`}
@@ -47,13 +49,15 @@ export const TextField: React.FC<Props> = ({
           })}
           placeholder={placeholder}
           value={value}
-          onChange={event => onChange(event.target.value)}
+          onChange={onChange}
           onBlur={() => setTouched(true)}
         />
       </div>
 
       {hasError && (
-        <p className="help is-danger">{`${label} is required`}</p>
+        <p className="help is-danger">
+          {errorMessage}
+        </p>
       )}
     </div>
   );
