@@ -31,20 +31,29 @@ export const NewMovie = ({ onAdd }: Props) => {
     })
   );
 
+  const onChangeHandler = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setCount(count + 1);
+    onAdd(movie);
+    setTitle('');
+    setDescription('');
+    setImgUrl('');
+    setImdbUrl('');
+    setImdbId('');
+  };
+
+  const fieldsFilled = (
+    title.length === 0
+    || imgUrl.length === 0
+    || imdbUrl.length === 0
+    || imdbId.length === 0
+  );
+
   return (
     <form
       className="NewMovie"
       key={count}
-      onSubmit={(event) => {
-        event.preventDefault();
-        setCount(count + 1);
-        onAdd(movie);
-        setTitle('');
-        setDescription('');
-        setImgUrl('');
-        setImdbUrl('');
-        setImdbId('');
-      }}
+      onSubmit={(event) => onChangeHandler(event)}
     >
       <h2 className="title">Add a movie</h2>
 
@@ -99,30 +108,16 @@ export const NewMovie = ({ onAdd }: Props) => {
 
       <div className="field is-grouped">
         <div className="control">
-          {(title.length === 0
-          || imgUrl.length === 0
-          || imdbUrl.length === 0
-          || imdbId.length === 0)
-            ? (
-              <button
-                type="submit"
-                data-cy="submit-button"
-                className="button is-link"
-                disabled
-              >
-                Add
-              </button>
-            )
-            : (
-              <button
-                type="submit"
-                data-cy="submit-button"
-                className="button is-link"
-                onClick={onClickHandler}
-              >
-                Add
-              </button>
-            )}
+
+          <button
+            type="submit"
+            data-cy="submit-button"
+            className="button is-link"
+            disabled={fieldsFilled}
+            onClick={onClickHandler}
+          >
+            Add
+          </button>
 
         </div>
       </div>
