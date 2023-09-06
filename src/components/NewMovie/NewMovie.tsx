@@ -24,7 +24,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setImdbId('');
   };
 
-  const isFormValidate = title && imgUrl && imdbUrl && imdbId;
+  // eslint-disable-next-line max-len
+  const isFormValidate = title.trim() && imgUrl.trim() && imdbUrl.trim() && imdbId.trim();
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
