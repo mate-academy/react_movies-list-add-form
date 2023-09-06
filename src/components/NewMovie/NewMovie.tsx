@@ -9,7 +9,7 @@ type Props = {
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
 
-  const [title, setTile] = useState('');
+  const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [imgUrl, setImgUrl] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
@@ -19,7 +19,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
   const resetForm = () => {
     setCount(count + 1);
-    setTile('');
+    setTitle('');
     setDescription('');
     setImgUrl('');
     setImdbUrl('');
@@ -53,7 +53,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={title}
-        onChange={(value) => setTile(value)}
+        onChange={(value) => setTitle(value)}
         required
       />
 
