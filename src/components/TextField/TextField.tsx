@@ -24,12 +24,16 @@ export const TextField: React.FC<Props> = ({
   required = false,
   onChange = () => {},
 }) => {
-  // generage a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
-
-  // To show errors only if the field was touched (onBlur)
   const [touched, setTouched] = useState(false);
   const hasError = touched && required && !value;
+  // eslint-disable-next-line
+  const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
+
+  const isURLField: boolean = (name === 'imgUrl' || name === 'imdbUrl')
+    && Boolean(value);
+  const isValidURL: boolean = pattern.test(value);
+  const hasErrorURL = isURLField && !isValidURL;
 
   return (
     <div className="field">
@@ -54,6 +58,10 @@ export const TextField: React.FC<Props> = ({
 
       {hasError && (
         <p className="help is-danger">{`${label} is required`}</p>
+      )}
+
+      {hasErrorURL && (
+        <p className="help is-danger">Invalid URL</p>
       )}
     </div>
   );
