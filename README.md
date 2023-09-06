@@ -11,10 +11,10 @@ If you want to test your page you can get first image from a [movie page](https:
 1. `NewMovie` should check if `title`, `imgUrl`, `imdbUrl`, `imdbId` are
 entered when an input looses focus (`onBlur`) and show an error and a red
 border if needed (learn how it it implemented in the `TextField`);
-1. The `description` is optional;
-1. Disable the submit button until all the required fields are filled;
-1. Clear the form after adding a new movie.
-1. Errors should not be shown after clearing the form (change its key to
+2. The `description` is optional;
+3. Disable the submit button until all the required fields are filled;
+4. Clear the form after adding a new movie.
+5. Errors should not be shown after clearing the form (change its key to
 reinitialize the form);
 
 ## (Optional) Advanced validation
