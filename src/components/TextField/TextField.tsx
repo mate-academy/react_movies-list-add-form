@@ -5,14 +5,13 @@ type Props = {
   name: string,
   value: string,
   label?: string,
-  placeholder?: string,
   required?: boolean,
-  onChange?: (newValue: string) => void,
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void,
 };
 
 function getRandomDigits() {
   return Math.random()
-    .toFixed(16)
+    .toString()
     .slice(2);
 }
 
@@ -20,7 +19,6 @@ export const TextField: React.FC<Props> = ({
   name,
   value,
   label = name,
-  placeholder = `Enter ${label}`,
   required = false,
   onChange = () => {},
 }) => {
@@ -39,15 +37,16 @@ export const TextField: React.FC<Props> = ({
 
       <div className="control">
         <input
+          name={name}
           type="text"
           id={id}
           data-cy={`movie-${name}`}
           className={classNames('input', {
             'is-danger': hasError,
           })}
-          placeholder={placeholder}
+          placeholder={`Enter ${label}`}
           value={value}
-          onChange={event => onChange(event.target.value)}
+          onChange={onChange}
           onBlur={() => setTouched(true)}
         />
       </div>
