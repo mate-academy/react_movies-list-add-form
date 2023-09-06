@@ -55,7 +55,7 @@ export const TextField: React.FC<Props> = ({
           id={id}
           data-cy={`movie-${name}`}
           className={classNames('input', {
-            'is-danger': hasError && isValid,
+            'is-danger': hasError || !isValid(),
           })}
           placeholder={placeholder}
           value={value}
