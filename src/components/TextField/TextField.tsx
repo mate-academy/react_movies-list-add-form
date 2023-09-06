@@ -38,7 +38,7 @@ export const TextField: React.FC<Props> = ({
   let hasError: boolean;
 
   if (validation) {
-    hasError = touched && required && !value && !pattern.test(value);
+    hasError = touched && !pattern.test(value);
   } else {
     hasError = touched && required && !value;
   }
