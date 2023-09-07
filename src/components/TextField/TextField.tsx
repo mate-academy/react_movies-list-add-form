@@ -35,13 +35,8 @@ export const TextField: React.FC<Props> = ({
   // To show errors only if the field was touched (onBlur)
   const [touched, setTouched] = useState(false);
 
-  let hasError: boolean;
-
-  if (validation) {
-    hasError = touched && !pattern.test(value);
-  } else {
-    hasError = touched && required && !value;
-  }
+  const hasError: boolean = touched && required && !value;
+  const hasValidationError = touched && validation && !pattern.test(value);
 
   return (
     <div className="field">
@@ -55,7 +50,7 @@ export const TextField: React.FC<Props> = ({
           id={id}
           data-cy={`movie-${name}`}
           className={classNames('input', {
-            'is-danger': hasError,
+            'is-danger': hasError || hasValidationError,
           })}
           placeholder={placeholder}
           value={value}
@@ -66,6 +61,10 @@ export const TextField: React.FC<Props> = ({
 
       {hasError && (
         <p className="help is-danger">{`${label} is required`}</p>
+      )}
+
+      {!hasError && hasValidationError && (
+        <p className="help is-danger">Your link is broken</p>
       )}
     </div>
   );
