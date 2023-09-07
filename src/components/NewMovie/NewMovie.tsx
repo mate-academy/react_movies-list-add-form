@@ -14,7 +14,6 @@ const initialState = {
   imdbId: '',
 };
 
-// eslint-disable-next-line max-len
 const urlRegex = new RegExp([
   /(?:(?:(https?|ftp):)?\/\/)/,
   /(?:([^:\n\r]+):([^@\n\r]+)@)?/,
