@@ -6,17 +6,23 @@ type Props = {
   onAdd: (movie: Movie)=> void;
 };
 
+const defaultValue = '';
+
 export const NewMovie:React.FC<Props> = ({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
-  const [count] = useState(0);
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
+  const [count, setCount] = useState(0);
+  const [title, setTitle] = useState(defaultValue);
+  const [description, setDescription] = useState(defaultValue);
+  const [imgUrl, setImgUrl] = useState(defaultValue);
+  const [imdbUrl, setImdbUrl] = useState(defaultValue);
+  const [imdbId, setImdbId] = useState(defaultValue);
 
-  const handleMovie = () => {
+  const isSubmitDisabled = !title || !imgUrl || !imdbUrl || !imdbId;
+
+  const handleMovie = (event: React.FormEvent) => {
+    event.preventDefault();
+
     const newMovie: Movie = {
       title,
       description,
@@ -26,6 +32,13 @@ export const NewMovie:React.FC<Props> = ({ onAdd }) => {
     };
 
     onAdd(newMovie);
+
+    setTitle(defaultValue);
+    setDescription(defaultValue);
+    setImgUrl(defaultValue);
+    setImdbUrl(defaultValue);
+    setImdbId(defaultValue);
+    setCount((prevState) => prevState + 1);
   };
 
   return (
@@ -79,6 +92,7 @@ export const NewMovie:React.FC<Props> = ({ onAdd }) => {
       <div className="field is-grouped">
         <div className="control">
           <button
+            disabled={isSubmitDisabled}
             type="submit"
             data-cy="submit-button"
             className="button is-link"
