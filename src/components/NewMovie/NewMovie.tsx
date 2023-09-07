@@ -27,7 +27,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
     setFormValues(prevValues => ({
       ...prevValues,
-      [key]: event.target.value,
+      [key]: event.target.value.trimStart(),
     }));
   };
 

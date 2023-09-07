@@ -33,6 +33,14 @@ export const TextField: React.FC<Props> = ({
     ? touched && required && !getIsValidUrl(value)
     : touched && required && !value;
 
+  const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    onChange(event);
+
+    if (event.target.value === '') {
+      setTouched(false);
+    }
+  };
+
   return (
     <div className="field">
       <label className="label" htmlFor={id}>
@@ -50,13 +58,7 @@ export const TextField: React.FC<Props> = ({
           })}
           placeholder={placeholder}
           value={value}
-          onChange={event => {
-            onChange(event);
-
-            if (event.target.value === '') {
-              setTouched(false);
-            }
-          }}
+          onChange={event => handleOnChange(event)}
           onBlur={() => setTouched(true)}
           onFocus={() => setTouched(false)}
         />
