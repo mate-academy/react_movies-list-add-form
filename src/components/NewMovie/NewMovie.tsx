@@ -6,57 +6,47 @@ type Props = {
   onAdd: (movie: Movie) => void;
 };
 
+const INITIAL_FORM = {
+  title: '',
+  description: '',
+  imgUrl: '',
+  imdbUrl: '',
+  imdbId: '',
+};
+
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
-  const [title, setTitle] = useState('');
-  const [description, setDesctiption] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
+  const [initialForm, setInitialForm] = useState(INITIAL_FORM);
   const [count, setCount] = useState(0);
 
-  const disabledButton = title && imgUrl && imdbUrl && imdbId;
-
-  const handleTitleChange = (value: string) => {
-    setTitle(value);
+  const handleFormChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setInitialForm((prevForm) => ({
+      ...prevForm,
+      [event.target.name]: event.target.value,
+    }));
   };
 
-  const handleDesctiptionChange = (value: string) => {
-    setDesctiption(value);
-  };
-
-  const handleImgUrlChange = (value: string) => {
-    setImgUrl(value);
-  };
-
-  const handleImdbUrlChange = (value: string) => {
-    setImdbUrl(value);
-  };
-
-  const handleImdbIdUrlChange = (value: string) => {
-    setImdbId(value);
-  };
+  const isAddButtonDisabled = !initialForm.title
+    || !initialForm.imgUrl
+    || !initialForm.imdbUrl
+    || !initialForm.imdbId;
 
   const reset = () => {
-    setTitle('');
-    setDesctiption('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
+    setInitialForm(INITIAL_FORM);
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     onAdd({
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
+      title: initialForm.title,
+      description: initialForm.description,
+      imgUrl: initialForm.imgUrl,
+      imdbUrl: initialForm.imdbUrl,
+      imdbId: initialForm.imdbId,
     });
 
-    setCount(count + 1);
     reset();
+    setCount(count + 1);
   };
 
   return (
@@ -72,72 +62,54 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value={title}
-        onChange={handleTitleChange}
+        value={initialForm.title}
+        onChange={handleFormChange}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value={description}
-        onChange={handleDesctiptionChange}
+        value={initialForm.description}
+        onChange={handleFormChange}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={imgUrl}
-        onChange={handleImgUrlChange}
+        value={initialForm.imgUrl}
+        onChange={handleFormChange}
         required
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={imdbUrl}
-        onChange={handleImdbUrlChange}
+        value={initialForm.imdbUrl}
+        onChange={handleFormChange}
         required
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imdbId}
-        onChange={handleImdbIdUrlChange}
+        value={initialForm.imdbId}
+        onChange={handleFormChange}
         required
       />
 
-      {
-        disabledButton
-          ? (
-            <div className="field is-grouped">
-              <div className="control">
-                <button
-                  type="submit"
-                  data-cy="submit-button"
-                  className="button is-link"
-                >
-                  Add
-                </button>
-              </div>
-            </div>
-          )
-          : (
-            <div className="field is-grouped">
-              <div className="control">
-                <button
-                  type="submit"
-                  data-cy="submit-button"
-                  className="button is-link"
-                  disabled
-                >
-                  Add
-                </button>
-              </div>
-            </div>
-          )
-      }
+      <div className="field is-grouped">
+        <div className="control">
+          <button
+            type="submit"
+            data-cy="submit-button"
+            className="button is-link"
+            disabled={isAddButtonDisabled}
+          >
+            Add
+          </button>
+        </div>
+      </div>
     </form>
   );
 };
