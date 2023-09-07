@@ -6,38 +6,62 @@ type Props = {
   onAdd: (movie: Movie) => void;
 };
 
+const initialState = {
+  title: '',
+  description: '',
+  imgUrl: '',
+  imdbUrl: '',
+  imdbId: '',
+};
+
+// eslint-disable-next-line max-len
+const urlRegex = new RegExp([
+  /(?:(?:(https?|ftp):)?\/\/)/,
+  /(?:([^:\n\r]+):([^@\n\r]+)@)?/,
+  /(?:(?:www.)?([^/\n\r]+))/,
+  /(\/[^?\n\r]+)?/,
+  /(\?[^#\n\r]*)?/,
+  /(#?[^\n\r]*)?/,
+].map(reg => reg.source).join(''));
+
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
 
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
+  const [formValues, setFormValues] = useState(initialState);
 
-  const canValidate = title && imgUrl && imdbUrl && imdbId;
+  const handleChange = (name: string, value: string) => {
+    setFormValues((prevFormValues) => ({
+      ...prevFormValues,
+      [name]: value,
+    }));
+  };
 
-  const resetForm = () => {
+  const isAllFieldsValid = () => {
+    return formValues.title
+    && formValues.imdbId
+    && formValues.imdbUrl
+    && formValues.imgUrl
+    && urlRegex.test(formValues.imdbUrl)
+    && urlRegex.test(formValues.imgUrl);
+  };
+
+  const handleResetForm = () => {
     setCount(count + 1);
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
+    setFormValues(initialState);
   };
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
     onAdd({
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
+      title: formValues.title,
+      description: formValues.description,
+      imgUrl: formValues.imgUrl,
+      imdbUrl: formValues.imdbUrl,
+      imdbId: formValues.imdbId,
     });
 
-    resetForm();
+    handleResetForm();
   };
 
   return (
@@ -45,46 +69,46 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       className="NewMovie"
       key={count}
       onSubmit={handleSubmit}
-      onReset={resetForm}
+      onReset={handleResetForm}
     >
       <h2 className="title">Add a movie</h2>
 
       <TextField
         name="title"
         label="Title"
-        value={title}
-        onChange={(value) => setTitle(value)}
+        value={formValues.title}
+        onChange={(event) => handleChange('title', event)}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value={description}
-        onChange={(value) => setDescription(value)}
+        value={formValues.description}
+        onChange={(event) => handleChange('description', event)}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={imgUrl}
-        onChange={(value) => setImgUrl(value)}
+        value={formValues.imgUrl}
+        onChange={(event) => handleChange('imgUrl', event)}
         required
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={imdbUrl}
-        onChange={(value) => setImdbUrl(value)}
+        value={formValues.imdbUrl}
+        onChange={(event) => handleChange('imdbUrl', event)}
         required
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imdbId}
-        onChange={(value) => setImdbId(value)}
+        value={formValues.imdbId}
+        onChange={(event) => handleChange('imdbId', event)}
         required
       />
 
@@ -94,7 +118,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!canValidate}
+            disabled={!isAllFieldsValid()}
           >
             Add
           </button>
