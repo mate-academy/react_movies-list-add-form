@@ -37,7 +37,7 @@ const CatInfo: FC<Props> = (props) => {
   const { cat } = props;
   
   return (
-    {cat 
+    cat 
      ? <p>{cat.name}</p>
      : null
   );
