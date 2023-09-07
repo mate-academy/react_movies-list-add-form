@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
+import { pattern } from '../../utils';
 
 type Props = {
   onAdd: (newMovie: Movie) => void;
@@ -27,7 +28,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     imdbId,
   } = movieState;
 
-  const isSubmitDisabled = !title || !imgUrl || !imdbUrl || !imdbId;
+  const isSubmitDisabled = !title
+    || !pattern.test(imdbUrl)
+    || !pattern.test(imgUrl)
+    || !imdbId;
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
