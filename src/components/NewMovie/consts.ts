@@ -1,1 +1,7 @@
-export const DEFAULT_VALUE_FOR_INPUT = '';
+export const DEFAULT_FORM_VALUES = {
+  title: '',
+  description: '',
+  imgUrl: '',
+  imdbUrl: '',
+  imdbId: '',
+};

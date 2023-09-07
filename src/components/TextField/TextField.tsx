@@ -27,10 +27,11 @@ export const TextField: React.FC<Props> = ({
 }) => {
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
   const [touched, setTouched] = useState(false);
-  const hasError = touched && ((required && !value) || error);
-  const errorMessage = `${label} ${(required && !value
+  const isRequiredAndHasValue = (required && !value);
+  const hasError = touched && (isRequiredAndHasValue || error);
+  const errorMessage = `${label} ${isRequiredAndHasValue
     ? ERROR_MESSAGE_FOR_EMPTY_INPUT
-    : ERROR_MESSAGE_FOR_VALIDATION)}`;
+    : ERROR_MESSAGE_FOR_VALIDATION}`;
 
   return (
     <div className="field">
