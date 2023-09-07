@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import React, { useState } from 'react';
+import { isValidHttpUrl } from '../../Helpers';
 
 type Props = {
   name: string,
@@ -30,6 +31,10 @@ export const TextField: React.FC<Props> = ({
   // To show errors only if the field was touched (onBlur)
   const [touched, setTouched] = useState(false);
   const hasError = touched && required && !value;
+  const inValidUrl = !isValidHttpUrl(value)
+    && (name === 'imgUrl' || name === 'imdbUrl')
+    && touched
+    && value;
 
   return (
     <div className="field">
@@ -54,6 +59,10 @@ export const TextField: React.FC<Props> = ({
 
       {hasError && (
         <p className="help is-danger">{`${label} is required`}</p>
+      )}
+
+      {inValidUrl && (
+        <p className="help is-danger">{`${label} should be URL` }</p>
       )}
     </div>
   );
