@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
+import { pattern } from '../../variables/variables';
 
 type Props = {
   onAdd: (movie: Movie) => void;
 };
 
-const defaultFormData = {
+const DEFAULT_FORM_DATA = {
   title: '',
   description: '',
   imgUrl: '',
@@ -16,30 +17,32 @@ const defaultFormData = {
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
-  const [formData, setFormData] = useState(defaultFormData);
+  const [formData, setFormData] = useState(DEFAULT_FORM_DATA);
 
   const isDisabled = !formData.title
     || !formData.imgUrl
     || !formData.imdbUrl
-    || !formData.imdbId;
+    || !formData.imdbId
+    || pattern.test(formData.imgUrl)
+    || pattern.test(formData.imdbUrl);
 
-  const reset = () => {
-    setFormData(defaultFormData);
+  const resetFormFields = () => {
+    setFormData(DEFAULT_FORM_DATA);
   };
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-
     onAdd(formData);
 
     setCount((currentCount) => currentCount + 1);
-    reset();
+    resetFormFields();
   };
 
-  const handleForDataChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setFormData(prevData => (
       {
-        ...prevData, [event.target.name]: event.target.value,
+        ...prevData,
+        [event.target.name]: event.target.value,
       }
     ));
   };
@@ -56,7 +59,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={formData.title}
-        onChange={handleForDataChange}
+        onChange={handleInputChange}
         required
       />
 
@@ -64,14 +67,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={formData.description}
-        onChange={handleForDataChange}
+        onChange={handleInputChange}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={formData.imgUrl}
-        onChange={handleForDataChange}
+        onChange={handleInputChange}
         required
       />
 
@@ -79,7 +82,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={formData.imdbUrl}
-        onChange={handleForDataChange}
+        onChange={handleInputChange}
         required
       />
 
@@ -87,7 +90,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={formData.imdbId}
-        onChange={handleForDataChange}
+        onChange={handleInputChange}
         required
       />
 
