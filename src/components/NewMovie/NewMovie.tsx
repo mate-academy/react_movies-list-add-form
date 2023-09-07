@@ -28,10 +28,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     imdbId,
   } = movieState;
 
-  const isSubmitDisabled = !title
+  const isSubmitDisabled = !title.trim()
     || !pattern.test(imdbUrl)
     || !pattern.test(imgUrl)
-    || !imdbId;
+    || !imdbId.trim();
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
