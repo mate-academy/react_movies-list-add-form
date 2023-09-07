@@ -30,20 +30,25 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setImdbId('');
   };
 
-  const isFormFilled = title && imgUrl && imdbUrl && imdbId;
+  const isFormFilled = title.trim()
+    && imgUrl.trim()
+    && imdbUrl.trim()
+    && imdbId.trim();
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
     trimFieldsValues();
 
-    onAdd({
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    });
+    if (isFormFilled) {
+      onAdd({
+        title,
+        description,
+        imgUrl,
+        imdbUrl,
+        imdbId,
+      });
+    }
 
     setCount(count + 1);
     reset();
@@ -111,4 +116,3 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     </form>
   );
 };
-
