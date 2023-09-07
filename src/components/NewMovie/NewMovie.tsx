@@ -8,15 +8,29 @@ type Props = {
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
-
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [imgUrl, setImgUrl] = useState('');
-
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
+  const [linkImdbValidity, setLinkImdbValidity] = useState(false);
+  const [linkImgValidity, setLinkImgValidity] = useState(false);
+  const requiredCompleted
+  = title && imgUrl && imdbUrl && imdbId && linkImdbValidity && linkImgValidity;
 
-  const requiredCompleted = title && imgUrl && imdbUrl && imdbId;
+  const pattern = new RegExp(
+    '^((([A-Za-z]{3,9}:(?://)?)|(?:www\\.|[-;:&=+$,\\w]+@))[A-Za-z0-9.-]+'
+    + '((?:\\/[+~%\\/.\\w-_]*)?\\??(?:[-+=&;%@,.\\w_]*)#?('
+    + '?:[,.!/\\\\\\w]*))?)$',
+  );
+
+  const validationOfImgLink = (inputText: string) => {
+    setLinkImgValidity(pattern.test(inputText));
+  };
+
+  const validationOfImdbLink = (inputText: string) => {
+    setLinkImdbValidity(pattern.test(inputText));
+  };
 
   const reset = () => {
     setTitle('');
@@ -24,6 +38,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setImgUrl('');
     setImdbUrl('');
     setImdbId('');
+    setLinkImdbValidity(false);
+    setLinkImgValidity(false);
   };
 
   const handleAdd = (event: React.FormEvent) => {
@@ -46,29 +62,31 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   };
 
   const handleTitleChange
-  = (newValue: string) => {
-    setTitle(newValue);
-  };
+    = (inputText: string) => {
+      setTitle(inputText);
+    };
 
   const handleDescriptionChange
-  = (newValue: string) => {
-    setDescription(newValue);
-  };
+    = (inputText: string) => {
+      setDescription(inputText);
+    };
 
   const handleImgUrlChange
-  = (newValue: string) => {
-    setImgUrl(newValue);
-  };
+    = (inputText: string) => {
+      setImgUrl(inputText);
+      validationOfImgLink(inputText);
+    };
 
   const handleImdbUrlChange
-  = (newValue: string) => {
-    setImdbUrl(newValue);
-  };
+    = (inputText: string) => {
+      setImdbUrl(inputText);
+      validationOfImdbLink(inputText);
+    };
 
   const handleImdbIdChange
-  = (newValue: string) => {
-    setImdbId(newValue);
-  };
+    = (inputText: string) => {
+      setImdbId(inputText);
+    };
 
   return (
     <form
@@ -98,6 +116,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Image URL"
         value={imgUrl}
         onChange={handleImgUrlChange}
+        linkValidity={linkImgValidity}
         required
       />
 
@@ -106,6 +125,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Imdb URL"
         value={imdbUrl}
         onChange={handleImdbUrlChange}
+        linkValidity={linkImdbValidity}
         required
       />
 
