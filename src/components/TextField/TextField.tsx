@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import React, { useState } from 'react';
+import { validationPattern } from '../../utils/urlValidationPattern';
 
 type Props = {
   name: string,
@@ -8,7 +9,6 @@ type Props = {
   placeholder?: string,
   required?: boolean,
   onChange?: (newValue: string) => void,
-  customValidation?: RegExp,
 };
 
 function getRandomDigits() {
@@ -17,9 +17,6 @@ function getRandomDigits() {
     .slice(2);
 }
 
-// eslint-disable-next-line max-len
-const defaultPattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
-
 export const TextField: React.FC<Props> = ({
   name,
   value,
@@ -27,21 +24,16 @@ export const TextField: React.FC<Props> = ({
   placeholder = `Enter ${label}`,
   required = false,
   onChange = () => {},
-  customValidation = defaultPattern,
 }) => {
   // generage a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
   // To show errors only if the field was touched (onBlur)
   const [touched, setTouched] = useState(false);
-  const isValid = () => {
-    if ((name === 'imgUrl' || name === 'imdbUrl') && value) {
-      return customValidation?.test(value);
-    }
+  const isValid = (value && (name === 'imgUrl' || name === 'imdbUrl'))
+    ? validationPattern.test(value)
+    : true;
 
-    return true;
-  };
-
-  const hasError = touched && required && !value;
+  const hasError = touched && !value.trim() && required;
 
   return (
     <div className="field">
@@ -55,7 +47,7 @@ export const TextField: React.FC<Props> = ({
           id={id}
           data-cy={`movie-${name}`}
           className={classNames('input', {
-            'is-danger': hasError || !isValid(),
+            'is-danger': hasError || !isValid,
           })}
           placeholder={placeholder}
           value={value}
@@ -64,10 +56,10 @@ export const TextField: React.FC<Props> = ({
         />
       </div>
 
-      {(hasError && isValid()) && (
+      {hasError && (
         <p className="help is-danger">{`${label} is required`}</p>
       )}
-      {!isValid() && (
+      {!isValid && (
         <p className="help is-danger">{`${label} has invalid format`}</p>
       )}
     </div>
