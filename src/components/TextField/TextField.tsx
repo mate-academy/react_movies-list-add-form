@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import React, { ChangeEvent, useState } from 'react';
-import { IMDB_URL_REGEX } from '../../constants/regex';
+import { getIsUrlValid } from '../../helpers/getIsUrlValid';
 
 type Props = {
   name: string,
@@ -28,7 +28,7 @@ export const TextField: React.FC<Props> = ({
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
   const [touched, setTouched] = useState(false);
   const hasError = name.toLowerCase().includes('url')
-    ? touched && required && !IMDB_URL_REGEX.test(value)
+    ? touched && required && !getIsUrlValid(value)
     : touched && required && !value;
 
   return (

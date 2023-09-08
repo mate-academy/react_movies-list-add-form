@@ -1,5 +1,5 @@
 import { Movie } from '../types/Movie';
-import { IMDB_URL_REGEX } from '../constants/regex';
+import { getIsUrlValid } from '../helpers/getIsUrlValid';
 
 export function getAddMovieFormIsValid(formValue: Movie) {
   const {
@@ -12,7 +12,7 @@ export function getAddMovieFormIsValid(formValue: Movie) {
   return !(
     !title.trim()
     || !imdbId.trim()
-    || !IMDB_URL_REGEX.test(imdbUrl)
-    || !IMDB_URL_REGEX.test(imgUrl)
+    || !getIsUrlValid(imdbUrl)
+    || !getIsUrlValid(imgUrl)
   );
 }
