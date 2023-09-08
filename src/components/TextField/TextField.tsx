@@ -4,7 +4,7 @@ import { getRandomDigits } from '../../utils';
 import {
   ERROR_MESSAGE_FOR_EMPTY_INPUT,
   ERROR_MESSAGE_FOR_VALIDATION,
-} from './consts';
+} from './constants';
 
 type Props = {
   name: string,
@@ -27,9 +27,9 @@ export const TextField: React.FC<Props> = ({
 }) => {
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
   const [touched, setTouched] = useState(false);
-  const isRequiredAndHasValue = (required && !value);
-  const hasError = touched && (isRequiredAndHasValue || error);
-  const errorMessage = `${label} ${isRequiredAndHasValue
+  const isRequiredAndHasNoValue = (required && !value);
+  const hasError = touched && (isRequiredAndHasNoValue || error);
+  const errorMessage = `${label} ${isRequiredAndHasNoValue
     ? ERROR_MESSAGE_FOR_EMPTY_INPUT
     : ERROR_MESSAGE_FOR_VALIDATION}`;
 

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types';
 import { validateUrls } from '../../utils';
-import { DEFAULT_FORM_VALUES } from './consts';
+import { DEFAULT_FORM_VALUES } from './constants';
 
 interface Props {
   onAdd: (movie: Movie) => void
@@ -18,6 +18,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    if (!formData.title.trim()) {
+      return;
+    }
 
     setCount(prevState => prevState + 1);
     onAdd(formData);
@@ -35,9 +39,11 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
   const isImdbUrlValid = validateUrls(formData.imdbUrl);
   const isImgUrlValid = validateUrls(formData.imgUrl);
+  const isTitleValid = Boolean(formData.title.trim());
+  const isImdbIdValid = Boolean(formData.imdbId.trim());
   const isSubmitDisabled = (
-    !formData.title
-    || !formData.imdbId
+    !isTitleValid
+    || !isImdbIdValid
     || !isImdbUrlValid
     || !isImgUrlValid
   );
@@ -55,6 +61,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Title"
         value={formData.title}
         onChange={handleInputChange}
+        error={!isTitleValid}
         required
       />
 
@@ -88,6 +95,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Imdb ID"
         value={formData.imdbId}
         onChange={handleInputChange}
+        error={!isImdbIdValid}
         required
       />
 
