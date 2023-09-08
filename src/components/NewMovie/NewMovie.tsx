@@ -47,7 +47,11 @@ export const NewMovie:React.FC<Props> = ({ onAdd }) => {
   };
 
   const updateTitleField = (fieldName: string, newValue: string) => {
-    setFieldsForms((prevState) => ({ ...prevState, [fieldName]: newValue }));
+    setFieldsForms((prevState) => (
+      {
+        ...prevState,
+        [fieldName]: newValue.trimStart(),
+      }));
   };
 
   return (
