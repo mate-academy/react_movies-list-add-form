@@ -15,25 +15,31 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const isReadyToSubmit: boolean
-    = !!title && !!imgUrl && !!imdbUrl && !!imdbId;
-
-  const handleSubmit = (event: React.FormEvent) => {
-    onAdd({
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    });
-
+  function resetForm() {
     setTitle('');
     setDescription('');
     setImgUrl('');
     setImdbUrl('');
     setImdbId('');
-    setCount(currentCount => currentCount + 1);
+  }
+
+  const isReadyToSubmit: boolean
+    = !!title.trim() && !!imgUrl.trim() && !!imdbUrl.trim() && !!imdbId.trim();
+
+  const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
+
+    onAdd({
+      title: title.trim(),
+      description: description.trim(),
+      imgUrl: imgUrl.trim(),
+      imdbUrl: imdbUrl.trim(),
+      imdbId: imdbId.trim(),
+    });
+
+    resetForm();
+
+    setCount(currentCount => currentCount + 1);
   };
 
   return (
