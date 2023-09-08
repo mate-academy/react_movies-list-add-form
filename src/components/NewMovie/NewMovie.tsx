@@ -18,7 +18,7 @@ export const NewMovie: FC<TNewMovie> = ({ onAdd }) => {
     imdbId: '',
   });
 
-  const onFormSubmitHandler = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     onAdd({
@@ -47,28 +47,28 @@ export const NewMovie: FC<TNewMovie> = ({ onAdd }) => {
     }));
   };
 
-  const handlerDescriptionChange = (currentValue: string) => {
+  const handleDescriptionChange = (currentValue: string) => {
     setInputFields((prevState) => ({
       ...prevState,
       description: currentValue,
     }));
   };
 
-  const handlerImageUrlChange = (currentValue: string) => {
+  const handleImageUrlChange = (currentValue: string) => {
     setInputFields((prevState) => ({
       ...prevState,
       imageUrl: currentValue,
     }));
   };
 
-  const handlerImdbUrlChange = (currentValue: string) => {
+  const handleImdbUrlChange = (currentValue: string) => {
     setInputFields((prevState) => ({
       ...prevState,
       imdbUrl: currentValue,
     }));
   };
 
-  const handlerImdbIdChange = (currentValue: string) => {
+  const handleImdbIdChange = (currentValue: string) => {
     setInputFields((prevState) => ({
       ...prevState,
       imdbId: currentValue,
@@ -84,7 +84,7 @@ export const NewMovie: FC<TNewMovie> = ({ onAdd }) => {
     <form
       className="NewMovie"
       key={count}
-      onSubmit={onFormSubmitHandler}
+      onSubmit={handleFormSubmit}
     >
       <h2 className="title">Add a movie</h2>
 
@@ -100,14 +100,14 @@ export const NewMovie: FC<TNewMovie> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={inputFields.description}
-        onChange={handlerDescriptionChange}
+        onChange={handleDescriptionChange}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={inputFields.imageUrl}
-        onChange={handlerImageUrlChange}
+        onChange={handleImageUrlChange}
         required
       />
 
@@ -115,7 +115,7 @@ export const NewMovie: FC<TNewMovie> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={inputFields.imdbUrl}
-        onChange={handlerImdbUrlChange}
+        onChange={handleImdbUrlChange}
         required
       />
 
@@ -123,7 +123,7 @@ export const NewMovie: FC<TNewMovie> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={inputFields.imdbId}
-        onChange={handlerImdbIdChange}
+        onChange={handleImdbIdChange}
         required
       />
 
