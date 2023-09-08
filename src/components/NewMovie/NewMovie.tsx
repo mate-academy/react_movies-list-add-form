@@ -73,7 +73,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="description"
         label="Description"
-        value={currentMovie.description.trim()}
+        value={currentMovie.description}
         onChange={(event) => setMovieFieldState('description', event)}
       />
 
