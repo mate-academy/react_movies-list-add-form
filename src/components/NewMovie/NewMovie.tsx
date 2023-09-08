@@ -49,10 +49,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     }));
   };
 
-  const isButtonDisabled = !currentMovie.title
-    || !currentMovie.imgUrl
-    || !currentMovie.imdbUrl
-    || !currentMovie.imdbId;
+  const isAddButtonDisabled = !currentMovie.title.trim()
+    || !currentMovie.imgUrl.trim()
+    || !currentMovie.imdbUrl.trim()
+    || !currentMovie.imdbId.trim();
 
   return (
     <form
@@ -73,7 +73,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="description"
         label="Description"
-        value={currentMovie.description}
+        value={currentMovie.description.trim()}
         onChange={(event) => setMovieFieldState('description', event)}
       />
 
@@ -107,7 +107,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={isButtonDisabled}
+            disabled={isAddButtonDisabled}
           >
             Add
           </button>
