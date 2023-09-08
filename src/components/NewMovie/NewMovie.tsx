@@ -18,12 +18,6 @@ const allFields = {
 
 export const NewMovie:React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
-  // const [title, setTitle] = useState(DEFAULT_VALUE);
-  // const [description, setDescription] = useState(DEFAULT_VALUE);
-  // const [imgUrl, setImgUrl] = useState(DEFAULT_VALUE);
-  // const [imdbUrl, setImdbUrl] = useState(DEFAULT_VALUE);
-  // const [imdbId, setImdbId] = useState(DEFAULT_VALUE);
-
   const [fieldsForms, setFieldsForms] = useState(allFields);
 
   const isSubmitDisabled = !fieldsForms.title
