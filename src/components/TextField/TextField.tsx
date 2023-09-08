@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import React, { ChangeEvent, useState } from 'react';
-import { IMDB_URL_REGEX } from '../../constants/regex';
+import { IMDB_URL_REGEX } from '../../constants/regex.ts';
 
 type Props = {
   name: string,
