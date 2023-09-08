@@ -6,17 +6,22 @@ type Props = {
   onAdd: (movie: Movie) => void;
 };
 
+const initialMovieState = {
+  title: '',
+  description: '',
+  imgUrl: '',
+  imdbUrl: '',
+  imdbId: '',
+};
+
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
+  const [movie, setMovie] = useState(initialMovieState);
   const [count, setCount] = useState(0);
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
   const [linkImdbValidity, setLinkImdbValidity] = useState(false);
   const [linkImgValidity, setLinkImgValidity] = useState(false);
   const requiredCompleted
-  = title && imgUrl && imdbUrl && imdbId && linkImdbValidity && linkImgValidity;
+  = movie.title && movie.imgUrl && movie.imdbUrl && movie.imdbId
+   && linkImdbValidity && linkImgValidity;
 
   const pattern = new RegExp(
     '^((([A-Za-z]{3,9}:(?://)?)|(?:www\\.|[-;:&=+$,\\w]+@))[A-Za-z0-9.-]+'
@@ -24,20 +29,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     + '?:[,.!/\\\\\\w]*))?)$',
   );
 
-  const validationOfImgLink = (inputText: string) => {
-    setLinkImgValidity(pattern.test(inputText));
-  };
-
-  const validationOfImdbLink = (inputText: string) => {
-    setLinkImdbValidity(pattern.test(inputText));
-  };
-
   const reset = () => {
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
+    setMovie(initialMovieState);
     setLinkImdbValidity(false);
     setLinkImgValidity(false);
   };
@@ -49,44 +42,27 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       return;
     }
 
-    onAdd({
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    });
-
+    onAdd(movie);
     reset();
     setCount(count + 1);
   };
 
-  const handleTitleChange
-    = (inputText: string) => {
-      setTitle(inputText);
-    };
+  const handleInputChange = (key: string, value: string) => {
+    setMovie((prevFields) => {
+      return {
+        ...prevFields,
+        [key]: value,
+      };
+    });
 
-  const handleDescriptionChange
-    = (inputText: string) => {
-      setDescription(inputText);
-    };
+    if ((key === 'imgUrl')) {
+      setLinkImgValidity(pattern.test(value));
+    }
 
-  const handleImgUrlChange
-    = (inputText: string) => {
-      setImgUrl(inputText);
-      validationOfImgLink(inputText);
-    };
-
-  const handleImdbUrlChange
-    = (inputText: string) => {
-      setImdbUrl(inputText);
-      validationOfImdbLink(inputText);
-    };
-
-  const handleImdbIdChange
-    = (inputText: string) => {
-      setImdbId(inputText);
-    };
+    if ((key === 'imdbUrl')) {
+      setLinkImdbValidity(pattern.test(value));
+    }
+  };
 
   return (
     <form
@@ -99,23 +75,23 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value={title}
-        onChange={handleTitleChange}
+        value={movie.title}
+        onChange={handleInputChange}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value={description}
-        onChange={handleDescriptionChange}
+        value={movie.description}
+        onChange={handleInputChange}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={imgUrl}
-        onChange={handleImgUrlChange}
+        value={movie.imgUrl}
+        onChange={handleInputChange}
         linkValidity={linkImgValidity}
         required
       />
@@ -123,8 +99,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={imdbUrl}
-        onChange={handleImdbUrlChange}
+        value={movie.imdbUrl}
+        onChange={handleInputChange}
         linkValidity={linkImdbValidity}
         required
       />
@@ -132,8 +108,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imdbId}
-        onChange={handleImdbIdChange}
+        value={movie.imdbId}
+        onChange={handleInputChange}
         required
       />
 
