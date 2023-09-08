@@ -1,10 +1,16 @@
-import { useState } from 'react';
-import { TextField } from '../TextField';
+/* eslint-disable */
+import { useState } from "react";
+import { TextField } from "../TextField";
 
 export const NewMovie = () => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
-  const [count] = useState(0);
+  const [count, setCount] = useState(0);
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [imgUrl, setImgUrl] = useState("");
+  const [imdbUrl, setImdbUrl] = useState("");
+  const [imdbId, setImdbId] = useState("");
 
   return (
     <form className="NewMovie" key={count}>
@@ -13,34 +19,18 @@ export const NewMovie = () => {
       <TextField
         name="title"
         label="Title"
-        value=""
+        value={title}
         onChange={() => {}}
         required
       />
 
-      <TextField
-        name="description"
-        label="Description"
-        value=""
-      />
+      <TextField name="description" label="Description" value={description} />
 
-      <TextField
-        name="imgUrl"
-        label="Image URL"
-        value=""
-      />
+      <TextField name="imgUrl" label="Image URL" value={imgUrl} />
 
-      <TextField
-        name="imdbUrl"
-        label="Imdb URL"
-        value=""
-      />
+      <TextField name="imdbUrl" label="Imdb URL" value={imdbUrl} />
 
-      <TextField
-        name="imdbId"
-        label="Imdb ID"
-        value=""
-      />
+      <TextField name="imdbId" label="Imdb ID" value={imdbId} />
 
       <div className="field is-grouped">
         <div className="control">
