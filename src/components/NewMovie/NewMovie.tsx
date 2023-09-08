@@ -21,7 +21,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
   const [formData, setFormData] = useState(initialFormData);
 
-  const formReset = () => {
+  const resetForm = () => {
     setFormData(initialFormData);
   };
 
@@ -37,20 +37,21 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
     onAdd(formData);
 
-    formReset();
+    resetForm();
 
     setCount((prevCount) => prevCount + 1);
   };
 
   const isAllFieldsValid = () => {
     return Boolean(formData.title.trim()
-    && formData.description.trim()
     && formData.imgUrl.trim()
     && formData.imdbUrl.trim()
     && formData.imdbId.trim()
     && urlPattern.test(formData.imgUrl)
     && urlPattern.test(formData.imdbUrl));
   };
+
+  const isDisableButton = isAllFieldsValid();
 
   return (
     <form
@@ -107,7 +108,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!isAllFieldsValid()}
+            disabled={!isDisableButton}
           >
             Add
           </button>
