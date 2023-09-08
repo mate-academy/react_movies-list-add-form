@@ -18,7 +18,7 @@ const initialState: Movie = {
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
 
-  const [movieState, setMovieState] = useState<Movie>(initialState);
+  const [newMovie, setNewMovie] = useState<Movie>(initialState);
 
   const {
     title,
@@ -26,7 +26,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     imdbUrl,
     imgUrl,
     imdbId,
-  } = movieState;
+  } = newMovie;
 
   const isSubmitDisabled = !title.trim()
     || !pattern.test(imdbUrl)
@@ -36,13 +36,13 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    onAdd(movieState);
-    setMovieState(initialState);
+    onAdd(newMovie);
+    setNewMovie(initialState);
     setCount((prev) => prev + 1);
   };
 
-  function setStateField(value: string, field: string) {
-    setMovieState(prevState => (
+  function handleInputChange(value: string, field: string) {
+    setNewMovie(prevState => (
       {
         ...prevState,
         [field]: value,
@@ -62,7 +62,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={title}
-        onChange={(value: string) => setStateField(value, 'title')}
+        onChange={(value: string) => handleInputChange(value, 'title')}
         required
       />
 
@@ -70,14 +70,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={description}
-        onChange={(value: string) => setStateField(value, 'description')}
+        onChange={(value: string) => handleInputChange(value, 'description')}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={(value: string) => setStateField(value, 'imgUrl')}
+        onChange={(value: string) => handleInputChange(value, 'imgUrl')}
         required
         validation
       />
@@ -86,7 +86,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={(value: string) => setStateField(value, 'imdbUrl')}
+        onChange={(value: string) => handleInputChange(value, 'imdbUrl')}
         required
         validation
       />
@@ -95,7 +95,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={(value: string) => setStateField(value, 'imdbId')}
+        onChange={(value: string) => handleInputChange(value, 'imdbId')}
         required
       />
 
