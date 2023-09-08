@@ -8,9 +8,9 @@ import { Movie } from './types/Movie';
 export const App = () => {
   const [movies, setMovies] = useState<Movie[]>(moviesFromServer);
 
-  function addMovie(movie: Movie) {
-    setMovies((prevState) => [...prevState, movie]);
-  }
+  const addMovie = (newMovie: Movie) => {
+    setMovies((prevState) => [...prevState, newMovie]);
+  };
 
   return (
     <div className="page">
@@ -18,7 +18,7 @@ export const App = () => {
         <MoviesList movies={movies} />
       </div>
       <div className="sidebar">
-        <NewMovie onAdd={(movie) => addMovie(movie)} />
+        <NewMovie onAdd={addMovie} />
       </div>
     </div>
   );
