@@ -51,7 +51,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setMovie((prevFields) => {
       return {
         ...prevFields,
-        [key]: value,
+        [key]: value.trimStart(),
       };
     });
 
