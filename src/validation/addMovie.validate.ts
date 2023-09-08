@@ -1,5 +1,5 @@
 import { Movie } from '../types/Movie';
-import { IMDB_URL_REGEX } from '../constants/regex';
+import { IMDB_URL_REGEX } from '../constants/regex.ts';
 
 export function getAddMovieFormIsValid(formValue: Movie) {
   const {
