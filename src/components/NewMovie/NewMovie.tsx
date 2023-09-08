@@ -8,19 +8,24 @@ type Props = {
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
+
+  const [form, setForm] = useState({
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  });
 
   const resetFormFields = () => {
     setCount(prevCount => prevCount + 1);
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
+    setForm({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
   };
 
   const handleSubmit = (event: React.FormEvent) => {
@@ -29,15 +34,25 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     resetFormFields();
 
     onAdd({
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
+      title: form.title,
+      description: form.description,
+      imgUrl: form.imgUrl,
+      imdbUrl: form.imdbUrl,
+      imdbId: form.imdbId,
     });
   };
 
-  const isButtonDisabled = !title || !imgUrl || !imdbUrl || !imdbId;
+  const setFormState = (name: string, value: string) => {
+    setForm((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const isButtonDisabled = !form.title
+    || !form.imgUrl
+    || !form.imdbUrl
+    || !form.imdbId;
 
   return (
     <form
@@ -50,39 +65,39 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value={title}
-        onChange={setTitle}
+        value={form.title}
+        onChange={(event) => setFormState('title', event)}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value={description}
-        onChange={setDescription}
+        value={form.description}
+        onChange={(event) => setFormState('description', event)}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={imgUrl}
-        onChange={setImgUrl}
+        value={form.imgUrl}
+        onChange={(event) => setFormState('imgUrl', event)}
         required
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={imdbUrl}
-        onChange={setImdbUrl}
+        value={form.imdbUrl}
+        onChange={(event) => setFormState('imdbUrl', event)}
         required
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imdbId}
-        onChange={setImdbId}
+        value={form.imdbId}
+        onChange={(event) => setFormState('imdbId', event)}
         required
       />
 
