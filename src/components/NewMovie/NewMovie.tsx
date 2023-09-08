@@ -7,71 +7,33 @@ type TNewMovie = {
 };
 
 export const NewMovie: FC<TNewMovie> = ({ onAdd }) => {
+  const initialInputFields = {
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  };
+
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
-  const [inputFields, setInputFields] = useState({
-    title: '',
-    description: '',
-    imageUrl: '',
-    imdbUrl: '',
-    imdbId: '',
-  });
+  const [inputFields, setInputFields] = useState(initialInputFields);
 
   const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    onAdd({
-      title: inputFields.title,
-      description: inputFields.description,
-      imgUrl: inputFields.imageUrl,
-      imdbUrl: inputFields.imdbUrl,
-      imdbId: inputFields.imdbId,
-    });
+    onAdd(inputFields);
 
-    setInputFields({
-      title: '',
-      description: '',
-      imageUrl: '',
-      imdbUrl: '',
-      imdbId: '',
-    });
+    setInputFields(initialInputFields);
 
     setCount(prev => prev + 1);
   };
 
-  const handleTitleChange = (currentValue: string) => {
+  const handleChange = (currentValue: string, name:string) => {
     setInputFields((prevState) => ({
       ...prevState,
-      title: currentValue,
-    }));
-  };
-
-  const handleDescriptionChange = (currentValue: string) => {
-    setInputFields((prevState) => ({
-      ...prevState,
-      description: currentValue,
-    }));
-  };
-
-  const handleImageUrlChange = (currentValue: string) => {
-    setInputFields((prevState) => ({
-      ...prevState,
-      imageUrl: currentValue,
-    }));
-  };
-
-  const handleImdbUrlChange = (currentValue: string) => {
-    setInputFields((prevState) => ({
-      ...prevState,
-      imdbUrl: currentValue,
-    }));
-  };
-
-  const handleImdbIdChange = (currentValue: string) => {
-    setInputFields((prevState) => ({
-      ...prevState,
-      imdbId: currentValue,
+      [name]: currentValue,
     }));
   };
 
@@ -92,7 +54,7 @@ export const NewMovie: FC<TNewMovie> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={inputFields.title}
-        onChange={handleTitleChange}
+        onChange={handleChange}
         required
       />
 
@@ -100,14 +62,14 @@ export const NewMovie: FC<TNewMovie> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={inputFields.description}
-        onChange={handleDescriptionChange}
+        onChange={handleChange}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={inputFields.imageUrl}
-        onChange={handleImageUrlChange}
+        value={inputFields.imgUrl}
+        onChange={handleChange}
         required
       />
 
@@ -115,7 +77,7 @@ export const NewMovie: FC<TNewMovie> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={inputFields.imdbUrl}
-        onChange={handleImdbUrlChange}
+        onChange={handleChange}
         required
       />
 
@@ -123,7 +85,7 @@ export const NewMovie: FC<TNewMovie> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={inputFields.imdbId}
-        onChange={handleImdbIdChange}
+        onChange={handleChange}
         required
       />
 
