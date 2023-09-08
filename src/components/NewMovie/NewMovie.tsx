@@ -18,10 +18,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     imdbId: '',
   });
 
-  const isBtnDisabled = newMovie.title.trim()
-    && newMovie.imgUrl.trim()
-    && newMovie.imdbUrl.trim()
-    && newMovie.imdbId.trim();
+  const isBtnDisabled = newMovie.title
+    && newMovie.imgUrl
+    && newMovie.imdbUrl
+    && newMovie.imdbId;
 
   const handleChange = (target: EventTarget & HTMLInputElement) => {
     setNewMovie((prevMovie) => ({ ...prevMovie, [target.name]: target.value }));
