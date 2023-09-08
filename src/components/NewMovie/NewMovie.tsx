@@ -6,39 +6,54 @@ type Props = {
   onAdd: (movie: Movie)=> void;
 };
 
-const defaultValue = '';
+const DEFAULT_VALUE = '';
+
+const allFields = {
+  title: DEFAULT_VALUE,
+  description: DEFAULT_VALUE,
+  imgUrl: DEFAULT_VALUE,
+  imdbUrl: DEFAULT_VALUE,
+  imdbId: DEFAULT_VALUE,
+};
 
 export const NewMovie:React.FC<Props> = ({ onAdd }) => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
-  const [title, setTitle] = useState(defaultValue);
-  const [description, setDescription] = useState(defaultValue);
-  const [imgUrl, setImgUrl] = useState(defaultValue);
-  const [imdbUrl, setImdbUrl] = useState(defaultValue);
-  const [imdbId, setImdbId] = useState(defaultValue);
+  // const [title, setTitle] = useState(DEFAULT_VALUE);
+  // const [description, setDescription] = useState(DEFAULT_VALUE);
+  // const [imgUrl, setImgUrl] = useState(DEFAULT_VALUE);
+  // const [imdbUrl, setImdbUrl] = useState(DEFAULT_VALUE);
+  // const [imdbId, setImdbId] = useState(DEFAULT_VALUE);
 
-  const isSubmitDisabled = !title || !imgUrl || !imdbUrl || !imdbId;
+  const [fieldsForms, setFieldsForms] = useState(allFields);
+
+  const isSubmitDisabled = !fieldsForms.title
+    || !fieldsForms.imgUrl
+    || !fieldsForms.imdbUrl
+    || !fieldsForms.imdbId;
+
+  const resetField = () => {
+    setFieldsForms(allFields);
+  };
 
   const handleMovie = (event: React.FormEvent) => {
     event.preventDefault();
 
     const newMovie: Movie = {
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
+      title: fieldsForms.title,
+      description: fieldsForms.description,
+      imgUrl: fieldsForms.imgUrl,
+      imdbUrl: fieldsForms.imdbUrl,
+      imdbId: fieldsForms.imdbId,
     };
 
     onAdd(newMovie);
-
-    setTitle(defaultValue);
-    setDescription(defaultValue);
-    setImgUrl(defaultValue);
-    setImdbUrl(defaultValue);
-    setImdbId(defaultValue);
     setCount((prevState) => prevState + 1);
+
+    resetField();
+  };
+
+  const updateTitleField = (fieldName: string, newValue: string) => {
+    setFieldsForms((prevState) => ({ ...prevState, [fieldName]: newValue }));
   };
 
   return (
@@ -52,40 +67,40 @@ export const NewMovie:React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value={title}
-        onChange={(newValue) => setTitle(newValue)}
+        value={fieldsForms.title}
+        onChange={(newValue) => updateTitleField('title', newValue)}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value={description}
-        onChange={(newValue) => setDescription(newValue)}
+        value={fieldsForms.description}
+        onChange={(newValue) => updateTitleField('description', newValue)}
 
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={imgUrl}
-        onChange={(newValue) => setImgUrl(newValue)}
+        value={fieldsForms.imgUrl}
+        onChange={(newValue) => updateTitleField('imgUrl', newValue)}
         required
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={imdbUrl}
-        onChange={(newValue) => setImdbUrl(newValue)}
+        value={fieldsForms.imdbUrl}
+        onChange={(newValue) => updateTitleField('imdbUrl', newValue)}
         required
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imdbId}
-        onChange={(newValue) => setImdbId(newValue)}
+        value={fieldsForms.imdbId}
+        onChange={(newValue) => updateTitleField('imdbId', newValue)}
         required
       />
 
