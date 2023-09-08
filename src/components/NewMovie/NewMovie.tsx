@@ -17,8 +17,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState(EMPTY_VALUE);
   const [imdbId, setImdbId] = useState(EMPTY_VALUE);
 
-  const isFilledCorrectly = !!title
-                         && !!imdbId
+  const isFilledCorrectly = !!title.trim()
+                         && !!imdbId.trim()
                          && isValidUrl(imgUrl)
                          && isValidUrl(imdbUrl);
 
@@ -63,7 +63,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={title}
-        onChange={(newValue) => setTitle(newValue)}
+        onChange={setTitle}
         required
       />
 
@@ -71,14 +71,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={description}
-        onChange={(newValue) => setDescription(newValue)}
+        onChange={setDescription}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={(newValue) => setImgUrl(newValue)}
+        onChange={setImgUrl}
         isValid={isValidUrl}
         errorMessage="Image URL is not valid URL"
         required
@@ -88,7 +88,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={(newValue) => setImdbUrl(newValue)}
+        onChange={setImdbUrl}
         isValid={isValidUrl}
         errorMessage="Imdb URL is not valid URL"
         required
@@ -98,7 +98,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={(newValue) => setImdbId(newValue)}
+        onChange={setImdbId}
         required
       />
 

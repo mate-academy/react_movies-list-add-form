@@ -25,7 +25,7 @@ export const TextField: React.FC<Props> = ({
   placeholder = `Enter ${label}`,
   required = false,
   onChange = () => {},
-  isValid = (newValue) => !!newValue,
+  isValid = (newValue) => !!newValue.trim(),
   errorMessage = `${label} is required`,
 }) => {
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
