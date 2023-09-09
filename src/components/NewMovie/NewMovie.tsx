@@ -16,10 +16,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     imdbId: '',
   });
 
-  const disabledBtn = newMovie.title
-    && newMovie.imgUrl
-    && newMovie.imdbUrl
-    && newMovie.imdbId;
+  const disabledBtn = newMovie.title.trim()
+    && newMovie.imgUrl.trim()
+    && newMovie.imdbUrl.trim()
+    && newMovie.imdbId.trim();
 
   const resetForm = () => {
     setNewMovie({
@@ -38,9 +38,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const submitForm = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
+    setCount(prev => prev + 1);
     onAdd(newMovie);
     resetForm();
-    setCount(prev => prev + 1);
   };
 
   return (
