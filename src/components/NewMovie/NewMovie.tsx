@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
+import './NewMovie.scss';
 
 type NewMovieProps = {
   onAdd: (movie: Movie) => void;
@@ -13,6 +14,8 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
   const [imgUrl, setImgUrl] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
+  const [imdbValidError, setImdbValidError] = useState(false);
+  const [imgValidError, setImgValidError] = useState(false);
 
   const reset = () => {
     setTitle('');
@@ -20,12 +23,39 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
     setImgUrl('');
     setImdbUrl('');
     setImdbId('');
+    setImdbValidError(false);
+    setImgValidError(false);
+  };
+
+  const isUrlValid = (url: string) => {
+    const urlRegex = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/i;
+
+    return urlRegex.test(url);
   };
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
     if (!title || !imgUrl || !imdbUrl || !imdbId) {
+      return;
+    }
+
+    if (!isUrlValid(imdbUrl)) {
+      if (!isUrlValid(imgUrl)) {
+        setImgValidError(true);
+        setImdbValidError(true);
+
+        return;
+      }
+
+      setImdbValidError(true);
+
+      return;
+    }
+
+    if (!isUrlValid(imgUrl)) {
+      setImgValidError(true);
+
       return;
     }
 
@@ -77,6 +107,12 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
         required
       />
 
+      {imgValidError && (
+        <div className="error-message">
+          Please enter valid URL for Img
+        </div>
+      )}
+
       <TextField
         name="imdbUrl"
         label="Imdb URL"
@@ -84,6 +120,12 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
         onChange={setImdbUrl}
         required
       />
+
+      {imdbValidError && (
+        <div className="error-message">
+          Please enter valid URL for IMDb
+        </div>
+      )}
 
       <TextField
         name="imdbId"
