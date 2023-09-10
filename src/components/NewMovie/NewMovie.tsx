@@ -1,31 +1,37 @@
-/* eslint-disable */
-import { useState } from "react";
-import { TextField } from "../TextField";
-import { Movie } from "../../types/Movie";
+import { useState } from 'react';
+import { TextField } from '../TextField';
+import { Movie } from '../../types/Movie';
 
 type NewMovieProps = {
-  addMovie: (movie: Movie) => void;
+  onAdd: (movie: Movie) => void;
 };
 
-export const NewMovie: React.FC<NewMovieProps> = ({ addMovie }) => {
+export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [imgUrl, setImgUrl] = useState("");
-  const [imdbUrl, setImdbUrl] = useState("");
-  const [imdbId, setImdbId] = useState("");
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [imgUrl, setImgUrl] = useState('');
+  const [imdbUrl, setImdbUrl] = useState('');
+  const [imdbId, setImdbId] = useState('');
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    addMovie({ title, description, imgUrl, imdbUrl, imdbId });
+    onAdd({
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    });
+
     setCount(count + 1);
-    setTitle("");
-    setDescription("");
-    setImdbUrl("");
-    setImgUrl("");
-    setImdbId("");
+    setTitle('');
+    setDescription('');
+    setImdbUrl('');
+    setImgUrl('');
+    setImdbId('');
   };
 
   return (
