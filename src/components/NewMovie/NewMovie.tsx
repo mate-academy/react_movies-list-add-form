@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
-import { pattern } from '../../variables/variables';
 
 type Props = {
   onAdd: (movie: Movie) => void;
@@ -19,12 +18,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
   const [formData, setFormData] = useState(DEFAULT_FORM_DATA);
 
-  const isDisabled = !formData.title
-    || !formData.imgUrl
-    || !formData.imdbUrl
-    || !formData.imdbId
-    || pattern.test(formData.imgUrl)
-    || pattern.test(formData.imdbUrl);
+  const isDisabled = !formData.title.trim()
+    || !formData.imgUrl.trim()
+    || !formData.imdbUrl.trim()
+    || !formData.imdbId.trim();
 
   const resetFormFields = () => {
     setFormData(DEFAULT_FORM_DATA);
