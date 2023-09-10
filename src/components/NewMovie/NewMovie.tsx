@@ -6,7 +6,7 @@ type Props = {
   onAdd: (movie: Movie) => void;
 };
 
-const INITIAL_FORM = {
+const INITIAL_MOVIE_DATA = {
   title: '',
   description: '',
   imgUrl: '',
@@ -15,37 +15,33 @@ const INITIAL_FORM = {
 };
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
-  const [initialForm, setInitialForm] = useState(INITIAL_FORM);
+  const [newMovie, setNewMovie] = useState(INITIAL_MOVIE_DATA);
   const [count, setCount] = useState(0);
 
-  const handleFormChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setInitialForm((prevForm) => ({
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+
+    setNewMovie((prevForm) => ({
       ...prevForm,
-      [event.target.name]: event.target.value,
+      [name]: value,
     }));
   };
 
-  const isAddButtonDisabled = !initialForm.title
-    || !initialForm.imgUrl
-    || !initialForm.imdbUrl
-    || !initialForm.imdbId;
+  const isAddButtonDisabled = !newMovie.title
+    || !newMovie.imgUrl
+    || !newMovie.imdbUrl
+    || !newMovie.imdbId;
 
-  const reset = () => {
-    setInitialForm(INITIAL_FORM);
+  const resetFormData = () => {
+    setNewMovie(INITIAL_MOVIE_DATA);
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    onAdd({
-      title: initialForm.title,
-      description: initialForm.description,
-      imgUrl: initialForm.imgUrl,
-      imdbUrl: initialForm.imdbUrl,
-      imdbId: initialForm.imdbId,
-    });
+    onAdd(newMovie);
 
-    reset();
+    resetFormData();
     setCount(count + 1);
   };
 
@@ -62,39 +58,39 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value={initialForm.title}
-        onChange={handleFormChange}
+        value={newMovie.title}
+        onChange={handleInputChange}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value={initialForm.description}
-        onChange={handleFormChange}
+        value={newMovie.description}
+        onChange={handleInputChange}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={initialForm.imgUrl}
-        onChange={handleFormChange}
+        value={newMovie.imgUrl}
+        onChange={handleInputChange}
         required
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={initialForm.imdbUrl}
-        onChange={handleFormChange}
+        value={newMovie.imdbUrl}
+        onChange={handleInputChange}
         required
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={initialForm.imdbId}
-        onChange={handleFormChange}
+        value={newMovie.imdbId}
+        onChange={handleInputChange}
         required
       />
 
