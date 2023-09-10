@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import React, { useState } from 'react';
+import { pattern } from '../../utils/pattern';
 
 type Props = {
   name: string,
@@ -7,7 +8,7 @@ type Props = {
   label?: string,
   placeholder?: string,
   required?: boolean,
-  onChange?: (newValue: string) => void,
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void,
 };
 
 function getRandomDigits() {
@@ -26,14 +27,11 @@ export const TextField: React.FC<Props> = ({
 }) => {
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
   const [touched, setTouched] = useState(false);
-  const hasError = touched && required && !value;
-  // eslint-disable-next-line
-  const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
+  const hasError = touched && !value.trim() && required;
 
-  const isURLField: boolean = (name === 'imgUrl' || name === 'imdbUrl')
-    && Boolean(value);
-  const isValidURL: boolean = pattern.test(value);
-  const hasErrorURL = isURLField && !isValidURL;
+  const isValid = (value.trim() && (name === 'imgUrl' || name === 'imdbUrl'))
+    ? pattern.test(value)
+    : true;
 
   return (
     <div className="field">
@@ -43,15 +41,16 @@ export const TextField: React.FC<Props> = ({
 
       <div className="control">
         <input
+          name={name}
           type="text"
           id={id}
           data-cy={`movie-${name}`}
           className={classNames('input', {
-            'is-danger': hasError,
+            'is-danger': hasError || !isValid,
           })}
           placeholder={placeholder}
           value={value}
-          onChange={event => onChange(event.target.value)}
+          onChange={onChange}
           onBlur={() => setTouched(true)}
         />
       </div>
@@ -60,7 +59,7 @@ export const TextField: React.FC<Props> = ({
         <p className="help is-danger">{`${label} is required`}</p>
       )}
 
-      {hasErrorURL && (
+      {!isValid && (
         <p className="help is-danger">Invalid URL</p>
       )}
     </div>
