@@ -33,7 +33,7 @@ export const TextField: React.FC<Props> = ({
     ? touched && required && !getIsValidUrl(value)
     : touched && required && !value;
 
-  const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     onChange(event);
 
     if (event.target.value === '') {
@@ -58,7 +58,7 @@ export const TextField: React.FC<Props> = ({
           })}
           placeholder={placeholder}
           value={value}
-          onChange={event => handleOnChange(event)}
+          onChange={handleInputChange}
           onBlur={() => setTouched(true)}
           onFocus={() => setTouched(false)}
         />
@@ -66,7 +66,7 @@ export const TextField: React.FC<Props> = ({
 
       {hasError && (
         <p className="help is-danger">
-          {value.length === 0 ? (
+          {!value.length ? (
             `${label} is required`
           ) : (
             `${label} contains an invalid URL`

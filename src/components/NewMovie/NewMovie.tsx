@@ -22,12 +22,12 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     || !getIsValidUrl(formValues.imdbUrl)
     || !getIsValidUrl(formValues.imgUrl);
 
-  const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const key = event.target.name;
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
 
     setFormValues(prevValues => ({
       ...prevValues,
-      [key]: event.target.value.trimStart(),
+      [name]: value.trimStart(),
     }));
   };
 
@@ -45,7 +45,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={formValues.title}
-        onChange={handleOnChange}
+        onChange={handleInputChange}
         required
       />
 
@@ -53,14 +53,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={formValues.description}
-        onChange={handleOnChange}
+        onChange={handleInputChange}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={formValues.imgUrl}
-        onChange={handleOnChange}
+        onChange={handleInputChange}
         required
       />
 
@@ -68,7 +68,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={formValues.imdbUrl}
-        onChange={handleOnChange}
+        onChange={handleInputChange}
         required
       />
 
@@ -76,7 +76,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={formValues.imdbId}
-        onChange={handleOnChange}
+        onChange={handleInputChange}
         required
       />
 
