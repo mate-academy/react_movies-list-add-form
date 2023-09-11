@@ -23,7 +23,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
     setNewMovie((prevForm) => ({
       ...prevForm,
-      [name]: value,
+      [name]: value.trimStart(),
     }));
   };
 
