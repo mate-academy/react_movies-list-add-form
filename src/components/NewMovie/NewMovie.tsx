@@ -15,7 +15,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [description, setDescription] = useState('');
 
-  const isDisabled = !title || !imgUrl || !imdbUrl || !imdbId;
+  const isAddButtonDisabled = !title || !imgUrl || !imdbUrl || !imdbId;
 
   const setDefaultValues = () => {
     setTitle('');
@@ -25,12 +25,12 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setDescription('');
   };
 
-  const handleAdd = (event: React.FormEvent) => {
+  const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
     setDefaultValues();
 
-    setCount((prewCount) => prewCount + 1);
+    setCount((prevCount) => prevCount + 1);
 
     onAdd({
       title,
@@ -45,7 +45,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     <form
       className="NewMovie"
       key={count}
-      onSubmit={handleAdd}
+      onSubmit={handleSubmit}
     >
       <h2 className="title">Add a movie</h2>
 
@@ -94,7 +94,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={isDisabled}
+            disabled={isAddButtonDisabled}
           >
             Add
           </button>
