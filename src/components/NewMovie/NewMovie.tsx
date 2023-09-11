@@ -21,11 +21,31 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const isButtonDisabled = !form.title || !form.imgUrl
     || !form.imdbUrl || !form.imdbId;
 
+  const handleTitleChange = (newValue: string) => {
+    setForm({ ...form, title: newValue.trimStart() });
+  };
+
+  const handleDescriptionChange = (newValue: string) => {
+    setForm({ ...form, description: newValue.trimStart() });
+  };
+
+  const handleImgUrlChange = (newValue: string) => {
+    setForm({ ...form, imgUrl: newValue.trimStart() });
+  };
+
+  const handleImdbUrlChange = (newValue: string) => {
+    setForm({ ...form, imdbUrl: newValue.trimStart() });
+  };
+
+  const handleImdbIdChange = (newValue: string) => {
+    setForm({ ...form, imdbId: newValue.trimStart() });
+  };
+
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     onAdd(form);
     setForm(defaultMovie);
-    setCount((pervCount) => pervCount + 1);
+    setCount((prevCount) => prevCount + 1);
   };
 
   return (
@@ -36,7 +56,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={form.title}
-        onChange={(newValue) => setForm({ ...form, title: newValue })}
+        onChange={handleTitleChange}
         required
       />
 
@@ -44,7 +64,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={form.description}
-        onChange={(newValue) => setForm({ ...form, description: newValue })}
+        onChange={handleDescriptionChange}
       />
 
       <TextField
@@ -52,7 +72,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Image URL"
         value={form.imgUrl}
         required
-        onChange={(newValue) => setForm({ ...form, imgUrl: newValue })}
+        onChange={handleImgUrlChange}
       />
 
       <TextField
@@ -60,7 +80,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Imdb URL"
         value={form.imdbUrl}
         required
-        onChange={(newValue) => setForm({ ...form, imdbUrl: newValue })}
+        onChange={handleImdbUrlChange}
       />
 
       <TextField
@@ -68,7 +88,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Imdb ID"
         value={form.imdbId}
         required
-        onChange={(newValue) => setForm({ ...form, imdbId: newValue })}
+        onChange={handleImdbIdChange}
       />
 
       <div className="field is-grouped">
