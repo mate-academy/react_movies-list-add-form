@@ -1,44 +1,27 @@
 import React, { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
+import { DEFAULT_MOVIE_DATA } from '../../constants/constats';
 
 type Props = {
   onAdd: (movie: Movie)=> void;
 };
 
-const DEFAULT_VALUE = '';
-
-const allFields = {
-  title: DEFAULT_VALUE,
-  description: DEFAULT_VALUE,
-  imgUrl: DEFAULT_VALUE,
-  imdbUrl: DEFAULT_VALUE,
-  imdbId: DEFAULT_VALUE,
-};
-
 export const NewMovie:React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
-  const [fieldsForms, setFieldsForms] = useState(allFields);
+  const [newMovie, setNewMovie] = useState(DEFAULT_MOVIE_DATA);
 
-  const isSubmitDisabled = !fieldsForms.title
-    || !fieldsForms.imgUrl
-    || !fieldsForms.imdbUrl
-    || !fieldsForms.imdbId;
+  const isSubmitDisabled = !newMovie.title
+    || !newMovie.imgUrl
+    || !newMovie.imdbUrl
+    || !newMovie.imdbId;
 
   const resetField = () => {
-    setFieldsForms(allFields);
+    setNewMovie(DEFAULT_MOVIE_DATA);
   };
 
-  const handleMovie = (event: React.FormEvent) => {
+  const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-
-    const newMovie: Movie = {
-      title: fieldsForms.title,
-      description: fieldsForms.description,
-      imgUrl: fieldsForms.imgUrl,
-      imdbUrl: fieldsForms.imdbUrl,
-      imdbId: fieldsForms.imdbId,
-    };
 
     onAdd(newMovie);
     setCount((prevState) => prevState + 1);
@@ -46,8 +29,8 @@ export const NewMovie:React.FC<Props> = ({ onAdd }) => {
     resetField();
   };
 
-  const updateTitleField = (fieldName: string, newValue: string) => {
-    setFieldsForms((prevState) => (
+  const handleInputChange = (fieldName: string, newValue: string) => {
+    setNewMovie((prevState) => (
       {
         ...prevState,
         [fieldName]: newValue.trimStart(),
@@ -58,47 +41,47 @@ export const NewMovie:React.FC<Props> = ({ onAdd }) => {
     <form
       className="NewMovie"
       key={count}
-      onSubmit={handleMovie}
+      onSubmit={handleSubmit}
     >
       <h2 className="title">Add a movie</h2>
 
       <TextField
         name="title"
         label="Title"
-        value={fieldsForms.title}
-        onChange={(newValue) => updateTitleField('title', newValue)}
+        value={newMovie.title}
+        onChange={(newValue) => handleInputChange('title', newValue)}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value={fieldsForms.description}
-        onChange={(newValue) => updateTitleField('description', newValue)}
+        value={newMovie.description}
+        onChange={(newValue) => handleInputChange('description', newValue)}
 
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={fieldsForms.imgUrl}
-        onChange={(newValue) => updateTitleField('imgUrl', newValue)}
+        value={newMovie.imgUrl}
+        onChange={(newValue) => handleInputChange('imgUrl', newValue)}
         required
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={fieldsForms.imdbUrl}
-        onChange={(newValue) => updateTitleField('imdbUrl', newValue)}
+        value={newMovie.imdbUrl}
+        onChange={(newValue) => handleInputChange('imdbUrl', newValue)}
         required
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={fieldsForms.imdbId}
-        onChange={(newValue) => updateTitleField('imdbId', newValue)}
+        value={newMovie.imdbId}
+        onChange={(newValue) => handleInputChange('imdbId', newValue)}
         required
       />
 
