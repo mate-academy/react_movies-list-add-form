@@ -36,10 +36,12 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+     
     setFormData(prevData => (
       {
         ...prevData,
-        [event.target.name]: event.target.value,
+        [name]: value,
       }
     ));
   };
