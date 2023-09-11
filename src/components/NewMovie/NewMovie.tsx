@@ -1,17 +1,8 @@
 import React, { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
-
-// eslint-disable-next-line
-const urlPattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
-
-const defaultState = {
-  title: '',
-  description: '',
-  imgUrl: '',
-  imdbUrl: '',
-  imdbId: '',
-};
+import { urlPattern } from '../../variables/urlPattern';
+import { DEFAULT_MOVIE_DATA } from '../../variables/DEFAULT_MOVIE_DATA';
 
 type Props = {
   onAdd: (newMovie: Movie) => void;
@@ -19,7 +10,7 @@ type Props = {
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
-  const [formValues, setFormValues] = useState(defaultState);
+  const [formValues, setFormValues] = useState(DEFAULT_MOVIE_DATA);
 
   const {
     title,
@@ -40,27 +31,24 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     urlPattern.test(url)
   );
 
+  const isImgUrlValid = checkUrl(imgUrl);
+  const isImdbUrlValid = checkUrl(imdbUrl);
+
   const clearForm = () => {
-    setFormValues(defaultState);
+    setFormValues(DEFAULT_MOVIE_DATA);
   };
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    onAdd({
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    });
+    onAdd(formValues);
 
     clearForm();
 
     setCount((prevCount) => prevCount + 1);
   };
 
-  const shouldBeDisabled = !(
+  const isSubmitDisabled = !(
     title
     && imgUrl
     && imdbUrl
@@ -100,7 +88,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={imgUrl}
         onChange={(newImgUrl) => handleChange('imgUrl', newImgUrl)}
         required
-        isUrlValid={checkUrl(imgUrl)}
+        isUrlValid={isImgUrlValid}
       />
 
       <TextField
@@ -109,7 +97,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={imdbUrl}
         onChange={(newImdbUrl) => handleChange('imdbUrl', newImdbUrl)}
         required
-        isUrlValid={checkUrl(imdbUrl)}
+        isUrlValid={isImdbUrlValid}
       />
 
       <TextField
@@ -126,7 +114,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={shouldBeDisabled}
+            disabled={isSubmitDisabled}
           >
             Add
           </button>

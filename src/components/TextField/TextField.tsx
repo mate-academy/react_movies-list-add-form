@@ -34,6 +34,8 @@ export const TextField: React.FC<Props> = ({
   const hasError = touched && required && !value;
   const hasUrlError = touched && !isUrlValid;
 
+  const urlErrorTrigger = hasUrlError && !hasError;
+
   return (
     <div className="field">
       <label className="label" htmlFor={id}>
@@ -59,7 +61,7 @@ export const TextField: React.FC<Props> = ({
         <p className="help is-danger">{`${label} is required`}</p>
       )}
 
-      {(hasUrlError && !hasError) && (
+      {urlErrorTrigger && (
         <p className="help is-danger">{`The entered ${label} is incorrect`}</p>
       )}
     </div>
