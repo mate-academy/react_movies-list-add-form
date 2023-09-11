@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
+import { isValidUrl } from '../helper';
 
 type Props = {
   handleMovieAdd: (movie: Movie) => void
@@ -16,6 +17,8 @@ export const NewMovie: React.FC<Props> = ({ handleMovieAdd }) => {
     imdbUrl: '',
     imdbId: '',
   });
+
+  const [invalidUrl, setInvalidUrl] = useState(false);
 
   const handleChange = (field: string, newValue: string) => {
     setMovieData(prevData => ({
@@ -34,14 +37,16 @@ export const NewMovie: React.FC<Props> = ({ handleMovieAdd }) => {
     });
   };
 
-  const isValidUrl = (url: string): boolean => {
-    const urlRegex = /^https?:\/\/\S+\.\S+$/;
-
-    return urlRegex.test(url);
-  };
-
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    if (!isValidUrl(movieData.imgUrl) || !isValidUrl(movieData.imdbUrl)) {
+      setInvalidUrl(true);
+
+      return;
+    }
+
+    setInvalidUrl(false);
 
     handleMovieAdd(movieData);
 
@@ -87,6 +92,7 @@ export const NewMovie: React.FC<Props> = ({ handleMovieAdd }) => {
         onValidate={isValidUrl}
         required
       />
+      {invalidUrl && <div style={{ color: 'red' }}>Invalid URL</div>}
 
       <TextField
         name="imdbUrl"
@@ -96,6 +102,7 @@ export const NewMovie: React.FC<Props> = ({ handleMovieAdd }) => {
         onValidate={isValidUrl}
         required
       />
+      {invalidUrl && <div style={{ color: 'red' }}>Invalid URL</div>}
 
       <TextField
         name="imdbId"
@@ -104,6 +111,7 @@ export const NewMovie: React.FC<Props> = ({ handleMovieAdd }) => {
         onChange={(newValue) => handleChange('imdbId', newValue)}
         required
       />
+
       <div className="field is-grouped">
         <div className="control">
           <button
