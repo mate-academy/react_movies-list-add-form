@@ -19,10 +19,10 @@ export const NewMovie: React.FC<Props> = ({
 }) => {
   const [count, setCount] = useState(0);
   const [formData, setFormData] = useState(DEFAULT_FIELDS);
-  const isButtonDisabled = !formData.title
-    || !formData.imgUrl
-    || !formData.imdbUrl
-    || !formData.imdbId;
+  const isAddButtonDisabled = !formData.title.trim()
+    || !formData.imgUrl.trim()
+    || !formData.imdbUrl.trim()
+    || !formData.imdbId.trim();
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -100,7 +100,7 @@ export const NewMovie: React.FC<Props> = ({
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={isButtonDisabled}
+            disabled={isAddButtonDisabled}
           >
             Add
           </button>
