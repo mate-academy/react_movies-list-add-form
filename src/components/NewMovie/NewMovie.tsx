@@ -6,16 +6,16 @@ type Props = {
   onAdd: (newMovie: Movie) => void;
 };
 
+const EMPTY_STRING = '';
+
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
   const [movieData, setMovieData] = useState<Movie>({
-    title: '',
-    description: '',
-    imgUrl: '',
-    imdbUrl: '',
-    imdbId: '',
+    title: EMPTY_STRING,
+    description: EMPTY_STRING,
+    imgUrl: EMPTY_STRING,
+    imdbUrl: EMPTY_STRING,
+    imdbId: EMPTY_STRING,
   });
 
   const {
@@ -29,11 +29,11 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const isSubmitButtonDisabled = !title.trim() || !imdbId.trim();
 
   const clearFields = () => setMovieData({
-    title: '',
-    description: '',
-    imgUrl: '',
-    imdbUrl: '',
-    imdbId: '',
+    title: EMPTY_STRING,
+    description: EMPTY_STRING,
+    imgUrl: EMPTY_STRING,
+    imdbUrl: EMPTY_STRING,
+    imdbId: EMPTY_STRING,
   });
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
