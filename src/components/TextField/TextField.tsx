@@ -31,7 +31,7 @@ export const TextField: React.FC<Props> = ({
 
   // To show errors only if the field was touched (onBlur)
   const [touched, setTouched] = useState(false);
-  const hasError = touched && required && (!value || !validate(value));
+  const hasError = touched && required && (!value.trim() || !validate(value));
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     onChange(event.target.value, name);
   };
