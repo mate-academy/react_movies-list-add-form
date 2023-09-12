@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import React, { useState } from 'react';
+import { urlPattern } from '../utils/regex';
 
 type Props = {
   name: string,
@@ -24,12 +25,15 @@ export const TextField: React.FC<Props> = ({
   required = false,
   onChange = () => {},
 }) => {
-  // generage a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
-  // To show errors only if the field was touched (onBlur)
   const [touched, setTouched] = useState(false);
+
   const hasError = touched && required && !value;
+  const hasUrlFormatError = (name === 'imdbUrl' || name === 'imgUrl')
+    && touched && value && !urlPattern.test(value);
+  const hasTextFormatError = (name === 'title' || name === 'description'
+    || name === 'imdbId') && touched && value && !value.trim();
 
   return (
     <div className="field">
@@ -43,7 +47,7 @@ export const TextField: React.FC<Props> = ({
           id={id}
           data-cy={`movie-${name}`}
           className={classNames('input', {
-            'is-danger': hasError,
+            'is-danger': hasError || hasUrlFormatError,
           })}
           placeholder={placeholder}
           value={value}
@@ -54,6 +58,9 @@ export const TextField: React.FC<Props> = ({
 
       {hasError && (
         <p className="help is-danger">{`${label} is required`}</p>
+      )}
+      {(hasUrlFormatError || hasTextFormatError) && (
+        <p className="help is-danger">{`${label} must be valid`}</p>
       )}
     </div>
   );
