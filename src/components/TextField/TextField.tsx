@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import React, { useState } from 'react';
+import { validatePattern } from '../../variables/validatePattern';
 
 type Props = {
   name: string,
@@ -24,12 +25,14 @@ export const TextField: React.FC<Props> = ({
   required = false,
   onChange = () => {},
 }) => {
-  // generage a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
-  // To show errors only if the field was touched (onBlur)
   const [touched, setTouched] = useState(false);
   const hasError = touched && required && !value;
+
+  const isValideUrl = (value && (name === 'ImgUrl' || name === 'ImdbUrl'))
+    ? validatePattern.test(value)
+    : true;
 
   return (
     <div className="field">
@@ -43,7 +46,7 @@ export const TextField: React.FC<Props> = ({
           id={id}
           data-cy={`movie-${name}`}
           className={classNames('input', {
-            'is-danger': hasError,
+            'is-danger': hasError || !isValideUrl,
           })}
           placeholder={placeholder}
           value={value}
@@ -54,6 +57,10 @@ export const TextField: React.FC<Props> = ({
 
       {hasError && (
         <p className="help is-danger">{`${label} is required`}</p>
+      )}
+
+      {!isValideUrl && (
+        <p className="help is-danger">{`${label} is not valide`}</p>
       )}
     </div>
   );
