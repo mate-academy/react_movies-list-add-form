@@ -9,7 +9,7 @@ export const App = () => {
   const [preparedMovies, setPreparedMovies] = useState(moviesFromServer);
 
   const addPreparedMovie = (movie: Movie) => {
-    setPreparedMovies([...preparedMovies, movie]);
+    setPreparedMovies((prevMovieList) => [...prevMovieList, movie]);
   };
 
   return (
