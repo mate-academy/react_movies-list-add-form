@@ -40,9 +40,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd = () => {} }) => {
     resetFormFields();
   };
 
-  const handlerOnChange = (value: string) => {
+  const handlerOnChange = (value: Partial<Movie>) => {
     setNewMovie(prev => ({
-      ...prev, value,
+      ...prev, ...value,
     }));
   };
 
@@ -58,7 +58,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd = () => {} }) => {
         name="title"
         label="Title"
         value={newMovie.title}
-        onChange={handlerOnChange}
+        onChange={(value) => handlerOnChange({ title: value })}
         required
       />
 
@@ -66,14 +66,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd = () => {} }) => {
         name="description"
         label="Description"
         value={newMovie.description}
-        onChange={handlerOnChange}
+        onChange={(value) => handlerOnChange({ description: value })}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={newMovie.imgUrl}
-        onChange={handlerOnChange}
+        onChange={(value) => handlerOnChange({ imgUrl: value })}
         required
       />
 
@@ -81,7 +81,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd = () => {} }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={newMovie.imdbUrl}
-        onChange={handlerOnChange}
+        onChange={(value) => handlerOnChange({ imdbUrl: value })}
         required
       />
 
@@ -89,7 +89,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd = () => {} }) => {
         name="imdbId"
         label="Imdb ID"
         value={newMovie.imdbId}
-        onChange={handlerOnChange}
+        onChange={(value) => handlerOnChange({ imdbId: value })}
         required
       />
 
