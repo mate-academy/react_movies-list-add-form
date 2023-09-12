@@ -7,15 +7,17 @@ type Props = {
   handleMovieAdd: (movie: Movie) => void
 };
 
+const EMTY_STRING = '';
+
 export const NewMovie: React.FC<Props> = ({ handleMovieAdd }) => {
   const [count, setCount] = useState(0);
 
   const [movieData, setMovieData] = useState({
-    title: '',
-    description: '',
-    imgUrl: '',
-    imdbUrl: '',
-    imdbId: '',
+    title: EMTY_STRING,
+    description: EMTY_STRING,
+    imgUrl: EMTY_STRING,
+    imdbUrl: EMTY_STRING,
+    imdbId: EMTY_STRING,
   });
 
   const [invalidUrl, setInvalidUrl] = useState(false);
@@ -29,11 +31,11 @@ export const NewMovie: React.FC<Props> = ({ handleMovieAdd }) => {
 
   const handlerReset = () => {
     setMovieData({
-      title: '',
-      description: '',
-      imgUrl: '',
-      imdbUrl: '',
-      imdbId: '',
+      title: EMTY_STRING,
+      description: EMTY_STRING,
+      imgUrl: EMTY_STRING,
+      imdbUrl: EMTY_STRING,
+      imdbId: EMTY_STRING,
     });
   };
 
