@@ -3,32 +3,36 @@ import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 import { isValidUrl } from '../../services/validation';
 
-const EMPTY_VALUE = '';
-
 type Props = {
   onAdd: (movie: Movie) => void,
 };
 
+const initialFormData = {
+  title: '',
+  description: '',
+  imgUrl: '',
+  imdbUrl: '',
+  imdbId: '',
+};
+
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
-  const [title, setTitle] = useState(EMPTY_VALUE);
-  const [description, setDescription] = useState(EMPTY_VALUE);
-  const [imgUrl, setImgUrl] = useState(EMPTY_VALUE);
-  const [imdbUrl, setImdbUrl] = useState(EMPTY_VALUE);
-  const [imdbId, setImdbId] = useState(EMPTY_VALUE);
+  const [formData, setFormData] = useState(initialFormData);
 
-  const isFilledCorrectly = !!title.trim()
-                         && !!imdbId.trim()
-                         && isValidUrl(imgUrl)
-                         && isValidUrl(imdbUrl);
+  const isFilledCorrectly = !!formData.title.trim()
+                         && !!formData.imdbId.trim()
+                         && isValidUrl(formData.imgUrl)
+                         && isValidUrl(formData.imdbUrl);
+
+  const handleFormDataChange = (name: string, value: string) => {
+    setFormData((currentState) => ({
+      ...currentState,
+      [name]: value,
+    }));
+  };
 
   const reset = () => {
-    setTitle(EMPTY_VALUE);
-    setDescription(EMPTY_VALUE);
-    setImgUrl(EMPTY_VALUE);
-    setImdbUrl(EMPTY_VALUE);
-    setImdbId(EMPTY_VALUE);
-
+    setFormData(initialFormData);
     setCount(currentCount => currentCount + 1);
   };
 
@@ -39,13 +43,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       return;
     }
 
-    const newMovie: Movie = {
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    };
+    const newMovie: Movie = { ...formData };
 
     onAdd(newMovie);
     reset();
@@ -62,23 +60,23 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value={title}
-        onChange={setTitle}
+        value={formData.title}
+        onChange={handleFormDataChange}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value={description}
-        onChange={setDescription}
+        value={formData.description}
+        onChange={handleFormDataChange}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={imgUrl}
-        onChange={setImgUrl}
+        value={formData.imgUrl}
+        onChange={handleFormDataChange}
         isValid={isValidUrl}
         errorMessage="Image URL is not valid URL"
         required
@@ -87,8 +85,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={imdbUrl}
-        onChange={setImdbUrl}
+        value={formData.imdbUrl}
+        onChange={handleFormDataChange}
         isValid={isValidUrl}
         errorMessage="Imdb URL is not valid URL"
         required
@@ -97,8 +95,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imdbId}
-        onChange={setImdbId}
+        value={formData.imdbId}
+        onChange={handleFormDataChange}
         required
       />
 
