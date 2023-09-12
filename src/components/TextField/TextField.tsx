@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import React, { useState } from 'react';
-import { validatePattern } from '../../variable';
+import { validatePattern } from '../../variables/validatePattern';
 
 type Props = {
   name: string,
