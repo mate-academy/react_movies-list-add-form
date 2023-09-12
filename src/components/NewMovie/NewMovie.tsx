@@ -2,6 +2,14 @@ import React, { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
+const DEFAULT_MOVIE_DATA = {
+  title: '',
+  description: '',
+  imgUrl: '',
+  imdbUrl: '',
+  imdbId: '',
+};
+
 type Props = {
   onAdd: (movie: Movie) => void,
 };
@@ -9,30 +17,18 @@ type Props = {
 export const NewMovie: React.FC<Props> = ({ onAdd = () => {} }) => {
   const [count, setCount] = useState(0);
 
-  function createNewMovie() {
-    return {
-      title: '',
-      description: '',
-      imgUrl: '',
-      imdbUrl: '',
-      imdbId: '',
-    };
-  }
-
-  const [newMovie, setNewMovie] = useState(createNewMovie());
+  const [newMovie, setNewMovie] = useState(DEFAULT_MOVIE_DATA);
 
   const resetFormFields = () => {
-    setNewMovie(createNewMovie());
+    setNewMovie(DEFAULT_MOVIE_DATA);
   };
 
-  const isDisabled = () => {
-    return !(
-      newMovie.title
+  const isDisabled = !(
+    newMovie.title
       && newMovie.imgUrl
       && newMovie.imdbUrl
       && newMovie.imdbId
-    );
-  };
+  );
 
   const handleSubmit = (event: React.FormEvent<Element>) => {
     event.preventDefault();
@@ -86,7 +82,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd = () => {} }) => {
         label="Imdb URL"
         value={newMovie.imdbUrl}
         onChange={(imdbUrl) => {
-          setNewMovie({ ...newMovie, imdbUrl });
+          setNewMovie(prev => ({
+            ...prev, imdbUrl,
+          }));
         }}
         required
       />
@@ -107,7 +105,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd = () => {} }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={isDisabled()}
+            disabled={isDisabled}
           >
             Add
           </button>
