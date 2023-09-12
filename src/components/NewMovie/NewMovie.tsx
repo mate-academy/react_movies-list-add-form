@@ -40,6 +40,12 @@ export const NewMovie: React.FC<Props> = ({ onAdd = () => {} }) => {
     resetFormFields();
   };
 
+  const handlerOnChange = (value: string) => {
+    setNewMovie(prev => ({
+      ...prev, value,
+    }));
+  };
+
   return (
     <form
       className="NewMovie"
@@ -52,11 +58,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd = () => {} }) => {
         name="title"
         label="Title"
         value={newMovie.title}
-        onChange={(title) => {
-          setNewMovie(prev => ({
-            ...prev, title,
-          }));
-        }}
+        onChange={handlerOnChange}
         required
       />
 
@@ -64,22 +66,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd = () => {} }) => {
         name="description"
         label="Description"
         value={newMovie.description}
-        onChange={(description) => {
-          setNewMovie(prev => ({
-            ...prev, description,
-          }));
-        }}
+        onChange={handlerOnChange}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={newMovie.imgUrl}
-        onChange={(imgUrl) => {
-          setNewMovie(prev => ({
-            ...prev, imgUrl,
-          }));
-        }}
+        onChange={handlerOnChange}
         required
       />
 
@@ -87,11 +81,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd = () => {} }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={newMovie.imdbUrl}
-        onChange={(imdbUrl) => {
-          setNewMovie(prev => ({
-            ...prev, imdbUrl,
-          }));
-        }}
+        onChange={handlerOnChange}
         required
       />
 
@@ -99,11 +89,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd = () => {} }) => {
         name="imdbId"
         label="Imdb ID"
         value={newMovie.imdbId}
-        onChange={(imdbId) => {
-          setNewMovie(prev => ({
-            ...prev, imdbId,
-          }));
-        }}
+        onChange={handlerOnChange}
         required
       />
 
