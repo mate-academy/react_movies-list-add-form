@@ -41,10 +41,8 @@ export const NewMovie = ({ onAdd }: NewMovieProps) => {
     setCount(count + 1);
   };
 
-  // const disabledButton = [title, description, imgUrl, imdbUrl, imdbId]
-  //   .every(element => element.trim() === '');
-
-  const disabledButton = !title || !imgUrl || !imdbUrl || !imdbId;
+  const disabledButton = [title, imgUrl, imdbUrl, imdbId]
+    .some(element => element.trim() === '');
 
   return (
     <form className="NewMovie" key={count} onSubmit={handleSubmit}>
