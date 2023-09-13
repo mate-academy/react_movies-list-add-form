@@ -19,11 +19,14 @@ export const NewMovie
       setImdbId('');
     };
 
-    const isDisabled = () => {
-      return !(title && imgUrl && imdbUrl && imdbId);
+    const isAddButtonDisabled = () => {
+      return !(title.trim()
+        && imgUrl.trim()
+        && imdbUrl.trim()
+        && imdbId.trim());
     };
 
-    const submit = (): void => {
+    const handleSubmit = (): void => {
       onAdd({
         title, description, imgUrl, imdbUrl, imdbId,
       });
@@ -34,7 +37,7 @@ export const NewMovie
     };
 
     return (
-      <form className="NewMovie" key={count} onSubmit={submit}>
+      <form className="NewMovie" key={count} onSubmit={handleSubmit}>
         <h2 className="title">Add a movie</h2>
 
         <TextField
@@ -82,7 +85,7 @@ export const NewMovie
               type="submit"
               data-cy="submit-button"
               className="button is-link"
-              disabled={isDisabled()}
+              disabled={isAddButtonDisabled()}
             >
               Add
             </button>
