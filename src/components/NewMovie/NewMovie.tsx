@@ -8,7 +8,7 @@ type Props = {
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
-  const [newMovie, setNewMovie] = useState({
+  const [newMovie, setNewMovie] = useState<Movie>({
     title: '',
     description: '',
     imgUrl: '',
@@ -16,17 +16,15 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     imdbId: '',
   });
 
-  const isInputError = !newMovie.title
-    || !newMovie.imgUrl
-    || !newMovie.imdbUrl
-    || !newMovie.imdbId;
+  const {
+    title,
+    description,
+    imgUrl,
+    imdbUrl,
+    imdbId,
+  } = newMovie;
 
-  function handleSubmit(event: React.FormEvent) {
-    event.preventDefault();
-    setCount(currentCount => (currentCount + 1));
-
-    onAdd(newMovie);
-
+  const resetMovieInputs = () => {
     setNewMovie({
       title: '',
       description: '',
@@ -34,27 +32,30 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       imdbUrl: '',
       imdbId: '',
     });
+  };
+
+  const isInputError = !newMovie.title.trim()
+    || !newMovie.imgUrl.trim()
+    || !newMovie.imdbUrl.trim()
+    || !newMovie.imdbId.trim();
+
+  function handleSubmit(event: React.FormEvent) {
+    event.preventDefault();
+    setCount(currentCount => (currentCount + 1));
+
+    onAdd(newMovie);
+
+    resetMovieInputs();
   }
 
-  const handleTitle = (curentValue: string) => setNewMovie(
-    { ...newMovie, ...{ title: curentValue } },
-  );
-
-  const handleDescription = (curentValue: string) => setNewMovie(
-    { ...newMovie, ...{ description: curentValue } },
-  );
-
-  const handleImgUrl = (curentValue: string) => setNewMovie(
-    { ...newMovie, ...{ imgUrl: curentValue } },
-  );
-
-  const handleImdbUrl = (curentValue: string) => setNewMovie(
-    { ...newMovie, ...{ imdbUrl: curentValue } },
-  );
-
-  const handleImdbId = (curentValue: string) => setNewMovie(
-    { ...newMovie, ...{ imdbId: curentValue } },
-  );
+  function handleChangeInput(value: string, key: string) {
+    setNewMovie(prevState => (
+      {
+        ...prevState,
+        [key]: value,
+      }
+    ));
+  }
 
   return (
     <form
@@ -67,39 +68,39 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value={newMovie.title}
-        onChange={handleTitle}
+        value={title}
+        onChange={(value: string) => handleChangeInput(value, 'title')}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value={newMovie.description}
-        onChange={handleDescription}
+        value={description}
+        onChange={(value: string) => handleChangeInput(value, 'description')}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={newMovie.imgUrl}
-        onChange={handleImgUrl}
+        value={imgUrl}
+        onChange={(value: string) => handleChangeInput(value, 'imgUrl')}
         required
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={newMovie.imdbUrl}
-        onChange={handleImdbUrl}
+        value={imdbUrl}
+        onChange={(value: string) => handleChangeInput(value, 'imdbUrl')}
         required
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={newMovie.imdbId}
-        onChange={handleImdbId}
+        value={imdbId}
+        onChange={(value: string) => handleChangeInput(value, 'imdbId')}
         required
       />
 
