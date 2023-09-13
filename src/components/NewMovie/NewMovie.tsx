@@ -7,16 +7,17 @@ type Props = {
 };
 
 const EMPTY_STRING = '';
+const initialValues = {
+  title: EMPTY_STRING,
+  description: EMPTY_STRING,
+  imgUrl: EMPTY_STRING,
+  imdbUrl: EMPTY_STRING,
+  imdbId: EMPTY_STRING,
+};
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
-  const [movieData, setMovieData] = useState<Movie>({
-    title: EMPTY_STRING,
-    description: EMPTY_STRING,
-    imgUrl: EMPTY_STRING,
-    imdbUrl: EMPTY_STRING,
-    imdbId: EMPTY_STRING,
-  });
+  const [movieData, setMovieData] = useState<Movie>(initialValues);
 
   const {
     title,
@@ -26,7 +27,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     imdbId,
   } = movieData;
 
-  const isSubmitButtonDisabled = !title.trim() || !imdbId.trim();
+  const isSubmitButtonDisabled = !title.trim()
+  || !imdbId.trim()
+  || !imdbUrl.trim()
+  || !imgUrl.trim();
 
   const clearFields = () => setMovieData({
     title: EMPTY_STRING,
