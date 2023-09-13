@@ -8,15 +8,25 @@ type Props = {
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imdbId, setImdbId] = useState('');
+  const [inputs, setInputs] = useState({
+    title: '',
+    description: '',
+    imdbId: '',
+    imgUrl: '',
+    imdbUrl: '',
+    isImgUrlValid: true,
+    isImdbUrlValid: true,
+  });
 
-  const [imgUrl, setImgUrl] = useState('');
-  const [isImgUrlValid, setIsImgUrlValid] = useState(true);
-
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [isImdbUrlValid, setIsImdbUrlValid] = useState(true);
+  const {
+    title,
+    description,
+    imdbId,
+    imgUrl,
+    imdbUrl,
+    isImgUrlValid,
+    isImdbUrlValid,
+  } = inputs;
 
   const isDisabled = !title.trim()
     || !imgUrl.trim()
@@ -29,13 +39,19 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
 
   const handleImgUrlChange = (event: string) => {
-    setImgUrl(event);
-    setIsImgUrlValid(pattern.test(event));
+    setInputs({
+      ...inputs,
+      imgUrl: event,
+      isImgUrlValid: pattern.test(event.trim()),
+    });
   };
 
   const handleImdUrlChange = (event: string) => {
-    setImdbUrl(event);
-    setIsImdbUrlValid(pattern.test(event));
+    setInputs({
+      ...inputs,
+      imdbUrl: event,
+      isImdbUrlValid: pattern.test(event.trim()),
+    });
   };
 
   const handleSubmit = (event: React.FormEvent) => {
@@ -50,11 +66,16 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     });
 
     setCount(count + 1);
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
+
+    setInputs({
+      title: '',
+      description: '',
+      imdbId: '',
+      imgUrl: '',
+      imdbUrl: '',
+      isImgUrlValid: true,
+      isImdbUrlValid: true,
+    });
   };
 
   return (
@@ -69,7 +90,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={title}
-        onChange={setTitle}
+        onChange={value => setInputs({
+          ...inputs,
+          title: value,
+        })}
         required
       />
 
@@ -77,7 +101,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={description}
-        onChange={setDescription}
+        onChange={value => setInputs({
+          ...inputs,
+          description: value,
+        })}
       />
 
       <TextField
@@ -102,7 +129,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={setImdbId}
+        onChange={value => setInputs({
+          ...inputs,
+          imdbId: value,
+        })}
         required
       />
 
