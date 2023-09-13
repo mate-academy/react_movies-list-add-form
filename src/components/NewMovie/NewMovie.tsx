@@ -12,7 +12,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [description, seDescription] = useState('');
   const [imgUrl, setImgUrl] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setSmdbId] = useState('');
+  const [imdbId, setImdbId] = useState('');
   const [imgError, setImgError] = useState(false);
   const [imdbError, setImdbError] = useState(false);
 
@@ -21,7 +21,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     seDescription('');
     setImgUrl('');
     setImdbUrl('');
-    setSmdbId('');
+    setImdbId('');
     setImgError(false);
     setImdbError(false);
   };
@@ -55,7 +55,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setCount((prevCount) => prevCount + 1);
   };
 
-  const disabled = title && imgUrl && imdbUrl && imdbId;
+  const disabled = title.trim()
+   && imgUrl.trim() && imdbUrl.trim() && imdbId.trim();
 
   return (
     <form
@@ -112,7 +113,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={setSmdbId}
+        onChange={setImdbId}
         required
       />
 
