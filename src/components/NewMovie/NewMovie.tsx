@@ -2,61 +2,45 @@ import { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
+const DEFAULT_NEW_MOVIE = {
+  title: '',
+  description: '',
+  imgUrl: '',
+  imdbUrl: '',
+  imdbId: '',
+};
+
 type Props = {
   onAdd: (movie: Movie) => void;
 };
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
-  const [title, setTitle] = useState('');
-  const [description, seDescription] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
-  const [imgError, setImgError] = useState(false);
-  const [imdbError, setImdbError] = useState(false);
+  const [newMovie, setNewMovie] = useState(DEFAULT_NEW_MOVIE);
 
-  const reset = () => {
-    setTitle('');
-    seDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
-    setImgError(false);
-    setImdbError(false);
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+
+    setNewMovie((prevMovie) => ({
+      ...prevMovie,
+      [name]: value,
+    }));
   };
-
-  const urlRegex = /^(https?:\/\/)?(www\.)?[A-Za-z\d.-]+\.\w{2,6}\/?([^\s]*)?$/;
 
   const handlSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (!title || !imgUrl || !imdbUrl || !imdbId) {
-      return;
-    }
-
-    if (!urlRegex.test(imgUrl) || !urlRegex.test(imdbUrl)) {
-      setImgError(!urlRegex.test(imgUrl));
-      setImdbError(!urlRegex.test(imdbUrl));
-
-      return;
-    }
-
-    onAdd({
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    });
-
-    reset();
-
+    onAdd(newMovie);
     setCount((prevCount) => prevCount + 1);
+    setNewMovie(DEFAULT_NEW_MOVIE);
   };
 
-  const disabled = title.trim()
-   && imgUrl.trim() && imdbUrl.trim() && imdbId.trim();
+  const isDisabled = !(
+    newMovie.title.trim()
+    && newMovie.imgUrl.trim()
+    && newMovie.imdbUrl.trim()
+    && newMovie.imdbId.trim()
+  );
 
   return (
     <form
@@ -69,51 +53,39 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value={title}
-        onChange={setTitle}
+        value={newMovie.title}
+        onChange={handleChange}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value={description}
-        onChange={seDescription}
+        value={newMovie.description}
+        onChange={handleChange}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={imgUrl}
-        onChange={setImgUrl}
+        value={newMovie.imgUrl}
+        onChange={handleChange}
         required
       />
-
-      {imgError && (
-        <div>
-          <p className="help is-danger">Please enter valid URL for Img</p>
-        </div>
-      )}
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={imdbUrl}
-        onChange={setImdbUrl}
+        value={newMovie.imdbUrl}
+        onChange={handleChange}
         required
       />
-
-      {imdbError && (
-        <div>
-          <p className="help is-danger">Please enter valid URL for Imdb</p>
-        </div>
-      )}
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imdbId}
-        onChange={setImdbId}
+        value={newMovie.imdbId}
+        onChange={handleChange}
         required
       />
 
@@ -123,7 +95,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!disabled}
+            disabled={isDisabled}
           >
             Add
           </button>
