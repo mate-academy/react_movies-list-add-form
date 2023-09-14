@@ -38,7 +38,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setCount(currecntCount => currecntCount + 1);
   };
 
-  const disabledButton = () => (!title || !imgUrl || !imdbUrl || !imdbId);
+  const disabledButton = () => (
+    !title.trim() || !imgUrl.trim() || !imdbUrl.trim() || !imdbId.trim()
+  );
 
   return (
     <form
