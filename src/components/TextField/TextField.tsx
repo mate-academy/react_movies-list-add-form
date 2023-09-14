@@ -29,7 +29,9 @@ export const TextField: React.FC<Props> = ({
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
   const [touched, setTouched] = useState(false);
-  const hasError = touched && required && !value;
+  const hasErrorRequired = touched && required && !value;
+  const hasErrorInvalid = !hasErrorRequired && isValid && touched;
+  const hasError = hasErrorRequired || hasErrorInvalid;
 
   return (
     <div className="field">
@@ -52,11 +54,11 @@ export const TextField: React.FC<Props> = ({
         />
       </div>
 
-      {hasError && (
+      {hasErrorRequired && (
         <p className="help is-danger">{`${label} is required`}</p>
       )}
 
-      {!hasError && isValid && touched && (
+      {hasErrorInvalid && (
         <p className="help is-danger">{`${label} is invalid`}</p>
       )}
     </div>

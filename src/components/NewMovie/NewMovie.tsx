@@ -1,75 +1,44 @@
 import React, { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
+import { DEFAULT_MOVIE_VALUE, pattern } from '../../utils';
 
 type Props = {
   onAdd: (arg: Movie) => void;
 };
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
-  const [newMovie, setNewMovie] = useState({
-    title: '',
-    description: '',
-    imgUrl: '',
-    imdbUrl: '',
-    imdbId: '',
-  });
+  const [newMovie, setNewMovie] = useState(DEFAULT_MOVIE_VALUE);
 
   const [count, setCount] = useState(0);
 
-  const changeTitleHandler = (value: string) => setNewMovie({
-    ...newMovie, ...{ title: value },
+  const handleChangeMovie = (name: string, value: string) => setNewMovie({
+    ...newMovie,
+    [name]: value,
   });
-  const changeDescriptionHandler = (value: string) => setNewMovie({
-    ...newMovie, ...{ description: value },
-  });
-  const changeImgUrlHandler = (value: string) => setNewMovie({
-    ...newMovie, ...{ imgUrl: value },
-  });
-  const changeImdbUrlHandler = (value: string) => setNewMovie({
-    ...newMovie, ...{ imdbUrl: value },
-  });
-  const changeImdbIdHandler = (value: string) => setNewMovie({
-    ...newMovie, ...{ imdbId: value },
-  });
-
-  const clearFormHandler = () => {
-    setNewMovie({
-      ...newMovie,
-      ...{
-        title: '',
-        description: '',
-        imgUrl: '',
-        imdbUrl: '',
-        imdbId: '',
-      },
-    });
-  };
-
-  // eslint-disable-next-line max-len
-  const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
 
   const isValidImdbUrl = newMovie.imdbUrl.match(pattern);
   const isValidImgUrl = newMovie.imgUrl.match(pattern);
 
-  let isValidMovie = !!newMovie.title && !!newMovie.imdbId
-  && isValidImdbUrl && isValidImgUrl;
+  const isValidMovie = !!newMovie.title.trim()
+    && !!newMovie.imdbId
+    && isValidImdbUrl
+    && isValidImgUrl;
 
-  const submitFormHandler: React.FormEventHandler<HTMLFormElement>
+  const handleSubmit: React.FormEventHandler<HTMLFormElement>
   = (event) => {
     event.preventDefault();
 
     setCount(prevValue => prevValue + 1);
     onAdd(newMovie);
-    clearFormHandler();
-    isValidMovie = false;
+    setNewMovie(DEFAULT_MOVIE_VALUE);
   };
 
   return (
     <form
       className="NewMovie"
       key={count}
-      onSubmit={submitFormHandler}
+      onSubmit={handleSubmit}
     >
       <h2 className="title">Add a movie</h2>
 
@@ -77,7 +46,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={newMovie.title}
-        onChange={changeTitleHandler}
+        onChange={(value: string):void => handleChangeMovie('title', value)}
         required
       />
 
@@ -85,14 +54,16 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={newMovie.description}
-        onChange={changeDescriptionHandler}
+        onChange={(value: string):void => {
+          handleChangeMovie('description', value);
+        }}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={newMovie.imgUrl}
-        onChange={changeImgUrlHandler}
+        onChange={(value: string):void => handleChangeMovie('imgUrl', value)}
         isValid={!isValidImgUrl}
         required
       />
@@ -101,7 +72,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={newMovie.imdbUrl}
-        onChange={changeImdbUrlHandler}
+        onChange={(value: string):void => handleChangeMovie('imdbUrl', value)}
         isValid={!isValidImdbUrl}
         required
       />
@@ -110,7 +81,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={newMovie.imdbId}
-        onChange={changeImdbIdHandler}
+        onChange={(value: string):void => handleChangeMovie('imdbId', value)}
         required
       />
 
