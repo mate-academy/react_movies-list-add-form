@@ -18,6 +18,13 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     imdbId: '',
   });
 
+  const buttonDisabled = (
+    movie.title.trim() === ''
+    || movie.imdbId.trim() === ''
+    || movie.imdbUrl.trim() === ''
+    || movie.imgUrl.trim() === ''
+  );
+
   const reset = () => {
     setMovie({
       title: '',
@@ -108,7 +115,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!isFormValidate}
+            disabled={buttonDisabled}
           >
             Add
           </button>
