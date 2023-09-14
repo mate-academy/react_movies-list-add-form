@@ -6,20 +6,22 @@ interface Props {
   onAdd: (moive: Movie) => void;
 }
 
+const EMPTY = '';
+
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
+  const [title, setTitle] = useState(EMPTY);
+  const [description, setDescription] = useState(EMPTY);
+  const [imgUrl, setImgUrl] = useState(EMPTY);
+  const [imdbUrl, setImdbUrl] = useState(EMPTY);
+  const [imdbId, setImdbId] = useState(EMPTY);
 
   const reset = () => {
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
+    setTitle(EMPTY);
+    setDescription(EMPTY);
+    setImgUrl(EMPTY);
+    setImdbUrl(EMPTY);
+    setImdbId(EMPTY);
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
