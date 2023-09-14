@@ -6,33 +6,29 @@ type Props = {
   onAdd: (movie: Movie) => void;
 };
 
+const initialMovieState = {
+  title: '',
+  description: '',
+  imgUrl: '',
+  imdbUrl: '',
+  imdbId: '',
+};
+
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
-  const [movie, setMovie] = useState({
-    title: '',
-    description: '',
-    imgUrl: '',
-    imdbUrl: '',
-    imdbId: '',
-  });
+  const [movie, setMovie] = useState(initialMovieState);
 
   const buttonDisabled = (
-    movie.title.trim() === ''
-    || movie.imdbId.trim() === ''
-    || movie.imdbUrl.trim() === ''
-    || movie.imgUrl.trim() === ''
+    !movie.title.trim()
+    || !movie.imdbId.trim()
+    || !movie.imdbUrl.trim()
+    || !movie.imgUrl.trim()
   );
 
-  const reset = () => {
-    setMovie({
-      title: '',
-      description: '',
-      imgUrl: '',
-      imdbUrl: '',
-      imdbId: '',
-    });
+  const handleReset = () => {
+    setMovie(initialMovieState);
   };
 
   const isFormValidate = (
@@ -52,7 +48,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     onAdd(movie);
 
     setCount(count + 1);
-    reset();
+    handleReset();
   };
 
   const handleChange = (name: string, value: string) => {
