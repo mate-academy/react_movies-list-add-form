@@ -15,7 +15,7 @@ export const NewMovie
     const [count, setCount] = useState(0);
     const [formValues, setFormValues] = useState(defaultFormValues);
 
-    const formReset = () => {
+    const resetForm = () => {
       setFormValues(defaultFormValues);
     };
 
@@ -34,12 +34,12 @@ export const NewMovie
     const handleSubmit = (): void => {
       onAdd(formValues);
 
-      formReset();
+      resetForm();
 
       setCount((prevCount) => prevCount + 1);
     };
 
-    const handleChange = (name: string, newValue: string) => {
+    const handleInputChange = (name: string, newValue: string) => {
       setFormValues((prevForm) => ({
         ...prevForm,
         [name]: newValue,
@@ -54,14 +54,14 @@ export const NewMovie
           name="title"
           label="Title"
           value={formValues.title}
-          onChange={handleChange}
+          onChange={handleInputChange}
           required
         />
 
         <TextField
           name="description"
           label="Description"
-          onChange={handleChange}
+          onChange={handleInputChange}
           value={formValues.description}
         />
 
@@ -69,7 +69,7 @@ export const NewMovie
           name="imgUrl"
           label="Image URL"
           value={formValues.imgUrl}
-          onChange={handleChange}
+          onChange={handleInputChange}
           required
         />
 
@@ -77,7 +77,7 @@ export const NewMovie
           name="imdbUrl"
           label="Imdb URL"
           value={formValues.imdbUrl}
-          onChange={handleChange}
+          onChange={handleInputChange}
           required
         />
 
@@ -85,7 +85,7 @@ export const NewMovie
           name="imdbId"
           label="Imdb ID"
           value={formValues.imdbId}
-          onChange={handleChange}
+          onChange={handleInputChange}
           required
         />
 
