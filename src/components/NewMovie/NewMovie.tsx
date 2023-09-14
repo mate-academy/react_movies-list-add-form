@@ -17,39 +17,43 @@ type Props = {
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
   const [newMovie, setNewMovie] = useState<Movie>(initialInput);
+  const [imdbValidity, setImdbValidity] = useState(false);
+  const [imgValidity, setImgValidity] = useState(false);
 
-  const {
-    title,
-    description,
-    imgUrl,
-    imdbUrl,
-    imdbId,
-  } = newMovie;
-
-  const isDisabled = title.trim() !== ''
-    || imdbId.trim() !== ''
-    || imdbUrl.trim() !== ''
-    || imgUrl.trim() !== '';
+  const isDisabled = newMovie.title
+    && newMovie.imgUrl && newMovie.imdbUrl
+    && newMovie.imdbId && imdbValidity && imdbValidity;
 
   const pattern = /^(https?:\/\/)?(www\.)?[A-Za-z\d.-]+\.\w{2,6}\/?([^\s]*)?$/;
-  const isValidUrl = pattern.test(imdbUrl)
-  && pattern.test(imgUrl);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
+  const handleChange = (field: string, value: string) => {
+    setNewMovie({ ...newMovie, [field]: value.trimStart() });
 
-    setNewMovie((prevMovie) => ({
-      ...prevMovie,
-      [name]: value,
-    }));
+    if ((field === 'imgUrl')) {
+      setImgValidity(pattern.test(value));
+    }
+
+    if ((field === 'imdbUrl')) {
+      setImdbValidity(pattern.test(value));
+    }
+  };
+
+  const reset = () => {
+    setNewMovie(initialInput);
+    setImdbValidity(false);
+    setImgValidity(false);
   };
 
   const handlSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
+    if (!isDisabled) {
+      return;
+    }
+
     onAdd(newMovie);
     setCount((currentCount) => currentCount + 1);
-    setNewMovie(initialInput);
+    reset();
   };
 
   return (
@@ -63,47 +67,41 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value={title}
-        onChange={handleChange}
+        value={newMovie.title}
+        onChange={(event) => handleChange('title', event)}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value={description}
-        onChange={handleChange}
+        value={newMovie.description}
+        onChange={(event) => handleChange('description', event)}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={imgUrl}
-        onChange={handleChange}
+        value={newMovie.imgUrl}
+        onChange={(event) => handleChange('imgUrl', event)}
+        imgValidity={imgValidity}
         required
       />
-
-      {isValidUrl && (
-        <p className="help is-danger">{`Please enter valid URL for ${imgUrl}`}</p>
-      )}
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={imdbUrl}
-        onChange={handleChange}
+        value={newMovie.imdbUrl}
+        onChange={(event) => handleChange('imdbUrl', event)}
+        imgValidity={imdbValidity}
         required
       />
-
-      {isValidUrl && (
-        <p className="help is-danger">{`Please enter valid URL for ${imdbUrl}`}</p>
-      )}
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imdbId}
-        onChange={handleChange}
+        value={newMovie.imdbId}
+        onChange={(event) => handleChange('imdbId', event)}
         required
       />
 
