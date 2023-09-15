@@ -8,7 +8,7 @@ type Props = {
   placeholder?: string,
   required?: boolean,
   onChange?: (event: string) => void,
-  imgValidity?: boolean,
+  isValid?: boolean,
 };
 
 function getRandomDigits() {
@@ -24,14 +24,14 @@ export const TextField: React.FC<Props> = ({
   placeholder = `Enter ${label}`,
   required = false,
   onChange = () => {},
-  imgValidity,
+  isValid = false,
 }) => {
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
   const [touched, setTouched] = useState(false);
-  const hasError = touched && !value.trim() && required;
-  const isValidityError
-  = (imgValidity === false) && touched && value && required;
+  const hasErrorRequired = touched && required && !value;
+  const hasErrorNoValid = !hasErrorRequired && isValid && touched;
+  const hasError = hasErrorRequired || hasErrorNoValid;
 
   return (
     <div className="field">
@@ -45,7 +45,7 @@ export const TextField: React.FC<Props> = ({
           id={id}
           data-cy={`movie-${name}`}
           className={classNames('input', {
-            'is-danger': hasError || isValidityError,
+            'is-danger': hasError,
           })}
           placeholder={placeholder}
           value={value}
@@ -54,11 +54,11 @@ export const TextField: React.FC<Props> = ({
         />
       </div>
 
-      {hasError && (
+      {hasErrorRequired && (
         <p className="help is-danger">{`${label} is required`}</p>
       )}
 
-      {isValidityError && (
+      {hasErrorNoValid && (
         <p className="help is-danger">{`Please enter valid URL for ${label}`}</p>
       )}
     </div>

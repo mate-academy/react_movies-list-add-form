@@ -17,31 +17,22 @@ type Props = {
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
   const [newMovie, setNewMovie] = useState<Movie>(initialInput);
-  const [imdbValidity, setImdbValidity] = useState(false);
-  const [imgValidity, setImgValidity] = useState(false);
-
-  const isDisabled = newMovie.title
-    && newMovie.imgUrl && newMovie.imdbUrl
-    && newMovie.imdbId && imdbValidity && imdbValidity;
 
   const pattern = /^(https?:\/\/)?(www\.)?[A-Za-z\d.-]+\.\w{2,6}\/?([^\s]*)?$/;
 
   const handleChange = (field: string, value: string) => {
     setNewMovie({ ...newMovie, [field]: value.trimStart() });
-
-    if ((field === 'imgUrl')) {
-      setImgValidity(pattern.test(value));
-    }
-
-    if ((field === 'imdbUrl')) {
-      setImdbValidity(pattern.test(value));
-    }
   };
+
+  const isValidImdbUrl = newMovie.imdbUrl.match(pattern);
+  const isValidImgUrl = newMovie.imgUrl.match(pattern);
+
+  const isDisabled = newMovie.title
+    && newMovie.imgUrl && newMovie.imdbUrl
+    && newMovie.imdbId && isValidImdbUrl && isValidImgUrl;
 
   const reset = () => {
     setNewMovie(initialInput);
-    setImdbValidity(false);
-    setImgValidity(false);
   };
 
   const handlSubmit = (event: React.FormEvent) => {
@@ -84,7 +75,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Image URL"
         value={newMovie.imgUrl}
         onChange={(event) => handleChange('imgUrl', event)}
-        imgValidity={imgValidity}
+        isValid={!isValidImgUrl}
         required
       />
 
@@ -93,7 +84,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Imdb URL"
         value={newMovie.imdbUrl}
         onChange={(event) => handleChange('imdbUrl', event)}
-        imgValidity={imdbValidity}
+        isValid={!isValidImdbUrl}
         required
       />
 
