@@ -1,4 +1,5 @@
 import classNames from 'classnames';
+// import { event } from 'cypress/types/jquery';
 import React, { useState } from 'react';
 
 type Props = {
@@ -47,7 +48,7 @@ export const TextField: React.FC<Props> = ({
           })}
           placeholder={placeholder}
           value={value}
-          onChange={event => onChange(event.target.value)}
+          onChange={(event) => onChange(event.target.value)}
           onBlur={() => setTouched(true)}
         />
       </div>
