@@ -20,9 +20,20 @@ export const NewMovie = ({ onAdd }: NewMovieProps) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
   const [count] = useState(0);
+  const [isFormSubmitted, setIsFormSubmitted] = useState(false);
+  // eslint-disable-next-line max-len
+  const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
+
+  const isValidUrl = (url: string) => pattern.test(url);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (!title || !isValidUrl(imgUrl) || !isValidUrl(imdbUrl) || !imdbId) {
+      setIsFormSubmitted(true);
+
+      return;
+    }
 
     const newMovie = {
       title,
@@ -46,6 +57,7 @@ export const NewMovie = ({ onAdd }: NewMovieProps) => {
       <h2 className="title">Add a movie</h2>
 
       <TextField
+        isFormSubmitted={isFormSubmitted}
         name="title"
         label="Title"
         value={title}
@@ -54,6 +66,7 @@ export const NewMovie = ({ onAdd }: NewMovieProps) => {
       />
 
       <TextField
+        isFormSubmitted={isFormSubmitted}
         name="description"
         label="Description"
         value={description}
@@ -61,6 +74,7 @@ export const NewMovie = ({ onAdd }: NewMovieProps) => {
       />
 
       <TextField
+        isFormSubmitted={isFormSubmitted}
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
@@ -69,6 +83,7 @@ export const NewMovie = ({ onAdd }: NewMovieProps) => {
       />
 
       <TextField
+        isFormSubmitted={isFormSubmitted}
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
@@ -77,6 +92,7 @@ export const NewMovie = ({ onAdd }: NewMovieProps) => {
       />
 
       <TextField
+        isFormSubmitted={isFormSubmitted}
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
@@ -91,6 +107,7 @@ export const NewMovie = ({ onAdd }: NewMovieProps) => {
             data-cy="submit-button"
             className="button is-link"
             disabled={!title || !imgUrl || !imdbUrl || !imdbId}
+            onClick={() => setIsFormSubmitted(true)}
           >
             Add
           </button>

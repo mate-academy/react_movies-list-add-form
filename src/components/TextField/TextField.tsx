@@ -2,6 +2,7 @@ import classNames from 'classnames';
 import React, { useState } from 'react';
 
 type Props = {
+  isFormSubmitted: boolean,
   name: string,
   value: string,
   label?: string,
@@ -17,6 +18,7 @@ function getRandomDigits() {
 }
 
 export const TextField: React.FC<Props> = ({
+  isFormSubmitted,
   name,
   value,
   label = name,
@@ -26,7 +28,8 @@ export const TextField: React.FC<Props> = ({
 }) => {
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
   const [touched, setTouched] = useState(false);
-  const hasError = touched && required && !value;
+  const hasError = touched && required
+    && (!isFormSubmitted && (!value || value.trim() === ''));
 
   return (
     <div className="field">
