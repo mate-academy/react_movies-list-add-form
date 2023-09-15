@@ -35,20 +35,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     });
   };
 
-  // const [title, setTitle] = useState('');
-  // const [description, setDescription] = useState('');
-  // const [imgUrl, setImgUrl] = useState('');
-  // const [imdbUrl, setImdbUrl] = useState('');
-  // const [imdbId, setImdbId] = useState('');
-
-  // const reset = () => {
-  //   setTitle('');
-  //   setDescription('');
-  //   setImgUrl('');
-  //   setImdbUrl('');
-  //   setImdbId('');
-  // };
-
   const emptyForm = title && imgUrl && imdbUrl && imdbId;
 
   const handleChange = (event: string, value: string) => {
