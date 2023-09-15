@@ -24,8 +24,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setNewMovie({ ...newMovie, [field]: value.trimStart() });
   };
 
-  const isValidImdbUrl = newMovie.imdbUrl.match(pattern);
-  const isValidImgUrl = newMovie.imgUrl.match(pattern);
+  const isValidImdbUrl = pattern.test(newMovie.imdbUrl);
+  const isValidImgUrl = pattern.test(newMovie.imgUrl);
 
   const isDisabled = newMovie.title
     && newMovie.imgUrl && newMovie.imdbUrl
