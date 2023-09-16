@@ -29,7 +29,7 @@ export const TextField: React.FC<Props> = ({
   const [touched, setTouched] = useState(false);
   const hasError = touched && required
     && (!value || (value.trim() === ''));
-  
+
   return (
     <div className="field">
       <label className="label" htmlFor={id}>
