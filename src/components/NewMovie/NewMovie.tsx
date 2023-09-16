@@ -28,14 +28,14 @@ export const NewMovie = ({ onAdd }: NewMovieProps) => {
     + /(\?[^#\n\r]*)?/.source
     + /(#[^\n\r]*)?/.source,
   );
-
   const isValidUrl = (url: string) => pattern.test(url);
-
+  const disablet = ((title.trim() === '' || !imgUrl || !imdbUrl || !imdbId)
+    || !isValidUrl(imgUrl)
+    || !isValidUrl(imdbUrl)
+    || !imdbId);
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    if ((title.trim() === '')
-      || !isValidUrl(imgUrl) || !isValidUrl(imdbUrl) || !imdbId) {
+    if (disablet) {
       return;
     }
 
@@ -105,7 +105,7 @@ export const NewMovie = ({ onAdd }: NewMovieProps) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!title || !imgUrl || !imdbUrl || !imdbId}
+            disabled={disablet}
             onClick={() => handleSubmit}
           >
             Add
