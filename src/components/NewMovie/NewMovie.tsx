@@ -31,11 +31,11 @@ export const NewMovie: React.FC<MovieProps> = ({ onAdd }: MovieProps) => {
 
     onAdd(newMovie);
 
-    setTitle('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
-    setDescription('');
+    setTitle(' ');
+    setImgUrl(' ');
+    setImdbUrl(' ');
+    setImdbId(' ');
+    setDescription(' ');
   };
 
   return (
