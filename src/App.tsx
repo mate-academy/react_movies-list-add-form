@@ -8,7 +8,7 @@ import moviesFromServer from './api/movies.json';
 export const App = () => {
   const [movies, setMovies] = useState(moviesFromServer);
 
-  const onAdd = (movie: Movie): void => {
+  const handleMovieAdd = (movie: Movie): void => {
     setMovies((prevMovies: Movie[]) => [...prevMovies, movie]);
   };
 
@@ -18,7 +18,7 @@ export const App = () => {
         <MoviesList movies={movies} />
       </div>
       <div className="sidebar">
-        <NewMovie onAdd={onAdd} />
+        <NewMovie onAdd={handleMovieAdd} />
       </div>
     </div>
   );

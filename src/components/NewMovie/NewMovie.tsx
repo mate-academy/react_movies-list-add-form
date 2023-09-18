@@ -16,7 +16,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imgUrl, setImgUrl] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
-  const isButtonDisabled = !(title
+  const isAddButtonDisabled = !(title
     && imgUrl
     && imdbUrl
     && defaultPattern.test(imgUrl)
@@ -56,7 +56,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={title}
-        onChange={(newTitle) => setTitle(newTitle)}
+        onChange={(newTitle) => setTitle(newTitle.trim())}
         required
       />
 
@@ -64,14 +64,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={description}
-        onChange={(newDescription) => setDescription(newDescription)}
+        onChange={(newDescription) => setDescription(newDescription.trim())}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={(newImgUrl) => setImgUrl(newImgUrl)}
+        onChange={(newImgUrl) => setImgUrl(newImgUrl.trim())}
         required
       />
 
@@ -79,7 +79,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={(newImdbUrl) => setImdbUrl(newImdbUrl)}
+        onChange={(newImdbUrl) => setImdbUrl(newImdbUrl.trim())}
         required
       />
 
@@ -87,7 +87,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={(newImdbId) => setImdbId(newImdbId)}
+        onChange={(newImdbId) => setImdbId(newImdbId.trim())}
         required
       />
 
@@ -97,7 +97,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={isButtonDisabled}
+            disabled={isAddButtonDisabled}
           >
             Add
           </button>
