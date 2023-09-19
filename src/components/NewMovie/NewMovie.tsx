@@ -7,12 +7,12 @@ type MovieProps = {
 };
 
 export const NewMovie = ({ onAdd }: MovieProps) => {
-  const [count, setCount] = useState(0);
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
+  const [count, setCount] = useState<number>(0);
+  const [title, setTitle] = useState<string>('');
+  const [description, setDescription] = useState<string>('');
+  const [imgUrl, setImgUrl] = useState<string>('');
+  const [imdbUrl, setImdbUrl] = useState<string>('');
+  const [imdbId, setImdbId] = useState<string>('');
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
