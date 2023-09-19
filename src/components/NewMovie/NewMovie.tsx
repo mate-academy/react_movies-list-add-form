@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { TextField } from '../TextField';
+import React, { useState } from 'react';
 import { Movie } from '../../types/Movie';
+import { TextField } from '../TextField';
 
 type MovieProps = {
   onAdd: (movie: Movie) => void
@@ -31,16 +31,14 @@ export const NewMovie: React.FC<MovieProps> = ({ onAdd }: MovieProps) => {
 
     onAdd(newMovie);
 
-    setTitle(' ');
-    setImgUrl(' ');
-    setImdbUrl(' ');
-    setImdbId(' ');
-    setDescription(' ');
-  };
+    setTitle('');
+    setImgUrl('');
+    setImdbUrl('');
+    setImdbId('');
+    setDescription('');
 
-  useEffect(() => {
     setCount((prevCount) => prevCount + 1);
-  }, []);
+  };
 
   const isDisabled = () => {
     return !title.trim() || !imgUrl.trim() || !imdbUrl.trim() || !imdbId.trim();
