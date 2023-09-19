@@ -17,7 +17,7 @@ export const NewMovie: React.FC<MovieProps> = ({ onAdd }: MovieProps) => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (!title.trim() || !imgUrl.trim() || !imdbUrl.trim() || !imdbId.trim()) {
+    if (isDisabled()) {
       return;
     }
 
