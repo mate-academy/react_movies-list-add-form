@@ -7,7 +7,7 @@ type MovieProps = {
 };
 
 export const NewMovie = ({ onAdd }: MovieProps) => {
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState<number>(0);
   const [movie, setMovie] = useState<Movie>({
     title: '',
     description: '',
@@ -56,7 +56,6 @@ export const NewMovie = ({ onAdd }: MovieProps) => {
         label="Description"
         value={movie.description}
         onChange={(event) => handleChange('description', event)}
-        required
       />
 
       <TextField
