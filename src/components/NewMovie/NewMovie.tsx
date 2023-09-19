@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
@@ -7,7 +7,7 @@ type MovieProps = {
 };
 
 export const NewMovie: React.FC<MovieProps> = ({ onAdd }: MovieProps) => {
-  const [count] = useState(0);
+  const [count, setCount] = useState(0);
 
   const [title, setTitle] = useState<string>('');
   const [description, setDescription] = useState<string>('');
@@ -36,6 +36,14 @@ export const NewMovie: React.FC<MovieProps> = ({ onAdd }: MovieProps) => {
     setImdbUrl(' ');
     setImdbId(' ');
     setDescription(' ');
+  };
+
+  useEffect(() => {
+    setCount((prevCount) => prevCount + 1);
+  }, []);
+
+  const isDisabled = () => {
+    return !title.trim() || !imgUrl.trim() || !imdbUrl.trim() || !imdbId.trim();
   };
 
   return (
@@ -91,10 +99,7 @@ export const NewMovie: React.FC<MovieProps> = ({ onAdd }: MovieProps) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={
-              // eslint-disable-next-line max-len
-              !title.trim() || !imgUrl.trim() || !imdbUrl.trim() || !imdbId.trim()
-            }
+            disabled={isDisabled()}
           >
             Add
           </button>
