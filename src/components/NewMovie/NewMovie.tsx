@@ -7,57 +7,72 @@ type Props = {
 };
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
+  const initMovie = {
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  };
 
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
+  const [movie, setMovie] = useState(initMovie);
   const [count, setCount] = useState(0);
   const [button, setButton] = useState(false);
-  const handleTitleChange = (value: React.SetStateAction<string>) => {
-    setTitle(value);
+  const handleTitleChange = (value: string) => {
+    setMovie(play => ({
+      ...play,
+      title: value,
+    }));
   };
 
-  const handleDescriptionChange = (value: React.SetStateAction<string>) => {
-    setDescription(value);
+  const handleDescriptionChange = (value: string) => {
+    setMovie(play => ({
+      ...play,
+      description: value,
+    }));
   };
 
-  const handleImgUrlChange = (value: React.SetStateAction<string>) => {
-    setImgUrl(value);
+  const handleImgUrlChange = (value: string) => {
+    setMovie(play => ({
+      ...play,
+      imgUrl: value,
+    }));
   };
 
-  const handleImdbUrlChange = (value: React.SetStateAction<string>) => {
-    setImdbUrl(value);
+  const handleImdbUrlChange = (value: string) => {
+    setMovie(play => ({
+      ...play,
+      imdbUrl: value,
+    }));
   };
 
-  const handleImdbIdChange = (value: React.SetStateAction<string>) => {
-    setImdbId(value);
+  const handleImdbIdChange = (value: string) => {
+    setMovie(play => ({
+      ...play,
+      imdbId: value,
+    }));
   };
 
   const reset = () => {
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
+    setMovie(initMovie);
   };
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (!title || !imgUrl || !imdbUrl || !imdbId) {
+    if (!movie.title.length
+      || !movie.imgUrl.length
+      || !movie.imdbUrl.length
+      || !movie.imdbId.length) {
       return;
     }
 
     onAdd({
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
+      title: movie.title,
+      description: movie.description,
+      imgUrl: movie.imgUrl,
+      imdbUrl: movie.imdbUrl,
+      imdbId: movie.imdbId,
     });
 
     setCount(x => x + 1);
@@ -73,8 +88,11 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   };
 
   useEffect(() => {
-    checkButton(title);
-  }, [title]);
+    checkButton(movie.imgUrl);
+    checkButton(movie.imdbUrl);
+    checkButton(movie.imdbId);
+    checkButton(movie.title);
+  }, [movie.title, movie.imgUrl, movie.imdbUrl, movie.imdbId]);
 
   return (
     <form
@@ -87,7 +105,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value={title}
+        value={movie.title}
         onChange={handleTitleChange}
         required
       />
@@ -95,14 +113,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="description"
         label="Description"
-        value={description}
+        value={movie.description}
         onChange={handleDescriptionChange}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={imgUrl}
+        value={movie.imgUrl}
         onChange={handleImgUrlChange}
         required
       />
@@ -110,7 +128,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={imdbUrl}
+        value={movie.imdbUrl}
         onChange={handleImdbUrlChange}
         required
       />
@@ -118,7 +136,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imdbId}
+        value={movie.imdbId}
         onChange={handleImdbIdChange}
         required
       />
