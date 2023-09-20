@@ -15,6 +15,10 @@ export const NewMovie: React.FC<MovieProps> = ({ onAdd }: MovieProps) => {
   const [imdbUrl, setImdbUrl] = useState<string>('');
   const [imdbId, setImdbId] = useState<string>('');
 
+  const isDisabled = () => {
+    return !title.trim() || !imgUrl.trim() || !imdbUrl.trim() || !imdbId.trim();
+  };
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (isDisabled()) {
@@ -38,10 +42,6 @@ export const NewMovie: React.FC<MovieProps> = ({ onAdd }: MovieProps) => {
     setDescription('');
 
     setCount((prevCount) => prevCount + 1);
-  };
-
-  const isDisabled = () => {
-    return !title.trim() || !imgUrl.trim() || !imdbUrl.trim() || !imdbId.trim();
   };
 
   return (
