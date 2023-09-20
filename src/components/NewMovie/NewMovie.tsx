@@ -21,22 +21,25 @@ export const NewMovie = ({ onAdd }: NewMovieProps) => {
   const [imdbId, setImdbId] = useState('');
   const [count] = useState(0);
   // eslint-disable-next-line max-len
-  const pattern = /^(https?:\/\/)?([a-zA-Z0-9.-]+)(\.[a-zA-Z]{2,})(\.[a-zA-Z]{2,})?$/;
-  const [erorimgUrl, setErorimgUrl] = useState(true);
-  const [erorimdbUrl, setErorimdbUrl] = useState(true);
+  const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
+  const [erorimgUrl, setErorimgUrl] = useState(false);
+  const [erorimdbUrl, setErorimdbUrl] = useState(false);
+  const disablet = ((title.trim() === ''
+    || !imgUrl || !imdbUrl || !imdbId)
+    || (!erorimgUrl || !erorimdbUrl));
+  const isValidUrl = (url: string, key: string) => {
+    if (pattern.test(url) && key === 'imgUrl') {
+      setErorimgUrl(true);
+    }
 
-  const disablet = ((title.trim() === '' || !imgUrl || !imdbUrl || !imdbId)
-  && erorimgUrl && erorimdbUrl);
-
-  const isValidUrl = (url: string) => {
-    const isValid = pattern.test(url);
-
-    return isValid;
+    if (pattern.test(url) && key === 'imdbUrl') {
+      setErorimdbUrl(true);
+    }
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (disablet && erorimgUrl) {
+    if (disablet && erorimgUrl && erorimdbUrl) {
       return;
     }
 
@@ -88,7 +91,7 @@ export const NewMovie = ({ onAdd }: NewMovieProps) => {
         value={imgUrl}
         onChange={newValue => {
           setImgUrl(newValue);
-          setErorimgUrl(!isValidUrl(newValue));
+          isValidUrl(newValue, 'imgUrl');
         }}
         required
       />
@@ -101,7 +104,7 @@ export const NewMovie = ({ onAdd }: NewMovieProps) => {
         value={imdbUrl}
         onChange={newValue => {
           setImdbUrl(newValue);
-          setErorimdbUrl(!isValidUrl(newValue));
+          isValidUrl(newValue, 'imdbUrl');
         }}
         required
       />

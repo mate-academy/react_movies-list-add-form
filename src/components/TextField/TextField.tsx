@@ -31,7 +31,7 @@ export const TextField: React.FC<Props> = ({
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
   const [touched, setTouched] = useState(false);
   // eslint-disable-next-line max-len
-  const hasError = (touched && required && (!value || (value.trim() === ''))) || ((erorimgUrl && name === 'imgUrl' && touched) || (erorimdbUrl && name === 'imdbUrl' && touched));
+  const hasError = (touched && required && (!value || (value.trim() === ''))) || ((!erorimgUrl && name === 'imgUrl' && touched && required) || (!erorimdbUrl && name === 'imdbUrl' && touched && required));
 
   return (
     <div className="field">
