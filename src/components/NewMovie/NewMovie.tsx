@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Movie } from '../../types/Movie';
 import { TextField } from '../TextField';
 
@@ -17,7 +17,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
   const [movie, setMovie] = useState(initMovie);
   const [count, setCount] = useState(0);
-  const [button, setButton] = useState(false);
+
   const handleTitleChange = (value: string) => {
     setMovie(play => ({
       ...play,
@@ -57,13 +57,15 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setMovie(initMovie);
   };
 
-  const handleSubmit = (event: React.FormEvent) => {
+  const isButtonDisabled = !movie.title.trim()
+    && !movie.imgUrl.trim()
+    && !movie.imdbUrl.trim()
+    && !movie.imdbId.trim();
+
+  function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
 
-    if (!movie.title.length
-      || !movie.imgUrl.length
-      || !movie.imdbUrl.length
-      || !movie.imdbId.length) {
+    if (isButtonDisabled) {
       return;
     }
 
@@ -77,22 +79,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
     setCount(x => x + 1);
     reset();
-  };
-
-  const checkButton = (item: string) => {
-    setButton(true);
-
-    if (!item.length) {
-      setButton(false);
-    }
-  };
-
-  useEffect(() => {
-    checkButton(movie.imgUrl);
-    checkButton(movie.imdbUrl);
-    checkButton(movie.imdbId);
-    checkButton(movie.title);
-  }, [movie.title, movie.imgUrl, movie.imdbUrl, movie.imdbId]);
+  }
 
   return (
     <form
@@ -147,7 +134,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!button}
+            disabled={isButtonDisabled}
           >
             Add
           </button>
