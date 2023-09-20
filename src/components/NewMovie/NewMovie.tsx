@@ -22,14 +22,21 @@ export const NewMovie = ({ onAdd }: NewMovieProps) => {
   const [count] = useState(0);
   // eslint-disable-next-line max-len
   const pattern = /^(https?:\/\/)?([a-zA-Z0-9.-]+)(\.[a-zA-Z]{2,})(\.[a-zA-Z]{2,})?$/;
-  const isValidUrl = (url: string) => pattern.test(url);
+  const [erorimgUrl, setErorimgUrl] = useState(true);
+  const [erorimdbUrl, setErorimdbUrl] = useState(true);
+
   const disablet = ((title.trim() === '' || !imgUrl || !imdbUrl || !imdbId)
-    || !isValidUrl(imgUrl)
-    || !isValidUrl(imdbUrl)
-    || !imdbId);
+  && erorimgUrl && erorimdbUrl);
+
+  const isValidUrl = (url: string) => {
+    const isValid = pattern.test(url);
+
+    return isValid;
+  };
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (disablet) {
+    if (disablet && erorimgUrl) {
       return;
     }
 
@@ -55,6 +62,8 @@ export const NewMovie = ({ onAdd }: NewMovieProps) => {
       <h2 className="title">Add a movie</h2>
 
       <TextField
+        erorimgUrl={erorimgUrl}
+        erorimdbUrl={erorimdbUrl}
         name="title"
         label="Title"
         value={title}
@@ -63,6 +72,8 @@ export const NewMovie = ({ onAdd }: NewMovieProps) => {
       />
 
       <TextField
+        erorimgUrl={erorimgUrl}
+        erorimdbUrl={erorimdbUrl}
         name="description"
         label="Description"
         value={description}
@@ -70,22 +81,34 @@ export const NewMovie = ({ onAdd }: NewMovieProps) => {
       />
 
       <TextField
+        erorimgUrl={erorimgUrl}
+        erorimdbUrl={erorimdbUrl}
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={newValue => setImgUrl(newValue)}
+        onChange={newValue => {
+          setImgUrl(newValue);
+          setErorimgUrl(!isValidUrl(newValue));
+        }}
         required
       />
 
       <TextField
+        erorimgUrl={erorimgUrl}
+        erorimdbUrl={erorimdbUrl}
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={newValue => setImdbUrl(newValue)}
+        onChange={newValue => {
+          setImdbUrl(newValue);
+          setErorimdbUrl(!isValidUrl(newValue));
+        }}
         required
       />
 
       <TextField
+        erorimgUrl={erorimgUrl}
+        erorimdbUrl={erorimdbUrl}
         name="imdbId"
         label="Imdb ID"
         value={imdbId}

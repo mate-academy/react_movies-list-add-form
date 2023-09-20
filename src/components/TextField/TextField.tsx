@@ -2,6 +2,8 @@ import classNames from 'classnames';
 import React, { useState } from 'react';
 
 type Props = {
+  erorimgUrl: boolean,
+  erorimdbUrl: boolean,
   name: string,
   value: string,
   label?: string,
@@ -17,7 +19,8 @@ function getRandomDigits() {
 }
 
 export const TextField: React.FC<Props> = ({
-
+  erorimgUrl,
+  erorimdbUrl,
   name,
   value,
   label = name,
@@ -27,8 +30,8 @@ export const TextField: React.FC<Props> = ({
 }) => {
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
   const [touched, setTouched] = useState(false);
-  const hasError = touched && required
-    && (!value || (value.trim() === ''));
+  // eslint-disable-next-line max-len
+  const hasError = (touched && required && (!value || (value.trim() === ''))) || ((erorimgUrl && name === 'imgUrl' && touched) || (erorimdbUrl && name === 'imdbUrl' && touched));
 
   return (
     <div className="field">
