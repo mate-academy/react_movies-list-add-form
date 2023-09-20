@@ -33,7 +33,7 @@ export const NewMovie = ({ onAdd }: MovieProps) => {
     setImgUrl('');
   };
 
-  const buttonNotWorking = (
+  const disabled = (
     title.trim() === ''
     || imdbId.trim() === ''
     || imdbUrl.trim() === ''
@@ -89,7 +89,7 @@ export const NewMovie = ({ onAdd }: MovieProps) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={buttonNotWorking}
+            disabled={disabled}
           >
             Add
           </button>
