@@ -19,7 +19,7 @@ export const NewMovie = ({ onAdd }: NewMovieProps) => {
   const [imgUrl, setImgUrl] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
-  const [count] = useState(0);
+  const [count, setCount] = useState(0);
   // eslint-disable-next-line max-len
   const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
   const [erorimgUrl, setErorimgUrl] = useState(false);
@@ -58,6 +58,7 @@ export const NewMovie = ({ onAdd }: NewMovieProps) => {
     setImgUrl('');
     setImdbUrl('');
     setImdbId('');
+    setCount(+1);
   };
 
   return (
