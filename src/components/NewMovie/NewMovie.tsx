@@ -58,9 +58,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   };
 
   const isButtonDisabled = !movie.title.trim()
-    && !movie.imgUrl.trim()
-    && !movie.imdbUrl.trim()
-    && !movie.imdbId.trim();
+    || !movie.imgUrl.trim()
+    || !movie.imdbUrl.trim()
+    || !movie.imdbId.trim();
 
   function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
