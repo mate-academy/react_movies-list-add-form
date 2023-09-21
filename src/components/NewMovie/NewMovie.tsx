@@ -14,7 +14,7 @@ export const NewMovie = ({ onAdd }: MovieProps) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const isDisabled = () => title.length === 0
+  const isDisabled = title.length === 0
     || imgUrl.length === 0
     || imdbUrl.length === 0
     || imdbId.length === 0;
@@ -106,7 +106,7 @@ export const NewMovie = ({ onAdd }: MovieProps) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={isDisabled()}
+            disabled={isDisabled}
           >
             Add
           </button>
