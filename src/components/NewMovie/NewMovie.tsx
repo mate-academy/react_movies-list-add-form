@@ -9,6 +9,7 @@ const baseFormData = {
   imdbUrl: '',
   imdbId: '',
 };
+
 interface Props {
   onAdd: (movie: Movie) => void;
 }
@@ -21,13 +22,11 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
   const [count, setCount] = useState(0);
 
-  const isAnyFieldEmpty =
-    !title.trim()
+  const isAnyFieldEmpty
+    = !title.trim()
     || !imgUrl.trim()
     || !imdbUrl.trim()
     || !imdbId.trim();
-
-  const isUrlValid = isValidUrl(imgUrl) === undefined && isValidUrl(imdbUrl) === undefined;
 
   const handleMovieFieldChange = (name: string, value: string) => {
     setNewMovie((prevMovie) => ({ ...prevMovie, [name]: value }));
@@ -38,14 +37,27 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       return undefined;
     }
 
-    const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
+    const pattern = new RegExp(
+      '^('
+        + '((([A-Za-z]{3,9}:(?:\\/\\/)?)'
+        + '(?:[-;:&=+$,\\w]+@)?'
+        + '[A-Za-z0-9.-]+|'
+        + '(?:www\\.|[-;:&=+$,\\w]+@)[A-Za-z0-9.-]+)'
+        + '((?:\\/[+~%\\/.\\w-_]*)?'
+        + '\\??(?:[-+=&;%@,.\\w_]*)'
+        + '#?(?:[,.!/\\\\\\w]*))?'
+      + ')$',
+    );
 
     if (!pattern.test(url)) {
-      return "Error URL";
+      return 'Error URL';
     }
 
     return undefined;
   }
+
+  const isUrlValid = isValidUrl(imgUrl) === undefined
+    && isValidUrl(imdbUrl) === undefined;
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -89,7 +101,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Image URL"
         value={imgUrl}
         onChange={value => handleMovieFieldChange('imgUrl', value)}
-        validateUrl={isValidUrl}
+        validateUrl={url => isValidUrl(url)}
         required
       />
 
@@ -98,7 +110,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Imdb URL"
         value={imdbUrl}
         onChange={value => handleMovieFieldChange('imdbUrl', value)}
-        validateUrl={isValidUrl}
+        validateUrl={url => isValidUrl(url)}
         required
       />
 
