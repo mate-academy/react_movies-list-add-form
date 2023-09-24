@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import React, { useState } from 'react';
+import { pattern } from '../../pattern/pattern';
 
 type Props = {
   name: string,
@@ -7,7 +8,7 @@ type Props = {
   label?: string,
   placeholder?: string,
   required?: boolean,
-  onChange?: (newValue: string) => void,
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void,
 };
 
 function getRandomDigits() {
@@ -22,7 +23,7 @@ export const TextField: React.FC<Props> = ({
   label = name,
   placeholder = `Enter ${label}`,
   required = false,
-  onChange = () => {},
+  onChange,
 }) => {
   // generage a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
@@ -30,6 +31,8 @@ export const TextField: React.FC<Props> = ({
   // To show errors only if the field was touched (onBlur)
   const [touched, setTouched] = useState(false);
   const hasError = touched && required && !value;
+  const hasUrlError = (name === 'imgUrl') && value && !pattern.test(value);
+  const hasUrdbError = (name === 'imdbUrl') && value && !pattern.test(value);
 
   return (
     <div className="field">
@@ -39,18 +42,27 @@ export const TextField: React.FC<Props> = ({
 
       <div className="control">
         <input
+          name={name}
           type="text"
           id={id}
           data-cy={`movie-${name}`}
           className={classNames('input', {
-            'is-danger': hasError,
+            'is-danger': hasError || hasUrlError || hasUrdbError,
           })}
           placeholder={placeholder}
           value={value}
-          onChange={event => onChange(event.target.value)}
+          onChange={onChange}
           onBlur={() => setTouched(true)}
         />
       </div>
+
+      {hasUrlError && (
+        <p className="help is-danger">{`Url in ${name} is not valid!`}</p>
+      )}
+
+      {hasUrdbError && (
+        <p className="help is-danger">{`Urdb in ${name} is not valid!`}</p>
+      )}
 
       {hasError && (
         <p className="help is-danger">{`${label} is required`}</p>
