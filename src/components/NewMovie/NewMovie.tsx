@@ -17,7 +17,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd } : Props) => {
   });
 
   const handleDisable
-  = !movie.title || !movie.imgUrl || !movie.imdbUrl || !movie.imdbId;
+  = !movie.title.trim()
+  || !movie.imgUrl.trim()
+  || !movie.imdbUrl.trim()
+  || !movie.imdbId.trim();
 
   const handleInputs = (event: React.ChangeEvent<HTMLInputElement>) => {
     setMovie((prev) => (
@@ -65,6 +68,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd } : Props) => {
         label="Image URL"
         value={movie.imgUrl}
         onChange={handleInputs}
+        required
       />
 
       <TextField
@@ -72,6 +76,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd } : Props) => {
         label="Imdb URL"
         value={movie.imdbUrl}
         onChange={handleInputs}
+        required
       />
 
       <TextField
@@ -79,6 +84,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd } : Props) => {
         label="Imdb ID"
         value={movie.imdbId}
         onChange={handleInputs}
+        required
       />
 
       <div className="field is-grouped">
