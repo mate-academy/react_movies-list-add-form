@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
+import { pattern } from '../../pattern/pattern';
 
 type Props = {
   onAdd: (movie: Movie) => void;
@@ -26,9 +27,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     imdbId,
   } = newMovie;
 
-  // eslint-disable-next-line max-len
-  const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
@@ -42,28 +40,26 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!pattern.test(imgUrl) || !pattern.test(imdbUrl)) {
-      return;
+    if (pattern.test(imgUrl) && pattern.test(imdbUrl)) {
+      onAdd(
+        {
+          title,
+          description,
+          imgUrl,
+          imdbUrl,
+          imdbId,
+        },
+      );
+
+      setCount(count + 1);
+      setNewMovie({
+        title: '',
+        description: '',
+        imgUrl: '',
+        imdbUrl: '',
+        imdbId: '',
+      });
     }
-
-    onAdd(
-      {
-        title,
-        description,
-        imgUrl,
-        imdbUrl,
-        imdbId,
-      },
-    );
-
-    setCount(count + 1);
-    setNewMovie({
-      title: '',
-      description: '',
-      imgUrl: '',
-      imdbUrl: '',
-      imdbId: '',
-    });
   };
 
   return (
