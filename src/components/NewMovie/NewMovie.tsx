@@ -35,7 +35,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     });
   };
 
-  const emptyForm = title && imgUrl && imdbUrl && imdbId;
+  const isFormValid = title.trim() !== '' && imgUrl.trim() !== ''
+    && imdbUrl.trim() !== '' && imdbId.trim() !== '';
 
   const handleChange = (event: string, value: string) => {
     setNewMovie({
@@ -47,7 +48,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (!emptyForm) {
+    if (!isFormValid) {
+      // alert('Please fill in all required fields.');
+
       return;
     }
 
@@ -110,7 +113,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!emptyForm}
+            disabled={!isFormValid}
           >
             Add
           </button>
