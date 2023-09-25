@@ -9,35 +9,43 @@ type Props = {
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
+  const defaultMovieFormField: Movie = {
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  };
+
   const [count, setCount] = useState(0);
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
+  const [newMovie, setNewMovie] = useState(defaultMovieFormField);
+
+  const setMoviesValue = (value: string, field: string): void => {
+    setNewMovie({ ...newMovie, [field]: value });
+  };
+
+  const emptyField = !newMovie.title.trim()
+  || !newMovie.imgUrl.trim()
+  || !newMovie.imdbUrl.trim()
+  || !newMovie.imdbId.trim();
+
+  // eslint-disable-next-line max-len
+  const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
+  const URLIsNotValid = !newMovie.imgUrl.match(pattern)
+  || !newMovie.imdbUrl.match(pattern);
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (!title.trim() || !imgUrl.trim() || !imdbUrl.trim() || !imdbId.trim()) {
+    if (emptyField || URLIsNotValid) {
       return;
     }
 
     setCount(count + 1);
 
-    onAdd({
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    });
+    onAdd(newMovie);
 
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
+    setNewMovie(defaultMovieFormField);
   };
 
   return (
@@ -51,39 +59,39 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value={title}
-        onChange={value => setTitle(value)}
+        value={newMovie.title}
+        onChange={value => setMoviesValue(value, 'title')}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value={description}
-        onChange={value => setDescription(value)}
+        value={newMovie.description}
+        onChange={value => setMoviesValue(value, 'description')}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={imgUrl}
-        onChange={value => setImgUrl(value)}
+        value={newMovie.imgUrl}
+        onChange={value => setMoviesValue(value, 'imgUrl')}
         required
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={imdbUrl}
-        onChange={value => setImdbUrl(value)}
+        value={newMovie.imdbUrl}
+        onChange={value => setMoviesValue(value, 'imdbUrl')}
         required
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imdbId}
-        onChange={value => setImdbId(value)}
+        value={newMovie.imdbId}
+        onChange={value => setMoviesValue(value, 'imdbId')}
         required
       />
 
@@ -93,7 +101,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!title || !imgUrl || !imdbUrl || !imdbId}
+            disabled={emptyField || URLIsNotValid}
           >
             Add
           </button>
