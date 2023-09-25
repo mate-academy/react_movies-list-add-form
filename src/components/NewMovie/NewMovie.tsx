@@ -88,10 +88,12 @@ export const NewMovie = ({ addMovie }:{ addMovie: (movie: Movie) => void }) => {
             className="button is-link"
             onClick={refresh}
             disabled={!(
-              title
+              title.trim()
               && imgUrl
               && imdbUrl
               && imdbId
+              && pattern.test(imgUrl)
+              && pattern.test(imdbUrl)
             )}
           >
             Add
