@@ -8,8 +8,6 @@ type Props = {
 };
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
 
   const [title, setTitle] = useState('');
@@ -80,6 +78,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={imgUrl}
         onChange={(imgUrlValue) => setImageURL(imgUrlValue)}
         required
+        validate
       />
 
       <TextField
@@ -88,6 +87,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={imdbUrl}
         onChange={(imdbUrlValue) => setImdbURL(imdbUrlValue)}
         required
+        validate
       />
 
       <TextField
