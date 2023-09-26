@@ -26,12 +26,8 @@ export const TextField: React.FC<Props> = ({
   onChange = () => {},
   pattern,
 }) => {
-  // generage a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
-
-  // To show errors only if the field was touched (onBlur)
   const [touched, setTouched] = useState(false);
-
   let hasError = true;
 
   if (pattern) {
@@ -39,9 +35,6 @@ export const TextField: React.FC<Props> = ({
   } else {
     hasError = touched && required && !value.trim();
   }
-
-  // hasError = touched && required && (!value.trim()
-  // || (name === 'imgUrl' || name === 'imdbUrl' ? pattern.test(value) : false));
 
   return (
     <div className="field">

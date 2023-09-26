@@ -6,34 +6,47 @@ export const NewMovie = ({ addMovie }:{ addMovie: (movie: Movie) => void }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
 
-  const refresh = () => {
-    const newMovie = {
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    };
-
-    addMovie(newMovie);
-
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
-    setCount(count + 1);
-  };
+  const [formState, setFormState] = useState({
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  });
 
   // eslint-disable-next-line
   const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
   /* eslint-enable */
+
+  const state = formState.title.trim()
+    && formState.imgUrl
+    && formState.imdbUrl
+    && formState.imdbId
+    && pattern.test(formState.imgUrl)
+    && pattern.test(formState.imdbUrl);
+
+  const refresh = () => {
+    const newMovie = {
+      title: formState.title,
+      description: formState.description,
+      imgUrl: formState.imgUrl,
+      imdbUrl: formState.imdbUrl,
+      imdbId: formState.imdbId,
+    };
+
+    addMovie(newMovie);
+
+    setFormState({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
+
+    setCount(count + 1);
+  };
 
   return (
     <form className="NewMovie" key={count}>
@@ -42,23 +55,29 @@ export const NewMovie = ({ addMovie }:{ addMovie: (movie: Movie) => void }) => {
       <TextField
         name="title"
         label="Title"
-        value={title}
-        onChange={(newValue) => setTitle(newValue)}
+        value={formState.title}
+        onChange={(newValue) => setFormState({
+          ...formState, title: newValue,
+        })}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value={description}
-        onChange={(newValue) => setDescription(newValue)}
+        value={formState.description}
+        onChange={(newValue) => setFormState({
+          ...formState, description: newValue,
+        })}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={imgUrl}
-        onChange={(newValue) => setImgUrl(newValue)}
+        value={formState.imgUrl}
+        onChange={(newValue) => setFormState({
+          ...formState, imgUrl: newValue,
+        })}
         pattern={pattern}
         required
       />
@@ -66,8 +85,10 @@ export const NewMovie = ({ addMovie }:{ addMovie: (movie: Movie) => void }) => {
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={imdbUrl}
-        onChange={(newValue) => setImdbUrl(newValue)}
+        value={formState.imdbUrl}
+        onChange={(newValue) => setFormState({
+          ...formState, imdbUrl: newValue,
+        })}
         pattern={pattern}
         required
       />
@@ -75,8 +96,10 @@ export const NewMovie = ({ addMovie }:{ addMovie: (movie: Movie) => void }) => {
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imdbId}
-        onChange={(newValue) => setImdbId(newValue)}
+        value={formState.imdbId}
+        onChange={(newValue) => setFormState({
+          ...formState, imdbId: newValue,
+        })}
         required
       />
 
@@ -87,14 +110,7 @@ export const NewMovie = ({ addMovie }:{ addMovie: (movie: Movie) => void }) => {
             data-cy="submit-button"
             className="button is-link"
             onClick={refresh}
-            disabled={!(
-              title.trim()
-              && imgUrl
-              && imdbUrl
-              && imdbId
-              && pattern.test(imgUrl)
-              && pattern.test(imdbUrl)
-            )}
+            disabled={!state}
           >
             Add
           </button>
