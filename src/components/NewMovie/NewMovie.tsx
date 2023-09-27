@@ -1,14 +1,13 @@
 import { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
+import { pattern } from '../../pattern/pattern';
 
 type Props = {
   onAdd: (movie: Movie) => void;
 };
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
   const defaultMovieFormField: Movie = {
     title: '',
     description: '',
@@ -25,14 +24,12 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   };
 
   const emptyField = !newMovie.title.trim()
-  || !newMovie.imgUrl.trim()
-  || !newMovie.imdbUrl.trim()
-  || !newMovie.imdbId.trim();
+    || !newMovie.imgUrl.trim()
+    || !newMovie.imdbUrl.trim()
+    || !newMovie.imdbId.trim();
 
-  // eslint-disable-next-line max-len
-  const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
   const URLIsNotValid = !newMovie.imgUrl.match(pattern)
-  || !newMovie.imdbUrl.match(pattern);
+    || !newMovie.imdbUrl.match(pattern);
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -42,9 +39,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     }
 
     setCount(count + 1);
-
     onAdd(newMovie);
-
     setNewMovie(defaultMovieFormField);
   };
 
