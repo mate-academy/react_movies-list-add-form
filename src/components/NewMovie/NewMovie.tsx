@@ -8,35 +8,38 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
+  const [newMovie, setNewMovie] = useState({
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  });
 
   const reset = () => {
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
+    setNewMovie({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
   };
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
 
-    onAdd({
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    });
+    onAdd(newMovie);
 
     reset();
 
-    setCount(currentCount => currentCount + 1);
+    setCount((currentCount) => currentCount + 1);
   };
+
+  const isButtonDisabled = !newMovie.title.trim()
+  || !newMovie.imgUrl.trim()
+  || !newMovie.imdbUrl.trim()
+  || !newMovie.imdbId.trim();
 
   return (
     <form className="NewMovie" key={count} onSubmit={handleSubmit}>
@@ -45,47 +48,46 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value={title}
-        onChange={setTitle}
+        value={newMovie}
+        onChange={setNewMovie}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value={description}
-        onChange={setDescription}
+        value={newMovie}
+        onChange={setNewMovie}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={imgUrl}
-        onChange={setImgUrl}
+        value={newMovie}
+        onChange={setNewMovie}
         required
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={imdbUrl}
-        onChange={setImdbUrl}
+        value={newMovie}
+        onChange={setNewMovie}
         required
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imdbId}
-        onChange={setImdbId}
+        value={newMovie}
+        onChange={setNewMovie}
         required
       />
 
       <div className="field is-grouped">
         <div className="control">
           <button
-            disabled={!title.trim() || !imgUrl.trim()
-              || !imdbUrl.trim() || !imdbId.trim()}
+            disabled={isButtonDisabled}
             type="submit"
             data-cy="submit-button"
             className="button is-link"
