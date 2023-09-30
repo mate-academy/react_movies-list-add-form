@@ -9,14 +9,15 @@ type Props = {
 export const NewMovie: React .FC<Props> = ({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
-  const [count, setCount] = useState(0);
+  const [count] = useState(0);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [imdbId, setImdbId] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
   const [imgUrl, setImgUrl] = useState('');
 
-  const error = !title || !imdbId || !imdbUrl || !imgUrl;
+  const error = !title.trim() || !imdbId.trim()
+    || !imdbUrl.trim() || !imgUrl.trim();
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -26,11 +27,11 @@ export const NewMovie: React .FC<Props> = ({ onAdd }) => {
     }
 
     const movieObj = {
-      title: title.trim(),
-      description: description.trim(),
-      imdbId: imdbId.trim(),
-      imdbUrl: imdbUrl.trim(),
-      imgUrl: imgUrl.trim(),
+      title,
+      description,
+      imdbId,
+      imdbUrl,
+      imgUrl,
     };
 
     onAdd(movieObj);
@@ -40,8 +41,6 @@ export const NewMovie: React .FC<Props> = ({ onAdd }) => {
     setImdbId('');
     setImdbUrl('');
     setImgUrl('');
-
-    setCount(number => number + 1);
   };
 
   return (
