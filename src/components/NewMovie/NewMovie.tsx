@@ -9,14 +9,24 @@ export const NewMovie:React.FC<Props> = ({ addMovie }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
-  const [nameValue, setNameValue] = useState('');
-  const [descriptionValue, setDescriptionValue] = useState('');
-  const [img, setImg] = useState('');
-  const [imdbUrlValue, setImdbUrlValue] = useState('');
-  const [imdbIdValue, setImdbIdValue] = useState('');
+  // const [nameValue, setNameValue] = useState('');
+  // const [descriptionValue, setDescriptionValue] = useState('');
+  // const [img, setImg] = useState('');
+  // const [imdbUrlValue, setImdbUrlValue] = useState('');
+  // const [imdbIdValue, setImdbIdValue] = useState('');
+  const [movi, setMovie] = useState<Movie>({
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  });
 
   const buttonDisablet = () => {
-    if (nameValue && imdbIdValue && img && imdbUrlValue) {
+    if (movi.title.trim()
+    && movi.imdbId.trim()
+    && movi.imdbUrl.trim()
+    && movi.imgUrl.trim()) {
       return false;
     }
 
@@ -24,22 +34,19 @@ export const NewMovie:React.FC<Props> = ({ addMovie }) => {
   };
 
   const resetFild = () => {
-    setDescriptionValue('');
-    setImdbIdValue('');
-    setImdbUrlValue('');
-    setImg('');
-    setNameValue('');
+    setMovie({
+      ...movi,
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
   };
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    addMovie({
-      title: nameValue,
-      description: descriptionValue,
-      imgUrl: img,
-      imdbUrl: imdbUrlValue,
-      imdbId: imdbIdValue,
-    });
+    addMovie(movi);
     setCount(count + 1);
     resetFild();
   };
@@ -55,49 +62,39 @@ export const NewMovie:React.FC<Props> = ({ addMovie }) => {
       <TextField
         name="title"
         label="Title"
-        value={nameValue}
-        onChange={(name) => {
-          setNameValue(name);
-        }}
+        value={movi}
+        onChange={setMovie}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value={descriptionValue}
-        onChange={(description) => {
-          setDescriptionValue(description);
-        }}
+        value={movi}
+        onChange={setMovie}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={img}
-        onChange={(image) => {
-          setImg(image);
-        }}
+        value={movi}
+        onChange={setMovie}
         required
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={imdbUrlValue}
-        onChange={(imdburl) => {
-          setImdbUrlValue(imdburl);
-        }}
+        value={movi}
+        onChange={setMovie}
         required
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imdbIdValue}
-        onChange={(imdbid) => {
-          setImdbIdValue(imdbid);
-        }}
+        value={movi}
+        onChange={setMovie}
         required
       />
 
