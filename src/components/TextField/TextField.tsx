@@ -1,6 +1,12 @@
 import classNames from 'classnames';
 import React, { useState } from 'react';
 
+const pattern = new RegExp(
+  '^(([A-Za-z]{3,9}:(?:\\/\\/)?)(?:[-;:&=+$,\\w]+@)?[A-Za-z0-9.-]+|'
+  + '(?:www\\.|[-;:&=+$,\\w]+@)[A-Za-z0-9.-]+)'
+  + '((?:\\/[+~%/.\\w-_]*)?\\??(?:[-+=&;%@,.\\w_]*)#?(?:[,.!/\\\\\\w]*))?)$',
+);
+
 type Props = {
   name: string,
   value: string,
@@ -29,7 +35,18 @@ export const TextField: React.FC<Props> = ({
 
   // To show errors only if the field was touched (onBlur)
   const [touched, setTouched] = useState(false);
+  const [isValidUrl, setIsValidUrl] = useState(true);
   const hasError = touched && required && !value;
+
+  const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (onChange) {
+      onChange(e);
+    }
+
+    const url = e.target.value;
+
+    setIsValidUrl(pattern.test(url));
+  };
 
   return (
     <div className="field">
@@ -48,13 +65,16 @@ export const TextField: React.FC<Props> = ({
           })}
           placeholder={placeholder}
           value={value}
-          onChange={onChange}
+          onChange={handleOnChange}
           onBlur={() => setTouched(true)}
         />
       </div>
 
       {hasError && (
         <p className="help is-danger">{`${label} is required`}</p>
+      )}
+      {!isValidUrl && (
+        <p className="help is-danger">Invalid URL</p>
       )}
     </div>
   );
