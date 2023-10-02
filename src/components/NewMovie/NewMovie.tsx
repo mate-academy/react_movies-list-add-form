@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
-/* 'https://m.media-amazon.com/images/M/MV5BOTdlODM0MTAtMzRiZi00MTQxLWE0MGUtNTNjOGZjNjAzN2E0XkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_QL75_UY562_CR35,0,380,562_.jpg' */
+
 type Props = {
   addMovie: (newMovie: Movie) => void;
 };
@@ -32,7 +32,7 @@ export const NewMovie: React.FC<Props> = ({
     event.preventDefault();
 
     addMovie(movie);
-    setCount(count + 1);
+    setCount((prevCount) => prevCount + 1);
     reset();
   };
 
