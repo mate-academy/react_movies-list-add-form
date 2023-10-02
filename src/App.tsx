@@ -8,7 +8,7 @@ import { Movie } from './types/Movie';
 export const App = () => {
   const [moviesServer, setMoviesServer] = useState<Movie[]>(moviesFromServer);
   const onAdd = (newmovie:Movie) => {
-    setMoviesServer([...moviesServer, newmovie]);
+    setMoviesServer((movies) => [...movies, newmovie]);
   };
 
   return (

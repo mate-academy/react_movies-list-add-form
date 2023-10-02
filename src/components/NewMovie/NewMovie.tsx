@@ -9,12 +9,7 @@ export const NewMovie:React.FC<Props> = ({ addMovie }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
-  // const [nameValue, setNameValue] = useState('');
-  // const [descriptionValue, setDescriptionValue] = useState('');
-  // const [img, setImg] = useState('');
-  // const [imdbUrlValue, setImdbUrlValue] = useState('');
-  // const [imdbIdValue, setImdbIdValue] = useState('');
-  const [movi, setMovie] = useState<Movie>({
+  const [movie, setMovie] = useState<Movie>({
     title: '',
     description: '',
     imgUrl: '',
@@ -23,10 +18,10 @@ export const NewMovie:React.FC<Props> = ({ addMovie }) => {
   });
 
   const buttonDisablet = () => {
-    if (movi.title.trim()
-    && movi.imdbId.trim()
-    && movi.imdbUrl.trim()
-    && movi.imgUrl.trim()) {
+    if (movie.title.trim()
+    && movie.imdbId.trim()
+    && movie.imdbUrl.trim()
+    && movie.imgUrl.trim()) {
       return false;
     }
 
@@ -35,7 +30,7 @@ export const NewMovie:React.FC<Props> = ({ addMovie }) => {
 
   const resetFild = () => {
     setMovie({
-      ...movi,
+      ...movie,
       title: '',
       description: '',
       imgUrl: '',
@@ -46,7 +41,7 @@ export const NewMovie:React.FC<Props> = ({ addMovie }) => {
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    addMovie(movi);
+    addMovie(movie);
     setCount(count + 1);
     resetFild();
   };
@@ -62,7 +57,7 @@ export const NewMovie:React.FC<Props> = ({ addMovie }) => {
       <TextField
         name="title"
         label="Title"
-        value={movi}
+        value={movie}
         onChange={setMovie}
         required
       />
@@ -70,14 +65,14 @@ export const NewMovie:React.FC<Props> = ({ addMovie }) => {
       <TextField
         name="description"
         label="Description"
-        value={movi}
+        value={movie}
         onChange={setMovie}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={movi}
+        value={movie}
         onChange={setMovie}
         required
       />
@@ -85,7 +80,7 @@ export const NewMovie:React.FC<Props> = ({ addMovie }) => {
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={movi}
+        value={movie}
         onChange={setMovie}
         required
       />
@@ -93,7 +88,7 @@ export const NewMovie:React.FC<Props> = ({ addMovie }) => {
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={movi}
+        value={movie}
         onChange={setMovie}
         required
       />
