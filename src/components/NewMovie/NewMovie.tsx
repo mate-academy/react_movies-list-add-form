@@ -17,6 +17,7 @@ const initMovie = {
 export const NewMovie: React.FC<Props> = ({
   addMovie,
 }) => {
+  const [count, setCount] = useState(0);
   const [movie, setMovie] = useState<Movie>(initMovie);
 
   const handleInputChange = (key: string, value: string): void => {
@@ -31,6 +32,7 @@ export const NewMovie: React.FC<Props> = ({
     event.preventDefault();
 
     addMovie(movie);
+    setCount(count + 1);
     reset();
   };
 
@@ -42,6 +44,7 @@ export const NewMovie: React.FC<Props> = ({
   return (
     <form
       className="NewMovie"
+      key={count}
       onSubmit={handleSubmit}
     >
       <h2 className="title">Add a movie</h2>
