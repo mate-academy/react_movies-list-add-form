@@ -7,7 +7,7 @@ type Props = {
   label?: string,
   placeholder?: string,
   required?: boolean,
-  onChange?: (newValue: string) => void,
+  onChange?: (newValue: React.ChangeEvent<HTMLInputElement>) => void,
 };
 
 function getRandomDigits() {
@@ -24,12 +24,18 @@ export const TextField: React.FC<Props> = ({
   required = false,
   onChange = () => {},
 }) => {
-  // generage a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
+  const [errorMessage, setErrorMessage] = useState('');
 
-  // To show errors only if the field was touched (onBlur)
-  const [touched, setTouched] = useState(false);
-  const hasError = touched && required && !value;
+  const hadleError = () => {
+    if (required && !value) {
+      setErrorMessage(`${label} is required`);
+    } else if (value && value.trim() === '') {
+      setErrorMessage('Input can\'t be filled with only spaces');
+    } else {
+      setErrorMessage('');
+    }
+  };
 
   return (
     <div className="field">
@@ -39,21 +45,22 @@ export const TextField: React.FC<Props> = ({
 
       <div className="control">
         <input
+          name={name}
           type="text"
           id={id}
           data-cy={`movie-${name}`}
           className={classNames('input', {
-            'is-danger': hasError,
+            'is-danger': errorMessage !== '',
           })}
           placeholder={placeholder}
           value={value}
-          onChange={event => onChange(event.target.value)}
-          onBlur={() => setTouched(true)}
+          onChange={(event) => onChange(event)}
+          onBlur={() => hadleError()}
         />
       </div>
 
-      {hasError && (
-        <p className="help is-danger">{`${label} is required`}</p>
+      {errorMessage !== '' && (
+        <p className="help is-danger">{errorMessage}</p>
       )}
     </div>
   );
