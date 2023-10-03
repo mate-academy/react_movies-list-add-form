@@ -42,8 +42,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     resetForm();
   };
 
-  const isSubmitDisabled = !(movie.title.trim()
-    && movie.imgUrl.trim() && movie.imdbUrl.trim() && movie.imdbId.trim());
+  const isSubmitDisabled = !movie.title.trim()
+    || !movie.imgUrl.trim() || !movie.imdbUrl.trim() || !movie.imdbId.trim();
 
   return (
     <form
