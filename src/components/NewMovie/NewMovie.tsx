@@ -6,15 +6,17 @@ type Props = {
   onAdd: (newMovie: Movie) => void;
 };
 
+const initialState = {
+  title: '',
+  description: '',
+  imgUrl: '',
+  imdbUrl: '',
+  imdbId: '',
+};
+
 export const NewMovie = ({ onAdd }: Props) => {
   const [count, setCount] = useState(0);
-  const [newMovie, setNewMovie] = useState({
-    title: '',
-    description: '',
-    imgUrl: '',
-    imdbUrl: '',
-    imdbId: '',
-  });
+  const [newMovie, setNewMovie] = useState(initialState);
 
   const isFieldsFilled = !newMovie.title.trim()
     || !newMovie.imgUrl.trim()
@@ -34,13 +36,7 @@ export const NewMovie = ({ onAdd }: Props) => {
 
     setCount(count + 1);
 
-    setNewMovie({
-      title: '',
-      description: '',
-      imgUrl: '',
-      imdbUrl: '',
-      imdbId: '',
-    });
+    setNewMovie(initialState);
   };
 
   return (
