@@ -26,7 +26,7 @@ export const TextField: React.FC<Props> = ({
   onChange = () => {},
   urlValidation,
 }) => {
-  const [id] = useState(() => `${name}-${getRandomDigits()}`);
+  const id = `${name}-${getRandomDigits()}`;
   const [touched, setTouched] = useState(false);
 
   const hasError = touched && required && !value.trim();
