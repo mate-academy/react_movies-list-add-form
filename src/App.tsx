@@ -4,8 +4,20 @@ import { MoviesList } from './components/MoviesList';
 import { NewMovie } from './components/NewMovie';
 import moviesFromServer from './api/movies.json';
 
+type Movie = {
+  title: string;
+  description: string;
+  imgUrl: string;
+  imdbUrl: string;
+  imdbId: string;
+};
+
 export const App = () => {
   const [movies, setMovies] = useState([...moviesFromServer]);
+
+  const addNewMovie = (movie: Movie) => {
+    setMovies(prevState => [...prevState, movie]);
+  };
 
   return (
     <div className="page">
@@ -13,15 +25,7 @@ export const App = () => {
         <MoviesList movies={movies} />
       </div>
       <div className="sidebar">
-        <NewMovie onAdd={(movie:
-        {
-          title: string;
-          description: string;
-          imgUrl: string;
-          imdbUrl: string; imdbId: string; }) => {
-          setMovies(prevState => [...prevState, movie]);
-        }}
-        />
+        <NewMovie onAdd={addNewMovie} />
       </div>
     </div>
   );

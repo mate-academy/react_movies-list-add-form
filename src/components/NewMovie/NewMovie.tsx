@@ -32,8 +32,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       imgUrl: imgUrl.trim(),
     });
 
-    // [setTitle, setDescription, setImgUrl, setImdbUrl, setImdbId]
-    //   .forEach(func => func(''));
+    [setTitle, setDescription, setImgUrl, setImdbUrl, setImdbId]
+      .forEach(func => func(''));
   };
 
   return (
@@ -43,7 +43,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value={title}
+        value={title.trim()}
         onChange={(value) => {
           setTitle(value);
         }}
