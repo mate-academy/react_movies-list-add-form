@@ -1,45 +1,78 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { TextField } from '../TextField';
+import { Movie } from '../../types/Movie';
 
-export const NewMovie = () => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
-  const [count] = useState(0);
+// eslint-disable-next-line max-len
+const urlPattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
+
+const NewMovie: React.FC<{ onAdd: (movie: Movie) => void }> = ({ onAdd }) => {
+  const [count, setCount] = useState(0);
+  const [formData, setFormData] = useState({
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  });
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const validateForm = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (urlPattern.test(formData.imgUrl) && urlPattern.test(formData.imdbUrl)) {
+      const movie: Movie = { ...formData };
+
+      setCount(prev => prev + 1);
+      onAdd(movie);
+    }
+  };
 
   return (
-    <form className="NewMovie" key={count}>
+    <form className="NewMovie" key={count} onSubmit={validateForm}>
       <h2 className="title">Add a movie</h2>
 
       <TextField
         name="title"
         label="Title"
-        value=""
-        onChange={() => {}}
+        value={formData.title}
+        onChange={handleInputChange}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value=""
+        value={formData.description}
+        onChange={handleInputChange}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value=""
+        value={formData.imgUrl}
+        onChange={handleInputChange}
+        required
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value=""
+        value={formData.imdbUrl}
+        onChange={handleInputChange}
+        required
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value=""
+        value={formData.imdbId}
+        onChange={handleInputChange}
+        required
       />
 
       <div className="field is-grouped">
@@ -48,6 +81,14 @@ export const NewMovie = () => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
+            disabled={
+              !(
+                formData.title
+                && formData.imgUrl
+                && formData.imdbUrl
+                && formData.imdbId
+              )
+            }
           >
             Add
           </button>
@@ -56,3 +97,5 @@ export const NewMovie = () => {
     </form>
   );
 };
+
+export { NewMovie };
