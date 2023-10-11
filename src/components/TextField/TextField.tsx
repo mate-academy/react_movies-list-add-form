@@ -39,7 +39,7 @@ export const TextField: React.FC<Props> = ({
   const [touched, setTouched] = useState(false);
   const hasError = isUrl
     ? touched && required && !urlPattern.test(value)
-    : (touched && required && !value);
+    : (touched && required && !value.trim());
 
   let errorMessage = <p className="help is-danger">{`${label} is required`}</p>;
 
