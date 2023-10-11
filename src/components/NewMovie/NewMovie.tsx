@@ -5,15 +5,19 @@ import { Movie } from '../../types/Movie';
 // eslint-disable-next-line max-len
 const urlPattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
 
-const NewMovie: React.FC<{ onAdd: (movie: Movie) => void }> = ({ onAdd }) => {
+const movieTemplate: Movie = {
+  title: '',
+  description: '',
+  imgUrl: '',
+  imdbUrl: '',
+  imdbId: '',
+};
+
+type Props = { onAdd: (movie: Movie) => void };
+
+const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
-  const [formData, setFormData] = useState({
-    title: '',
-    description: '',
-    imgUrl: '',
-    imdbUrl: '',
-    imdbId: '',
-  });
+  const [formData, setFormData] = useState(movieTemplate);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -29,6 +33,7 @@ const NewMovie: React.FC<{ onAdd: (movie: Movie) => void }> = ({ onAdd }) => {
 
       setCount(prev => prev + 1);
       onAdd(movie);
+      setFormData(movieTemplate);
     }
   };
 
