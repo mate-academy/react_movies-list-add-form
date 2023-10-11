@@ -63,6 +63,10 @@ const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setCount(prev => prev + 1);
   };
 
+  const onFormBlur = () => (
+    setHasError(!(validateForm() && isAllRequiredFilled))
+  );
+
   return (
     <form
       className={classnames('NewMovie form', {
@@ -70,11 +74,7 @@ const NewMovie: React.FC<Props> = ({ onAdd }) => {
       })}
       key={count}
       onSubmit={onSubmit}
-      onBlur={() => {
-        const isValidUrl = validateForm();
-
-        setHasError(!(isValidUrl && isAllRequiredFilled));
-      }}
+      onBlur={onFormBlur}
     >
       <h2 className="title">Add a movie</h2>
 
