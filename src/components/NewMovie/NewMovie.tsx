@@ -11,16 +11,19 @@ const movieTemplate: Movie = {
   imdbId: '',
 };
 
+// eslint-disable-next-line max-len
+const urlPattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
+
 type Props = { onAdd: (movie: Movie) => void };
 
 const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
   const [formData, setFormData] = useState(movieTemplate);
   const isAllRequiredFilled = !!(
-    formData.title
-    && formData.imgUrl
-    && formData.imdbUrl
-    && formData.imdbId
+    formData.title.trim()
+    && urlPattern.test(formData.imgUrl.trim())
+    && urlPattern.test(formData.imdbUrl.trim())
+    && formData.imdbId.trim()
   );
 
   const handleInputChange = (name:string, value:string) => {
