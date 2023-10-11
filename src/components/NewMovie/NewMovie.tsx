@@ -18,6 +18,7 @@ type Props = { onAdd: (movie: Movie) => void };
 const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
   const [formData, setFormData] = useState(movieTemplate);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -34,6 +35,9 @@ const NewMovie: React.FC<Props> = ({ onAdd }) => {
       setCount(prev => prev + 1);
       onAdd(movie);
       setFormData(movieTemplate);
+      setErrorMessage(null);
+    } else {
+      setErrorMessage('Please, provide valid URL');
     }
   };
 
@@ -97,6 +101,9 @@ const NewMovie: React.FC<Props> = ({ onAdd }) => {
           >
             Add
           </button>
+          {errorMessage && (
+            <p>{errorMessage}</p>
+          )}
         </div>
       </div>
     </form>
