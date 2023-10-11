@@ -19,7 +19,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     imdbUrl: '',
     imdbId: '',
   };
-  const [count] = useState(0);
+  const [count, setCount] = useState(0);
   const [movie, setMovie] = useState<Movie>(initialMovie);
 
   const isAllFilled = movie.title && movie.imgUrl && movie.imdbUrl
@@ -28,35 +28,22 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const isAnyErrors = !movie.title || !movie.imgUrl || !movie.imdbUrl
     || !movie.imdbId;
 
-
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!isAllFilled) {
       return;
     }
 
-    onAdd(initialMovie);
+    onAdd(movie);
     setMovie(initialMovie);
+    setCount(prevCount => prevCount + 1);
   };
 
-  const handleTitleChange = (newValue: string) => {
-    setMovie({ ...movie, title: newValue });
-  };
-
-  const handleDescriptionChange = (newValue: string) => {
-    setMovie({ ...movie, description: newValue });
-  };
-
-  const handleImgUrlChange = (newValue: string) => {
-    setMovie({ ...movie, imgUrl: newValue });
-  };
-
-  const handleImdbUrlChange = (newValue: string) => {
-    setMovie({ ...movie, imdbUrl: newValue });
-  };
-
-  const handleImdbIdChange = (newValue: string) => {
-    setMovie({ ...movie, imdbId: newValue });
+  const handleInputChange = (value: string, name: string) => {
+    setMovie({
+      ...movie,
+      [name]: value.trimStart(),
+    });
   };
 
   return (
@@ -71,14 +58,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={movie.title}
-        onChange={handleTitleChange}
+        onChange={handleInputChange}
       />
 
       <TextField
         name="description"
         label="Description"
         value={movie.description}
-        onChange={handleDescriptionChange}
+        onChange={handleInputChange}
         required={false}
       />
 
@@ -86,21 +73,21 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imgUrl"
         label="Image URL"
         value={movie.imgUrl}
-        onChange={handleImgUrlChange}
+        onChange={handleInputChange}
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
         value={movie.imdbUrl}
-        onChange={handleImdbUrlChange}
+        onChange={handleInputChange}
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
         value={movie.imdbId}
-        onChange={handleImdbIdChange}
+        onChange={handleInputChange}
       />
 
       <div className="field is-grouped">
