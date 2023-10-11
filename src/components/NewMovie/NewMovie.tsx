@@ -27,6 +27,9 @@ const NewMovie: React.FC<Props> = ({ onAdd }) => {
     && formData.imdbUrl
     && formData.imdbId
   );
+  const isAllUrlsValid = (
+    urlPattern.test(formData.imgUrl) && urlPattern.test(formData.imdbUrl)
+  );
   const [hasError, setHasError] = useState(isAllRequiredFilled);
 
   const handleInputChange = (name:string, value:string) => {
@@ -40,10 +43,7 @@ const NewMovie: React.FC<Props> = ({ onAdd }) => {
       return false;
     }
 
-    if (
-      !(urlPattern.test(formData.imgUrl)
-     && urlPattern.test(formData.imdbUrl))
-    ) {
+    if (!isAllUrlsValid) {
       setErrorMessage('Please, provide valid URL(s)');
 
       return false;
@@ -56,13 +56,11 @@ const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (validateForm()) {
-      const movie: Movie = { ...formData };
+    const movie: Movie = { ...formData };
 
-      onAdd(movie);
-      setFormData(movieTemplate);
-      setCount(prev => prev + 1);
-    }
+    onAdd(movie);
+    setFormData(movieTemplate);
+    setCount(prev => prev + 1);
   };
 
   return (
@@ -125,7 +123,7 @@ const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!isAllRequiredFilled}
+            disabled={!isAllRequiredFilled || !isAllUrlsValid}
           >
             Add
           </button>
