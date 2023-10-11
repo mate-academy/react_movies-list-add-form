@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import React, { useState } from 'react';
+// import { Movie } from '../../types/Movie';
 
 type Props = {
   name: string,
