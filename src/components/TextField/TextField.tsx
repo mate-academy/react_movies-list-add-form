@@ -42,6 +42,8 @@ export const TextField: React.FC<Props> = ({
     if ((name === 'imgUrl' || name === 'imdbUrl')
     && value && !value.match(pattern)) {
       setErrorMessage('Wrong URL input');
+    } else {
+      setErrorMessage(`${label} is required`);
     }
 
     setTouched(true);
