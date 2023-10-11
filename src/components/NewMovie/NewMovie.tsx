@@ -14,10 +14,10 @@ export const NewMovie = ({ onAdd }: MovieProps) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const isDisabled = title.length === 0
-    || imgUrl.length === 0
-    || imdbUrl.length === 0
-    || imdbId.length === 0;
+  const isDisabled = title.trim().length === 0
+    || imgUrl.trim().length === 0
+    || imdbUrl.trim().length === 0
+    || imdbId.trim().length === 0;
 
   const handleSubmit: React.FormEventHandler = (event) => {
     event.preventDefault();
@@ -30,10 +30,10 @@ export const NewMovie = ({ onAdd }: MovieProps) => {
       imdbId: imdbId.trim(),
     };
 
-    if (newMovie.title.length === 0
-      || newMovie.imgUrl.length === 0
-      || newMovie.imdbUrl.length === 0
-      || newMovie.imdbId.length === 0
+    if (newMovie.title.trim().length === 0
+      || newMovie.imgUrl.trim().length === 0
+      || newMovie.imdbUrl.trim().length === 0
+      || newMovie.imdbId.trim().length === 0
     ) {
       setTitle(newMovie.title);
       setDescription(newMovie.description);
