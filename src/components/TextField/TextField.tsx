@@ -16,6 +16,9 @@ function getRandomDigits() {
     .slice(2);
 }
 
+// eslint-disable-next-line max-len
+const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
+
 export const TextField: React.FC<Props> = ({
   name,
   value,
@@ -29,10 +32,14 @@ export const TextField: React.FC<Props> = ({
 
   // To show errors only if the field was touched (onBlur)
   const [touched, setTouched] = useState(false);
-  const hasError = touched && required && value.trim() === '';
+  let hasError = touched && required && value.trim() === '';
+
+  if (name === 'imgUrl' || name === 'imdbUrl') {
+    hasError = touched && !pattern.test(value);
+  }
 
   const handleTouch = () => {
-    setTouched(!touched);
+    setTouched(true);
   };
 
   return (
@@ -57,7 +64,11 @@ export const TextField: React.FC<Props> = ({
       </div>
 
       {hasError && (
-        <p className="help is-danger">{`${label} is required`}</p>
+        ((name === 'imgUrl' || name === 'imdbUrl')
+        && (!pattern.test(value) && value.trim() !== '')
+        )
+          ? (<p className="help is-danger">{`${label} is not a valid URL`}</p>)
+          : (<p className="help is-danger">{`${label} is required`}</p>)
       )}
     </div>
   );
