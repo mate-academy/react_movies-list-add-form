@@ -1,1 +1,14 @@
-// not empty
+.form {
+  border-radius: 8px;
+  border: white 1px solid;
+  padding: 4px;
+}
+
+.form.danger {
+  border: red 1px solid;
+}
+
+.danger {
+  color: red;
+  font-size: 11px;
+}
