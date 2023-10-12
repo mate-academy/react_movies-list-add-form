@@ -8,17 +8,17 @@ import { Movie } from './types/Movie';
 export const App = () => {
   const [moviesList, setMoviesList] = useState(moviesFromServer);
 
+  const addMovie = (movie: Movie) => {
+    setMoviesList([...moviesList, movie]);
+  };
+
   return (
     <div className="page">
       <div className="page-content">
         <MoviesList movies={moviesList} />
       </div>
       <div className="sidebar">
-        <NewMovie
-          onAdd={(movie: Movie) => {
-            setMoviesList([...moviesList, movie]);
-          }}
-        />
+        <NewMovie onAdd={addMovie} />
       </div>
     </div>
   );
