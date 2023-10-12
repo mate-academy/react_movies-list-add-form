@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
+import { urlIsValid } from '../../services/urlCheck';
 
 type Props = {
   onAdd: (movie: Movie) => void;
@@ -22,8 +23,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     && movie.imdbUrl.trim() !== ''
     && movie.imdbId.trim() !== '';
 
-  const isAnyErrors = !movie.title || !movie.imgUrl || !movie.imdbUrl
-    || !movie.imdbId;
+  const hasUrlError = !urlIsValid(movie.imgUrl) || !urlIsValid(movie.imdbUrl);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -93,8 +93,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={isAnyErrors}
-            aria-disabled={isAnyErrors}
+            disabled={!isAllFilled || hasUrlError}
+            aria-disabled={!isAllFilled || hasUrlError}
           >
             Add
           </button>
