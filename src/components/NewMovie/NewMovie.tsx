@@ -20,6 +20,7 @@ export const NewMovie = ({ onAdd }: Props) => {
     setImgUrl('');
     setImdbUrl('');
     setImdbId('');
+    setErrorMessage('');
   };
 
   const isUrlValid = (url: string) => {
