@@ -16,6 +16,10 @@ function getRandomDigits() {
     .slice(2);
 }
 
+export const handleSubmit = (event: React.FormEvent) => {
+  event.preventDefault();
+};
+
 export const TextField: React.FC<Props> = ({
   name,
   value,
