@@ -58,7 +58,9 @@ export const NewMovie = ({ onAdd }: Props) => {
     resetForm();
   };
 
-  const isDisabled = !(title.trim()
+  const isDisabled = !(isUrlValid(imgUrl)
+    && isUrlValid(imdbUrl)
+    && title.trim()
     && imgUrl.trim()
     && imdbUrl.trim()
     && imdbId.trim()
