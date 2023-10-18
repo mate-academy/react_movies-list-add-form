@@ -6,6 +6,9 @@ type Props = {
   onAdd: (newMovie: Movie) => void;
 };
 
+// eslint-disable-next-line max-len
+const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
+
 const initialMovie = {
   title: '',
   description: '',
@@ -16,14 +19,18 @@ const initialMovie = {
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
-
   const [movie, setMovie] = useState(initialMovie);
 
-  const isFormFilled
-    = !movie.title.trim()
-    || !movie.imgUrl.trim()
-    || !movie.imdbUrl.trim()
-    || !movie.imdbId.trim();
+  const isImdbUrlValid = movie.imdbUrl.match(pattern);
+  const isImgUrlValid = movie.imgUrl.match(pattern);
+
+  const isFromValid
+    = movie.title.trim()
+    && movie.imgUrl.trim()
+    && movie.imdbUrl.trim()
+    && movie.imdbId.trim()
+    && isImdbUrlValid
+    && isImgUrlValid;
 
   const handleInputChange = (key: string, value: string) => {
     setMovie((prevInputs) => ({ ...prevInputs, [key]: value }));
@@ -64,6 +71,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imgUrl"
         label="Image URL"
         value={movie.imgUrl}
+        validateUrl={(value) => pattern.test(value)}
         onChange={(value) => handleInputChange('imgUrl', value)}
         required
       />
@@ -72,6 +80,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={movie.imdbUrl}
+        validateUrl={(value) => pattern.test(value)}
         onChange={(value) => handleInputChange('imdbUrl', value)}
         required
       />
@@ -90,7 +99,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={isFormFilled}
+            disabled={!isFromValid}
           >
             Add
           </button>
