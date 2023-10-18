@@ -26,8 +26,22 @@ export const TextField: React.FC<Props> = ({
 }) => {
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
   const [touched, setTouched] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(`${label} is required`);
+
+  const isUrlValid = validateUrl(value);
+  const isUrlInputNOTEmpty = (name === 'imgUrl' || name === 'imdbUrl') && value;
   const hasRequiredError = touched && required && !value;
-  const hasInvalidError = touched && value && !validateUrl(value);
+  const hasInvalidError = touched && value && !isUrlValid;
+
+  const handleOnBlur = () => {
+    if (isUrlInputNOTEmpty && !isUrlValid) {
+      setErrorMessage('Invalid URL');
+    } else {
+      setErrorMessage(`${label} is required`);
+    }
+
+    setTouched(true);
+  };
 
   return (
     <div className="field">
@@ -41,28 +55,22 @@ export const TextField: React.FC<Props> = ({
           id={id}
           data-cy={`movie-${name}`}
           className={classNames('input', {
-            'is-danger': hasRequiredError || (touched && hasInvalidError),
+            'is-danger': hasRequiredError || hasInvalidError,
           })}
           placeholder={placeholder}
           value={value}
           onChange={(event) => {
             const newValue = event.target.value;
 
-            if (!touched) {
-              setTouched(true);
-            }
-
             onChange(newValue);
           }}
-          onBlur={() => {
-            setTouched(true);
-          }}
+          onBlur={handleOnBlur}
         />
       </div>
 
-      {hasRequiredError && <p className="help is-danger">{`${label} is required`}</p>}
-
-      {hasInvalidError && <p className="help is-danger">Invalid URL</p>}
+      {(hasRequiredError || hasInvalidError) && (
+        <p className="help is-danger">{errorMessage}</p>
+      )}
     </div>
   );
 };
