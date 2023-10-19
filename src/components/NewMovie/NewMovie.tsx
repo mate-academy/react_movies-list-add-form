@@ -1,9 +1,14 @@
 import { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
+import { pattern } from '../utils/patterns';
 
 type Props = {
   onAdd: (movie: Movie) => void;
+};
+
+const validationUrl = (string: string): boolean => {
+  return pattern.test(string);
 };
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
@@ -60,6 +65,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Image URL"
         value={imgUrl}
         onChange={(str) => setImgUrl(str)}
+        validator={validationUrl}
         required
       />
 
@@ -68,6 +74,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Imdb URL"
         value={imdbUrl}
         onChange={(str) => setImdbUrl(str)}
+        validator={validationUrl}
         required
       />
 
