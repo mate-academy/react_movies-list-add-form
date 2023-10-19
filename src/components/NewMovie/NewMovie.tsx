@@ -17,9 +17,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbId, setImdbId] = useState('');
   const [isDisabled, setIsDisabled] = useState(true);
 
-  // eslint-disable-next-line
-  // const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
-
   const resetForm = () => {
     setTitle('');
     setDescription('');
@@ -28,10 +25,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setImdbId('');
     setIsDisabled(true);
   };
-
-  // const hadleImgUrlChange = (value) => {
-
-  // };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
