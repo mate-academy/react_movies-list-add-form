@@ -5,21 +5,22 @@ import { Movie } from '../../types/Movie';
 interface Props {
   onAdd: (movie: Movie) => void;
 }
+
+const defaultMovieState = {
+  title: '',
+  description: '',
+  imgUrl: '',
+  imdbUrl: '',
+  imdbId: '',
+};
+
 export const NewMovie = ({ onAdd }: Props) => {
   const [count, setCount] = useState(0);
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const [newMovie, setNewMovie] = useState(defaultMovieState);
 
   const resetForm = () => {
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
+    setNewMovie(defaultMovieState);
     setErrorMessage('');
   };
 
@@ -31,11 +32,20 @@ export const NewMovie = ({ onAdd }: Props) => {
   };
 
   const isNotFilled = () => (
-    !isUrlValid(imgUrl)
-    || !isUrlValid(imdbUrl)
-    || !title.trim()
-    || !imdbId.trim()
+    !isUrlValid(newMovie.imgUrl)
+    || !isUrlValid(newMovie.imdbUrl)
+    || !newMovie.title.trim()
+    || !newMovie.imdbId.trim()
   );
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+
+    setNewMovie(prevMovie => ({
+      ...prevMovie,
+      [name]: value,
+    }));
+  };
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -46,24 +56,18 @@ export const NewMovie = ({ onAdd }: Props) => {
       return;
     }
 
-    onAdd({
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    });
+    onAdd(newMovie);
 
     setCount(count + 1);
     resetForm();
   };
 
-  const isDisabled = !(isUrlValid(imgUrl)
-    && isUrlValid(imdbUrl)
-    && title.trim()
-    && imgUrl.trim()
-    && imdbUrl.trim()
-    && imdbId.trim()
+  const isDisabled = !(isUrlValid(newMovie.imgUrl)
+    && isUrlValid(newMovie.imdbUrl)
+    && newMovie.title.trim()
+    && newMovie.imgUrl.trim()
+    && newMovie.imdbUrl.trim()
+    && newMovie.imdbId.trim()
   );
 
   return (
@@ -76,39 +80,39 @@ export const NewMovie = ({ onAdd }: Props) => {
       <TextField
         name="title"
         label="Title"
-        value={title}
-        onChange={setTitle}
+        value={newMovie.title}
+        onChange={handleChange}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value={description}
-        onChange={setDescription}
+        value={newMovie.description}
+        onChange={handleChange}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={imgUrl}
-        onChange={setImgUrl}
+        value={newMovie.imgUrl}
+        onChange={handleChange}
         required
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={imdbUrl}
-        onChange={setImdbUrl}
+        value={newMovie.imdbUrl}
+        onChange={handleChange}
         required
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imdbId}
-        onChange={setImdbId}
+        value={newMovie.imdbId}
+        onChange={handleChange}
         required
       />
 
