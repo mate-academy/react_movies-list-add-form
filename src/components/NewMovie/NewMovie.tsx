@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
@@ -18,8 +18,19 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const isReadyToSubmit = [title, imgUrl, imdbUrl, imdbId]
-    .every(item => item !== '');
+  const isReadyToSubmit = useMemo(() => {
+    const hasContent = [title, imgUrl, imdbUrl, imdbId]
+      .every(item => item !== '');
+    const urlIsValid = [imdbUrl, imgUrl]
+      .every(url => pattern.test(url));
+
+    return hasContent && urlIsValid;
+  }, [title, imgUrl, imdbUrl, imdbId]);
+
+  const reset = () => {
+    [setTitle, setDescription, setImgUrl, setImdbUrl, setImdbId]
+      .forEach(func => func(''));
+  };
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -33,8 +44,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       imgUrl: imgUrl.trim(),
     });
 
-    [setTitle, setDescription, setImgUrl, setImdbUrl, setImdbId]
-      .forEach(func => func(''));
+    reset();
   };
 
   return (
@@ -42,6 +52,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       className="NewMovie"
       key={count}
       onSubmit={handleSubmit}
+      onReset={reset}
     >
       <h2 className="title">Add a movie</h2>
 
@@ -49,9 +60,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={title}
-        onChange={(value) => {
-          setTitle(value);
-        }}
+        onChange={setTitle}
         required
       />
 
@@ -59,21 +68,15 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={description}
-        onChange={(value) => {
-          setDescription(value);
-        }}
+        onChange={setDescription}
       />
 
       <TextField
         name="imgUrl"
         label="Img URL"
         value={imgUrl}
-        onChange={(value) => {
-          setImgUrl(value);
-        }}
-        validate={(value) => {
-          return pattern.test(value);
-        }}
+        onChange={setImgUrl}
+        validate={(value) => pattern.test(value)}
         required
       />
 
@@ -81,12 +84,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={(value) => {
-          setImdbUrl(value);
-        }}
-        validate={(value) => {
-          return pattern.test(value);
-        }}
+        onChange={setImdbUrl}
+        validate={(value) => pattern.test(value)}
         required
       />
 
@@ -94,9 +93,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={(value) => {
-          setImdbId(value);
-        }}
+        onChange={setImdbId}
         required
       />
 

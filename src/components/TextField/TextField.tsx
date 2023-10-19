@@ -34,6 +34,13 @@ export const TextField: React.FC<Props> = ({
   const [isValid, setIsValid] = useState(true);
   const hasError = touched && required && !value;
 
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const fieldValue = event.target.value;
+
+    setIsValid(validate(fieldValue) || fieldValue === '');
+    onChange(fieldValue);
+  };
+
   return (
     <div className="field">
       <label className="label" htmlFor={id}>
@@ -50,12 +57,7 @@ export const TextField: React.FC<Props> = ({
           })}
           placeholder={placeholder}
           value={value}
-          onChange={event => {
-            const fieldValue = event.target.value;
-
-            setIsValid(validate(fieldValue) || fieldValue === '');
-            onChange(fieldValue);
-          }}
+          onChange={handleChange}
           onBlur={() => setTouched(true)}
         />
       </div>
