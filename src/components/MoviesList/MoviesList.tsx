@@ -10,9 +10,9 @@ interface Props {
 
 export const MoviesList: React.FC<Props> = ({ movies }) => (
   <div className="movies">
-    {movies.map(movie => (
+    {movies.map((movie, index) => (
       <MovieCard
-        key={movie.imdbId}
+        key={`#${1 + index}`}
         movie={movie}
       />
     ))}
