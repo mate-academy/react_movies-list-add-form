@@ -7,8 +7,6 @@ type Props = {
 };
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
 
   const [state, setState] = useState({
@@ -19,19 +17,32 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     imdbId: '',
   });
 
+  // eslint-disable-next-line max-len
+  const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
+
+  const [errorImgUrl, setErrorImgUrl] = useState('');
+  const [errorImdbUrl, setErrorImdbUrl] = useState('');
+
   function handleReset(event: React.FormEvent) {
     event.preventDefault();
 
-    setState({
-      title: '',
-      description: '',
-      imgUrl: '',
-      imdbUrl: '',
-      imdbId: '',
-    });
+    const newErrorImgUrl = !pattern.test(state.imgUrl) ? 'error' : '';
+    const newErrorImdbUrl = !pattern.test(state.imdbUrl) ? 'error' : '';
 
-    onAdd(state);
-    setCount((prev) => prev + 1);
+    setErrorImgUrl(newErrorImgUrl);
+    setErrorImdbUrl(newErrorImdbUrl);
+
+    if (!newErrorImgUrl && !newErrorImdbUrl) {
+      onAdd(state);
+      setState({
+        title: '',
+        description: '',
+        imgUrl: '',
+        imdbUrl: '',
+        imdbId: '',
+      });
+      setCount((prev) => prev + 1);
+    }
   }
 
   return (
@@ -61,6 +72,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imgUrl"
         label="Image URL"
         value={state.imgUrl}
+        errorImgUrl={errorImgUrl}
         onChange={value => setState({ ...state, imgUrl: value })}
         required
       />
@@ -69,6 +81,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={state.imdbUrl}
+        errorImdbUrl={errorImdbUrl}
         onChange={value => setState({ ...state, imdbUrl: value })}
         required
       />
