@@ -2,7 +2,6 @@ import './App.scss';
 import { useState } from 'react';
 import { MoviesList } from './components/MoviesList';
 import { NewMovie } from './components/NewMovie';
-
 import { Movie } from './types/Movie';
 
 import moviesFromServer from './api/movies.json';
@@ -10,7 +9,7 @@ import moviesFromServer from './api/movies.json';
 export const App = () => {
   const [movies, setMovies] = useState(moviesFromServer);
   const handleAddMovie = (movie: Movie) => {
-    setMovies([...movies, movie]);
+    setMovies(prevMovies => [...prevMovies, movie]);
   };
 
   return (
