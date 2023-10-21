@@ -10,21 +10,35 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`
   const [count, setCount] = useState(0);
-  const [newTitle, setNewTitle] = useState('');
-  const [newDescription, setNewDescription] = useState('');
-  const [newImageURL, setNewImageURL] = useState('');
-  const [newURL, setNewURL] = useState('');
-  const [newId, setNewId] = useState('');
+  const [newMovie, setNewMovie] = useState(
+    {
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+
+    },
+  );
 
   const reset = () => {
-    setNewTitle('');
-    setNewDescription('');
-    setNewImageURL('');
-    setNewURL('');
-    setNewId('');
+    setNewMovie({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
   };
 
-  const disable = !newTitle || !newImageURL || !newId || !newURL || !newId;
+  const {
+    title,
+    imgUrl,
+    imdbUrl,
+    imdbId,
+  } = newMovie;
+
+  const disable = title && imgUrl && imdbUrl && imdbId;
 
   const handlerSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -33,16 +47,21 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
     setCount(updCaunt += 1);
 
-    if (disable) {
+    const trimedKeys = {
+      title: newMovie.title.trim(),
+      description: newMovie.description.trim(),
+      imgUrl: newMovie.imgUrl.trim(),
+      imdbUrl: newMovie.imdbUrl.trim(),
+      imdbId: newMovie.imdbId.trim(),
+    };
+
+    if (!trimedKeys.title && !trimedKeys.imgUrl
+       && !trimedKeys.imdbUrl && !trimedKeys.imdbId) {
       return;
     }
 
     onAdd({
-      title: newTitle,
-      description: newDescription,
-      imgUrl: newImageURL,
-      imdbUrl: newURL,
-      imdbId: newId,
+      ...trimedKeys,
     });
 
     reset();
@@ -60,9 +79,12 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value={newTitle}
+        value={newMovie.title}
         onChange={(value) => {
-          setNewTitle(value);
+          setNewMovie({
+            ...newMovie,
+            title: value,
+          });
         }}
         required
       />
@@ -70,18 +92,24 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="description"
         label="Description"
-        value={newDescription}
+        value={newMovie.description}
         onChange={(value) => {
-          setNewDescription(value);
+          setNewMovie({
+            ...newMovie,
+            description: value,
+          });
         }}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={newImageURL}
+        value={newMovie.imgUrl}
         onChange={(value) => {
-          setNewImageURL(value);
+          setNewMovie({
+            ...newMovie,
+            imgUrl: value,
+          });
         }}
         required
       />
@@ -89,9 +117,12 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={newURL}
+        value={newMovie.imdbUrl}
         onChange={(value) => {
-          setNewURL(value);
+          setNewMovie({
+            ...newMovie,
+            imdbUrl: value,
+          });
         }}
         required
       />
@@ -99,9 +130,12 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={newId}
+        value={newMovie.imdbId}
         onChange={(value) => {
-          setNewId(value);
+          setNewMovie({
+            ...newMovie,
+            imdbId: value,
+          });
         }}
         required
       />
@@ -112,7 +146,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={disable}
+            disabled={!disable}
           >
             Add
           </button>
