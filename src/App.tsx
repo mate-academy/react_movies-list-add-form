@@ -10,7 +10,8 @@ export const App = () => {
         <MoviesList movies={moviesFromServer} />
       </div>
       <div className="sidebar">
-        <NewMovie /* onAdd={(movie) => {}} */ />
+        <NewMovie onAdd={() => {}} />
+        {/* <NewMovie onAdd={(movie) => {}} /> */}
       </div>
     </div>
   );
