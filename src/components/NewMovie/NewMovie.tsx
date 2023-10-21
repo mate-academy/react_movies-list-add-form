@@ -16,7 +16,8 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
   const [imgUrl, setImageUrl] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
-  const [hasError, setHasError] = useState(false);
+
+  const requiredFields = [title, imgUrl, imdbUrl, imdbId].every((el) => !!el);
 
   const handleTitle = (newTitle: string) => {
     setTitle(newTitle);
@@ -41,12 +42,6 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (!title || !imgUrl || !imdbUrl || !imdbId || hasError) {
-      setHasError(true);
-
-      return;
-    }
-
     const newMovie: Movie = {
       title,
       description,
@@ -62,7 +57,6 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
     setImageUrl('');
     setImdbUrl('');
     setImdbId('');
-    setHasError(false);
 
     setCount(count + 1);
   };
@@ -111,21 +105,21 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
         label="Imdb ID"
         value={imdbId}
         onFieldChange={handleImdbId}
+        required
       />
 
       <div className="field is-grouped">
         <div className="control">
           <button
+            disabled={!requiredFields}
             type="submit"
             data-cy="submit-button"
             className={cn(
               'button', 'is-link',
               {
-                'is-light':
-                ![title, imgUrl, imdbUrl, imdbId].every((el) => !!el),
+                'is-light': !requiredFields,
               },
             )}
-            onClick={() => {}}
           >
             Add
           </button>

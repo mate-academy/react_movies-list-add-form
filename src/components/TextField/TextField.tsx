@@ -47,7 +47,7 @@ export const TextField: React.FC<Props> = ({
           })}
           placeholder={placeholder}
           value={value}
-          onChange={event => onFieldChange((event.target.value).trim())}
+          onChange={event => onFieldChange((event.target.value))}
           onBlur={() => setTouched(true)}
         />
       </div>
