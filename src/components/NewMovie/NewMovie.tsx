@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import cn from 'classnames';
 import { TextField } from '../TextField';
-// import { Movie } from '../../types/Movie';
+import { Movie } from '../../types/Movie';
 // import { use } from 'chai';
-// interface NewMovieProps {
-//   onAdd: (newMovie: Movie) => void;
-// }
+interface NewMovieProps {
+  onAdd: (newMovie: Movie) => void;
+}
 
-export const NewMovie: React.FC = () => {
+export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
@@ -46,15 +46,16 @@ export const NewMovie: React.FC = () => {
 
       return;
     }
-    // const newMovie: Movie = {
-    //   title,
-    //   description,
-    //   imgUrl,
-    //   imdbUrl,
-    //   imdbId,
-    // };
 
-    // onAdd(newMovie);
+    const newMovie: Movie = {
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    };
+
+    onAdd(newMovie);
 
     setTitle('');
     setDescription('');
