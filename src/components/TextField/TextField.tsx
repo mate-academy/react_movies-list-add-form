@@ -9,6 +9,8 @@ type Props = {
   required?: boolean,
   onChange?: (newValue: string) => void,
   validator?: (url: string) => boolean;
+  isValid?: boolean;
+  setIsValid?: (state: boolean) => void;
 };
 
 function getRandomDigits() {
@@ -23,28 +25,30 @@ export const TextField: React.FC<Props> = ({
   label = name,
   placeholder = `Enter ${label}`,
   required = false,
-  onChange = () => {},
+  onChange = () => { },
   validator,
+  isValid,
+  setIsValid,
+
 }) => {
   // generade a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
   // To show errors only if the field was touched (onBlur)
   const [touched, setTouched] = useState(false);
-  const [validationError, setValidationError] = useState(false);
+  // const [validationError, setValidationError] = useState(false);
   const hasError = touched && required && !value;
 
   const onValidate = () => {
-    if (validator) {
-      const isValid = validator(value);
+    if (validator && setIsValid) {
+      const isValidValue = validator(value);
 
-      if (!isValid) {
-        setValidationError(true);
-        onChange('');
+      if (!isValidValue) {
+        setIsValid(true);
+      }
 
-        setTimeout(() => {
-          setValidationError(false);
-        }, 5000);
+      if (isValidValue) {
+        setIsValid(false);
       }
     }
   };
@@ -69,20 +73,16 @@ export const TextField: React.FC<Props> = ({
             (event) => onChange(event.target.value)
           }
           onBlur={() => {
-            setTouched(true);
             onValidate();
+            setTouched(true);
           }}
         />
       </div>
-
       {hasError && (
-        <p className="help is-danger">
-          {
-            validationError
-              ? `${label} is not correct`
-              : `${label} is required`
-          }
-        </p>
+        <p className="help is-danger">{`${label} is required`}</p>
+      )}
+      {(!hasError && isValid) && (
+        <p className="help is-danger">{`${label} is not correct`}</p>
       )}
     </div>
   );

@@ -15,13 +15,17 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
-  const [title, setTitle] = useState<string>('');
-  const [description, setDescription] = useState<string>('');
-  const [imgUrl, setImgUrl] = useState<string>('');
-  const [imdbUrl, setImdbUrl] = useState<string>('');
-  const [imdbId, setImdbId] = useState<string>('');
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [imgUrl, setImgUrl] = useState('');
+  const [imdbUrl, setImdbUrl] = useState('');
+  const [imdbId, setImdbId] = useState('');
+  const [isImgUrlValid, setIsImgUrlValid] = useState(false);
+  const [isImdbIdValid, setIsImdbIdValid] = useState(false);
 
-  const isAllowSubmit = Boolean(title && imgUrl && imdbUrl && imdbId) || false;
+  const isAllChackedFieldsValid = Boolean(!isImgUrlValid && !isImdbIdValid);
+  const isAllowSubmit = Boolean(title && imgUrl && imdbUrl && imdbId
+    && isAllChackedFieldsValid);
 
   const addMovie = () => {
     const newMovie: Movie = {
@@ -66,6 +70,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={imgUrl}
         onChange={(str) => setImgUrl(str)}
         validator={validationUrl}
+        isValid={isImgUrlValid}
+        setIsValid={setIsImgUrlValid}
         required
       />
 
@@ -75,6 +81,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={imdbUrl}
         onChange={(str) => setImdbUrl(str)}
         validator={validationUrl}
+        isValid={isImdbIdValid}
+        setIsValid={setIsImdbIdValid}
         required
       />
 
