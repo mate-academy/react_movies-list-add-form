@@ -2,97 +2,93 @@ import React, { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
-type MovieProps = {
-  onAdd: (movie: Movie) => void;
+type Props = {
+  onAdd: (value: Movie) => void,
 };
 
-export const NewMovie = ({ onAdd }: MovieProps) => {
+export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
 
-  const [formValues, setFormValues] = useState({
-    title: '',
+  const [state, setState] = useState({
+    title: ''.trim(),
     description: '',
     imgUrl: '',
     imdbUrl: '',
     imdbId: '',
   });
 
-  const isButtonDisabled = () => {
-    const {
-      title,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    } = formValues;
+  // eslint-disable-next-line max-len
+  const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
 
-    return !(title.trim() && imgUrl.trim()
-      && imdbUrl.trim() && imdbId.trim());
-  };
+  const [errorImgUrl, setErrorImgUrl] = useState('');
+  const [errorImdbUrl, setErrorImdbUrl] = useState('');
 
-  const handleChange = (value: string, name: string) => {
-    setFormValues((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
-  };
-
-  const reset = () => {
-    setFormValues({
-      title: '',
-      description: '',
-      imgUrl: '',
-      imdbUrl: '',
-      imdbId: '',
-    });
-  };
-
-  const handleSubmit = ((event: React.FormEvent) => {
+  function handleReset(event: React.FormEvent) {
     event.preventDefault();
 
-    onAdd(formValues);
+    const newErrorImgUrl = !pattern.test(state.imgUrl) ? 'error' : '';
+    const newErrorImdbUrl = !pattern.test(state.imdbUrl) ? 'error' : '';
 
-    setCount(count + 1);
-    reset();
-  });
+    setErrorImgUrl(newErrorImgUrl);
+    setErrorImdbUrl(newErrorImdbUrl);
+
+    if (!newErrorImgUrl && !newErrorImdbUrl) {
+      onAdd(state);
+      setState({
+        title: '',
+        description: '',
+        imgUrl: '',
+        imdbUrl: '',
+        imdbId: '',
+      });
+      setCount((prev) => prev + 1);
+    }
+  }
 
   return (
-    <form className="NewMovie" onSubmit={handleSubmit}>
+    <form
+      className="NewMovie"
+      key={count}
+      onSubmit={handleReset}
+    >
       <h2 className="title">Add a movie</h2>
 
       <TextField
         name="title"
         label="Title"
-        value={formValues.title}
-        onChange={(value) => handleChange(value, 'title')}
+        value={state.title}
+        onChange={value => setState({ ...state, title: value })}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value={formValues.description}
-        onChange={(value) => handleChange(value, 'description')}
+        value={state.description}
+        onChange={value => setState({ ...state, description: value })}
       />
 
       <TextField
         name="imgUrl"
-        value={formValues.imgUrl}
-        onChange={(value) => handleChange(value, 'imgUrl')}
+        value={state.imgUrl}
+        errorImgUrl={errorImgUrl}
+        onChange={value => setState({ ...state, imgUrl: value })}
         required
       />
 
       <TextField
         name="imdbUrl"
-        value={formValues.imdbUrl}
-        onChange={(value) => handleChange(value, 'imdbUrl')}
+        value={state.imdbUrl}
+        errorImdbUrl={errorImdbUrl}
+        onChange={value => setState({ ...state, imdbUrl: value })}
         required
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={formValues.imdbId}
-        onChange={(value) => handleChange(value, 'imdbId')}
+        value={state.imdbId}
+        onChange={value => setState({ ...state, imdbId: value })}
         required
       />
 
@@ -102,7 +98,12 @@ export const NewMovie = ({ onAdd }: MovieProps) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={isButtonDisabled()}
+            disabled={
+              !state.title
+              || !state.imgUrl
+              || !state.imdbUrl
+              || !state.imdbId
+            }
           >
             Add
           </button>
