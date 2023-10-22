@@ -6,29 +6,26 @@ type Props = {
   onAdd: (movie:Movie) => void
 };
 
+const movie = {
+  title: '',
+  description: '',
+  imgUrl: '',
+  imdbUrl: '',
+  imdbId: '',
+};
+
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`
   const [count, setCount] = useState(0);
   const [newMovie, setNewMovie] = useState(
-    {
-      title: '',
-      description: '',
-      imgUrl: '',
-      imdbUrl: '',
-      imdbId: '',
-
-    },
+    movie,
   );
 
   const reset = () => {
-    setNewMovie({
-      title: '',
-      description: '',
-      imgUrl: '',
-      imdbUrl: '',
-      imdbId: '',
-    });
+    setNewMovie(
+      movie,
+    );
   };
 
   const {
@@ -38,7 +35,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     imdbId,
   } = newMovie;
 
-  const disable = title && imgUrl && imdbUrl && imdbId;
+  const isDisabled = !title.trim() || !imgUrl.trim()
+  || !imdbUrl.trim() || !imdbId.trim();
 
   const handlerSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -47,21 +45,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
     setCount(updCaunt += 1);
 
-    const trimedKeys = {
-      title: newMovie.title.trim(),
-      description: newMovie.description.trim(),
-      imgUrl: newMovie.imgUrl.trim(),
-      imdbUrl: newMovie.imdbUrl.trim(),
-      imdbId: newMovie.imdbId.trim(),
-    };
-
-    if (!trimedKeys.title && !trimedKeys.imgUrl
-       && !trimedKeys.imdbUrl && !trimedKeys.imdbId) {
-      return;
-    }
-
     onAdd({
-      ...trimedKeys,
+      ...newMovie,
     });
 
     reset();
@@ -146,7 +131,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!disable}
+            disabled={isDisabled}
           >
             Add
           </button>
