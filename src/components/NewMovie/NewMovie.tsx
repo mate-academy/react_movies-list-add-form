@@ -97,7 +97,7 @@ export const NewMovie
               className="button is-link"
               disabled={isAddButtonDisabled()}
             >
-              Add
+              Add check1
             </button>
           </div>
         </div>
