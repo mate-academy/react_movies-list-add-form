@@ -17,6 +17,16 @@ export const NewMovie:React.FunctionComponent<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdUrl] = useState('');
   const [imdbId, setimdbID] = useState('');
 
+  function reset() {
+    setTitle('');
+    setDescription('');
+    setImgUrl('');
+    setImdUrl('');
+    setimdbID('');
+  }
+
+  const isDisabled = !title || !imgUrl || !imdbUrl || !imdbId;
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -30,14 +40,9 @@ export const NewMovie:React.FunctionComponent<Props> = ({ onAdd }) => {
       },
     );
 
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdUrl('');
-    setimdbID('');
+    reset();
 
     setCount(prev => prev + 1);
-    event.preventDefault();
   };
 
   return (
@@ -52,9 +57,7 @@ export const NewMovie:React.FunctionComponent<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={title}
-        onChange={(event) => {
-          setTitle(event);
-        }}
+        onChange={setTitle}
         required
       />
 
@@ -62,18 +65,14 @@ export const NewMovie:React.FunctionComponent<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={description}
-        onChange={(event) => {
-          setDescription(event);
-        }}
+        onChange={setDescription}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={(event) => {
-          setImgUrl(event);
-        }}
+        onChange={setImgUrl}
         required
       />
 
@@ -82,9 +81,7 @@ export const NewMovie:React.FunctionComponent<Props> = ({ onAdd }) => {
         label="Imdb URL"
         value={imdbUrl}
         required
-        onChange={(event) => {
-          setImdUrl(event);
-        }}
+        onChange={setImdUrl}
       />
 
       <TextField
@@ -92,9 +89,7 @@ export const NewMovie:React.FunctionComponent<Props> = ({ onAdd }) => {
         label="Imdb ID"
         value={imdbId}
         required
-        onChange={(event) => {
-          setimdbID(event);
-        }}
+        onChange={setimdbID}
       />
 
       <div className="field is-grouped">
@@ -103,7 +98,7 @@ export const NewMovie:React.FunctionComponent<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!title || !imgUrl || !imdbUrl || !imdbId}
+            disabled={isDisabled}
           >
             Add
           </button>
