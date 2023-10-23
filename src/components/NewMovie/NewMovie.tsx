@@ -10,7 +10,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
 
   const [state, setState] = useState({
-    title: ''.trim(),
+    title: '',
     description: '',
     imgUrl: '',
     imdbUrl: '',
