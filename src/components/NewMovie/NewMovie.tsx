@@ -3,10 +3,10 @@ import { Movie } from '../../types/Movie';
 import { TextField } from '../TextField';
 
 type Props = {
-  onAdd: (value: Movie) => void,
+  setMovies: (value: Movie) => void,
 };
 
-export const NewMovie: React.FC<Props> = ({ onAdd }) => {
+export const NewMovie: React.FC<Props> = ({ setMovies }) => {
   const [count, setCount] = useState(0);
 
   const [state, setState] = useState({
@@ -20,20 +20,33 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   // eslint-disable-next-line max-len
   const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
 
-  const [errorImgUrl, setErrorImgUrl] = useState('');
-  const [errorImdbUrl, setErrorImdbUrl] = useState('');
+  const [hasImgUrl, setHasImgUrl] = useState('');
+  const [hasImdbUrl, sethasImdbUrl] = useState('');
 
   function handleReset(event: React.FormEvent) {
     event.preventDefault();
 
-    const newErrorImgUrl = !pattern.test(state.imgUrl) ? 'error' : '';
-    const newErrorImdbUrl = !pattern.test(state.imdbUrl) ? 'error' : '';
+    const newhasImgUrl = !pattern.test(state.imgUrl) ? 'error' : '';
+    const newhasImdbUrl = !pattern.test(state.imdbUrl) ? 'error' : '';
 
-    setErrorImgUrl(newErrorImgUrl);
-    setErrorImdbUrl(newErrorImdbUrl);
+    setHasImgUrl((currImgUrl) => {
+      if (currImgUrl !== newhasImgUrl) {
+        return newhasImgUrl;
+      }
 
-    if (!newErrorImgUrl && !newErrorImdbUrl) {
-      onAdd(state);
+      return currImgUrl;
+    });
+
+    sethasImdbUrl((currImdbUrl) => {
+      if (currImdbUrl !== newhasImdbUrl) {
+        return newhasImdbUrl;
+      }
+
+      return currImdbUrl;
+    });
+
+    if (!newhasImgUrl && !newhasImdbUrl) {
+      setMovies(state);
       setState({
         title: '',
         description: '',
@@ -72,7 +85,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imgUrl"
         label="Image URL"
         value={state.imgUrl}
-        errorImgUrl={errorImgUrl}
+        hasImgUrl={hasImgUrl}
         onChange={value => setState({ ...state, imgUrl: value })}
         required
       />
@@ -81,7 +94,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={state.imdbUrl}
-        errorImdbUrl={errorImdbUrl}
+        hasImdbUrl={hasImdbUrl}
         onChange={value => setState({ ...state, imdbUrl: value })}
         required
       />

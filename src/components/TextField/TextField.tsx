@@ -7,8 +7,8 @@ type Props = {
   label?: string,
   placeholder?: string,
   required?: boolean,
-  errorImgUrl?: string,
-  errorImdbUrl?: string,
+  hasImgUrl?: string,
+  hasImdbUrl?: string,
   onChange?: (newValue: string) => void,
 };
 
@@ -24,8 +24,8 @@ export const TextField: React.FC<Props> = ({
   label = name,
   placeholder = `Enter ${label}`,
   required = false,
-  errorImgUrl,
-  errorImdbUrl,
+  hasImgUrl,
+  hasImdbUrl,
   onChange = () => { },
 }) => {
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
@@ -46,7 +46,7 @@ export const TextField: React.FC<Props> = ({
           id={id}
           data-cy={`movie-${name}`}
           className={classNames('input', {
-            'is-danger': hasError || errorImgUrl || errorImdbUrl,
+            'is-danger': hasError || hasImgUrl || hasImdbUrl,
           })}
           placeholder={placeholder}
           value={value}
@@ -59,7 +59,7 @@ export const TextField: React.FC<Props> = ({
         <p className="help is-danger">{`${label} is required`}</p>
       )}
 
-      {(errorImgUrl || errorImdbUrl) && (
+      {(hasImgUrl || hasImdbUrl) && (
         <p className="help is-danger">{`${label} is not valid`}</p>
       )}
     </div>
