@@ -17,25 +17,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setimdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const handleTitleUpdate = (newValue: string) => {
-    setTitle(newValue);
-  };
+  const [incorrectimgUrl, setIncorrectimgUrl] = useState('');
+  const [incorrectimdbUrl, setIncorrectimdbUrl] = useState('');
 
-  const handleDescriptionUpdate = (newValue: string) => {
-    setDescription(newValue);
-  };
-
-  const handleimgUrlUpdate = (newValue: string) => {
-    setimgUrl(newValue);
-  };
-
-  const handleImdbUrlUpdate = (newValue: string) => {
-    setimdbUrl(newValue);
-  };
-
-  const handleImdbIdUpdate = (newValue: string) => {
-    setImdbId(newValue);
-  };
+  const hasDisabled = !title || !imgUrl || !imdbUrl || !imdbId;
 
   const reset = () => {
     setTitle('');
@@ -43,10 +28,36 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setimgUrl('');
     setimdbUrl('');
     setImdbId('');
+
+    setIncorrectimgUrl('');
+    setIncorrectimdbUrl('');
   };
+
+  /* eslint-disable max-len */
+
+  const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
+
+    if (!pattern.test(imgUrl) && !pattern.test(imdbUrl)) {
+      setIncorrectimgUrl('Error');
+      setIncorrectimdbUrl('Error');
+
+      return;
+    }
+
+    if (!pattern.test(imgUrl)) {
+      setIncorrectimgUrl('Error');
+
+      return;
+    }
+
+    if (!pattern.test(imdbUrl)) {
+      setIncorrectimdbUrl('Error');
+
+      return;
+    }
 
     onAdd({
       title,
@@ -73,61 +84,73 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={title}
-        onChange={handleTitleUpdate}
+        onChange={(newValue) => {
+          setTitle(newValue);
+        }}
         required
+        incorrectimgUrl=""
+        incorrectimdbUrl=""
       />
 
       <TextField
         name="description"
         label="Description"
         value={description}
-        onChange={handleDescriptionUpdate}
+        onChange={(newValue) => {
+          setDescription(newValue);
+        }}
+        incorrectimgUrl=""
+        incorrectimdbUrl=""
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={handleimgUrlUpdate}
+        onChange={(newValue) => {
+          setimgUrl(newValue);
+          setIncorrectimgUrl('');
+        }}
         required
+        incorrectimgUrl={incorrectimgUrl}
+        incorrectimdbUrl=""
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={handleImdbUrlUpdate}
+        onChange={(newValue) => {
+          setimdbUrl(newValue);
+          setIncorrectimdbUrl('');
+        }}
         required
+        incorrectimgUrl=""
+        incorrectimdbUrl={incorrectimdbUrl}
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={handleImdbIdUpdate}
+        onChange={(newValue) => {
+          setImdbId(newValue);
+        }}
         required
+        incorrectimgUrl=""
+        incorrectimdbUrl=""
       />
 
       <div className="field is-grouped">
         <div className="control">
-          {!title || !imgUrl || !imdbUrl || !imdbId ? (
-            <button
-              type="submit"
-              data-cy="submit-button"
-              className="button is-link"
-              disabled
-            >
-              Add
-            </button>
-          ) : (
-            <button
-              type="submit"
-              data-cy="submit-button"
-              className="button is-link"
-            >
-              Add
-            </button>
-          )}
+          <button
+            type="submit"
+            data-cy="submit-button"
+            className="button is-link"
+            disabled={hasDisabled}
+          >
+            Add
+          </button>
         </div>
       </div>
     </form>
