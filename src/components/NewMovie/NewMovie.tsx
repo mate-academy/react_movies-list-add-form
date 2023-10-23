@@ -25,6 +25,10 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
     || !formData.imdbUrl;
 
   const handleInputChange = (name: string, value: string) => {
+    if (value.trim() === '') {
+      return;
+    }
+
     setFormData({
       ...formData,
       [name]: value,
