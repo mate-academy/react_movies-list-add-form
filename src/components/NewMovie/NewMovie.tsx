@@ -29,7 +29,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbId, setImdbId] = useState('');
   const [hasImdbIdError, setHasImdbIdError] = useState<boolean>(true);
 
-  const hasFormerrors = (
+  const hasFormErrors = (
     hasTitleError || hasImgUrlError || hasImdbUrlError || hasImdbIdError
   );
 
@@ -91,7 +91,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       setHasImdbIdError(true);
     }
 
-    if (!hasFormerrors) {
+    if (!hasFormErrors) {
       onAdd({
         title,
         description,
@@ -154,7 +154,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             data-cy="submit-button"
             className="button is-link"
             onClick={handleSubmit}
-            disabled={hasFormerrors}
+            disabled={hasFormErrors}
           >
             Add
           </button>
