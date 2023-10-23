@@ -19,24 +19,12 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
 
   const requiredFields = [title, imgUrl, imdbUrl, imdbId].every((el) => !!el);
 
-  const handleTitle = (newTitle: string) => {
-    setTitle(newTitle);
-  };
-
-  const handleDescription = (newDescriprion: string) => {
-    setDescription(newDescriprion);
-  };
-
-  const handleImgUrl = (newImgUrl: string) => {
-    setImageUrl(newImgUrl);
-  };
-
-  const handleImdbUrl = (newImdbUrl: string) => {
-    setImdbUrl(newImdbUrl);
-  };
-
-  const handleImdbId = (newImdbId: string) => {
-    setImdbId(newImdbId);
+  const reset = () => {
+    setTitle('');
+    setDescription('');
+    setImageUrl('');
+    setImdbUrl('');
+    setImdbId('');
   };
 
   const handleSubmit = (event: React.FormEvent) => {
@@ -52,11 +40,7 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
 
     onAdd(newMovie);
 
-    setTitle('');
-    setDescription('');
-    setImageUrl('');
-    setImdbUrl('');
-    setImdbId('');
+    reset();
 
     setCount(count + 1);
   };
@@ -73,7 +57,7 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={title}
-        onChange={setTitle}
+        onFieldChange={setTitle}
         required
       />
 
@@ -81,14 +65,14 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={description}
-        onFieldChange={handleDescription}
+        onFieldChange={setDescription}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onFieldChange={handleImgUrl}
+        onFieldChange={setImageUrl}
         required
       />
 
@@ -96,7 +80,7 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onFieldChange={handleImdbUrl}
+        onFieldChange={setImdbUrl}
         required
       />
 
@@ -104,7 +88,7 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onFieldChange={handleImdbId}
+        onFieldChange={setImdbId}
         required
       />
 
