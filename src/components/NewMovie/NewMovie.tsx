@@ -27,7 +27,7 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
   const handleInputChange = (name: string, value: string) => {
     setFormData({
       ...formData,
-      [name]: value.trim(),
+      [name]: value,
     });
   };
 
@@ -95,6 +95,7 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
         label="Imdb ID"
         value={formData.imdbId}
         onChange={(value) => handleInputChange('imdbId', value)}
+        required
       />
 
       <div className="field is-grouped">
