@@ -20,15 +20,11 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
   });
 
   const isSubmitDisabled
-    = !formData.title
-    || !formData.imgUrl
-    || !formData.imdbUrl;
+    = !formData.title.trim()
+    || !formData.imgUrl.trim()
+    || !formData.imdbUrl.trim();
 
   const handleInputChange = (name: string, value: string) => {
-    if (value.trim() === '') {
-      return;
-    }
-
     setFormData({
       ...formData,
       [name]: value,
