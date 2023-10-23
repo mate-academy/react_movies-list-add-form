@@ -12,19 +12,19 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
   const [state, setState] = useState({
     title: '',
+    description: '',
     imgUrl: '',
     imdbUrl: '',
     imdbId: '',
-    description: '',
   });
 
   const clearFormFields = () => {
     setState({
       title: '',
+      description: '',
       imgUrl: '',
       imdbUrl: '',
       imdbId: '',
-      description: '',
     });
 
     setCount(prev => prev + 1);
@@ -36,6 +36,11 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
     clearFormFields();
   };
+
+  const hasEmptyFields = !state.title
+    || !state.imgUrl
+    || !state.imdbUrl
+    || !state.imdbId;
 
   return (
     <form
@@ -49,7 +54,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={state.title}
-        onChange={(value) => setState({ ...state, title: value })}
+        onChange={(value) => setState({ ...state, title: value.trim() })}
         required
       />
 
@@ -64,7 +69,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imgUrl"
         label="Image URL"
         value={state.imgUrl}
-        onChange={(value) => setState({ ...state, imgUrl: value })}
+        onChange={(value) => setState({ ...state, imgUrl: value.trim() })}
         required
       />
 
@@ -72,7 +77,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={state.imdbUrl}
-        onChange={(value) => setState({ ...state, imdbUrl: value })}
+        onChange={(value) => setState({ ...state, imdbUrl: value.trim() })}
         required
       />
 
@@ -90,12 +95,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={
-              !state.title
-              || !state.imgUrl
-              || !state.imdbUrl
-              || !state.imdbId
-            }
+            disabled={hasEmptyFields}
           >
             Add
           </button>
