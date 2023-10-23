@@ -1,12 +1,8 @@
 import { useState } from 'react';
 import { TextField } from '../TextField';
-import { Movie } from '../../types/Movie';
+import { MovieProps } from '../../types/MovieProps';
 
-type Props = {
-  onAdd: (movie: Movie) => void;
-};
-
-export const NewMovie: React.FC<Props> = ({ onAdd }) => {
+export const NewMovie: React.FC<MovieProps> = ({ onAdd }) => {
   const [count, setCount] = useState<number>(0);
   const [title, setTitle] = useState<string>('');
   const [description, setDescription] = useState<string>('');
