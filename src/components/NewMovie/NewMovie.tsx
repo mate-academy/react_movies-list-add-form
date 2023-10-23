@@ -21,7 +21,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setImdbId('');
   }
 
-  function handleSubmit() {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
     if (
       title
       && imgUrl
@@ -38,10 +40,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       setCount(prev => prev + 1);
       clear();
     }
-  }
+  };
 
   return (
-    <form className="NewMovie" key={count}>
+    <form
+      className="NewMovie"
+      key={count}
+      onSubmit={handleSubmit}
+    >
       <h2 className="title">Add a movie</h2>
 
       <TextField
@@ -89,7 +95,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            onClick={handleSubmit}
             disabled={
               !title
               || !imgUrl
