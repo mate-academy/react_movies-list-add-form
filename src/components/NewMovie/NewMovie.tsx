@@ -39,10 +39,10 @@ export const NewMovie = ({ onAdd }: { onAdd: Add }) => {
   };
 
   const disabledCondition
-  = titleValue === ''
-    || imgUrlValue === ''
-    || imdbIdValue === ''
-    || imdbUrlValue === '';
+  = !titleValue
+    || !imgUrlValue
+    || !imdbIdValue
+    || !imdbUrlValue;
 
   return (
     <form
