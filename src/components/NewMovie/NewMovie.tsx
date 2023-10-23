@@ -1,12 +1,13 @@
+/* eslint-disable padding-line-between-statements */
 import React, { useState } from 'react';
 import { Movie } from '../../types/Movie';
 import { TextField } from '../TextField';
 
 type Props = {
-  setMovies: (value: Movie) => void,
+  onAdd: (value: Movie) => void,
 };
 
-export const NewMovie: React.FC<Props> = ({ setMovies }) => {
+export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
 
   const [state, setState] = useState({
@@ -21,41 +22,43 @@ export const NewMovie: React.FC<Props> = ({ setMovies }) => {
   const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
 
   const [hasImgUrl, setHasImgUrl] = useState('');
-  const [hasImdbUrl, sethasImdbUrl] = useState('');
+  const [hasImdbUrl, setHasImdbUrl] = useState('');
+
+  function reset() {
+    setState({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
+    setHasImdbUrl('');
+    setHasImgUrl('');
+  }
 
   function handleReset(event: React.FormEvent) {
     event.preventDefault();
 
-    const newhasImgUrl = !pattern.test(state.imgUrl) ? 'error' : '';
-    const newhasImdbUrl = !pattern.test(state.imdbUrl) ? 'error' : '';
-
-    setHasImgUrl((currImgUrl) => {
-      if (currImgUrl !== newhasImgUrl) {
-        return newhasImgUrl;
-      }
-
-      return currImgUrl;
-    });
-
-    sethasImdbUrl((currImdbUrl) => {
-      if (currImdbUrl !== newhasImdbUrl) {
-        return newhasImdbUrl;
-      }
-
-      return currImdbUrl;
-    });
-
-    if (!newhasImgUrl && !newhasImdbUrl) {
-      setMovies(state);
-      setState({
-        title: '',
-        description: '',
-        imgUrl: '',
-        imdbUrl: '',
-        imdbId: '',
-      });
-      setCount((prev) => prev + 1);
+    if (!pattern.test(state.imgUrl) && !pattern.test(state.imdbUrl)) {
+      setHasImgUrl('error');
+      setHasImdbUrl('error');
+      return;
     }
+
+    if (!pattern.test(state.imgUrl)) {
+      setHasImgUrl('error');
+      return;
+    }
+
+    if (!pattern.test(state.imdbUrl)) {
+      setHasImdbUrl('error');
+      return;
+    }
+
+    onAdd(state);
+    setCount((prev) => prev + 1);
+
+    reset();
   }
 
   return (
@@ -86,7 +89,10 @@ export const NewMovie: React.FC<Props> = ({ setMovies }) => {
         label="Image URL"
         value={state.imgUrl}
         hasImgUrl={hasImgUrl}
-        onChange={value => setState({ ...state, imgUrl: value })}
+        onChange={value => {
+          setState({ ...state, imgUrl: value });
+          setHasImgUrl('');
+        }}
         required
       />
 
@@ -95,7 +101,10 @@ export const NewMovie: React.FC<Props> = ({ setMovies }) => {
         label="Imdb URL"
         value={state.imdbUrl}
         hasImdbUrl={hasImdbUrl}
-        onChange={value => setState({ ...state, imdbUrl: value })}
+        onChange={value => {
+          setState({ ...state, imdbUrl: value });
+          setHasImdbUrl('');
+        }}
         required
       />
 

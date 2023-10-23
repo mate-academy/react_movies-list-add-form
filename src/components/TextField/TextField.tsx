@@ -34,6 +34,8 @@ export const TextField: React.FC<Props> = ({
 
   const hasError = touched && required && !value;
 
+  const validationIsError = hasImgUrl || hasImdbUrl;
+
   return (
     <div className="field">
       <label className="label" htmlFor={id}>
@@ -59,7 +61,7 @@ export const TextField: React.FC<Props> = ({
         <p className="help is-danger">{`${label} is required`}</p>
       )}
 
-      {(hasImgUrl || hasImdbUrl) && (
+      {(validationIsError) && (
         <p className="help is-danger">{`${label} is not valid`}</p>
       )}
     </div>

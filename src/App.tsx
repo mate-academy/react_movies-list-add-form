@@ -6,16 +6,16 @@ import moviesFromServer from './api/movies.json';
 import { Movie } from './types/Movie';
 
 export const App = () => {
-  const [movies, setMovies] = useState<Movie[]>(moviesFromServer);
+  const [add, onAdd] = useState<Movie[]>(moviesFromServer);
 
   return (
     <div className="page">
       <div className="page-content">
-        <MoviesList movies={movies} />
+        <MoviesList movies={add} />
       </div>
       <div className="sidebar">
-        <NewMovie setMovies={(newMovie) => {
-          setMovies(([...movies, newMovie]));
+        <NewMovie onAdd={(newMovie) => {
+          onAdd(([...add, newMovie]));
         }}
         />
       </div>
