@@ -11,37 +11,17 @@ export const NewMovie: React.FC<Props> = ({
 }) => {
   const [count, setCount] = useState(0);
 
-  const [title, setTitle] = useState<string>('');
-  const [description, setDescription] = useState<string>('');
-  const [imgUrl, setImgUrl] = useState<string>('');
-  const [imdbUrl, setImdbURL] = useState<string>('');
-  const [imdbId, setImdbId] = useState<string>('');
-
-  const handleTitleChange = (value: string) => {
-    setTitle(value);
-  };
-
-  const handleDescriptionChange = (value: string) => {
-    setDescription(value);
-  };
-
-  const handleImgUrlChange = (value: string) => {
-    setImgUrl(value);
-  };
-
-  const handleImdbUrlChange = (value: string) => {
-    setImdbURL(value);
-  };
-
-  const handleImdbIdChange = (value: string) => {
-    setImdbId(value);
-  };
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [imgUrl, setImgUrl] = useState('');
+  const [imdbUrl, setImdbUrl] = useState('');
+  const [imdbId, setImdbId] = useState('');
 
   const reset = () => {
     setTitle('');
     setDescription('');
     setImgUrl('');
-    setImdbURL('');
+    setImdbUrl('');
     setImdbId('');
   };
 
@@ -74,8 +54,8 @@ export const NewMovie: React.FC<Props> = ({
       <TextField
         name="title"
         label="Title"
-        value={title}
-        onChange={handleTitleChange}
+        value={title.trimStart()}
+        onChange={(value) => setTitle(value)}
         required
       />
 
@@ -83,7 +63,7 @@ export const NewMovie: React.FC<Props> = ({
         name="description"
         label="Description"
         value={description}
-        onChange={handleDescriptionChange}
+        onChange={(value) => setDescription(value)}
       />
 
       <TextField
@@ -91,7 +71,7 @@ export const NewMovie: React.FC<Props> = ({
         label="Image URL"
         value={imgUrl}
         required
-        onChange={handleImgUrlChange}
+        onChange={(value) => setImgUrl(value)}
       />
 
       <TextField
@@ -99,7 +79,7 @@ export const NewMovie: React.FC<Props> = ({
         label="Imdb URL"
         value={imdbUrl}
         required
-        onChange={handleImdbUrlChange}
+        onChange={(value) => setImdbUrl(value)}
       />
 
       <TextField
@@ -107,7 +87,7 @@ export const NewMovie: React.FC<Props> = ({
         label="Imdb ID"
         value={imdbId}
         required
-        onChange={handleImdbIdChange}
+        onChange={(value) => setImdbId(value)}
       />
 
       <div className="field is-grouped">
