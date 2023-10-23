@@ -73,7 +73,7 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={title}
-        onFieldChange={handleTitle}
+        onChange={setTitle}
         required
       />
 
