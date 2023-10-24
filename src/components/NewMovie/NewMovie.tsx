@@ -20,6 +20,11 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrlError, setImdbUrlError] = useState(false);
   const [imdbIdError, setImdbIdError] = useState(false);
 
+  const valueCheck = title.trim() === ''
+  || imgUrl.trim() === ''
+  || imdbUrl.trim() === ''
+  || imdbId.trim() === '';
+
   const handleInputChange = (
     event: string,
     setStateFunction: React.Dispatch<React.SetStateAction<string>>,
@@ -34,7 +39,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const handleAdd = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (isAddDisabled) {
+    if (isAddDisabled || valueCheck) {
       setTitleError(true);
       setImgUrlError(true);
       setImdbUrlError(true);
@@ -128,7 +133,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={isAddDisabled}
+            disabled={isAddDisabled || valueCheck}
           >
             Add
           </button>
