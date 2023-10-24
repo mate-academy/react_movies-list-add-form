@@ -24,8 +24,6 @@ export const TextField: React.FC<Props> = ({
   hasError = false,
   onChange = () => {},
 }) => {
-  // generage a unique id once on component load
-
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
