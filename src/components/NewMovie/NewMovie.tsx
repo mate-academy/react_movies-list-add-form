@@ -29,10 +29,12 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setErrorFunction(false);
   };
 
-  const handleSubmit = (event: React.FormEvent) => {
+  const isAddDisabled = !title || !imgUrl || !imdbUrl || !imdbId;
+
+  const handleAdd = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (!title || !imgUrl || !imdbUrl || !imdbId) {
+    if (isAddDisabled) {
       setTitleError(true);
       setImgUrlError(true);
       setImdbUrlError(true);
@@ -64,7 +66,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     <form
       className="NewMovie"
       key={count}
-      onSubmit={handleSubmit}
+      onSubmit={handleAdd}
     >
       <h2 className="title">Add a movie</h2>
 
@@ -126,6 +128,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
+            disabled={isAddDisabled}
           >
             Add
           </button>

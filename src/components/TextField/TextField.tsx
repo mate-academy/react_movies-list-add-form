@@ -41,12 +41,16 @@ export const TextField: React.FC<Props> = ({
   const handleBlur = () => {
     setTouched(true);
 
+    if (!value) {
+      setTouched(true);
+    } else {
+      setTouched(false);
+    }
+
     if (name === 'description') {
       setTouched(false);
     }
   };
-
-  // To show errors only if the field was touched (onBlur)
 
   return (
     <div className="field">
