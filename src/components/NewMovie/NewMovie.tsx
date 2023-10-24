@@ -54,7 +54,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={state.title}
-        onChange={(value) => setState({ ...state, title: value.trim() })}
+        onChange={(value) => setState({ ...state, title: value })}
         required
       />
 
@@ -69,7 +69,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imgUrl"
         label="Image URL"
         value={state.imgUrl}
-        onChange={(value) => setState({ ...state, imgUrl: value.trim() })}
+        onChange={(value) => setState({ ...state, imgUrl: value })}
         required
       />
 
@@ -77,7 +77,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={state.imdbUrl}
-        onChange={(value) => setState({ ...state, imdbUrl: value.trim() })}
+        onChange={(value) => setState({ ...state, imdbUrl: value })}
         required
       />
 
