@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { Movie } from '../../types/Movie';
 import { TextField } from '../TextField';
+import { pattern } from './pattern';
 
 type Props = {
   onAdd: (value: Movie) => void,
@@ -18,11 +19,13 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     imdbId: '',
   });
 
-  // eslint-disable-next-line max-len
-  const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
-
   const [hasImgUrl, setHasImgUrl] = useState('');
   const [hasImdbUrl, setHasImdbUrl] = useState('');
+
+  const conditionForButton = !state.title
+    || !state.imgUrl
+    || !state.imdbUrl
+    || !state.imdbId;
 
   function reset() {
     setState({
@@ -114,7 +117,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={state.imdbId}
         onChange={value => setState({ ...state, imdbId: value })}
         required
-
       />
 
       <div className="field is-grouped">
@@ -123,12 +125,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={
-              !state.title
-              || !state.imgUrl
-              || !state.imdbUrl
-              || !state.imdbId
-            }
+            disabled={conditionForButton}
           >
             Add
           </button>
