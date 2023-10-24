@@ -26,12 +26,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     imdbId,
   } = movie;
 
-  const invalid = !title
-    || !imgUrl
-    || !imdbUrl
-    || !imdbUrl
-    || !imdbId;
-
   const isValidForm = title.trim() !== ''
   && imgUrl.trim() !== ''
   && imdbUrl.trim() !== ''
@@ -52,13 +46,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       return;
     }
 
-    onAdd({
-      title: movie.title,
-      description: movie.description,
-      imgUrl: movie.imgUrl,
-      imdbUrl: movie.imdbUrl,
-      imdbId: movie.imdbId,
-    });
+    onAdd(movie);
     setCount((value) => value + 1);
     handleReset();
   };
@@ -113,7 +101,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={invalid}
+            disabled={!isValidForm}
           >
             Add
           </button>
