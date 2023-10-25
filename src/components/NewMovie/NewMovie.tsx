@@ -10,7 +10,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const [formSubmitted, setFormSubmitted] = useState(false);
   const validForm = () => {
     return (
       title.trim() !== ''
@@ -31,8 +30,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         imdbId,
       });
 
-      setCount(count + 1);
-      setFormSubmitted(true);
+      setCount(currentCount => currentCount + 1);
       setDescription('');
       setTitle('');
       setImgUrl('');
@@ -42,7 +40,11 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   };
 
   return (
-    <form className="NewMovie" onSubmit={handleSubmit}>
+    <form
+      className="NewMovie"
+      onSubmit={handleSubmit}
+      key={count}
+    >
       <h2 className="title">Add a movie</h2>
 
       <TextField
@@ -53,7 +55,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
           (value) => setTitle(value)
         }
         required
-        formSubmitted={formSubmitted}
       />
 
       <TextField
@@ -63,7 +64,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         onChange={
           (value) => setDescription(value)
         }
-        formSubmitted={formSubmitted}
       />
 
       <TextField
@@ -74,7 +74,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
           (value) => setImgUrl(value)
         }
         required
-        formSubmitted={formSubmitted}
       />
 
       <TextField
@@ -85,7 +84,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
           (value) => setImdbUrl(value)
         }
         required
-        formSubmitted={formSubmitted}
       />
 
       <TextField
@@ -96,7 +94,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
           (value) => setImdbId(value)
         }
         required
-        formSubmitted={formSubmitted}
       />
 
       <div className="field is-grouped">
