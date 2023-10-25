@@ -25,8 +25,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
   const submitHandler = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    resetInputs();
-    setCount(count + 1);
 
     onAdd({
       title,
@@ -35,15 +33,11 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       imdbUrl,
       imdbId,
     });
+    resetInputs();
+    setCount(count + 1);
   };
 
-  const validator = () => {
-    if (title && imgUrl && imdbUrl && imdbId) {
-      return true;
-    }
-
-    return false;
-  };
+  const validator = title && imgUrl && imdbUrl && imdbId;
 
   return (
     <form
@@ -98,7 +92,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!validator()}
+            disabled={!validator}
           >
             Add
           </button>
