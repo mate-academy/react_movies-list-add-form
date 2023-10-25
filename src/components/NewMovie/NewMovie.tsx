@@ -7,7 +7,7 @@ type Props = {
 };
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
-  const [count] = useState(0);
+  const [count, setCount] = useState(0);
 
   const [newMovie, setNewMovie] = useState({
     title: '',
@@ -44,7 +44,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const handleAdd = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (isAddDisabled || valueCheck) {
+    if (isAddDisabled) {
       setNewMovieError({
         titleError: true,
         imgUrlError: true,
@@ -56,6 +56,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     }
 
     onAdd(newMovie);
+    setCount(count + 1);
 
     setNewMovie({
       title: '',
