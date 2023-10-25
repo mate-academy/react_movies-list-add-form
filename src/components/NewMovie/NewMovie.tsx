@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-isInvalid @typescript-eslint/no-unused-vars */
 import { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
@@ -18,10 +18,20 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
+  function resetForm() {
+    setTitle('');
+    setDescription('');
+    setImgUrl('');
+    setImdbUrl('');
+    setImdbId('');
+  }
+
+  const isInvalid = !title || !imgUrl || !imdbUrl || !imdbId;
+
   const handleSubmit = (value: React.FormEvent) => {
     value.preventDefault();
 
-    if (!title || !imgUrl || !imdbUrl || !imdbId) {
+    if (isInvalid) {
       return;
     }
 
@@ -34,14 +44,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     });
 
     setCount(counter => counter + 1);
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
+    resetForm();
   };
-
-  const disable = !title || !imgUrl || !imdbUrl || !imdbId;
 
   return (
     <form
@@ -106,7 +110,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={disable}
+            disabled={isInvalid}
           >
             Add
           </button>
