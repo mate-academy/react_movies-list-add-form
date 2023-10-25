@@ -43,10 +43,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         imdbUrl,
         imdbId,
       });
-    }
 
-    setCount((currentCount) => currentCount + 1);
-    reset();
+      setCount((currentCount) => currentCount + 1);
+      reset();
+    }
   };
 
   return (
