@@ -9,62 +9,67 @@ type Props = {
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count] = useState(0);
 
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
+  const [newMovie, setNewMovie] = useState({
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  });
 
-  const [titleError, setTitleError] = useState(false);
-  const [imgUrlError, setImgUrlError] = useState(false);
-  const [imdbUrlError, setImdbUrlError] = useState(false);
-  const [imdbIdError, setImdbIdError] = useState(false);
+  const [newMovieError, setNewMovieError] = useState({
+    titleError: false,
+    imgUrlError: false,
+    imdbUrlError: false,
+    imdbIdError: false,
+  });
 
-  const valueCheck = title.trim() === ''
-  || imgUrl.trim() === ''
-  || imdbUrl.trim() === ''
-  || imdbId.trim() === '';
+  const valueCheck = newMovie.title.trim() === ''
+  || newMovie.imgUrl.trim() === ''
+  || newMovie.imdbUrl.trim() === ''
+  || newMovie.imdbId.trim() === '';
 
-  const handleInputChange = (
-    event: string,
-    setStateFunction: React.Dispatch<React.SetStateAction<string>>,
-    setErrorFunction: React.Dispatch<React.SetStateAction<boolean>>,
-  ) => {
-    setStateFunction(event);
-    setErrorFunction(false);
+  const handleChange = (name: string, newValue: string) => {
+    setNewMovie((prevMovie) => ({
+      ...prevMovie,
+      [name]: newValue,
+    }));
   };
 
-  const isAddDisabled = !title || !imgUrl || !imdbUrl || !imdbId;
+  const isAddDisabled = !newMovie.title
+  || !newMovie.imgUrl
+  || !newMovie.imdbUrl
+  || !newMovie.imdbId;
 
   const handleAdd = (event: React.FormEvent) => {
     event.preventDefault();
 
     if (isAddDisabled || valueCheck) {
-      setTitleError(true);
-      setImgUrlError(true);
-      setImdbUrlError(true);
-      setImdbIdError(true);
+      setNewMovieError({
+        titleError: true,
+        imgUrlError: true,
+        imdbUrlError: true,
+        imdbIdError: true,
+      });
 
       return;
     }
 
-    onAdd({
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    });
+    onAdd(newMovie);
 
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
-    setTitleError(false);
-    setImgUrlError(false);
-    setImdbUrlError(false);
-    setImdbIdError(false);
+    setNewMovie({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
+    setNewMovieError({
+      titleError: false,
+      imgUrlError: false,
+      imdbUrlError: false,
+      imdbIdError: false,
+    });
   };
 
   return (
@@ -77,54 +82,42 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
       <TextField
         name="title"
-        value={title}
+        value={newMovie.title}
         label="Title"
-        onChange={(value) => handleInputChange(value, setTitle, setTitleError)}
-        hasError={titleError}
+        onChange={handleChange}
+        hasError={newMovieError.titleError}
       />
 
       <TextField
         name="description"
-        value={description}
+        value={newMovie.description}
         label="Description"
-        onChange={(value) => handleInputChange(value, setDescription, () => {})}
+        onChange={handleChange}
         hasError={false}
       />
 
       <TextField
         name="imgUrl"
-        value={imgUrl}
+        value={newMovie.imgUrl}
         label="Image URL"
-        onChange={(value) => handleInputChange(
-          value,
-          setImgUrl,
-          setImgUrlError,
-        )}
-        hasError={imgUrlError}
+        onChange={handleChange}
+        hasError={newMovieError.titleError}
       />
 
       <TextField
         name="imdbUrl"
-        value={imdbUrl}
+        value={newMovie.imdbUrl}
         label="Imdb URL"
-        onChange={(value) => handleInputChange(
-          value,
-          setImdbUrl,
-          setImdbUrlError,
-        )}
-        hasError={imdbUrlError}
+        onChange={handleChange}
+        hasError={newMovieError.titleError}
       />
 
       <TextField
         name="imdbId"
-        value={imdbId}
+        value={newMovie.imdbId}
         label="Imdb ID"
-        onChange={(value) => handleInputChange(
-          value,
-          setImdbId,
-          setImdbIdError,
-        )}
-        hasError={imdbIdError}
+        onChange={handleChange}
+        hasError={newMovieError.titleError}
       />
 
       <div className="field is-grouped">
