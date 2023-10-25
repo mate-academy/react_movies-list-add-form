@@ -1,35 +1,34 @@
 import classNames from 'classnames';
 import React, { useState } from 'react';
+import { useFormContext } from 'react-hook-form';
 
 type Props = {
   name: string,
-  value: string,
   label?: string,
   placeholder?: string,
   required?: boolean,
-  onChange?: (newValue: string) => void,
+  getPattern?: (fieldName: string) => { value: RegExp, message: string },
 };
 
-function getRandomDigits() {
-  return Math.random()
-    .toFixed(16)
-    .slice(2);
+const getRandomDigits = () => Math.random().toFixed(16).slice(2);
+
+function getDefaultPattern(fieldName: string) {
+  return {
+    value: /./g,
+    message: `${fieldName}'s pattern is not valid`,
+  };
 }
 
 export const TextField: React.FC<Props> = ({
   name,
-  value,
   label = name,
   placeholder = `Enter ${label}`,
   required = false,
-  onChange = () => {},
+  getPattern = getDefaultPattern,
 }) => {
-  // generage a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
-
-  // To show errors only if the field was touched (onBlur)
-  const [touched, setTouched] = useState(false);
-  const hasError = touched && required && !value;
+  const { register, formState: { errors } } = useFormContext();
+  const pattern = getPattern(label);
 
   return (
     <div className="field">
@@ -39,21 +38,30 @@ export const TextField: React.FC<Props> = ({
 
       <div className="control">
         <input
+          {...register(name, {
+            pattern: {
+              value: pattern.value,
+              message: pattern.message,
+            },
+            required: {
+              value: required,
+              message: `${label} is required`,
+            },
+          })}
           type="text"
           id={id}
           data-cy={`movie-${name}`}
-          className={classNames('input', {
-            'is-danger': hasError,
-          })}
           placeholder={placeholder}
-          value={value}
-          onChange={event => onChange(event.target.value)}
-          onBlur={() => setTouched(true)}
+          className={classNames('input', {
+            'is-danger': errors[name]?.message,
+          })}
         />
       </div>
 
-      {hasError && (
-        <p className="help is-danger">{`${label} is required`}</p>
+      {errors[name]?.message && (
+        <p className="help is-danger">
+          {errors[name]?.message}
+        </p>
       )}
     </div>
   );
