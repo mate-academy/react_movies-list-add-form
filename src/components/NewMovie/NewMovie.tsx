@@ -7,12 +7,9 @@ type Props = {
 };
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
-  // const [title, setTitle] = useState('');
   const [newMovie, setNewMovie] = useState({
     title: '',
     description: '',
@@ -21,21 +18,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     imdbId: '',
   });
 
-  // const [description, setDescription] = useState('');
-
-  // const [imgUrl, setImgUrl] = useState('');
-
-  // const [imdbUrl, setImdbUrl] = useState('');
-
-  // const [imdbId, setImdbId] = useState('');
-
-  // const initialValues = {
-  //   title: '',
-  //   description: '',
-  //   imgUrl: '',
-  //   imdbUrl: '',
-  //   imdbId: '',
-  // };
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
@@ -69,15 +51,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
     setCount(count + 1);
     onAdd(newMovie);
-    // onAdd({
-    //   title: newMovie.title,
-    //   description: newMovie.description,
-    //   imgUrl: newMovie.imgUrl,
-    //   imdbUrl: newMovie.imdbUrl,
-    //   imdbId: newMovie.imdbId,
-    // });
-
-    // resetMovieValues();
     setNewMovie((prev) => ({
       ...prev,
       title: '',
@@ -86,12 +59,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       imdbUrl: '',
       imdbId: '',
     }));
-    // setCount(count + 1);
-    // setTitle('');
-    // setDescription('');
-    // setImgUrl('');
-    // setImdbUrl('');
-    // setImdbId('');
   };
 
   return (
