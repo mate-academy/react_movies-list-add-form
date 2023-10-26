@@ -10,24 +10,44 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
-
-  const [title, setTitle] = useState('');
-
-  const [description, setDescription] = useState('');
-
-  const [imgUrl, setImgUrl] = useState('');
-
-  const [imdbUrl, setImdbUrl] = useState('');
-
-  const [imdbId, setImdbId] = useState('');
-
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+
+  // const [title, setTitle] = useState('');
+  const [newMovie, setNewMovie] = useState({
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  });
+
+  // const [description, setDescription] = useState('');
+
+  // const [imgUrl, setImgUrl] = useState('');
+
+  // const [imdbUrl, setImdbUrl] = useState('');
+
+  // const [imdbId, setImdbId] = useState('');
+
+  // const initialValues = {
+  //   title: '',
+  //   description: '',
+  //   imgUrl: '',
+  //   imdbUrl: '',
+  //   imdbId: '',
+  // };
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+
+    setNewMovie((prevMovie) => ({ ...prevMovie, [name]: value }));
+  };
+
   const ifEmptyFields = () => {
     if (
-      !title.trim()
-      || !imgUrl.trim()
-      || !imdbUrl.trim()
-      || !imdbId.trim()
+      !newMovie.title.trim()
+      || !newMovie.imgUrl.trim()
+      || !newMovie.imdbUrl.trim()
+      || !newMovie.imdbId.trim()
     ) {
       setIsButtonDisabled(true);
     } else {
@@ -39,28 +59,39 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     event.preventDefault();
 
     if (
-      !title.trim()
-      || !imgUrl.trim()
-      || !imdbUrl.trim()
-      || !imdbId.trim()
+      !newMovie.title.trim()
+      || !newMovie.imgUrl.trim()
+      || !newMovie.imdbUrl.trim()
+      || !newMovie.imdbId.trim()
     ) {
       return;
     }
 
-    onAdd({
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    });
-
     setCount(count + 1);
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
+    onAdd(newMovie);
+    // onAdd({
+    //   title: newMovie.title,
+    //   description: newMovie.description,
+    //   imgUrl: newMovie.imgUrl,
+    //   imdbUrl: newMovie.imdbUrl,
+    //   imdbId: newMovie.imdbId,
+    // });
+
+    // resetMovieValues();
+    setNewMovie((prev) => ({
+      ...prev,
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    }));
+    // setCount(count + 1);
+    // setTitle('');
+    // setDescription('');
+    // setImgUrl('');
+    // setImdbUrl('');
+    // setImdbId('');
   };
 
   return (
@@ -70,9 +101,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value={title}
+        value={newMovie.title}
         onChange={(v) => {
-          setTitle(v);
+          handleChange(v);
           ifEmptyFields();
         }}
         required
@@ -81,16 +112,16 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="description"
         label="Description"
-        value={description}
-        onChange={(v) => setDescription(v)}
+        value={newMovie.description}
+        onChange={(v) => handleChange(v)}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={imgUrl}
+        value={newMovie.imgUrl}
         onChange={(v) => {
-          setImgUrl(v);
+          handleChange(v);
           ifEmptyFields();
         }}
         required
@@ -99,9 +130,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={imdbUrl}
+        value={newMovie.imdbUrl}
         onChange={(v) => {
-          setImdbUrl(v);
+          handleChange(v);
           ifEmptyFields();
         }}
         required
@@ -110,9 +141,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imdbId}
+        value={newMovie.imdbId}
         onChange={(v) => {
-          setImdbId(v);
+          handleChange(v);
           ifEmptyFields();
         }}
         required
