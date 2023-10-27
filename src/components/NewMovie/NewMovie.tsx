@@ -13,6 +13,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
+  const checking = title && imgUrl && imdbUrl && imdbId;
+
   function clear() {
     setTitle('');
     setDescription('');
@@ -24,12 +26,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (
-      title
-      && imgUrl
-      && imdbUrl
-      && imdbId
-    ) {
+    if (checking) {
       onAdd({
         title,
         description,
@@ -95,12 +92,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={
-              !title
-              || !imgUrl
-              || !imdbUrl
-              || !imdbId
-            }
+            disabled={!checking}
           >
             Add
           </button>
