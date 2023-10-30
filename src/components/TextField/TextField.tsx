@@ -1,5 +1,6 @@
 import classNames from 'classnames';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { MovieField } from '../../types/Movie';
 
 type Props = {
   name: string,
@@ -8,6 +9,10 @@ type Props = {
   placeholder?: string,
   required?: boolean,
   onChange?: (newValue: string) => void,
+  count: number,
+  setCount: (value: number) => void,
+  isValidImgUrl?: boolean,
+  isValidImdbUrl?: boolean,
 };
 
 function getRandomDigits() {
@@ -23,13 +28,38 @@ export const TextField: React.FC<Props> = ({
   placeholder = `Enter ${label}`,
   required = false,
   onChange = () => {},
+  count,
+  setCount,
+  isValidImgUrl,
+  isValidImdbUrl,
 }) => {
-  // generage a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
-  // To show errors only if the field was touched (onBlur)
   const [touched, setTouched] = useState(false);
-  const hasError = touched && required && !value;
+
+  const checkCount = () => {
+    if (count > 0) {
+      setTouched(false);
+      setCount(0);
+    }
+  };
+
+  useEffect(() => {
+    checkCount();
+  }, [count]);
+
+  const hasError = touched && required && !value.trim();
+  const hasInvalidImgUrl = touched && required
+    && value && !isValidImgUrl && (name === MovieField.ImgUrl);
+  const hasInvalidImdbUrl = touched && required
+    && value && !isValidImdbUrl && (name === MovieField.ImdbUrl);
+
+  const shouldAddDangerClass = hasError
+    || hasInvalidImgUrl || hasInvalidImdbUrl;
+
+  const inputClassName = classNames('input', {
+    'is-danger': shouldAddDangerClass,
+  });
 
   return (
     <div className="field">
@@ -42,9 +72,7 @@ export const TextField: React.FC<Props> = ({
           type="text"
           id={id}
           data-cy={`movie-${name}`}
-          className={classNames('input', {
-            'is-danger': hasError,
-          })}
+          className={inputClassName}
           placeholder={placeholder}
           value={value}
           onChange={event => onChange(event.target.value)}
@@ -54,6 +82,14 @@ export const TextField: React.FC<Props> = ({
 
       {hasError && (
         <p className="help is-danger">{`${label} is required`}</p>
+      )}
+
+      {hasInvalidImgUrl && (
+        <p className="help is-danger">{`${name} is invalid`}</p>
+      )}
+
+      {hasInvalidImdbUrl && (
+        <p className="help is-danger">{`${name} is invalid`}</p>
       )}
     </div>
   );

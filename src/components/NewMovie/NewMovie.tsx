@@ -1,45 +1,113 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { TextField } from '../TextField';
+import { Movie, MovieField } from '../../types/Movie';
+import { pattern, initialMovieState } from '../../variables/variables';
 
-export const NewMovie = () => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
-  const [count] = useState(0);
+type NewMovieProps = {
+  onAdd: (movie: Movie) => void;
+};
+
+const isValidUrl = (url: string) => pattern.test(url);
+
+export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
+  const [count, setCount] = useState(0);
+  const [newMovie, setNewMovie] = useState(initialMovieState);
+  const [buttonDisabled, setButtonDisabled] = useState(true);
+
+  const handleFieldChange = (fieldName: string, value: string) => {
+    setNewMovie(prevState => ({
+      ...prevState,
+      [fieldName]: value,
+    }));
+  };
+
+  const clearForm = () => {
+    setNewMovie(initialMovieState);
+  };
+
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+
+    onAdd(newMovie);
+    clearForm();
+    setCount(prevCount => prevCount + 1);
+    setButtonDisabled(true);
+  };
+
+  const checkFields = () => {
+    const notFilled = !newMovie.title.trim() || !newMovie.imgUrl.trim()
+  || !newMovie.imdbUrl.trim() || !newMovie.imdbId.trim();
+
+    const isValid
+    = !notFilled && isValidUrl(newMovie.imgUrl) && isValidUrl(newMovie.imdbUrl);
+
+    setButtonDisabled(!isValid);
+  };
+
+  useEffect(() => {
+    checkFields();
+  }, [newMovie]);
 
   return (
-    <form className="NewMovie" key={count}>
+    <form
+      className="NewMovie"
+      key={count}
+      method="POST"
+      onSubmit={handleSubmit}
+    >
       <h2 className="title">Add a movie</h2>
 
       <TextField
-        name="title"
+        name={`${MovieField.Title}`}
         label="Title"
-        value=""
-        onChange={() => {}}
+        value={newMovie.title}
+        onChange={value => handleFieldChange(MovieField.Title, value)}
         required
+        count={count}
+        setCount={setCount}
       />
 
       <TextField
-        name="description"
+        name={`${MovieField.Description}`}
         label="Description"
-        value=""
+        value={newMovie.description}
+        onChange={value => {
+          handleFieldChange(MovieField.Description, value);
+        }}
+        count={count}
+        setCount={setCount}
       />
 
       <TextField
-        name="imgUrl"
+        name={`${MovieField.ImgUrl}`}
         label="Image URL"
-        value=""
+        value={newMovie.imgUrl}
+        required
+        onChange={value => handleFieldChange(MovieField.ImgUrl, value)}
+        count={count}
+        setCount={setCount}
+        isValidImgUrl={isValidUrl(newMovie.imgUrl)}
       />
 
       <TextField
-        name="imdbUrl"
+        name={`${MovieField.ImdbUrl}`}
         label="Imdb URL"
-        value=""
+        value={newMovie.imdbUrl}
+        required
+        onChange={value => handleFieldChange(MovieField.ImdbUrl, value)}
+        count={count}
+        setCount={setCount}
+        isValidImdbUrl={isValidUrl(newMovie.imdbUrl)}
       />
 
       <TextField
-        name="imdbId"
+        name={`${MovieField.ImdbId}`}
         label="Imdb ID"
-        value=""
+        value={newMovie.imdbId}
+        required
+        onChange={value => handleFieldChange(MovieField.ImdbId, value)}
+        count={count}
+        setCount={setCount}
       />
 
       <div className="field is-grouped">
@@ -48,6 +116,7 @@ export const NewMovie = () => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
+            disabled={buttonDisabled}
           >
             Add
           </button>
