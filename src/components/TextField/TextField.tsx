@@ -39,6 +39,11 @@ export const TextField: React.FC<Props> = ({
     setValidated(validator(value));
   };
 
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTouched(false);
+    onChange(event);
+  };
+
   return (
     <div className="field">
       <label className="label" htmlFor={id}>
@@ -56,7 +61,7 @@ export const TextField: React.FC<Props> = ({
           })}
           placeholder={placeholder}
           value={value}
-          onChange={onChange}
+          onChange={handleChange}
           onBlur={handleBlur}
         />
       </div>

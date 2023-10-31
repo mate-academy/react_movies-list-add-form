@@ -12,43 +12,35 @@ export const NewMovie: React.FC<Props> = ({
 }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
-  const [count, setCount] = useState(0);
-  const [movie, setMovie] = useState<Movie>({
+  const emptyMovie: Movie = {
     title: '',
     description: '',
     imgUrl: '',
     imdbUrl: '',
     imdbId: '',
-  });
-  const [movieValidFields, setValidFields] = useState({
-    title: false,
-    description: false,
-    imgUrl: false,
-    imdbUrl: false,
-    imdbId: false,
-  });
+  };
+  const [count, setCount] = useState(0);
+  const [movie, setMovie] = useState<Movie>(emptyMovie);
   const isFormValid
-    = movieValidFields.title
-    && movieValidFields.imgUrl
-    && movieValidFields.imdbUrl
-    && movieValidFields.imdbId;
+    = isStrFilled(movie.title.trim())
+    && isURLValid(movie.imgUrl.trim())
+    && isURLValid(movie.imdbUrl.trim())
+    && isStrFilled(movie.imdbId.trim());
 
   const movieFildsValidator = (
     val: string,
     field: keyof Movie,
     validFn: (val: string) => boolean,
   ): boolean => {
-    const res = validFn(val);
+    const trimedVal = val.trim();
 
-    setValidFields((prev) => ({ ...prev, [field]: res }));
+    setMovie((prev) => ({ ...prev, [field]: trimedVal }));
 
-    return res;
+    return validFn(trimedVal);
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-
-    setMovie((prev) => ({ ...prev, [name]: value }));
+    setMovie((prev) => ({ ...prev, [event.target.name]: event.target.value }));
   };
 
   const handleSubmit = (event: React.FormEvent) => {
@@ -66,13 +58,7 @@ export const NewMovie: React.FC<Props> = ({
       imdbId: movie.imdbId.trim(),
     });
 
-    setMovie({
-      title: '',
-      description: '',
-      imgUrl: '',
-      imdbUrl: '',
-      imdbId: '',
-    });
+    setMovie(emptyMovie);
 
     setCount(prev => prev + 1);
   };
@@ -91,9 +77,7 @@ export const NewMovie: React.FC<Props> = ({
         value={movie.title}
         required
         onChange={handleChange}
-        validator={(val: string) => {
-          return movieFildsValidator(val, 'title', isStrFilled);
-        }}
+        validator={val => movieFildsValidator(val, 'title', isStrFilled)}
       />
 
       <TextField
@@ -109,9 +93,7 @@ export const NewMovie: React.FC<Props> = ({
         value={movie.imgUrl}
         required
         onChange={handleChange}
-        validator={(val: string) => {
-          return movieFildsValidator(val, 'imgUrl', isURLValid);
-        }}
+        validator={val => movieFildsValidator(val, 'imgUrl', isURLValid)}
       />
 
       <TextField
@@ -120,9 +102,7 @@ export const NewMovie: React.FC<Props> = ({
         value={movie.imdbUrl}
         required
         onChange={handleChange}
-        validator={(val: string) => {
-          return movieFildsValidator(val, 'imdbUrl', isURLValid);
-        }}
+        validator={val => movieFildsValidator(val, 'imdbUrl', isURLValid)}
       />
 
       <TextField
@@ -131,9 +111,7 @@ export const NewMovie: React.FC<Props> = ({
         value={movie.imdbId}
         required
         onChange={handleChange}
-        validator={(val: string) => {
-          return movieFildsValidator(val, 'imdbId', isStrFilled);
-        }}
+        validator={val => movieFildsValidator(val, 'imdbId', isStrFilled)}
       />
 
       <div className="field is-grouped">
