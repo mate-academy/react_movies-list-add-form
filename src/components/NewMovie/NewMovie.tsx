@@ -56,7 +56,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Title"
         value={title}
         onChange={(value) => {
-          setTitle(value);
+          setTitle(value.trim());
         }}
         required
       />
@@ -66,7 +66,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Description"
         value={description}
         onChange={(value) => {
-          setDescription(value);
+          setDescription(value.trim());
         }}
       />
 
@@ -75,7 +75,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Image URL"
         value={imgUrl}
         onChange={(value) => {
-          setImgUrl(value);
+          setImgUrl(value.trim());
         }}
         required
       />
@@ -85,7 +85,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Imdb URL"
         value={imdbUrl}
         onChange={(value) => {
-          setImdbUrl(value);
+          setImdbUrl(value.trim());
         }}
         required
       />
@@ -95,7 +95,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Imdb ID"
         value={imdbId}
         onChange={(value) => {
-          setImdbId(value);
+          setImdbId(value.trim());
         }}
         required
       />
