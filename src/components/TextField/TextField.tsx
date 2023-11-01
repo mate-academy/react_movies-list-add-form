@@ -1,5 +1,7 @@
 import classNames from 'classnames';
 import React, { useState } from 'react';
+import { validateInput } from '../../services/validtext';
+import { validateUrl } from '../../services/validUrl';
 
 type Props = {
   name: string;
@@ -9,7 +11,7 @@ type Props = {
   required?: boolean;
   onChange?: (newValue: string) => void;
   onBlur?: () => void;
-  touched: boolean;
+  touched?: boolean;
 };
 
 function getRandomDigits() {
@@ -28,11 +30,29 @@ export const TextField: React.FC<Props> = ({
   onBlur = () => {},
   touched,
 }) => {
-  // generage a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
-  // To show errors only if the field was touched (onBlur)
   const hasError = touched && required && !value;
+  const [validError, setValidError] = useState(false);
+
+  const validateField = (fieldName: string, fieldValue: string) => {
+    switch (fieldName) {
+      case 'title':
+        setValidError(!validateInput(fieldValue));
+        break;
+      case 'imgUrl':
+        setValidError(!validateUrl(fieldValue));
+        break;
+      case 'imdbUrl':
+        setValidError(!validateUrl(fieldValue));
+        break;
+      case 'imdbId':
+        setValidError(!validateInput(fieldValue));
+        break;
+      default:
+        setValidError(false);
+    }
+  };
 
   return (
     <div className="field">
@@ -55,12 +75,17 @@ export const TextField: React.FC<Props> = ({
           }}
           onBlur={() => {
             onBlur();
+            validateField(name, value);
           }}
         />
       </div>
 
       {hasError && (
         <p className="help is-danger">{`${label} is required`}</p>
+      )}
+
+      {validError && (
+        <p className="help is-danger">{`The ${label} is incorrect`}</p>
       )}
     </div>
   );

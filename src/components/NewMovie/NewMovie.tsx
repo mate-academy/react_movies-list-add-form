@@ -37,7 +37,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       imdbId: '',
     });
 
-    // Скинути статус touched до false для всіх полів
     setTouched({
       title: false,
       description: false,
@@ -50,13 +49,12 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const handleAddClick = () => {
     const {
       title,
-      description,
       imgUrl,
       imdbUrl,
       imdbId,
     } = formData;
 
-    if (title && description && imgUrl && imdbUrl && imdbId) {
+    if (title && imgUrl && imdbUrl && imdbId) {
       onAdd(formData);
       reset();
     }
