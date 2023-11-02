@@ -9,7 +9,7 @@ type Props = {
   required?: boolean,
   urlChecker?: { isUrlWrong: boolean,
     setIsUrlWrong: (newWalue: boolean) => void },
-  onChange?: (newValue: string) => void,
+  onChange?: (newValue: React.ChangeEvent<HTMLInputElement>) => void,
 };
 
 function getRandomDigits() {
@@ -41,6 +41,7 @@ export const TextField: React.FC<Props> = ({
       <div className="control">
         <input
           type="text"
+          name={name}
           id={id}
           data-cy={`movie-${name}`}
           className={classNames('input', {
@@ -48,7 +49,7 @@ export const TextField: React.FC<Props> = ({
           })}
           placeholder={placeholder}
           value={value}
-          onChange={event => onChange(event.target.value)}
+          onChange={event => onChange(event)}
           onBlur={() => setTouched(true)}
           onInput={() => urlChecker?.setIsUrlWrong(false)}
         />
@@ -58,7 +59,7 @@ export const TextField: React.FC<Props> = ({
         <p className="help is-danger">{`${label} is required`}</p>
       )}
       {urlChecker?.isUrlWrong && (
-        <p className="help is-danger">URL is incorrect required</p>
+        <p className="help is-danger">URL is incorrect</p>
       )}
     </div>
   );

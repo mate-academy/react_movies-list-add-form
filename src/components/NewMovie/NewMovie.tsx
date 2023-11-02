@@ -13,18 +13,22 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [isImdbUrlWrong, setIsImdbUrlWrong] = useState(false);
   const [isImgUrlWrong, setIsImgUrlWrong] = useState(false);
 
-  const [description, setDescription] = useState('');
-  const [title, setTitle] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
+  const [movie, setMovieData] = useState({
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  });
 
   const resetForm = () => {
-    setTitle('');
-    setDescription('');
-    setImdbId('');
-    setImdbUrl('');
-    setImgUrl('');
+    setMovieData({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
   };
 
   const submitForm = (event: React.FormEvent) => {
@@ -35,12 +39,12 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
     let isThereWrongUrls = false;
 
-    if (!pattern.test(imdbUrl.trim())) {
+    if (!pattern.test(movie.imdbUrl.trim())) {
       setIsImdbUrlWrong(true);
       isThereWrongUrls = true;
     }
 
-    if (!pattern.test(imgUrl.trim())) {
+    if (!pattern.test(movie.imgUrl.trim())) {
       setIsImgUrlWrong(true);
       isThereWrongUrls = true;
     }
@@ -51,24 +55,25 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
     setCount(count + 1);
 
-    onAdd({
-      title,
-      description,
-      imdbId,
-      imdbUrl,
-      imgUrl,
-    });
+    onAdd(movie);
 
     resetForm();
   };
 
   useEffect(() => {
-    if (title.trim() && imdbId.trim() && imdbUrl.trim() && imgUrl.trim()) {
+    if (movie.title.trim() && movie.imdbId.trim()
+      && movie.imdbUrl.trim() && movie.imgUrl.trim()) {
       setIsButtonDisabled(false);
     } else {
       setIsButtonDisabled(true);
     }
-  }, [title, imdbId, imdbUrl, imgUrl]);
+  });
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+
+    setMovieData({ ...movie, [name]: value });
+  };
 
   return (
     <form
@@ -81,23 +86,23 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value={title}
-        onChange={(value) => setTitle(value)}
+        value={movie.title}
+        onChange={(event) => handleChange(event)}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value={description}
-        onChange={(value) => setDescription(value)}
+        value={movie.description}
+        onChange={(event) => handleChange(event)}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={imgUrl}
-        onChange={(value) => setImgUrl(value)}
+        value={movie.imgUrl}
+        onChange={(event) => handleChange(event)}
         urlChecker={{
           isUrlWrong: isImgUrlWrong,
           setIsUrlWrong: setIsImgUrlWrong,
@@ -108,8 +113,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={imdbUrl}
-        onChange={(value) => setImdbUrl(value)}
+        value={movie.imdbUrl}
+        onChange={(event) => handleChange(event)}
         urlChecker={{
           isUrlWrong: isImdbUrlWrong,
           setIsUrlWrong: setIsImdbUrlWrong,
@@ -120,8 +125,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imdbId.toString()}
-        onChange={(value) => setImdbId(value)}
+        value={movie.imdbId}
+        onChange={(event) => handleChange(event)}
         required
       />
 
