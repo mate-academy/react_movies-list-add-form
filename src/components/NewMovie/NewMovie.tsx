@@ -8,7 +8,6 @@ type Props = {
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
-  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
   const [newMovie, setNewMovie] = useState({
     title: '',
@@ -24,18 +23,16 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setNewMovie((prevMovie) => ({ ...prevMovie, [name]: value }));
   };
 
-  const ifEmptyFields = () => {
-    if (
-      !newMovie.title.trim()
+  const handleButtonDisabling = () => {
+    const disabled = !newMovie.title.trim()
       || !newMovie.imgUrl.trim()
       || !newMovie.imdbUrl.trim()
-      || !newMovie.imdbId.trim()
-    ) {
-      setIsButtonDisabled(true);
-    } else {
-      setIsButtonDisabled(false);
-    }
+      || !newMovie.imdbId.trim();
+
+    return disabled;
   };
+
+  const isButtonDisabled = handleButtonDisabling();
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -70,7 +67,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={newMovie.title}
         onChange={(v) => {
           handleChange(v);
-          ifEmptyFields();
+          handleButtonDisabling();
         }}
         required
       />
@@ -79,7 +76,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={newMovie.description}
-        onChange={(v) => handleChange(v)}
+        onChange={handleChange}
       />
 
       <TextField
@@ -88,7 +85,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={newMovie.imgUrl}
         onChange={(v) => {
           handleChange(v);
-          ifEmptyFields();
+          handleButtonDisabling();
         }}
         required
       />
@@ -99,7 +96,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={newMovie.imdbUrl}
         onChange={(v) => {
           handleChange(v);
-          ifEmptyFields();
+          handleButtonDisabling();
         }}
         required
       />
@@ -110,7 +107,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={newMovie.imdbId}
         onChange={(v) => {
           handleChange(v);
-          ifEmptyFields();
+          handleButtonDisabling();
         }}
         required
       />

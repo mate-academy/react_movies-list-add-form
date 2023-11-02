@@ -28,7 +28,7 @@ export const TextField: React.FC<Props> = ({
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
   const [touched, setTouched] = useState(false);
-  const hasError = touched && required && (!value || value.trim() === '');
+  const hasError = touched && required && (!value.trim());
 
   return (
     <div className="field">
@@ -47,7 +47,7 @@ export const TextField: React.FC<Props> = ({
           })}
           placeholder={placeholder}
           value={value}
-          onChange={e => onChange(e)}
+          onChange={onChange}
           onBlur={() => setTouched(!touched)}
         />
       </div>
