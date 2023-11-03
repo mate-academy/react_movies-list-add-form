@@ -66,6 +66,12 @@ export const TextField: React.FC<Props> = ({
           value={value}
           onChange={event => {
             onChange(event.target.value);
+            validateField(
+              name,
+              value,
+              validError,
+              setValidError,
+            );
           }}
           onBlur={() => {
             onBlur();
@@ -83,7 +89,7 @@ export const TextField: React.FC<Props> = ({
         <p className="help is-danger">{`${label} is required`}</p>
       )}
 
-      { validError[name] && (
+      { !hasError && validError[name] && (
         <p className="help is-danger">{`The ${label} is incorrect`}</p>
       )}
     </div>
