@@ -1,7 +1,15 @@
 import classNames from 'classnames';
 import React, { useState } from 'react';
-import { validateInput } from '../../services/validtext';
-import { validateUrl } from '../../services/validUrl';
+
+import { validateField } from '../../services/validateField';
+
+type ValidError = {
+  [key: string]: boolean;
+  title: boolean;
+  imgUrl: boolean;
+  imdbUrl: boolean;
+  imdbId: boolean;
+};
 
 type Props = {
   name: string;
@@ -33,26 +41,12 @@ export const TextField: React.FC<Props> = ({
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
   const hasError = touched && required && !value;
-  const [validError, setValidError] = useState(false);
-
-  const validateField = (fieldName: string, fieldValue: string) => {
-    switch (fieldName) {
-      case 'title':
-        setValidError(!validateInput(fieldValue));
-        break;
-      case 'imgUrl':
-        setValidError(!validateUrl(fieldValue));
-        break;
-      case 'imdbUrl':
-        setValidError(!validateUrl(fieldValue));
-        break;
-      case 'imdbId':
-        setValidError(!validateInput(fieldValue));
-        break;
-      default:
-        setValidError(false);
-    }
-  };
+  const [validError, setValidError] = useState<ValidError>({
+    title: false,
+    imgUrl: false,
+    imdbUrl: false,
+    imdbId: false,
+  });
 
   return (
     <div className="field">
@@ -75,7 +69,12 @@ export const TextField: React.FC<Props> = ({
           }}
           onBlur={() => {
             onBlur();
-            validateField(name, value);
+            validateField(
+              name,
+              value,
+              validError,
+              setValidError,
+            );
           }}
         />
       </div>
@@ -84,7 +83,7 @@ export const TextField: React.FC<Props> = ({
         <p className="help is-danger">{`${label} is required`}</p>
       )}
 
-      {validError && (
+      { validError[name] && (
         <p className="help is-danger">{`The ${label} is incorrect`}</p>
       )}
     </div>

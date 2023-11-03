@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
+import { validateField } from '../../services/validateField';
 
 type Props = {
   onAdd: (movie: Movie) => void;
@@ -23,8 +24,23 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     imdbUrl: false,
     imdbId: false,
   });
+  const [fieldValidErrors, setFieldValidErrors] = useState({
+    title: false,
+    imgUrl: false,
+    imdbUrl: false,
+    imdbId: false,
+  });
 
   const handleTextFieldChange = (name: string, value: string) => {
+    if (!(name === 'description')) {
+      validateField(
+        name,
+        value,
+        fieldValidErrors,
+        setFieldValidErrors,
+      );
+    }
+
     setFormData({ ...formData, [name]: value });
   };
 
@@ -40,6 +56,12 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setTouched({
       title: false,
       description: false,
+      imgUrl: false,
+      imdbUrl: false,
+      imdbId: false,
+    });
+    setFieldValidErrors({
+      title: false,
       imgUrl: false,
       imdbUrl: false,
       imdbId: false,
@@ -70,7 +92,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={formData.title}
         touched={touched.title}
         onChange={(value) => handleTextFieldChange('title', value)}
-        onBlur={() => setTouched({ ...touched, title: true })}
+        onBlur={() => {
+          setTouched({ ...touched, title: true });
+        }}
         required
       />
 
@@ -133,6 +157,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
               || !formData.imgUrl
               || !formData.imdbUrl
               || !formData.imdbId
+              || fieldValidErrors.title
+              || fieldValidErrors.imgUrl
+              || fieldValidErrors.imdbUrl
+              || fieldValidErrors.imdbId
             }
           >
             Add
