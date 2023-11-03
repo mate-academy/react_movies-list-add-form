@@ -19,11 +19,13 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     imdbId: '',
   });
 
-  const invalid = !newMovie.title
-  || !newMovie.imgUrl || !newMovie.imdbUrl || !newMovie.imdbId;
+  const invalid = !newMovie.title.trim()
+    || !newMovie.imgUrl.trim()
+    || !newMovie.imdbUrl.trim()
+    || !newMovie.imdbId.trim();
 
   const handleChange = (name: string) => (value: string) => {
-    setNewMovie(prevMovie => ({ ...prevMovie, [name]: value }));
+    setNewMovie(prevMovie => ({ ...prevMovie, [name]: value.trim() }));
   };
 
   const handleSubmit = (event: React.FormEvent) => {
