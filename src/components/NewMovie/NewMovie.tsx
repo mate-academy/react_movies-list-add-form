@@ -29,6 +29,34 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setCount(counter => counter + 1);
   };
 
+  const handleInputChange = (fieldName: string, value: string) => {
+    const trimmedValue = value.trim();
+
+    if (trimmedValue === '' && value.length > 0) {
+      return
+    }
+
+    switch (fieldName) {
+      case 'title':
+        setTitle(value);
+        break;
+      case 'description':
+        setDescription(value);
+        break;
+      case 'imgUrl':
+        setImgUrl(value);
+        break;
+      case 'imdbUrl':
+        setImdbUrl(value);
+        break;
+      case 'imdbId':
+        setImdbId(value);
+        break;
+      default:
+        break;
+    }
+  };
+
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
@@ -55,9 +83,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={title}
-        onChange={(value) => {
-          setTitle(value.trim());
-        }}
+        onChange={(value) => handleInputChange('title', value)}
         required
       />
 
@@ -65,18 +91,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={description}
-        onChange={(value) => {
-          setDescription(value.trim());
-        }}
+        onChange={(value) => handleInputChange('description', value)}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={(value) => {
-          setImgUrl(value.trim());
-        }}
+        onChange={(value) => handleInputChange('imgUrl', value)}
         required
       />
 
@@ -84,9 +106,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={(value) => {
-          setImdbUrl(value.trim());
-        }}
+        onChange={(value) => handleInputChange('imdbUrl', value)}
         required
       />
 
@@ -94,9 +114,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={(value) => {
-          setImdbId(value.trim());
-        }}
+        onChange={(value) => handleInputChange('imdbId', value)}
         required
       />
 
