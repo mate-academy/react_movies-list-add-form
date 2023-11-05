@@ -82,6 +82,17 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     }
   };
 
+  const handleDisableButton = () => (
+    !formData.title
+    || !formData.imgUrl
+    || !formData.imdbUrl
+    || !formData.imdbId
+    || fieldValidErrors.title
+    || fieldValidErrors.imgUrl
+    || fieldValidErrors.imdbUrl
+    || fieldValidErrors.imdbId
+  );
+
   return (
     <form className="NewMovie" key={count}>
       <h2 className="title">Add a movie</h2>
@@ -92,9 +103,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={formData.title}
         touched={touched.title}
         onChange={(value) => handleTextFieldChange('title', value)}
-        onBlur={() => {
-          setTouched({ ...touched, title: true });
-        }}
+        onBlur={() => (setTouched({
+          ...touched,
+          title: true,
+        }))}
         required
       />
 
@@ -153,14 +165,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             className="button is-link"
             onClick={handleAddClick}
             disabled={
-              !formData.title
-              || !formData.imgUrl
-              || !formData.imdbUrl
-              || !formData.imdbId
-              || fieldValidErrors.title
-              || fieldValidErrors.imgUrl
-              || fieldValidErrors.imdbUrl
-              || fieldValidErrors.imdbId
+              handleDisableButton()
             }
           >
             Add

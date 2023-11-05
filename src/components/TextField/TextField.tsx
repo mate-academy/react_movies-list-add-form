@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { useState } from 'react';
+import React, { useState, ChangeEvent } from 'react';
 
 import { validateField } from '../../services/validateField';
 
@@ -47,6 +47,25 @@ export const TextField: React.FC<Props> = ({
     imdbUrl: false,
     imdbId: false,
   });
+  const handleOnChange = (event: ChangeEvent<HTMLInputElement>) => {
+    onChange(event.target.value);
+    validateField(
+      name,
+      value,
+      validError,
+      setValidError,
+    );
+  };
+
+  const handleOnblur = () => {
+    onBlur();
+    validateField(
+      name,
+      value,
+      validError,
+      setValidError,
+    );
+  };
 
   return (
     <div className="field">
@@ -64,24 +83,8 @@ export const TextField: React.FC<Props> = ({
           })}
           placeholder={placeholder}
           value={value}
-          onChange={event => {
-            onChange(event.target.value);
-            validateField(
-              name,
-              value,
-              validError,
-              setValidError,
-            );
-          }}
-          onBlur={() => {
-            onBlur();
-            validateField(
-              name,
-              value,
-              validError,
-              setValidError,
-            );
-          }}
+          onChange={handleOnChange}
+          onBlur={handleOnblur}
         />
       </div>
 
