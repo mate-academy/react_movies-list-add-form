@@ -111,12 +111,3 @@ export const NewMovie:React.FC<Props> = ({ onAdd }) => {
     </form>
   );
 };
-
-// 1. `NewMovie` should check if `title`, `imgUrl`, `imdbUrl`, `imdbId` are
-// entered when an input looses focus (`onBlur`) and show an error and a red
-// border if needed (learn how it it implemented in the `TextField`);
-// 1. The `description` is optional;
-// 1. Disable the submit button until all the required fields are filled (spaces should be trimmed);
-// 1. Clear the form after adding a new movie.
-// 1. Errors should not be shown after clearing the form (change its key to
-// reinitialize the form);
