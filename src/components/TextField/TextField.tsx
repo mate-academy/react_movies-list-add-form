@@ -1,13 +1,26 @@
 import classNames from 'classnames';
-import React, { useState } from 'react';
+import React, { useState, ChangeEvent } from 'react';
+
+// import { validateField } from '../../services/validateField';
+
+// type ValidError = {
+//   [key: string]: boolean;
+//   title: boolean;
+//   imgUrl: boolean;
+//   imdbUrl: boolean;
+//   imdbId: boolean;
+// };
 
 type Props = {
-  name: string,
-  value: string,
-  label?: string,
-  placeholder?: string,
-  required?: boolean,
-  onChange?: (newValue: string) => void,
+  name: string;
+  value: string;
+  label?: string;
+  placeholder?: string;
+  required?: boolean;
+  onChange?: (newValue: string, name: string) => void;
+  onBlur?: (newValue: string, name: string) => void;
+  touched?: boolean;
+  valid?: boolean;
 };
 
 function getRandomDigits() {
@@ -23,13 +36,20 @@ export const TextField: React.FC<Props> = ({
   placeholder = `Enter ${label}`,
   required = false,
   onChange = () => {},
+  onBlur = () => {},
+  touched,
+  valid,
 }) => {
-  // generage a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
-  // To show errors only if the field was touched (onBlur)
-  const [touched, setTouched] = useState(false);
   const hasError = touched && required && !value;
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    onChange(event.target.value, name);
+  };
+
+  const handleBlur = () => {
+    onBlur(value, name);
+  };
 
   return (
     <div className="field">
@@ -47,13 +67,17 @@ export const TextField: React.FC<Props> = ({
           })}
           placeholder={placeholder}
           value={value}
-          onChange={event => onChange(event.target.value)}
-          onBlur={() => setTouched(true)}
+          onChange={handleChange}
+          onBlur={handleBlur}
         />
       </div>
 
       {hasError && (
         <p className="help is-danger">{`${label} is required`}</p>
+      )}
+
+      { !hasError && valid && (
+        <p className="help is-danger">{`The ${label} is incorrect`}</p>
       )}
     </div>
   );
