@@ -17,7 +17,7 @@ type Props = {
   label?: string;
   placeholder?: string;
   required?: boolean;
-  onChange?: (newValue: string) => void;
+  onChange?: (newValue: string, name: string) => void;
   onBlur?: () => void;
   touched?: boolean;
 };
@@ -47,22 +47,15 @@ export const TextField: React.FC<Props> = ({
     imdbUrl: false,
     imdbId: false,
   });
-  const handleOnChange = (event: ChangeEvent<HTMLInputElement>) => {
-    onChange(event.target.value);
-    validateField(
-      name,
-      value,
-      validError,
-      setValidError,
-    );
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    onChange(event.target.value, name);
   };
 
-  const handleOnblur = () => {
+  const handleBlur = () => {
     onBlur();
     validateField(
       name,
       value,
-      validError,
       setValidError,
     );
   };
@@ -83,8 +76,8 @@ export const TextField: React.FC<Props> = ({
           })}
           placeholder={placeholder}
           value={value}
-          onChange={handleOnChange}
-          onBlur={handleOnblur}
+          onChange={handleChange}
+          onBlur={handleBlur}
         />
       </div>
 

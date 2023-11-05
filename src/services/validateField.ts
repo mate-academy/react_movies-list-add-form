@@ -11,35 +11,38 @@ type SaveObject = {
 export const validateField = (
   fieldName: string,
   fieldValue: string,
-  saveObject: SaveObject,
-  setfunction: React.Dispatch<React.SetStateAction<any>>,
+  // saveObject: SaveObject,
+  setfunction: React.Dispatch<React.SetStateAction<SaveObject>>,
 ) => {
   switch (fieldName) {
     case 'title':
-      setfunction({
-        ...saveObject,
+      setfunction((prevSaveObject) => ({
+        ...prevSaveObject,
         [fieldName]: !validateInput(fieldValue),
-      });
+      }));
       break;
     case 'imgUrl':
-      setfunction({
-        ...saveObject,
+      setfunction((prevSaveObject) => ({
+        ...prevSaveObject,
         [fieldName]: !validateUrl(fieldValue),
-      });
+      }));
       break;
     case 'imdbUrl':
-      setfunction({
-        ...saveObject,
+      setfunction((prevSaveObject) => ({
+        ...prevSaveObject,
         [fieldName]: !validateUrl(fieldValue),
-      });
+      }));
       break;
     case 'imdbId':
-      setfunction({
-        ...saveObject,
+      setfunction((prevSaveObject) => ({
+        ...prevSaveObject,
         [fieldName]: !validateInput(fieldValue),
-      });
+      }));
       break;
     default:
-      setfunction(false);
+      setfunction((prevSaveObject) => ({
+        ...prevSaveObject,
+        [fieldName]: false,
+      }));
   }
 };

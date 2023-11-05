@@ -36,7 +36,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       validateField(
         name,
         value,
-        fieldValidErrors,
         setFieldValidErrors,
       );
     }
@@ -82,7 +81,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     }
   };
 
-  const handleDisableButton = () => (
+  const isButtonDisabled = (
     !formData.title
     || !formData.imgUrl
     || !formData.imdbUrl
@@ -102,7 +101,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Title"
         value={formData.title}
         touched={touched.title}
-        onChange={(value) => handleTextFieldChange('title', value)}
+        onChange={(value, name) => {
+          handleTextFieldChange(name, value);
+        }}
         onBlur={() => (setTouched({
           ...touched,
           title: true,
@@ -115,9 +116,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Description"
         value={formData.description}
         touched={touched.description}
-        onChange={
-          (value) => handleTextFieldChange('description', value)
-        }
+        onChange={(value, name) => {
+          handleTextFieldChange(name, value);
+        }}
         onBlur={() => setTouched({ ...touched, description: true })}
       />
 
@@ -126,9 +127,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Image URL"
         value={formData.imgUrl}
         touched={touched.imgUrl}
-        onChange={
-          (value) => handleTextFieldChange('imgUrl', value)
-        }
+        onChange={(value, name) => {
+          handleTextFieldChange(name, value);
+        }}
         onBlur={() => setTouched({ ...touched, imgUrl: true })}
         required
       />
@@ -138,9 +139,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Imdb URL"
         value={formData.imdbUrl}
         touched={touched.imdbUrl}
-        onChange={
-          (value) => handleTextFieldChange('imdbUrl', value)
-        }
+        onChange={(value, name) => {
+          handleTextFieldChange(name, value);
+        }}
         onBlur={() => setTouched({ ...touched, imdbUrl: true })}
         required
       />
@@ -150,9 +151,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Imdb ID"
         value={formData.imdbId}
         touched={touched.imdbId}
-        onChange={
-          (value) => handleTextFieldChange('imdbId', value)
-        }
+        onChange={(value, name) => {
+          handleTextFieldChange(name, value);
+        }}
         onBlur={() => setTouched({ ...touched, imdbId: true })}
         required
       />
@@ -165,7 +166,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             className="button is-link"
             onClick={handleAddClick}
             disabled={
-              handleDisableButton()
+              isButtonDisabled
             }
           >
             Add
