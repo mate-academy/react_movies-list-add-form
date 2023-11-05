@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 import { validateField } from '../../services/validateField';
+import { objValuesAudit } from '../../services/objValuesAudit';
 
 type Props = {
   onAdd: (movie: Movie) => void;
@@ -16,31 +17,46 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     imdbUrl: '',
     imdbId: '',
   });
+  const fieldNames = Object.keys(formData);
 
-  const [touched, setTouched] = useState({
-    title: false,
-    description: false,
-    imgUrl: false,
-    imdbUrl: false,
-    imdbId: false,
+  const initialAudit: Record<string, {
+    request: boolean;
+    valid: boolean;
+  }> = {
+    title: {
+      request: false,
+      valid: false,
+    },
+  };
+
+  fieldNames.forEach((key) => {
+    initialAudit[key] = {
+      request: false,
+      valid: false,
+    };
   });
-  const [fieldValidErrors, setFieldValidErrors] = useState({
-    title: false,
-    imgUrl: false,
-    imdbUrl: false,
-    imdbId: false,
-  });
+
+  const defaultTouched = objValuesAudit(initialAudit, 'request');
+  const defaultValid = objValuesAudit(initialAudit, 'valid');
+
+  const [touched, setTouched] = useState(defaultTouched);
+
+  const [fieldValid, setFieldValid] = useState(defaultValid);
 
   const handleTextFieldChange = (name: string, value: string) => {
-    if (!(name === 'description')) {
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleBlur = (value: string, name: string) => {
+    if (!value.length) {
+      setTouched({ ...touched, [name]: true });
+    } else if (name !== 'description') {
       validateField(
         name,
         value,
-        setFieldValidErrors,
+        setFieldValid,
       );
     }
-
-    setFormData({ ...formData, [name]: value });
   };
 
   const reset = () => {
@@ -52,19 +68,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       imdbId: '',
     });
 
-    setTouched({
-      title: false,
-      description: false,
-      imgUrl: false,
-      imdbUrl: false,
-      imdbId: false,
-    });
-    setFieldValidErrors({
-      title: false,
-      imgUrl: false,
-      imdbUrl: false,
-      imdbId: false,
-    });
+    setTouched(defaultTouched);
+    setFieldValid(defaultValid);
   };
 
   const handleAddClick = () => {
@@ -81,16 +86,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     }
   };
 
-  const isButtonDisabled = (
-    !formData.title
-    || !formData.imgUrl
+  const isButtonDisabled = !formData.title
+  || !formData.imgUrl
     || !formData.imdbUrl
     || !formData.imdbId
-    || fieldValidErrors.title
-    || fieldValidErrors.imgUrl
-    || fieldValidErrors.imdbUrl
-    || fieldValidErrors.imdbId
-  );
+    || fieldValid.title
+    || fieldValid.imgUrl
+    || fieldValid.imdbUrl
+    || fieldValid.imdbId;
 
   return (
     <form className="NewMovie" key={count}>
@@ -101,13 +104,11 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Title"
         value={formData.title}
         touched={touched.title}
+        valid={fieldValid.title}
         onChange={(value, name) => {
           handleTextFieldChange(name, value);
         }}
-        onBlur={() => (setTouched({
-          ...touched,
-          title: true,
-        }))}
+        onBlur={(value) => handleBlur(value, 'title')}
         required
       />
 
@@ -116,10 +117,11 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Description"
         value={formData.description}
         touched={touched.description}
+        valid={fieldValid.description}
         onChange={(value, name) => {
           handleTextFieldChange(name, value);
         }}
-        onBlur={() => setTouched({ ...touched, description: true })}
+        onBlur={(value) => handleBlur(value, 'description')}
       />
 
       <TextField
@@ -127,10 +129,11 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Image URL"
         value={formData.imgUrl}
         touched={touched.imgUrl}
+        valid={fieldValid.imgUrl}
         onChange={(value, name) => {
           handleTextFieldChange(name, value);
         }}
-        onBlur={() => setTouched({ ...touched, imgUrl: true })}
+        onBlur={(value) => handleBlur(value, 'imgUrl')}
         required
       />
 
@@ -139,10 +142,11 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Imdb URL"
         value={formData.imdbUrl}
         touched={touched.imdbUrl}
+        valid={fieldValid.imdbUrl}
         onChange={(value, name) => {
           handleTextFieldChange(name, value);
         }}
-        onBlur={() => setTouched({ ...touched, imdbUrl: true })}
+        onBlur={(value) => handleBlur(value, 'imdbUrl')}
         required
       />
 
@@ -151,10 +155,11 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Imdb ID"
         value={formData.imdbId}
         touched={touched.imdbId}
+        valid={fieldValid.imdbId}
         onChange={(value, name) => {
           handleTextFieldChange(name, value);
         }}
-        onBlur={() => setTouched({ ...touched, imdbId: true })}
+        onBlur={(value) => handleBlur(value, 'imdbId')}
         required
       />
 
@@ -165,9 +170,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             data-cy="submit-button"
             className="button is-link"
             onClick={handleAddClick}
-            disabled={
-              isButtonDisabled
-            }
+            disabled={isButtonDisabled}
           >
             Add
           </button>

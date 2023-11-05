@@ -1,15 +1,15 @@
 import classNames from 'classnames';
 import React, { useState, ChangeEvent } from 'react';
 
-import { validateField } from '../../services/validateField';
+// import { validateField } from '../../services/validateField';
 
-type ValidError = {
-  [key: string]: boolean;
-  title: boolean;
-  imgUrl: boolean;
-  imdbUrl: boolean;
-  imdbId: boolean;
-};
+// type ValidError = {
+//   [key: string]: boolean;
+//   title: boolean;
+//   imgUrl: boolean;
+//   imdbUrl: boolean;
+//   imdbId: boolean;
+// };
 
 type Props = {
   name: string;
@@ -18,8 +18,9 @@ type Props = {
   placeholder?: string;
   required?: boolean;
   onChange?: (newValue: string, name: string) => void;
-  onBlur?: () => void;
+  onBlur?: (newValue: string, name: string) => void;
   touched?: boolean;
+  valid?: boolean;
 };
 
 function getRandomDigits() {
@@ -37,27 +38,17 @@ export const TextField: React.FC<Props> = ({
   onChange = () => {},
   onBlur = () => {},
   touched,
+  valid,
 }) => {
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
   const hasError = touched && required && !value;
-  const [validError, setValidError] = useState<ValidError>({
-    title: false,
-    imgUrl: false,
-    imdbUrl: false,
-    imdbId: false,
-  });
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     onChange(event.target.value, name);
   };
 
   const handleBlur = () => {
-    onBlur();
-    validateField(
-      name,
-      value,
-      setValidError,
-    );
+    onBlur(value, name);
   };
 
   return (
@@ -85,7 +76,7 @@ export const TextField: React.FC<Props> = ({
         <p className="help is-danger">{`${label} is required`}</p>
       )}
 
-      { !hasError && validError[name] && (
+      { !hasError && valid && (
         <p className="help is-danger">{`The ${label} is incorrect`}</p>
       )}
     </div>
