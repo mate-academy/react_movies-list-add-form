@@ -42,10 +42,6 @@ export const NewMovie:React.FC<Props> = ({ onAdd }) => {
   const handleSubmit = (e:React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!title || !imgUrl || !imdbUrl || !imdbId) {
-      return;
-    }
-
     onAdd(newMovieInfo);
 
     setCount(prevCount => prevCount + 1);
