@@ -25,7 +25,7 @@ export const NewMovie:React.FC<Props> = ({ onAdd }) => {
   const isInputEmpty
     = !title.trim() || !imgUrl.trim() || !imdbUrl.trim() || !imdbId.trim();
 
-  /* eslint-disable max-len */
+ /* eslint-disable max-len */
   const pattern
      = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
 
@@ -79,7 +79,7 @@ export const NewMovie:React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={title}
-        onChange={(name, value) => handleChange(name, value)}
+        onChange={handleChange}
         required
       />
 
@@ -87,7 +87,7 @@ export const NewMovie:React.FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={description}
-        onChange={(name, value) => handleChange(name, value)}
+        onChange={handleChange}
       />
 
       <TextField
@@ -95,7 +95,7 @@ export const NewMovie:React.FC<Props> = ({ onAdd }) => {
         label="Image URL"
         value={imgUrl}
         urlError={imgUrlError}
-        onChange={(name, value) => handleChange(name, value)}
+        onChange={handleChange}
         required
       />
 
@@ -104,7 +104,7 @@ export const NewMovie:React.FC<Props> = ({ onAdd }) => {
         label="Imdb URL"
         value={imdbUrl}
         urlError={imdbUrlError}
-        onChange={(name, value) => handleChange(name, value)}
+        onChange={handleChange}
         required
       />
 
@@ -112,7 +112,7 @@ export const NewMovie:React.FC<Props> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={(name, value) => handleChange(name, value)}
+        onChange={handleChange}
         required
 
       />
