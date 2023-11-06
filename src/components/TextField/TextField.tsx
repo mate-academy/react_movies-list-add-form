@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 type Props = {
   name: string,
   value: string,
+  urlError?: boolean,
   label?: string,
   placeholder?: string,
   required?: boolean,
@@ -19,6 +20,7 @@ function getRandomDigits() {
 export const TextField: React.FC<Props> = ({
   name,
   value,
+  urlError = false,
   label = name,
   placeholder = `Enter ${label}`,
   required = false,
@@ -27,7 +29,9 @@ export const TextField: React.FC<Props> = ({
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
   const [touched, setTouched] = useState(false);
+
   const hasError = touched && required && !value;
+  const hasUrlError = touched && urlError;
 
   return (
     <div className="field">
@@ -55,6 +59,11 @@ export const TextField: React.FC<Props> = ({
       {hasError && (
         <p className="help is-danger">{`${label} is required`}</p>
       )}
+
+      {hasUrlError && !hasError && (
+        <p className="help is-info">{`${label} is not valid`}</p>
+      )}
+
     </div>
   );
 };

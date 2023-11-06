@@ -15,10 +15,19 @@ export const NewMovie:React.FC<Props> = ({ onAdd }) => {
     imdbUrl: '',
     imdbId: '',
   });
+  const [imgUrlError, setImgUrlError] = useState(false);
+  const [imdbUrlError, setImdbUrlError] = useState(false);
 
   const {
     title, description, imgUrl, imdbUrl, imdbId,
   } = newMovieInfo;
+
+  const isInputEmpty
+    = !title.trim() || !imgUrl.trim() || !imdbUrl.trim() || !imdbId.trim();
+
+  /* eslint-disable max-len */
+  const pattern
+     = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
 
   const handleChange = (name:string, value:string) => {
     setNewMovieInfo(prevData => (
@@ -37,10 +46,20 @@ export const NewMovie:React.FC<Props> = ({ onAdd }) => {
       imdbUrl: '',
       imdbId: '',
     });
+
+    setImgUrlError(false);
+    setImdbUrlError(false);
   };
 
   const handleSubmit = (e:React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    setImgUrlError(!pattern.test(imgUrl));
+    setImdbUrlError(!pattern.test(imdbUrl));
+
+    if (!pattern.test(imgUrl) || !pattern.test(imdbUrl)) {
+      return;
+    }
 
     onAdd(newMovieInfo);
 
@@ -75,6 +94,7 @@ export const NewMovie:React.FC<Props> = ({ onAdd }) => {
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
+        urlError={imgUrlError}
         onChange={(name, value) => handleChange(name, value)}
         required
       />
@@ -83,6 +103,7 @@ export const NewMovie:React.FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
+        urlError={imdbUrlError}
         onChange={(name, value) => handleChange(name, value)}
         required
       />
@@ -102,7 +123,7 @@ export const NewMovie:React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!title || !imgUrl || !imdbUrl || !imdbId}
+            disabled={isInputEmpty}
           >
             Add
           </button>
