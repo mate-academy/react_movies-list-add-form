@@ -28,8 +28,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     }));
   };
 
-  const isHaveText = (!form.title || !form.imgUrl
-    || !form.imdbUrl || !form.imdbId);
+  const isHaveText = (!form.title.trim() || !form.imgUrl.trim()
+    || !form.imdbUrl.trim() || !form.imdbId.trim());
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
