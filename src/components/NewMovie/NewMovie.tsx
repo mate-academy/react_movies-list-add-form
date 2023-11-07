@@ -6,20 +6,21 @@ type Props = {
   onAdd: (movie: Movie) => void;
 };
 
+const initialForm = {
+  title: '',
+  description: '',
+  imgUrl: '',
+  imdbUrl: '',
+  imdbId: '',
+};
+
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
-
-  const initialForm = {
-    title: '',
-    description: '',
-    imgUrl: '',
-    imdbUrl: '',
-    imdbId: '',
-  };
-
   const [form, setForm] = useState(initialForm);
+  const isHaveText = (!form.title.trim() || !form.imgUrl.trim()
+  || !form.imdbUrl.trim() || !form.imdbId.trim());
 
   const handleChange = (value: string, field: string) => {
     setForm(prevForm => ({
@@ -28,12 +29,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     }));
   };
 
-  const isHaveText = (!form.title.trim() || !form.imgUrl.trim()
-    || !form.imdbUrl.trim() || !form.imdbId.trim());
-
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-
     if (isHaveText) {
       return;
     }
