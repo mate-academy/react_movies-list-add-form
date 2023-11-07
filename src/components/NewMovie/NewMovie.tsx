@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
+import { validateField } from '../../api/functions/validator';
 
 type Props = {
   onAdd: (movie: Movie) => void;
@@ -19,8 +20,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
   const [form, setForm] = useState(initialForm);
-  const isHaveText = (!form.title.trim() || !form.imgUrl.trim()
-  || !form.imdbUrl.trim() || !form.imdbId.trim());
+  const isHaveText = (!form.title.trim()
+  || validateField(form.imgUrl.trim(), 'imgUrl')
+  || validateField(form.imdbUrl.trim(), 'imdbUrl')
+  || !form.imdbId.trim());
 
   const handleChange = (value: string, field: string) => {
     setForm(prevForm => ({
