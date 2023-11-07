@@ -37,10 +37,10 @@ export const TextField: React.FC<Props> = ({
   const validateField = () => {
     switch (name) {
       case 'imgUrl':
-        return value.match(pattern);
+        return !value.match(pattern);
         break;
       case 'imdbUrl':
-        return value.match(pattern);
+        return !value.match(pattern);
         break;
       default:
         return false;
