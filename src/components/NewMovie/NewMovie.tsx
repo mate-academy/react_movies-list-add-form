@@ -20,7 +20,7 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
   const handleChange = (name: string, value: string) => {
     // const { name, value } = e.target;
 
-    setNewMovie((prevMovie) => ({ ...prevMovie, [name]: value.trim() }));
+    setNewMovie((prevMovie) => ({ ...prevMovie, [name]: value }));
   };
 
   const reset = () => {
@@ -38,8 +38,8 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (!newMovie.title || !newMovie.imdbId
-       || !newMovie.imdbUrl || !newMovie.imgUrl) {
+    if (!newMovie.title.trim() || !newMovie.imdbId.trim()
+       || !newMovie.imdbUrl.trim() || !newMovie.imgUrl.trim()) {
       return;
     }
 
