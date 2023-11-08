@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
@@ -6,27 +6,22 @@ type Props = {
   onAdd(movie: Movie): void;
 };
 
+const EMPTY_MOVIE = {
+  title: '',
+  description: '',
+  imgUrl: '',
+  imdbUrl: '',
+  imdbId: '',
+};
+
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
-  const [newMovie, setNewMovie] = useState({
-    title: '',
-    description: '',
-    imgUrl: '',
-    imdbUrl: '',
-    imdbId: '',
-  });
-  const [buttonDisabled, setButtonDisabled] = useState(true);
+  const [newMovie, setNewMovie] = useState(EMPTY_MOVIE);
   const [isImdbUrlWrong, setIsImdbUrlWrong] = useState(false);
   const [isImgUrlWrong, setIsImgUrlWrong] = useState(false);
 
   const reset = () => {
-    setNewMovie({
-      title: '',
-      description: '',
-      imgUrl: '',
-      imdbUrl: '',
-      imdbId: '',
-    });
+    setNewMovie(EMPTY_MOVIE);
   };
 
   const onSubmit = (event: React.FormEvent) => {
@@ -58,14 +53,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     reset();
   };
 
-  useEffect(() => {
-    if (newMovie.title.trim() && newMovie.imdbId.trim()
-    && newMovie.imdbUrl.trim() && newMovie.imgUrl.trim()) {
-      setButtonDisabled(false);
-    } else {
-      setButtonDisabled(true);
-    }
-  });
+  const isButtonDisabled = newMovie.title.trim()
+    && newMovie.imdbId.trim()
+    && newMovie.imdbUrl.trim()
+    && newMovie.imgUrl.trim();
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -85,7 +76,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={newMovie.title}
-        onChange={(event) => handleChange(event)}
+        onChange={handleChange}
         required
       />
 
@@ -93,7 +84,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={newMovie.description}
-        onChange={(event) => handleChange(event)}
+        onChange={handleChange}
       />
 
       <TextField
@@ -134,7 +125,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={buttonDisabled}
+            disabled={Boolean(!isButtonDisabled) && true}
           >
             Add
           </button>
