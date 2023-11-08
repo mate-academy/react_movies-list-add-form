@@ -9,40 +9,28 @@ interface NewMovieProps {
 export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
   const [count, changeCount] = useState(0);
 
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
+  const [newMovie, setNewMovie] = useState<Movie>({
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  });
 
-  const handleInputChange = (name: string, value: string) => {
-    switch (name) {
-      case 'title':
-        setTitle(value);
-        break;
-      case 'description':
-        setDescription(value);
-        break;
-      case 'imgUrl':
-        setImgUrl(value);
-        break;
-      case 'imdbUrl':
-        setImdbUrl(value);
-        break;
-      case 'imdbId':
-        setImdbId(value);
-        break;
-      default:
-        break;
-    }
+  const handleChange = (name: string, value: string) => {
+    // const { name, value } = e.target;
+
+    setNewMovie((prevMovie) => ({ ...prevMovie, [name]: value }));
   };
 
   const reset = () => {
-    setTitle('');
-    setImdbId('');
-    setDescription('');
-    setImdbUrl('');
-    setImgUrl('');
+    setNewMovie({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
 
     changeCount(count + 1);
   };
@@ -50,17 +38,12 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (!title || !imdbId || !imdbUrl || !imgUrl) {
+    if (!newMovie.title || !newMovie.imdbId
+       || !newMovie.imdbUrl || !newMovie.imgUrl) {
       return;
     }
 
-    onAdd({
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    });
+    onAdd(newMovie);
 
     reset();
   };
@@ -72,49 +55,39 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value={title}
-        onChange={value => {
-          handleInputChange('title', value);
-        }}
+        value={newMovie.title}
+        onChange={(value) => handleChange('title', value)}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value={description}
-        onChange={value => {
-          handleInputChange('description', value);
-        }}
+        value={newMovie.description}
+        onChange={(value) => handleChange('description', value)}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={imgUrl}
-        onChange={value => {
-          handleInputChange('imgUrl', value);
-        }}
+        value={newMovie.imgUrl}
+        onChange={(value) => handleChange('imgUrl', value)}
         required
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={imdbUrl}
-        onChange={value => {
-          handleInputChange('imdbUrl', value);
-        }}
+        value={newMovie.imdbUrl}
+        onChange={(value) => handleChange('imdbUrl', value)}
         required
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imdbId}
-        onChange={value => {
-          handleInputChange('imdbId', value);
-        }}
+        value={newMovie.imdbId}
+        onChange={(value) => handleChange('imdbId', value)}
         required
       />
 
@@ -124,7 +97,8 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={(!title || !imdbId || !imdbUrl || !imgUrl) && true}
+            disabled={(!newMovie.title || !newMovie.imdbId
+               || !newMovie.imdbUrl || !newMovie.imgUrl) && true}
           >
             Add
           </button>
