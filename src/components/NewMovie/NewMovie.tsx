@@ -20,7 +20,7 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
   const handleChange = (name: string, value: string) => {
     // const { name, value } = e.target;
 
-    setNewMovie((prevMovie) => ({ ...prevMovie, [name]: value }));
+    setNewMovie((prevMovie) => ({ ...prevMovie, [name]: value.trim() }));
   };
 
   const reset = () => {
