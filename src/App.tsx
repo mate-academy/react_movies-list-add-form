@@ -5,10 +5,8 @@ import { NewMovie } from './components/NewMovie';
 import moviesFromServer from './api/movies.json';
 import { Movie } from './types/Movie';
 
-const moviesList: Movie[] = moviesFromServer.map(movie => ({ ...movie }));
-
 export const App = () => {
-  const [movies, setMovies] = useState(moviesList);
+  const [movies, setMovies] = useState<Movie[]>(moviesFromServer);
 
   const handleAddFilm = (movie: Movie) => {
     setMovies(prevMovies => [...prevMovies, movie]);
