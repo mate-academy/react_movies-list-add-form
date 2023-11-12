@@ -21,18 +21,34 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
   const [title, setTitle] = useState('');
   const [hasTitleError, setHasTitleError] = useState(false);
-  //
+  const changeTitle = (newTitle: string): void => {
+    setTitle(newTitle);
+    setHasTitleError(false);
+  };
+
   const [description, setDescription] = useState('');
-  //
+  const changeDescription = (newDescription: string): void => {
+    setDescription(newDescription);
+  };
+
   const [imgUrl, setImgUrl] = useState('');
   const [hasImgUrlError, setHasImgUrlError] = useState(false);
-  //
+  const changeImgUrl = (newImgUrl: string): void => {
+    setImgUrl(newImgUrl);
+  };
+
   const [imdbUrl, setImdbUrl] = useState('');
   const [hasImdbUrlError, setHasImdbUrlError] = useState(false);
-  //
+  const changeImdbUrl = (newImdbUrl: string): void => {
+    setImdbUrl(newImdbUrl);
+  };
+
   const [imdbId, setImdbId] = useState('');
   const [hasImdbIdError, setHasImdbIdError] = useState(false);
-  //
+  const changeImdbId = (newImdbId: string): void => {
+    setImdbId(newImdbId);
+  };
+
   const [count, setCount] = useState(0);
 
   const handleSubmit = (event: React.FormEvent) => {
@@ -76,10 +92,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={title}
-        onChange={(newTitle) => {
-          setTitle(newTitle);
-          setHasTitleError(false);
-        }}
+        onChange={changeTitle}
         required
       />
 
@@ -87,19 +100,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={description}
-        onChange={(newDescription) => {
-          setDescription(newDescription);
-        }}
+        onChange={changeDescription}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={(newImgUrl) => {
-          setImgUrl(newImgUrl.trim());
-          setHasImgUrlError(false);
-        }}
+        onChange={changeImgUrl}
         required
         hasInvalidLink={!isValidHttpUrl(imgUrl)}
       />
@@ -108,10 +116,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl.trim()}
-        onChange={(newImdbUrl) => {
-          setImdbUrl(newImdbUrl.trim());
-          setHasImdbUrlError(false);
-        }}
+        onChange={changeImdbUrl}
         required
         hasInvalidLink={!isValidHttpUrl(imdbUrl)}
       />
@@ -120,10 +125,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={(newImdbId) => {
-          setImdbId(newImdbId.trim());
-          setHasImdbIdError(false);
-        }}
+        onChange={changeImdbId}
         required
       />
 
