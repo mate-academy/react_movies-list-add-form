@@ -135,7 +135,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!title.trim() || !imgUrl || !imdbUrl || !imdbId}
+            disabled={!title.trim() || !imgUrl || !imdbUrl
+              || !imdbId || !isValidHttpUrl(imgUrl) || !isValidHttpUrl(imdbUrl)}
           >
             Add
           </button>
