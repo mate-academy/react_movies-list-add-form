@@ -19,34 +19,30 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     return url.protocol === 'http:' || url.protocol === 'https:';
   }
 
-  const [title, setTitle] = useState('');
-  const [hasTitleError, setHasTitleError] = useState(false);
-  const changeTitle = (newTitle: string): void => {
-    setTitle(newTitle);
-    setHasTitleError(false);
-  };
+  const [movieParams, setMovieParams] = useState<Movie>({
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  });
 
-  const [description, setDescription] = useState('');
-  const changeDescription = (newDescription: string): void => {
-    setDescription(newDescription);
-  };
+  const [paramsErrors, setParamsErrors] = useState({
+    title: false,
+    imgUrl: false,
+    imdbUrl: false,
+    imdbId: false,
+  });
 
-  const [imgUrl, setImgUrl] = useState('');
-  const [hasImgUrlError, setHasImgUrlError] = useState(false);
-  const changeImgUrl = (newImgUrl: string): void => {
-    setImgUrl(newImgUrl);
-  };
-
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [hasImdbUrlError, setHasImdbUrlError] = useState(false);
-  const changeImdbUrl = (newImdbUrl: string): void => {
-    setImdbUrl(newImdbUrl);
-  };
-
-  const [imdbId, setImdbId] = useState('');
-  const [hasImdbIdError, setHasImdbIdError] = useState(false);
-  const changeImdbId = (newImdbId: string): void => {
-    setImdbId(newImdbId);
+  const handleChange = (value: string, param: keyof typeof movieParams) => {
+    setMovieParams((prevParams) => ({
+      ...prevParams,
+      [param]: value,
+    }));
+    setParamsErrors((prevErrors) => ({
+      ...prevErrors,
+      [param]: false,
+    }));
   };
 
   const [count, setCount] = useState(0);
@@ -54,29 +50,34 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    setHasTitleError(!title);
-    setHasImgUrlError(!imgUrl);
-    setHasImdbUrlError(!imdbUrl);
-    setHasImdbIdError(!imdbId);
+    setParamsErrors(() => ({
+      title: !movieParams.title,
+      imgUrl: !movieParams.imgUrl,
+      imdbUrl: !movieParams.imdbUrl,
+      imdbId: !movieParams.imdbId,
+    }));
 
-    if (hasTitleError || hasImgUrlError
-      || hasImdbUrlError || hasImdbIdError
-      || !isValidHttpUrl(imgUrl) || !isValidHttpUrl(imdbUrl)) {
+    if (paramsErrors.title || paramsErrors.imgUrl
+      || paramsErrors.imdbUrl || paramsErrors.imdbId
+      || !isValidHttpUrl(movieParams.imdbUrl)
+      || !isValidHttpUrl(movieParams.imgUrl)) {
       return;
     }
 
     onAdd({
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
+      title: movieParams.title,
+      description: movieParams.description,
+      imgUrl: movieParams.imgUrl,
+      imdbUrl: movieParams.imdbUrl,
+      imdbId: movieParams.imdbId,
     });
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
+    setMovieParams({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
     setCount(count + 1);
   };
 
@@ -91,41 +92,41 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value={title}
-        onChange={changeTitle}
+        value={movieParams.title}
+        onChange={handleChange}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value={description}
-        onChange={changeDescription}
+        value={movieParams.description}
+        onChange={handleChange}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={imgUrl}
-        onChange={changeImgUrl}
+        value={movieParams.imgUrl}
+        onChange={handleChange}
         required
-        hasInvalidLink={!isValidHttpUrl(imgUrl)}
+        hasInvalidLink={!isValidHttpUrl(movieParams.imgUrl)}
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={imdbUrl.trim()}
-        onChange={changeImdbUrl}
+        value={movieParams.imdbUrl.trim()}
+        onChange={handleChange}
         required
-        hasInvalidLink={!isValidHttpUrl(imdbUrl)}
+        hasInvalidLink={!isValidHttpUrl(movieParams.imdbUrl)}
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imdbId}
-        onChange={changeImdbId}
+        value={movieParams.imdbId}
+        onChange={handleChange}
         required
       />
 
@@ -135,8 +136,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!title.trim() || !imgUrl || !imdbUrl
-              || !imdbId || !isValidHttpUrl(imgUrl) || !isValidHttpUrl(imdbUrl)}
+            disabled={!movieParams.title.trim() || !movieParams.imgUrl
+              || !movieParams.imdbUrl || !movieParams.imdbId
+              || !isValidHttpUrl(movieParams.imgUrl)
+              || !isValidHttpUrl(movieParams.imdbUrl)}
           >
             Add
           </button>
