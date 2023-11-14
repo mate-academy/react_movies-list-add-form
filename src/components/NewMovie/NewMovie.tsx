@@ -23,7 +23,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setCount(currentCount => currentCount + 1);
   };
 
-  const requiredFields = title && imgUrl && imdbUrl && imdbId;
+  const requiredFields = title.trim() && imgUrl.trim()
+    && imdbUrl.trim() && imdbId.trim();
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
