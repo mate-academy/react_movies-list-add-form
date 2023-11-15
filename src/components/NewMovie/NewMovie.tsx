@@ -15,11 +15,8 @@ export const NewMovie: React.FC<Movies> = ({ onAdd }) => {
   const [imgUrl, setImgUrl] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
-  let buttonAction = true;
 
-  if (title && imdbUrl && imgUrl && imdbId) {
-    buttonAction = false;
-  }
+  const buttonAction = !title || !imgUrl || !imdbUrl || !imdbId;
 
   const reset = () => {
     setTitle('');
@@ -29,11 +26,10 @@ export const NewMovie: React.FC<Movies> = ({ onAdd }) => {
     setImdbId('');
     setCount(prevValue => prevValue + 1);
   };
-
-  const onSubmit = (event: React.FormEvent) => {
+  const onSubmits = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (!title || !imdbId || !imdbUrl || !imgUrl) {
+    if (buttonAction) {
       return;
     }
 
@@ -52,7 +48,7 @@ export const NewMovie: React.FC<Movies> = ({ onAdd }) => {
     <form
       className="NewMovie"
       key={count}
-      onSubmit={(event) => onSubmit(event)}
+      onSubmit={onSubmits}
     >
       <h2 className="title">Add a movie</h2>
 
