@@ -1,4 +1,4 @@
-import { ChangeEventHandler, useState } from 'react';
+import {useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
@@ -25,12 +25,10 @@ export const NewMovie: React.FC<Props> = ({
     title, description, imgUrl, imdbUrl, imdbId,
   } = movie;
 
-  const onInputChange: ChangeEventHandler<HTMLInputElement> = (e) => {
-    const { value, name } = e.target;
-
+  const onInputChange = (fieldName: string, value: string) => {
     setMovie((prevMovie) => ({
       ...prevMovie,
-      [name]: value.trim(),
+      [fieldName]: value,
     }));
   };
 
@@ -63,7 +61,7 @@ export const NewMovie: React.FC<Props> = ({
         name="title"
         label="Title"
         value={title}
-        onChange={onInputChange}
+        onChange={(value) => onInputChange('title', value)}
         required
       />
 
@@ -71,14 +69,14 @@ export const NewMovie: React.FC<Props> = ({
         name="description"
         label="Description"
         value={description}
-        onChange={onInputChange}
+        onChange={(value) => onInputChange('description', value)}
       />
 
       <TextField
         name="img"
         label="Image URL"
         value={imgUrl}
-        onChange={onInputChange}
+        onChange={(value) => onInputChange('imgUrl', value)}
         required
       />
 
@@ -86,7 +84,7 @@ export const NewMovie: React.FC<Props> = ({
         name="url"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={onInputChange}
+        onChange={(value) => onInputChange('imdbUrl', value)}
         required
       />
 
@@ -94,7 +92,7 @@ export const NewMovie: React.FC<Props> = ({
         name="id"
         label="Imdb ID"
         value={imdbId}
-        onChange={onInputChange}
+        onChange={(value) => onInputChange('imdbId', value)}
         required
       />
 
