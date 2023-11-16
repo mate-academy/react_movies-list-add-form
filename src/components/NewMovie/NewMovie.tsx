@@ -29,7 +29,8 @@ export const NewMovie: React.FC<Movies> = ({ onAdd }) => {
     setNewMovie((prevMovie) => ({ ...prevMovie, [name]: value }));
   };
 
-  const buttonAction = !title.trim() || !imgUrl.trim() || !imdbUrl.trim() || !imdbId.trim();
+  const buttonAction = !title.trim() || !imgUrl.trim()
+    || !imdbUrl.trim() || !imdbId.trim();
 
   const reset = () => {
     setNewMovie({
@@ -50,13 +51,7 @@ export const NewMovie: React.FC<Movies> = ({ onAdd }) => {
       return;
     }
 
-    onAdd({
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    });
+    onAdd(newMovie);
 
     reset();
   }
