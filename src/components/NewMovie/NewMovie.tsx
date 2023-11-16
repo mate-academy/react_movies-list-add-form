@@ -17,14 +17,17 @@ export const NewMovie: React.FC<Movies> = ({ onAdd }) => {
     imdbId: '',
   });
 
-  const {title, description, imgUrl, imdbUrl, imdbId} = newMovie;
-  
+  const {
+    title, description, imgUrl, imdbUrl, imdbId,
+  } = newMovie;
+
   const [count, setCount] = useState(0);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const {name, value} = e.target;
-    setNewMovie((prevMovie) => ({...prevMovie, [name]: value}))
-  }
+    const { name, value } = e.target;
+
+    setNewMovie((prevMovie) => ({ ...prevMovie, [name]: value }));
+  };
 
   const buttonAction = !title || !imgUrl || !imdbUrl || !imdbId;
 
@@ -36,7 +39,7 @@ export const NewMovie: React.FC<Movies> = ({ onAdd }) => {
       imdbUrl: '',
       imdbId: '',
     });
-    
+
     setCount(prevValue => prevValue + 1);
   };
 
