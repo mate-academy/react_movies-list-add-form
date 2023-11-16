@@ -8,56 +8,43 @@ interface Props {
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
 
-  const [imdbUrlError, setImdbUrlError] = useState(false);
-  const [imgUrlError, setImgUrlError] = useState(false);
+  const [movie, setMovie] = useState({
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  });
+
+  const {
+    title, description, imgUrl, imdbUrl, imdbId,
+  } = movie;
+
+  const emptyField = !title || !imgUrl || !imdbId || !imdbUrl;
+
+  const onInputChange = (fieldName: string, value: string) => {
+    setMovie((prevMovie) => ({
+      ...prevMovie,
+      [fieldName]: value,
+    }));
+  };
 
   const reset = () => {
-    setCount(prevCount => prevCount + 1);
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbId('');
-    setImdbUrl('');
-  };
-
-  // eslint-disable-next-line max-len
-  const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
-
-  const handleImdbUrl = (newValue: string) => {
-    setImdbUrl(newValue);
-    setImdbUrlError(!imdbUrl.match(pattern));
-  };
-
-  const handleImgUrl = (newValue: string) => {
-    setImgUrl(newValue);
-    setImgUrlError(!imgUrl.match(pattern));
-  };
-
-  const emptyField
-    = !title || !imgUrl || !imdbId || !imdbUrl || imdbUrlError || imgUrlError;
-
-  const handleSubmit = (event: React.FormEvent) => {
-    event.preventDefault();
-
-    if (emptyField) {
-      return;
-    }
-
-    onAdd({
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
+    setMovie({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
     });
+  };
 
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     reset();
+    onAdd(movie);
+    setCount((prev) => prev + 1);
   };
 
   return (
@@ -72,8 +59,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={title}
-        onChange={(newValue) => {
-          setTitle(newValue);
+        onChange={(value) => {
+          onInputChange('title', value);
         }}
         required
       />
@@ -82,8 +69,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={description}
-        onChange={(newValue) => {
-          setDescription(newValue);
+        onChange={(value) => {
+          onInputChange('description', value);
         }}
       />
 
@@ -91,26 +78,28 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={handleImgUrl}
+        onChange={(value) => {
+          onInputChange('imgUrl', value);
+        }}
         required
-        customError={imgUrlError}
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={handleImdbUrl}
+        onChange={(value) => {
+          onInputChange('imdbUrl', value);
+        }}
         required
-        customError={imdbUrlError}
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={(newValue) => {
-          setImdbId(newValue);
+        onChange={(value) => {
+          onInputChange('imdbId', value);
         }}
         required
       />
