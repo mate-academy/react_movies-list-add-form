@@ -1,4 +1,4 @@
-import {useState } from 'react';
+import { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
@@ -47,6 +47,13 @@ export const NewMovie: React.FC<Props> = ({
     reset();
     addMovie(movie);
     setCount((prev) => prev + 1);
+  };
+
+  const formValidation = {
+    title: title.length === 0 || !title.trim(),
+    imgUrl: imgUrl.length === 0 || !imgUrl.trim(),
+    imdbUrl: imdbUrl.length === 0 || !imdbUrl.trim(),
+    imdbId: imdbId.length === 0 || !imdbId.trim(),
   };
 
   return (
@@ -102,9 +109,12 @@ export const NewMovie: React.FC<Props> = ({
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={title.length === 0
-               || imgUrl.length === 0
-               || imdbUrl.length === 0 || imdbId.length === 0}
+            disabled={
+              formValidation.title
+              || formValidation.imgUrl
+              || formValidation.imdbUrl
+              || formValidation.imdbId
+            }
           >
             Add
           </button>
