@@ -6,37 +6,44 @@ interface NewMovieProps {
   onAdd: (details: Movie) => void;
 }
 
-export const NewMovie:React.FC<NewMovieProps> = ({ onAdd }) => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
+export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
+  const [formState, setFormState] = useState({
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  });
   const [count, setCount] = useState(0);
-  const [currTitle, setCurrTitle] = useState('');
-  const [currDescription, setCurrDescription] = useState('');
-  const [currImgUrl, setCurrImgUrl] = useState('');
-  const [currImdbUrl, setCurrImdbUrl] = useState('');
-  const [currImdbId, setCurrImdbId] = useState('');
 
-  const disabledButton = currTitle !== ''
-  && currImgUrl !== '' && currImdbUrl !== '' && currImdbId !== '';
+  const handleInputChange = (name: string, value: string) => {
+    setFormState((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
 
   const handleButton = (event: React.FormEvent) => {
     event.preventDefault();
 
-    onAdd({
-      title: currTitle,
-      description: currDescription,
-      imgUrl: currImgUrl,
-      imdbUrl: currImdbUrl,
-      imdbId: currImdbId,
+    onAdd(formState);
+
+    setFormState({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
     });
 
-    setCurrTitle('');
-    setCurrDescription('');
-    setCurrImgUrl('');
-    setCurrImdbUrl('');
-    setCurrImdbId('');
-    setCount(count + 1);
+    setCount((prevCount) => prevCount + 1);
   };
+
+  const disabledButton
+      = !!formState.title.trim()
+      && !!formState.imgUrl.trim()
+      && !!formState.imdbUrl.trim()
+      && !!formState.imdbId.trim();
 
   return (
     <form
@@ -49,39 +56,39 @@ export const NewMovie:React.FC<NewMovieProps> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value={currTitle}
-        onChange={(even) => setCurrTitle(even)}
+        value={formState.title}
+        onChange={(value) => handleInputChange('title', value)}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value={currDescription}
-        onChange={(even) => setCurrDescription(even)}
+        value={formState.description}
+        onChange={(value) => handleInputChange('description', value)}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={currImgUrl}
-        onChange={(even) => setCurrImgUrl(even)}
+        value={formState.imgUrl}
+        onChange={(value) => handleInputChange('imgUrl', value)}
         required
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={currImdbUrl}
-        onChange={(even) => setCurrImdbUrl(even)}
+        value={formState.imdbUrl}
+        onChange={(value) => handleInputChange('imdbUrl', value)}
         required
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={currImdbId}
-        onChange={(even) => setCurrImdbId(even)}
+        value={formState.imdbId}
+        onChange={(value) => handleInputChange('imdbId', value)}
         required
       />
 
