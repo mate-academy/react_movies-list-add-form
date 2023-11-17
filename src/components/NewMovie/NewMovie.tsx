@@ -21,7 +21,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     title, description, imgUrl, imdbUrl, imdbId,
   } = movie;
 
-  const emptyField = !title || !imgUrl || !imdbId || !imdbUrl;
+  const requiredFields = movie.title.trim()
+    && movie.imgUrl.trim()
+    && movie.imdbUrl.trim()
+    && movie.imdbId.trim();
 
   const onInputChange = (fieldName: string, value: string) => {
     setMovie((prevMovie) => ({
@@ -110,7 +113,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={emptyField}
+            disabled={!requiredFields}
           >
             Add
           </button>
