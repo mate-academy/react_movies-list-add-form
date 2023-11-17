@@ -11,23 +11,38 @@ const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(
 export const NewMovie: React.FC<Movies> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
 
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
+  const [newMovie, setNewMovie] = useState({
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  });
 
   const reset = () => {
-    setTitle('');
-    setDescription('');
-    setImdbId('');
-    setImdbUrl('');
-    setImgUrl('');
-    setCount(currentCount => currentCount + 1);
+    setNewMovie({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
   };
 
-  const requiredFields = title.trim() && imgUrl.trim()
-  && imdbUrl.trim() && imdbId.trim();
+  const requiredFields = newMovie.title.trim()
+    && newMovie.imgUrl.trim()
+    && newMovie.imdbUrl.trim()
+    && newMovie.imdbId.trim();
+
+  function handlergData(
+    event: React.ChangeEvent<HTMLInputElement>,
+    name: string,
+  ): void {
+    setNewMovie(prevData => ({
+      ...prevData,
+      [name]: event.target.value,
+    }));
+  }
 
   function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
@@ -38,13 +53,7 @@ export const NewMovie: React.FC<Movies> = ({ onAdd }) => {
 
     setCount(currentCount => currentCount + 1);
 
-    onAdd({
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    });
+    onAdd({ ...newMovie });
 
     reset();
   }
@@ -53,7 +62,8 @@ export const NewMovie: React.FC<Movies> = ({ onAdd }) => {
     return pattern.test(value);
   }
 
-  const isUrlValid = validateUrl(imgUrl) && validateUrl(imdbUrl);
+  const isUrlValid = validateUrl(newMovie.imgUrl)
+    && validateUrl(newMovie.imdbUrl);
 
   return (
     <form
@@ -66,23 +76,23 @@ export const NewMovie: React.FC<Movies> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value={title}
-        onChange={newTitle => setTitle(newTitle)}
+        value={newMovie.title}
+        onChange={event => handlergData(event, 'title')}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value={description}
-        onChange={newDescription => setDescription(newDescription)}
+        value={newMovie.description}
+        onChange={event => handlergData(event, 'description')}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={imgUrl}
-        onChange={newImgUrl => setImgUrl(newImgUrl)}
+        value={newMovie.imgUrl}
+        onChange={event => handlergData(event, 'imgUrl')}
         validationUrl={value => validateUrl(value)}
         required
       />
@@ -90,8 +100,8 @@ export const NewMovie: React.FC<Movies> = ({ onAdd }) => {
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={imdbUrl}
-        onChange={newImdbUrl => setImdbUrl(newImdbUrl)}
+        value={newMovie.imdbUrl}
+        onChange={event => handlergData(event, 'imdbUrl')}
         validationUrl={value => validateUrl(value)}
         required
       />
@@ -99,8 +109,8 @@ export const NewMovie: React.FC<Movies> = ({ onAdd }) => {
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imdbId}
-        onChange={newImdbId => setImdbId(newImdbId)}
+        value={newMovie.imdbId}
+        onChange={event => handlergData(event, 'imdbId')}
         required
       />
 

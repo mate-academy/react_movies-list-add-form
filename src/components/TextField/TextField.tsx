@@ -7,7 +7,7 @@ type Props = {
   label?: string,
   placeholder?: string,
   required?: boolean,
-  onChange?: (newValue: string) => void,
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>, name: string) => void,
   validationUrl?: (value: string) => boolean
 };
 
@@ -52,13 +52,13 @@ export const TextField: React.FC<Props> = ({
           })}
           placeholder={placeholder}
           value={value}
-          onChange={event => onChange(event.target.value)}
+          onChange={event => onChange(event, name)}
           onBlur={handleBlur}
         />
       </div>
 
       {hasError && (
-        <p className="help is-danger">{!value ? `${label} is required` : 'Url-addres not correct'}</p>
+        <p className="help is-danger">{!value ? `${label} is required` : 'URL link not correct'}</p>
       )}
     </div>
   );
