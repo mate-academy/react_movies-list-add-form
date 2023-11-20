@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import React, { useState } from 'react';
+import { pattern } from '../../utils/validator';
 
 type Props = {
   name: string,
@@ -7,7 +8,7 @@ type Props = {
   label?: string,
   placeholder?: string,
   required?: boolean,
-  onChange?: (newValue: string) => void,
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void,
 };
 
 function getRandomDigits() {
@@ -29,7 +30,20 @@ export const TextField: React.FC<Props> = ({
 
   // To show errors only if the field was touched (onBlur)
   const [touched, setTouched] = useState(false);
-  const hasError = touched && required && !value;
+
+  const validValue = value.trim();
+  let errorMessage = '';
+
+  if ((name === 'imgUrl' || name === 'imdbUrl')
+  && value && !pattern.test(name)) {
+    errorMessage = 'Enter correct URL';
+  }
+
+  if (touched && required && !validValue) {
+    errorMessage = `Enter ${label}`;
+  }
+
+  const hasError = errorMessage;
 
   return (
     <div className="field">
@@ -46,14 +60,15 @@ export const TextField: React.FC<Props> = ({
             'is-danger': hasError,
           })}
           placeholder={placeholder}
+          name={name}
           value={value}
-          onChange={event => onChange(event.target.value)}
+          onChange={onChange}
           onBlur={() => setTouched(true)}
         />
       </div>
 
       {hasError && (
-        <p className="help is-danger">{`${label} is required`}</p>
+        <p className="help is-danger">{errorMessage}</p>
       )}
     </div>
   );
