@@ -1,23 +1,21 @@
 import React, { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
+import { EMPTY_MOVIE } from '../../utils/constants';
 
-type Props = {
-  onAdd: (newMovie: Movie) => void
-};
+interface Props {
+  onAdd: (newMovie: Movie) => void,
+}
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
+  const [newMovie, setNewMovie] = useState<Movie>(EMPTY_MOVIE);
 
-  const [newMovie, setNewMovie] = useState<Movie>({
-    title: '',
-    description: '',
-    imgUrl: '',
-    imdbUrl: '',
-    imdbId: '',
-  });
+  const isRequiredFieldsEntered = Object.entries(newMovie)
+    .filter(([name]) => name !== 'description')
+    .every(([, value]) => value.trim());
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = event.target;
@@ -28,25 +26,15 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     }));
   };
 
-  const hasErrors = Object.entries(newMovie)
-    .filter(([name]) => name !== 'description')
-    .some(([, value]) => !(value.trim()));
-
   const reset = () => {
     setCount(((prevCount) => prevCount + 1));
-
-    Object.entries(newMovie).forEach(([name]) => {
-      setNewMovie((prevState) => ({
-        ...prevState,
-        [name]: '',
-      }));
-    });
+    setNewMovie(EMPTY_MOVIE);
   };
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (hasErrors) {
+    if (!isRequiredFieldsEntered) {
       return;
     }
 
@@ -108,7 +96,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={hasErrors}
+            disabled={!isRequiredFieldsEntered}
           >
             Add
           </button>
