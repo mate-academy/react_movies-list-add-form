@@ -17,9 +17,9 @@ export const NewMovie: React.FC<Props> = ({
   const [imdbId, setImdbId] = useState('');
 
   const isChecked = title
-    && imgUrl
-    && imdbUrl
-    && imdbId;
+    && imgUrl.trim()
+    && imdbUrl.trim()
+    && imdbId.trim();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -27,11 +27,11 @@ export const NewMovie: React.FC<Props> = ({
     if (isChecked) {
       onAdd(
         {
-          title,
-          description,
-          imgUrl,
-          imdbUrl,
-          imdbId,
+          title: title.trim(),
+          description: description.trim(),
+          imgUrl: imgUrl.trim(),
+          imdbUrl: imdbUrl.trim(),
+          imdbId: imdbId.trim(),
         },
       );
 
