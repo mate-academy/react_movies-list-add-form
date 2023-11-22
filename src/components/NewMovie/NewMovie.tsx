@@ -46,13 +46,7 @@ export const NewMovie:React.FC<Props> = ({ onAdd }) => {
     event.preventDefault();
 
     setCount(currentValue => currentValue + 1);
-    onAdd({
-      title: formData.title,
-      description: formData.description,
-      imgUrl: formData.imgUrl,
-      imdbUrl: formData.imdbUrl,
-      imdbId: formData.imdbId,
-    });
+    onAdd(formData);
     resetForm();
   };
 
