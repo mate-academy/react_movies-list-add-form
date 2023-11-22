@@ -22,8 +22,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setMovie(MovieState);
   };
 
-  const handleChange = (key: string, value: string) => {
-    setMovie(prev => ({ ...prev, [key]: value }));
+  const handleChange = (name: string) => (value: string) => {
+    setMovie(prev => ({ ...prev, [name]: value }));
   };
 
   const {
@@ -38,10 +38,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     reset();
   };
 
-  const submitDisabled = !movie.title.trim()
-    || !movie.imgUrl.trim()
-    || !movie.imdbUrl.trim()
-    || !movie.imdbId.trim();
+  const submitDisabled = !title.trim()
+    || !imgUrl.trim()
+    || !imdbUrl.trim()
+    || !imdbId.trim();
 
   return (
     <form className="NewMovie" key={count} onSubmit={handleSubmit}>
@@ -51,7 +51,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={title}
-        onChange={(value) => handleChange('title', value)}
+        onChange={handleChange}
         required
       />
 
@@ -59,14 +59,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={description}
-        onChange={(value) => handleChange('description', value)}
+        onChange={(value) => handleChange('description')(value)}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={(value) => handleChange('imgUrl', value)}
+        onChange={(value) => handleChange('imgUrl')(value)}
         required
       />
 
@@ -74,7 +74,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={(value) => handleChange('imdbUrl', value)}
+        onChange={(value) => handleChange('imdbUrl')(value)}
         required
       />
 
@@ -82,7 +82,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={(value) => handleChange('imdbId', value)}
+        onChange={(value) => handleChange('imdbId')(value)}
         required
       />
 
