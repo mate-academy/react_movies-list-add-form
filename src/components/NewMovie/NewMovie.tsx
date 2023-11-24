@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Movie } from '../../types/Movie';
 import { TextField } from '../TextField';
 
@@ -22,7 +22,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd: addMovie }) => {
     setImdbID('');
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+
     setCount(count + 1);
     addMovie({
       title,
