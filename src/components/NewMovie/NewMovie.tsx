@@ -6,43 +6,49 @@ interface Props {
   onAdd: (movie: Movie) => void;
 }
 
+// eslint-disable-next-line max-len
+const URL_VALIDATING_PATTERN = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
+
 export const NewMovie: React.FC<Props> = ({ onAdd: addMovie }) => {
   const [count, setCount] = useState(0);
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imgUrl, setImgURL] = useState('');
-  const [imdbUrl, setImdbURL] = useState('');
-  const [imdbId, setImdbID] = useState('');
+  const [formInputs, setFormInputs] = useState<Movie>({
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  });
 
   const reset = () => {
-    setTitle('');
-    setDescription('');
-    setImgURL('');
-    setImdbURL('');
-    setImdbID('');
+    setFormInputs({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
   };
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
     setCount(count + 1);
-    addMovie({
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    });
+    addMovie(formInputs);
 
     reset();
   };
 
   const checkIfUrlValid = (url: string) => {
-    // eslint-disable-next-line max-len
-    const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
-
-    return pattern.test(url);
+    return URL_VALIDATING_PATTERN.test(url);
   };
+
+  const isSubmittable
+    = formInputs.title.trim() === ''
+    || formInputs.imgUrl.trim() === ''
+    || formInputs.imdbUrl.trim() === ''
+    || formInputs.imdbId.trim() === ''
+    || !checkIfUrlValid(formInputs.imgUrl)
+    || !checkIfUrlValid(formInputs.imdbUrl);
 
   return (
     <form onSubmit={handleSubmit} className="NewMovie" key={count}>
@@ -51,23 +57,32 @@ export const NewMovie: React.FC<Props> = ({ onAdd: addMovie }) => {
       <TextField
         name="title"
         label="Title"
-        value={title}
-        onChange={setTitle}
+        value={formInputs.title}
+        onChange={value => setFormInputs({
+          ...formInputs,
+          title: value,
+        })}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value={description}
-        onChange={setDescription}
+        value={formInputs.description}
+        onChange={value => setFormInputs({
+          ...formInputs,
+          description: value,
+        })}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={imgUrl}
-        onChange={setImgURL}
+        value={formInputs.imgUrl}
+        onChange={value => setFormInputs({
+          ...formInputs,
+          imgUrl: value,
+        })}
         checkUrl={checkIfUrlValid}
         required
       />
@@ -75,8 +90,11 @@ export const NewMovie: React.FC<Props> = ({ onAdd: addMovie }) => {
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={imdbUrl}
-        onChange={setImdbURL}
+        value={formInputs.imdbUrl}
+        onChange={value => setFormInputs({
+          ...formInputs,
+          imdbUrl: value,
+        })}
         checkUrl={checkIfUrlValid}
         required
       />
@@ -84,8 +102,11 @@ export const NewMovie: React.FC<Props> = ({ onAdd: addMovie }) => {
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imdbId}
-        onChange={setImdbID}
+        value={formInputs.imdbId}
+        onChange={value => setFormInputs({
+          ...formInputs,
+          imdbId: value,
+        })}
         required
       />
 
@@ -95,12 +116,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd: addMovie }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={
-              title.trim() === ''
-              || imgUrl.trim() === ''
-              || imdbUrl.trim() === ''
-              || imdbId.trim() === ''
-            }
+            disabled={isSubmittable}
           >
             Add
           </button>
