@@ -9,15 +9,18 @@ type Props = {
 export const NewMovie:React.FC<Props> = ({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
-  const [count, setCount] = useState(0);
 
-  const [formInfo, setFormInfo] = useState<Movie>({
+  const InitialFormInfo: Movie = {
     title: '',
     description: '',
-    imgUrl: '',
     imdbUrl: '',
     imdbId: '',
-  });
+    imgUrl: '',
+  };
+
+  const [count, setCount] = useState(0);
+
+  const [formInfo, setFormInfo] = useState<Movie>(InitialFormInfo);
 
   const {
     title,
@@ -37,11 +40,11 @@ export const NewMovie:React.FC<Props> = ({ onAdd }) => {
   const validImgUrl = validateUrl(imgUrl);
   const validImdbUrl = validateUrl(imdbUrl);
 
-  function handleInputChange(value: string, field: string) {
+  const handleInputChange = (value: string, field: string) => {
     setFormInfo(prevInfo => ({ ...prevInfo, [field]: value }));
-  }
+  };
 
-  function clearForm() {
+  const clearForm = () => {
     setFormInfo({
       title: '',
       description: '',
@@ -49,14 +52,14 @@ export const NewMovie:React.FC<Props> = ({ onAdd }) => {
       imdbUrl: '',
       imdbId: '',
     });
-  }
+  };
 
-  function handleSubmit(event: React.FormEvent) {
+  const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     onAdd(formInfo);
     setCount(prev => prev + 1);
     clearForm();
-  }
+  };
 
   return (
     <form className="NewMovie" key={count} onSubmit={handleSubmit}>
@@ -67,7 +70,7 @@ export const NewMovie:React.FC<Props> = ({ onAdd }) => {
         label="Title"
         value={title}
         placeholder="Enter Title"
-        onChange={() => handleInputChange}
+        onChange={handleInputChange}
         required
       />
 
@@ -76,17 +79,17 @@ export const NewMovie:React.FC<Props> = ({ onAdd }) => {
         label="Description"
         value={description}
         placeholder="Enter Description"
-        onChange={() => handleInputChange}
+        onChange={handleInputChange}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={imdbUrl}
+        value={imgUrl}
         invalidVal={validImgUrl}
         required
         placeholder="Enter Image URL"
-        onChange={() => handleInputChange}
+        onChange={handleInputChange}
       />
 
       <TextField
@@ -96,7 +99,7 @@ export const NewMovie:React.FC<Props> = ({ onAdd }) => {
         invalidVal={validImdbUrl}
         required
         placeholder="Enter Imdb URL"
-        onChange={() => handleInputChange}
+        onChange={handleInputChange}
       />
 
       <TextField
@@ -105,7 +108,7 @@ export const NewMovie:React.FC<Props> = ({ onAdd }) => {
         value={imdbId}
         required
         placeholder="Enter Image ID"
-        onChange={() => handleInputChange}
+        onChange={handleInputChange}
       />
 
       <div className="field is-grouped">
