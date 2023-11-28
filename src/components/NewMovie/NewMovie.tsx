@@ -14,6 +14,9 @@ const initialMovie = {
   imdbId: '',
 };
 
+// eslint-disable-next-line max-len
+const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
+
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
   const [movie, setMovie] = useState(initialMovie);
@@ -36,10 +39,16 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     handleReset();
   };
 
+  const handleUrlValidation = (url: string) => {
+    return !pattern.test(url);
+  };
+
   const isSubmitActive = !movie.title.trim()
     || !movie.imdbId.trim()
     || !movie.imdbUrl.trim()
-    || !movie.imgUrl.trim();
+    || !movie.imgUrl.trim()
+    || !handleUrlValidation(movie.imdbUrl)
+    || !handleUrlValidation(movie.imgUrl);
 
   return (
     <form className="NewMovie" key={count} onSubmit={handleSubmit}>
@@ -65,6 +74,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Image URL"
         value={movie.imgUrl}
         onChange={(value) => handleInputChange('imgUrl', value)}
+        urlValidation={handleUrlValidation}
         required
       />
 
@@ -72,6 +82,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         value={movie.imdbUrl}
         onChange={(value) => handleInputChange('imdbUrl', value)}
+        urlValidation={handleUrlValidation}
         required
       />
 
