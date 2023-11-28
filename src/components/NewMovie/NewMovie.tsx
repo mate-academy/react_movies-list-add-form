@@ -47,8 +47,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     || !movie.imdbId.trim()
     || !movie.imdbUrl.trim()
     || !movie.imgUrl.trim()
-    || !handleUrlValidation(movie.imdbUrl)
-    || !handleUrlValidation(movie.imgUrl);
+    || handleUrlValidation(movie.imdbUrl)
+    || handleUrlValidation(movie.imgUrl);
 
   return (
     <form className="NewMovie" key={count} onSubmit={handleSubmit}>
