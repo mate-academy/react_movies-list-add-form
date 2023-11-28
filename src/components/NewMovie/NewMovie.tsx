@@ -31,7 +31,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     // eslint-disable-next-line
     const regExUrl = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
 
-    return regExUrl.test(url);
+    return regExUrl.test(url.trim());
   };
 
   const validImgUrl = validateUrl(imgUrl);
@@ -112,7 +112,12 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!title || !imdbId || !imdbUrl || !imgUrl}
+            disabled={
+              !title.trim()
+              || !imdbId.trim()
+              || !imdbUrl.trim()
+              || !imgUrl.trim()
+            }
           >
             Add
           </button>
