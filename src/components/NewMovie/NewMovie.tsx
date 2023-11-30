@@ -20,7 +20,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
   const [movieInfo, setMovieInfo] = useState(startMovieForm);
 
-  const disableButton = (
+  const isButtonDisabled = (
     !movieInfo.title.trim()
     || !movieInfo.imgUrl.trim()
     || !movieInfo.imdbUrl.trim()
@@ -35,9 +35,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     event.preventDefault();
 
     onAdd(movieInfo);
-
     setCount(count + 1);
-
     reset();
   };
 
@@ -94,7 +92,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={disableButton}
+            disabled={isButtonDisabled}
           >
             Add
           </button>
