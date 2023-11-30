@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import React, { useState } from 'react';
+import { validateField } from '../../api/functions/validator';
 
 type Props = {
   name: string,
@@ -7,7 +8,7 @@ type Props = {
   label?: string,
   placeholder?: string,
   required?: boolean,
-  onChange?: (newValue: string) => void,
+  onChange?: (newValue: string, typeField: string) => void,
 };
 
 function getRandomDigits() {
@@ -22,7 +23,8 @@ export const TextField: React.FC<Props> = ({
   label = name,
   placeholder = `Enter ${label}`,
   required = false,
-  onChange = () => {},
+  onChange = () => { },
+
 }) => {
   // generage a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
@@ -36,7 +38,6 @@ export const TextField: React.FC<Props> = ({
       <label className="label" htmlFor={id}>
         {label}
       </label>
-
       <div className="control">
         <input
           type="text"
@@ -47,13 +48,16 @@ export const TextField: React.FC<Props> = ({
           })}
           placeholder={placeholder}
           value={value}
-          onChange={event => onChange(event.target.value)}
+          onChange={event => onChange(event.target.value, name)}
           onBlur={() => setTouched(true)}
         />
       </div>
 
       {hasError && (
         <p className="help is-danger">{`${label} is required`}</p>
+      )}
+      {validateField(value, name) && touched && (
+        <p className="help is-danger">{`${label} is not correct`}</p>
       )}
     </div>
   );
