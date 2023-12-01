@@ -14,7 +14,7 @@ interface NewMovieProps {
   onAdd: (movie: Movie) => void;
 }
 
-export const NewMovie:React.FC<NewMovieProps> = ({ onAdd }) => {
+export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
   const [isSubmitActive, setIsSubmitActive] = useState(false);
   const [movie, setMovie] = useState<Movie>(initialMovieState);
@@ -43,6 +43,10 @@ export const NewMovie:React.FC<NewMovieProps> = ({ onAdd }) => {
     });
   };
 
+  const validation = (value: string): boolean => {
+    return !(value.length !== 0 && value.trim.length === 0);
+  };
+
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
@@ -66,6 +70,7 @@ export const NewMovie:React.FC<NewMovieProps> = ({ onAdd }) => {
         onChange={(value: string) => {
           handleInputChange('title', value);
         }}
+        isValueValid={validation}
         required
       />
 
@@ -76,6 +81,7 @@ export const NewMovie:React.FC<NewMovieProps> = ({ onAdd }) => {
         onChange={(value: string) => {
           handleInputChange('description', value);
         }}
+        isValueValid={validation}
       />
 
       <TextField
@@ -85,6 +91,7 @@ export const NewMovie:React.FC<NewMovieProps> = ({ onAdd }) => {
         onChange={(value: string) => {
           handleInputChange('imgUrl', value);
         }}
+        isValueValid={validation}
         required
       />
 
@@ -95,6 +102,7 @@ export const NewMovie:React.FC<NewMovieProps> = ({ onAdd }) => {
         onChange={(value: string) => {
           handleInputChange('imdbUrl', value);
         }}
+        isValueValid={validation}
         required
       />
 
@@ -105,6 +113,7 @@ export const NewMovie:React.FC<NewMovieProps> = ({ onAdd }) => {
         onChange={(value: string) => {
           handleInputChange('imdbId', value);
         }}
+        isValueValid={validation}
         required
       />
 
