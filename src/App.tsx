@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import './App.scss';
 import { MoviesList } from './components/MoviesList';
 import { NewMovie } from './components/NewMovie';
@@ -7,9 +7,9 @@ import { Movie } from './types/Movie';
 
 export const App = () => {
   const [movies, setMovies] = useState<Movie[]>(moviesFromServer);
-  const addPost = (data:Movie) => {
+  const addPost = useCallback((data:Movie) => {
     setMovies((currentPosts) => [...currentPosts, data]);
-  };
+  }, []);
 
   return (
     <div className="page">

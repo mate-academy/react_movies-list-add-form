@@ -31,11 +31,16 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setMovieInfo(startMovieForm);
   };
 
+  const counterIncr = () => {
+    setCount((prev) => prev + 1);
+  };
+
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
     onAdd(movieInfo);
-    setCount(count + 1);
+    counterIncr();
+    // setCount(count + 1);
     reset();
   };
 
