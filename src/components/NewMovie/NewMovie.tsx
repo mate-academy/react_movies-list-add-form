@@ -40,7 +40,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
     onAdd(movieInfo);
     counterIncr();
-    // setCount(count + 1);
     reset();
   };
 
