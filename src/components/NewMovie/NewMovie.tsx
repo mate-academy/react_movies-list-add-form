@@ -7,6 +7,9 @@ type Props = {
 };
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
+  // eslint-disable-next-line max-len
+  const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
+
   const [count] = useState(0);
   const [submitDisabled, setSubmitDisabled] = useState(true);
 
@@ -123,6 +126,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         onChange={(value) => handleChange('imgUrl', value)}
         onBlur={() => handBlur('imgUrl')}
         required
+        validate={(value) => pattern.test(value)}
       />
 
       <TextField
@@ -132,6 +136,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         onChange={(value) => handleChange('imdbUrl', value)}
         onBlur={() => handBlur('imdbUrl')}
         required
+        validate={(value) => pattern.test(value)}
       />
 
       <TextField
