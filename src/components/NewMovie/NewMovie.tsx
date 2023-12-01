@@ -18,8 +18,11 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   // eslint-disable-next-line max-len
   const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
 
+  const invalidImgUrl = pattern.test(imgUrl);
+  const invalidImdbUrl = pattern.test(imdbUrl);
+
   const hasError = !title || !imgUrl || !imdbUrl || !imdbId
-    || !pattern.test(imgUrl) || !pattern.test(imdbUrl);
+    || !invalidImgUrl || !invalidImdbUrl;
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -59,8 +62,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       />
 
       <TextField
-        name="descriptioncription"
-        label="descriptioncription"
+        name="description"
+        label="description"
         value={description}
         onChange={(newValue) => setDescription(newValue)}
       />
@@ -70,6 +73,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Image URL"
         value={imgUrl}
         onChange={(newValue) => setImgUrl(newValue)}
+        invalidImgUrl={!invalidImgUrl}
         required
       />
 
@@ -78,6 +82,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Imdb URL"
         value={imdbUrl}
         onChange={(newValue) => setImdbUrl(newValue)}
+        invalidImdbUrl={!invalidImdbUrl}
         required
       />
 
