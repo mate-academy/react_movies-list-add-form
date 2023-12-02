@@ -31,7 +31,8 @@ export const TextField: React.FC<Props> = ({
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
   const [touched, setTouched] = useState(false);
-  const hasError = touched && required && (!value || !validate(value));
+  const hasError = touched && required && (!value.trim()
+  || !validate(value.trim()));
 
   return (
     <div className="field">
