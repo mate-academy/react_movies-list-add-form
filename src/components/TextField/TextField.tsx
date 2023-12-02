@@ -10,6 +10,7 @@ type Props = {
   required?: boolean,
   url?: boolean,
   onChange?: (newValue: string) => void,
+  hasSomeError: (value: boolean) => void,
 };
 
 function getRandomDigits() {
@@ -26,6 +27,7 @@ export const TextField: React.FC<Props> = ({
   required = false,
   url = false,
   onChange = () => { },
+  hasSomeError,
 }) => {
   // generage a unique id once on component load
   const { 0: id } = useState(() => `${name}-${getRandomDigits()}`);
@@ -40,9 +42,13 @@ export const TextField: React.FC<Props> = ({
     let errorMessageText = '';
 
     if (required && !inputValue) {
+      hasSomeError(true);
       errorMessageText = (`${label} is required`);
     } else if (url && !isUrl(inputValue)) {
+      hasSomeError(true);
       errorMessageText = ('This is not a url');
+    } else {
+      hasSomeError(false);
     }
 
     setErrorMessage(errorMessageText);
