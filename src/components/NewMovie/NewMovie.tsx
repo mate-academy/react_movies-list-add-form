@@ -4,32 +4,40 @@ import { Movie } from '../../types/Movie';
 
 interface Props {
   onAdd: (movie: Movie) => void,
-
 }
 
-export const NewMovie: React.FC<Props> = ({
-  onAdd,
-}) => {
+export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
   const { 0: count, 1: setCount } = useState(0);
+
   const { 0: hasSomeError, 1: setHasSomeError } = useState(false);
+  const { 0: movie, 1: setMovie } = useState<Movie>({
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  });
 
-  const { 0: title, 1: setTitle } = useState('');
-  const { 0: description, 1: setDescription } = useState('');
-  const { 0: imgUrl, 1: setImgUrl } = useState('');
-  const { 0: imdbUrl, 1: setImdbUrl } = useState('');
-  const { 0: imdbId, 1: setImdbId } = useState('');
+  const canSubmit = movie.title.trim() && movie.imgUrl.trim()
+    && movie.imdbUrl.trim() && movie.imdbId.trim() && !hasSomeError;
 
-  const canSubmit = title.trim() && imgUrl.trim()
-    && imdbUrl.trim() && imdbId.trim() && !hasSomeError;
+  const handleChange = (fieldName: keyof Movie, value: string) => {
+    setMovie(prevMovie => ({
+      ...prevMovie,
+      [fieldName]: value,
+    }));
+  };
 
   const resetForm = () => {
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
+    setMovie({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
   };
 
   const handleFormSubmit = (event: React.FormEvent) => {
@@ -39,13 +47,15 @@ export const NewMovie: React.FC<Props> = ({
       return;
     }
 
-    onAdd({
-      title: title.trim(),
-      description: description.trim(),
-      imgUrl: imgUrl.trim(),
-      imdbUrl: imdbUrl.trim(),
-      imdbId: imdbId.trim(),
-    });
+    const trimmedMovie = {
+      title: movie.title.trim(),
+      description: movie.description.trim(),
+      imgUrl: movie.imgUrl.trim(),
+      imdbUrl: movie.imdbUrl.trim(),
+      imdbId: movie.imdbId.trim(),
+    };
+
+    onAdd(trimmedMovie);
 
     resetForm();
 
@@ -63,8 +73,8 @@ export const NewMovie: React.FC<Props> = ({
       <TextField
         name="title"
         label="Title"
-        value={title}
-        onChange={setTitle}
+        value={movie.title}
+        onChange={(value) => handleChange('title', value)}
         required
         hasSomeError={setHasSomeError}
       />
@@ -72,16 +82,16 @@ export const NewMovie: React.FC<Props> = ({
       <TextField
         name="description"
         label="Description"
-        value={description}
-        onChange={setDescription}
+        value={movie.description}
+        onChange={(value) => handleChange('description', value)}
         hasSomeError={setHasSomeError}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={imgUrl}
-        onChange={setImgUrl}
+        value={movie.imgUrl}
+        onChange={(value) => handleChange('imgUrl', value)}
         hasSomeError={setHasSomeError}
         url
         required
@@ -90,8 +100,8 @@ export const NewMovie: React.FC<Props> = ({
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={imdbUrl}
-        onChange={setImdbUrl}
+        value={movie.imdbUrl}
+        onChange={(value) => handleChange('imdbUrl', value)}
         hasSomeError={setHasSomeError}
         url
         required
@@ -100,8 +110,8 @@ export const NewMovie: React.FC<Props> = ({
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imdbId}
-        onChange={setImdbId}
+        value={movie.imdbId}
+        onChange={(value) => handleChange('imdbId', value)}
         hasSomeError={setHasSomeError}
         required
       />
