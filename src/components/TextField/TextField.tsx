@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import React, { useState } from 'react';
+import isUrl from '../../utils/isUrl';
 
 type Props = {
   name: string,
@@ -7,7 +8,9 @@ type Props = {
   label?: string,
   placeholder?: string,
   required?: boolean,
+  url?: boolean,
   onChange?: (newValue: string) => void,
+  hasSomeError: (value: boolean) => void,
 };
 
 function getRandomDigits() {
@@ -22,14 +25,35 @@ export const TextField: React.FC<Props> = ({
   label = name,
   placeholder = `Enter ${label}`,
   required = false,
-  onChange = () => {},
+  url = false,
+  onChange = () => { },
+  hasSomeError,
 }) => {
   // generage a unique id once on component load
-  const [id] = useState(() => `${name}-${getRandomDigits()}`);
+  const { 0: id } = useState(() => `${name}-${getRandomDigits()}`);
 
   // To show errors only if the field was touched (onBlur)
-  const [touched, setTouched] = useState(false);
-  const hasError = touched && required && !value;
+  // const [touched, setTouched] = useState(false);
+
+  const { 0: errorMessage, 1: setErrorMessage } = useState('');
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const inputValue = event.target.value;
+    let errorMessageText = '';
+
+    if (required && !inputValue) {
+      hasSomeError(true);
+      errorMessageText = (`${label} is required`);
+    } else if (url && !isUrl(inputValue)) {
+      hasSomeError(true);
+      errorMessageText = ('This is not a url');
+    } else {
+      hasSomeError(false);
+    }
+
+    setErrorMessage(errorMessageText);
+    onChange(inputValue);
+  };
 
   return (
     <div className="field">
@@ -43,17 +67,17 @@ export const TextField: React.FC<Props> = ({
           id={id}
           data-cy={`movie-${name}`}
           className={classNames('input', {
-            'is-danger': hasError,
+            'is-danger': errorMessage,
           })}
           placeholder={placeholder}
           value={value}
-          onChange={event => onChange(event.target.value)}
-          onBlur={() => setTouched(true)}
+          onChange={handleChange}
+          // onBlur={() => setTouched(true)}
         />
       </div>
 
-      {hasError && (
-        <p className="help is-danger">{`${label} is required`}</p>
+      {errorMessage && (
+        <p className="help is-danger">{errorMessage}</p>
       )}
     </div>
   );
