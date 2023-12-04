@@ -10,50 +10,56 @@ export const NewMovie = ({ onAdd }: NewMovieProps) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
-  const [title, setTitle] = useState<string>('');
-  const [description, setDescription] = useState<string>('');
-  const [imgUrl, setImgUrl] = useState<string>('');
-  const [imdbUrl, setImdbUrl] = useState<string>('');
-  const [imdbId, setImdbId] = useState<string>('');
 
-  const isButtonDisabled = ():boolean => {
-    if (title.trim().length === 0) {
-      return true;
-    }
+  const [newMovie, setNewMovie] = useState<Movie>({
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  });
 
-    if (imgUrl.trim().length === 0) {
-      return true;
-    }
+  const isButtonDisabled = (): boolean => {
+    return Object.values(newMovie).every((value) => value.trim().length === 0);
+  };
 
-    if (imdbUrl.trim().length === 0) {
-      return true;
-    }
-
-    if (imdbId.trim().length === 0) {
-      return true;
-    }
-
-    return false;
+  const handleChange = (name: keyof Movie, value: string) => {
+    setNewMovie((prevMovie) => ({
+      ...prevMovie,
+      [name]: value,
+    }));
   };
 
   const createMovie = (event: React.MouseEvent) => {
     event.preventDefault();
 
-    const movie = {
-      title: title.trim(),
-      description: description.trim(),
-      imgUrl: imgUrl.trim(),
-      imdbUrl: imdbUrl.trim(),
-      imdbId: imdbId.trim(),
+    const trimmedMovie: Movie = {
+      title: newMovie.title.trim(),
+      description: newMovie.description.trim(),
+      imgUrl: newMovie.imgUrl.trim(),
+      imdbUrl: newMovie.imdbUrl.trim(),
+      imdbId: newMovie.imdbId.trim(),
     };
 
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
-    onAdd(movie);
+    if (
+      trimmedMovie.title.length === 0
+      || trimmedMovie.imgUrl.length === 0
+      || trimmedMovie.imdbUrl.length === 0
+      || trimmedMovie.imdbId.length === 0
+    ) {
+      return;
+    }
+
+    onAdd(trimmedMovie);
     setCount((prev) => prev + 1);
+
+    setNewMovie({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
   };
 
   return (
@@ -63,49 +69,39 @@ export const NewMovie = ({ onAdd }: NewMovieProps) => {
       <TextField
         name="title"
         label="Title"
-        value={title}
-        onChange={(e) => {
-          setTitle(e);
-        }}
+        value={newMovie.title}
+        onChange={(value) => handleChange('title', value)}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value={description}
-        onChange={(e) => {
-          setDescription(e);
-        }}
+        value={newMovie.description}
+        onChange={(value) => handleChange('description', value)}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={imgUrl}
-        onChange={(e) => {
-          setImgUrl(e);
-        }}
+        value={newMovie.imgUrl}
+        onChange={(value) => handleChange('imgUrl', value)}
         required
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={imdbUrl}
-        onChange={(e) => {
-          setImdbUrl(e);
-        }}
+        value={newMovie.imdbUrl}
+        onChange={(value) => handleChange('imdbUrl', value)}
         required
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imdbId}
-        onChange={(e) => {
-          setImdbId(e);
-        }}
+        value={newMovie.imdbId}
+        onChange={(value) => handleChange('imdbId', value)}
         required
       />
 
