@@ -38,7 +38,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     resetAllTextAreas();
   };
 
-  const isValidForm = title && imgUrl && imdbUrl && imdbId;
+  const isValidForm = title.trim()
+    && imgUrl.trim()
+    && imdbUrl.trim()
+    && imdbId.trim();
 
   return (
     <form
@@ -60,14 +63,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={description}
-        onChange={setDescription}
+        onChange={value => setDescription(value)}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={setImgURL}
+        onChange={value => setImgURL(value)}
         required
       />
 
@@ -75,7 +78,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={setImdbURL}
+        onChange={value => setImdbURL(value)}
         required
       />
 
@@ -83,7 +86,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={setImdbID}
+        onChange={value => setImdbID(value)}
         required
       />
 
