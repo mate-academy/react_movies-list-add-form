@@ -6,6 +6,9 @@ type Props = {
   onAdd: (movie: Movie) => void;
 };
 
+// eslint-disable-next-line max-len
+const URL_VALIDATING_PATTERN = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
+
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
 
@@ -14,6 +17,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imgUrl, setImgUrl] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
+
+  const isUrlValid = (url: string) => {
+    return URL_VALIDATING_PATTERN.test(url);
+  };
 
   const handleReset = () => {
     setTitle('');
@@ -44,7 +51,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const isDisabled = !title.trim()
     || !imgUrl.trim()
     || !imdbUrl.trim()
-    || !imdbId.trim();
+    || !imdbId.trim()
+    || !isUrlValid(imgUrl)
+    || !isUrlValid(imdbUrl);
 
   return (
     <form
@@ -75,6 +84,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={imgUrl}
         onChange={(value) => setImgUrl(value)}
         required
+        isUrlValid={isUrlValid}
       />
 
       <TextField
@@ -83,6 +93,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={imdbUrl}
         onChange={(value) => setImdbUrl(value)}
         required
+        isUrlValid={isUrlValid}
       />
 
       <TextField
