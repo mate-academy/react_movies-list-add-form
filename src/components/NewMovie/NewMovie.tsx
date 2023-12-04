@@ -18,11 +18,11 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     e.preventDefault();
 
     onAdd({
-      title: movieTitle,
+      title: movieTitle.trim(),
       description: movieDescription,
       imgUrl: imageUrl,
-      imdbUrl,
-      imdbId,
+      imdbUrl: imdbUrl.trim(),
+      imdbId: imdbId.trim(),
     });
 
     setCount(prev => prev + 1);
