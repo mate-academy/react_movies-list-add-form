@@ -20,19 +20,10 @@ export const NewMovie = ({ onAdd }: NewMovieProps) => {
   });
 
   const isButtonDisabled = (): boolean => {
-    if (newMovie.title.trim().length === 0) {
-      return true;
-    }
-
-    if (newMovie.imgUrl.trim().length === 0) {
-      return true;
-    }
-
-    if (newMovie.imdbUrl.trim().length === 0) {
-      return true;
-    }
-
-    if (newMovie.imdbId.trim().length === 0) {
+    if (newMovie.title.trim().length === 0
+    || newMovie.imgUrl.trim().length === 0
+    || newMovie.imdbUrl.trim().length === 0
+    || newMovie.imdbId.trim().length === 0) {
       return true;
     }
 
