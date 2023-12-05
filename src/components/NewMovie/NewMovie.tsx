@@ -24,10 +24,10 @@ export const NewMovie = ({ onAdd }: Props) => {
   const [imdbURL, setImdbURL] = useState(emptyMovie.imdbUrl);
   const [imdbId, setImdbId] = useState(emptyMovie.imdbId);
 
-  const canNotBeAdded = !movieTitle
-  || !imgURL
-  || !imdbId
-  || !imdbURL;
+  const canNotBeAdded = !movieTitle.trim()
+  || !imgURL.trim()
+  || !imdbId.trim()
+  || !imdbURL.trim();
 
   const resetFields = () => {
     setMovieTitle(emptyMovie.title);
