@@ -19,8 +19,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
     onAdd({
       title: movieTitle.trim(),
-      description: movieDescription,
-      imgUrl: imageUrl,
+      description: movieDescription.trim(),
+      imgUrl: imageUrl.trim(),
       imdbUrl: imdbUrl.trim(),
       imdbId: imdbId.trim(),
     });
