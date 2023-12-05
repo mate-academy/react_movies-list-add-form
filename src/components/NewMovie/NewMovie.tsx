@@ -33,7 +33,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setImdbId('');
   };
 
-  const isButtonDisabled = !movieTitle
+  const isButtonDisabled = !movieTitle.trim()
     || !imageUrl.trim()
     || !imdbId.trim()
     || !imdbUrl.trim();
