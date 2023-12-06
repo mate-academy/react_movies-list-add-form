@@ -7,26 +7,36 @@ type Props = {
   onAdd: (movie: Movie) => void;
 };
 
-// eslint-disable-next-line max-len
-// const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
-
 export const NewMovie: React.FC<Props> = ({
   onAdd,
 }) => {
   const [count, setCount] = useState(0);
 
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
+  const [newMovie, setNewMovie] = useState({
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  });
+
+  const {
+    title,
+    description,
+    imgUrl,
+    imdbUrl,
+    imdbId,
+  } = newMovie;
 
   const reset = () => {
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
+    setNewMovie({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
+
     setCount(count + 1);
   };
 
@@ -34,11 +44,7 @@ export const NewMovie: React.FC<Props> = ({
     event.preventDefault();
 
     const movie: Movie = {
-      title: title.trim(),
-      description: description.trim(),
-      imgUrl: imgUrl.trim(),
-      imdbUrl: imdbUrl.trim(),
-      imdbId: imdbId.trim(),
+      ...newMovie,
     };
 
     onAdd(movie);
@@ -49,6 +55,18 @@ export const NewMovie: React.FC<Props> = ({
   const isDisabled = (
     !(title.trim() && imgUrl.trim() && imdbUrl.trim() && imdbId.trim())
     || !(checkValidation(imgUrl) && checkValidation(imdbUrl)));
+
+  const handleChange = (
+    name: keyof Movie,
+    e: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    const { value } = e.target;
+
+    setNewMovie((prevMovie: Movie) => ({
+      ...prevMovie,
+      [name]: value,
+    }));
+  };
 
   return (
     <form
@@ -62,7 +80,7 @@ export const NewMovie: React.FC<Props> = ({
         name="title"
         label="Title"
         value={title}
-        onChange={setTitle}
+        onChange={(event) => handleChange('title', event)}
         required
       />
 
@@ -70,14 +88,14 @@ export const NewMovie: React.FC<Props> = ({
         name="description"
         label="Description"
         value={description}
-        onChange={setDescription}
+        onChange={(event) => handleChange('description', event)}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={setImgUrl}
+        onChange={(event) => handleChange('imgUrl', event)}
         onValidate={checkValidation}
         required
       />
@@ -86,7 +104,7 @@ export const NewMovie: React.FC<Props> = ({
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={setImdbUrl}
+        onChange={(event) => handleChange('imdbUrl', event)}
         onValidate={checkValidation}
         required
       />
@@ -95,7 +113,7 @@ export const NewMovie: React.FC<Props> = ({
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={setImdbId}
+        onChange={(event) => handleChange('imdbId', event)}
         required
       />
 

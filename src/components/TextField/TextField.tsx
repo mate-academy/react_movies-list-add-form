@@ -8,7 +8,7 @@ type Props = {
   placeholder?: string,
   required?: boolean,
   onValidate?: (str: string) => boolean,
-  onChange?: (newValue: string) => void,
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void,
 };
 
 function getRandomDigits() {
@@ -60,7 +60,7 @@ export const TextField: React.FC<Props> = ({
           placeholder={placeholder}
           value={value}
           required={required}
-          onChange={event => onChange(event.target.value)}
+          onChange={event => onChange(event)}
           onBlur={handleBlur}
         />
       </div>
