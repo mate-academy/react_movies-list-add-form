@@ -1,53 +1,140 @@
-import { useState } from 'react';
+import classNames from 'classnames';
+import React, { useState } from 'react';
+import { Movie } from '../../types/Movie';
 import { TextField } from '../TextField';
 
-export const NewMovie = () => {
+type Props = {
+  onAdd: (movie: Movie) => void;
+};
+
+/* eslint-disable */
+
+const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
+
+/* eslint-enable */
+
+export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
-  const [count] = useState(0);
+  const [count, setCount] = useState(0);
+
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [imgUrl, setImageUrl] = useState('');
+  const [imdbUrl, setImdbUrl] = useState('');
+  const [imdbId, setImdbId] = useState('');
+  const [hasError, setHasError] = useState(false);
+
+  const isValidLink = (link: string) => (pattern.test(link));
+
+  const fullFields = title.trim()
+  && imgUrl.trim()
+  && imdbUrl.trim()
+  && imdbId.trim()
+  && isValidLink(imgUrl)
+  && isValidLink(imdbUrl);
+
+  const reset = () => {
+    setTitle('');
+    setDescription('');
+    setImageUrl('');
+    setImdbUrl('');
+    setImdbId('');
+
+    setHasError(false);
+  };
+
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+
+    onAdd({
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    });
+
+    setCount(count + 1);
+
+    reset();
+  };
 
   return (
-    <form className="NewMovie" key={count}>
+    <form
+      className="NewMovie"
+      key={count}
+      onSubmit={handleSubmit}
+      onReset={reset}
+    >
       <h2 className="title">Add a movie</h2>
 
       <TextField
         name="title"
         label="Title"
-        value=""
-        onChange={() => {}}
+        value={title}
+        forChange={(value) => {
+          setTitle(value);
+          setHasError(false);
+        }}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value=""
+        value={description}
+        forChange={(value) => {
+          setDescription(value);
+          setHasError(true);
+        }}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value=""
+        value={imgUrl}
+        forChange={(value) => {
+          setImageUrl(value);
+          setHasError(false);
+        }}
+        required
+        isValidLink={isValidLink}
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value=""
+        value={imdbUrl}
+        forChange={(value) => {
+          setImdbUrl(value);
+          setHasError(false);
+        }}
+        required
+        isValidLink={isValidLink}
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value=""
+        value={imdbId}
+        forChange={(value) => {
+          setImdbId(value);
+          setHasError(false);
+        }}
+        required
       />
 
-      <div className="field is-grouped">
+      <div className={classNames('field', {
+        'is-grouped': fullFields && !hasError,
+      })}
+      >
         <div className="control">
           <button
             type="submit"
             data-cy="submit-button"
             className="button is-link"
+            disabled={!fullFields}
           >
             Add
           </button>
