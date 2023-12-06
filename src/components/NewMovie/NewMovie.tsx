@@ -75,7 +75,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={title}
         forChange={(value) => {
           setTitle(value);
-          setHasError(false);
+          // setHasError(false);
         }}
         required
       />
@@ -126,7 +126,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       />
 
       <div className={classNames('field', {
-        'is-grouped': fullFields && !hasError,
+        'is-grouped': fullFields,
       })}
       >
         <div className="control">

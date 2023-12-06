@@ -34,7 +34,7 @@ export const TextField: React.FC<Props> = ({
 
   const hasError = touched && required && !value;
 
-  const isErrorValidLink = touched && isValidLink(value);
+  const isErrorValidLink = touched && !isValidLink(value);
 
   const isErrorVisible = isErrorValidLink && !hasError;
 
