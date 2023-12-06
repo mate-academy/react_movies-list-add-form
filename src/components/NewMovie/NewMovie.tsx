@@ -14,8 +14,6 @@ const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(
 /* eslint-enable */
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
 
   const [title, setTitle] = useState('');
@@ -126,7 +124,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       />
 
       <div className={classNames('field', {
-        'is-grouped': fullFields,
+        'is-grouped': fullFields && !hasError,
       })}
       >
         <div className="control">
