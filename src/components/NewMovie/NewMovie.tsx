@@ -60,23 +60,18 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    onAdd({
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    });
+    onAdd(newMovie);
 
     setCount(count + 1);
 
     reset();
   };
 
-  const handleChange = (e: ...) => {
-    const {name, value} = e.target;
-    setMovie((prevMovie) => ({...prevMovie, [name]: value}))
-  }
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+
+    setNewMovie((prevMovie) => ({ ...prevMovie, [name]: value }));
+  };
 
   return (
     <form
@@ -91,10 +86,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={newMovie.title}
-        forChange={(value) => {
-          setNewMovie(value);
-          // setHasError(false);
-        }}
+        forChange={handleChange}
         required
       />
 
@@ -102,20 +94,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={newMovie.description}
-        forChange={(value) => {
-          setNewMovie(value);
-          setHasError(true);
-        }}
+        forChange={handleChange}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={newMovie.imgUrl}
-        forChange={(value) => {
-          setNewMovie(value);
-          setHasError(false);
-        }}
+        forChange={handleChange}
         required
         isValidLink={isValidLink}
       />
@@ -124,10 +110,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={newMovie.imdbUrl}
-        forChange={(value) => {
-          setNewMovie(value);
-          setHasError(false);
-        }}
+        forChange={handleChange}
         required
         isValidLink={isValidLink}
       />
@@ -136,10 +119,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={newMovie.imdbId}
-        forChange={(value) => {
-          setNewMovie(value);
-          setHasError(false);
-        }}
+        forChange={handleChange}
         required
       />
 
