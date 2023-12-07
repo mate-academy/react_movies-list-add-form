@@ -24,11 +24,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     imdbId: '',
   });
 
-  // const [title, setTitle] = useState('');
-  // const [description, setDescription] = useState('');
-  // const [imgUrl, setImageUrl] = useState('');
-  // const [imdbUrl, setImdbUrl] = useState('');
-  // const [imdbId, setImdbId] = useState('');
   const [hasError, setHasError] = useState(false);
 
   const isValidLink = (link: string) => (pattern.test(link));
@@ -41,11 +36,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   && isValidLink(newMovie.imdbUrl);
 
   const reset = () => {
-    // setTitle('');
-    // setDescription('');
-    // setImageUrl('');
-    // setImdbUrl('');
-    // setImdbId('');
     setNewMovie({
       title: '',
       description: '',

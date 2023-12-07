@@ -7,7 +7,6 @@ type Props = {
   label?: string,
   placeholder?: string,
   required?: boolean,
-  // forChange?: (newValue: string) => void,
   forChange?: (event: React.ChangeEvent<HTMLInputElement>) => void
   isValidLink?: (link: string) => boolean,
 };
