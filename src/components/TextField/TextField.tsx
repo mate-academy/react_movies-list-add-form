@@ -7,10 +7,13 @@ type Props = {
   label?: string,
   placeholder?: string,
   required?: boolean,
-  onChange?: (newValue: string) => void,
+  onChange?: (
+    event: React.ChangeEvent<HTMLInputElement>,
+    moviePropName: string,
+  ) => void,
 };
 
-function getRandomDigits() {
+function generateRandomId() {
   return Math.random()
     .toFixed(16)
     .slice(2);
@@ -22,14 +25,12 @@ export const TextField: React.FC<Props> = ({
   label = name,
   placeholder = `Enter ${label}`,
   required = false,
-  onChange = () => {},
+  onChange = () => { },
 }) => {
-  // generage a unique id once on component load
-  const [id] = useState(() => `${name}-${getRandomDigits()}`);
+  const [id] = useState(() => `${name}-${generateRandomId()}`);
 
-  // To show errors only if the field was touched (onBlur)
-  const [touched, setTouched] = useState(false);
-  const hasError = touched && required && !value;
+  const [isFieldFocused, setIsFieldFocused] = useState(false);
+  const hasError = isFieldFocused && required && !value;
 
   return (
     <div className="field">
@@ -47,8 +48,8 @@ export const TextField: React.FC<Props> = ({
           })}
           placeholder={placeholder}
           value={value}
-          onChange={event => onChange(event.target.value)}
-          onBlur={() => setTouched(true)}
+          onChange={event => onChange(event, name)}
+          onBlur={() => setIsFieldFocused(true)}
         />
       </div>
 
