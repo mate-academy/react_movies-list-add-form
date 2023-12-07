@@ -16,28 +16,43 @@ const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
 
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imgUrl, setImageUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
+  const [newMovie, setNewMovie] = useState({
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  });
+
+  // const [title, setTitle] = useState('');
+  // const [description, setDescription] = useState('');
+  // const [imgUrl, setImageUrl] = useState('');
+  // const [imdbUrl, setImdbUrl] = useState('');
+  // const [imdbId, setImdbId] = useState('');
   const [hasError, setHasError] = useState(false);
 
   const isValidLink = (link: string) => (pattern.test(link));
 
-  const fullFields = title.trim()
-  && imgUrl.trim()
-  && imdbUrl.trim()
-  && imdbId.trim()
-  && isValidLink(imgUrl)
-  && isValidLink(imdbUrl);
+  const fullFields = newMovie.title.trim()
+  && newMovie.imgUrl.trim()
+  && newMovie.imdbUrl.trim()
+  && newMovie.imdbId.trim()
+  && isValidLink(newMovie.imgUrl)
+  && isValidLink(newMovie.imdbUrl);
 
   const reset = () => {
-    setTitle('');
-    setDescription('');
-    setImageUrl('');
-    setImdbUrl('');
-    setImdbId('');
+    // setTitle('');
+    // setDescription('');
+    // setImageUrl('');
+    // setImdbUrl('');
+    // setImdbId('');
+    setNewMovie({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
 
     setHasError(false);
   };
@@ -58,6 +73,11 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     reset();
   };
 
+  const handleChange = (e: ...) => {
+    const {name, value} = e.target;
+    setMovie((prevMovie) => ({...prevMovie, [name]: value}))
+  }
+
   return (
     <form
       className="NewMovie"
@@ -70,9 +90,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value={title}
+        value={newMovie.title}
         forChange={(value) => {
-          setTitle(value);
+          setNewMovie(value);
           // setHasError(false);
         }}
         required
@@ -81,9 +101,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="description"
         label="Description"
-        value={description}
+        value={newMovie.description}
         forChange={(value) => {
-          setDescription(value);
+          setNewMovie(value);
           setHasError(true);
         }}
       />
@@ -91,9 +111,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={imgUrl}
+        value={newMovie.imgUrl}
         forChange={(value) => {
-          setImageUrl(value);
+          setNewMovie(value);
           setHasError(false);
         }}
         required
@@ -103,9 +123,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={imdbUrl}
+        value={newMovie.imdbUrl}
         forChange={(value) => {
-          setImdbUrl(value);
+          setNewMovie(value);
           setHasError(false);
         }}
         required
@@ -115,9 +135,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imdbId}
+        value={newMovie.imdbId}
         forChange={(value) => {
-          setImdbId(value);
+          setNewMovie(value);
           setHasError(false);
         }}
         required
