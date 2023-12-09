@@ -6,46 +6,42 @@ type Props = {
   onAdd: (movie: Movie) => void;
 };
 
+const defaultMovie: Movie = {
+  title: '',
+  imgUrl: '',
+  imdbUrl: '',
+  imdbId: '',
+  description: '',
+};
+
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
-  const [inputs, setInputs] = useState<Movie>({
-    title: '',
-    imgUrl: '',
-    imdbUrl: '',
-    imdbId: '',
-    description: '',
-  });
+  const [movie, setMovie] = useState<Movie>(defaultMovie);
 
   const reset = () => {
-    setInputs({
-      title: '',
-      imgUrl: '',
-      imdbUrl: '',
-      imdbId: '',
-      description: '',
-    });
+    setMovie(defaultMovie);
   };
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    onAdd(inputs);
+    onAdd(movie);
     setCount(count + 1);
 
     reset();
   };
 
   const handleInputChange = (inputName: string) => {
-    return (value: string) => setInputs({
-      ...inputs,
+    return (value: string) => setMovie({
+      ...movie,
       [inputName]: value,
     });
   };
 
-  const canSubmit = inputs.title.trim() !== ''
-    && inputs.imgUrl.trim() !== ''
-    && inputs.imdbUrl.trim() !== ''
-    && inputs.imdbId.trim() !== '';
+  const areAllRequiredFilled = movie.title.trim()
+    && movie.imgUrl.trim()
+    && movie.imdbUrl.trim()
+    && movie.imdbId.trim();
 
   return (
     <form
@@ -58,7 +54,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value={inputs.title}
+        value={movie.title}
         onChange={handleInputChange('title')}
         required
       />
@@ -66,14 +62,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="description"
         label="Description"
-        value={inputs.description}
+        value={movie.description}
         onChange={handleInputChange('description')}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={inputs.imgUrl}
+        value={movie.imgUrl}
         onChange={handleInputChange('imgUrl')}
         required
       />
@@ -81,7 +77,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={inputs.imdbUrl}
+        value={movie.imdbUrl}
         onChange={handleInputChange('imdbUrl')}
         required
       />
@@ -89,7 +85,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={inputs.imdbId}
+        value={movie.imdbId}
         onChange={handleInputChange('imdbId')}
         required
       />
@@ -100,7 +96,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!canSubmit}
+            disabled={!areAllRequiredFilled}
           >
             Add
           </button>
