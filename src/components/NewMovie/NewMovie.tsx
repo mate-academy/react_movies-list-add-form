@@ -1,5 +1,3 @@
-// import './NewMovie.scss';
-// import classNames from 'classnames';
 import { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
@@ -8,61 +6,40 @@ type Props = {
   onAdd: (newMovie: Movie) => void;
 };
 
+const initialMovieObject: Movie = {
+  title: '',
+  description: '',
+  imdbId: '',
+  imgUrl: '',
+  imdbUrl: '',
+};
+
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
 
-  const [title, setTitle] = useState('');
+  const [newMovie, setNewMovie] = useState(initialMovieObject);
 
-  const [description, setDescription] = useState('');
+  const isDisabled = !newMovie.title.trim() || !newMovie.imgUrl.trim()
+    || !newMovie.imdbUrl.trim() || !newMovie.imdbId.trim();
 
-  const [imdbId, setImdbId] = useState('');
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
 
-  const [imgUrl, setImgUrl] = useState('');
-
-  const [imdbUrl, setImdbUrl] = useState('');
-
-  let isDisabled = true;
-
-  if (title && imgUrl && imdbUrl && imdbId) {
-    isDisabled = false;
-  }
+    setNewMovie((prevMovie) => ({ ...prevMovie, [name]: value }));
+  };
 
   const handleAdd = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (!title || !imgUrl || !imdbUrl || !imdbId) {
+    if (isDisabled) {
       return;
     }
 
-    // eslint-disable-next-line max-len
-    const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
-
-
-    // I know that my url validation is wrong, please, give me advice how to improve it
-    if (imgUrl.match(pattern)) {
-      setImgUrl(imgUrl);
-    }
-
-    if (imdbUrl.match(pattern)) {
-      setImdbUrl(imdbUrl);
-    }
-
-    onAdd({
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    });
-
+    onAdd(newMovie);
+    setNewMovie(initialMovieObject);
     setCount(count + 1);
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
   };
 
   return (
@@ -78,39 +55,39 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value={title}
-        onChange={setTitle}
+        value={newMovie.title}
+        onChange={handleChange}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value={description}
-        onChange={setDescription}
+        value={newMovie.description}
+        onChange={handleChange}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={imgUrl.trim()}
-        onChange={setImgUrl}
+        value={newMovie.imgUrl}
+        onChange={handleChange}
         required
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={imdbUrl.trim()}
-        onChange={setImdbUrl}
+        value={newMovie.imdbUrl}
+        onChange={handleChange}
         required
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imdbId.trim()}
-        onChange={setImdbId}
+        value={newMovie.imdbId}
+        onChange={handleChange}
         required
       />
 
