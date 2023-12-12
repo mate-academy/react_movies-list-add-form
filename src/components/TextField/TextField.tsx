@@ -7,7 +7,7 @@ type Props = {
   label?: string,
   placeholder?: string,
   required?: boolean,
-  pattern?: RegExp,
+  pattern?: RegExp | undefined,
   onChange?: (newValue: string) => void,
 };
 
@@ -46,7 +46,7 @@ export const TextField: React.FC<Props> = ({
           id={id}
           data-cy={`movie-${name}`}
           className={classNames('input', {
-            'is-danger': hasError,
+            'is-danger': hasError || urlError,
           })}
           placeholder={placeholder}
           value={value}
@@ -59,7 +59,7 @@ export const TextField: React.FC<Props> = ({
         <p className="help is-danger">{`${label} is required`}</p>
       )}
 
-      {urlError && (
+      {!hasError && urlError && (
         <p className="help is-danger">Incorrect URL</p>
       )}
     </div>
