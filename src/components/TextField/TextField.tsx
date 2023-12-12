@@ -1,14 +1,7 @@
 import classNames from 'classnames';
 import React, { useState } from 'react';
 
-type Props = {
-  name: string;
-  value: string;
-  label?: string;
-  placeholder?: string;
-  required?: boolean;
-  onChange?: (newValue: string) => void;
-};
+import { TextFieldProps } from './TextField.types';
 
 function getRandomDigits() {
   return Math.random()
@@ -16,7 +9,7 @@ function getRandomDigits() {
     .slice(2);
 }
 
-export const TextField: React.FC<Props> = ({
+export const TextField: React.FC<TextFieldProps> = ({
   name,
   value,
   label = name,

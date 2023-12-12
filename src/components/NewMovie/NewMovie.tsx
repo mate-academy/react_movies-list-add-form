@@ -1,17 +1,6 @@
 import { MouseEvent, useState } from 'react';
 import { TextField } from '../TextField';
-
-interface NewMovieProps {
-  onAdd: (newMovie: Movie) => void;
-}
-
-interface Movie {
-  title: string,
-  description: string,
-  imgUrl: string,
-  imdbUrl: string,
-  imdbId: string,
-}
+import { NewMovieProps } from './NewMovie.types';
 
 export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
@@ -114,9 +103,10 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
             className="button is-link"
             onClick={event => addMovie(event)}
             disabled={
-              !title.trim()
-            || !imgUrl.trim()
-            || !imdbUrl.trim() || !imdbId.trim()
+              !title
+              || !imgUrl
+              || !imdbUrl
+              || !imdbId
             }
           >
             Add

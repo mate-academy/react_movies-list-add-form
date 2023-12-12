@@ -4,11 +4,12 @@ import { MoviesList } from './components/MoviesList';
 import { NewMovie } from './components/NewMovie';
 import moviesFromServer from './api/movies.json';
 
+import { Movie } from './App.types';
+
 export const App = () => {
   const [movies, setMovies] = useState(moviesFromServer);
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const onAdd = (newMovie: any) => {
+  const onAdd = (newMovie: Movie) => {
     setMovies(prevMovies => [...prevMovies, newMovie]);
   };
 
