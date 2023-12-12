@@ -35,6 +35,11 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setImdbId('');
   };
 
+  const isButtonDisabled = !title.trim()
+    || !imgUrl.trim()
+    || !imdbId.trim()
+    || !imdbUrl.trim();
+
   return (
     <form
       className="NewMovie"
@@ -63,6 +68,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Image URL"
         value={imgUrl}
         onChange={setImgUrl}
+        required
       />
 
       <TextField
@@ -70,6 +76,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Imdb URL"
         value={imdbUrl}
         onChange={setImdbUrl}
+        required
       />
 
       <TextField
@@ -77,6 +84,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Imdb ID"
         value={imdbId}
         onChange={setImdbId}
+        required
       />
 
       <div className="field is-grouped">
@@ -85,6 +93,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
+            disabled={isButtonDisabled}
           >
             Add
           </button>
