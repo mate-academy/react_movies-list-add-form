@@ -1,4 +1,4 @@
-import { MouseEvent, SetStateAction, useState } from 'react';
+import { MouseEvent, useState } from 'react';
 import { TextField } from '../TextField';
 
 interface NewMovieProps {
@@ -14,14 +14,16 @@ interface Movie {
 }
 
 export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
-  const [count] = useState(0);
+  const [count, setCount] = useState(0);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [imgUrl, setImgUrl] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const addMovie = (event: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {
+  const addMovie = (
+    event: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>,
+  ) => {
     event.preventDefault();
 
     const newMovie = {
@@ -38,27 +40,28 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
     setImgUrl('');
     setImdbUrl('');
     setImdbId('');
+    setCount(count + 1);
   };
 
-  const handleTitleAdd = (value: SetStateAction<string>) => {
+  const handleTitleAdd = (value: string) => {
     setTitle(value);
   };
 
-  // const handleDescriptionAdd = (value: SetStateAction<string>) => {
-  //   setDescription(value);
-  // };
+  const handleDescriptionAdd = (value: string) => {
+    setDescription(value);
+  };
 
-  // const handleImgUrlAdd = (value: SetStateAction<string>) => {
-  //   setImgUrl(value);
-  // };
+  const handleImgUrlAdd = (value: string) => {
+    setImgUrl(value);
+  };
 
-  // const handleImdbUrlAdd = (value: SetStateAction<string>) => {
-  //   setImdbUrl(value);
-  // };
+  const handleImdbUrlAdd = (value: string) => {
+    setImdbUrl(value);
+  };
 
-  // const handleImdbIdAdd = (value: SetStateAction<string>) => {
-  //   setImdbId(value);
-  // };
+  const handleImdbIdAdd = (value: string) => {
+    setImdbId(value);
+  };
 
   return (
     <form className="NewMovie" key={count}>
@@ -72,7 +75,7 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
         required
       />
 
-      {/* <TextField
+      <TextField
         name="description"
         label="Description"
         value={description}
@@ -101,7 +104,7 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
         value={imdbId}
         onChange={handleImdbIdAdd}
         required
-      /> */}
+      />
 
       <div className="field is-grouped">
         <div className="control">
@@ -110,7 +113,11 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
             data-cy="submit-button"
             className="button is-link"
             onClick={event => addMovie(event)}
-            disabled={!title.trim() /* || !imgUrl.trim() || !imdbUrl.trim() || !imdbId.trim() */}
+            disabled={
+              !title.trim()
+            || !imgUrl.trim()
+            || !imdbUrl.trim() || !imdbId.trim()
+            }
           >
             Add
           </button>

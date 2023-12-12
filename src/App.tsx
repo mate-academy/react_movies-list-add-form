@@ -7,6 +7,7 @@ import moviesFromServer from './api/movies.json';
 export const App = () => {
   const [movies, setMovies] = useState(moviesFromServer);
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onAdd = (newMovie: any) => {
     setMovies(prevMovies => [...prevMovies, newMovie]);
   };
