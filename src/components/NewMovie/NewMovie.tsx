@@ -2,9 +2,7 @@ import { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
-// Increase the count after successful form submission
-// to reset touched status of all the `Field`s
-const initialValue = {
+const initialValues = {
   title: '',
   description: '',
   imgUrl: '',
@@ -18,9 +16,9 @@ type Props = {
 
 export const NewMovie:React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
-  const [textAtributes, setTextAtributes] = useState(initialValue);
+  const [textAtributes, setTextAtributes] = useState(initialValues);
 
-  const addOne = () => {
+  const incrementCounter = () => {
     setCount(current => current + 1);
   };
 
@@ -32,31 +30,31 @@ export const NewMovie:React.FC<Props> = ({ onAdd }) => {
     imdbId,
   } = textAtributes;
 
-  const disabled = title.trim() && imgUrl.trim()
+  const isActive = title.trim() && imgUrl.trim()
     && imdbId.trim() && imdbUrl.trim();
 
-  const submit = (event: React.FormEvent) => {
+  const submitForm = (event: React.FormEvent) => {
     event.preventDefault();
-    addOne();
+    incrementCounter();
     onAdd(textAtributes);
-    setTextAtributes(initialValue);
+    setTextAtributes(initialValues);
   };
 
-  const handleChange = (event:React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (event:React.ChangeEvent<HTMLInputElement>) => {
     const { value, name } = event.target;
 
     setTextAtributes({ ...textAtributes, [name]: value });
   };
 
   return (
-    <form className="NewMovie" key={count} onSubmit={submit}>
+    <form className="NewMovie" key={count} onSubmit={submitForm}>
       <h2 className="title">Add a movie</h2>
 
       <TextField
         name="title"
         label="Title"
         value={title}
-        onChange={handleChange}
+        onChange={handleInputChange}
         required
       />
 
@@ -64,28 +62,28 @@ export const NewMovie:React.FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={description}
-        onChange={handleChange}
+        onChange={handleInputChange}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={handleChange}
+        onChange={handleInputChange}
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={handleChange}
+        onChange={handleInputChange}
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={handleChange}
+        onChange={handleInputChange}
       />
 
       <div className="field is-grouped">
@@ -94,7 +92,7 @@ export const NewMovie:React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!disabled}
+            disabled={!isActive}
           >
             Add
           </button>
