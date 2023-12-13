@@ -1,14 +1,6 @@
 import classNames from 'classnames';
-import React, { useState } from 'react';
-
-type Props = {
-  name: string,
-  value: string,
-  label?: string,
-  placeholder?: string,
-  required?: boolean,
-  onChange?: (newValue: string) => void,
-};
+import { FC, useState } from 'react';
+import { TextFieldProps } from '../../types/TextFieldProps';
 
 function getRandomDigits() {
   return Math.random()
@@ -16,7 +8,7 @@ function getRandomDigits() {
     .slice(2);
 }
 
-export const TextField: React.FC<Props> = ({
+export const TextField: FC<TextFieldProps> = ({
   name,
   value,
   label = name,
@@ -47,7 +39,7 @@ export const TextField: React.FC<Props> = ({
           })}
           placeholder={placeholder}
           value={value}
-          onChange={event => onChange(event.target.value)}
+          onChange={event => onChange(name, event.target.value)}
           onBlur={() => setTouched(true)}
         />
       </div>
