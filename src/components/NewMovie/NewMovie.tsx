@@ -8,6 +8,7 @@ type Props = {
 
 export const NewMovie: FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
+  const [validUrl, setValidUrl] = useState(false);
   const [movie, setMovie] = useState<Movie>({
     title: '',
     description: '',
@@ -19,7 +20,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
   const {
     title, description, imdbUrl, imgUrl, imdbId,
   } = movie;
-  const invalid = !title || !imgUrl || !imdbUrl || !imdbId;
+  const emptyInputs = !title || !imgUrl || !imdbUrl || !imdbId;
 
   const resetForm = () => {
     setMovie({
@@ -29,6 +30,10 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
       imdbUrl: '',
       imdbId: '',
     });
+  };
+
+  const setIsValid = (valid: boolean) => {
+    setValidUrl(valid);
   };
 
   const handleChange = (label: string) => (value: string) => {
@@ -60,6 +65,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
         value={title}
         onChange={handleChange('title')}
         required
+        isValid={setIsValid}
       />
 
       <TextField
@@ -67,6 +73,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
         label="Description"
         value={description}
         onChange={handleChange('description')}
+        isValid={setIsValid}
       />
 
       <TextField
@@ -75,6 +82,8 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
         value={imgUrl}
         onChange={handleChange('imgUrl')}
         required
+        url
+        isValid={setIsValid}
       />
 
       <TextField
@@ -83,6 +92,8 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
         value={imdbUrl}
         onChange={handleChange('imdbUrl')}
         required
+        url
+        isValid={setIsValid}
       />
 
       <TextField
@@ -91,6 +102,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
         value={imdbId}
         onChange={handleChange('imdbId')}
         required
+        isValid={setIsValid}
       />
 
       <div className="field is-grouped">
@@ -99,7 +111,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={invalid}
+            disabled={emptyInputs || !validUrl}
           >
             Add
           </button>
