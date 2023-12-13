@@ -1,10 +1,8 @@
 import { FC, FormEventHandler, useState } from 'react';
-import { TextField } from '../TextField';
 import { NewMovieProps } from '../../types/NewMovieProps';
+import { TextField } from '../TextField';
 
 export const NewMovie: FC<NewMovieProps> = ({ onAdd }) => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
   const [formData, setFormData] = useState({
     title: '',
@@ -15,7 +13,9 @@ export const NewMovie: FC<NewMovieProps> = ({ onAdd }) => {
   });
 
   const isFormValid = () => {
-    return Object.values(formData).every(value => value !== '');
+    const { description, ...otherFields } = formData;
+
+    return Object.values(otherFields).every(value => value !== '');
   };
 
   const handleTextFieldChange = (key: string, value: string) => {
