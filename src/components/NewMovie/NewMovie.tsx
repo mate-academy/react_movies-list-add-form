@@ -25,24 +25,10 @@ export const NewMovie = ({ onAdd }: Props) => {
   || !film.imdbUrl.trim()
   || !film.imdbId.trim();
 
-  const handleTitleChange = (value: string) => {
-    setFilm(Film => ({ ...Film, title: value.trimStart() }));
-  };
-
-  const handleDescriptionChange = (value: string) => {
-    setFilm(Film => ({ ...Film, description: value.trimStart() }));
-  };
-
-  const handleImgUrlChange = (value: string) => {
-    setFilm(Film => ({ ...Film, imgUrl: value.trimStart() }));
-  };
-
-  const handleImdbUrlChange = (value: string) => {
-    setFilm(Film => ({ ...Film, imdbUrl: value.trimStart() }));
-  };
-
-  const handleImdbIdChange = (value: string) => {
-    setFilm(Film => ({ ...Film, imdbId: value.trimStart() }));
+  const handleFilmFieldChange = (
+    field: keyof typeof INITIAL_VALUES,
+  ) => (value: string) => {
+    setFilm({ ...film, [field]: value });
   };
 
   const handleSubmit: FormEventHandler = (event) => {
@@ -62,7 +48,7 @@ export const NewMovie = ({ onAdd }: Props) => {
         name="title"
         label="Title"
         value={film.title}
-        onChange={handleTitleChange}
+        onChange={handleFilmFieldChange('title')}
         required
       />
 
@@ -70,14 +56,14 @@ export const NewMovie = ({ onAdd }: Props) => {
         name="description"
         label="Description"
         value={film.description}
-        onChange={handleDescriptionChange}
+        onChange={handleFilmFieldChange('description')}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={film.imgUrl}
-        onChange={handleImgUrlChange}
+        onChange={handleFilmFieldChange('imgUrl')}
         required
       />
 
@@ -85,7 +71,7 @@ export const NewMovie = ({ onAdd }: Props) => {
         name="imdbUrl"
         label="Imdb URL"
         value={film.imdbUrl}
-        onChange={handleImdbUrlChange}
+        onChange={handleFilmFieldChange('imdbUrl')}
         required
       />
 
@@ -93,7 +79,7 @@ export const NewMovie = ({ onAdd }: Props) => {
         name="imdbId"
         label="Imdb ID"
         value={film.imdbId}
-        onChange={handleImdbIdChange}
+        onChange={handleFilmFieldChange('imdbId')}
         required
       />
 
