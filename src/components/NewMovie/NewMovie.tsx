@@ -71,7 +71,6 @@ export const NewMovie = ({ onAdd }: Props) => {
         label="Description"
         value={film.description}
         onChange={handleDescriptionChange}
-        required
       />
 
       <TextField
