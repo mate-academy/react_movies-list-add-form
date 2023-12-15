@@ -10,30 +10,35 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
-  const [inputTitle, setinputTitle] = useState('');
-  const [inputDescription, setinputDescription] = useState('');
-  const [inputImageURL, setinputImageURL] = useState('');
-  const [inputImdbURL, setinputImdbURL] = useState('');
-  const [inputImdbID, setinputImdbID] = useState('');
+  const [inputTitle, setInputTitle] = useState('');
+  const [inputDescription, setInputDescription] = useState('');
+  const [inputImageURL, setInputImageURL] = useState('');
+  const [inputImdbURL, setInputImdbURL] = useState('');
+  const [inputImdbID, setInputImdbID] = useState('');
 
-  const handleInputTitle = (event) => {
-    setinputTitle(event.target.value);
+  const addMovie = () => {
+    const movie: Movie = {
+      title: inputTitle,
+      description: inputDescription,
+      imgUrl: inputImageURL,
+      imdbUrl: inputImdbURL,
+      imdbId: inputImdbID,
+    };
+
+    setCount(count + 1);
+    setInputTitle('');
+    setInputDescription('');
+    setInputImageURL('');
+    setInputImdbURL('');
+    setInputImdbID('');
+    onAdd(movie);
   };
 
-  const handleInputDescription = (event) => {
-    setinputDescription(event.target.value);
-  };
-
-  const handleInputImageURL = (event) => {
-    setinputImageURL(event.target.value);
-  };
-
-  const handleInputImdbURL = (event) => {
-    setinputImdbURL(event.target.value);
-  };
-
-  const handleInputImdbID = (event) => {
-    setinputImdbID(event.target.value);
+  const verifyInput = () => {
+    return (inputTitle === ''
+      || inputImageURL === ''
+      || inputImdbURL === ''
+      || inputImdbID === '');
   };
 
   return (
@@ -44,7 +49,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={inputTitle}
-        onChange={event => handleInputTitle(event)}
+        onChange={setInputTitle}
         required
       />
 
@@ -52,28 +57,28 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={inputDescription}
-        onChange={event => handleInputDescription(event)}
+        onChange={setInputDescription}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={inputImageURL}
-        onChange={event => handleInputImageURL(event)}
+        onChange={setInputImageURL}
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
         value={inputImdbURL}
-        onChange={event => handleInputImdbURL(event)}
+        onChange={setInputImdbURL}
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
         value={inputImdbID}
-        onChange={event => handleInputImdbID(event)}
+        onChange={setInputImdbID}
       />
 
       <div className="field is-grouped">
@@ -82,7 +87,8 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            onClick={NewMovie(movie)}
+            onClick={addMovie}
+            disabled={verifyInput()}
           >
             Add
           </button>
