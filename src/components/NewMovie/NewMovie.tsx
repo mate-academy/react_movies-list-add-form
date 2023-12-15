@@ -65,6 +65,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
         label="Image URL"
         value={inputImageURL}
         onChange={setInputImageURL}
+        required
       />
 
       <TextField
@@ -72,6 +73,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
         label="Imdb URL"
         value={inputImdbURL}
         onChange={setInputImdbURL}
+        required
       />
 
       <TextField
@@ -79,6 +81,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
         label="Imdb ID"
         value={inputImdbID}
         onChange={setInputImdbID}
+        required
       />
 
       <div className="field is-grouped">
