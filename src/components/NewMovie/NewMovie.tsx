@@ -25,12 +25,13 @@ type Props = {
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [form, setForm] = useState<Form>(EMPTY_FORM);
   const [count, setCount] = useState(0);
+
   const isDataValid = form.title && form.imgUrl && form.imdbUrl && form.imdbId;
 
-  const handleTitleChange = (value: string) => {
-    setForm((prevForm) => ({
-      ...prevForm,
-      title: value,
+  const handleChange = (key: keyof Form) => (eventText: string) => {
+    setForm((prevMovie) => ({
+      ...prevMovie,
+      [key]: eventText,
     }));
   };
 
@@ -42,23 +43,19 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     }
 
     onAdd(form);
-    setCount(prevCount => prevCount + 1);
+    setCount((prevCount) => prevCount + 1);
     setForm(EMPTY_FORM);
   };
 
   return (
-    <form
-      className="NewMovie"
-      key={count}
-      onSubmit={handleSubmit}
-    >
+    <form className="NewMovie" key={count} onSubmit={handleSubmit}>
       <h2 className="title">Add a movie</h2>
 
       <TextField
         name="title"
         label="Title"
         value={form.title}
-        onChange={handleTitleChange}
+        onChange={handleChange('title')}
         required
       />
 
@@ -66,14 +63,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={form.description}
-        onChange={(value) => setForm({ ...form, description: value })}
+        onChange={handleChange('description')}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={form.imgUrl}
-        onChange={(value) => setForm({ ...form, imgUrl: value })}
+        onChange={handleChange('imgUrl')}
         required
       />
 
@@ -81,7 +78,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={form.imdbUrl}
-        onChange={(value) => setForm({ ...form, imdbUrl: value })}
+        onChange={handleChange('imdbUrl')}
         required
       />
 
@@ -89,7 +86,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={form.imdbId}
-        onChange={(value) => setForm({ ...form, imdbId: value })}
+        onChange={handleChange('imdbId')}
         required
       />
 
