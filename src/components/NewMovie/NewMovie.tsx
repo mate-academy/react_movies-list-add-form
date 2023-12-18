@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, useMemo, useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
@@ -25,7 +25,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
       imdbId: inputImdbID,
     };
 
-    setCount(count + 1);
+    setCount(prevCounter => prevCounter + 1);
     setInputTitle('');
     setInputDescription('');
     setInputImageURL('');
@@ -34,12 +34,14 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
     onAdd(movie);
   };
 
-  const verifyInput = () => {
-    return (inputTitle === ''
-      || inputImageURL === ''
-      || inputImdbURL === ''
-      || inputImdbID === '');
-  };
+  const invalidInput = (inputTitle.trim() === ''
+  || inputImageURL.trim() === ''
+  || inputImdbURL.trim() === ''
+  || inputImdbID.trim() === '');
+
+  const verifyInput = useMemo(() => () => {
+    return invalidInput;
+  }, [invalidInput]);
 
   return (
     <form className="NewMovie" key={count}>
