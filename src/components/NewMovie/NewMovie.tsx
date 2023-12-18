@@ -7,33 +7,33 @@ type Props = {
   onAdd: (newMovie: Movie) => void;
 };
 
-export const emptyFormFields: Movie = formFields
+const emptyFields: Movie = formFields
   .reduce((prev, { name }) => ({
     ...prev,
     [name]: '',
   }), {} as Movie);
 
+const requiredFields = formFields.filter(({ required }) => required);
+
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
-  const [movieData, setMovieData] = useState(emptyFormFields);
-
-  const requiredFields = formFields.filter(({ required }) => required);
+  const [movieFormFields, setMovieFormFields] = useState(emptyFields);
 
   const areRequiredFieldsEmpty = requiredFields
-    .some(({ name }) => !movieData[name].trim());
+    .some(({ name }) => !movieFormFields[name].trim());
 
-  const areInvalidFields = requiredFields
+  const areRequiredFieldsInvalid = requiredFields
     .some(({ name, validationCallback }) => (
-      validationCallback ? !validationCallback(movieData[name]) : false
+      validationCallback ? !validationCallback(movieFormFields[name]) : false
     ));
 
-  const isInvalidInputs = areRequiredFieldsEmpty || areInvalidFields;
+  const isFormFieldsValid = areRequiredFieldsEmpty || areRequiredFieldsInvalid;
 
   const handleInputChange = (key: keyof Movie, newValue: string) => {
-    setMovieData({
-      ...movieData,
+    setMovieFormFields({
+      ...movieFormFields,
       [key]: newValue,
     });
   };
@@ -41,12 +41,12 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (isInvalidInputs) {
+    if (isFormFieldsValid) {
       return;
     }
 
-    onAdd(movieData);
-    setMovieData(emptyFormFields);
+    onAdd(movieFormFields);
+    setMovieFormFields(emptyFields);
     setCount(count + 1);
   };
 
@@ -69,7 +69,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
           key={name}
           name={name}
           label={label}
-          value={movieData[name]}
+          value={movieFormFields[name]}
           onChange={(value) => handleInputChange(name, value)}
           required={required}
           onValidate={validationCallback}
@@ -83,7 +83,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={isInvalidInputs}
+            disabled={isFormFieldsValid}
           >
             Add
           </button>

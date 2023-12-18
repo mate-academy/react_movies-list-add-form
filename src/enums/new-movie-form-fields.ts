@@ -27,6 +27,7 @@ export const newMovieFormFields: NewMovieFormFields[] = [
     label: 'Image URL',
     required: true,
     validationCallback: (value) => urlValidationPattern.test(value),
+    validationErrorMessage: 'URL is not valid',
   },
   {
     name: 'imdbUrl',
