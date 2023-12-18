@@ -38,7 +38,7 @@ export const NewMovie = ({ onAdd }: Props) => {
 
     if (isFormValid()) {
       onAdd(form);
-      setCount(count + 1);
+      setCount((prevCount) => prevCount + 1);
       setForm(EMPTY_FORM);
     }
   };
