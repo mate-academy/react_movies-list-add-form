@@ -27,6 +27,13 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
   const isDataValid = form.title && form.imgUrl && form.imdbUrl && form.imdbId;
 
+  const handleTitleChange = (value: string) => {
+    setForm((prevForm) => ({
+      ...prevForm,
+      title: value,
+    }));
+  };
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -51,7 +58,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={form.title}
-        onChange={(value) => setForm({ ...form, title: value })}
+        onChange={handleTitleChange}
         required
       />
 
