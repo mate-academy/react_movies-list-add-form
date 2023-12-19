@@ -19,7 +19,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [form, setForm] = useState<Movie>(blankMovie);
   const [count, setCount] = useState(0);
 
-  const isDataValid = form.title && form.imgUrl && form.imdbUrl && form.imdbId;
+  const isDataValid = form.title.trim().length
+  && form.imgUrl.trim().length
+  && form.imdbUrl.trim().length
+  && form.imdbId.trim().length;
 
   const handleChange = (key: string, value: string) => {
     setForm((prev) => ({
