@@ -1,14 +1,6 @@
 import classNames from 'classnames';
 import React, { useState } from 'react';
-
-type Props = {
-  name: string,
-  value: string,
-  label?: string,
-  placeholder?: string,
-  required?: boolean,
-  onChange?: (newValue: string) => void,
-};
+import { TextFieldProps } from '../../types/TextFieldProps';
 
 function getRandomDigits() {
   return Math.random()
@@ -16,7 +8,7 @@ function getRandomDigits() {
     .slice(2);
 }
 
-export const TextField: React.FC<Props> = ({
+export const TextField: React.FC<TextFieldProps> = ({
   name,
   value,
   label = name,
@@ -36,18 +28,17 @@ export const TextField: React.FC<Props> = ({
       <label className="label" htmlFor={id}>
         {label}
       </label>
-
       <div className="control">
         <input
           type="text"
           id={id}
           data-cy={`movie-${name}`}
           className={classNames('input', {
-            'is-danger': hasError,
+            'is-danger': (hasError),
           })}
           placeholder={placeholder}
           value={value}
-          onChange={event => onChange(event.target.value)}
+          onChange={event => onChange(event.target.value, name)}
           onBlur={() => setTouched(true)}
         />
       </div>
