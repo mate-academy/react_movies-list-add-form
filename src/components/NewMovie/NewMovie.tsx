@@ -9,7 +9,7 @@ type Props = {
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
-  const [count] = useState(0);
+  const [count, setCount] = useState(0);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [imgUrl, setImgUrl] = useState('');
@@ -37,14 +37,23 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       imdbId,
     });
 
+    setCount(count + 1);
+
     reset();
   };
 
-  const buttonCheck = (event: string) => {
-    if (!event.length) {
-      setButton(true);
-    } else {
+  const handleButton = (event: string) => {
+    if (event.length) {
       setButton(false);
+    } else {
+      setButton(true);
+    }
+
+    if (!title.trim()
+      || !imgUrl.trim()
+      || !imdbUrl.trim()
+      || !imdbId.trim()) {
+      setButton(true);
     }
   };
 
@@ -62,7 +71,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={title}
         onChange={(event) => {
           setTitle(event);
-          buttonCheck(event);
+          handleButton(event);
         }}
         required
       />
@@ -73,7 +82,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={description}
         onChange={(event) => {
           setDescription(event);
-          buttonCheck(event);
         }}
       />
 
@@ -83,7 +91,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={imgUrl}
         onChange={(event) => {
           setImgUrl(event);
-          buttonCheck(event);
+          handleButton(event);
         }}
         required
       />
@@ -94,7 +102,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={imdbUrl}
         onChange={(event) => {
           setImdbUrl(event);
-          buttonCheck(event);
+          handleButton(event);
         }}
         required
       />
@@ -105,7 +113,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={imdbId}
         onChange={(event) => {
           setImdbId(event);
-          buttonCheck(event);
+          handleButton(event);
         }}
         required
       />
