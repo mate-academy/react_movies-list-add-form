@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
@@ -42,20 +42,15 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     reset();
   };
 
-  const handleButton = (event: string) => {
-    if (event.length) {
+  useEffect(() => {
+    if (
+      title.trim() && imgUrl.trim() && imdbUrl.trim() && imdbId.trim()
+    ) {
       setButton(false);
     } else {
       setButton(true);
     }
-
-    if (!title.trim()
-      || !imgUrl.trim()
-      || !imdbUrl.trim()
-      || !imdbId.trim()) {
-      setButton(true);
-    }
-  };
+  }, [title, imgUrl, imdbUrl, imdbId]);
 
   return (
     <form
@@ -71,7 +66,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={title}
         onChange={(event) => {
           setTitle(event);
-          handleButton(event);
         }}
         required
       />
@@ -91,7 +85,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={imgUrl}
         onChange={(event) => {
           setImgUrl(event);
-          handleButton(event);
         }}
         required
       />
@@ -102,7 +95,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={imdbUrl}
         onChange={(event) => {
           setImdbUrl(event);
-          handleButton(event);
         }}
         required
       />
@@ -113,7 +105,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={imdbId}
         onChange={(event) => {
           setImdbId(event);
-          handleButton(event);
         }}
         required
       />
