@@ -8,42 +8,31 @@ type Props = {
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
-  const [imdbUrlHasMistake, setImdbUrlHasMistake] = useState(false);
   const [imgUrlHasMistake, setImgUrlHasMistake] = useState(false);
+  const [imdbUrlHasMistake, setImdbUrlHasMistake] = useState(false);
 
-  const handleTitleChange = (newValue: string) => {
-    setTitle(newValue);
-  };
+  const [newMovie, setNewMovie] = useState({
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  });
 
-  const handleDescriptionChange = (newValue: string) => {
-    setDescription(newValue);
-  };
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
 
-  const handleImgUrlChange = (newValue: string) => {
-    setImgUrl(newValue);
-    setImgUrlHasMistake(false);
-  };
-
-  const handleImdbUrlChange = (newValue: string) => {
-    setImdbUrl(newValue);
-    setImdbUrlHasMistake(false);
-  };
-
-  const handleImdbIdChange = (newValue: string) => {
-    setImdbId(newValue);
+    setNewMovie((prevMovie) => ({ ...prevMovie, [name]: value }));
   };
 
   const reset = () => {
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
+    setNewMovie({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
   };
 
   const checkUrl = () => {
@@ -51,8 +40,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     // eslint-disable-next-line max-len
     = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
 
-    setImgUrlHasMistake(!pattern.test(imgUrl));
-    setImdbUrlHasMistake(!pattern.test(imdbUrl));
+    setImgUrlHasMistake(!pattern.test(newMovie.imgUrl));
+    setImdbUrlHasMistake(!pattern.test(newMovie.imdbUrl));
   };
 
   const handleSubmit = (event: React.FormEvent) => {
@@ -61,19 +50,13 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       return;
     }
 
-    onAdd({
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    });
+    onAdd(newMovie);
     reset();
     setCount(currentCount => currentCount + 1);
   };
 
-  const isDisabled = !title || !imgUrl || !imdbUrl
-  || !imdbId || imgUrlHasMistake || imdbUrlHasMistake;
+  const isDisabled = !newMovie.title || !newMovie.imgUrl || !newMovie.imdbUrl
+  || !newMovie.imdbId || imgUrlHasMistake || imdbUrlHasMistake;
 
   return (
     <form
@@ -86,23 +69,26 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value={title}
-        onChange={handleTitleChange}
+        value={newMovie.title}
+        onChange={handleChange}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value={description}
-        onChange={handleDescriptionChange}
+        value={newMovie.description}
+        onChange={handleChange}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={imgUrl}
-        onChange={handleImgUrlChange}
+        value={newMovie.imgUrl}
+        onChange={(event) => {
+          handleChange(event);
+          setImgUrlHasMistake(false);
+        }}
         urlMistake={imgUrlHasMistake}
         required
       />
@@ -110,8 +96,11 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={imdbUrl}
-        onChange={handleImdbUrlChange}
+        value={newMovie.imdbUrl}
+        onChange={(event) => {
+          handleChange(event);
+          setImdbUrlHasMistake(false);
+        }}
         urlMistake={imdbUrlHasMistake}
         required
       />
@@ -119,8 +108,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imdbId}
-        onChange={handleImdbIdChange}
+        value={newMovie.imdbId}
+        onChange={handleChange}
         required
       />
 
