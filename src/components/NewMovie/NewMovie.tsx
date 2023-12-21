@@ -1,10 +1,27 @@
 import { useState } from 'react';
 import { TextField } from '../TextField';
+import { Movie } from '../../types/Movie';
+
+const initialMovie: Movie = {
+  title: '',
+  description: '',
+  imgUrl: '',
+  imdbUrl: '',
+  imdbId: '',
+};
 
 export const NewMovie = () => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
   const [count] = useState(0);
+  const [newMovie, setNewMovie] = useState(initialMovie);
+
+  const handelTitleChange = (newValue: string) => {
+    setNewMovie(prevNewMovie => ({
+      ...prevNewMovie,
+      title: newValue,
+    }));
+  };
 
   return (
     <form className="NewMovie" key={count}>
@@ -13,8 +30,8 @@ export const NewMovie = () => {
       <TextField
         name="title"
         label="Title"
-        value=""
-        onChange={() => {}}
+        value={newMovie.title}
+        onChange={handelTitleChange}
         required
       />
 
