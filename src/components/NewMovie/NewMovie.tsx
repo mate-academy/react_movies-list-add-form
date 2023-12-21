@@ -17,11 +17,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setimdbUrl] = useState('');
   const [imdbId, setimdbId] = useState('');
 
-  // const [disabledButton, setDisabledButton] = useState(true);
-
   const handleTitle = (newValue: string) => {
     setTitle(newValue);
-    // setDisabledButton(false);
   };
 
   const handleDescription = (newValue: string) => {
@@ -41,7 +38,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   };
 
   const disabled: () => boolean = () => {
-    if (!title || !imgUrl || !imdbUrl || !imdbId) {
+    if (!title.trim() || !imgUrl.trim() || !imdbUrl.trim() || !imdbId.trim()) {
       return true;
     }
 
