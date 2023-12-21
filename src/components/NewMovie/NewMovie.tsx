@@ -6,6 +6,9 @@ type Props = {
   onAdd: (movie: Movie) => void
 };
 
+// eslint-disable-next-line max-len
+const regex = new RegExp(/^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/);
+
 export const NewMovie: FC<Props> = ({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
@@ -16,8 +19,9 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const someInvalid = [title, imgUrl, imdbUrl, imdbId]
-    .some(field => !field.trim());
+  const someInvalid
+    = [title, imgUrl, imdbUrl, imdbId].some(field => !field.trim())
+    || [imgUrl, imdbUrl].some(field => !regex.test(field));
 
   const resetForm = () => {
     setTitle('');
@@ -74,6 +78,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
         label="Image URL"
         value={imgUrl}
         onChange={(value) => setImgUrl(value)}
+        validate={(value) => regex.test(value)}
         required
       />
 
@@ -82,6 +87,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
         label="Imdb URL"
         value={imdbUrl}
         onChange={(value) => setImdbUrl(value)}
+        validate={(value) => regex.test(value)}
         required
       />
 
