@@ -19,7 +19,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const someInvalid
+  const hasInvalidValue
     = [title, imgUrl, imdbUrl, imdbId].some(field => !field.trim())
     || [imgUrl, imdbUrl].some(field => !regex.test(field));
 
@@ -35,7 +35,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
 
-    if (someInvalid) {
+    if (hasInvalidValue) {
       return;
     }
 
@@ -62,7 +62,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={title}
-        onChange={(value) => setTitle(value)}
+        onChange={setTitle}
         required
       />
 
@@ -70,15 +70,15 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={description}
-        onChange={(value) => setDescription(value)}
+        onChange={setDescription}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={(value) => setImgUrl(value)}
-        validate={(value) => regex.test(value)}
+        onChange={setImgUrl}
+        validate={regex.test}
         required
       />
 
@@ -86,8 +86,8 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={(value) => setImdbUrl(value)}
-        validate={(value) => regex.test(value)}
+        onChange={setImdbUrl}
+        validate={regex.test}
         required
       />
 
@@ -95,7 +95,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={(value) => setImdbId(value)}
+        onChange={setImdbId}
         required
       />
 
@@ -105,7 +105,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={someInvalid}
+            disabled={hasInvalidValue}
           >
             Add
           </button>
