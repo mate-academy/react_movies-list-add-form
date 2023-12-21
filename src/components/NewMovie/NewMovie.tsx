@@ -78,7 +78,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
         label="Image URL"
         value={imgUrl}
         onChange={setImgUrl}
-        validate={regex.test}
+        validate={(value) => regex.test(value)}
         required
       />
 
@@ -87,7 +87,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
         label="Imdb URL"
         value={imdbUrl}
         onChange={setImdbUrl}
-        validate={regex.test}
+        validate={(value) => regex.test(value)}
         required
       />
 
