@@ -1,14 +1,31 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { TextField } from '../TextField';
+import { Movie } from '../../types/Movie';
 
-export const NewMovie = () => {
+const defaultMovie: Movie = {
+  title: '',
+  description: '',
+  imgUrl: '',
+  imdbUrl: '',
+  imdbId: '',
+};
+
+interface Props {
+  onAdd: (movie: Movie) => void
+}
+
+export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
 
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
+  const [movie, setMovie] = useState(defaultMovie);
+
+  const {
+    title,
+    description,
+    imgUrl,
+    imdbUrl,
+    imdbId,
+  } = movie;
 
   const isSubmitDisable = !(
     title.trim()
@@ -18,13 +35,18 @@ export const NewMovie = () => {
   );
 
   const handleSubmit = () => {
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
-
+    onAdd(movie);
+    setMovie(defaultMovie);
     setCount(currentCount => currentCount + 1);
+  };
+
+  const handleFieldChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+
+    setMovie((prevMovie) => ({
+      ...prevMovie,
+      [name]: value,
+    }));
   };
 
   // eslint-disable-next-line max-len
@@ -42,7 +64,7 @@ export const NewMovie = () => {
         name="title"
         label="Title"
         value={title}
-        onChange={setTitle}
+        onChange={handleFieldChange}
         required
       />
 
@@ -50,14 +72,14 @@ export const NewMovie = () => {
         name="description"
         label="Description"
         value={description}
-        onChange={setDescription}
+        onChange={handleFieldChange}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={setImgUrl}
+        onChange={handleFieldChange}
         pattern={pattern}
         required
       />
@@ -66,7 +88,7 @@ export const NewMovie = () => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={setImdbUrl}
+        onChange={handleFieldChange}
         pattern={pattern}
         required
       />
@@ -75,7 +97,7 @@ export const NewMovie = () => {
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={setImdbId}
+        onChange={handleFieldChange}
         required
       />
 
