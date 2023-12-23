@@ -59,7 +59,7 @@ export const TextField: React.FC<Props> = ({
       )}
 
       {
-        hasUrlError && hasError && (
+        (hasUrlError || hasError) && (
           <p className="help is-danger">Type correct link</p>
         )
       }
