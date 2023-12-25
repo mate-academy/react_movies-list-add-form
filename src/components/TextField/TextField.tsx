@@ -7,7 +7,7 @@ type Props = {
   label?: string,
   placeholder?: string,
   required?: boolean,
-  onChange?: (newValue: string) => void,
+  onChange?: (newValue: React.ChangeEvent<HTMLInputElement>) => void,
 
 };
 
@@ -42,6 +42,7 @@ export const TextField: React.FC<Props> = ({
       <div className="control">
         <input
           type="text"
+          name={name}
           id={id}
           data-cy={`movie-${name}`}
           className={classNames('input', {
@@ -49,7 +50,7 @@ export const TextField: React.FC<Props> = ({
           })}
           placeholder={placeholder}
           value={value}
-          onChange={event => onChange(event.target.value)}
+          onChange={onChange}
           onBlur={() => setTouched(true)}
         />
       </div>
