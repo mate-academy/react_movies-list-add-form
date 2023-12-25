@@ -20,7 +20,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
   const [newMovie, setNewMovie] = useState<Movie>(initialMovie);
 
-  const handleChange = (newValue: string, key: keyof Movie) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
     setNewMovie((prevMovie) => ({ ...prevMovie, [name]: value }));
@@ -33,8 +33,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setCount(prevCount => prevCount + 1);
   };
 
-  const hasError = !newMovie.title || !newMovie.imgUrl
-    || !newMovie.imdbUrl || !newMovie.imdbId;
+  const hasError = !newMovie.title.trim() || !newMovie.imgUrl.trim()
+    || !newMovie.imdbUrl.trim() || !newMovie.imdbId.trim();
 
   return (
     <form
