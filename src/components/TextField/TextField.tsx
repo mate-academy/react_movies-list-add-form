@@ -7,7 +7,8 @@ type Props = {
   label?: string,
   placeholder?: string,
   required?: boolean,
-  validationPattern?: boolean,
+  checkValidationUrl?: boolean,
+  checkedUrl?: boolean,
   onChange?: (newValue: string) => void,
 };
 
@@ -23,13 +24,15 @@ export const TextField: React.FC<Props> = ({
   label = name,
   placeholder = `Enter ${label}`,
   required = false,
+  checkValidationUrl,
+  checkedUrl,
   onChange = () => {},
-  validationPattern,
 }) => {
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
   const [touched, setTouched] = useState(false);
   const hasError = touched && required && !value;
+  const hasErrorValidation = touched && checkValidationUrl && !checkedUrl;
 
   return (
     <div className="field">
@@ -56,7 +59,7 @@ export const TextField: React.FC<Props> = ({
         <p className="help is-danger">{`${label} is required`}</p>
       )}
 
-      {validationPattern && (
+      {hasErrorValidation && (
         <p className="help is-danger">{`${label} is not valid`}</p>
       )}
     </div>
