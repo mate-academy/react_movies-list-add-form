@@ -16,50 +16,55 @@ const urlValidationPattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
 
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
+  const [newMovie, setNewMovie] = useState({
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  });
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+
+    setNewMovie((prevMovie) => ({ ...prevMovie, [name]: value }));
+  };
+
   const [checkedImgUrl, setCheckedImgUrl] = useState(false);
   const [checkedImdbUrl, setCheckedImdbUrl] = useState(false);
 
-  const isDisabled = !title
-    || !imgUrl
-    || !imdbUrl
-    || !imdbId
+  const isDisabled = !newMovie.title
+    || !newMovie.imgUrl
+    || !newMovie.imdbUrl
+    || !newMovie.imdbId
     || !checkedImgUrl
     || !checkedImdbUrl;
 
   useEffect(() => {
     setCheckedImgUrl(
-      checkValidation(urlValidationPattern, imgUrl),
+      checkValidation(urlValidationPattern, newMovie.imgUrl),
     );
 
     setCheckedImdbUrl(
-      checkValidation(urlValidationPattern, imdbUrl),
+      checkValidation(urlValidationPattern, newMovie.imdbUrl),
     );
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [imgUrl, imdbUrl]);
+  }, [newMovie.imgUrl, newMovie.imdbUrl]);
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    onAdd({
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    });
+    onAdd(newMovie);
 
     setCount(currentCount => currentCount + 1);
 
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
+    setNewMovie({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
   };
 
   return (
@@ -73,44 +78,44 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value={title}
+        value={newMovie.title}
         required
-        onChange={setTitle}
+        onChange={handleChange}
       />
 
       <TextField
         name="description"
         label="description"
-        value={description}
-        onChange={setDescription}
+        value={newMovie.description}
+        onChange={handleChange}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={imgUrl}
+        value={newMovie.imgUrl}
         required
         checkValidationUrl
         checkedUrl={checkedImgUrl}
-        onChange={setImgUrl}
+        onChange={handleChange}
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={imdbUrl}
+        value={newMovie.imdbUrl}
         required
         checkValidationUrl
         checkedUrl={checkedImdbUrl}
-        onChange={setImdbUrl}
+        onChange={handleChange}
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imdbId}
+        value={newMovie.imdbId}
         required
-        onChange={setImdbId}
+        onChange={handleChange}
       />
 
       <div className="field is-grouped">
