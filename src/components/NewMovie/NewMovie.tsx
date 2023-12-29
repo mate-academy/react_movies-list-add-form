@@ -24,7 +24,6 @@ export const NewMovie: React.FC<Props> = ({ onSubmit }) => {
   const handleInputChange = (name: string, value: string) => {
     setNewMovie(prevMovie => ({ ...prevMovie, [name]: value }));
   };
-
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
