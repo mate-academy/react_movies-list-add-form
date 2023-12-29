@@ -1,1 +1,8 @@
 // not empty
+
+.button {
+  &--disable {
+    opacity: 0.1 !important;
+    pointer-events: none;
+  }
+}
