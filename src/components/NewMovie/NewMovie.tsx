@@ -48,6 +48,7 @@ export const NewMovie: React.FC<Props> = ({ onSubmit }) => {
     });
 
     setCount(count + 1);
+    setSwitchButton(true);
   };
 
   useEffect(() => {
