@@ -13,7 +13,15 @@ export const App = () => {
   }, []);
 
   const onMovieAdd = (movie: Movie) => {
-    setMovies(prevMovies => [...prevMovies, movie]);
+    const trimmedMovie: Movie = { ...movie };
+
+    Object.keys(trimmedMovie).forEach((key) => {
+      if (typeof trimmedMovie[key] === 'string') {
+        trimmedMovie[key] = trimmedMovie[key].trim();
+      }
+    });
+
+    setMovies(prevMovies => [...prevMovies, trimmedMovie]);
   };
 
   return (
