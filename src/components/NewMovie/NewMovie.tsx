@@ -57,6 +57,8 @@ export const NewMovie = ({ onAdd }: { onAdd: (movie: Movie) => void }) => {
       imdbUrl: '',
       imdbId: '',
     });
+
+    setIsFormValid(false);
   };
 
   const handleSubmit = (event: React.FormEvent) => {
