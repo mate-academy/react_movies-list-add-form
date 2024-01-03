@@ -3,7 +3,7 @@ import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
 export const NewMovie = ({ onAdd }: { onAdd: (movie: Movie) => void }) => {
-  const [count] = useState(0);
+  const [count, setCount] = useState(0);
   const [isFormValid, setIsFormValid] = useState(false);
   const [movie, setMovie] = useState({
     title: '',
@@ -22,10 +22,10 @@ export const NewMovie = ({ onAdd }: { onAdd: (movie: Movie) => void }) => {
 
   const validateForm = () => {
     const isValid = Object.entries(movie).every(([key, value]) => {
-      // Якщо ключ - 'description', то дозволити пусте значення
       return key === 'description' || (value && value.trim() !== '');
     });
 
+    console.log('isValid:', isValid);
     setIsFormValid(isValid);
   };
 
@@ -35,10 +35,22 @@ export const NewMovie = ({ onAdd }: { onAdd: (movie: Movie) => void }) => {
       [fieldName]: newValue,
     }));
 
+    setInputError(prevState => ({
+      ...prevState,
+      [fieldName]: false,
+    }));
+
     validateForm();
   };
 
   const reset = () => {
+    setInputError({
+      title: false,
+      imgUrl: false,
+      imdbUrl: false,
+      imdbId: false,
+    });
+
     setMovie({
       title: '',
       description: '',
@@ -46,18 +58,10 @@ export const NewMovie = ({ onAdd }: { onAdd: (movie: Movie) => void }) => {
       imdbUrl: '',
       imdbId: '',
     });
-
-    setInputError({
-      title: false,
-      imgUrl: false,
-      imdbUrl: false,
-      imdbId: false,
-    });
   };
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    validateForm();
 
     if (!movie.title) {
       setInputError(pre => ({ ...pre, title: true }));
@@ -75,15 +79,16 @@ export const NewMovie = ({ onAdd }: { onAdd: (movie: Movie) => void }) => {
       setInputError(pre => ({ ...pre, imdbId: true }));
     }
 
-    if (inputError.title
-      && !inputError.imgUrl
-      && !inputError.imdbUrl
-      && !inputError.imdbId) {
+    validateForm();
+
+    if (!isFormValid) {
       return;
     }
 
     onAdd(movie);
     reset();
+
+    setCount(prevCount => prevCount + 1);
   };
 
   return (
