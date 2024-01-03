@@ -25,7 +25,6 @@ export const NewMovie = ({ onAdd }: { onAdd: (movie: Movie) => void }) => {
       return key === 'description' || (value && value.trim() !== '');
     });
 
-    console.log('isValid:', isValid);
     setIsFormValid(isValid);
   };
 
