@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { FormEvent, useState } from 'react';
 import { Movie } from '../../types/Movie';
 import { TextField } from '../TextField';
 
@@ -8,8 +8,6 @@ type Props = {
 };
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
   const [count, newCount] = useState(0);
   const [newTitle, setNewTitle] = useState('');
   const [newDescription, setNewDescription] = useState('');
@@ -17,29 +15,31 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [newImdbUrl, setNewImdbUrl] = useState('');
   const [newImdbId, setNewImdbId] = useState('');
 
+  const handleFormSubmit = (element: FormEvent) => {
+    element.preventDefault();
+
+    const movie = {
+      title: newTitle.trim(),
+      description: newDescription.trim(),
+      imgUrl: newImgUrl.trim(),
+      imdbUrl: newImdbUrl.trim(),
+      imdbId: newImdbId.trim(),
+    };
+
+    onAdd(movie);
+    newCount(count + 1);
+    setNewTitle('');
+    setNewDescription('');
+    setNewImgUrl('');
+    setNewImdbUrl('');
+    setNewImdbId('');
+  };
+
   return (
     <form
       className="NewMovie"
       key={count}
-      onSubmit={(event) => {
-        event.preventDefault();
-
-        const movie = {
-          title: newTitle.trim(),
-          description: newDescription.trim(),
-          imgUrl: newImgUrl.trim(),
-          imdbUrl: newImdbUrl.trim(),
-          imdbId: newImdbId.trim(),
-        };
-
-        onAdd(movie);
-        newCount(count + 1);
-        setNewTitle('');
-        setNewDescription('');
-        setNewImgUrl('');
-        setNewImdbUrl('');
-        setNewImdbId('');
-      }}
+      onSubmit={handleFormSubmit}
     >
       <h2 className="title">Add a movie</h2>
 
