@@ -27,21 +27,19 @@ export const TextField: React.FC<Props> = ({
   required = true,
   onChange = () => {},
 }) => {
-  let error = '';
-
   // generage a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
   // To show errors only if the field was touched (onBlur)
   const [touched, setTouched] = useState(false);
 
-  if (touched && required && !value) {
-    error = (`${label} is required`);
-  }
+  let error = '';
 
-  if (value
-    && (name === 'imdbUrl' || name === 'imgUrl') && !pattern.test(value)) {
+  // eslint-disable-next-line max-len
+  if (value && (name === 'imdbUrl' || name === 'imgUrl') && !pattern.test(value)) {
     error = 'Invalid URL';
+  } else if (touched && required && !value) {
+    error = `${label} is required`;
   }
 
   return (
