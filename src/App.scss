@@ -12,4 +12,7 @@
 .sidebar {
   padding: 20px;
   border-left: 1px solid lightgray;
+  height: fit-content;
+  position: sticky;
+  top: 0;
 }

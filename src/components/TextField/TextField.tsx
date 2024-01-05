@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import React, { useState } from 'react';
+import { LINK_REGEXP } from '../../constants/regexp';
 
 type Props = {
   name: string,
@@ -7,7 +8,7 @@ type Props = {
   label?: string,
   placeholder?: string,
   required?: boolean,
-  onChange?: (newValue: string) => void,
+  onChange?: (event :React.ChangeEvent<HTMLInputElement>) => void,
 };
 
 function getRandomDigits() {
@@ -21,7 +22,7 @@ export const TextField: React.FC<Props> = ({
   value,
   label = name,
   placeholder = `Enter ${label}`,
-  required = false,
+  required = true,
   onChange = () => {},
 }) => {
   // generage a unique id once on component load
@@ -29,7 +30,15 @@ export const TextField: React.FC<Props> = ({
 
   // To show errors only if the field was touched (onBlur)
   const [touched, setTouched] = useState(false);
-  const hasError = touched && required && !value;
+
+  let error = '';
+
+  // eslint-disable-next-line max-len
+  if (value && (name === 'imdbUrl' || name === 'imgUrl') && !LINK_REGEXP.test(value)) {
+    error = 'Invalid URL';
+  } else if (touched && required && !value) {
+    error = `${label} is required`;
+  }
 
   return (
     <div className="field">
@@ -40,20 +49,21 @@ export const TextField: React.FC<Props> = ({
       <div className="control">
         <input
           type="text"
+          name={name}
           id={id}
           data-cy={`movie-${name}`}
           className={classNames('input', {
-            'is-danger': hasError,
+            'is-danger': error,
           })}
           placeholder={placeholder}
           value={value}
-          onChange={event => onChange(event.target.value)}
+          onChange={event => onChange(event)}
           onBlur={() => setTouched(true)}
         />
       </div>
 
-      {hasError && (
-        <p className="help is-danger">{`${label} is required`}</p>
+      {error && (
+        <p className="help is-danger">{error}</p>
       )}
     </div>
   );
