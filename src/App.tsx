@@ -5,13 +5,11 @@ import { NewMovie } from './components/NewMovie';
 import moviesFromServer from './api/movies.json';
 import { Movie } from './types/Movie';
 
-const initialMovies: Movie[] = moviesFromServer.map(value => ({ ...value }));
-
 export const App = () => {
-  const [movies, setMovies] = useState(initialMovies);
+  const [movies, setMovies] = useState(moviesFromServer);
 
-  const addHandler = (movie: Movie) => {
-    setMovies(prevMovies => [...prevMovies, movie]);
+  const addMovie = (movie: Movie) => {
+    setMovies((prev) => [...prev, movie]);
   };
 
   return (
@@ -20,7 +18,10 @@ export const App = () => {
         <MoviesList movies={movies} />
       </div>
       <div className="sidebar">
-        <NewMovie onAdd={addHandler} />
+        <NewMovie onAdd={(movie: Movie) => {
+          addMovie(movie);
+        }}
+        />
       </div>
     </div>
   );
