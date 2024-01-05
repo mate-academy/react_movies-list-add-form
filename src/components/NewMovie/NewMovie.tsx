@@ -38,7 +38,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
 
-    setNewMovie((prevMovie: Movie) => ({ ...prevMovie, [name]: value }));
+    setNewMovie((prevMovie: Movie) => ({
+      ...prevMovie, [name]: value.trimStart(),
+    }));
   };
 
   const validation = () => {
@@ -63,14 +65,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={newMovie.title}
-        onChange={event => handleOnChange(event)}
+        onChange={handleOnChange}
       />
 
       <TextField
         name="description"
         label="Description"
         value={newMovie.description}
-        onChange={event => handleOnChange(event)}
+        onChange={handleOnChange}
         required={false}
       />
 
@@ -78,21 +80,21 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imgUrl"
         label="Image URL"
         value={newMovie.imgUrl}
-        onChange={event => handleOnChange(event)}
+        onChange={handleOnChange}
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
         value={newMovie.imdbUrl}
-        onChange={event => handleOnChange(event)}
+        onChange={handleOnChange}
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
         value={newMovie.imdbId}
-        onChange={event => handleOnChange(event)}
+        onChange={handleOnChange}
       />
 
       <div className="field is-grouped">
