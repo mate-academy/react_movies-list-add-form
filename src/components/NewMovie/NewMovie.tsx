@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { TextField } from '../TextField';
-import { Inputs } from '../../types/Inputs';
 import { Movie } from '../../types/Movie';
 
 type Props = {
@@ -11,55 +10,43 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
+
+  const [newMovie, setNewMovie] = useState({
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  });
 
   const handleOnSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    onAdd({
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    });
+    onAdd(newMovie);
 
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbId('');
-    setImdbUrl('');
+    setNewMovie({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
 
     setCount(currentCount => currentCount + 1);
   };
 
-  const handleOnChange = (value: string, name: Inputs) => {
-    switch (name) {
-      case 'title':
-        setTitle(value);
-        break;
-      case 'description':
-        setDescription(value);
-        break;
-      case 'imgUrl':
-        setImgUrl(value);
-        break;
-      case 'imdbId':
-        setImdbId(value);
-        break;
-      case 'imdbUrl':
-        setImdbUrl(value);
-        break;
-      default:
-    }
+  const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+
+    setNewMovie((prevMovie: Movie) => ({ ...prevMovie, [name]: value }));
   };
 
   const validation = () => {
-    return !(!title || !imdbId || !imdbUrl || !imgUrl);
+    return !(!newMovie.title
+      || !newMovie.imdbId
+      || !newMovie.imdbUrl
+      || !newMovie.imgUrl
+    );
   };
 
   const isValid = validation();
@@ -75,39 +62,37 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value={title}
-        onChange={newTitle => handleOnChange(newTitle, 'title')}
+        value={newMovie.title}
+        onChange={event => handleOnChange(event)}
       />
 
       <TextField
         name="description"
         label="Description"
-        value={description}
-        onChange={newDesctiption => {
-          handleOnChange(newDesctiption, 'description');
-        }}
+        value={newMovie.description}
+        onChange={event => handleOnChange(event)}
         required={false}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={imgUrl}
-        onChange={newImgUrl => handleOnChange(newImgUrl, 'imgUrl')}
+        value={newMovie.imgUrl}
+        onChange={event => handleOnChange(event)}
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={imdbUrl}
-        onChange={newImdbUrl => handleOnChange(newImdbUrl, 'imdbUrl')}
+        value={newMovie.imdbUrl}
+        onChange={event => handleOnChange(event)}
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imdbId}
-        onChange={newImdId => handleOnChange(newImdId, 'imdbId')}
+        value={newMovie.imdbId}
+        onChange={event => handleOnChange(event)}
       />
 
       <div className="field is-grouped">

@@ -7,7 +7,7 @@ type Props = {
   label?: string,
   placeholder?: string,
   required?: boolean,
-  onChange?: (newValue: string) => void,
+  onChange?: (event :React.ChangeEvent<HTMLInputElement>) => void,
 };
 
 function getRandomDigits() {
@@ -51,6 +51,7 @@ export const TextField: React.FC<Props> = ({
       <div className="control">
         <input
           type="text"
+          name={name}
           id={id}
           data-cy={`movie-${name}`}
           className={classNames('input', {
@@ -58,7 +59,7 @@ export const TextField: React.FC<Props> = ({
           })}
           placeholder={placeholder}
           value={value}
-          onChange={event => onChange(event.target.value.trim())}
+          onChange={event => onChange(event)}
           onBlur={() => setTouched(true)}
         />
       </div>
