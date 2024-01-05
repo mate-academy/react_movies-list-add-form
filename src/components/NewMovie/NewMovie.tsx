@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
+import { Inputs } from '../../types/Inputs';
+import { LINK_REGEXP } from '../../constants/regexp';
 
 type Props = {
   onAdd: (newMovie: Movie) => void
@@ -19,8 +21,15 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     imdbId: '',
   });
 
-  const handleOnSubmit = (event: React.FormEvent) => {
+  const handleOnSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    const keys = Object.keys(newMovie) as Inputs[];
+
+    // eslint-disable-next-line no-restricted-syntax
+    for (const key of keys) {
+      newMovie[key] = newMovie[key].trim();
+    }
 
     onAdd(newMovie);
 
@@ -46,8 +55,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const validation = () => {
     return !(!newMovie.title
       || !newMovie.imdbId
-      || !newMovie.imdbUrl
-      || !newMovie.imgUrl
+      || (!newMovie.imdbUrl || !LINK_REGEXP.test(newMovie.imdbUrl))
+      || (!newMovie.imgUrl || !LINK_REGEXP.test(newMovie.imgUrl))
     );
   };
 

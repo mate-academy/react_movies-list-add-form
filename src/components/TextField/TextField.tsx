@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import React, { useState } from 'react';
+import { LINK_REGEXP } from '../../constants/regexp';
 
 type Props = {
   name: string,
@@ -15,9 +16,6 @@ function getRandomDigits() {
     .toFixed(16)
     .slice(2);
 }
-
-// eslint-disable-next-line max-len
-const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
 
 export const TextField: React.FC<Props> = ({
   name,
@@ -36,7 +34,7 @@ export const TextField: React.FC<Props> = ({
   let error = '';
 
   // eslint-disable-next-line max-len
-  if (value && (name === 'imdbUrl' || name === 'imgUrl') && !pattern.test(value)) {
+  if (value && (name === 'imdbUrl' || name === 'imgUrl') && !LINK_REGEXP.test(value)) {
     error = 'Invalid URL';
   } else if (touched && required && !value) {
     error = `${label} is required`;
