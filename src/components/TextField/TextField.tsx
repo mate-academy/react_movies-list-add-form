@@ -1,5 +1,6 @@
 import classNames from 'classnames';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { Movie } from '../../types/Movie';
 
 type Props = {
   name: string,
@@ -7,7 +8,8 @@ type Props = {
   label?: string,
   placeholder?: string,
   required?: boolean,
-  onChange?: (newValue: string) => void,
+  count: number,
+  onChange?: React.Dispatch<React.SetStateAction<Movie>>
 };
 
 function getRandomDigits() {
@@ -22,14 +24,25 @@ export const TextField: React.FC<Props> = ({
   label = name,
   placeholder = `Enter ${label}`,
   required = false,
-  onChange = () => {},
+  count,
+  onChange,
 }) => {
-  // generage a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
-
-  // To show errors only if the field was touched (onBlur)
   const [touched, setTouched] = useState(false);
   const hasError = touched && required && !value;
+
+  useEffect(() => {
+    setTouched(false);
+  }, [count]);
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (onChange) {
+      onChange((prevMovie: Movie) => ({
+        ...prevMovie,
+        [name]: event.target.value,
+      }));
+    }
+  };
 
   return (
     <div className="field">
@@ -47,7 +60,7 @@ export const TextField: React.FC<Props> = ({
           })}
           placeholder={placeholder}
           value={value}
-          onChange={event => onChange(event.target.value)}
+          onChange={handleInputChange}
           onBlur={() => setTouched(true)}
         />
       </div>
