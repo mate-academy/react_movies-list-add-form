@@ -1,11 +1,12 @@
 import './App.scss';
 import { useState } from 'react';
 import { MoviesList } from './components/MoviesList';
-import { NewMovie, MoviesProps } from './components/NewMovie';
+import { NewMovie } from './components/NewMovie';
 import moviesFromServer from './api/movies.json';
+import { Movie } from './types/Movie';
 
 export const App = () => {
-  const [movies, setMovies] = useState<MoviesProps[]>(moviesFromServer);
+  const [movies, setMovies] = useState<Movie[]>(moviesFromServer);
 
   return (
     <div className="page">
@@ -15,7 +16,7 @@ export const App = () => {
         />
       </div>
       <div className="sidebar">
-        <NewMovie setMovies={setMovies} />
+        <NewMovie onAdd={setMovies} />
       </div>
     </div>
   );
