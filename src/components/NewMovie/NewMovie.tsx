@@ -1,49 +1,44 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
-interface NewMovieProps {
+interface NewMoviesProps {
   onAdd: React.Dispatch<React.SetStateAction<Movie[]>>;
 }
 
-export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
+export const NewMovie: React.FC<NewMoviesProps> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
-  const [disabled, setDisabled] = useState(true);
+  const [newMovie, setNewMovie] = useState({
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  });
 
   const resetForm = () => {
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
+    setNewMovie({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
   };
 
-  useEffect(() => {
-    if (title && imdbId && imdbUrl && imgUrl) {
-      setDisabled(false);
-    }
-  }, [title, imdbUrl, imgUrl, imdbId]);
+  const {
+    title, description, imgUrl, imdbUrl, imdbId,
+  } = newMovie;
+
+  const isDisabled = !(title.trim() && imdbId.trim()
+    && imdbUrl.trim() && imgUrl.trim());
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const newMovie = {
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    };
-
     onAdd(oldMoviesList => [...oldMoviesList, newMovie]);
     setCount(prevCount => prevCount + 1);
     resetForm();
-    setDisabled(true);
   };
 
   return (
@@ -58,7 +53,7 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={title}
-        onChange={setTitle}
+        onChange={setNewMovie}
         required
         count={count}
       />
@@ -67,7 +62,7 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={description}
-        onChange={setDescription}
+        onChange={setNewMovie}
         count={count}
       />
 
@@ -75,7 +70,7 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={setImgUrl}
+        onChange={setNewMovie}
         required
         count={count}
       />
@@ -84,7 +79,7 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={setImdbUrl}
+        onChange={setNewMovie}
         required
         count={count}
       />
@@ -93,7 +88,7 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={setImdbId}
+        onChange={setNewMovie}
         required
         count={count}
       />
@@ -104,7 +99,7 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={disabled}
+            disabled={isDisabled}
           >
             Add
           </button>
