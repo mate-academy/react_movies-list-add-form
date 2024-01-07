@@ -3,10 +3,10 @@ import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
 type Props = {
-  setMovieList: React.Dispatch<React.SetStateAction<Movie[]>>,
+  onAdd: (newMovie:Movie) => void,
 };
 
-export const NewMovie:React.FC<Props> = ({ setMovieList }) => {
+export const NewMovie:React.FC<Props> = ({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
@@ -28,7 +28,7 @@ export const NewMovie:React.FC<Props> = ({ setMovieList }) => {
     setCount(prev => prev + 1);
   }
 
-  function onAdd() {
+  function addMovie() {
     const newMovie:Movie = {
       title: movieTitle,
       description: movieDescription,
@@ -37,7 +37,7 @@ export const NewMovie:React.FC<Props> = ({ setMovieList }) => {
       imdbId: movieImdbId,
     };
 
-    setMovieList(movies => [...movies, newMovie]);
+    onAdd(newMovie);
   }
 
   return (
@@ -46,7 +46,7 @@ export const NewMovie:React.FC<Props> = ({ setMovieList }) => {
       key={count}
       onSubmit={e => {
         e.preventDefault();
-        onAdd();
+        addMovie();
         clearForm();
       }}
     >
