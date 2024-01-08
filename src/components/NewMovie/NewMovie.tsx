@@ -3,14 +3,15 @@ import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
 type Props = {
-  onAdd: ((movie: Movie) => void)
+  onAdd: ((movie: Movie) => void);
 };
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
-  const [count] = useState(0);
+  const [count, setCount] = useState(0);
   const [title, setTitle] = useState('');
+  const [hasTitleError, setHasTitleError] = useState(false);
   const [description, setDescription] = useState('');
   const [imgUrl, setImgUrl] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
@@ -27,6 +28,12 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const handlSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
+    setHasTitleError(!title);
+
+    if (!title) {
+      return;
+    }
+
     onAdd({
       title,
       description,
@@ -34,6 +41,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       imdbUrl,
       imgUrl,
     });
+
+    setCount(count + 1);
 
     reset();
   };
@@ -52,7 +61,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Title"
         value={title}
         onChange={(event) => setTitle(event.target.value)}
-        required
+        required={hasTitleError}
       />
 
       <TextField
@@ -89,7 +98,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            onClick={reset}
             disabled={title === ''}
           >
             Add
