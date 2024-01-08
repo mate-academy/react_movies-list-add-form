@@ -14,8 +14,13 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [hasTitleError, setHasTitleError] = useState(false);
   const [description, setDescription] = useState('');
   const [imgUrl, setImgUrl] = useState('');
+  const [hasImgUrError, setHasImgUrError] = useState(false);
+
   const [imdbUrl, setImdbUrl] = useState('');
+  const [hasImdbUrlError, setHasImdbUrlError] = useState(false);
+
   const [imdbId, setImdbId] = useState('');
+  const [hasImdbIdError, setHasImdbIdError] = useState(false);
 
   const reset = () => {
     setTitle('');
@@ -29,8 +34,11 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     event.preventDefault();
 
     setHasTitleError(!title);
+    setHasImdbIdError(!imdbId);
+    setHasImdbUrlError(!imdbUrl);
+    setHasImgUrError(!imgUrl);
 
-    if (!title) {
+    if (!title || !imdbId || !imdbUrl || !imgUrl) {
       return;
     }
 
@@ -76,6 +84,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Image URL"
         value={imgUrl}
         onChange={(event) => setImgUrl(event.target.value)}
+        required={hasImgUrError}
       />
 
       <TextField
@@ -83,6 +92,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Imdb URL"
         value={imdbUrl}
         onChange={(event) => setImdbUrl(event.target.value)}
+        required={hasImdbUrlError}
       />
 
       <TextField
@@ -90,6 +100,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Imdb ID"
         value={imdbId}
         onChange={(event) => setImdbId(event.target.value)}
+        required={hasImdbIdError}
       />
 
       <div className="field is-grouped">
@@ -98,7 +109,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={title === ''}
+            disabled={!title || !imdbId || !imdbUrl || !imgUrl}
           >
             Add
           </button>
