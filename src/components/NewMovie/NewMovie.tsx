@@ -28,17 +28,27 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setImgUrl('');
     setImdbUrl('');
     setImdbId('');
+
+    setHasTitleError(false);
+    setHasImgUrError(false);
+    setHasImdbUrlError(false);
+    setHasImdbIdError(false);
   };
 
   const handlSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    setHasTitleError(!title);
-    setHasImdbIdError(!imdbId);
-    setHasImdbUrlError(!imdbUrl);
-    setHasImgUrError(!imgUrl);
+    const tirmmedTitle = title.trim();
+    const tirmmedImbId = imdbId.trim();
+    const tirmmedImbdUrl = imdbUrl.trim();
+    const tirmmedImg = imgUrl.trim();
 
-    if (!title || !imdbId || !imdbUrl || !imgUrl) {
+    setHasTitleError(!tirmmedTitle);
+    setHasImdbIdError(!tirmmedImbId);
+    setHasImdbUrlError(!tirmmedImbdUrl);
+    setHasImgUrError(!tirmmedImg);
+
+    if (!tirmmedTitle || !tirmmedImbId || !tirmmedImbdUrl || !tirmmedImg) {
       return;
     }
 
