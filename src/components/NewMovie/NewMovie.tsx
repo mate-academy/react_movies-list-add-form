@@ -77,7 +77,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={newMovie.title}
-        placeholder=""
         onChange={handleChange}
         required
       />
@@ -86,7 +85,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={newMovie.description}
-        placeholder=""
         onChange={handleChange}
       />
 
@@ -94,7 +92,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imgUrl"
         label="Image URL"
         value={newMovie.imgUrl}
-        placeholder=""
         onChange={handleChange}
         hasUrlError={imgUrlError}
         required
@@ -104,7 +101,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={newMovie.imdbUrl}
-        placeholder=""
         onChange={handleChange}
         hasUrlError={imdbUrlError}
         required
