@@ -6,37 +6,39 @@ type Props = {
   onAdd: (movie: Movie) => void;
 };
 
-const initialMovie = {
-  title: '',
-  description: '',
-  imgUrl: '',
-  imdbUrl: '',
-  imdbId: '',
-};
-
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
-  const [movie, setMovie] = useState(initialMovie);
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [imgUrl, setImgUrl] = useState('');
+  const [imdbUrl, setImdbUrl] = useState('');
+  const [imdbId, setImdbId] = useState('');
 
-  const handleReset = () => {
-    setMovie(initialMovie);
-  };
+  const isFieldEmpty = !title || !imgUrl || !imdbUrl || !imdbId;
 
-  const handleChange = (key: string, value: string) => {
-    setMovie((currentState) => ({ ...currentState, [key]: value }));
+  const reset = () => {
+    setTitle('');
+    setDescription('');
+    setImgUrl('');
+    setImdbUrl('');
+    setImdbId('');
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    onAdd(movie);
-    setCount(count + 1);
-    handleReset();
-  };
 
-  const submitDisabled = !movie.title.trim()
-  || !movie.imdbId.trim()
-  || !movie.imdbUrl.trim()
-  || !movie.imgUrl.trim();
+    onAdd({
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    });
+
+    setCount((prev) => prev + 1);
+
+    reset();
+  };
 
   return (
     <form className="NewMovie" key={count} onSubmit={handleSubmit}>
@@ -45,49 +47,49 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value={movie.title}
-        onChange={(value) => handleChange('title', value)}
+        value={title}
+        onChange={setTitle}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value={movie.description}
-        onChange={(value) => handleChange('description', value)}
+        value={description}
+        onChange={setDescription}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={movie.imgUrl}
-        onChange={(value) => handleChange('imgUrl', value)}
+        value={imgUrl}
+        onChange={setImgUrl}
         required
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={movie.imdbUrl}
-        onChange={(value) => handleChange('imdbUrl', value)}
+        value={imdbUrl}
+        onChange={setImdbUrl}
         required
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={movie.imdbId}
-        onChange={(value) => handleChange('imdbId', value)}
+        value={imdbId}
+        onChange={setImdbId}
         required
       />
 
       <div className="field is-grouped">
         <div className="control">
           <button
+            disabled={isFieldEmpty}
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={submitDisabled}
           >
             Add
           </button>
