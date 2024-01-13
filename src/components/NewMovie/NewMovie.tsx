@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
@@ -24,26 +24,13 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
     imdbId: '',
   });
 
-  const [allFieldsFilled, setAllFieldsFilled] = useState(false);
-
-  useEffect(() => {
-    setAllFieldsFilled(
-      formData.title.trim() !== ''
-      && formData.imgUrl.trim() !== ''
-      && formData.imdbUrl.trim() !== ''
-      && formData.imdbId.trim() !== '',
-    );
-  }, [formData]);
+  const allFieldsFilled = formData.title.trim()
+      && formData.imgUrl.trim()
+      && formData.imdbUrl.trim()
+      && formData.imdbId.trim();
 
   const handleChange = (name: string, value: string) => {
     setFormData({ ...formData, [name]: value });
-
-    setAllFieldsFilled(
-      formData.title.trim() !== ''
-      && formData.imgUrl.trim() !== ''
-      && formData.imdbUrl.trim() !== ''
-      && formData.imdbId.trim() !== '',
-    );
   };
 
   const handleSubmit = (event: React.FormEvent) => {
@@ -60,7 +47,6 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
         imdbId: '',
       });
 
-      setAllFieldsFilled(false);
       setCount((prevCount) => prevCount + 1);
     }
   };
