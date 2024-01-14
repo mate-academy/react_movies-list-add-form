@@ -9,12 +9,21 @@ interface Props {
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
-  const [count] = useState(0);
+  const [count, setCount] = useState(0);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [imgUrl, setimgUrl] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
+
+  const reset = () => {
+    setCount(count + 1);
+    setTitle('');
+    setDescription('');
+    setimgUrl('');
+    setImdbUrl('');
+    setImdbId('');
+  };
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -76,15 +85,18 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <div className="field is-grouped">
         <div className="control">
           <button
-            onClick={() => onAdd(
-              {
-                title,
-                description,
-                imgUrl,
-                imdbUrl,
-                imdbId,
-              },
-            )}
+            onClick={() => {
+              onAdd(
+                {
+                  title,
+                  description,
+                  imgUrl,
+                  imdbUrl,
+                  imdbId,
+                },
+              );
+              reset();
+            }}
             type="submit"
             data-cy="submit-button"
             className="button is-link"
