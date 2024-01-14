@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
@@ -8,14 +8,23 @@ interface Props {
 }
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
-  const [count, setCount] = useState(0);
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
+  const defaultMovie = {
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  };
 
-  const [disabledBtn, setDisabledBtn] = useState(true);
+  const [count, setCount] = useState(0);
+  const [newMovie, setNewMovie] = useState(defaultMovie);
+
+  const addNewValue = (title: string, value: string) => {
+    setNewMovie((prevMovies) => ({
+      ...prevMovies,
+      [title]: value,
+    }));
+  };
 
   const validateUrl = (url: string) => {
     const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
@@ -23,34 +32,16 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     return !pattern.test(url);
   };
 
-  const deleteInputValues = () => {
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
-  };
-
-  useEffect(() => {
-    if (title && imgUrl && imdbUrl && imdbId) {
-      setDisabledBtn(false);
-    } else {
-      setDisabledBtn(true);
-    }
-  }, [title, imgUrl, imdbUrl, imdbId]);
+  const disabledBtn = !newMovie.title.trim()
+  || !newMovie.imgUrl.trim()
+  || !newMovie.imdbUrl.trim()
+  || !newMovie.imdbId.trim()
+  || validateUrl(newMovie.imgUrl)
+  || validateUrl(newMovie.imdbUrl);
 
   const handleSubmit = () => {
-    const newMovie: Movie = {
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    };
-
     onAdd(newMovie);
-    setDisabledBtn(true);
-    deleteInputValues();
+    setNewMovie(defaultMovie);
     setCount(count + 1);
   };
 
@@ -65,41 +56,41 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value={title}
-        onChange={(event) => setTitle(event.target.value)}
+        value={newMovie.title}
+        onChange={e => addNewValue('title', e.target.value)}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value={description}
-        onChange={(event) => setDescription(event.target.value)}
+        value={newMovie.description}
+        onChange={e => addNewValue('description', e.target.value)}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={imgUrl}
-        onChange={(event) => setImgUrl(event.target.value)}
+        value={newMovie.imgUrl}
+        onChange={e => addNewValue('imgUrl', e.target.value)}
         required
-        validate={() => validateUrl(imgUrl)}
+        validate={() => validateUrl(newMovie.imgUrl)}
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={imdbUrl}
-        onChange={(event) => setImdbUrl(event.target.value)}
+        value={newMovie.imdbUrl}
+        onChange={e => addNewValue('imdbUrl', e.target.value)}
         required
-        validate={() => validateUrl(imdbUrl)}
+        validate={() => validateUrl(newMovie.imdbUrl)}
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imdbId}
-        onChange={(event) => setImdbId(event.target.value)}
+        value={newMovie.imdbId}
+        onChange={e => addNewValue('imdbId', e.target.value)}
         required
       />
 

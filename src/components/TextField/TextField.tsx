@@ -30,7 +30,9 @@ export const TextField: React.FC<Props> = ({
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
   const [touched, setTouched] = useState(false);
-  const hasError = touched && validate() && required && !value;
+  const hasError = touched && required && !value;
+  const urlTextfields = name === 'imgUrl' || name === 'imdbUrl';
+  const hasUrlError = validate() && touched && urlTextfields;
 
   return (
     <div className="field">
@@ -44,7 +46,7 @@ export const TextField: React.FC<Props> = ({
           id={id}
           data-cy={`movie-${name}`}
           className={classNames('input', {
-            'is-danger': hasError,
+            'is-danger': (hasError || hasUrlError),
           })}
           placeholder={placeholder}
           value={value}
@@ -52,10 +54,14 @@ export const TextField: React.FC<Props> = ({
           onBlur={() => setTouched(true)}
         />
       </div>
+      {hasUrlError && (
+        <p className="help is-danger">Enter valid Url</p>
+      )}
 
-      {hasError && (
+      {hasError && !urlTextfields && (
         <p className="help is-danger">{`${label} is required`}</p>
       )}
+
     </div>
   );
 };
