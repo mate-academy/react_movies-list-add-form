@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import classNames from 'classnames';
 import React, { useState } from 'react';
 
@@ -7,7 +8,8 @@ type Props = {
   label?: string,
   placeholder?: string,
   required?: boolean,
-  onChange?: (newValue: string) => void,
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void,
+  validate?: () => boolean,
 };
 
 function getRandomDigits() {
@@ -23,13 +25,15 @@ export const TextField: React.FC<Props> = ({
   placeholder = `Enter ${label}`,
   required = false,
   onChange = () => {},
+  validate = () => true || false,
 }) => {
-  // generage a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
-  // To show errors only if the field was touched (onBlur)
   const [touched, setTouched] = useState(false);
-  const hasError = touched && required && !value;
+
+  const urlTextfields = name === 'imgUrl' || name === 'imdbUrl';
+  const hasError = touched && required && !value.trim();
+  const hasUrlError = validate() && touched && urlTextfields;
 
   return (
     <div className="field">
@@ -43,18 +47,22 @@ export const TextField: React.FC<Props> = ({
           id={id}
           data-cy={`movie-${name}`}
           className={classNames('input', {
-            'is-danger': hasError,
+            'is-danger': (hasError || hasUrlError),
           })}
           placeholder={placeholder}
           value={value}
-          onChange={event => onChange(event.target.value)}
+          onChange={onChange}
           onBlur={() => setTouched(true)}
         />
       </div>
+      {hasUrlError && (
+        <p className="help is-danger">Enter valid Url</p>
+      )}
 
-      {hasError && (
+      {hasError && !urlTextfields && (
         <p className="help is-danger">{`${label} is required`}</p>
       )}
+
     </div>
   );
 };
