@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { TextField } from '../TextField';
 
-export const NewMovie = () => {
+export const NewMovie: React.FC = () => {
   const [count, setCount] = useState(0);
 
   const [title, setTitle] = useState('');
@@ -30,7 +30,7 @@ export const NewMovie = () => {
     setImdbIdError(false);
 
     setIsFormSubmitted(false);
-    setCount((prevCount) => prevCount + 1);
+    setCount(prevCount => prevCount + 1);
   };
 
   const validateUrl = (url: string): boolean => {
@@ -49,7 +49,6 @@ export const NewMovie = () => {
     setImdbIdError(!imdbId.trim());
 
     if (title.trim() && imgUrl.trim() && imdbUrl.trim() && imdbId.trim()) {
-      // Additional validation for URLs
       if (!validateUrl(imgUrl)) {
         setImgUrlError(true);
         setIsFormSubmitted(true);
@@ -77,10 +76,11 @@ export const NewMovie = () => {
       <TextField
         name="title"
         label="Title"
-        value=""
-        onChange={() => {}}
+        value={title}
+        onChange={(newValue) => setTitle(newValue)}
         required
-        error={typeof titleError === 'string' ? titleError : undefined}
+        error={titleError ? 'Title is required' : undefined}
+        onBlur={() => setIsFormSubmitted(true)}
       />
 
       <TextField
@@ -100,30 +100,31 @@ export const NewMovie = () => {
         showError={isFormSubmitted}
         error={
           (imgUrlError && 'Image URL is required')
-        || (isFormSubmitted && !validateUrl(imgUrl) && 'Invalid Image URL')
-        || undefined
+          || (isFormSubmitted && !validateUrl(imgUrl) && 'Invalid Image URL')
+          || undefined
         }
       />
 
       <TextField
         name="imdbUrl"
-        label="Imdb URL"
-        value=""
-        onChange={() => {}}
+        label="IMDb URL"
+        value={imdbUrl}
+        onChange={(newValue) => setImdbUrl(newValue)}
         onBlur={() => setImdbUrlError(!imdbUrl.trim())}
         required
         showError={isFormSubmitted}
-        error={(imdbUrlError && 'IMDb URL is required')
-          || (isFormSubmitted && !validateUrl(imdbUrl)
-          && 'Invalid IMDb URL')
-          || undefined}
+        error={
+          (imdbUrlError && 'IMDb URL is required')
+          || (isFormSubmitted && !validateUrl(imdbUrl) && 'Invalid IMDb URL')
+          || undefined
+        }
       />
 
       <TextField
         name="imdbId"
-        label="Imdb ID"
-        value=""
-        onChange={() => {}}
+        label="IMDb ID"
+        value={imdbId}
+        onChange={(newValue) => setImdbId(newValue)}
         onBlur={() => setImdbIdError(!imdbId.trim())}
         required
         showError={isFormSubmitted}
@@ -136,7 +137,12 @@ export const NewMovie = () => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={isFormSubmitted}
+            disabled={
+              !title.trim()
+              || !imgUrl.trim()
+              || !imdbUrl.trim()
+              || !imdbId.trim()
+            }
           >
             Add
           </button>

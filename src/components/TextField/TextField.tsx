@@ -8,7 +8,7 @@ type Props = {
   placeholder?: string;
   required?: boolean;
   onChange?: (newValue: string) => void;
-  onBlur?: () => void; // Add onBlur to the type
+  onBlur?: () => void;
   showError?: boolean;
   error?: string | undefined;
 };
@@ -26,14 +26,11 @@ export const TextField: React.FC<Props> = ({
   placeholder = `Enter ${label}`,
   required = false,
   onChange = () => {},
-  onBlur = () => {}, // Add onBlur to the props
+  onBlur = () => {},
   showError = false,
   error,
 }) => {
-  // generate a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
-
-  // To show errors only if the field was touched (onBlur)
   const [touched, setTouched] = useState(false);
   const hasError = touched && required && !value;
 
@@ -54,12 +51,12 @@ export const TextField: React.FC<Props> = ({
           placeholder={placeholder}
           value={value}
           onChange={(event) => {
-            setTouched(false); // Reset touched status on change
+            setTouched(false);
             onChange(event.target.value);
           }}
           onBlur={() => {
             setTouched(true);
-            onBlur(); // Call onBlur prop
+            onBlur();
           }}
         />
       </div>

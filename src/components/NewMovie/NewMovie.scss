@@ -1,1 +1,16 @@
-// not empty
+.new-movie-form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end; /* Align items to the right */
+}
+
+.form-field {
+  margin-bottom: 10px; /* Add some spacing between fields */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end; /* Align items to the right */
+}
+
+label {
+  margin-bottom: 5px;
+}
