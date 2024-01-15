@@ -32,7 +32,11 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const handleInputChange = (
     setter: React.Dispatch<React.SetStateAction<string>>, value: string,
   ) => {
+    const isValid = !!title && pattern.test(imgUrl)
+    && pattern.test(imdbUrl) && !!imdbId;
+
     setter(value);
+    setIsFormValid(isValid);
   };
 
   const handleSubmit = (event: React.FormEvent) => {
@@ -48,16 +52,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
     onAdd(newMovie);
     setCount(count + 1);
-
-    // reset();
   };
-
-  useEffect(() => {
-    const isImgUrlValid = pattern.test(imgUrl);
-    const isImdbUrlValid = pattern.test(imdbUrl);
-
-    setIsFormValid(!!title && isImgUrlValid && isImdbUrlValid && !!imdbId);
-  }, [title, imgUrl, imdbUrl, imdbId]);
 
   useEffect(() => {
     if (count > 0) {
