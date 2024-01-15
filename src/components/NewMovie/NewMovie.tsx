@@ -34,12 +34,9 @@ export const NewMovie: React.FC<AddMovie> = ({ onAdd }) => {
     });
   };
 
-  let sumbitCheck = true;
-
-  if (
-    title && imageUrl && imdbUrl && imdbId) {
-    sumbitCheck = false;
-  }
+  const sumbitCheck = !(
+    title.trim() && imageUrl.trim() && imdbUrl.trim() && imdbId.trim()
+  );
 
   return (
     <form
