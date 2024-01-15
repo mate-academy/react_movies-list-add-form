@@ -24,6 +24,14 @@ export const NewMovie: React.FC<AddMovie> = ({ onAdd }) => {
     setImageUrl('');
     setImdbUrl('');
     setImdbId('');
+
+    onAdd({
+      title,
+      description,
+      imgUrl: imageUrl,
+      imdbUrl,
+      imdbId,
+    });
   };
 
   let sumbitCheck = true;
@@ -87,13 +95,6 @@ export const NewMovie: React.FC<AddMovie> = ({ onAdd }) => {
             data-cy="submit-button"
             className="button is-link"
             disabled={sumbitCheck}
-            onClick={() => onAdd({
-              title,
-              description,
-              imgUrl: imageUrl,
-              imdbUrl,
-              imdbId,
-            })}
           >
             Add
           </button>
