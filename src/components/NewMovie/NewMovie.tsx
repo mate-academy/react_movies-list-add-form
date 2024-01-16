@@ -16,6 +16,17 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
+    onAdd(
+      {
+        title,
+        description,
+        imgUrl,
+        imdbUrl,
+        imdbId,
+      },
+    );
+    // eslint-disable-next-line @typescript-eslint/no-use-before-define
+    reset();
   };
 
   const reset = () => {
@@ -87,18 +98,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             data-cy="submit-button"
             className="button is-link"
             disabled={hasDisabled}
-            onClick={() => {
-              onAdd(
-                {
-                  title,
-                  description,
-                  imgUrl,
-                  imdbUrl,
-                  imdbId,
-                },
-              );
-              reset();
-            }}
           >
             Add
           </button>
