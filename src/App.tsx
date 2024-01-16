@@ -3,11 +3,11 @@ import { useState } from 'react';
 import { MoviesList } from './components/MoviesList';
 import { NewMovie } from './components/NewMovie';
 import moviesFromServer from './api/movies.json';
-
-const moviesOnPage = [...moviesFromServer];
+import { Movie } from './types/Movie';
 
 export const App = () => {
-  const [movies, setMovies] = useState(moviesOnPage);
+  const [movies, setMovies] = useState(moviesFromServer);
+  const hendleOnAdd = (movie: Movie) => setMovies([...movies, movie]);
 
   return (
     <div className="page">
@@ -15,7 +15,7 @@ export const App = () => {
         <MoviesList movies={movies} />
       </div>
       <div className="sidebar">
-        <NewMovie onAdd={(movie) => setMovies([...movies, movie])} />
+        <NewMovie onAdd={hendleOnAdd} />
       </div>
     </div>
   );
