@@ -14,6 +14,15 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
+  const reset = () => {
+    setCount(count + 1);
+    setTitle('');
+    setDescription('');
+    setImgUrl('');
+    setImdbUrl('');
+    setImdbId('');
+  };
+
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     onAdd(
@@ -25,17 +34,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         imdbId,
       },
     );
-    // eslint-disable-next-line @typescript-eslint/no-use-before-define
-    reset();
-  };
 
-  const reset = () => {
-    setCount(count + 1);
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
+    reset();
   };
 
   let hasDisabled = true;
