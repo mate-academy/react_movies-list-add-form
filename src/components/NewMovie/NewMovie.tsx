@@ -106,4 +106,3 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     </form>
   );
 };
-// asd?
