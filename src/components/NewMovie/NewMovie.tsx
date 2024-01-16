@@ -28,7 +28,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const handleReset = () => {
     setCount(count + 1);
     setMovieState({
-      ...movieState,
       title: '',
       description: '',
       imgUrl: '',
@@ -44,7 +43,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   };
 
   const isDisabled = !(movieState.title.trim() && movieState.imgUrl.trim()
-    && movieState.imdbUrl.trim() && movieState.imdbId.trim());
+    && movieState.imdbUrl.trim() && movieState.imdbId.trim()
+    && isValidUrl(movieState.imgUrl) && isValidUrl(movieState.imdbUrl));
 
   return (
     <form
