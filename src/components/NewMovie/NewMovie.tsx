@@ -12,8 +12,8 @@ interface Props {
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
+  const [count, setCount] = useState(0);
   const [movieState, setMovieState] = useState({
-    count: '0',
     title: '',
     description: '',
     imgUrl: '',
@@ -26,9 +26,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   };
 
   const handleReset = () => {
+    setCount(count + 1);
     setMovieState({
       ...movieState,
-      count: (+movieState.count + 1).toString(),
       title: '',
       description: '',
       imgUrl: '',
@@ -49,7 +49,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   return (
     <form
       className="NewMovie"
-      key={movieState.count}
+      key={count}
       onSubmit={handleSubmit}
     >
       <h2 className="title">Add a movie</h2>
