@@ -10,8 +10,6 @@ interface Props {
 }
 
 export const NewMovie: React.FC<Props> = ({ onAdd }: Props) => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -19,14 +17,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }: Props) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const isDataValid = title
-    && pattern.test(imgUrl)
-    && pattern.test(imdbUrl)
-    && imdbId;
-
-  const isValidImgUrl = (url: string) => {
-    return pattern.test(url);
+  const isValid = (link: string) => {
+    return pattern.test(link);
   };
+
+  const isDataValid = title
+    && isValid(imgUrl)
+    && isValid(imdbUrl)
+    && imdbId;
 
   const makeMovie = () => {
     return {
@@ -85,7 +83,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }: Props) => {
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        isValid={isValidImgUrl(imgUrl)}
+        isValid={isValid(imgUrl)}
         onChange={(event) => setImgUrl(event)}
         required
       />
@@ -94,7 +92,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }: Props) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        isValid={isValidImgUrl(imdbUrl)}
+        isValid={isValid(imdbUrl)}
         onChange={(event) => setImdbUrl(event)}
         required
       />
