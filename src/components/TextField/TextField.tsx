@@ -51,7 +51,6 @@ export const TextField: React.FC<Props> = ({
           onBlur={() => setTouched(true)}
         />
       </div>
-      {}
       {hasError && (
         <p className="help is-danger">{`${label} is required`}</p>
       )}
