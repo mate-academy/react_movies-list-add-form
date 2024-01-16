@@ -18,6 +18,16 @@ export const NewMovie = (props: Props) => {
   const [movieImdbURL, setMovieImdbURL] = useState('');
   const [movieImdbId, setMovieImdbId] = useState('');
 
+  function reset() {
+    setMovieDescription('');
+    setMovieImdbId('');
+    setMovieImdbURL('');
+    setMovieTitle('');
+    setMovieImgURL('');
+
+    setCount((currentCount) => currentCount + 1);
+  }
+
   function isValidURL(url: string): ValidURL {
   // eslint-disable-next-line max-len
     const regex = new RegExp(/^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/);
@@ -50,9 +60,10 @@ export const NewMovie = (props: Props) => {
     <form
       className="NewMovie"
       key={count}
-      onSubmit={() => {
+      onSubmit={(event: React.FormEvent) => {
+        event.preventDefault();
         submitMovie();
-        setCount((currentCount) => currentCount + 1);
+        reset();
       }}
     >
       <h2 className="title">Add a movie</h2>
