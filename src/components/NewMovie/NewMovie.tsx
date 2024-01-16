@@ -10,32 +10,31 @@ export const NewMovie: React.FC<AddMovie> = ({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imageUrl, setImageUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
+  const [form, setForm] = useState({
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  } as Movie);
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     setCount(count + 1);
-    setTitle('');
-    setDescription('');
-    setImageUrl('');
-    setImdbUrl('');
-    setImdbId('');
-
-    onAdd({
-      title,
-      description,
-      imgUrl: imageUrl,
-      imdbUrl,
-      imdbId,
+    setForm({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
     });
+
+    onAdd(form);
   };
 
   const sumbitCheck = !(
-    title.trim() && imageUrl.trim() && imdbUrl.trim() && imdbId.trim()
+    form.title.trim() && form.imgUrl.trim()
+    && form.imdbUrl.trim() && form.imdbId.trim()
   );
 
   return (
@@ -49,39 +48,54 @@ export const NewMovie: React.FC<AddMovie> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value={title}
-        onChange={setTitle}
+        value={form.title}
+        onChange={(newValue => setForm({
+          ...form,
+          title: newValue,
+        }))}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value={description}
-        onChange={setDescription}
+        value={form.description}
+        onChange={(newValue => setForm({
+          ...form,
+          description: newValue,
+        }))}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={imageUrl}
-        onChange={setImageUrl}
+        value={form.imgUrl}
+        onChange={(newValue => setForm({
+          ...form,
+          imgUrl: newValue,
+        }))}
         required
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={imdbUrl}
-        onChange={setImdbUrl}
+        value={form.imdbUrl}
+        onChange={(newValue => setForm({
+          ...form,
+          imdbUrl: newValue,
+        }))}
         required
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imdbId}
-        onChange={setImdbId}
+        value={form.imdbId}
+        onChange={(newValue => setForm({
+          ...form,
+          imdbId: newValue,
+        }))}
         required
       />
 
