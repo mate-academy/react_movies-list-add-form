@@ -4,9 +4,9 @@ import { Movie } from '../../types/Movie';
 
 type Props = {
   onAdd: (newMovie: Movie) => void;
-}
+};
 
-export const NewMovie: React.FC<Props> = ({onAdd}) => {
+export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [imgUrl, setImageUrl] = useState('');
@@ -20,22 +20,21 @@ export const NewMovie: React.FC<Props> = ({onAdd}) => {
     setImageUrl('');
     setImdbUrl('');
     setImdbId('');
-    setCount((count) => count + 1);
-
+    setCount(() => count + 1);
   }
 
   const handleAddForm = (event: React.FormEvent) => {
     event.preventDefault();
-  }
+  };
 
   const isDisabled = !(title && imgUrl && imdbUrl && imdbId);
 
   return (
-    <form 
-      className="NewMovie" 
+    <form
+      className="NewMovie"
       key={count}
       onSubmit={handleAddForm}
-      >
+    >
       <h2 className="title">Add a movie</h2>
 
       <TextField
@@ -51,7 +50,7 @@ export const NewMovie: React.FC<Props> = ({onAdd}) => {
         label="Description"
         value={description}
         onChange={setDescription}
-        
+
       />
 
       <TextField
@@ -93,7 +92,7 @@ export const NewMovie: React.FC<Props> = ({onAdd}) => {
                   imgUrl,
                   imdbUrl,
                   imdbId,
-                }
+                },
               );
               clearForm();
             }}
