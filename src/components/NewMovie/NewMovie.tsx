@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
-const InitialFieldsOfMovie: Movie = {
+const initialFieldsOfMovie: Movie = {
   title: '',
   description: '',
   imgUrl: '',
@@ -14,40 +14,34 @@ type Props = {
   onAdd: (movie: Movie) => void,
 };
 
-type Field =
-'title'
-| 'description'
-| 'imgUrl'
-| 'imdbUrl'
-| 'imdbId';
-
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
-  const [count, setCount] = React.useState(0);
-  const [fieldsOfMovie, setFieldsOfMovie] = React
-    .useState(InitialFieldsOfMovie);
+  const [count, setCount] = useState(0);
+  const [fieldsOfMovie, setFieldsOfMovie] = useState(initialFieldsOfMovie);
 
   const isDisabled = !(
-    fieldsOfMovie.title
-    && fieldsOfMovie.imgUrl
-    && fieldsOfMovie.imdbUrl
-    && fieldsOfMovie.imdbId);
+    fieldsOfMovie.title.trim()
+    && fieldsOfMovie.imgUrl.trim()
+    && fieldsOfMovie.imdbUrl.trim()
+    && fieldsOfMovie.imdbId.trim());
 
   const submitHandler = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    onAdd({
+    const newMovie: Movie = {
       title: fieldsOfMovie.title,
       description: fieldsOfMovie.description,
       imgUrl: fieldsOfMovie.imgUrl,
       imdbUrl: fieldsOfMovie.imdbUrl,
       imdbId: fieldsOfMovie.imdbId,
-    });
+    };
+
+    onAdd(newMovie);
 
     setCount((prevValue) => prevValue + 1);
-    setFieldsOfMovie(InitialFieldsOfMovie);
+    setFieldsOfMovie(initialFieldsOfMovie);
   };
 
-  const changeFieldHandler = (name: Field, value: string) => {
+  const changeFieldHandler = (name: string, value: string) => {
     setFieldsOfMovie(prevFields => ({ ...prevFields, [name]: value }));
   };
 
