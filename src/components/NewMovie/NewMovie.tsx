@@ -19,12 +19,16 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
   const [count, setCount] = useState(0);
 
-  const handleField = (name: string, value: string) => {
+  const handleField = (name: string) => (value: string) => {
     setMovieFields(prev => ({ ...prev, [name]: value }));
   };
 
-  const isHiddenAdd = !movieFields.title.trim() || !movieFields.imdbId.trim()
-    || !movieFields.imdbUrl.trim() || !movieFields.imgUrl.trim();
+  const isHiddenAdd = !(
+    movieFields.title.trim()
+    && movieFields.imgUrl.trim()
+    && movieFields.imdbUrl.trim()
+    && movieFields.imdbId.trim()
+  );
 
   const reset = () => {
     setMovieFields(initialMovieFields);
@@ -52,7 +56,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={movieFields.title}
-        onChange={(value) => handleField('title', value)}
+        onChange={handleField('title')}
         required
       />
 
@@ -60,14 +64,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={movieFields.description}
-        onChange={(value) => handleField('description', value)}
+        onChange={handleField('description')}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={movieFields.imgUrl}
-        onChange={(value) => handleField('imgUrl', value)}
+        onChange={handleField('imgUrl')}
         required
       />
 
@@ -75,7 +79,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={movieFields.imdbUrl}
-        onChange={(value) => handleField('imdbUrl', value)}
+        onChange={handleField('imdbUrl')}
         required
       />
 
@@ -83,7 +87,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={movieFields.imdbId}
-        onChange={(value) => handleField('imdbId', value)}
+        onChange={handleField('imdbId')}
         required
       />
 
