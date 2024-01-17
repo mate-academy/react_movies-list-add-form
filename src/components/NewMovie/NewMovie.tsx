@@ -33,8 +33,10 @@ export const NewMovie: React.FC<AddMovie> = ({ onAdd }) => {
   };
 
   const sumbitCheck = !(
-    form.title.trim() && form.imgUrl.trim()
-    && form.imdbUrl.trim() && form.imdbId.trim()
+    form.title.trim()
+    && form.imgUrl.trim()
+    && form.imdbUrl.trim()
+    && form.imdbId.trim()
   );
 
   return (
