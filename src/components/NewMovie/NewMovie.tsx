@@ -1,45 +1,106 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { TextField } from '../TextField';
+import { Movie } from '../../types/Movie';
 
-export const NewMovie = () => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
-  const [count] = useState(0);
+// eslint-disable-next-line max-len
+const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
+
+interface Props {
+  onAdd: (movie: Movie) => void;
+}
+
+export const NewMovie: React.FC<Props> = ({ onAdd }: Props) => {
+  const [count, setCount] = useState(0);
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [imgUrl, setImgUrl] = useState('');
+  const [imdbUrl, setImdbUrl] = useState('');
+  const [imdbId, setImdbId] = useState('');
+
+  const isValid = (link: string) => {
+    return pattern.test(link);
+  };
+
+  const isDataValid = title
+    && isValid(imgUrl)
+    && isValid(imdbUrl)
+    && imdbId;
+
+  const makeMovie = () => {
+    return {
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    };
+  };
+
+  const handleReset = () => {
+    setTitle('');
+    setDescription('');
+    setImgUrl('');
+    setImdbUrl('');
+    setImdbId('');
+  };
+
+  const submitMovie = (event: React.FormEvent<HTMLFormElement>) => {
+    const movie = makeMovie();
+
+    handleReset();
+    event.preventDefault();
+    setCount(prevCount => prevCount + 1);
+
+    return onAdd(movie);
+  };
 
   return (
-    <form className="NewMovie" key={count}>
+    <form
+      className="NewMovie"
+      key={count}
+      onSubmit={submitMovie}
+    >
       <h2 className="title">Add a movie</h2>
 
       <TextField
         name="title"
         label="Title"
-        value=""
-        onChange={() => {}}
+        value={title}
+        onChange={(event) => setTitle(event)}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value=""
+        value={description}
+        onChange={(event) => setDescription(event)}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value=""
+        value={imgUrl}
+        hasUrlError={!isValid(imgUrl)}
+        onChange={(event) => setImgUrl(event)}
+        required
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value=""
+        value={imdbUrl}
+        hasUrlError={!isValid(imdbUrl)}
+        onChange={(event) => setImdbUrl(event)}
+        required
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value=""
+        value={imdbId}
+        onChange={(event) => setImdbId(event)}
+        required
       />
 
       <div className="field is-grouped">
@@ -48,6 +109,7 @@ export const NewMovie = () => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
+            disabled={!isDataValid}
           >
             Add
           </button>
