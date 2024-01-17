@@ -42,9 +42,16 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     handleReset();
   };
 
-  const isDisabled = !(movieState.title.trim() && movieState.imgUrl.trim()
-    && movieState.imdbUrl.trim() && movieState.imdbId.trim()
-    && isValidUrl(movieState.imgUrl) && isValidUrl(movieState.imdbUrl));
+  const {
+    title,
+    imgUrl,
+    imdbUrl,
+    imdbId,
+  } = movieState;
+
+  const isDisabled = !(title.trim() && imgUrl.trim()
+    && imdbUrl.trim() && imdbId.trim()
+    && isValidUrl(imgUrl) && isValidUrl(imdbUrl));
 
   const onChangeCallback = (key: string) => {
     return (newValue: string) => setMovieState({
