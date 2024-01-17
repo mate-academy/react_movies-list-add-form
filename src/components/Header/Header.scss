@@ -1,0 +1,52 @@
+.header {
+  grid-area: header;
+  height: 100px;
+  padding: 20px;
+  display: grid;
+  grid-template-columns: 20fr 2fr 1fr;
+
+  &--light {
+    border-bottom: 1px solid #d3d3d3;
+  }
+
+  &--dark {
+    border-bottom: 1px solid rgb(15, 15, 15);
+  }
+
+  .logo {
+    font-size: 32px;
+    font-weight: 700;
+
+    &--light {
+      color: #292929;
+    }
+
+    &--dark {
+      color: #fff;
+    }
+  }
+
+  .change-theme-btn {
+    border: none;
+    font-size: 20px;
+    text-transform: uppercase;
+    font-weight: 600;
+    border-radius: 15px;
+    transition: 0.3s linear opacity;
+    cursor: pointer;
+
+    &--light {
+      background-color: #292929;
+      color: #fff;
+    }
+
+    &--dark {
+      background-color: #fff;
+      color: #292929;
+    }
+
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+}

@@ -1,15 +1,34 @@
 .page {
   display: grid;
-  grid-template: auto / 1fr 400px;
+  grid-template-rows: 100px 1fr;
+  grid-template-columns: 1fr 400px;
+  grid-template-areas: "header header" "movies sidebar";
   column-gap: 20px;
   min-height: 100vh;
+
+  &--light {
+    background-color: none;
+  }
+
+  &--dark {
+    background-color: #292929;
+  }
 }
 
 .page-content {
   padding: 20px;
+  grid-area: movies;
 }
 
 .sidebar {
   padding: 20px;
-  border-left: 1px solid lightgray;
+  grid-area: sidebar;
+
+  &--light {
+    border-left: 1px solid #d3d3d3;
+  }
+
+  &--dark {
+    border-left: 1px solid rgb(15, 15, 15);
+  }
 }

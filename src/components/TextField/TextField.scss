@@ -1,0 +1,21 @@
+.input,
+.label {
+  &--light {
+    color: #292929;
+  }
+
+  &--dark {
+    color: #fff;
+  }
+}
+
+.input {
+  &--dark {
+    color: #fff;
+    background-color: #292929;
+
+    &::placeholder {
+      color: #fff;
+    }
+  }
+}

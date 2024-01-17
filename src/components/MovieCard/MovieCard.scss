@@ -1,3 +1,23 @@
-.card-image img {
-  object-fit: contain;
+.card {
+  &--light {
+    background-color: none;
+    color: #000;
+
+    .title {
+      color: #000;
+    }
+  }
+
+  &--dark {
+    background-color: #1f1f1f;
+    color: #fff;
+
+    .title {
+      color: #fff;
+    }
+  }
+
+  &-image img {
+    object-fit: contain;
+  }
 }

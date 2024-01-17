@@ -1,7 +1,9 @@
 import classNames from 'classnames';
+import './TextField.scss';
 import React, { useState } from 'react';
 
 type Props = {
+  theme: string,
   name: string,
   value: string,
   label?: string,
@@ -17,6 +19,7 @@ function getRandomDigits() {
 }
 
 export const TextField: React.FC<Props> = ({
+  theme,
   name,
   value,
   label = name,
@@ -24,16 +27,14 @@ export const TextField: React.FC<Props> = ({
   required = false,
   onChange = () => {},
 }) => {
-  // generage a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
-  // To show errors only if the field was touched (onBlur)
-  const [touched, setTouched] = useState(false);
+  const [touched, setTouched] = useState<boolean>(false);
   const hasError = touched && required && !value;
 
   return (
     <div className="field">
-      <label className="label" htmlFor={id}>
+      <label className={`label label--${theme}`} htmlFor={id}>
         {label}
       </label>
 
@@ -44,7 +45,8 @@ export const TextField: React.FC<Props> = ({
           data-cy={`movie-${name}`}
           className={classNames('input', {
             'is-danger': hasError,
-          })}
+          },
+          `input--${theme}`)}
           placeholder={placeholder}
           value={value}
           onChange={event => onChange(event.target.value)}
