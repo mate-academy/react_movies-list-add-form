@@ -30,13 +30,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    onAdd({
-      title: movieFields.title,
-      description: movieFields.description,
-      imgUrl: movieFields.imgUrl,
-      imdbUrl: movieFields.imdbUrl,
-      imdbId: movieFields.imdbId,
-    });
+    onAdd(movieFields);
 
     setMovieFields(initialFields);
     setCount(prev => prev + 1);
