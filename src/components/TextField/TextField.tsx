@@ -42,7 +42,10 @@ export const TextField: React.FC<Props> = ({
     customValidation = checkValid(value);
   }
 
-  const hasError = touched && required && !value && customValidation.isValid;
+  const hasError = touched
+                   && required
+                   && !value
+                   && customValidation.isValid;
 
   return (
     <div className="field">

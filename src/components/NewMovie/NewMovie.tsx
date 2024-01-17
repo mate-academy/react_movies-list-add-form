@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
-import { ValidURL } from '../../types/ValidURL';
+import { isValidURL } from '../../types/ValidURL';
 
 interface Props {
   onAdd: (newMovie: Movie) => void;
@@ -28,18 +28,6 @@ export const NewMovie = (props: Props) => {
     setCount((currentCount) => currentCount + 1);
   }
 
-  function isValidURL(url: string): ValidURL {
-  // eslint-disable-next-line max-len
-    const regex = new RegExp(/^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/);
-    const check = regex.test(url);
-    const result: ValidURL = {
-      isValid: check,
-      errorMessage: check ? 'OK' : 'Invalid URL',
-    };
-
-    return result;
-  }
-
   function submitMovie() {
     const newMovie: Movie = {
       title: movieTitle,
@@ -52,7 +40,14 @@ export const NewMovie = (props: Props) => {
     onAdd(newMovie);
   }
 
-  const canConfirm = movieTitle && movieImdbId
+  function handleSubmit(event: React.FormEvent) {
+    event.preventDefault();
+    submitMovie();
+    reset();
+  }
+
+  const canConfirm = movieTitle
+                     && movieImdbId
                      && isValidURL(movieImgURL).isValid
                      && isValidURL(movieImdbURL).isValid;
 
@@ -60,11 +55,7 @@ export const NewMovie = (props: Props) => {
     <form
       className="NewMovie"
       key={count}
-      onSubmit={(event: React.FormEvent) => {
-        event.preventDefault();
-        submitMovie();
-        reset();
-      }}
+      onSubmit={handleSubmit}
     >
       <h2 className="title">Add a movie</h2>
 
