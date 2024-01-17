@@ -24,14 +24,15 @@ export const TextField: React.FC<Props> = ({
   placeholder = `Enter ${label}`,
   required = false,
   onChange = () => {},
-  isValid,
+  isValid = true,
 }) => {
   // generage a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
   // To show errors only if the field was touched (onBlur)
   const [touched, setTouched] = useState(false);
-  const hasError = touched && required && !value.trim() && !isValid;
+  const hasError = (touched && required && !value.trim())
+  || (!isValid && touched && required);
 
   const handleTouchedChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     onChange(event.target.value);

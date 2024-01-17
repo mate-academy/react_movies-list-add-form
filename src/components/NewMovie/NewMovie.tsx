@@ -32,8 +32,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const correctImgUrl = pattern.test(imgUrl);
   const correctimdbUrl = pattern.test(imdbUrl);
 
-  // const isValid
-  // = !!title && pattern.test(imgUrl) && pattern.test(imdbUrl) && !!imdbId;
+  const isValid
+  = !!title && pattern.test(imgUrl) && pattern.test(imdbUrl) && !!imdbId;
 
   const handleInputChange = (
     setter: React.Dispatch<React.SetStateAction<string>>, value: string,
@@ -121,7 +121,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             className={cn('button', 'is-link', {
               'is-disabled': !isFormValid,
             })}
-            disabled={!isFormValid}
+            disabled={!isValid}
           >
             Add
           </button>
