@@ -7,16 +7,21 @@ import { Movie } from './types/Movie';
 
 export const App = () => {
   const [movies, setMovies] = useState([...moviesFromServer]);
+  const [date, setDate] = useState(+new Date());
 
-  const handleOnAdd = (movie: Movie) => setMovies([...movies, movie]);
+  const handleOnAdd = (movie: Movie) => {
+    setMovies([...movies, movie]);
+    setDate(+new Date());
+  };
 
   return (
     <div className="page">
       <div className="page-content">
         <MoviesList movies={movies} />
       </div>
+
       <div className="sidebar">
-        <NewMovie onAdd={handleOnAdd} />
+        <NewMovie onAdd={handleOnAdd} key={date} />
       </div>
     </div>
   );

@@ -7,8 +7,6 @@ type AddMovie = {
 };
 
 export const NewMovie: React.FC<AddMovie> = ({ onAdd }) => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
   const [formState, setFormState] = useState({
     title: '',
@@ -21,13 +19,6 @@ export const NewMovie: React.FC<AddMovie> = ({ onAdd }) => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     setCount(count + 1);
-    setFormState({
-      title: '',
-      description: '',
-      imgUrl: '',
-      imdbUrl: '',
-      imdbId: '',
-    });
 
     onAdd(formState);
   };
@@ -39,10 +30,10 @@ export const NewMovie: React.FC<AddMovie> = ({ onAdd }) => {
     }));
   };
 
-  const submitCheck = !(
-    formState.title.trim() && formState.imgUrl.trim()
-    && formState.imdbUrl.trim() && formState.imdbId.trim()
-  );
+  const isValid = formState.title.trim()
+    && formState.imgUrl.trim()
+    && formState.imdbUrl.trim()
+    && formState.imdbId.trim();
 
   return (
     <form
@@ -97,7 +88,7 @@ export const NewMovie: React.FC<AddMovie> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={submitCheck}
+            disabled={!isValid}
           >
             Add
           </button>
