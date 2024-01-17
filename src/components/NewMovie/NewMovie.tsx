@@ -29,14 +29,18 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setIsFormValid(false);
   };
 
+  const correctImgUrl = pattern.test(imgUrl);
+  const correctimdbUrl = pattern.test(imdbUrl);
+
+  // const isValid
+  // = !!title && pattern.test(imgUrl) && pattern.test(imdbUrl) && !!imdbId;
+
   const handleInputChange = (
     setter: React.Dispatch<React.SetStateAction<string>>, value: string,
   ) => {
-    const isValid = !!title && pattern.test(imgUrl)
-    && pattern.test(imdbUrl) && !!imdbId;
-
     setter(value);
-    setIsFormValid(isValid);
+
+    setIsFormValid(isFormValid);
   };
 
   const handleSubmit = (event: React.FormEvent) => {
@@ -88,6 +92,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Image URL"
         value={imgUrl}
         onChange={(value) => handleInputChange(setImgUrl, value)}
+        isValid={correctImgUrl}
         required
       />
 
@@ -96,6 +101,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Imdb URL"
         value={imdbUrl}
         onChange={(value) => handleInputChange(setImdbUrl, value)}
+        isValid={correctimdbUrl}
         required
       />
 
