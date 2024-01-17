@@ -42,13 +42,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }: Props) => {
     setImgUrl('');
     setImdbUrl('');
     setImdbId('');
-    setCount(prevCount => prevCount + 1);
   };
 
-  const submitMovie = () => {
+  const submitMovie = (event: React.FormEvent<HTMLFormElement>) => {
     const movie = makeMovie();
 
     handleReset();
+    event.preventDefault();
+    setCount(prevCount => prevCount + 1);
 
     return onAdd(movie);
   };
@@ -57,10 +58,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }: Props) => {
     <form
       className="NewMovie"
       key={count}
-      onSubmit={(event) => {
-        event.preventDefault();
-        submitMovie();
-      }}
+      onSubmit={submitMovie}
     >
       <h2 className="title">Add a movie</h2>
 
@@ -83,7 +81,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }: Props) => {
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        isValid={isValid(imgUrl)}
+        hasUrlError={!isValid(imgUrl)}
         onChange={(event) => setImgUrl(event)}
         required
       />
@@ -92,7 +90,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }: Props) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        isValid={isValid(imdbUrl)}
+        hasUrlError={!isValid(imdbUrl)}
         onChange={(event) => setImdbUrl(event)}
         required
       />

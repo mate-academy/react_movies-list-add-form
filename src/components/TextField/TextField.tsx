@@ -8,7 +8,7 @@ type Props = {
   placeholder?: string,
   required?: boolean,
   onChange?: (newValue: string) => void,
-  isValid?: boolean,
+  hasUrlError?: boolean;
 };
 
 function getRandomDigits() {
@@ -24,12 +24,11 @@ export const TextField: React.FC<Props> = ({
   placeholder = `Enter ${label}`,
   required = false,
   onChange = () => {},
-  isValid,
+  hasUrlError = false,
 }) => {
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
   const [touched, setTouched] = useState(false);
-  const hasError = touched && required && !value
-    && (isValid === undefined ? true : !isValid);
+  const hasError = touched && required && (!value || hasUrlError);
 
   return (
     <div className="field">
