@@ -26,7 +26,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   };
 
   const handleReset = () => {
-    setCount(count + 1);
+    setCount((currentCount) => currentCount + 1);
     setMovieState({
       title: '',
       description: '',
@@ -46,6 +46,13 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     && movieState.imdbUrl.trim() && movieState.imdbId.trim()
     && isValidUrl(movieState.imgUrl) && isValidUrl(movieState.imdbUrl));
 
+  const onChangeCallback = (key: string) => {
+    return (newValue: string) => setMovieState({
+      ...movieState,
+      [key]: newValue,
+    });
+  };
+
   return (
     <form
       className="NewMovie"
@@ -58,10 +65,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={movieState.title}
-        onChange={(newValue) => setMovieState({
-          ...movieState,
-          title: newValue,
-        })}
+        onChange={onChangeCallback('title')}
         required
       />
 
@@ -69,20 +73,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={movieState.description}
-        onChange={(newValue) => setMovieState({
-          ...movieState,
-          description: newValue,
-        })}
+        onChange={onChangeCallback('description')}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={movieState.imgUrl}
-        onChange={(newValue) => setMovieState({
-          ...movieState,
-          imgUrl: newValue,
-        })}
+        onChange={onChangeCallback('imgUrl')}
         isValid={isValidUrl}
         required
       />
@@ -91,10 +89,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={movieState.imdbUrl}
-        onChange={(newValue) => setMovieState({
-          ...movieState,
-          imdbUrl: newValue,
-        })}
+        onChange={onChangeCallback('imdbUrl')}
         isValid={isValidUrl}
         required
       />
@@ -103,10 +98,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={movieState.imdbId}
-        onChange={(newValue) => setMovieState({
-          ...movieState,
-          imdbId: newValue,
-        })}
+        onChange={onChangeCallback('imdbId')}
         required
       />
 

@@ -33,7 +33,9 @@ export const TextField: React.FC<Props> = ({
   const [touched, setTouched] = useState(false);
   const hasError = touched && required && !value.trim();
   const incorrectValue = isValid
-    ? touched && !isValid(value) && !hasError
+    ? touched
+      && !isValid(value)
+      && !hasError
     : false;
 
   return (
