@@ -8,8 +8,8 @@ import moviesFromServer from './api/movies.json';
 export const App: React.FC = () => {
   const [movies, setMovies] = useState<Movie[]>(moviesFromServer);
 
-  const addMovie = (NewMovie: Movie) => {
-    setMovies(currentMovies => [...currentMovies, NewMovie]);
+  const addMovie = (newMovie: Movie) => {
+    setMovies(currentMovies => [...currentMovies, newMovie]);
   };
 
   return (
