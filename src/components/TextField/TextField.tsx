@@ -68,7 +68,7 @@ export const TextField: React.FC<Props> = ({
 
       {showError && (
         <p className="help is-danger">
-          {validationError ? 'Invalid URL' : `${label} is required`}
+          {hasError ? `${label} is required` : 'Invalid URL'}
         </p>
       )}
     </div>
