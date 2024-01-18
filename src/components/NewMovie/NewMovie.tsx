@@ -6,7 +6,7 @@ export interface NewMovieProps {
   onAdd: (movie: Movie) => void;
 }
 
-export const NewMovie = ({ onAdd }: NewMovieProps) => {
+export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
   const defaultMovie = {
