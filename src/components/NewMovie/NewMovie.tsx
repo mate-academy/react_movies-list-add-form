@@ -41,10 +41,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setFieldsOfMovie(initialFieldsOfMovie);
   };
 
-  const changeFieldHandler = (name: string, value: string) => {
-    setFieldsOfMovie(prevFields => ({ ...prevFields, [name]: value }));
-  };
-
   return (
     <form className="NewMovie" key={count} onSubmit={submitHandler}>
       <h2 className="title">Add a movie</h2>
@@ -53,7 +49,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={fieldsOfMovie.title}
-        onChange={(value) => changeFieldHandler('title', value)}
+        onChange={(newTitle) => setFieldsOfMovie({
+          ...fieldsOfMovie,
+          title: newTitle,
+        })}
         required
       />
 
@@ -61,14 +60,20 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={fieldsOfMovie.description}
-        onChange={(value) => changeFieldHandler('description', value)}
+        onChange={(newDescription) => setFieldsOfMovie({
+          ...fieldsOfMovie,
+          description: newDescription,
+        })}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={fieldsOfMovie.imgUrl}
-        onChange={(value) => changeFieldHandler('imgUrl', value)}
+        onChange={(newImgUrl) => setFieldsOfMovie({
+          ...fieldsOfMovie,
+          imgUrl: newImgUrl,
+        })}
         required
       />
 
@@ -76,7 +81,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={fieldsOfMovie.imdbUrl}
-        onChange={(value) => changeFieldHandler('imdbUrl', value)}
+        onChange={(newImdbUrl) => setFieldsOfMovie({
+          ...fieldsOfMovie,
+          imdbUrl: newImdbUrl,
+        })}
         required
       />
 
@@ -84,7 +92,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={fieldsOfMovie.imdbId}
-        onChange={(value) => changeFieldHandler('imdbId', value)}
+        onChange={(newImdbId) => setFieldsOfMovie({
+          ...fieldsOfMovie,
+          imdbId: newImdbId,
+        })}
         required
       />
 
