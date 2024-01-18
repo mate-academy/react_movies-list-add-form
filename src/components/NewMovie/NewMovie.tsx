@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
@@ -9,36 +9,44 @@ export interface NewMovieProps {
 export const NewMovie = ({ onAdd }: NewMovieProps) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
+  const defaultMovie = {
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  };
+
   const [count, setCount] = useState(0);
+  const [newMovie, setNewMovie] = useState(defaultMovie);
 
-  const [titleValue, setTitleValue] = useState('');
-  const [description, setDescription] = useState('');
-  const [imgUrlValue, setImgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
-
-  const ableToAddMovie = titleValue.trim()
-    && imgUrlValue.trim() && imdbUrl.trim()
-    && imdbId.trim();
+  const ableToAddMovie = newMovie.title.trim()
+    && newMovie.imgUrl.trim() && newMovie.imdbUrl.trim()
+    && newMovie.imdbId.trim();
 
   const createMovie = (): Movie => {
     return {
-      title: titleValue,
-      description,
-      imgUrl: imgUrlValue,
-      imdbUrl,
-      imdbId,
+      title: newMovie.title,
+      description: newMovie.description,
+      imgUrl: newMovie.imgUrl,
+      imdbUrl: newMovie.imdbUrl,
+      imdbId: newMovie.imdbId,
     };
   };
 
   const submitAddMovie = () => {
     const movie = createMovie();
 
-    setTitleValue('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
+    setNewMovie(currentMovie => {
+      return {
+        ...currentMovie,
+        title: '',
+        description: '',
+        imgUrl: '',
+        imdbUrl: '',
+        imdbId: '',
+      };
+    });
 
     setCount((currentCount) => currentCount + 1);
 
@@ -59,9 +67,14 @@ export const NewMovie = ({ onAdd }: NewMovieProps) => {
       <TextField
         name="title"
         label="Title"
-        value={titleValue}
+        value={newMovie.title}
         onChange={(event) => {
-          setTitleValue(event);
+          setNewMovie(currentMovie => {
+            return {
+              ...currentMovie,
+              title: event,
+            };
+          });
         }}
         required
       />
@@ -69,18 +82,28 @@ export const NewMovie = ({ onAdd }: NewMovieProps) => {
       <TextField
         name="description"
         label="Description"
-        value={description}
+        value={newMovie.description}
         onChange={(event) => {
-          setDescription(event);
+          setNewMovie(currentMovie => {
+            return {
+              ...currentMovie,
+              description: event,
+            };
+          });
         }}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={imgUrlValue}
+        value={newMovie.imgUrl}
         onChange={(event) => {
-          setImgUrl(event);
+          setNewMovie(currentMovie => {
+            return {
+              ...currentMovie,
+              imgUrl: event,
+            };
+          });
         }}
         required
       />
@@ -88,9 +111,14 @@ export const NewMovie = ({ onAdd }: NewMovieProps) => {
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={imdbUrl}
+        value={newMovie.imdbUrl}
         onChange={(event) => {
-          setImdbUrl(event);
+          setNewMovie(currentMovie => {
+            return {
+              ...currentMovie,
+              imdbUrl: event,
+            };
+          });
         }}
         required
       />
@@ -98,9 +126,14 @@ export const NewMovie = ({ onAdd }: NewMovieProps) => {
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imdbId}
+        value={newMovie.imdbId}
         onChange={(event) => {
-          setImdbId(event);
+          setNewMovie(currentMovie => {
+            return {
+              ...currentMovie,
+              imdbId: event,
+            };
+          });
         }}
         required
       />
