@@ -24,29 +24,18 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
     && newMovie.imgUrl.trim() && newMovie.imdbUrl.trim()
     && newMovie.imdbId.trim();
 
-  const createMovie = (): Movie => {
-    return {
+  const submitAddMovie = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const movie = {
       title: newMovie.title,
       description: newMovie.description,
       imgUrl: newMovie.imgUrl,
       imdbUrl: newMovie.imdbUrl,
       imdbId: newMovie.imdbId,
     };
-  };
 
-  const submitAddMovie = () => {
-    const movie = createMovie();
-
-    setNewMovie(currentMovie => {
-      return {
-        ...currentMovie,
-        title: '',
-        description: '',
-        imgUrl: '',
-        imdbUrl: '',
-        imdbId: '',
-      };
-    });
+    setNewMovie(defaultMovie);
 
     setCount((currentCount) => currentCount + 1);
 
@@ -57,10 +46,7 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
     <form
       className="NewMovie"
       key={count}
-      onSubmit={event => {
-        event.preventDefault();
-        submitAddMovie();
-      }}
+      onSubmit={submitAddMovie}
     >
       <h2 className="title">Add a movie</h2>
 
