@@ -1,9 +1,6 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable no-console */
 import { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
-// import { ValidURL } from '../../types/ValidURL';
 
 type Props = {
   onAdd: (newMovie: Movie) => void
@@ -24,27 +21,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
   const [movie, setMovie] = useState({ ...defaultMovie });
 
-  // const isValidURL = (url: string):ValidURL => {
-  //   const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
-  //   const regex = new RegExp(pattern);
-  //   const check = regex.test(url);
-  //   const result: ValidURL = {
-  //     isValid: check,
-  //     errorMessage: check ? 'OK' : 'Invalid URL',
-  //   };
-
-  //   return result;
-  // };
-
-  const isHiddenAdd = !movie.title
-    || !movie.imgUrl
-    || !movie.imdbUrl
-    || !movie.imdbId;
-
-  // const isHiddenAdd = !movie.title
-  //   || !movie.imgUrl
-  //   || !isValidURL(movie.imdbUrl).isValid
-  //   || !isValidURL(movie.imdbId).isValid;
+  const isHiddenAdd = !movie.title.trim()
+    || !movie.imgUrl.trim()
+    || !movie.imdbUrl.trim()
+    || !movie.imdbId.trim();
 
   const reset = () => setMovie({ ...defaultMovie });
 
