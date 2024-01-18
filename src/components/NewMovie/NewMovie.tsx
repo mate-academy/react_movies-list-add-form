@@ -17,12 +17,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setimdbId] = useState('');
 
-  const handleSubmit = (event: React.FormEvent) => {
-    event.preventDefault();
-  };
-
   const reset = () => {
-    setCount(count + 1);
+    setCount(current => current + 1);
     setTitle('');
     setDescription('');
     setImgUrl('');
@@ -30,10 +26,22 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setimdbId('');
   };
 
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    onAdd({
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    });
+    reset();
+  };
+
   const checkerButton = !title.trim()
-  || !imgUrl.trim()
-  || !imdbUrl.trim()
-  || !imdbId.trim();
+    || !imgUrl.trim()
+    || !imdbUrl.trim()
+    || !imdbId.trim();
 
   return (
     <form
@@ -89,16 +97,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             data-cy="submit-button"
             className="button is-link"
             disabled={checkerButton}
-            onClick={() => {
-              onAdd({
-                title,
-                description,
-                imgUrl,
-                imdbUrl,
-                imdbId,
-              });
-              reset();
-            }}
           >
             Add
           </button>
