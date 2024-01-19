@@ -1,85 +1,101 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { TextField } from '../TextField';
-import { Movie } from '../../types/Movie';
 
-type Props = {
-  onAdd: (movie: Movie) => void;
-};
-
-const defaultMovie = {
-  title: '',
-  description: '',
-  imgUrl: '',
-  imdbUrl: '',
-  imdbId: '',
-};
+interface Props {
+  onAdd: (
+    movie: {
+      title: string,
+      description: string,
+      imgUrl: string,
+      imdbUrl: string,
+      imdbId: string,
+    }
+  ) => void
+}
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
-  const [movie, setMovie] = useState(defaultMovie);
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [imgUrl, setImgUrl] = useState('');
+  const [imdbUrl, setimdbUrl] = useState('');
+  const [imdbId, setImdbId] = useState('');
 
-  const handleInputChange = (key: string, value: string) => {
-    setMovie(currentState => ({ ...currentState, [key]: value }));
+  const urlValidator = (urlString: string): boolean => {
+    // eslint-disable-next-line max-len
+    const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
+
+    if (!urlString.match(pattern)) {
+      return false;
+    }
+
+    return true;
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-shadow
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  function addMovie(event: React.FormEvent) {
     event.preventDefault();
+    onAdd({
+      title: title.trim(),
+      description: description.trim(),
+      imgUrl: imgUrl.trim(),
+      imdbUrl: imdbUrl.trim(),
+      imdbId: imdbId.trim(),
+    });
 
-    onAdd(movie);
+    setTitle('');
+    setDescription('');
+    setImgUrl('');
+    setimdbUrl('');
+    setImdbId('');
 
-    setCount(currentCount => currentCount + 1);
-
-    setMovie(defaultMovie);
-  };
-
-  const hasError = !movie.title.trim() || !movie.imdbUrl.trim()
-  || !movie.imdbUrl.trim() || !movie.imdbId.trim();
+    setCount(prev => prev + 1);
+  }
 
   return (
     <form
       className="NewMovie"
       key={count}
-      onSubmit={handleSubmit}
+      onSubmit={addMovie}
     >
       <h2 className="title">Add a movie</h2>
 
       <TextField
         name="title"
         label="Title"
-        value={movie.title}
-        onChange={(value) => handleInputChange('title', value)}
+        value={title}
+        onChange={setTitle}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value={movie.description}
-        onChange={(value) => handleInputChange('description', value)}
+        value={description}
+        onChange={setDescription}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={movie.imgUrl}
-        onChange={(value) => handleInputChange('imgUrl', value)}
+        value={imgUrl}
+        onChange={setImgUrl}
+        checkUrl={urlValidator}
         required
       />
 
       <TextField
         name="imdbUrl"
-        label="Imdb URL"
-        value={movie.imdbUrl}
-        onChange={(value) => handleInputChange('imdbUrl', value)}
+        value={imdbUrl}
+        onChange={setimdbUrl}
+        checkUrl={urlValidator}
         required
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={movie.imdbId}
-        onChange={(value) => handleInputChange('imdbId', value)}
+        value={imdbId}
+        onChange={setImdbId}
         required
       />
 
@@ -89,7 +105,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={hasError}
+            disabled={!title
+              || !urlValidator(imgUrl)
+              || !urlValidator(imdbUrl)
+              || !imdbId}
           >
             Add
           </button>
