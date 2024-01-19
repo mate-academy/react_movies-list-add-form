@@ -6,27 +6,38 @@ interface Props {
   onAdd: (movie: Movie) => void;
 }
 
+const emptyMovieFields = {
+  title: '',
+  description: '',
+  imgUrl: '',
+  imdbUrl: '',
+  imdbId: '',
+};
+
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
+  // const [title, setTitle] = useState('');
+  // const [description, setDescription] = useState('');
+  // const [imgUrl, setImgUrl] = useState('');
+  // const [imdbUrl, setImdbUrl] = useState('');
+  // const [imdbId, setImdbId] = useState('');
+  const [newMovie, setNewMovie] = useState(emptyMovieFields);
+  const {
+    title,
+    description,
+    imgUrl,
+    imdbUrl,
+    imdbId,
+  } = newMovie;
+
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    onAdd({
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    });
+    onAdd(newMovie);
   };
 
-  const isFieldsFill = title.trim() !== ''
-    && imgUrl.trim() !== ''
-    && imdbUrl.trim() !== ''
-    && imdbId.trim() !== '';
+  const isFieldsFill = title.trim()
+    && imgUrl.trim()
+    && imdbUrl.trim()
+    && imdbId.trim();
 
   return (
     <form
@@ -39,7 +50,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={title}
-        onChange={setTitle}
+        onChange={value => {
+          setNewMovie(current => ({ ...current, title: value }));
+        }}
         required
       />
 
@@ -47,14 +60,18 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={description}
-        onChange={setDescription}
+        onChange={value => {
+          setNewMovie(current => ({ ...current, description: value }));
+        }}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={setImgUrl}
+        onChange={value => {
+          setNewMovie(current => ({ ...current, imgUrl: value }));
+        }}
         required
       />
 
@@ -62,7 +79,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={setImdbUrl}
+        onChange={value => {
+          setNewMovie(current => ({ ...current, imdbUrl: value }));
+        }}
         required
       />
 
@@ -70,7 +89,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={setImdbId}
+        onChange={value => {
+          setNewMovie(current => ({ ...current, imdbId: value }));
+        }}
         required
       />
 

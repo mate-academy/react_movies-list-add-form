@@ -5,12 +5,15 @@ import { NewMovie } from './components/NewMovie';
 import moviesFromServer from './api/movies.json';
 import { Movie } from './types/Movie';
 
+const getNewId = () => Math.random().toString(16).slice(2);
+
 export const App = () => {
   const [movies, setMovies] = useState(moviesFromServer);
-  const [newMovieId, setNewMovieId] = useState('s');
+  const [newMovieId, setNewMovieId] = useState('');
+
   const addMovie = (movie: Movie) => {
     setMovies(existingMovies => [...existingMovies, movie]);
-    setNewMovieId(Math.random().toString(16).slice(2));
+    setNewMovieId(getNewId);
   };
 
   return (
