@@ -28,15 +28,19 @@ export const NewMovie = ({ onAdd }: Props) => {
     };
   };
 
-  function addNewMovie(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    const newMovie = createNewMovie();
-
+  function handleResetForm() {
     setTitle('');
     setDescription('');
     setImgUrl('');
     setImdbUrl('');
     setImdbId('');
+  }
+
+  function addNewMovie(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const newMovie = createNewMovie();
+
+    handleResetForm();
 
     setCount(current => current + 1);
 
