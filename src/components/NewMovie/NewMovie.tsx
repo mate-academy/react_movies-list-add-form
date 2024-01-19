@@ -16,7 +16,7 @@ export const NewMovie = ({ onAdd }: Props) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const isAbleToAdd = title && imgUrl && imdbUrl && imdbId;
+  const isAbleToAdd = title.trim() && imgUrl.trim() && imdbUrl.trim() && imdbId;
 
   const createNewMovie = (): Movie => {
     return {
