@@ -17,12 +17,19 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
+  const [newMovie, setNewMovie] = useState({
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  });
 
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setimdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
+  // const [title, setTitle] = useState('');
+  // const [description, setDescription] = useState('');
+  // const [imgUrl, setImgUrl] = useState('');
+  // const [imdbUrl, setimdbUrl] = useState('');
+  // const [imdbId, setImdbId] = useState('');
 
   const urlValidator = (urlString: string): boolean => {
     // eslint-disable-next-line max-len
@@ -39,21 +46,29 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     event.preventDefault();
 
     onAdd({
-      title: title.trim(),
-      description: description.trim(),
-      imgUrl: imgUrl.trim(),
-      imdbUrl: imdbUrl.trim(),
-      imdbId: imdbId.trim(),
+      title: newMovie.title.trim(),
+      description: newMovie.description.trim(),
+      imgUrl: newMovie.imgUrl.trim(),
+      imdbUrl: newMovie.imdbUrl.trim(),
+      imdbId: newMovie.imdbId.trim(),
     });
 
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setimdbUrl('');
-    setImdbId('');
+    setNewMovie({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
 
     setCount(prev => prev + 1);
   }
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+
+    setNewMovie((prevMovie) => ({ ...prevMovie, [name]: value }));
+  };
 
   return (
     <form
@@ -66,37 +81,37 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value={title}
-        onChange={setTitle}
+        value={newMovie.title}
+        onChange={e => handleChange(e)}
         required
       />
 
       <TextField
         name="description"
-        value={description}
-        onChange={setDescription}
+        value={newMovie.description}
+        onChange={e => handleChange(e)}
       />
 
       <TextField
         name="imgUrl"
-        value={imgUrl}
-        onChange={setImgUrl}
+        value={newMovie.imgUrl}
+        onChange={e => handleChange(e)}
         checkUrl={urlValidator}
         required
       />
 
       <TextField
         name="imdbUrl"
-        value={imdbUrl}
-        onChange={setimdbUrl}
+        value={newMovie.imdbUrl}
+        onChange={e => handleChange(e)}
         checkUrl={urlValidator}
         required
       />
 
       <TextField
         name="imdbId"
-        value={imdbId}
-        onChange={setImdbId}
+        value={newMovie.imdbId}
+        onChange={e => handleChange(e)}
         required
       />
 
@@ -106,10 +121,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!title
-              || !urlValidator(imgUrl)
-              || !urlValidator(imdbUrl)
-              || !imdbId}
+            disabled={!newMovie.title
+              || !urlValidator(newMovie.imgUrl)
+              || !urlValidator(newMovie.imdbUrl)
+              || !newMovie.imdbId}
           >
             Add
           </button>
