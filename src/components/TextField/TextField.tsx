@@ -11,9 +11,7 @@ type Props = {
 };
 
 function getRandomDigits() {
-  return Math.random()
-    .toFixed(16)
-    .slice(2);
+  return Math.random().toFixed(16).slice(2);
 }
 
 export const TextField: React.FC<Props> = ({
