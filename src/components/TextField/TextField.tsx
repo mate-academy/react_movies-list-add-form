@@ -78,7 +78,7 @@ export const TextField: React.FC<Props> = ({
         />
       </div>
 
-      {(blurred || inputErrorMessage) && (
+      {blurred && inputErrorMessage && (
         <p className="help is-danger">
           {inputErrorMessage}
         </p>
