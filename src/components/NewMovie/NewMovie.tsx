@@ -5,6 +5,11 @@ export const NewMovie = () => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
   const [count] = useState(0);
+  const [text, setText] = useState('');
+
+  const addText = (textInput: string) => {
+    setText(textInput);
+  };
 
   return (
     <form className="NewMovie" key={count}>
@@ -13,8 +18,8 @@ export const NewMovie = () => {
       <TextField
         name="title"
         label="Title"
-        value=""
-        onChange={() => {}}
+        value={text}
+        onChange={addText}
         required
       />
 
