@@ -7,9 +7,8 @@ type Props = {
 };
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
-  const [count] = useState(0);
+  const [count, setCount] = useState(0);
   const [submitDisabled, setSubmitDisabled] = useState(true);
-  const [submitRequired, setSubmitRequired] = useState(true);
 
   const [newMovie, setNewMovie] = useState<Movie>({
     title: '',
@@ -55,7 +54,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     });
 
     setSubmitDisabled(true);
-    setSubmitRequired(false);
+    setCount((prevCount) => prevCount + 1);
   };
 
   return (
@@ -67,7 +66,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <h2 className="title">Add a movie</h2>
 
       <TextField
-        required={submitRequired}
+        required
         name="title"
         label="Title"
         value={title}
@@ -90,7 +89,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       />
 
       <TextField
-        required={submitRequired}
+        required
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
@@ -106,7 +105,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       />
 
       <TextField
-        required={submitRequired}
+        required
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
@@ -122,7 +121,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       />
 
       <TextField
-        required={submitRequired}
+        required
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
