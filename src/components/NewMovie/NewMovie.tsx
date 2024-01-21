@@ -8,39 +8,31 @@ type Props = {
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count] = useState(0);
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
   const [submitDisabled, setSubmitDisabled] = useState(true);
+  const [submitRequired, setSubmitRequired] = useState(true);
 
-  const handleTitleChange = (value: string) => {
-    setTitle(value);
-    setSubmitDisabled(
-      !value.trim() || !value.trim() || !imdbUrl.trim() || !imdbId.trim(),
-    );
-  };
+  const [newMovie, setNewMovie] = useState<Movie>({
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  });
 
-  const handleImgUrlChange = (value: string) => {
-    setImgUrl(value);
-    setSubmitDisabled(
-      !title.trim() || !value.trim() || !imdbUrl.trim() || !imdbId.trim(),
-    );
-  };
+  const {
+    title,
+    description,
+    imgUrl,
+    imdbUrl,
+    imdbId,
+  } = newMovie;
 
-  const handleImdbUrlChange = (value: string) => {
-    setImdbUrl(value);
-    setSubmitDisabled(
-      !title.trim() || !imgUrl.trim() || !value.trim() || !imdbId.trim(),
-    );
-  };
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
 
-  const handleImdbIdChange = (value: string) => {
-    setImdbId(value);
-    setSubmitDisabled(
-      !title.trim() || !imgUrl.trim() || !imdbUrl.trim() || !value.trim(),
-    );
+    setNewMovie((prevMovie: Movie) => (
+      { ...prevMovie, [name]: value }
+    ));
   };
 
   const handleSubmit = (event: React.FormEvent) => {
@@ -54,12 +46,16 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       imdbId,
     });
 
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
+    setNewMovie({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
+
     setSubmitDisabled(true);
+    setSubmitRequired(false);
   };
 
   return (
@@ -71,42 +67,74 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <h2 className="title">Add a movie</h2>
 
       <TextField
-        required
+        required={submitRequired}
         name="title"
         label="Title"
         value={title}
-        onChange={handleTitleChange}
+        onChange={(event) => {
+          handleChange(event);
+          setSubmitDisabled(
+            !event.target.value.trim()
+            || !imgUrl.trim()
+            || !imdbUrl.trim()
+            || !imdbId.trim(),
+          );
+        }}
       />
 
       <TextField
         name="description"
         label="Description"
         value={description}
-        onChange={setDescription}
+        onChange={handleChange}
       />
 
       <TextField
-        required
+        required={submitRequired}
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={handleImgUrlChange}
+        onChange={(event) => {
+          handleChange(event);
+          setSubmitDisabled(
+            !title.trim()
+            || !event.target.value.trim()
+            || !imdbUrl.trim()
+            || !imdbId.trim(),
+          );
+        }}
       />
 
       <TextField
-        required
+        required={submitRequired}
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={handleImdbUrlChange}
+        onChange={(event) => {
+          handleChange(event);
+          setSubmitDisabled(
+            !title.trim()
+            || !imgUrl.trim()
+            || !event.target.value.trim()
+            || !imdbId.trim(),
+          );
+        }}
       />
 
       <TextField
-        required
+        required={submitRequired}
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={handleImdbIdChange}
+        onChange={(event) => {
+          handleChange(event);
+          setSubmitDisabled(
+            !title.trim()
+            || !imgUrl.trim()
+            || !imdbUrl.trim()
+            || !event.target.value.trim(),
+          );
+        }}
       />
 
       <div className="field is-grouped">
