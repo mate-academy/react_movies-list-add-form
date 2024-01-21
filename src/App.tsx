@@ -12,7 +12,6 @@ export const App = () => {
     setMoviesList(previousList => [...previousList, newMovie]);
   };
 
-
   return (
     <div className="page">
       <div className="page-content">
