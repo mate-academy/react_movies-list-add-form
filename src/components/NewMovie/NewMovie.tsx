@@ -29,9 +29,22 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
 
-    setNewMovie((prevMovie: Movie) => (
-      { ...prevMovie, [name]: value }
-    ));
+    setNewMovie((prevMovie: Movie) => ({
+      ...prevMovie,
+      [name]: value,
+    }));
+
+    setSubmitDisabled(() => {
+      const trimmedTitle = name === 'title' ? value.trim() : title.trim();
+      const trimmedImgUrl = name === 'imgUrl' ? value.trim() : imgUrl.trim();
+      const trimmedImdbUrl = name === 'imdbUrl' ? value.trim() : imdbUrl.trim();
+      const trimmedImdbId = name === 'imdbId' ? value.trim() : imdbId.trim();
+
+      return !trimmedTitle
+      || !trimmedImgUrl
+      || !trimmedImdbUrl
+      || !trimmedImdbId;
+    });
   };
 
   const handleSubmit = (event: React.FormEvent) => {
@@ -70,15 +83,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={title}
-        onChange={(event) => {
-          handleChange(event);
-          setSubmitDisabled(
-            !event.target.value.trim()
-            || !imgUrl.trim()
-            || !imdbUrl.trim()
-            || !imdbId.trim(),
-          );
-        }}
+        onChange={handleChange}
       />
 
       <TextField
@@ -93,15 +98,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={(event) => {
-          handleChange(event);
-          setSubmitDisabled(
-            !title.trim()
-            || !event.target.value.trim()
-            || !imdbUrl.trim()
-            || !imdbId.trim(),
-          );
-        }}
+        onChange={handleChange}
       />
 
       <TextField
@@ -109,15 +106,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={(event) => {
-          handleChange(event);
-          setSubmitDisabled(
-            !title.trim()
-            || !imgUrl.trim()
-            || !event.target.value.trim()
-            || !imdbId.trim(),
-          );
-        }}
+        onChange={handleChange}
       />
 
       <TextField
@@ -125,15 +114,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={(event) => {
-          handleChange(event);
-          setSubmitDisabled(
-            !title.trim()
-            || !imgUrl.trim()
-            || !imdbUrl.trim()
-            || !event.target.value.trim(),
-          );
-        }}
+        onChange={handleChange}
       />
 
       <div className="field is-grouped">
