@@ -7,8 +7,8 @@ type Props = {
 };
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
-  const [count, setCount] = useState(0);
   const [submitDisabled, setSubmitDisabled] = useState(true);
+  let count = 0;
 
   const [newMovie, setNewMovie] = useState<Movie>({
     title: '',
@@ -34,17 +34,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       [name]: value,
     }));
 
-    setSubmitDisabled(() => {
-      const trimmedTitle = name === 'title' ? value.trim() : title.trim();
-      const trimmedImgUrl = name === 'imgUrl' ? value.trim() : imgUrl.trim();
-      const trimmedImdbUrl = name === 'imdbUrl' ? value.trim() : imdbUrl.trim();
-      const trimmedImdbId = name === 'imdbId' ? value.trim() : imdbId.trim();
+    const trimmedTitle = name === 'title' ? value.trim() : title.trim();
+    const trimmedImgUrl = name === 'imgUrl' ? value.trim() : imgUrl.trim();
+    const trimmedImdbUrl = name === 'imdbUrl' ? value.trim() : imdbUrl.trim();
+    const trimmedImdbId = name === 'imdbId' ? value.trim() : imdbId.trim();
 
-      return !trimmedTitle
-      || !trimmedImgUrl
-      || !trimmedImdbUrl
-      || !trimmedImdbId;
-    });
+    setSubmitDisabled(
+      !trimmedTitle || !trimmedImgUrl || !trimmedImdbUrl || !trimmedImdbId,
+    );
   };
 
   const handleSubmit = (event: React.FormEvent) => {
@@ -67,15 +64,11 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     });
 
     setSubmitDisabled(true);
-    setCount((prevCount) => prevCount + 1);
+    count += 1;
   };
 
   return (
-    <form
-      key={count}
-      className="NewMovie"
-      onSubmit={handleSubmit}
-    >
+    <form key={count} className="NewMovie" onSubmit={handleSubmit}>
       <h2 className="title">Add a movie</h2>
 
       <TextField
