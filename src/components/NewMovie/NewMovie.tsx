@@ -7,8 +7,6 @@ export interface Props {
 }
 
 export const NewMovie = ({ onAdd }: Props) => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -28,7 +26,7 @@ export const NewMovie = ({ onAdd }: Props) => {
     };
   };
 
-  function handleResetForm() {
+  function reset() {
     setTitle('');
     setDescription('');
     setImgUrl('');
@@ -40,7 +38,7 @@ export const NewMovie = ({ onAdd }: Props) => {
     event.preventDefault();
     const newMovie = createNewMovie();
 
-    handleResetForm();
+    reset();
 
     setCount(current => current + 1);
 
@@ -51,7 +49,7 @@ export const NewMovie = ({ onAdd }: Props) => {
     <form
       className="NewMovie"
       key={count}
-      onSubmit={addNewMovie} // (event) =>  {},  f(event)
+      onSubmit={addNewMovie}
     >
       <h2 className="title">Add a movie</h2>
 
