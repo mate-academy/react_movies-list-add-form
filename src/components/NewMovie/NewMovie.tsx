@@ -1,134 +1,120 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { TextField } from '../TextField';
+import { Movie } from '../../types/Movie';
+import { urlValidate } from '../utsils/UrlValidate';
 
-export const NewMovie: React.FC = () => {
+interface Props {
+  onAdd: (movie: Movie) => void
+}
+
+export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
 
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
+  const [newMovie, setNewMovie] = useState({
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  });
 
-  const [titleError, setTitleError] = useState(false);
-  const [imgUrlError, setImgUrlError] = useState(false);
-  const [imdbUrlError, setImdbUrlError] = useState(false);
-  const [imdbIdError, setImdbIdError] = useState(false);
+  const {
+    title,
+    description,
+    imgUrl,
+    imdbUrl,
+    imdbId,
+  } = newMovie;
 
-  const [isFormSubmitted, setIsFormSubmitted] = useState(false);
+  const isSubmitDisabled = !title.trim()
+    || !imgUrl.trim()
+    || !imdbId.trim()
+    || !imdbUrl.trim();
 
-  const resetForm = () => {
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
+  const [hasImgUrlError, setHasImgUrlError] = useState(false);
+  const [hasImdbUrlError, setHasImdbUrlError] = useState(false);
 
-    setTitleError(false);
-    setImgUrlError(false);
-    setImdbUrlError(false);
-    setImdbIdError(false);
+  const handleInput = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    const { name, value } = event.target;
 
-    setIsFormSubmitted(false);
+    setNewMovie(prev => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const onUrlCheck = () => {
+    setHasImdbUrlError(urlValidate(imdbUrl));
+    setHasImgUrlError(urlValidate(imgUrl));
+  };
+
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+
+    if (hasImdbUrlError || hasImgUrlError) {
+      return;
+    }
+
+    onAdd(newMovie);
+
+    setNewMovie({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
+
     setCount(prevCount => prevCount + 1);
   };
 
-  const validateUrl = (url: string): boolean => {
-    // eslint-disable-next-line max-len
-    const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)?(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
-
-    return pattern.test(url);
-  };
-
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-    setTitleError(!title.trim());
-    setImgUrlError(!imgUrl.trim());
-    setImdbUrlError(!imdbUrl.trim());
-    setImdbIdError(!imdbId.trim());
-
-    if (title.trim() && imgUrl.trim() && imdbUrl.trim() && imdbId.trim()) {
-      if (!validateUrl(imgUrl)) {
-        setImgUrlError(true);
-        setIsFormSubmitted(true);
-
-        return;
-      }
-
-      if (!validateUrl(imdbUrl)) {
-        setImdbUrlError(true);
-        setIsFormSubmitted(true);
-
-        return;
-      }
-
-      resetForm();
-    }
-
-    setIsFormSubmitted(true);
-  };
-
   return (
-    <form className="NewMovie" key={count} onSubmit={handleSubmit}>
+    <form
+      className="NewMovie"
+      key={count}
+      onSubmit={handleSubmit}
+    >
       <h2 className="title">Add a movie</h2>
 
       <TextField
         name="title"
         label="Title"
         value={title}
-        onChange={(newValue) => setTitle(newValue)}
+        onChange={handleInput}
         required
-        error={titleError ? 'Title is required' : undefined}
-        onBlur={() => setIsFormSubmitted(true)}
       />
 
       <TextField
         name="description"
         label="Description"
         value={description}
-        onChange={(newValue) => setDescription(newValue)}
+        onChange={handleInput}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={(newValue) => setImgUrl(newValue)}
-        onBlur={() => setImgUrlError(!imgUrl.trim())}
+        onChange={handleInput}
         required
-        showError={isFormSubmitted}
-        error={
-          (imgUrlError && 'Image URL is required')
-          || (isFormSubmitted && !validateUrl(imgUrl) && 'Invalid Image URL')
-          || undefined
-        }
+        hasUrlError={hasImgUrlError}
       />
 
       <TextField
         name="imdbUrl"
-        label="IMDb URL"
+        label="Imdb URL"
         value={imdbUrl}
-        onChange={(newValue) => setImdbUrl(newValue)}
-        onBlur={() => setImdbUrlError(!imdbUrl.trim())}
+        onChange={handleInput}
         required
-        showError={isFormSubmitted}
-        error={
-          (imdbUrlError && 'IMDb URL is required')
-          || (isFormSubmitted && !validateUrl(imdbUrl) && 'Invalid IMDb URL')
-          || undefined
-        }
+        hasUrlError={hasImdbUrlError}
       />
 
       <TextField
         name="imdbId"
-        label="IMDb ID"
+        label="Imdb ID"
         value={imdbId}
-        onChange={(newValue) => setImdbId(newValue)}
-        onBlur={() => setImdbIdError(!imdbId.trim())}
+        onChange={handleInput}
         required
-        showError={isFormSubmitted}
-        error={imdbIdError ? 'IMDb ID is required' : undefined}
       />
 
       <div className="field is-grouped">
@@ -137,12 +123,8 @@ export const NewMovie: React.FC = () => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={
-              !title.trim()
-              || !imgUrl.trim()
-              || !imdbUrl.trim()
-              || !imdbId.trim()
-            }
+            disabled={isSubmitDisabled}
+            onClick={onUrlCheck}
           >
             Add
           </button>

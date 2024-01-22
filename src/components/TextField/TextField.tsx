@@ -1,16 +1,14 @@
-import classNames from 'classnames';
 import React, { useState } from 'react';
+import classNames from 'classnames';
 
 type Props = {
-  name: string;
-  value: string;
-  label?: string;
-  placeholder?: string;
-  required?: boolean;
-  onChange?: (newValue: string) => void;
-  onBlur?: () => void;
-  showError?: boolean;
-  error?: string | undefined;
+  name: string,
+  value: string,
+  label?: string,
+  placeholder?: string,
+  required?: boolean,
+  onChange: (newValue: React.ChangeEvent<HTMLInputElement>) => void,
+  hasUrlError?: boolean,
 };
 
 function getRandomDigits() {
@@ -26,11 +24,10 @@ export const TextField: React.FC<Props> = ({
   placeholder = `Enter ${label}`,
   required = false,
   onChange = () => {},
-  onBlur = () => {},
-  showError = false,
-  error,
+  hasUrlError,
 }) => {
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
+
   const [touched, setTouched] = useState(false);
   const hasError = touched && required && !value;
 
@@ -42,31 +39,26 @@ export const TextField: React.FC<Props> = ({
 
       <div className="control">
         <input
+          name={name}
           type="text"
           id={id}
           data-cy={`movie-${name}`}
           className={classNames('input', {
-            'is-danger': showError && hasError,
+            'is-danger': hasError || hasUrlError,
           })}
           placeholder={placeholder}
           value={value}
-          onChange={(event) => {
-            setTouched(false);
-            onChange(event.target.value);
-          }}
-          onBlur={() => {
-            setTouched(true);
-            onBlur();
-          }}
+          onChange={event => onChange(event)}
+          onBlur={() => setTouched(true)}
         />
       </div>
 
-      {showError && hasError && (
+      {hasError && (
         <p className="help is-danger">{`${label} is required`}</p>
       )}
 
-      {showError && error && (
-        <p className="help is-danger">{error}</p>
+      {hasUrlError && value && (
+        <p className="help is-danger">{`${label} is incorrect`}</p>
       )}
     </div>
   );
