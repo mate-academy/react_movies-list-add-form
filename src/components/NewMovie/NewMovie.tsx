@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { TextField } from '../TextField';
+import { Movie } from '../../types/Movie';
 
 interface Props {
   onAdd: (
@@ -13,28 +14,30 @@ interface Props {
   ) => void
 }
 
+const urlValidator = (urlString: string): boolean => {
+  // eslint-disable-next-line max-len
+  const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
+
+  if (!urlString.match(pattern)) {
+    return false;
+  }
+
+  return true;
+};
+
+const initialMovieState = {
+  title: '',
+  description: '',
+  imgUrl: '',
+  imdbUrl: '',
+  imdbId: '',
+};
+
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
-  const [newMovie, setNewMovie] = useState({
-    title: '',
-    description: '',
-    imgUrl: '',
-    imdbUrl: '',
-    imdbId: '',
-  });
-
-  const urlValidator = (urlString: string): boolean => {
-    // eslint-disable-next-line max-len
-    const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
-
-    if (!urlString.match(pattern)) {
-      return false;
-    }
-
-    return true;
-  };
+  const [newMovie, setNewMovie] = useState<Movie>(initialMovieState);
 
   const isDisabled = !newMovie.title.trim()
   || !urlValidator(newMovie.imgUrl) || !urlValidator(newMovie.imdbUrl)
@@ -51,13 +54,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       imdbId: newMovie.imdbId.trim(),
     });
 
-    setNewMovie({
-      title: '',
-      description: '',
-      imgUrl: '',
-      imdbUrl: '',
-      imdbId: '',
-    });
+    setNewMovie(initialMovieState);
 
     setCount(prev => prev + 1);
   }
