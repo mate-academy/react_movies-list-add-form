@@ -30,7 +30,7 @@ export const TextField: React.FC<Props> = ({
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
   // To show errors only if the field was touched (onBlur)
-  const [errorMaseg, setErrorMaseg] = useState('');
+  const [errorMasege, setErrorMaseg] = useState('');
 
   // eslint-disable-next-line
   const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
@@ -67,7 +67,7 @@ export const TextField: React.FC<Props> = ({
           id={id}
           data-cy={`movie-${name}`}
           className={classNames('input', {
-            'is-danger': errorMaseg,
+            'is-danger': errorMasege,
           })}
           placeholder={placeholder}
           value={value}
@@ -77,8 +77,8 @@ export const TextField: React.FC<Props> = ({
         />
       </div>
 
-      {errorMaseg && (
-        <p className="help is-danger">{errorMaseg}</p>
+      {errorMasege && (
+        <p className="help is-danger">{errorMasege}</p>
       )}
     </div>
   );
