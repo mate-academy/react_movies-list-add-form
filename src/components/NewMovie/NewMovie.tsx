@@ -17,7 +17,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbId, setImdbId] = useState('');
 
   const addTitle = (textInput: string) => {
-    setTitle(textInput);
+    setTitle(textInput)
   };
 
   const addDescription = (textInput: string) => {
@@ -46,9 +46,15 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
   const handleSubmit = (event:React.FormEvent) => {
     event.preventDefault();
+    const trimmedTitle = title.trim()
+    if (!trimmedTitle) { 
+      setTitle('');
+    
+       return;
+    } 
 
     onAdd({
-      title,
+      title: trimmedTitle,
       description,
       imgUrl,
       imdbUrl,
