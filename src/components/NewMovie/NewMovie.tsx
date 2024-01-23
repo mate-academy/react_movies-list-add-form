@@ -16,6 +16,17 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
+  const isUrlValid = (url: string) => {
+    return pattern.test(url);
+  };
+
+  const isDisabled = title.trim()
+    && imgUrl.trim()
+    && imdbUrl.trim()
+    && isUrlValid(imgUrl)
+    && isUrlValid(imdbUrl)
+    && imdbId.trim();
+
   function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
 
@@ -27,17 +38,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       imdbId,
     });
   }
-
-  const isUrlValid = (url: string) => {
-    return pattern.test(url);
-  };
-
-  const isValid = title.trim()
-    && imgUrl.trim()
-    && imdbUrl.trim()
-    && isUrlValid(imgUrl)
-    && isUrlValid(imdbUrl)
-    && imdbId.trim();
 
   return (
     <form
@@ -65,6 +65,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Image URL"
         value={imgUrl}
         onChange={setImgUrl}
+        isValid={isUrlValid}
         required
       />
 
@@ -73,6 +74,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Imdb URL"
         value={imdbUrl}
         onChange={setImdbUrl}
+        isValid={isUrlValid}
         required
       />
 
@@ -90,7 +92,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!isValid}
+            disabled={!isDisabled}
           >
             Add
           </button>
