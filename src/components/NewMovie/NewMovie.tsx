@@ -7,28 +7,18 @@ type Props = {
 };
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
-
-  // const [count, setCount] = useState(0);
-
-  // const [title, setTitle] = useState('');
-  // const [description, setDescription] = useState('');
-  // const [imgUrl, setImgUrl] = useState('');
-  // const [imdbUrl, setImdbUrl] = useState('');
-  // const [imdbId, setImdbId] = useState('');
-
-  const [movieData, setMovieData] = useState({
-    count: 0,
+  const defaultMovieData = {
     title: '',
     description: '',
     imgUrl: '',
     imdbUrl: '',
     imdbId: '',
-  });
+  };
+
+  const [movieData, setMovieData] = useState(defaultMovieData);
+  const [count, setCount] = useState(0);
 
   const {
-    count,
     title,
     description,
     imgUrl,
@@ -37,14 +27,13 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   } = movieData;
 
   const reset = () => {
+    setMovieData(defaultMovieData);
+  };
+
+  const handleChange = (field: string, newValue: string) => {
     setMovieData((prevData) => ({
       ...prevData,
-      count: prevData.count + 1,
-      title: '',
-      description: '',
-      imgUrl: '',
-      imdbUrl: '',
-      imdbId: '',
+      [field]: newValue,
     }));
   };
 
@@ -58,6 +47,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       imdbId,
     });
     reset();
+    setCount((prevCount) => prevCount + 1);
   };
 
   const checkCorrect = !title.trim()
@@ -77,12 +67,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={title}
-        onChange={(newValue) => setMovieData(
-          {
-            ...movieData,
-            title: newValue,
-          },
-        )}
+        onChange={(newValue) => handleChange('title', newValue)}
         required
       />
 
@@ -90,24 +75,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={description}
-        onChange={(newValue) => setMovieData(
-          {
-            ...movieData,
-            description: newValue,
-          },
-        )}
+        onChange={(newValue) => handleChange('description', newValue)}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={(newValue) => setMovieData(
-          {
-            ...movieData,
-            imgUrl: newValue,
-          },
-        )}
+        onChange={(newValue) => handleChange('imgUrl', newValue)}
         required
       />
 
@@ -115,12 +90,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={(newValue) => setMovieData(
-          {
-            ...movieData,
-            imdbUrl: newValue,
-          },
-        )}
+        onChange={(newValue) => handleChange('imdbUrl', newValue)}
         required
       />
 
@@ -128,12 +98,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={(newValue) => setMovieData(
-          {
-            ...movieData,
-            imdbId: newValue,
-          },
-        )}
+        onChange={(newValue) => handleChange('imdbId', newValue)}
         required
       />
 
