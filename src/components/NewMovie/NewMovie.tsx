@@ -3,15 +3,8 @@ import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
 interface Props {
-  onAdd: (
-    movie: {
-      title: string,
-      description: string,
-      imgUrl: string,
-      imdbUrl: string,
-      imdbId: string,
-    }
-  ) => void
+  onAdd: (movie: Movie) => void
+
 }
 
 const urlValidator = (urlString: string): boolean => {
