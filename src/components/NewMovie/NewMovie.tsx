@@ -6,61 +6,39 @@ type Props = {
   onAdd: (movie: Movie) => void;
 };
 
+const initialMovieState = {
+  title: '',
+  description: '',
+  imgUrl: '',
+  imdbUrl: '',
+  imdbId: '',
+};
+
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
+  const [movie, setMovie] = useState(initialMovieState);
 
-  const addTitle = (textInput: string) => {
-    setTitle(textInput);
-  };
-
-  const addDescription = (textInput: string) => {
-    setDescription(textInput);
-  };
-
-  const addImgUrl = (textInput: string) => {
-    setImgUrl(textInput);
-  };
-
-  const addImdbUrl = (textInput: string) => {
-    setImdbUrl(textInput);
-  };
-
-  const addImdbId = (textInput: string) => {
-    setImdbId(textInput);
+  const handleInputChange = (key: string, value: string) => {
+    setMovie(prevInputs => ({ ...prevInputs, [key]: value }));
   };
 
   const reset = () => {
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
+    setMovie(initialMovieState);
   };
 
   const handleSubmit = (event:React.FormEvent) => {
     event.preventDefault();
-    const trimmedTitle = title.trim();
+    const trimmedTitle = movie.title.trim();
 
     if (!trimmedTitle) {
-      setTitle('');
+      setMovie(initialMovieState);
 
       return;
     }
 
-    onAdd({
-      title: trimmedTitle,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    });
+    onAdd(movie);
 
     reset();
     setCount(count + 1);
@@ -77,46 +55,46 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value={title}
-        onChange={addTitle}
+        value={movie.title}
+        onChange={handleInputChange}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value={description}
-        onChange={addDescription}
+        value={movie.description}
+        onChange={handleInputChange}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={imgUrl}
-        onChange={addImgUrl}
+        value={movie.imgUrl}
+        onChange={handleInputChange}
         required
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={imdbUrl}
-        onChange={addImdbUrl}
+        value={movie.imdbUrl}
+        onChange={handleInputChange}
         required
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imdbId}
-        onChange={addImdbId}
+        value={movie.imdbId}
+        onChange={handleInputChange}
         required
       />
 
       <div className="field is-grouped">
         <div className="control">
-          {title !== '' && imgUrl !== ''
-          && imdbUrl !== '' && imdbId !== ''
+          {movie.title !== '' && movie.imgUrl !== ''
+          && movie.imdbUrl !== '' && movie.imdbId !== ''
             ? (
               <button
                 type="submit"
