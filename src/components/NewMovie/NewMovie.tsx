@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
-type Props = {
+interface Props {
   onAdd: (movie: Movie) => void
-};
+}
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   // Increase the count after successful form submission
@@ -17,14 +17,18 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImbdURL] = useState('');
   const [imdbId, setImbdId] = useState('');
 
-  const handleSubmit = (event: React.FormEvent) => {
-    event.preventDefault();
+  const handleReset = () => {
     setCount(count + 1);
     setTitle('');
     setDescription('');
     setImageURL('');
     setImbdURL('');
     setImbdId('');
+  };
+
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    handleReset();
 
     onAdd({
       title,
@@ -35,11 +39,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     });
   };
 
-  let disabled = true;
-
-  if (title.trim() && imgUrl.trim() && imdbUrl.trim() && imdbId.trim()) {
-    disabled = false;
-  }
+  const disabled = title.trim() === ''
+  || imgUrl.trim() === '' || imdbUrl.trim() === '' || imdbId.trim() === '';
 
   return (
     <form
