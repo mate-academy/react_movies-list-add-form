@@ -7,7 +7,8 @@ type Props = {
   label?: string,
   placeholder?: string,
   required?: boolean,
-  onChange?: (newValue: string) => void,
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void,
+  hasValidationIssues?: (value: string) => boolean,
 };
 
 function getRandomDigits() {
@@ -23,13 +24,28 @@ export const TextField: React.FC<Props> = ({
   placeholder = `Enter ${label}`,
   required = false,
   onChange = () => {},
+  hasValidationIssues = () => false,
 }) => {
-  // generage a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
-  // To show errors only if the field was touched (onBlur)
   const [touched, setTouched] = useState(false);
+  const [validated, setValidated] = useState(false);
   const hasError = touched && required && !value;
+  const hasValidationIssue = validated && hasValidationIssues(value);
+
+  const handleBlur = () => {
+    setTouched(true);
+    if (value) {
+      setValidated(true);
+    }
+  };
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    onChange(event);
+    if (!event.target.value) {
+      setValidated(false);
+    }
+  };
 
   return (
     <div className="field">
@@ -39,21 +55,26 @@ export const TextField: React.FC<Props> = ({
 
       <div className="control">
         <input
+          name={name}
           type="text"
           id={id}
           data-cy={`movie-${name}`}
           className={classNames('input', {
-            'is-danger': hasError,
+            'is-danger': hasError || hasValidationIssue,
           })}
           placeholder={placeholder}
           value={value}
-          onChange={event => onChange(event.target.value)}
-          onBlur={() => setTouched(true)}
+          onChange={handleChange}
+          onBlur={handleBlur}
         />
       </div>
 
       {hasError && (
         <p className="help is-danger">{`${label} is required`}</p>
+      )}
+
+      {hasValidationIssue && (
+        <p className="help is-danger">{`${label} is not valid`}</p>
       )}
     </div>
   );
