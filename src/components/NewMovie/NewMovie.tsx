@@ -8,16 +8,19 @@ type Props = {
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
-  const [title, setTitle] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
-  const [description, setDescription] = useState('');
+
+  const [newMovie, setNewMovie] = useState({
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  });
 
   const titleValidationIssues = (value: string) : boolean => {
     const pattern = /^[A-Z0-9].{1,}$/;
 
-    return !pattern.test(value);
+    return !pattern.test(value.trim());
   };
 
   const urlsValidationIssues = (url: string) : boolean => {
@@ -28,28 +31,37 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       + '(?:[,.!/\\\\\\w]*))?)$',
     );
 
-    return !pattern.test(url);
+    return !pattern.test(url.trim());
   };
 
   const imdbIdValidationIssues = (id: string) : boolean => {
     const pattern = /[A-Za-z]{2}\d{5,}/;
-    const match = imdbUrl.match(pattern);
+    const match = newMovie.imdbUrl.match(pattern);
 
     if (match && match[0]) {
-      return id !== match[0];
+      return match[0] !== id;
     }
 
     return true;
   };
 
-  const isEmptyFields = !title || !imgUrl || !imdbUrl || !imdbId;
+  const isEmptyFields = !newMovie.title
+    || !newMovie.imgUrl
+    || !newMovie.imdbUrl
+    || !newMovie.imdbId;
+
+  const hasValidationIssue = titleValidationIssues(newMovie.title)
+    || urlsValidationIssues(newMovie.imgUrl)
+    || imdbIdValidationIssues(newMovie.imdbId);
 
   const handleReset = () => {
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
+    setNewMovie({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -59,16 +71,20 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       return;
     }
 
-    onAdd({
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    });
+    if (hasValidationIssue) {
+      return;
+    }
+
+    onAdd(newMovie);
 
     setCount(currentCount => currentCount + 1);
     handleReset();
+  };
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+
+    setNewMovie(prevMovie => ({ ...prevMovie, [name]: value }));
   };
 
   return (
@@ -82,8 +98,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value={title}
-        onChange={setTitle}
+        value={newMovie.title}
+        onChange={handleChange}
         hasValidationIssues={titleValidationIssues}
         required
       />
@@ -91,15 +107,15 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="description"
         label="Description"
-        value={description}
-        onChange={setDescription}
+        value={newMovie.description}
+        onChange={handleChange}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={imgUrl}
-        onChange={setImgUrl}
+        value={newMovie.imgUrl}
+        onChange={handleChange}
         hasValidationIssues={urlsValidationIssues}
         required
       />
@@ -107,8 +123,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={imdbUrl}
-        onChange={setImdbUrl}
+        value={newMovie.imdbUrl}
+        onChange={handleChange}
         hasValidationIssues={urlsValidationIssues}
         required
       />
@@ -116,8 +132,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imdbId}
-        onChange={setImdbId}
+        value={newMovie.imdbId}
+        onChange={handleChange}
         hasValidationIssues={imdbIdValidationIssues}
         required
       />
@@ -128,7 +144,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            {...{ disabled: isEmptyFields }}
+            disabled={isEmptyFields || hasValidationIssue}
           >
             Add
           </button>
