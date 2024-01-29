@@ -19,7 +19,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     imdbId: '',
   });
 
-  const ifAllFieldsFilled = newMovie.title.trim() && newMovie.imgUrl.trim()
+  const isAllFieldsFilled = newMovie.title.trim() && newMovie.imgUrl.trim()
   && newMovie.imdbUrl.trim() && newMovie.imdbId.trim();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -29,11 +29,13 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   };
 
   const reset = () => {
-    newMovie.title = '';
-    newMovie.description = '';
-    newMovie.imgUrl = '';
-    newMovie.imdbUrl = '';
-    newMovie.imdbId = '';
+    setNewMovie({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
   };
 
   const handleFormOnSubmit = (event: React.FormEvent) => {
@@ -41,7 +43,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
     setCount(counter => counter + 1);
 
-    if (!ifAllFieldsFilled) {
+    if (!isAllFieldsFilled) {
       return;
     }
 
@@ -78,7 +80,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={newMovie.imgUrl}
         onChange={handleChange}
         required
-        // isValidUrl={isValidUrl(imgUrl)}
 
       />
 
@@ -88,7 +89,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={newMovie.imdbUrl}
         onChange={handleChange}
         required
-        // isValidUrl={isValidUrl(imgUrl)}
 
       />
 
@@ -107,7 +107,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!ifAllFieldsFilled}
+            disabled={!isAllFieldsFilled}
           >
             Add
           </button>
