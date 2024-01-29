@@ -11,7 +11,7 @@ export const App = () => {
   const [movies, setMovies] = useState(initMovies);
 
   const onAdd = (movie: Movie) => {
-    setMovies([movie, ...initMovies]);
+    setMovies([...initMovies, movie]);
   };
 
   return (
@@ -20,7 +20,7 @@ export const App = () => {
         <MoviesList movies={movies} />
       </div>
       <div className="sidebar">
-        <NewMovie onSubmit={onAdd} />
+        <NewMovie onAdd={onAdd} />
       </div>
     </div>
   );
