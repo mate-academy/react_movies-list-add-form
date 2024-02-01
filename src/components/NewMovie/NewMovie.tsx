@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import classNames from 'classnames';
 import './NewMovie.scss';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
@@ -20,15 +19,12 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
-  const [newMovie, setNewMovie] = useState(initialMovie);
-  const isFormFilled = !newMovie.title
+  const [newMovie, setNewMovie] = useState<Movie>(initialMovie);
+  const isFormFilled
+      = !newMovie.title.trim()
     || !newMovie.imgUrl.trim()
     || !newMovie.imdbUrl.trim()
     || !newMovie.imdbId.trim();
-
-  const clearFields = () => {
-    setNewMovie(initialMovie);
-  };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -43,13 +39,13 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         || !newMovie.imgUrl
         || !newMovie.imdbUrl
         || !newMovie.imdbId) {
-      clearFields();
+      setNewMovie(initialMovie);
 
       return;
     }
 
     onAdd(newMovie);
-    clearFields();
+    setNewMovie(initialMovie);
     setCount(count + 1);
   };
 
@@ -106,9 +102,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
           <button
             type="submit"
             data-cy="submit-button"
-            className={classNames('button is-link', {
-              disabled: isFormFilled,
-            })}
+            className="button is-link"
+            disabled={isFormFilled}
           >
             Add
           </button>

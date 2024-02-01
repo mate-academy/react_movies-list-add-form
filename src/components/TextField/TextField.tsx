@@ -7,7 +7,7 @@ type Props = {
   label?: string,
   placeholder?: string,
   required?: boolean,
-  onChange?: (newValue: React.ChangeEvent<HTMLInputElement>) => void,
+  onChange?: (newEvent: React.ChangeEvent<HTMLInputElement>) => void,
 };
 
 function getRandomDigits() {
@@ -41,6 +41,7 @@ export const TextField: React.FC<Props> = ({
         <input
           type="text"
           id={id}
+          name={name}
           data-cy={`movie-${name}`}
           className={classNames('input', {
             'is-danger': hasError,
