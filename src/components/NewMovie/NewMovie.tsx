@@ -8,30 +8,26 @@ interface Props {
   onAdd: (movie: Movie) => void;
 }
 
+const initialMovie = {
+  title: '',
+  description: '',
+  imgUrl: '',
+  imdbUrl: '',
+  imdbId: '',
+};
+
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
-  const [newMovie, setNewMovie] = useState({
-    title: '',
-    description: '',
-    imgUrl: '',
-    imdbUrl: '',
-    imdbId: '',
-  });
+  const [newMovie, setNewMovie] = useState(initialMovie);
   const isFormFilled = !newMovie.title
     || !newMovie.imgUrl.trim()
     || !newMovie.imdbUrl.trim()
     || !newMovie.imdbId.trim();
 
   const clearFields = () => {
-    setNewMovie({
-      title: '',
-      description: '',
-      imgUrl: '',
-      imdbUrl: '',
-      imdbId: '',
-    });
+    setNewMovie(initialMovie);
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
