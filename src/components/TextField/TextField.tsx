@@ -7,7 +7,7 @@ type Props = {
   label?: string,
   placeholder?: string,
   required?: boolean,
-  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void,
+  onChange?: (newValue: string) => void,
   isValidUrl?: (url: string) => boolean,
 };
 
@@ -50,7 +50,7 @@ export const TextField: React.FC<Props> = ({
           })}
           placeholder={placeholder}
           defaultValue={value}
-          onChange={onChange}
+          onChange={event => onChange(event.target.value)}
           onBlur={() => setTouched(true)}
         />
       </div>
