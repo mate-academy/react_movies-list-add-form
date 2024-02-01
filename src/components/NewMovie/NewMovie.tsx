@@ -12,59 +12,49 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdbURL] = useState('');
-  const [imdbId, setImdbId] = useState('');
-  const isFormFilled = !title || !imgUrl || !imdbUrl || !imdbId;
+  const [newMovie, setNewMovie] = useState({
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  });
+  const isFormFilled = !newMovie.title
+    || !newMovie.imgUrl.trim()
+    || !newMovie.imdbUrl.trim()
+    || !newMovie.imdbId.trim();
 
   const clearFields = () => {
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbURL('');
-    setImdbId('');
-
-    setCount(count + 1);
+    setNewMovie({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
   };
 
-  const handleTitle = (newTitle: string) => {
-    setTitle(newTitle);
-  };
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
 
-  const handleDescription = (newDescription: string) => {
-    setDescription(newDescription);
-  };
-
-  const handleImgURL = (newImgURL: string) => {
-    setImgUrl(newImgURL);
-  };
-
-  const handleImdbURL = (newImdbURL: string) => {
-    setImdbURL(newImdbURL);
-  };
-
-  const handleImdbId = (newImdbId: string) => {
-    setImdbId(newImdbId);
+    setNewMovie((prevMovie) => ({ ...prevMovie, [name]: value }));
   };
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (!title || !imgUrl || !imdbUrl || !imdbId) {
+    if (!newMovie.title
+        || !newMovie.imgUrl
+        || !newMovie.imdbUrl
+        || !newMovie.imdbId) {
+      clearFields();
+
       return;
     }
 
-    onAdd({
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    });
-
+    onAdd(newMovie);
     clearFields();
+    setCount(count + 1);
   };
 
   return (
@@ -79,39 +69,39 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value={title}
-        onChange={handleTitle}
+        value={newMovie.title}
+        onChange={handleChange}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value={description}
-        onChange={handleDescription}
+        value={newMovie.description}
+        onChange={handleChange}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={imgUrl}
-        onChange={handleImgURL}
+        value={newMovie.imgUrl}
+        onChange={handleChange}
         required
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={imdbUrl}
-        onChange={handleImdbURL}
+        value={newMovie.imdbUrl}
+        onChange={handleChange}
         required
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imdbId}
-        onChange={handleImdbId}
+        value={newMovie.imdbId}
+        onChange={handleChange}
         required
       />
 
