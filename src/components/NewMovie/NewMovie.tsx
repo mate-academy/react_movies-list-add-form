@@ -3,10 +3,10 @@ import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
 type Props = {
-  onSubmit: (movie: Movie) => void;
+  onAdd: (movie: Movie) => void;
 };
 
-export const NewMovie: React.FC<Props> = ({ onSubmit }) => {
+export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [newMovie, setNewMovie] = useState<Movie>({
     title: '',
     description: '',
@@ -23,7 +23,7 @@ export const NewMovie: React.FC<Props> = ({ onSubmit }) => {
     imdbId,
   } = newMovie;
 
-  const [count] = useState(0);
+  const [count, setCount] = useState(0);
 
   const disableButton = title.trim()
     && imgUrl.trim()
@@ -33,7 +33,8 @@ export const NewMovie: React.FC<Props> = ({ onSubmit }) => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    onSubmit(newMovie);
+    onAdd(newMovie);
+    setCount(currentCount => currentCount + 1);
     setNewMovie({
       title: '',
       description: '',

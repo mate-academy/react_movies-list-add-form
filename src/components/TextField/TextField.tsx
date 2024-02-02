@@ -15,6 +15,9 @@ function getRandomDigits() {
     .slice(2);
 }
 
+// eslint-disable-next-line max-len
+const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
+
 export const TextField: React.FC<Props> = ({
   name,
   value,
@@ -29,6 +32,16 @@ export const TextField: React.FC<Props> = ({
   const [touched, setTouched] = useState(false);
   const hasError = touched && !value;
   const notRequired = name === 'description';
+
+  const isUrlValid = (url: string) => {
+    if (name === 'imgUrl' || name === 'imdbUrl') {
+      return pattern.test(url);
+    }
+
+    return false;
+  };
+
+  const hasUrlError = isUrlValid(value);
 
   return (
     <div className="field">
@@ -53,6 +66,10 @@ export const TextField: React.FC<Props> = ({
 
       {hasError && !notRequired && (
         <p className="help is-danger">{`${label} is required`}</p>
+      )}
+
+      {hasError && !notRequired && !hasUrlError && (
+        <p className="help is-danger">Write correct URL</p>
       )}
     </div>
   );
