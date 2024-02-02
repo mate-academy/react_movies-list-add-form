@@ -32,21 +32,16 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setNewMovie((prevMovie) => ({ ...prevMovie, [name]: value }));
   };
 
+  const clearInputFields = () => {
+    setNewMovie(initialMovie);
+  };
+
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (!newMovie.title
-        || !newMovie.imgUrl
-        || !newMovie.imdbUrl
-        || !newMovie.imdbId) {
-      setNewMovie(initialMovie);
-
-      return;
-    }
-
     onAdd(newMovie);
-    setNewMovie(initialMovie);
-    setCount(count + 1);
+    clearInputFields();
+    setCount((curCount) => curCount + 1);
   };
 
   return (
