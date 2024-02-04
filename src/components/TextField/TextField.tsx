@@ -50,7 +50,8 @@ export const TextField: React.FC<Props> = ({
           })}
           placeholder={placeholder}
           value={value}
-          onChange={e => onChange(e)}
+          name={name}
+          onChange={onChange}
           onBlur={() => setTouched(true)}
         />
       </div>

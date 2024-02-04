@@ -1,7 +1,12 @@
 import { useState } from 'react';
 import { TextField } from '../TextField';
+import { Movie } from '../../types/Movie';
 
-export const NewMovie = () => {
+type Props = {
+  onAdd: (movie: Movie)=> void;
+};
+
+export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
   const [count] = useState(0);
@@ -25,9 +30,30 @@ export const NewMovie = () => {
   const [hasImgUrlError, setHasImgUrlError] = useState(true);
   const [hasImdbUrlError, setHasImdbUrlError] = useState(true);
   const [hasImdbIdError, setHasImdbIdError] = useState(true);
+  const [hasDescriptionError, setHasDescriptionError] = useState(true);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = e.target;
+
+    switch (name) {
+      case 'title':
+        setHasTitleError(!value || value.trim() === '');
+        break;
+      case 'imgUrl':
+        setHasImgUrlError(!value || value.trim() === '');
+        break;
+      case 'imdbUrl':
+        setHasImdbUrlError(!value || value.trim() === '');
+        break;
+      case 'imdbId':
+        setHasImdbIdError(!value || value.trim() === '');
+        break;
+      case 'description':
+        setHasDescriptionError(!value || value.trim() === '');
+        break;
+      default:
+        break;
+    }
 
     setFormState(prev => ({ ...prev, [name]: value }));
   };
@@ -41,32 +67,12 @@ export const NewMovie = () => {
     );
   };
 
-  // const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
-  //   const { name, value } = e.target;
-
-  //   switch (name) {
-  //     case 'title':
-  //       setHasTitleError(value.trim() === '');
-  //       break;
-  //     case 'imgUrl':
-  //       setHasImgUrlError(value.trim() === '');
-  //       break;
-  //     case 'imdbUrl':
-  //       setHasImdbUrlError(value.trim() === '');
-  //       break;
-  //     case 'imdbId':
-  //       setHasImdbIdError(value.trim() === '');
-  //       break;
-  //     default:
-  //       break;
-  //   }
-  // };
-
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
     if (!(hasTitleError
-      || hasImgUrlError || hasImdbUrlError || hasImdbIdError)) {
+      || hasImgUrlError || hasImdbUrlError || hasImdbIdError
+      || hasDescriptionError)) {
       setFormState({
         title: '',
         imgUrl: '',
@@ -80,6 +86,15 @@ export const NewMovie = () => {
     setHasImgUrlError(false);
     setHasImdbUrlError(false);
     setHasImdbIdError(false);
+    setHasDescriptionError(false);
+
+    onAdd({
+      title: formState.title,
+      imgUrl: formState.imgUrl,
+      imdbId: formState.imdbId,
+      imdbUrl: formState.imdbUrl,
+      description: formState.description,
+    });
   };
 
   return (
@@ -111,6 +126,7 @@ export const NewMovie = () => {
         value={formState.imgUrl}
         onChange={handleChange}
         customValidation={isValidUrl}
+        required
       />
 
       <TextField
@@ -119,6 +135,7 @@ export const NewMovie = () => {
         value={formState.imdbUrl}
         onChange={handleChange}
         customValidation={isValidUrl}
+        required
       />
 
       <TextField
@@ -126,6 +143,7 @@ export const NewMovie = () => {
         label="Imdb ID"
         value={formState.imdbId}
         onChange={handleChange}
+        required
       />
 
       <div className="field is-grouped">
