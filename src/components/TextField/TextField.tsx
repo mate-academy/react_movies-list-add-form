@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import React, { useState } from 'react';
+import { getRandomDigits } from '../../Servises/RandomDigits';
 
 type Props = {
   name: string,
@@ -7,14 +8,10 @@ type Props = {
   label?: string,
   placeholder?: string,
   required?: boolean,
-  onChange?: (newValue: string) => void,
+  onChange?: (newValue: string, name: string) => void,
+  isValidImgUrl?: boolean;
+  isValidImdbUrl?: boolean;
 };
-
-function getRandomDigits() {
-  return Math.random()
-    .toFixed(16)
-    .slice(2);
-}
 
 export const TextField: React.FC<Props> = ({
   name,
@@ -22,14 +19,15 @@ export const TextField: React.FC<Props> = ({
   label = name,
   placeholder = `Enter ${label}`,
   required = false,
-  onChange = () => {},
+  onChange = () => { },
+  isValidImgUrl,
+  isValidImdbUrl,
 }) => {
-  // generage a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
-
-  // To show errors only if the field was touched (onBlur)
   const [touched, setTouched] = useState(false);
-  const hasError = touched && required && !value;
+  const hasErrorBlur = touched && required && !value;
+  const hasEroorValid = (!isValidImgUrl || !isValidImdbUrl)
+    && required && touched;
 
   return (
     <div className="field">
@@ -39,21 +37,28 @@ export const TextField: React.FC<Props> = ({
 
       <div className="control">
         <input
+          name={name}
           type="text"
           id={id}
           data-cy={`movie-${name}`}
           className={classNames('input', {
-            'is-danger': hasError,
+            'is-danger': hasErrorBlur,
           })}
           placeholder={placeholder}
           value={value}
-          onChange={event => onChange(event.target.value)}
+          onChange={(event) => {
+            onChange(event.target.value, name);
+          }}
           onBlur={() => setTouched(true)}
         />
       </div>
 
-      {hasError && (
+      {hasErrorBlur && (
         <p className="help is-danger">{`${label} is required`}</p>
+      )}
+
+      {hasEroorValid && value && (
+        <p className="help is-danger">{`${label} isn't correct values`}</p>
       )}
     </div>
   );
