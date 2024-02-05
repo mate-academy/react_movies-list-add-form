@@ -26,9 +26,14 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
   const handleBlur = (name: keyof typeof formData) => {
     if (name === 'titles' || name === 'imgUrl' || name === 'imdbUrl'
     || name === 'imdbId') {
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: prevData[name].trim(),
+      }));
+
       setErrors((prevErrors) => ({
         ...prevErrors,
-        [name]: formData[name].trim() === '',
+        [name]: formData[name].trim() === '' || /^\s+$/.test(formData[name]),
       }));
     }
   };
@@ -46,7 +51,7 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
     const hasErrors = Object.keys(errors).some((name) => {
       if (name === 'titles' || name === 'imgUrl' || name === 'imdbUrl'
       || name === 'imdbId') {
-        return formData[name].trim() === '';
+        return formData[name].trim() === '' || /^\s+$/.test(formData[name]);
       }
 
       return false;
@@ -140,6 +145,7 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
+            disabled={Object.values(errors).some(error => error)}
           >
             Add
           </button>
