@@ -23,10 +23,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setAddMovie(prevInputs => ({ ...prevInputs, [key]: value }));
   };
 
-  const hiddenButton = !addMovie.title
-    || !addMovie.imgUrl
-    || !addMovie.imdbUrl
-    || !addMovie.imdbId;
+  const hiddenButton = !addMovie.title.trim()
+    || !addMovie.imgUrl.trim()
+    || !addMovie.imdbUrl.trim()
+    || !addMovie.imdbId.trim();
 
   const reset = () => {
     setAddMovie({
