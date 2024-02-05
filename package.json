@@ -12,7 +12,8 @@
     "classnames": "^2.3.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "react-scripts": "^4.0.3"
+    "react-scripts": "^4.0.3",
+    "src": "^1.1.2"
   },
   "devDependencies": {
     "@cypress/webpack-dev-server": "^1.8.4",
