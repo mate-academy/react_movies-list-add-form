@@ -8,40 +8,45 @@ type Props = {
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
+  const [newMovie, setNewMovie] = useState({
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  });
 
   let isDisabled = true;
 
-  if (title.trim() && imgUrl.trim() && imdbUrl.trim() && imdbId.trim()) {
+  if (newMovie.title.trim()
+  && newMovie.imgUrl.trim()
+  && newMovie.imdbUrl.trim()
+  && newMovie.imdbId.trim()) {
     isDisabled = false;
   }
 
-  const reset = () => {
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
+  const reset = () => setNewMovie({
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  });
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+
+    setNewMovie(currentMovie => ({ ...currentMovie, [name]: value }));
   };
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (!title || !imgUrl || !imdbUrl || !imdbId) {
+    if (isDisabled) {
       return;
     }
 
-    onAdd({
-      title,
-      description,
-      imdbUrl,
-      imgUrl,
-      imdbId,
-    });
+    onAdd(newMovie);
 
     setCount(currentCount => currentCount + 1);
 
@@ -55,39 +60,39 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value={title}
-        onChange={(value) => setTitle(value)}
+        value={newMovie.title}
+        onChange={handleChange}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value={description}
-        onChange={(value) => setDescription(value)}
+        value={newMovie.description}
+        onChange={handleChange}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={imgUrl}
-        onChange={(value) => setImgUrl(value)}
+        value={newMovie.imgUrl}
+        onChange={handleChange}
         required
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={imdbUrl}
-        onChange={(value) => setImdbUrl(value)}
+        value={newMovie.imdbUrl}
+        onChange={handleChange}
         required
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imdbId}
-        onChange={(value) => setImdbId(value)}
+        value={newMovie.imdbId}
+        onChange={handleChange}
         required
       />
 
