@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
@@ -8,95 +8,84 @@ type Props = {
 
 /* eslint-disable */
 
-const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
+//const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
+
+const movieInformation = {
+  title: '',
+  description: '',
+  imgUrl: '',
+  imdbUrl: '',
+  imdbId: '',
+};
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
-  const [count, setCount] = useState(0);
+const [count, setCount] = useState(0);
+const [movie, setMovie] = useState(movieInformation);
 
-  const isValidUrl = (url: string) => (pattern.test(url));
+const handleInputChange = (key: string, value: string) => {
+  setMovie(currentState => ({ ...currentState, [key]: value }));
+};
 
-  const emptyFields = !title.trim()
-  || !imgUrl.trim()
-  || !imdbUrl.trim()
-  || !imdbId.trim()
-  || !(isValidUrl(imgUrl))
-  || !(isValidUrl(imdbUrl));
+const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  event.preventDefault();
 
-  const reset = () => {
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
-  };
+  onAdd(movie);
 
-  const handleSubmit = (event: React.FormEvent) => {
-    event.preventDefault();
-    onAdd({
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    });
+  setCount(currentCount => currentCount + 1);
 
-    setCount(count + 1);
+  setMovie(movieInformation);
+};
 
-    reset();
-  };
+const emptyFields =
+  !movie.title.trim() ||
+  !movie.imgUrl.trim() ||
+  !movie.imdbUrl.trim() ||
+  !movie.imdbId.trim();
 
   return (
     <form
       className="NewMovie"
       key={count}
       onSubmit={handleSubmit}
-      onReset={reset}
     >
       <h2 className="title">Add a movie</h2>
 
       <TextField
         name="title"
         label="Title"
-        value={title}
-        onChange={(event) => setTitle(event.target.value)}
+        value={movie.title}
+        onChange={(value) => handleInputChange('title', value)}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value={description}
-        onChange={(event) => setDescription(event.target.value)}
+        value={movie.description}
+        onChange={(value) => handleInputChange('description', value)}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={imgUrl}
-        onChange={(event) => setImgUrl(event.target.value)}
+        value={movie.imgUrl}
+        onChange={(value) => handleInputChange('imgUrl', value)}
         required
-        isValidUrl={isValidUrl}
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={imdbUrl}
-        onChange={(event) => setImdbUrl(event.target.value)}
+        value={movie.imdbUrl}
+        onChange={(value) => handleInputChange('imdbUrl', value)}
         required
-        isValidUrl={isValidUrl}
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imdbId}
-        onChange={(event) => setImdbId(event.target.value)}
+        value={movie.imdbId}
+        onChange={(value) => handleInputChange('imdbId', value)}
         required
       />
 
