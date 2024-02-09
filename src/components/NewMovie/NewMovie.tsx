@@ -12,22 +12,22 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
   const [newMovie, setNewMovie] = useState({
     title: '',
-    description:'',
+    description: '',
     imgUrl: '',
     imdbUrl: '',
     imdbId: '',
-  })
+  });
 
   let isDisabled = true;
 
   const reset = () => {
     setNewMovie({
       title: '',
-      description:'',
+      description: '',
       imgUrl: '',
       imdbUrl: '',
       imdbId: '',
-    })
+    });
   };
 
   if (newMovie.title.trim() && newMovie.imgUrl.trim()
