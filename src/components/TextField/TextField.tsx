@@ -7,7 +7,7 @@ type Props = {
   label?: string,
   placeholder?: string,
   required?: boolean,
-  onChange?: (newValue: string) => void,
+  onChange?: (newValue: React.ChangeEvent<HTMLInputElement>) => void,
   validation?: (str: string) => boolean;
 };
 
@@ -37,6 +37,7 @@ export const TextField: React.FC<Props> = ({
 
   const handleBlur = () => {
     setTouched(true);
+    setIsValid(true);
 
     if (validation && value !== '') {
       setIsValid(validation(value));
@@ -51,6 +52,7 @@ export const TextField: React.FC<Props> = ({
 
       <div className="control">
         <input
+          name={name}
           type="text"
           id={id}
           data-cy={`movie-${name}`}
@@ -59,7 +61,7 @@ export const TextField: React.FC<Props> = ({
           })}
           placeholder={placeholder}
           value={value}
-          onChange={event => onChange(event.target.value)}
+          onChange={onChange}
           onBlur={handleBlur}
         />
       </div>
@@ -67,7 +69,7 @@ export const TextField: React.FC<Props> = ({
       {hasError && isValid && (
         <p className="help is-danger">{`${label} is required`}</p>
       )}
-      {!hasError && !isValid && (
+      {!isValid && (
         <p className="help is-danger">Invalid URL</p>
       )}
     </div>
