@@ -17,10 +17,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const disabledSubmitButton = !title
-    || !imgUrl
-    || !imdbUrl
-    || !imdbId
+  const disabledSubmitButton = !title.trim()
+    || !imgUrl.trim()
+    || !imdbUrl.trim()
+    || !imdbId.trim()
     || !isValidUrl(imgUrl)
     || !isValidUrl(imdbUrl);
 
