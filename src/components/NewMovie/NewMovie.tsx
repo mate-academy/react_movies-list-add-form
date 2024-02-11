@@ -14,7 +14,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [titleError, setTitleError] = useState(false);
 
   const [description, setDescription] = useState('');
-  const [descriptionError, setDescriptionError] = useState(false);
 
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbUrlError, setiMdbUrlError] = useState(false);
@@ -40,13 +39,11 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     event.preventDefault();
 
     setTitleError(!title);
-    setDescriptionError(!description);
     setiMdbUrlError(!imdbUrl);
     setImgUrlError(!imgUrl);
     setImdbIdError(!imdbId);
 
     if (titleError
-      || descriptionError
       || imdbUrlError
       || imgUrlError
       || imdbIdError) {
@@ -94,7 +91,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={description}
         onChange={(newValue) => {
           setDescription(newValue);
-          if (title && description && imdbUrl && imgUrl && imdbId) {
+          if (title && imdbUrl && imgUrl && imdbId) {
             setButtonView(false);
           } else {
             setButtonView(true);
@@ -108,7 +105,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={imgUrl}
         onChange={(newValue) => {
           setImgUrl(newValue);
-          if (title && description && imdbUrl && imgUrl && imdbId) {
+          if (title && imdbUrl && imgUrl && imdbId) {
             setButtonView(false);
           } else {
             setButtonView(true);
@@ -123,7 +120,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={imdbUrl}
         onChange={(newValue) => {
           setImdbUrl(newValue);
-          if (title && description && imdbUrl && imgUrl && imdbId) {
+          if (title && imdbUrl && imgUrl && imdbId) {
             setButtonView(false);
           } else {
             setButtonView(true);
@@ -138,7 +135,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={imdbId}
         onChange={(newValue) => {
           setImdbId(newValue);
-          if (title && description && imdbUrl && imgUrl && imdbId) {
+          if (title && imdbUrl && imgUrl && imdbId) {
             setButtonView(false);
           } else {
             setButtonView(true);
