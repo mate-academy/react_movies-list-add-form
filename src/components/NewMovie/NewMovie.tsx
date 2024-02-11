@@ -29,12 +29,16 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     imdbId: '',
   });
 
-  const isDisabled = !newMovie.title.trim()
-    || !newMovie.imgUrl.trim()
-    || !newMovie.imdbUrl.trim()
-    || !newMovie.imdbId.trim()
-    || !isValidUrl(newMovie.imgUrl)
-    || !isValidUrl(newMovie.imdbUrl);
+  let isDisabled = true;
+
+  if (newMovie.title.trim()
+    && newMovie.imgUrl.trim()
+    && newMovie.imdbUrl.trim()
+    && newMovie.imdbId.trim()
+    && isValidUrl(newMovie.imgUrl)
+    && isValidUrl(newMovie.imdbUrl)) {
+    isDisabled = false;
+  }
 
   const reset = () => {
     setNewMovie({

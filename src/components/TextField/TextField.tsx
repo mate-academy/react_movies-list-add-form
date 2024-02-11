@@ -36,8 +36,8 @@ export const TextField: React.FC<Props> = ({
   const [touched, setTouched] = useState(false);
   const hasError = touched && required && !value;
   const validation = pattern.test(value);
-  const invalidData = validation !== null
-    && (name === 'imgUrl' || name === 'imdbUrl') && touched;
+  const invalidData = !validation && (name === 'imgUrl' || name === 'imdbUrl')
+    && touched;
 
   return (
     <div className="field">
