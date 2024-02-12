@@ -9,58 +9,73 @@ type Props = {
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
+
+  // #region States
   const [count, setCount] = useState(0);
-  const [title, setTitle] = useState('');
-  const [titleError, setTitleError] = useState(false);
-
-  const [description, setDescription] = useState('');
-
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbUrlError, setiMdbUrlError] = useState(false);
-
-  const [imgUrl, setImgUrl] = useState('');
-  const [imgUrlError, setImgUrlError] = useState(false);
-
-  const [imdbId, setImdbId] = useState('');
-  const [imdbIdError, setImdbIdError] = useState(false);
-
+  const [newMovie, setNewMovie] = useState({
+    title: '',
+    description: '',
+    imdbUrl: '',
+    imgUrl: '',
+    imdbId: '',
+  });
+  const [hasNewMovieError, setHasNewMovieError] = useState({
+    titleError: false,
+    imdbUrlError: false,
+    imgUrlError: false,
+    imdbIdError: false,
+  });
   const [buttonView, setButtonView] = useState(true);
+  // #endregion
+
+  // #region Functions
+  const checkButtonVisibility = () => {
+    if (newMovie.title
+      && newMovie.imdbUrl
+      && newMovie.imgUrl
+      && newMovie.imdbId) {
+      setButtonView(false);
+    } else {
+      setButtonView(true);
+    }
+  };
 
   const reset = () => {
-    setTitle('');
-    setDescription('');
-    setImdbUrl('');
-    setImgUrl('');
-    setImdbId('');
+    setNewMovie((prewMovie) => ({
+      ...prewMovie,
+      title: '',
+      description: '',
+      imdbUrl: '',
+      imgUrl: '',
+      imdbId: '',
+    }));
     setButtonView(true);
   };
 
   const handleMovieAdd = (event: React.FormEvent) => {
     event.preventDefault();
 
-    setTitleError(!title);
-    setiMdbUrlError(!imdbUrl);
-    setImgUrlError(!imgUrl);
-    setImdbIdError(!imdbId);
+    setHasNewMovieError((prewErrors) => ({
+      ...prewErrors,
+      titleError: !newMovie.title,
+      imdbUrlError: !newMovie.imdbUrl,
+      imgUrlError: !newMovie.imgUrl,
+      imdbIdError: !newMovie.imdbId,
+    }));
 
-    if (titleError
-      || imdbUrlError
-      || imgUrlError
-      || imdbIdError) {
+    if (hasNewMovieError.titleError
+      || hasNewMovieError.imdbUrlError
+      || hasNewMovieError.imgUrlError
+      || hasNewMovieError.imdbIdError) {
       return;
     }
 
-    onAdd({
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    });
+    onAdd(newMovie);
 
     setCount(count + 1);
     reset();
   };
+  // #endregion
 
   return (
     <form
@@ -73,74 +88,64 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value={title}
-        onChange={(newValue) => {
-          setTitle(newValue);
-          if (title && description && imdbUrl && imgUrl && imdbId) {
-            setButtonView(false);
-          } else {
-            setButtonView(true);
+        value={newMovie.title}
+        onChange={
+          (newValue) => {
+            setNewMovie({ ...newMovie, title: newValue });
+            checkButtonVisibility();
           }
-        }}
+        }
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value={description}
-        onChange={(newValue) => {
-          setDescription(newValue);
-          if (title && imdbUrl && imgUrl && imdbId) {
-            setButtonView(false);
-          } else {
-            setButtonView(true);
+        value={newMovie.description}
+        onChange={
+          (newValue) => {
+            setNewMovie({ ...newMovie, description: newValue });
+            checkButtonVisibility();
           }
-        }}
+        }
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={imgUrl}
-        onChange={(newValue) => {
-          setImgUrl(newValue);
-          if (title && imdbUrl && imgUrl && imdbId) {
-            setButtonView(false);
-          } else {
-            setButtonView(true);
+        value={newMovie.imgUrl}
+        onChange={
+          (newValue) => {
+            setNewMovie({ ...newMovie, imgUrl: newValue });
+            checkButtonVisibility();
           }
-        }}
+        }
         required
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={imdbUrl}
-        onChange={(newValue) => {
-          setImdbUrl(newValue);
-          if (title && imdbUrl && imgUrl && imdbId) {
-            setButtonView(false);
-          } else {
-            setButtonView(true);
+        value={newMovie.imdbUrl}
+        onChange={
+          (newValue) => {
+            setNewMovie({ ...newMovie, imdbUrl: newValue });
+            checkButtonVisibility();
           }
-        }}
+        }
         required
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imdbId}
-        onChange={(newValue) => {
-          setImdbId(newValue);
-          if (title && imdbUrl && imgUrl && imdbId) {
-            setButtonView(false);
-          } else {
-            setButtonView(true);
+        value={newMovie.imdbId}
+        onChange={
+          (newValue) => {
+            setNewMovie({ ...newMovie, imdbId: newValue });
+            checkButtonVisibility();
           }
-        }}
+        }
         required
       />
 
