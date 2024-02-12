@@ -7,45 +7,43 @@ type Props = {
   onAdd: (newMovie: Movie) => void;
 };
 
+const defaultMovie = {
+  title: '',
+  description: '',
+  imgUrl: '',
+  imdbUrl: '',
+  imdbId: '',
+};
+
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
+  const [movie, setMovie] = useState(defaultMovie);
 
-  const disabledSubmitButton = !title.trim()
-    || !imgUrl.trim()
-    || !imdbUrl.trim()
-    || !imdbId.trim()
-    || !isValidUrl(imgUrl)
-    || !isValidUrl(imdbUrl);
+  const disabledSubmitButton = !movie.title.trim()
+    || !movie.imgUrl.trim()
+    || !movie.imdbUrl.trim()
+    || !movie.imdbId.trim()
+    || !isValidUrl(movie.imgUrl)
+    || !isValidUrl(movie.imdbUrl);
 
-  const resetFields = () => {
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
+  const handleChange = (property: string, value: string) => {
+    setMovie((prevMovie) => ({ ...prevMovie, [property]: value }));
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     onAdd({
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
+      title: movie.title,
+      description: movie.description,
+      imgUrl: movie.imgUrl,
+      imdbUrl: movie.imdbUrl,
+      imdbId: movie.imdbId,
     });
 
     setCount(count + 1);
 
-    resetFields();
+    setMovie(defaultMovie);
   };
 
   return (
@@ -55,42 +53,42 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value={title}
-        onChange={(value) => setTitle(value)}
+        value={movie.title}
+        onChange={(value) => handleChange('title', value)}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value={description}
-        onChange={(value) => setDescription(value)}
+        value={movie.description}
+        onChange={(value) => handleChange('description', value)}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={imgUrl}
+        value={movie.imgUrl}
         required
-        onChange={(value) => setImgUrl(value)}
+        onChange={(value) => handleChange('imgUrl', value)}
         validationUrl
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={imdbUrl}
+        value={movie.imdbUrl}
         required
-        onChange={(value) => setImdbUrl(value)}
+        onChange={(value) => handleChange('imdbUrl', value)}
         validationUrl
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imdbId}
+        value={movie.imdbId}
         required
-        onChange={(value) => setImdbId(value)}
+        onChange={(value) => handleChange('imdbId', value)}
       />
 
       <div className="field is-grouped">
