@@ -22,8 +22,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 const [count, setCount] = useState(0);
 const [movie, setMovie] = useState(movieInformation);
 
-const handleInputChange = (key: string, value: string) => {
-  setMovie(currentState => ({ ...currentState, [key]: value }));
+const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  setMovie(currentState => ({ ...currentState, [event.target.name]: event.target.value }));
 };
 
 const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -54,7 +54,7 @@ const emptyFields =
         name="title"
         label="Title"
         value={movie.title}
-        onChange={(value) => handleInputChange('title', value)}
+        onChange={handleInputChange}
         required
       />
 
@@ -62,14 +62,14 @@ const emptyFields =
         name="description"
         label="Description"
         value={movie.description}
-        onChange={(value) => handleInputChange('description', value)}
+        onChange={handleInputChange}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={movie.imgUrl}
-        onChange={(value) => handleInputChange('imgUrl', value)}
+        onChange={handleInputChange}
         required
       />
 
@@ -77,7 +77,7 @@ const emptyFields =
         name="imdbUrl"
         label="Imdb URL"
         value={movie.imdbUrl}
-        onChange={(value) => handleInputChange('imdbUrl', value)}
+        onChange={handleInputChange}
         required
       />
 
@@ -85,7 +85,7 @@ const emptyFields =
         name="imdbId"
         label="Imdb ID"
         value={movie.imdbId}
-        onChange={(value) => handleInputChange('imdbId', value)}
+        onChange={handleInputChange}
         required
       />
 
