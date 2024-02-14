@@ -32,10 +32,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     });
   };
 
-  if (newMovie.title
-    && newMovie.imgUrl
-    && newMovie.imdbUrl
-    && newMovie.imdbId) {
+  if (newMovie.title.trim()
+    && newMovie.imgUrl.trim()
+    && newMovie.imdbUrl.trim()
+    && newMovie.imdbId.trim()) {
     disabledSubmit = false;
   }
 
