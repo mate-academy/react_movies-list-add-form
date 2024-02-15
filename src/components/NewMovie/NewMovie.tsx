@@ -18,29 +18,13 @@ export const NewMovie = () => {
         required
       />
 
-      <TextField
-        name="description"
-        label="Description"
-        value=""
-      />
+      <TextField name="description" label="Description" value="" />
 
-      <TextField
-        name="imgUrl"
-        label="Image URL"
-        value=""
-      />
+      <TextField name="imgUrl" label="Image URL" value="" />
 
-      <TextField
-        name="imdbUrl"
-        label="Imdb URL"
-        value=""
-      />
+      <TextField name="imdbUrl" label="Imdb URL" value="" />
 
-      <TextField
-        name="imdbId"
-        label="Imdb ID"
-        value=""
-      />
+      <TextField name="imdbId" label="Imdb ID" value="" />
 
       <div className="field is-grouped">
         <div className="control">
