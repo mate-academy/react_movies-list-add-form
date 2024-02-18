@@ -41,11 +41,11 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     event.preventDefault();
 
     const newMovie = {
-      title: titleInput.trim(),
-      description: descriptionInput.trim(),
-      imgUrl: imgUrlInput.trim(),
-      imdbUrl: imdbUrlInput.trim(),
-      imdbId: imdbIdInput.trim(),
+      title: titleInput,
+      description: descriptionInput,
+      imgUrl: imgUrlInput,
+      imdbUrl: imdbUrlInput,
+      imdbId: imdbIdInput,
     };
 
     onAdd(newMovie);
