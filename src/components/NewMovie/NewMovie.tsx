@@ -11,26 +11,20 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
 
-  const [titleInput, setTitleInput] = useState('');
-  const [hasTitleError, setHasTitleError] = useState(true);
-
-  const [descriptionInput, setDescriptionInput] = useState('');
-
-  const [imgUrlInput, setImgUrlInput] = useState('');
-  const [hasImgUrlInputError, setHasImgUrlInputError] = useState(true);
-
-  const [imdbUrlInput, setImdbUrlInput] = useState('');
-  const [hasImdbUrlInputError, setHasImdbUrlInputError] = useState(true);
-
-  const [imdbIdInput, setImdbIdInput] = useState('');
-  const [hasImdbIdInputError, setImdbIdInputError] = useState(true);
+  const [newMovie, setNewMovie] = useState({
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  });
 
   const hasError = () => {
     if (
-      !hasTitleError
-      && !hasImgUrlInputError
-      && !hasImdbUrlInputError
-      && !hasImdbIdInputError) {
+      newMovie.title
+      && newMovie.imgUrl
+      && newMovie.imdbUrl
+      && newMovie.imdbId) {
       return false;
     }
 
@@ -40,27 +34,32 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const newMovie = {
-      title: titleInput,
-      description: descriptionInput,
-      imgUrl: imgUrlInput,
-      imdbUrl: imdbUrlInput,
-      imdbId: imdbIdInput,
+    const movie = {
+      title: newMovie.title,
+      description: newMovie.description,
+      imgUrl: newMovie.imgUrl,
+      imdbUrl: newMovie.imdbUrl,
+      imdbId: newMovie.imdbId,
     };
 
-    onAdd(newMovie);
+    onAdd(movie);
     setCount(count + 1);
 
-    setTitleInput('');
-    setDescriptionInput('');
-    setImdbUrlInput('');
-    setImgUrlInput('');
-    setImdbIdInput('');
+    setNewMovie({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
+  };
 
-    setHasTitleError(true);
-    setHasImgUrlInputError(true);
-    setHasImdbUrlInputError(true);
-    setImdbIdInputError(true);
+  const handleChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    const { name, value } = event.target;
+
+    setNewMovie((prevMovie) => ({ ...prevMovie, [name]: value.trim() }));
   };
 
   return (
@@ -74,10 +73,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value={titleInput}
-        onChange={newValue => {
-          setTitleInput(newValue);
-          setHasTitleError(!newValue);
+        value={newMovie.title}
+        onChange={(event) => {
+          handleChange(event);
         }}
         required
       />
@@ -85,40 +83,31 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="description"
         label="Description"
-        value={descriptionInput}
-        onChange={newValue => setDescriptionInput(newValue)}
+        value={newMovie.description}
+        onChange={(event) => handleChange(event)}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={imgUrlInput}
-        onChange={newValue => {
-          setImgUrlInput(newValue);
-          setHasImgUrlInputError(!newValue);
-        }}
+        value={newMovie.imgUrl}
+        onChange={(event) => handleChange(event)}
         required
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={imdbUrlInput}
-        onChange={newValue => {
-          setImdbUrlInput(newValue);
-          setHasImdbUrlInputError(!newValue);
-        }}
+        value={newMovie.imdbUrl}
+        onChange={(event) => handleChange(event)}
         required
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imdbIdInput}
-        onChange={newValue => {
-          setImdbIdInput(newValue);
-          setImdbIdInputError(!newValue);
-        }}
+        value={newMovie.imdbId}
+        onChange={(event) => handleChange(event)}
         required
       />
 
