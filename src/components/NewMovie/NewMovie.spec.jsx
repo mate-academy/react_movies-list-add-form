@@ -1,7 +1,6 @@
 /* eslint-disable max-len */
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 /* eslint-disable react/jsx-filename-extension */
-/* eslint-disable operator-linebreak */
 
 import React from 'react';
 import { mount } from '@cypress/react';
