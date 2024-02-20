@@ -11,40 +11,82 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   // to reset touched status of all the `Field`s
   // eslint-disable-next-line max-len
   const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
+  const [movie, setMovie] = useState({
+    title: {
+      value: '',
+      isRequired: true,
+    },
+    description: {
+      value: '',
+      isRequired: false,
+    },
+    imgUrl: {
+      value: '',
+      isRequired: true,
+    },
+    imdbUrl: {
+      value: '',
+      isRequired: true,
+    },
+    imdbId: {
+      value: '',
+      isRequired: true,
+    },
+  });
+
   const [count, setCount] = useState(0);
-  const [title, setTitle] = useState('');
-  const isTitleRequired = true;
-  const [description, setDescription] = useState('');
-  const isDescriptionRequired = false;
-  const [imgUrl, setImgUrl] = useState('');
-  const isImageUrlRequired = true;
-  const [imdbUrl, setImdbUrl] = useState('');
-  const isImdbUrlRequired = true;
-  const [imdbId, setImdbId] = useState('');
-  const isImdbIdRequired = true;
-  const hasErrors = (isTitleRequired && !title.trim())
-    || (isDescriptionRequired && !description.trim())
-    || (isImageUrlRequired && !imgUrl.trim())
-    || (isImdbUrlRequired && !imdbUrl.trim())
-    || (isImdbIdRequired && !imdbId.trim())
-    || !pattern.test(imgUrl)
-    || !pattern.test(imdbUrl);
+  const hasErrors = (movie.title.isRequired && !movie.title.value)
+    || (movie.description.isRequired && !movie.description.value)
+    || (movie.imgUrl.isRequired && !movie.imgUrl.value)
+    || (movie.imdbUrl.isRequired && !movie.imdbUrl.value)
+    || (movie.imdbId.isRequired && !movie.imdbId.value)
+    || !pattern.test(movie.imgUrl.value)
+    || !pattern.test(movie.imdbUrl.value);
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+
+    setMovie((prevMovie) => ({
+      ...prevMovie,
+      [name]: {
+        ...prevMovie[name as keyof typeof prevMovie],
+        value,
+      },
+    }));
+  };
 
   const resetForm = () => {
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
+    setMovie(prevMovie => ({
+      title: {
+        ...prevMovie.title,
+        value: '',
+      },
+      description: {
+        ...prevMovie.description,
+        value: '',
+      },
+      imgUrl: {
+        ...prevMovie.imgUrl,
+        value: '',
+      },
+      imdbUrl: {
+        ...prevMovie.imdbUrl,
+        value: '',
+      },
+      imdbId: {
+        ...prevMovie.imdbId,
+        value: '',
+      },
+    }));
   };
 
   const onFormSubmit = (event: React.FormEvent) => {
     const newMovie: Movie = {
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
+      title: movie.title.value,
+      description: movie.description.value,
+      imgUrl: movie.imgUrl.value,
+      imdbUrl: movie.imdbUrl.value,
+      imdbId: movie.imdbId.value,
     };
 
     event.preventDefault();
@@ -64,43 +106,43 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value={title}
-        onChange={setTitle}
-        required={isTitleRequired}
+        value={movie.title.value}
+        onChange={handleChange}
+        required={movie.title.isRequired}
       />
 
       <TextField
         name="description"
         label="Description"
-        value={description}
-        onChange={setDescription}
-        required={isDescriptionRequired}
+        value={movie.description.value}
+        onChange={handleChange}
+        required={movie.description.isRequired}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={imgUrl}
-        onChange={setImgUrl}
-        required={isImageUrlRequired}
-        validationFunc={() => pattern.test(imgUrl)}
+        value={movie.imgUrl.value}
+        onChange={handleChange}
+        required={movie.imgUrl.isRequired}
+        validationFunc={() => pattern.test(movie.imgUrl.value)}
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={imdbUrl}
-        onChange={setImdbUrl}
-        required={isImdbUrlRequired}
-        validationFunc={() => pattern.test(imdbUrl)}
+        value={movie.imdbUrl.value}
+        onChange={handleChange}
+        required={movie.imdbUrl.isRequired}
+        validationFunc={() => pattern.test(movie.imdbUrl.value)}
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imdbId}
-        onChange={setImdbId}
-        required={isImdbIdRequired}
+        value={movie.imdbId.value}
+        onChange={handleChange}
+        required={movie.imdbId.isRequired}
       />
 
       <div className="field is-grouped">

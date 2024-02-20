@@ -7,7 +7,7 @@ type Props = {
   label?: string,
   placeholder?: string,
   required?: boolean,
-  onChange?: (newValue: string) => void,
+  onChange?: (changeEvent: React.ChangeEvent<HTMLInputElement>) => void,
   validationFunc?: () => boolean,
 };
 
@@ -44,13 +44,14 @@ export const TextField: React.FC<Props> = ({
         <input
           type="text"
           id={id}
+          name={name}
           data-cy={`movie-${name}`}
           className={classNames('input', {
             'is-danger': hasError || hasValidationError,
           })}
           placeholder={placeholder}
           value={value}
-          onChange={event => onChange(event.target.value)}
+          onChange={event => onChange(event)}
           onBlur={() => setTouched(true)}
           // onFocus={() => setTouched(false)}
         />
@@ -60,9 +61,7 @@ export const TextField: React.FC<Props> = ({
         <p className="help is-danger">{`${label} is required`}</p>
       )) || (hasValidationError && (
         <p className="help is-danger">{`${label} is not valid`}</p>
-      )) }
-
-      {console.log(touched, label)}
+      ))}
     </div>
   );
 };
