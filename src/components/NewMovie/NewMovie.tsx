@@ -5,8 +5,9 @@ import { Movie } from '../../types/Movie';
 type Props = {
   onAdd: (movie: Movie) => void;
 };
-// eslint-disable-next-line
+
 const pattern =
+  // eslint-disable-next-line max-len
   /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
@@ -17,6 +18,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbURL] = useState('');
   const [imdbId, setImdbID] = useState('');
 
+  /* eslint operator-linebreak: 0 */
   const cantSubmit =
     title.trim().length <= 0 ||
     imgUrl.trim().length <= 0 ||
