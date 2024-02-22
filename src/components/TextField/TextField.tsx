@@ -7,7 +7,7 @@ type Props = {
   label?: string,
   placeholder?: string,
   required?: boolean,
-  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void,
+  onChange?: (newValue: React.ChangeEvent<HTMLInputElement>) => void,
 };
 
 function getRandomDigits() {
@@ -24,12 +24,11 @@ export const TextField: React.FC<Props> = ({
   required = false,
   onChange = () => {},
 }) => {
-  // generage a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
-
-  // To show errors only if the field was touched (onBlur)
   const [touched, setTouched] = useState(false);
   const hasError = touched && required && !value;
+  const hasSpaces = touched && value.trim().length === 0
+    && value.length > 0;
 
   return (
     <div className="field">
@@ -48,13 +47,17 @@ export const TextField: React.FC<Props> = ({
           })}
           placeholder={placeholder}
           value={value}
-          onChange={onChange}
+          onChange={event => onChange(event)}
           onBlur={() => setTouched(true)}
         />
       </div>
 
       {hasError && (
         <p className="help is-danger">{`${label} is required`}</p>
+      )}
+
+      {hasSpaces && (
+        <p className="help is-danger">You added only spaces</p>
       )}
     </div>
   );

@@ -16,10 +16,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     imdbId: '',
   });
 
-  const isDisabled = !newMovie.title.trim()
-  || !newMovie.imgUrl.trim()
-  || !newMovie.imdbUrl.trim()
-  || !newMovie.imdbId.trim();
+  const isDisabled = newMovie.title.trim().length <= 0
+  || newMovie.imgUrl.trim().length <= 0
+  || newMovie.imdbId.trim().length <= 0
+  || newMovie.imdbUrl.trim().length <= 0;
 
   const reset = () => setNewMovie({
     title: '',
@@ -40,6 +40,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
+
+    if (isDisabled) {
+      return;
+    }
 
     onAdd(newMovie);
 
