@@ -10,43 +10,46 @@ const pattern =
   // eslint-disable-next-line max-len
   /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
 
+const initialMovieState = {
+  title: '',
+  description: '',
+  imgUrl: '',
+  imdbUrl: '',
+  imdbId: '',
+};
+
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
+  const [newMovie, setNewMovie] = useState(initialMovieState);
 
   const reset = () => {
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
+    setNewMovie(initialMovieState);
   };
 
   const canSubmit =
-    !title.trim() ||
-    !imgUrl.trim() ||
-    !imdbUrl.trim() ||
-    !imdbId.trim() ||
-    !pattern?.test(imgUrl.trim()) ||
-    !pattern?.test(imdbUrl.trim());
+    !newMovie.title.trim() ||
+    !newMovie.imgUrl.trim() ||
+    !newMovie.imdbUrl.trim() ||
+    !newMovie.imdbId.trim() ||
+    !pattern?.test(newMovie.imgUrl.trim()) ||
+    !pattern?.test(newMovie.imdbUrl.trim());
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    onAdd({
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    });
+    onAdd(newMovie);
 
     reset();
     setCount(count + 1);
+  };
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+
+    setNewMovie(prevState => ({
+      ...prevState,
+      [name]: value,
+    }));
   };
 
   return (
@@ -56,23 +59,23 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value={title}
-        onChange={setTitle}
+        value={newMovie.title}
+        onChange={handleInputChange}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value={description}
-        onChange={setDescription}
+        value={newMovie.description}
+        onChange={handleInputChange}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={imgUrl}
-        onChange={setImgUrl}
+        value={newMovie.imgUrl}
+        onChange={handleInputChange}
         required
         pattern={pattern}
       />
@@ -80,8 +83,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={imdbUrl}
-        onChange={setImdbUrl}
+        value={newMovie.imdbUrl}
+        onChange={handleInputChange}
         required
         pattern={pattern}
       />
@@ -89,8 +92,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imdbId}
-        onChange={setImdbId}
+        value={newMovie.imdbId}
+        onChange={handleInputChange}
         required
       />
 

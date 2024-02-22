@@ -7,7 +7,7 @@ type Props = {
   label?: string;
   placeholder?: string;
   required?: boolean;
-  onChange?: (newValue: string) => void;
+  onChange?: (newValue: React.ChangeEvent<HTMLInputElement>) => void;
   pattern?: RegExp;
 };
 
@@ -32,11 +32,13 @@ export const TextField: React.FC<Props> = ({
   const [patternError, setPatternError] = useState(false);
 
   const hadleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (onChange) {
+      onChange(event);
+    }
+
     setPatternError(() => {
       return !pattern?.test(event.target.value.trim());
     });
-
-    onChange(event.target.value);
   };
 
   const hasError = touched && required && !value;
@@ -50,6 +52,7 @@ export const TextField: React.FC<Props> = ({
 
       <div className="control">
         <input
+          name={name}
           type="text"
           id={id}
           data-cy={`movie-${name}`}
