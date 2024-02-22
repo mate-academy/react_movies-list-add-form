@@ -42,7 +42,9 @@ export const TextField: React.FC<Props> = ({
   };
 
   const hasError = touched && required && !value;
-  const hasValidError = !hasError && pattern && patternError && touched;
+  const hasSpaces = touched && value.trim().length === 0 && value.length > 0;
+  const hasValidError =
+    !hasError && !hasSpaces && pattern && patternError && touched;
 
   return (
     <div className="field">
@@ -71,6 +73,10 @@ export const TextField: React.FC<Props> = ({
       )}
 
       {hasError && <p className="help is-danger">{`${label} is required`}</p>}
+
+      {hasSpaces && (
+        <p className="help is-danger">You added only spaces into field</p>
+      )}
     </div>
   );
 };
