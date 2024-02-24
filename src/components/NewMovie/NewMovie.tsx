@@ -97,8 +97,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Image URL"
         value={inputs.imgUrl}
         onChange={handleInputChange}
-        isUrlValid={isImgUrlValid}
-        isUrlError={hasUrlError}
+        isValid={isImgUrlValid}
+        isError={hasUrlError}
         required
       />
 
@@ -107,8 +107,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Imdb URL"
         value={inputs.imdbUrl}
         onChange={handleInputChange}
-        isUrlValid={isImdbUrlValid}
-        isUrlError={hasUrlError}
+        isValid={isImdbUrlValid}
+        isError={hasUrlError}
         required
       />
 

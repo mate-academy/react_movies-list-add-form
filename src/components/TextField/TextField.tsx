@@ -6,8 +6,8 @@ type Props = {
   value: string;
   label?: string;
   placeholder?: string;
-  isUrlValid?: boolean;
-  isUrlError?: boolean;
+  isValid?: boolean;
+  isError?: boolean;
   required?: boolean;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
@@ -21,8 +21,8 @@ export const TextField: React.FC<Props> = ({
   value,
   label = name,
   placeholder = `Enter ${label}`,
-  isUrlValid = true,
-  isUrlError,
+  isValid = true,
+  isError,
   required = false,
   onChange = () => {},
 }) => {
@@ -32,7 +32,7 @@ export const TextField: React.FC<Props> = ({
   // To show errors only if the field was touched (onBlur)
   const [touched, setTouched] = useState(false);
   const hasError = touched && required && !value;
-  const hasUrlError = value && isUrlError && !isUrlValid;
+  const hasUrlError = value && isError && !isValid;
 
   return (
     <div className="field">
