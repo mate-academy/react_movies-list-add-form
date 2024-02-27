@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { ChangeEvent, FormEvent, useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
@@ -23,20 +23,15 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   };
 
   const [inputs, setInputs] = useState(initialInputsState);
+  const { title, description, imgUrl, imdbUrl, imdbId } = inputs;
 
-  const isError = // eslint-disable-line
-    !inputs.title || // eslint-disable-line
-    !inputs.imgUrl || // eslint-disable-line
-    !inputs.imdbUrl || // eslint-disable-line
-    !inputs.imdbId; // eslint-disable-line
+  const isError = !title || !imgUrl || !imdbUrl || !imdbId;
 
   const [isImgUrlValid, setIsImgUrlValid] = useState(false);
   const [isImdbUrlValid, setIsImdbUrlValid] = useState(false);
-  // State below is so that the error about the link appears only after the second
-  // attempt to send the form, so as not to immediately scare the user
-  const [hasUrlError, setIsUrlError] = useState(false);
+  const [hasUrlError, setHasUrlError] = useState(false);
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
 
     setInputs(prevInputs => ({ ...prevInputs, [name]: value }));
@@ -48,7 +43,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     }
   };
 
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
 
     if (isError) {
@@ -56,13 +51,13 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     }
 
     if (!isImgUrlValid) {
-      setIsUrlError(true);
+      setHasUrlError(true);
 
       return;
     }
 
     if (!isImdbUrlValid) {
-      setIsUrlError(true);
+      setHasUrlError(true);
 
       return;
     }
@@ -70,7 +65,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     onAdd(inputs);
     setCount(count + 1);
     setInputs(initialInputsState);
-    setIsUrlError(false);
+    setHasUrlError(false);
   };
 
   return (
@@ -80,7 +75,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value={inputs.title}
+        value={title}
         onChange={handleInputChange}
         required
       />
@@ -88,14 +83,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="description"
         label="Description"
-        value={inputs.description}
+        value={description}
         onChange={handleInputChange}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={inputs.imgUrl}
+        value={imgUrl}
         onChange={handleInputChange}
         isValid={isImgUrlValid}
         isError={hasUrlError}
@@ -105,7 +100,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={inputs.imdbUrl}
+        value={imdbUrl}
         onChange={handleInputChange}
         isValid={isImdbUrlValid}
         isError={hasUrlError}
@@ -115,7 +110,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={inputs.imdbId}
+        value={imdbId}
         onChange={handleInputChange}
         required
       />
