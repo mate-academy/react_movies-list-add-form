@@ -6,27 +6,30 @@ type Props = {
   addMovie: (newMovie: Movie) => void;
 };
 
+const initialMovieState: Movie = {
+  title: '',
+  description: '',
+  imgUrl: '',
+  imdbUrl: '',
+  imdbId: '',
+};
+
 export const NewMovie: React.FC<Props> = ({ addMovie }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
-  const [newMovie, setNewMovie] = useState({
-    title: '',
-    description: '',
-    imgUrl: '',
-    imdbUrl: '',
-    imdbId: '',
-  });
-  let isDisable = true;
+  const [newMovie, setNewMovie] = useState(initialMovieState);
 
-  const reset = () =>
-    setNewMovie({
-      title: '',
-      description: '',
-      imgUrl: '',
-      imdbUrl: '',
-      imdbId: '',
-    });
+  let submitDisabled = !(
+    newMovie.title.trim() &&
+    newMovie.imgUrl.trim() &&
+    newMovie.imdbUrl.trim() &&
+    newMovie.imdbId.trim()
+  );
+
+  const reset = () => {
+    setNewMovie(initialMovieState);
+  };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -36,10 +39,6 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-
-    if (isDisable) {
-      return;
-    }
 
     addMovie(newMovie);
 
@@ -53,7 +52,7 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
     newMovie.imdbUrl.trim() &&
     newMovie.imdbId.trim()
   ) {
-    isDisable = false;
+    submitDisabled = false;
   }
 
   return (
@@ -65,6 +64,7 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
         label="Title"
         value={newMovie.title}
         onChange={handleChange}
+        required
       />
 
       <TextField
@@ -79,6 +79,7 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
         label="Image URL"
         value={newMovie.imgUrl}
         onChange={handleChange}
+        required
       />
 
       <TextField
@@ -86,6 +87,7 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
         label="Imdb URL"
         value={newMovie.imdbUrl}
         onChange={handleChange}
+        required
       />
 
       <TextField
@@ -93,6 +95,7 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
         label="Imdb ID"
         value={newMovie.imdbId}
         onChange={handleChange}
+        required
       />
 
       <div className="field is-grouped">
@@ -101,7 +104,7 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={isDisable}
+            disabled={submitDisabled}
           >
             Add
           </button>
