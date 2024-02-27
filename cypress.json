@@ -3,8 +3,9 @@
   "video": true,
   "viewportHeight": 1920,
   "viewportWidth": 1080,
-  "screenshotOnRunFailure": true,
   "defaultCommandTimeout": 100000,
+  "responseTimeout": 300000,
+  "screenshotOnRunFailure": true,
   "reporter": "mochawesome",
   "reporterOptions": {
     "reportDir": "raw_reports",
