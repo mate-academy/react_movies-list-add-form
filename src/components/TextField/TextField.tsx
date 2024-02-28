@@ -2,18 +2,16 @@ import classNames from 'classnames';
 import React, { useState } from 'react';
 
 type Props = {
-  name: string,
-  value: string,
-  label?: string,
-  placeholder?: string,
-  required?: boolean,
-  onChange?: (newValue: string) => void,
+  name: string;
+  value: string;
+  label?: string;
+  placeholder?: string;
+  required?: boolean;
+  onChange?: (newValue: string) => void;
 };
 
 function getRandomDigits() {
-  return Math.random()
-    .toFixed(16)
-    .slice(2);
+  return Math.random().toFixed(16).slice(2);
 }
 
 export const TextField: React.FC<Props> = ({
@@ -52,9 +50,7 @@ export const TextField: React.FC<Props> = ({
         />
       </div>
 
-      {hasError && (
-        <p className="help is-danger">{`${label} is required`}</p>
-      )}
+      {hasError && <p className="help is-danger">{`${label} is required`}</p>}
     </div>
   );
 };
