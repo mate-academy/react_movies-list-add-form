@@ -47,11 +47,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
   const handleSubmit = (e: React.FormEvent): void => {
     e.preventDefault();
-    if (!isNotReadyToSubmit) {
-      setCount(prevCount => prevCount + 1);
-      onAdd(movie);
-      setMovie(initialMovieState);
-    }
+    setCount(prevCount => prevCount + 1);
+    onAdd(movie);
+    setMovie(initialMovieState);
   };
 
   return (
