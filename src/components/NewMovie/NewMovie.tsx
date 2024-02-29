@@ -20,8 +20,6 @@ const pattern =
 /* eslint-disable max-len */
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
   const [movie, setMovie] = useState<Movie>(initialMovieState);
 
