@@ -27,9 +27,12 @@ export const TextField: React.FC<Props> = ({
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
   const [touched, setTouched] = useState(false);
-  const hasError = touched && required && !value;
+  const hasError =
+    (touched && required && !value) ||
+    (touched && required && value.trim().length === 0 && value.length > 0);
+
   const isValidImgUrl =
-    (name === 'imgUrl' || name === 'imdbUrl') && !urlValidation && value;
+    (name === 'imgUrl' || name === 'imdbUrl') && !urlValidation && !hasError;
 
   return (
     <div className="field">
