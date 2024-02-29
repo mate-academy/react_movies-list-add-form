@@ -7,6 +7,7 @@ type Props = {
   label?: string;
   placeholder?: string;
   required?: boolean;
+  pattern?: RegExp;
   onChange?: (value: string) => void;
 };
 
@@ -20,6 +21,7 @@ export const TextField: React.FC<Props> = ({
   label = name,
   placeholder = `Enter ${label}`,
   required = false,
+  pattern,
   onChange = () => {},
 }) => {
   // generage a unique id once on component load
@@ -29,9 +31,18 @@ export const TextField: React.FC<Props> = ({
   const [touched, setTouched] = useState(false);
   const [newValue, setNewValue] = useState(value);
   const hasError = touched && required && !newValue;
+  const [errorMessage, setErrorMessage] = useState(`${label} is required`);
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newItem = event.target.value;
+
+    if (pattern) {
+      if (!pattern.test(newItem)) {
+        setErrorMessage(`You should write a link to the ${label}`);
+
+        return;
+      }
+    }
 
     setNewValue(newItem);
     onChange(newItem);
@@ -58,7 +69,7 @@ export const TextField: React.FC<Props> = ({
         />
       </div>
 
-      {hasError && <p className="help is-danger">{`${label} is required`}</p>}
+      {hasError && <p className="help is-danger">{errorMessage}</p>}
     </div>
   );
 };
