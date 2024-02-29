@@ -13,33 +13,39 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
-  const [title, setTitle] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
-  const [description, setDescription] = useState('');
+  const [newMovie, setNewMovie] = useState({
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  });
 
   const pattern =
     // eslint-disable-next-line
     /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
 
-  const isFormFeeled = title && imgUrl && imdbUrl && imdbId;
+  const isFormFeeled =
+    newMovie.title && newMovie.imgUrl && newMovie.imdbUrl && newMovie.imdbId;
 
   const sendMovie = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    onAdd({
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    });
+    onAdd(newMovie);
     setCount(prev => prev + 1);
-    setTitle('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
-    setDescription('');
+
+    setNewMovie({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+
+    setNewMovie(prevMovie => ({ ...prevMovie, [name]: value }));
   };
 
   const classForMessage = cn({
@@ -55,51 +61,41 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value={title}
-        onChange={newTitle => {
-          setTitle(newTitle);
-        }}
+        value={newMovie.title}
+        onChange={handleChange}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value={description}
-        onChange={newItem => setDescription(newItem)}
+        value={newMovie.description}
+        onChange={handleChange}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={imgUrl}
+        value={newMovie.imgUrl}
         pattern={pattern}
-        onChange={newItem => {
-          if (newItem) {
-            setImgUrl(newItem);
-          }
-        }}
+        onChange={handleChange}
         required
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={imdbUrl}
+        value={newMovie.imdbUrl}
         pattern={pattern}
-        onChange={newItem => {
-          if (newItem) {
-            setImgUrl(newItem);
-          }
-        }}
+        onChange={handleChange}
         required
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imdbId}
-        onChange={newItem => setImdbId(newItem)}
+        value={newMovie.imdbId}
+        onChange={handleChange}
         required
       />
 
