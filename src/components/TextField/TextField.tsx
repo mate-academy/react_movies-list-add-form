@@ -32,7 +32,10 @@ export const TextField: React.FC<Props> = ({
     (touched && required && value.trim().length === 0 && value.length > 0);
 
   const isValidImgUrl =
-    (name === 'imgUrl' || name === 'imdbUrl') && !urlValidation && !hasError;
+    (name === 'imgUrl' || name === 'imdbUrl') &&
+    touched &&
+    !urlValidation &&
+    !hasError;
 
   return (
     <div className="field">
