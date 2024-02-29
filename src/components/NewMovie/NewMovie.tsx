@@ -25,47 +25,47 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [inputs, setInputs] = useState(initialInputsState);
   const { title, description, imgUrl, imdbUrl, imdbId } = inputs;
 
-  const isError = !title || !imgUrl || !imdbUrl || !imdbId;
+  const isFilled = !title || !imgUrl || !imdbUrl || !imdbId;
 
-  const [isImgUrlValid, setIsImgUrlValid] = useState(false);
-  const [isImdbUrlValid, setIsImdbUrlValid] = useState(false);
-  const [hasUrlError, setHasUrlError] = useState(false);
+  const [imgUrlError, setImgUrlError] = useState('');
+  const [imdbUrlError, setImdbUrlError] = useState('');
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
 
     setInputs(prevInputs => ({ ...prevInputs, [name]: value }));
 
-    if (name === 'imgUrl') {
-      setIsImgUrlValid(pattern.test(value));
-    } else if (name === 'imdbUrl') {
-      setIsImdbUrlValid(pattern.test(value));
+    if (!pattern.test(imgUrl)) {
+      setImgUrlError('');
+    } else if (!pattern.test(imdbUrl)) {
+      setImdbUrlError('');
     }
   };
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
 
-    if (isError) {
+    if (isFilled) {
       return;
     }
 
-    if (!isImgUrlValid) {
-      setHasUrlError(true);
-
-      return;
+    if (!pattern.test(imgUrl)) {
+      setImgUrlError(' should have valid text');
     }
 
-    if (!isImdbUrlValid) {
-      setHasUrlError(true);
+    if (!pattern.test(imdbUrl)) {
+      setImdbUrlError(' should have valid text');
+    }
 
+    if (isFilled || !pattern.test(imgUrl) || !pattern.test(imdbUrl)) {
       return;
     }
 
     onAdd(inputs);
     setCount(count + 1);
     setInputs(initialInputsState);
-    setHasUrlError(false);
+    setImgUrlError('');
+    setImdbUrlError('');
   };
 
   return (
@@ -92,8 +92,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Image URL"
         value={imgUrl}
         onChange={handleInputChange}
-        isValid={isImgUrlValid}
-        isError={hasUrlError}
+        error={imgUrlError}
         required
       />
 
@@ -102,8 +101,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Imdb URL"
         value={imdbUrl}
         onChange={handleInputChange}
-        isValid={isImdbUrlValid}
-        isError={hasUrlError}
+        error={imdbUrlError}
         required
       />
 
@@ -121,7 +119,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={isError}
+            disabled={isFilled}
           >
             Add
           </button>
