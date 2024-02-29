@@ -25,7 +25,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [inputs, setInputs] = useState(initialInputsState);
   const { title, description, imgUrl, imdbUrl, imdbId } = inputs;
 
-  const isFilled = !title || !imgUrl || !imdbUrl || !imdbId;
+  const isNotFilled =
+    !title.trim() || !imgUrl.trim() || !imdbUrl.trim() || !imdbId.trim();
 
   const [imgUrlError, setImgUrlError] = useState('');
   const [imdbUrlError, setImdbUrlError] = useState('');
@@ -45,10 +46,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
 
-    if (isFilled) {
-      return;
-    }
-
     if (!pattern.test(imgUrl)) {
       setImgUrlError(' should have valid text');
     }
@@ -57,7 +54,11 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       setImdbUrlError(' should have valid text');
     }
 
-    if (isFilled || !pattern.test(imgUrl) || !pattern.test(imdbUrl)) {
+    Object.values(inputs).forEach(input => {
+      input.trim();
+    });
+
+    if (isNotFilled || !pattern.test(imgUrl) || !pattern.test(imdbUrl)) {
       return;
     }
 
@@ -119,7 +120,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={isFilled}
+            disabled={isNotFilled}
           >
             Add
           </button>
