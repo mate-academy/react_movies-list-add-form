@@ -11,29 +11,39 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
+  // const [title, setTitle] = useState('');
+  // const [description, setDescription] = useState('');
+  // const [imgUrl, setImgUrl] = useState('');
+  // const [imdbUrl, setImdbUrl] = useState('');
+  // const [imdbId, setImdbId] = useState('');
+
+  const [newMovie, setNewMovie] = useState({
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  });
 
   const pattern =
     /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
 
   const cantSubmit =
-    title.trim().length === 0 ||
-    imdbId.trim().length === 0 ||
-    imgUrl.trim().length === 0 ||
-    imdbUrl.trim().length === 0 ||
-    !pattern.test(imdbUrl.trim()) ||
-    !pattern.test(imgUrl.trim());
+    newMovie.title.trim().length === 0 ||
+    newMovie.imdbId.trim().length === 0 ||
+    newMovie.imgUrl.trim().length === 0 ||
+    newMovie.imdbUrl.trim().length === 0 ||
+    !pattern.test(newMovie.imdbUrl.trim()) ||
+    !pattern.test(newMovie.imgUrl.trim());
 
   const reset = () => {
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
+    setNewMovie({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -43,13 +53,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       return;
     }
 
-    onAdd({
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    });
+    onAdd(newMovie);
 
     reset();
     setCount(prevCount => prevCount + 1);
@@ -62,23 +66,29 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value={title}
-        onChange={setTitle}
+        value={newMovie.title}
+        onChange={value =>
+          setNewMovie(prevState => ({ ...prevState, title: value }))
+        }
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value={description}
-        onChange={setDescription}
+        value={newMovie.description}
+        onChange={value =>
+          setNewMovie(prevState => ({ ...prevState, description: value }))
+        }
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={imgUrl}
-        onChange={setImgUrl}
+        value={newMovie.imgUrl}
+        onChange={value =>
+          setNewMovie(prevState => ({ ...prevState, imgUrl: value }))
+        }
         required
         pattern={pattern}
       />
@@ -86,8 +96,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={imdbUrl}
-        onChange={setImdbUrl}
+        value={newMovie.imdbUrl}
+        onChange={value =>
+          setNewMovie(prevState => ({ ...prevState, imdbUrl: value }))
+        }
         required
         pattern={pattern}
       />
@@ -95,8 +107,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imdbId}
-        onChange={setImdbId}
+        value={newMovie.imdbId}
+        onChange={value =>
+          setNewMovie(prevState => ({ ...prevState, imdbId: value }))
+        }
         required
       />
 
