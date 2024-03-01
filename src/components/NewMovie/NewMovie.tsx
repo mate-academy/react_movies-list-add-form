@@ -15,15 +15,18 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     imdbId: '',
   });
   const [count, setCount] = useState(0);
-  // prettier-ignore
-  const isActive = !!movieInfo.title
-    && !!movieInfo.imgUrl
-    && !!movieInfo.imdbUrl
-    &&!!movieInfo.imdbId;
 
   // prettier-ignore
   // eslint-disable-next-line max-len
   const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
+
+  // prettier-ignore
+  const isActive = !!movieInfo.title
+    && !!movieInfo.imgUrl
+    && !!movieInfo.imdbUrl
+    && !!movieInfo.imdbId
+    && !!pattern.test(movieInfo.imdbUrl)
+    && !!pattern.test(movieInfo.imgUrl);
 
   const handleOnSubmit = (e: React.FormEvent) => {
     e.preventDefault();
