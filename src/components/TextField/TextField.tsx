@@ -27,15 +27,17 @@ export const TextField: React.FC<Props> = ({
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
   const [touched, setTouched] = useState(false);
-  const hasError =
-    (touched && required && !value) ||
-    (touched && required && value.trim().length === 0 && value.length > 0);
+  const hasError = touched && required && (!value || value.trim().length === 0);
 
   const isValidImgUrl =
     (name === 'imgUrl' || name === 'imdbUrl') &&
     touched &&
     !urlValidation &&
     !hasError;
+
+  const isErrorMessage = hasError || isValidImgUrl;
+  const urlErrorMessage = 'Incorrect Url';
+  const requiredErrorMessage = `${label} is required`;
 
   return (
     <div className="field">
@@ -59,8 +61,10 @@ export const TextField: React.FC<Props> = ({
         />
       </div>
 
-      {(hasError || isValidImgUrl) && (
-        <p className="help is-danger">{`${isValidImgUrl ? 'Incorrect Url' : ''} ${hasError ? `${label} is required` : ''}`}</p>
+      {isErrorMessage && (
+        <p className="help is-danger">
+          {`${isValidImgUrl ? urlErrorMessage : ''} ${hasError ? requiredErrorMessage : ''}`}
+        </p>
       )}
     </div>
   );

@@ -36,8 +36,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     !imdbUrl.trim() ||
     !imdbId.trim();
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
 
     setMovie(prevMovie => ({
       ...prevMovie,
@@ -45,8 +45,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent): void => {
-    e.preventDefault();
+  const handleSubmit = (event: React.FormEvent): void => {
+    event.preventDefault();
     setCount(prevCount => prevCount + 1);
     onAdd(movie);
     setMovie(initialMovieState);
