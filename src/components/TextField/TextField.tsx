@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import React, { useState } from 'react';
+import { pattern } from '../../api/pattern/pattern';
 
 type Props = {
   name: string;
@@ -24,10 +25,13 @@ export const TextField: React.FC<Props> = ({
 }) => {
   // generage a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
-
   // To show errors only if the field was touched (onBlur)
   const [touched, setTouched] = useState(false);
+
   const hasError = touched && required && !value;
+
+  const check =
+    name === 'imgUrl' || name === 'imdbUrl' ? `${pattern}` : '^[a-zA-Z]+$';
 
   return (
     <div className="field">
@@ -38,6 +42,7 @@ export const TextField: React.FC<Props> = ({
       <div className="control">
         <input
           type="text"
+          pattern={check}
           id={id}
           data-cy={`movie-${name}`}
           className={classNames('input', {
