@@ -27,11 +27,7 @@ export const TextField: React.FC<Props> = ({
   const hasError = touched && required && !value;
 
   const handlerBlur = () => {
-    if (!value) {
-      setTouched(true);
-    } else {
-      setTouched(false);
-    }
+    setTouched(!value);
   };
 
   return (
