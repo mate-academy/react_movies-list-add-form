@@ -31,11 +31,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     !movie.imdbId.trim();
 
   const reset = () => {
-    movie.title = '';
-    movie.description = '';
-    movie.imgUrl = '';
-    movie.imdbUrl = '';
-    movie.imdbId = '';
+    setMovie(initialMovieState);
   };
 
   const handleSubmit = (event: React.FormEvent) => {
@@ -45,9 +41,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       return;
     }
 
-    onAdd({
-      ...movie,
-    });
+    onAdd(movie);
 
     reset();
   };
