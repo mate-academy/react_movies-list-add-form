@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
-const pattern =
-  // eslint-disable-next-line max-len
-  /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
+
+import { URL_PATTERN } from '../../api/urlPatterns';
 
 type Props = {
   onAdd: (movie: Movie) => void;
@@ -30,7 +29,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const handlerInputChangeForUrl = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
-    if (value.match(pattern) != null) {
+    if (value.match(URL_PATTERN)) {
       setMovie(prevInputs => ({ ...prevInputs, [name]: value }));
     }
   };
