@@ -1,7 +1,9 @@
 import classNames from 'classnames';
 import React, { useState } from 'react';
+import { URL_PATTERN } from '../../api/urlPatterns';
 
 type Props = {
+  pattern?: boolean;
   name: string;
   value: string;
   label?: string;
@@ -15,6 +17,7 @@ function getRandomDigits() {
 }
 
 export const TextField: React.FC<Props> = ({
+  pattern = false,
   name,
   value,
   label = name,
@@ -25,6 +28,8 @@ export const TextField: React.FC<Props> = ({
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
   const [touched, setTouched] = useState(false);
   const hasError = touched && required && !value;
+  const checkPattern =
+    pattern && !URL_PATTERN.test(value) && !hasError && !!value;
 
   const handlerBlur = () => {
     setTouched(!value);
@@ -53,6 +58,9 @@ export const TextField: React.FC<Props> = ({
       </div>
 
       {hasError && <p className="help is-danger">{`${label} is required`}</p>}
+      {checkPattern && (
+        <p className="help is-danger">{`${label} is not valid`}</p>
+      )}
     </div>
   );
 };

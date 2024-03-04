@@ -26,18 +26,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setMovie(prevInputs => ({ ...prevInputs, [name]: value }));
   };
 
-  const handlerInputChangeForUrl = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-
-    if (value.match(URL_PATTERN)) {
-      setMovie(prevInputs => ({ ...prevInputs, [name]: value }));
-    }
-  };
-
   const isValidForm =
     !movie.title.trim() ||
-    !movie.imgUrl.trim() ||
-    !movie.imdbUrl.trim() ||
+    !URL_PATTERN.test(movie.imgUrl.trim()) ||
+    !URL_PATTERN.test(movie.imdbUrl.trim()) ||
     !movie.imdbId.trim();
 
   const reset = () => {
@@ -77,18 +69,20 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       />
 
       <TextField
+        pattern
         name="imgUrl"
         label="Image URL"
         value={movie.imgUrl}
-        onChange={handlerInputChangeForUrl}
+        onChange={handlerInputChange}
         required
       />
 
       <TextField
+        pattern
         name="imdbUrl"
         label="Imdb URL"
         value={movie.imdbUrl}
-        onChange={handlerInputChangeForUrl}
+        onChange={handlerInputChange}
         required
       />
 
