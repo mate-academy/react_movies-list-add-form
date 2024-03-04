@@ -15,7 +15,7 @@ const initialMovieState = {
 };
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
-  const [count] = useState(0);
+  const [count, setCount] = useState(0);
   const [movie, setMovie] = useState(initialMovieState);
 
   const handlerInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -42,6 +42,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     }
 
     onAdd(movie);
+    setCount((prevCount: number) => prevCount + 1);
 
     reset();
   };
