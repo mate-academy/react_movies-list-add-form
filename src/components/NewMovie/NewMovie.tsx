@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
+const pattern =
+  // eslint-disable-next-line max-len
+  /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
 
 type Props = {
   onAdd: (movie: Movie) => void;
@@ -22,6 +25,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     const { name, value } = e.target;
 
     setMovie(prevInputs => ({ ...prevInputs, [name]: value }));
+  };
+
+  const handlerInputChangeForUrl = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+
+    if (value.match(pattern) != null) {
+      setMovie(prevInputs => ({ ...prevInputs, [name]: value }));
+    }
   };
 
   const isValidForm =
@@ -70,7 +81,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imgUrl"
         label="Image URL"
         value={movie.imgUrl}
-        onChange={handlerInputChange}
+        onChange={handlerInputChangeForUrl}
         required
       />
 
@@ -78,7 +89,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={movie.imdbUrl}
-        onChange={handlerInputChange}
+        onChange={handlerInputChangeForUrl}
         required
       />
 
