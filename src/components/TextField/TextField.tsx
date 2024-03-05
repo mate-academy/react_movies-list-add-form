@@ -1,5 +1,5 @@
-import classNames from 'classnames';
 import React, { useState } from 'react';
+import classNames from 'classnames';
 
 type Props = {
   name: string;
@@ -7,8 +7,7 @@ type Props = {
   label?: string;
   placeholder?: string;
   required?: boolean;
-  onChange?: (newValue: string) => void;
-  pattern?: RegExp;
+  onChange?: (newValue: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
 function getRandomDigits() {
@@ -23,21 +22,13 @@ export const TextField: React.FC<Props> = ({
   required = false,
   // eslint-disable-next-line prettier/prettier
   onChange = () => { },
-  pattern,
 }) => {
+  // generage a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
-  const [patternError, setPatternError] = useState(false);
+
+  // To show errors only if the field was touched (onBlur)
   const [touched, setTouched] = useState(false);
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPatternError(() => {
-      return !pattern?.test(event.target.value.trim());
-    });
-
-    onChange(event.target.value);
-  };
-
   const hasError = touched && required && !value;
-  const hasValidError = !hasError && patternError && pattern && touched;
 
   return (
     <div className="field">
@@ -47,6 +38,7 @@ export const TextField: React.FC<Props> = ({
 
       <div className="control">
         <input
+          name={name}
           type="text"
           id={id}
           data-cy={`movie-${name}`}
@@ -55,14 +47,10 @@ export const TextField: React.FC<Props> = ({
           })}
           placeholder={placeholder}
           value={value}
-          onChange={handleChange}
+          onChange={onChange}
           onBlur={() => setTouched(true)}
         />
       </div>
-
-      {hasValidError && (
-        <p className="help is-danger">{`${label} is required`}</p>
-      )}
 
       {hasError && <p className="help is-danger">{`${label} is required`}</p>}
     </div>
