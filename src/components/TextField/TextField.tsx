@@ -1,3 +1,4 @@
+/* eslint-disable operator-linebreak */
 import React, { useState } from 'react';
 import classNames from 'classnames';
 
@@ -7,6 +8,7 @@ type Props = {
   label?: string;
   placeholder?: string;
   required?: boolean;
+  urlValidation?: boolean;
   onChange?: (newValue: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
@@ -19,6 +21,7 @@ export const TextField: React.FC<Props> = ({
   value,
   label = name,
   placeholder = `Enter ${label}`,
+  urlValidation,
   required = false,
   // eslint-disable-next-line prettier/prettier
   onChange = () => { },
@@ -29,6 +32,16 @@ export const TextField: React.FC<Props> = ({
   // To show errors only if the field was touched (onBlur)
   const [touched, setTouched] = useState(false);
   const hasError = touched && required && !value;
+
+  const isValidImgUrl =
+    (name === 'imgUrl' || name === 'imdbUrl') &&
+    touched &&
+    !urlValidation &&
+    !hasError;
+
+  const isErrorMessage = hasError || isValidImgUrl;
+  const urlErrorMessage = isValidImgUrl ? 'Incorrect Url' : '';
+  const requiredErrorMessage = hasError ? `${label} is required` : '';
 
   return (
     <div className="field">
@@ -51,8 +64,11 @@ export const TextField: React.FC<Props> = ({
           onBlur={() => setTouched(true)}
         />
       </div>
-
-      {hasError && <p className="help is-danger">{`${label} is required`}</p>}
+      {isErrorMessage && (
+        <p className="help is-danger">
+          {`${urlErrorMessage} ${requiredErrorMessage}`}
+        </p>
+      )}
     </div>
   );
 };

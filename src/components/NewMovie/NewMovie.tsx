@@ -1,14 +1,14 @@
 /* eslint-disable prettier/prettier */
 
-import { ChangeEvent, FormEvent, useState } from 'react';
+import { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
-interface Props {
+type Props = {
   onAdd: (movie: Movie) => void;
-}
+};
 
-const movieData = {
+const initialMovieState: Movie = {
   title: '',
   description: '',
   imgUrl: '',
@@ -16,32 +16,42 @@ const movieData = {
   imdbId: '',
 };
 
+/* eslint-disable max-len */
+const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
+
+
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
-  const [newMovie, setNewMovie] = useState(movieData);
+  const [movie, setMovie] = useState<Movie>(initialMovieState);
 
-  const handleMovieChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const { title, description, imgUrl, imdbUrl, imdbId } = movie;
+
+  const isValidImgUrl = pattern.test(imgUrl);
+  const isValidImdbUrll = pattern.test(imdbUrl);
+
+  const isNotReadyToSubmit
+    = !isValidImgUrl
+    || !isValidImdbUrll
+    || !title.trim()
+    || !imgUrl.trim()
+    || !imdbUrl.trim()
+    || !imdbId.trim();
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
 
-    setNewMovie({
-      ...newMovie,
+    setMovie(prevMovie => ({
+      ...prevMovie,
       [name]: value,
-    });
+    }));
   };
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: React.FormEvent): void => {
     event.preventDefault();
-    onAdd(newMovie);
-    setNewMovie(movieData);
-    setCount(count + 1);
+    setCount(prevCount => prevCount + 1);
+    onAdd(movie);
+    setMovie(initialMovieState);
   };
-
-  const isButtonDisabled
-    = !newMovie.title
-    || !newMovie.imgUrl
-    || !newMovie.imdbUrl
-    || !newMovie.imdbId;
-
 
   return (
     <form className="NewMovie" key={count} onSubmit={handleSubmit}>
@@ -50,52 +60,51 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value={newMovie.title}
-        onChange={handleMovieChange}
-
+        value={title}
+        onChange={handleInputChange}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value={newMovie.description}
-        onChange={handleMovieChange}
-
+        value={description}
+        onChange={handleInputChange}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={newMovie.imgUrl}
+        value={imgUrl}
+        onChange={handleInputChange}
+        urlValidation={isValidImgUrl}
         required
-        onChange={handleMovieChange}
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={newMovie.imdbUrl}
+        value={imdbUrl}
+        onChange={handleInputChange}
+        urlValidation={isValidImdbUrll}
         required
-        onChange={handleMovieChange}
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={newMovie.imdbId}
-        onChange={handleMovieChange}
-
+        value={imdbId}
+        onChange={handleInputChange}
         required
       />
 
       <div className="field is-grouped">
         <div className="control">
           <button
+            disabled={isNotReadyToSubmit}
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={isButtonDisabled}
           >
             Add
           </button>
