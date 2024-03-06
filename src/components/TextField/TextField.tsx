@@ -1,7 +1,8 @@
-import classNames from 'classnames';
 import React, { useState } from 'react';
+import { URL_PATTERN } from '../../api/url_patterns';
 
 type Props = {
+  pattern?: boolean;
   name: string;
   value: string;
   label?: string;
@@ -15,6 +16,7 @@ function getRandomDigits() {
 }
 
 export const TextField: React.FC<Props> = ({
+  pattern = false,
   name,
   value,
   label = name,
@@ -29,6 +31,13 @@ export const TextField: React.FC<Props> = ({
   const [touched, setTouched] = useState(false);
   const hasError = touched && required && !value;
 
+  const checkPattern =
+    pattern && !URL_PATTERN.test(value) && !hasError && !!value;
+
+  const handlerBlur = () => {
+    setTouched(!value);
+  };
+
   return (
     <div className="field">
       <label className="label" htmlFor={id}>
@@ -40,17 +49,18 @@ export const TextField: React.FC<Props> = ({
           type="text"
           id={id}
           data-cy={`movie-${name}`}
-          className={classNames('input', {
-            'is-danger': hasError,
-          })}
+          className={`input ${hasError ? 'is-danger' : ''}`}
           placeholder={placeholder}
           value={value}
           onChange={event => onChange(event.target.value)}
-          onBlur={() => setTouched(true)}
+          onBlur={handlerBlur}
         />
       </div>
 
       {hasError && <p className="help is-danger">{`${label} is required`}</p>}
+      {checkPattern && (
+        <p className="help is-danger">{`${label} is not valid`}</p>
+      )}
     </div>
   );
 };
