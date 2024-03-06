@@ -29,10 +29,12 @@ export const TextField: React.FC<Props> = ({
 
   // To show errors only if the field was touched (onBlur)
   const [touched, setTouched] = useState(false);
-  const hasError = touched && required && !value;
+  const hasError = touched && required && value.trim() === '';
+
+  const hasSpaces = value.trim() !== value;
 
   const checkPattern =
-    pattern && !URL_PATTERN.test(value) && !hasError && !!value;
+    pattern && !URL_PATTERN.test(value) && !hasError && !!value && !hasSpaces;
 
   const handlerBlur = () => {
     setTouched(!value);

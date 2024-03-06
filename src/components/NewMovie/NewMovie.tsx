@@ -21,9 +21,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const { title, description, imgUrl, imdbUrl, imdbId } = newMovie;
 
   const isValidForm =
-    newMovie.title.trim() &&
-    URL_PATTERN.test(newMovie.imgUrl.trim()) &&
-    URL_PATTERN.test(newMovie.imdbUrl.trim()) &&
+    newMovie.title.trim() ||
+    URL_PATTERN.test(newMovie.imgUrl.trim()) ||
+    URL_PATTERN.test(newMovie.imdbUrl.trim()) ||
     newMovie.imdbId.trim();
 
   let disabled = true;
@@ -78,6 +78,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Image URL"
         value={imgUrl}
         onChange={value => setNewMovie({ ...newMovie, imgUrl: value })}
+        required
         pattern
       />
 
