@@ -21,16 +21,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const { title, description, imgUrl, imdbUrl, imdbId } = newMovie;
 
   const isValidForm =
-    newMovie.title.trim() ||
-    URL_PATTERN.test(newMovie.imgUrl.trim()) ||
-    URL_PATTERN.test(newMovie.imdbUrl.trim()) ||
-    newMovie.imdbId.trim();
-
-  let disabled = true;
-
-  if (isValidForm) {
-    disabled = false;
-  }
+    !!newMovie.title.trim() &&
+    URL_PATTERN.test(newMovie.imgUrl.trim()) &&
+    URL_PATTERN.test(newMovie.imdbUrl.trim()) &&
+    !!newMovie.imdbId.trim();
 
   const reset = () => {
     setNewMovie({
@@ -105,7 +99,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={disabled}
+            disabled={!isValidForm}
           >
             Add
           </button>

@@ -31,13 +31,14 @@ export const TextField: React.FC<Props> = ({
   const [touched, setTouched] = useState(false);
   const hasError = touched && required && value.trim() === '';
 
-  const hasSpaces = value.trim() !== value;
+  // eslint-disable-next-line no-console
+  console.log(hasError, touched, required, value.trim() === '');
 
   const checkPattern =
-    pattern && !URL_PATTERN.test(value) && !hasError && !!value && !hasSpaces;
+    pattern && !URL_PATTERN.test(value) && !hasError && !!value;
 
   const handlerBlur = () => {
-    setTouched(!value);
+    setTouched(true);
   };
 
   return (
