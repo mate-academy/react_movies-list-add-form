@@ -43,9 +43,7 @@ export const NewMovie = ({ onAdd }: Props) => {
     });
   };
 
-  const isValid = (): boolean => {
-    return Object.values(validity).every(valid => valid);
-  };
+  const isValid = Object.values(validity).every(valid => valid);
 
   const resetForm = () => {
     setFormData({
@@ -69,7 +67,7 @@ export const NewMovie = ({ onAdd }: Props) => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (isValid()) {
+    if (isValid) {
       onAdd(formData);
     }
 
@@ -125,7 +123,7 @@ export const NewMovie = ({ onAdd }: Props) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!isValid()}
+            disabled={!isValid}
           >
             Add
           </button>
