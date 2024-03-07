@@ -89,7 +89,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         onChange={setImdbIdField}
         required
       />
-
       <div className="field is-grouped">
         <div className="control">
           <button
