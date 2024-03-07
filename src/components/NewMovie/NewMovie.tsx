@@ -40,9 +40,11 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
 
+    const trimmedValue = value.trim();
+
     setMovie(prevMovie => ({
       ...prevMovie,
-      [name]: value,
+      [name]: trimmedValue,
     }));
   };
 
