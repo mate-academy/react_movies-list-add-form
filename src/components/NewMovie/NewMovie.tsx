@@ -10,14 +10,21 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
-  const [initialMovie] = useState({
+  const initialMovie = {
     title: '',
     description: '',
     imgUrl: '',
     imdbUrl: '',
     imdbId: '',
-  });
-  const [movie, setMovie] = useState({ ...initialMovie });
+  };
+  const [movie, setMovie] = useState(initialMovie);
+
+  const handleChange = (name: string, value: string) => {
+    setMovie(prevState => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
 
   const increment = () => {
     setCount(prevCount => prevCount + 1);
@@ -34,15 +41,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     movie.imdbId.length === 0;
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    if (isNotValid) {
+      return;
+    }
+
     event.preventDefault();
     onAdd(movie);
     increment();
     reset();
-
-    if (isNotValid) {
-      // eslint-disable-next-line no-useless-return
-      return;
-    }
   };
 
   return (
@@ -58,12 +64,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={movie.title}
-        onChange={value =>
-          setMovie(prevState => ({
-            ...prevState,
-            title: value,
-          }))
-        }
+        onChange={handleChange}
         required
       />
 
@@ -71,24 +72,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={movie.description}
-        onChange={value =>
-          setMovie(prevState => ({
-            ...prevState,
-            description: value,
-          }))
-        }
+        onChange={handleChange}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={movie.imgUrl}
-        onChange={value =>
-          setMovie(prevState => ({
-            ...prevState,
-            imgUrl: value,
-          }))
-        }
+        onChange={handleChange}
         required
       />
 
@@ -96,12 +87,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={movie.imdbUrl}
-        onChange={value =>
-          setMovie(prevState => ({
-            ...prevState,
-            imdbUrl: value,
-          }))
-        }
+        onChange={handleChange}
         required
       />
 
@@ -109,12 +95,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={movie.imdbId}
-        onChange={value =>
-          setMovie(prevState => ({
-            ...prevState,
-            imdbId: value,
-          }))
-        }
+        onChange={handleChange}
         required
       />
 
