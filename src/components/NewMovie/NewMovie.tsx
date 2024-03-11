@@ -35,10 +35,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   };
 
   const isNotValid =
-    movie.title.trim().length === 0 ||
-    movie.imgUrl.trim().length === 0 ||
-    movie.imdbUrl.trim().length === 0 ||
-    movie.imdbId.trim().length === 0;
+    movie.title.trim() === '' ||
+    movie.imgUrl.trim() === '' ||
+    movie.imdbUrl.trim() === '' ||
+    movie.imdbId.trim() === '';
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     if (isNotValid) {
