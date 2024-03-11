@@ -6,17 +6,19 @@ type Props = {
   onAdd: (movie: Movie) => void;
 };
 
+const initialMovie = {
+  title: '',
+  description: '',
+  imgUrl: '',
+  imdbUrl: '',
+  imdbId: '',
+};
+
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
-  const initialMovie = {
-    title: '',
-    description: '',
-    imgUrl: '',
-    imdbUrl: '',
-    imdbId: '',
-  };
+
   const [movie, setMovie] = useState(initialMovie);
 
   const handleChange = (name: string, value: string) => {
