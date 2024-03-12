@@ -10,7 +10,7 @@ export const NewMovie = ({ onAdd }: Props) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
-  const [newMovie, setNewMovie] = useState({
+  const [movies, setMovies] = useState({
     title: '',
     description: '',
     imgUrl: '',
@@ -20,8 +20,8 @@ export const NewMovie = ({ onAdd }: Props) => {
 
   const handleTrim = () => {
     if (
-      Object.values(newMovie)
-        .filter(key => key !== newMovie.description)
+      Object.values(movies)
+        .filter(key => key !== movies.description)
         .some(item => item.trim() === '')
     ) {
       return true;
@@ -30,55 +30,19 @@ export const NewMovie = ({ onAdd }: Props) => {
     return false;
   };
 
-  const pattern =
-    // eslint-disable-next-line max-len
-    /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
-
-  const handleTitleChange = (newVal: string) => {
-    setNewMovie(current => ({
+  const handleChange = (key: string, newVal: string) => {
+    setMovies(current => ({
       ...current,
-      title: newVal,
-    }));
-  };
-
-  const handleDescriptionChange = (newVal: string) => {
-    setNewMovie(current => ({
-      ...current,
-      description: newVal,
-    }));
-  };
-
-  const handleImgUrlChange = (newVal: string) => {
-    if (pattern.test(newVal)) {
-      setNewMovie(current => ({
-        ...current,
-        imgUrl: newVal,
-      }));
-    }
-  };
-
-  const handleImdbUrlChange = (newVal: string) => {
-    if (pattern.test(newVal)) {
-      setNewMovie(current => ({
-        ...current,
-        imdbUrl: newVal,
-      }));
-    }
-  };
-
-  const handleImdbIdChange = (newVal: string) => {
-    setNewMovie(current => ({
-      ...current,
-      imdbId: newVal,
+      [key]: newVal,
     }));
   };
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     handleTrim();
-    onAdd(newMovie);
+    onAdd(movies);
     setCount(count + 1);
-    setNewMovie({
+    setMovies({
       title: '',
       description: '',
       imgUrl: '',
@@ -94,39 +58,39 @@ export const NewMovie = ({ onAdd }: Props) => {
       <TextField
         name="title"
         label="Title"
-        value={newMovie.title}
-        onChange={newValue => handleTitleChange(newValue)}
+        value={movies.title}
+        onChange={newValue => handleChange('title', newValue)}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value={newMovie.description}
-        onChange={newValue => handleDescriptionChange(newValue)}
+        value={movies.description}
+        onChange={newValue => handleChange('description', newValue)}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={newMovie.imgUrl}
-        onChange={newValue => handleImgUrlChange(newValue)}
+        value={movies.imgUrl}
+        onChange={newValue => handleChange('imgUrl', newValue)}
         required
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={newMovie.imdbUrl}
-        onChange={newValue => handleImdbUrlChange(newValue)}
+        value={movies.imdbUrl}
+        onChange={newValue => handleChange('imdbUrl', newValue)}
         required
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={newMovie.imdbId}
-        onChange={newValue => handleImdbIdChange(newValue)}
+        value={movies.imdbId}
+        onChange={newValue => handleChange('imdbId', newValue)}
         required
       />
 
