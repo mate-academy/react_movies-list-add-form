@@ -18,16 +18,16 @@ export const NewMovie = ({ onAdd }: Props) => {
     imdbId: '',
   });
 
-  const handleTrim = () => {
+  const handleValidateButtonDisabled = () => {
     if (
       Object.values(movies)
         .filter(key => key !== movies.description)
-        .some(item => item.trim() === '')
+        .some(item => item.trim() !== '')
     ) {
-      return true;
+      return false;
     }
 
-    return false;
+    return true;
   };
 
   const handleChange = (key: string, newVal: string) => {
@@ -39,7 +39,7 @@ export const NewMovie = ({ onAdd }: Props) => {
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    handleTrim();
+    handleValidateButtonDisabled();
     onAdd(movies);
     setCount(count + 1);
     setMovies({
@@ -100,7 +100,7 @@ export const NewMovie = ({ onAdd }: Props) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={handleTrim()}
+            disabled={handleValidateButtonDisabled()}
           >
             Add
           </button>
