@@ -10,13 +10,13 @@ export const TextField: React.FC<InputType> = ({
   placeholder = `Enter ${label}`,
   required = false,
   onChange = () => {},
-  pattern = () => {},
+  // pattern = () => {},
 }) => {
   const [touched, setTouched] = useState(false);
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
   const hasError = touched && required && !value.trim();
-  const urlError = touched && value.trim() !== '' && !pattern(value);
+  // const urlError = touched && value.trim() !== '' && !pattern(value);
 
   return (
     <div className="field">
@@ -48,7 +48,7 @@ export const TextField: React.FC<InputType> = ({
       </div>
 
       {hasError && <p className="help is-danger">{`${label} is required`}</p>}
-      {urlError && <p className="help is-danger">{`${label} isn't valid`}</p>}
+      {/* {urlError && <p className="help is-danger">{`${label} isn't valid`}</p>} */}
     </div>
   );
 };

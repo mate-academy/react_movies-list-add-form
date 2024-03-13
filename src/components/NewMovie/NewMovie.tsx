@@ -16,10 +16,18 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   });
 
   const [onDisable, setOnDisable] = useState(true);
-  const [urlCorect, setUrlCorect] = useState(false);
+  // const [urlCorect, setUrlCorect] = useState(false);
 
-  // eslint-disable-next-line
-  const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
+  // const protocol = '([A-Za-z]{3,9}:(?://)?)';
+  // const userInfo = '(?:[-;:&=+$,w]+@)?';
+  // const domain = '[A-Za-z0-9.-]+';
+  // const wwwOrEmail = '(?:www.|[-;:&=+$,w]+@)';
+  // const path = '(?:/[+~%/.w-_]*)?';
+  // const query = '(?:??(?:[-+=&;%@,.w_]*)#?(?:[,.!/\\w]*))?)';
+
+  // const pattern = new RegExp(
+  //   `^(${protocol}${userInfo}${domain}|${wwwOrEmail}${domain})${path}${query}`,
+  // );
 
   const checkDisable = (movie: Movie) => {
     const fieldHasEmpty = Object.entries(movie).some(([key, value]) => {
@@ -33,11 +41,11 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setOnDisable(fieldHasEmpty);
   };
 
-  const urlValid = (url: string): boolean => {
-    setUrlCorect(pattern.test(url));
+  // const urlValid = (url: string): boolean => {
+  //   setUrlCorect(pattern.test(url));
 
-    return !urlCorect;
-  };
+  //   return !urlCorect;
+  // };
 
   const handleChange = (field: keyof Movie, value: string) => {
     setNewMovie(prevMovie => {
@@ -67,9 +75,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (urlCorect) {
-      return;
-    }
+    // if (urlCorect) {
+    //   return;
+    // }
 
     onAdd(newMovie);
     reset();
@@ -100,7 +108,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={newMovie.imgUrl}
         onChange={value => handleChange('imgUrl', value)}
         required
-        pattern={(value: string) => urlValid(value)}
+        // pattern={(value: string) => urlValid(value)}
       />
 
       <TextField
