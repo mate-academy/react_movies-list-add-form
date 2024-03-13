@@ -34,7 +34,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     onAdd(newMovie);
     reset();
 
-    setCount(count => count + 1);
+    setCount(prevCount => prevCount + 1);
   };
 
   const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
