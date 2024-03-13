@@ -25,7 +25,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   };
 
   const isEmptyRequiredField =
-    !title.trim() || !imgUrl.trim() || !imdbUrl.trim || !imdbId;
+    !title.trim() || !imgUrl.trim() || !imdbUrl.trim() || !imdbId;
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
