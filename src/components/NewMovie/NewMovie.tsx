@@ -21,6 +21,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const reset = () => {
     setNewMovie(formFields);
   };
+
   const checkButtonOnDisabled: boolean =
     !!newMovie.title.trim() &&
     !!newMovie.imgUrl.trim() &&
@@ -31,6 +32,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     if (!checkButtonOnDisabled) {
       return;
     }
+
     onAdd(newMovie);
     reset();
 
