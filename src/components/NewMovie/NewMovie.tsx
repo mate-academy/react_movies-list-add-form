@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { TextField } from '../TextField';
-import { Movie } from '../../types/Movie';
+import React, { useState } from "react";
+import { TextField } from "../TextField";
+import { Movie } from "../../types/Movie";
 
 type Props = {
   onAdd: (movie: Movie) => void;
@@ -11,11 +11,11 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
   const formFields: Movie = {
-    title: '',
-    description: '',
-    imgUrl: '',
-    imdbUrl: '',
-    imdbId: '',
+    title: "",
+    description: "",
+    imgUrl: "",
+    imdbUrl: "",
+    imdbId: "",
   };
   const [newMovie, setNewMovie] = useState<Movie>(formFields);
   const reset = () => {
@@ -36,11 +36,11 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     onAdd(newMovie);
     reset();
 
-    setCount(prevCount => prevCount + 1);
+    setCount((prevCount) => prevCount + 1);
   };
 
   const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setNewMovie(previousFilmFields => ({
+    setNewMovie((previousFilmFields) => ({
       ...previousFilmFields,
       [event.target.name]: event.target.value,
     }));

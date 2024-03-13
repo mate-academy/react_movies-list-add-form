@@ -1,5 +1,5 @@
-import classNames from 'classnames';
-import React, { useState } from 'react';
+import classNames from "classnames";
+import React, { useState } from "react";
 
 type Props = {
   name: string;
@@ -41,8 +41,8 @@ export const TextField: React.FC<Props> = ({
           type="text"
           id={id}
           data-cy={`movie-${name}`}
-          className={classNames('input', {
-            'is-danger': hasError,
+          className={classNames("input", {
+            "is-danger": hasError,
           })}
           placeholder={placeholder}
           value={value}
