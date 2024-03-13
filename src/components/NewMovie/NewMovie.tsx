@@ -10,7 +10,7 @@ export const NewMovie = ({ onAdd }: Props) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
-  const [movies, setMovies] = useState({
+  const [newMovie, setNewMovies] = useState({
     title: '',
     description: '',
     imgUrl: '',
@@ -18,37 +18,48 @@ export const NewMovie = ({ onAdd }: Props) => {
     imdbId: '',
   });
 
-  const handleValidateButtonDisabled = () => {
-    if (
-      Object.values(movies)
-        .filter(key => key !== movies.description)
-        .some(item => item.trim() !== '')
-    ) {
+  const [required, setRequired] = useState({
+    title: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  });
+
+  const handleChange = (key: string, newVal: string) => {
+    setNewMovies(current => ({
+      ...current,
+      [key]: newVal,
+    }));
+  };
+
+  const handleValidate = () => {
+    if (Object.values(required).every(item => item.trim() !== '')) {
       return false;
     }
 
     return true;
   };
 
-  const handleChange = (key: string, newVal: string) => {
-    setMovies(current => ({
-      ...current,
-      [key]: newVal,
-    }));
-  };
-
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    handleValidateButtonDisabled();
-    onAdd(movies);
-    setCount(count + 1);
-    setMovies({
-      title: '',
-      description: '',
-      imgUrl: '',
-      imdbUrl: '',
-      imdbId: '',
-    });
+
+    if (!handleValidate()) {
+      onAdd(newMovie);
+      setCount(count + 1);
+      setRequired({
+        title: '',
+        imgUrl: '',
+        imdbUrl: '',
+        imdbId: '',
+      });
+      setNewMovies({
+        title: '',
+        description: '',
+        imgUrl: '',
+        imdbUrl: '',
+        imdbId: '',
+      });
+    }
   };
 
   return (
@@ -58,39 +69,63 @@ export const NewMovie = ({ onAdd }: Props) => {
       <TextField
         name="title"
         label="Title"
-        value={movies.title}
-        onChange={newValue => handleChange('title', newValue)}
+        value={newMovie.title}
+        onChange={newValue => {
+          handleChange('title', newValue);
+          setRequired(current => ({
+            ...current,
+            title: newValue,
+          }));
+        }}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value={movies.description}
+        value={newMovie.description}
         onChange={newValue => handleChange('description', newValue)}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={movies.imgUrl}
-        onChange={newValue => handleChange('imgUrl', newValue)}
+        value={newMovie.imgUrl}
+        onChange={newValue => {
+          handleChange('imgUrl', newValue);
+          setRequired(current => ({
+            ...current,
+            imgUrl: newValue,
+          }));
+        }}
         required
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={movies.imdbUrl}
-        onChange={newValue => handleChange('imdbUrl', newValue)}
+        value={newMovie.imdbUrl}
+        onChange={newValue => {
+          handleChange('imdbUrl', newValue);
+          setRequired(current => ({
+            ...current,
+            imdbUrl: newValue,
+          }));
+        }}
         required
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={movies.imdbId}
-        onChange={newValue => handleChange('imdbId', newValue)}
+        value={newMovie.imdbId}
+        onChange={newValue => {
+          handleChange('imdbId', newValue);
+          setRequired(current => ({
+            ...current,
+            imdbId: newValue,
+          }));
+        }}
         required
       />
 
@@ -100,7 +135,7 @@ export const NewMovie = ({ onAdd }: Props) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={handleValidateButtonDisabled()}
+            disabled={handleValidate()}
           >
             Add
           </button>
