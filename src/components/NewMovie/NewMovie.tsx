@@ -7,48 +7,43 @@ type Props = {
   onAdd: (movie: Movie) => void;
 };
 
+const initialMovieState = {
+  title: '',
+  description: '',
+  imgUrl: '',
+  imdbUrl: '',
+  imdbId: '',
+};
+
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
+  const [movie, setMovie] = useState(initialMovieState);
   const [count, setCount] = useState(0);
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
-  const [titleTouched, setTitleTouched] = useState(false);
-  const [imgUrlTouched, setImgUrlTouched] = useState(false);
-  const [imdbUrlTouched, setImdbUrlTouched] = useState(false);
-  const [imdbIdTouched, setImdbIdTouched] = useState(false);
 
   const reset = () => {
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
-    setTitleTouched(false);
-    setImgUrlTouched(false);
-    setImdbUrlTouched(false);
-    setImdbIdTouched(false);
+    setMovie(initialMovieState);
     setCount(c => c + 1);
   };
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    onAdd({
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    });
+    onAdd(movie);
 
     reset();
   };
 
   const isFormValid = () => {
-    return title.trim() && imgUrl.trim() && imdbUrl.trim() && imdbId.trim();
+    return (
+      movie.title.trim() &&
+      movie.imgUrl.trim() &&
+      movie.imdbUrl.trim() &&
+      movie.imdbId.trim()
+    );
+  };
+
+  const handleInputChange = (name: string, value: string) => {
+    setMovie(prevMovie => ({ ...prevMovie, [name]: value }));
   };
 
   return (
@@ -58,57 +53,39 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value={title}
-        onChange={(newValue: string) => {
-          setTitle(newValue);
-        }}
-        touched={titleTouched}
-        setTouched={setTitleTouched}
+        value={movie.title}
+        onChange={handleInputChange}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value={description}
-        onChange={(newValue: string) => {
-          setDescription(newValue);
-        }}
+        value={movie.description}
+        onChange={handleInputChange}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={imgUrl}
-        onChange={(newValue: string) => {
-          setImgUrl(newValue);
-        }}
-        touched={imgUrlTouched}
-        setTouched={setImgUrlTouched}
+        value={movie.imgUrl}
+        onChange={handleInputChange}
         required
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={imdbUrl}
-        onChange={(newValue: string) => {
-          setImdbUrl(newValue);
-        }}
-        touched={imdbUrlTouched}
-        setTouched={setImdbUrlTouched}
+        value={movie.imdbUrl}
+        onChange={handleInputChange}
         required
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imdbId}
-        onChange={(newValue: string) => {
-          setImdbId(newValue);
-        }}
-        touched={imdbIdTouched}
-        setTouched={setImdbIdTouched}
+        value={movie.imdbId}
+        onChange={handleInputChange}
         required
       />
 
