@@ -2,6 +2,9 @@
   "name": "react_movies-list-add-form",
   "homepage": ".",
   "version": "0.1.0",
+  "prettier": {
+    "endOfLine": "lf"
+  },
   "keywords": [],
   "author": "Mate Academy",
   "license": "GPL-3.0",
