@@ -9,17 +9,12 @@ export const App = () => {
   const [movies, setMovies] = useState(moviesFromServer);
 
   const addMovie = (movie: Movie) => {
-    const newMovie = {
-      ...movie,
-    };
-
-    setMovies(currentMovies => [...currentMovies, newMovie]);
+    setMovies(currentMovies => [...currentMovies, { ...movie }]);
   };
 
   return (
     <div className="page">
       <div className="page-content">
-        {/* <MoviesList movies={moviesFromServer} /> */}
         <MoviesList movies={movies} />
       </div>
       <div className="sidebar">
