@@ -64,7 +64,7 @@ describe('Page', () => {
       .find(`a[href="${movie.imdbUrl}"]`)
       .should('exist');
   });
-  
+
   it('should not be reloaded', () => {
     const movie = {
       title: 'The Umbrella Academy',
