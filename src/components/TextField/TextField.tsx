@@ -10,6 +10,7 @@ type Props = {
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onBlur?: () => void;
   customValidation?: (value: string) => boolean;
+  otherFieldsChanged?: boolean;
 };
 
 function getRandomDigits() {
@@ -25,6 +26,7 @@ export const TextField: React.FC<Props> = ({
   onChange = () => {},
   onBlur = () => {},
   customValidation = () => true,
+  otherFieldsChanged = false,
 }) => {
   // generage a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
@@ -66,6 +68,9 @@ export const TextField: React.FC<Props> = ({
 
       {hasError && <p className="help is-danger">{`${label} is required`}</p>}
       {!hasError && errorUrl && <p className="help is-danger">Invalid URL</p>}
+      {!hasError && name === 'title' && value === '' && otherFieldsChanged && (
+        <p className="help is-danger">Enter Title, please</p>
+      )}
     </div>
   );
 };

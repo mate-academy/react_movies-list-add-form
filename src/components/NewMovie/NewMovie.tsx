@@ -6,7 +6,7 @@ interface Props {
   onAdd: (movie: Movie) => void;
 }
 
-// функція створення нового допису
+// function to create a new post
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
   const [isFormValid, setIsFormValid] = useState(false);
@@ -17,20 +17,25 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     imdbUrl: '',
     imdbId: '',
   });
+  const pattern =
+    // eslint-disable-next-line max-len
+    /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
 
-  // функція перевірки валідності форми
+  // form validation function
   const validateForm = () => {
     const { title, imgUrl, imdbUrl, imdbId } = movie;
     const areEmptyFields =
       title.trim() !== '' &&
       imgUrl.trim() !== '' &&
       imdbUrl.trim() !== '' &&
-      imdbId.trim() !== '';
+      imdbId.trim() !== '' &&
+      pattern.test(imgUrl.trim()) === true &&
+      pattern.test(imdbUrl.trim()) === true;
 
     setIsFormValid(areEmptyFields);
   };
 
-  // функція різних полів введення
+  // function of various input fields
   const handleInputChange = (name: keyof Movie, value: string) => {
     setMovie(prevMovie => ({
       ...prevMovie,
@@ -40,16 +45,12 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     validateForm();
   };
 
-  // функція перевірки валідності url-адрес
+  // url validation function
   const handleUrlChange = (value: string) => {
-    const pattern =
-      // eslint-disable-next-line max-len
-      /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
-
-    return pattern.test(value);
+    return pattern.test(value.trim());
   };
 
-  // функція відправки форми при натисканні кнопки "Add"
+  // the function of sending the form when the "Add" button is pressed
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     onAdd(movie);
@@ -67,7 +68,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   return (
     <form className="NewMovie" key={count} onSubmit={handleSubmit}>
       <h2 className="title">Add a movie</h2>
-
       <TextField
         name="title"
         label="Title"
@@ -77,6 +77,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         }
         onBlur={validateForm}
         required
+        otherFieldsChanged={!!(movie.imgUrl || movie.imdbUrl || movie.imdbId)}
       />
 
       <TextField
