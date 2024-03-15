@@ -1,41 +1,71 @@
 import React, { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
+import { useValidator } from '../../hooks/useValidator';
 
 const FORM_DEFAULT_VALUES = {
-  TITLE: '',
-  DESCRIPTION: '',
-  IMG_URL: '',
-  IMBD_URL: '',
-  IMBD_ID: '',
+  title: '',
+  description: '',
+  imgUrl: '',
+  imdbUrl: '',
+  imdbId: '',
 };
 
 type Props = {
   onAdd(movie: Movie): void;
 };
 
+const IS_VALID_LINK =
+  // eslint-disable-next-line max-len
+  /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
+
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
   const [submitionCount, setSubmitionCount] = useState(0);
-  const [title, setTitle] = useState(FORM_DEFAULT_VALUES.TITLE);
-  const [description, setDescription] = useState(
-    FORM_DEFAULT_VALUES.DESCRIPTION,
+  const [formValues, setFormValues] = useState<Movie>(FORM_DEFAULT_VALUES);
+
+  const isTitleValid = useValidator(formValues.title, v =>
+    v.checkEdgeSpaces().checkLength(1),
   );
-  const [imgUrl, setImgUrl] = useState(FORM_DEFAULT_VALUES.IMG_URL);
-  const [imdbUrl, setImdbUrl] = useState(FORM_DEFAULT_VALUES.IMBD_URL);
-  const [imdbId, setImdbId] = useState(FORM_DEFAULT_VALUES.IMBD_ID);
-  const isButtonDisabled = !title || !imgUrl || !imdbUrl || !imdbId;
+
+  const isDescriptionValid = useValidator(formValues.description, v =>
+    v.checkEdgeSpaces(),
+  );
+
+  const isImdbIdValid = useValidator(formValues.imdbId, v =>
+    v.checkEdgeSpaces().checkLength(1),
+  );
+  const isImdbUrlValid = useValidator(formValues.imdbUrl, v =>
+    v.checkEdgeSpaces().checkLength(1).checkMatch(IS_VALID_LINK),
+  );
+
+  const isImgUrlValid = useValidator(formValues.imgUrl, v =>
+    v.checkEdgeSpaces().checkLength(1).checkMatch(IS_VALID_LINK),
+  );
+
+  const isEachFormValueValid =
+    isImgUrlValid &&
+    isImdbUrlValid &&
+    isImdbIdValid &&
+    isDescriptionValid &&
+    isTitleValid;
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    onAdd({ description, imdbId, imdbUrl, imgUrl, title });
+
+    if (!isEachFormValueValid) {
+      return;
+    }
+
+    onAdd(formValues);
     setSubmitionCount(currentSubmitionCount => currentSubmitionCount + 1);
-    setTitle(FORM_DEFAULT_VALUES.TITLE);
-    setDescription(FORM_DEFAULT_VALUES.DESCRIPTION);
-    setImgUrl(FORM_DEFAULT_VALUES.IMG_URL);
-    setImdbUrl(FORM_DEFAULT_VALUES.IMBD_URL);
-    setImdbId(FORM_DEFAULT_VALUES.IMBD_ID);
+    setFormValues(FORM_DEFAULT_VALUES);
+  };
+
+  const handleChange = (value: string, name: string) => {
+    setFormValues(currentFormValues => ({
+      ...currentFormValues,
+      [name]: value,
+    }));
   };
 
   return (
@@ -43,48 +73,49 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <h2 className="title">Add a movie</h2>
 
       <TextField
-        required
         name="title"
         label="Title"
-        value={title}
-        onChange={setTitle}
+        hasError={!isTitleValid}
+        value={formValues.title}
+        onChange={value => handleChange(value, 'title')}
       />
 
       <TextField
         name="description"
         label="Description"
-        value={description}
-        onChange={setDescription}
+        hasError={!isDescriptionValid}
+        value={formValues.description}
+        onChange={value => handleChange(value, 'description')}
       />
 
       <TextField
-        required
         name="imgUrl"
         label="Image URL"
-        value={imgUrl}
-        onChange={setImgUrl}
+        hasError={!isImgUrlValid}
+        value={formValues.imgUrl}
+        onChange={value => handleChange(value, 'imgUrl')}
       />
 
       <TextField
-        required
         name="imdbUrl"
         label="Imdb URL"
-        value={imdbUrl}
-        onChange={setImdbUrl}
+        hasError={!isImdbUrlValid}
+        value={formValues.imdbUrl}
+        onChange={value => handleChange(value, 'imdbUrl')}
       />
 
       <TextField
-        required
         name="imdbId"
         label="Imdb ID"
-        value={imdbId}
-        onChange={setImdbId}
+        hasError={!isImdbIdValid}
+        value={formValues.imdbId}
+        onChange={value => handleChange(value, 'imdbId')}
       />
 
       <div className="field is-grouped">
         <div className="control">
           <button
-            disabled={isButtonDisabled}
+            disabled={!isEachFormValueValid}
             type="submit"
             data-cy="submit-button"
             className="button is-link"
