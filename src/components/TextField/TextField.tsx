@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 type Props = {
   name: string;
@@ -7,7 +7,7 @@ type Props = {
   label?: string;
   placeholder?: string;
   required?: boolean;
-  onChange?: (newValue: string) => void;
+  onChange?: (value: string) => void; // Change the type of onChange
   isValidUrl?: (url: string) => boolean;
 };
 
@@ -24,6 +24,7 @@ const validateUrl = (url: string) => {
   return pattern.test(url);
 };
 
+// Update the TextField component
 export const TextField: React.FC<Props> = ({
   name,
   value,
@@ -37,7 +38,7 @@ export const TextField: React.FC<Props> = ({
 
   // To show errors only if the field was touched (onBlur)
   const [touched, setTouched] = useState(false);
-  const hasError = touched && required && !value;
+  const hasError = touched && required && !value.trim(); // Check for spaces
 
   const isValid =
     name === 'imgUrl' || name === `imdbUrl`
@@ -45,6 +46,12 @@ export const TextField: React.FC<Props> = ({
       : isValidUrl(value);
 
   const hasLinkError = touched && !isValid;
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value: inputValue } = event.target;
+
+    onChange(inputValue);
+  };
 
   return (
     <div className="field">
@@ -61,8 +68,8 @@ export const TextField: React.FC<Props> = ({
             'is-danger': hasError || hasLinkError,
           })}
           placeholder={placeholder}
-          defaultValue={value}
-          onChange={event => onChange(event.target.value)}
+          value={value}
+          onChange={handleChange}
           onBlur={() => setTouched(true)}
           pattern={isValid ? undefined : 'invalid'}
         />
