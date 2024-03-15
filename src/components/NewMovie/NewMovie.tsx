@@ -1,7 +1,12 @@
 import React, { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
-import { useValidator } from '../../hooks/useValidator';
+
+type Props = {
+  onAdd(movie: Movie): void;
+};
+
+type FormValuesValid = Record<keyof Movie, boolean>;
 
 const FORM_DEFAULT_VALUES = {
   title: '',
@@ -11,10 +16,6 @@ const FORM_DEFAULT_VALUES = {
   imdbId: '',
 };
 
-type Props = {
-  onAdd(movie: Movie): void;
-};
-
 const IS_VALID_LINK =
   // eslint-disable-next-line max-len
   /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
@@ -22,32 +23,31 @@ const IS_VALID_LINK =
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [submitionCount, setSubmitionCount] = useState(0);
   const [formValues, setFormValues] = useState<Movie>(FORM_DEFAULT_VALUES);
+  const [formValuesValid, setFormValuesValid] = useState<FormValuesValid>({
+    description: true,
+    imdbId: true,
+    imdbUrl: true,
+    imgUrl: true,
+    title: true,
+  });
 
-  const isTitleValid = useValidator(formValues.title, v =>
-    v.checkEdgeSpaces().checkLength(1),
+  const isEachFormValueValid = Object.values(formValuesValid).every(
+    formValueValid => formValueValid,
   );
 
-  const isDescriptionValid = useValidator(formValues.description, v =>
-    v.checkEdgeSpaces(),
-  );
+  const createSetIsValid = (name: keyof Movie) => (isValid: boolean) => {
+    setFormValuesValid(currentFormErrors => ({
+      ...currentFormErrors,
+      [name]: isValid,
+    }));
+  };
 
-  const isImdbIdValid = useValidator(formValues.imdbId, v =>
-    v.checkEdgeSpaces().checkLength(1),
-  );
-  const isImdbUrlValid = useValidator(formValues.imdbUrl, v =>
-    v.checkEdgeSpaces().checkLength(1).checkMatch(IS_VALID_LINK),
-  );
-
-  const isImgUrlValid = useValidator(formValues.imgUrl, v =>
-    v.checkEdgeSpaces().checkLength(1).checkMatch(IS_VALID_LINK),
-  );
-
-  const isEachFormValueValid =
-    isImgUrlValid &&
-    isImdbUrlValid &&
-    isImdbIdValid &&
-    isDescriptionValid &&
-    isTitleValid;
+  const createHandleChange = (name: keyof Movie) => (value: string) => {
+    setFormValues(currentFormValues => ({
+      ...currentFormValues,
+      [name]: value,
+    }));
+  };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -61,13 +61,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setFormValues(FORM_DEFAULT_VALUES);
   };
 
-  const handleChange = (value: string, name: string) => {
-    setFormValues(currentFormValues => ({
-      ...currentFormValues,
-      [name]: value,
-    }));
-  };
-
   return (
     <form onSubmit={handleSubmit} className="NewMovie" key={submitionCount}>
       <h2 className="title">Add a movie</h2>
@@ -75,41 +68,50 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        hasError={!isTitleValid}
+        setIsValid={createSetIsValid('title')}
+        validationCallback={v => v.checkEdgeSpaces().checkLength(1)}
         value={formValues.title}
-        onChange={value => handleChange(value, 'title')}
+        onChange={createHandleChange('title')}
       />
 
       <TextField
         name="description"
         label="Description"
-        hasError={!isDescriptionValid}
+        setIsValid={createSetIsValid('description')}
+        validationCallback={v => v.checkEdgeSpaces()}
         value={formValues.description}
-        onChange={value => handleChange(value, 'description')}
+        onChange={createHandleChange('description')}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        hasError={!isImgUrlValid}
+        setIsValid={createSetIsValid('imgUrl')}
+        validationCallback={v =>
+          v.checkEdgeSpaces().checkLength(1).checkMatch(IS_VALID_LINK)
+        }
         value={formValues.imgUrl}
-        onChange={value => handleChange(value, 'imgUrl')}
+        onChange={createHandleChange('imgUrl')}
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        hasError={!isImdbUrlValid}
+        setIsValid={createSetIsValid('imdbUrl')}
+        validationCallback={v =>
+          v.checkEdgeSpaces().checkLength(1).checkMatch(IS_VALID_LINK)
+        }
         value={formValues.imdbUrl}
-        onChange={value => handleChange(value, 'imdbUrl')}
+        onChange={createHandleChange('imdbUrl')}
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        hasError={!isImdbIdValid}
+        setIsValid={createSetIsValid('imdbId')}
+        validationCallback={v => v.checkEdgeSpaces().checkLength(1)}
         value={formValues.imdbId}
-        onChange={value => handleChange(value, 'imdbId')}
+        onChange={createHandleChange('imdbId')}
       />
 
       <div className="field is-grouped">
