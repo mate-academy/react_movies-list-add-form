@@ -27,7 +27,12 @@ export const TextField: React.FC<Props> = ({
 
   // To show errors only if the field was touched (onBlur)
   const [touched, setTouched] = useState(false);
-  const hasError = touched && required && !value;
+
+  const isEmptyOrSpaces = (str: string) => {
+    return str.trim() === '';
+  };
+
+  const hasError = touched && required && isEmptyOrSpaces(value);
 
   return (
     <div className="field">
@@ -50,7 +55,9 @@ export const TextField: React.FC<Props> = ({
         />
       </div>
 
-      {hasError && <p className="help is-danger">{`${label} is required`}</p>}
+      {hasError && (
+        <p className="help is-danger">{`${label} cannot be empty or contain only spaces`}</p>
+      )}
     </div>
   );
 };
