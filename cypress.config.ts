@@ -1,27 +1,26 @@
-const { defineConfig } = require('cypress')
+const { defineConfig } = require('cypress');
 
 module.exports = defineConfig({
   e2e: {
-    baseUrl: "http://localhost:3000",
-    supportFile: false,
-    specPattern: "cypress/integration/**/*.spec.{js,ts,jsx,tsx}",
+    baseUrl: 'http://localhost:3000',
+    specPattern: 'cypress/integration/**/*.spec.{js,ts,jsx,tsx}',
   },
   video: true,
   viewportHeight: 1920,
   viewportWidth: 1080,
   screenshotOnRunFailure: true,
-  reporter: "mochawesome",
+  reporter: 'mochawesome',
   reporterOptions: {
-    reportDir: "raw_reports",
+    reportDir: 'raw_reports',
     overwrite: false,
     html: false,
-    json: true
+    json: true,
   },
   component: {
-    specPattern: "src/**/*.spec.{js,ts,jsx,tsx}",
+    specPattern: 'src/**/*.spec.{js,ts,jsx,tsx}',
     devServer: {
-      framework: "create-react-app",
-      bundler: "webpack",
+      framework: 'create-react-app',
+      bundler: 'webpack',
     },
   },
-})
+});
