@@ -8,6 +8,7 @@ type Props = {
   placeholder?: string;
   required?: boolean;
   onChange?: (newValue: string) => void;
+  // Url?: string;
 };
 
 function getRandomDigits() {
@@ -29,6 +30,15 @@ export const TextField: React.FC<Props> = ({
   const [touched, setTouched] = useState(false);
   const hasError = touched && required && !value;
 
+  let isLinkURL = false;
+  const pattern =
+    // eslint-disable-next-line max-len
+    /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
+
+  if (name === 'imgUrl' || name === 'imdbUrl') {
+    isLinkURL = pattern.test(value.trim()) !== true && value.trim().length > 0;
+  }
+
   return (
     <div className="field">
       <label className="label" htmlFor={id}>
@@ -41,7 +51,7 @@ export const TextField: React.FC<Props> = ({
           id={id}
           data-cy={`movie-${name}`}
           className={classNames('input', {
-            'is-danger': hasError,
+            'is-danger': hasError || isLinkURL,
           })}
           placeholder={placeholder}
           value={value}
@@ -51,6 +61,7 @@ export const TextField: React.FC<Props> = ({
       </div>
 
       {hasError && <p className="help is-danger">{`${label} is required`}</p>}
+      {isLinkURL && <p className="help is-danger">{`It is not a link`}</p>}
     </div>
   );
 };
