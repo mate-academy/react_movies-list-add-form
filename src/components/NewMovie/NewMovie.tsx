@@ -26,6 +26,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setCount(count + 1);
   };
 
+  const pattern =
+    // eslint-disable-next-line max-len
+    /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
+
   const validateForm = () => {
     const EmptyField =
       title.trim() === '' ||
@@ -33,7 +37,11 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       imdbUrl.trim() === '' ||
       imdbId.trim() === '';
 
-    if (EmptyField) {
+    const isLink =
+      pattern.test(imgUrl.trim()) === true &&
+      pattern.test(imdbUrl.trim()) === true;
+
+    if (EmptyField || !isLink) {
       return false;
     }
 
@@ -72,39 +80,39 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
       <TextField
         name="title"
-        value={title}
         label="Title"
+        value={title}
         onChange={setTitle}
         required
       />
 
       <TextField
         name="description"
-        value={description}
         label="Description"
+        value={description}
         onChange={value => setDescription(value)}
       />
 
       <TextField
         name="imgUrl"
-        value={imgUrl}
         label="Image URL"
+        value={imgUrl}
         onChange={value => setimgUrl(value)}
         required
       />
 
       <TextField
         name="imdbUrl"
-        value={imdbUrl}
         label="Imdb URL"
+        value={imdbUrl}
         onChange={value => setImdbUrl(value)}
         required
       />
 
       <TextField
         name="imdbId"
-        value={imdbId}
         label="Imdb ID"
+        value={imdbId}
         onChange={value => setImdbId(value)}
         required
       />
