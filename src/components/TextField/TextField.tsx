@@ -35,7 +35,7 @@ export const TextField: React.FC<Props> = ({
     /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
 
   if (name === 'imgUrl' || name === 'imdbUrl') {
-    isLinkURL = !(pattern.test(value.trim()) && !value.trim().length);
+    isLinkURL = !pattern.test(value.trim()) && !!value.trim().length;
   }
 
   return (
