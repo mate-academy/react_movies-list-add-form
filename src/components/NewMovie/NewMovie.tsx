@@ -15,7 +15,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const isSubmitDisabled = !title || !imgUrl || !imdbUrl || !imdbId;
+  const isSubmitDisabled =
+    !title.trim() || !imgUrl.trim() || !imdbUrl.trim() || !imdbId.trim();
 
   const resetFieds = () => {
     setTitle('');
