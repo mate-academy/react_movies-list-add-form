@@ -1,6 +1,8 @@
 import classNames from 'classnames';
 import React, { useState } from 'react';
-import { patternRegular, patternURL } from '../../constants';
+import { patternRegular } from '../../constants';
+import { Movie } from '../../types/Movie';
+import { check } from '../../functions';
 
 type Props = {
   name: string;
@@ -8,7 +10,7 @@ type Props = {
   label?: string;
   placeholder?: string;
   required?: boolean;
-  onChange?: (newValue: string) => void;
+  setNewMovie: React.Dispatch<React.SetStateAction<Movie>>;
   pattern?: RegExp;
 };
 
@@ -22,7 +24,7 @@ export const TextField: React.FC<Props> = ({
   label = name,
   placeholder = `Enter ${label}`,
   required = false,
-  onChange = () => {},
+  setNewMovie,
   pattern = patternRegular,
 }) => {
   // generage a unique id once on component load
@@ -33,22 +35,16 @@ export const TextField: React.FC<Props> = ({
   const [errorMessage, setErrorMessage] = useState('');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (required && !value) {
-      setErrorMessage(`${label} is required`);
-    } else if (!e.target.value.match(pattern)) {
-      switch (pattern) {
-        case patternURL:
-          setErrorMessage('URL is not valid');
-          break;
+    const { name: fieldName, value: fieldValue } = e.target;
 
-        default:
-          setErrorMessage('Special characters are not allowed');
-      }
-    } else {
-      setErrorMessage('');
-    }
+    setNewMovie(oldMovie => ({
+      ...oldMovie,
+      [fieldName]: fieldValue,
+    }));
 
-    onChange(e.target.value);
+    setErrorMessage('');
+    check.inputField(fieldValue, label, required, setErrorMessage);
+    check.pattern(e, pattern, setErrorMessage);
   };
 
   const hasError = touched && errorMessage;
@@ -63,6 +59,7 @@ export const TextField: React.FC<Props> = ({
         <input
           type="text"
           id={id}
+          name={name}
           data-cy={`movie-${name}`}
           className={classNames('input', {
             'is-danger': hasError,
