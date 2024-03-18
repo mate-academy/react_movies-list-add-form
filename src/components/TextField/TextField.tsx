@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { patternRegular } from '../../constants';
 import { Movie } from '../../types/Movie';
 import { check } from '../../functions';
+import { MovieEror } from '../../types/MovieError';
 
 type Props = {
   name: string;
@@ -12,6 +13,7 @@ type Props = {
   required?: boolean;
   setNewMovie: React.Dispatch<React.SetStateAction<Movie>>;
   pattern?: RegExp;
+  setMovieError: React.Dispatch<React.SetStateAction<MovieEror>>;
 };
 
 function getRandomDigits() {
@@ -26,6 +28,7 @@ export const TextField: React.FC<Props> = ({
   required = false,
   setNewMovie,
   pattern = patternRegular,
+  setMovieError,
 }) => {
   // generage a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
@@ -37,6 +40,11 @@ export const TextField: React.FC<Props> = ({
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name: fieldName, value: fieldValue } = e.target;
 
+    setMovieError(oldMovieError => ({
+      ...oldMovieError,
+      [fieldName]: Boolean(errorMessage),
+    }));
+
     setNewMovie(oldMovie => ({
       ...oldMovie,
       [fieldName]: fieldValue,
@@ -45,6 +53,11 @@ export const TextField: React.FC<Props> = ({
     setErrorMessage('');
     check.inputField(fieldValue, label, required, setErrorMessage);
     check.pattern(e, pattern, setErrorMessage);
+
+    // setMovieError(oldMovieError => ({
+    //   ...oldMovieError,
+    //   [fieldName]: Boolean(errorMessage),
+    // }));
   };
 
   const hasError = touched && errorMessage;

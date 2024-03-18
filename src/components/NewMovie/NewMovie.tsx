@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
-import { hasInvalidField } from '../../functions';
+// import { hasInvalidField } from '../../functions';
 import { patternURL } from '../../constants';
+import { MovieEror } from '../../types/MovieError';
+import { hasInvalidField } from '../../functions';
 type Props = {
   onAdd: (movie: Movie) => void;
 };
@@ -18,6 +20,17 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     imdbUrl: '',
     imdbId: '',
   });
+  const [MovieError, setMovieError] = useState<MovieEror>({
+    title: false,
+    description: false,
+    imgUrl: false,
+    imdbUrl: false,
+    imdbId: false,
+  });
+
+  // const onError = (errorMessage: string) => {
+  //   setHasError(Boolean(errorMessage));
+  // };
 
   function reset() {
     setNewMovie({
@@ -46,6 +59,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={newMovie.title}
         setNewMovie={setNewMovie}
         required
+        setMovieError={setMovieError}
       />
 
       <TextField
@@ -53,6 +67,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Description"
         value={newMovie.description}
         setNewMovie={setNewMovie}
+        setMovieError={setMovieError}
       />
 
       <TextField
@@ -62,6 +77,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         setNewMovie={setNewMovie}
         pattern={patternURL}
         required
+        setMovieError={setMovieError}
       />
 
       <TextField
@@ -71,6 +87,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         setNewMovie={setNewMovie}
         pattern={patternURL}
         required
+        setMovieError={setMovieError}
       />
 
       <TextField
@@ -79,6 +96,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={newMovie.imdbId}
         setNewMovie={setNewMovie}
         required
+        setMovieError={setMovieError}
       />
 
       <div className="field is-grouped">
@@ -87,7 +105,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={hasInvalidField(newMovie)}
+            disabled={hasInvalidField(newMovie, MovieError)}
           >
             Add
           </button>

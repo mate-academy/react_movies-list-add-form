@@ -1,20 +1,36 @@
 import { patternRegular, patternURL } from './constants';
 import { Movie } from './types/Movie';
+import { MovieEror } from './types/MovieError';
+
 type MovieCopy = {
   [key: string]: string;
 };
 
-export const hasInvalidField = (newMovie: Movie): boolean => {
+type MovieErrorCopy = {
+  [key: string]: boolean;
+};
+
+export const hasInvalidField = (
+  newMovie: Movie,
+  movieEror: MovieEror,
+): boolean => {
   const { description, ...rest } = newMovie;
   const movie: MovieCopy = { ...rest };
+  const movieErrorCopy: MovieErrorCopy = { ...movieEror };
+  let hasAllFields = true;
+  let hasNoError = true;
 
   for (const key in movie) {
     if (movie[key] === '') {
-      return true;
+      hasAllFields = false;
+    }
+
+    if (movieErrorCopy[key]) {
+      hasNoError = false;
     }
   }
 
-  return false;
+  return !(hasAllFields && hasNoError);
 };
 
 export const check = {
