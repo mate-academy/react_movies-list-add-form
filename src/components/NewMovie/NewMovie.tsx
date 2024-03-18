@@ -6,24 +6,21 @@ type Props = {
   onAdd: (movie: Movie) => void;
 };
 
+const defaultMovie = {
+  title: '',
+  description: '',
+  imgUrl: '',
+  imdbUrl: '',
+  imdbId: '',
+};
+
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
-
-  // #region TextField's
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imgUrl, setimgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
-  // #endregion
+  const [movie, setMovie] = useState(defaultMovie);
 
   const resetForm = () => {
-    setTitle('');
-    setDescription('');
-    setimgUrl('');
-    setImdbUrl('');
-    setImdbId('');
-    setCount(count + 1);
+    setMovie(defaultMovie);
+    setCount(currentValue => currentValue + 1);
   };
 
   const pattern =
@@ -31,47 +28,35 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
 
   const validateForm = () => {
-    const EmptyField =
-      title.trim() === '' ||
-      imgUrl.trim() === '' ||
-      imdbUrl.trim() === '' ||
-      imdbId.trim() === '';
+    const isEmptyField =
+      !movie.title.trim() ||
+      !movie.imdbId.trim() ||
+      !movie.imdbUrl.trim() ||
+      !movie.imgUrl.trim();
 
     const isLink =
-      pattern.test(imgUrl.trim()) === true &&
-      pattern.test(imdbUrl.trim()) === true;
+      pattern.test(movie.imgUrl.trim()) && pattern.test(movie.imdbUrl.trim());
 
-    if (EmptyField || !isLink) {
+    if (isEmptyField || !isLink) {
       return false;
     }
 
     return true;
+  };
+
+  const handleInputChange = (name: keyof Movie, value: string) => {
+    setMovie(prevMovie => ({
+      ...prevMovie,
+      [name]: value,
+    }));
   };
 
   const handlerOnSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    onAdd({
-      title,
-      description,
-      imgUrl,
-      imdbId,
-      imdbUrl,
-    });
+    onAdd(movie);
 
     resetForm();
-  };
-
-  const getTextFields = () => {
-    if (!validateForm()) {
-      return true;
-    }
-
-    if (title && imgUrl && imdbUrl && imdbId) {
-      return false;
-    }
-
-    return true;
   };
 
   return (
@@ -81,39 +66,39 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value={title}
-        onChange={setTitle}
+        value={movie.title}
+        onChange={value => handleInputChange('title', value)}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value={description}
-        onChange={value => setDescription(value)}
+        value={movie.description}
+        onChange={value => handleInputChange('description', value)}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={imgUrl}
-        onChange={value => setimgUrl(value)}
+        value={movie.imgUrl}
+        onChange={value => handleInputChange('imgUrl', value)}
         required
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={imdbUrl}
-        onChange={value => setImdbUrl(value)}
+        value={movie.imdbUrl}
+        onChange={value => handleInputChange('imdbUrl', value)}
         required
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imdbId}
-        onChange={value => setImdbId(value)}
+        value={movie.imdbId}
+        onChange={value => handleInputChange('imdbId', value)}
         required
       />
 
@@ -123,7 +108,15 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={getTextFields()}
+            disabled={
+              !(
+                validateForm() &&
+                movie.title &&
+                movie.imgUrl &&
+                movie.imdbUrl &&
+                movie.imdbId
+              )
+            }
           >
             Add
           </button>
