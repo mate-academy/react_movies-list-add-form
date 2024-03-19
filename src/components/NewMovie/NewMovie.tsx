@@ -8,7 +8,7 @@ type Props = {
   onAdd: (movie: Movie) => void;
 };
 
-type State = {
+type MoviesState = {
   title: string;
   description: string;
   imgUrl: string;
@@ -16,52 +16,44 @@ type State = {
   imdbId: string;
 };
 
+const DEFAULT_MOVIE = {
+  title: '',
+  description: '',
+  imgUrl: '',
+  imdbUrl: '',
+  imdbId: '',
+};
+
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
-  const [state, setState] = useState<State>({
-    title: '',
-    description: '',
-    imgUrl: '',
-    imdbUrl: '',
-    imdbId: '',
-  });
+  const [moviesState, setMoviesState] = useState<MoviesState>(DEFAULT_MOVIE);
 
   const reset = () => {
-    setState({
-      title: '',
-      description: '',
-      imgUrl: '',
-      imdbUrl: '',
-      imdbId: '',
-    });
+    setMoviesState(DEFAULT_MOVIE);
   };
 
   const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
 
-    setState(prevState => ({
+    setMoviesState(prevState => ({
       ...prevState,
       [name]: value,
     }));
   };
 
-  const hasEmptyFields = Object.keys(state)
-    .map((key: string): boolean => {
-      if (key === 'description') {
-        return false;
-      }
+  const hasEmptyFields = Object.keys(moviesState)
+    .filter(key => key !== 'description')
+    .some(key => {
+      const value = moviesState[key as keyof MoviesState];
 
-      const value = state[key as keyof State];
-
-      return value === '' || (typeof value === 'string' && value.trim() === '');
-    })
-    .every(key => key === false);
+      return !value?.trim();
+    });
 
   const onSubmit = (e: React.FormEvent) => {
     setCount(oldCount => oldCount + 1);
     e.preventDefault();
     reset();
-    onAdd(state);
+    onAdd(moviesState);
   };
 
   return (
@@ -71,7 +63,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value={state.title}
+        value={moviesState.title}
         onChange={handleOnChange}
         required
       />
@@ -79,14 +71,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="description"
         label="Description"
-        value={state.description}
+        value={moviesState.description}
         onChange={handleOnChange}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={state.imgUrl}
+        value={moviesState.imgUrl}
         onChange={handleOnChange}
         required
       />
@@ -94,7 +86,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={state.imdbUrl}
+        value={moviesState.imdbUrl}
         onChange={handleOnChange}
         required
       />
@@ -102,7 +94,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={state.imdbId}
+        value={moviesState.imdbId}
         onChange={handleOnChange}
         required
       />
@@ -113,7 +105,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!hasEmptyFields}
+            disabled={hasEmptyFields}
           >
             Add
           </button>
