@@ -3,8 +3,8 @@ import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 // import { hasInvalidField } from '../../functions';
 import { patternURL } from '../../constants';
-import { MovieEror } from '../../types/MovieError';
 import { hasInvalidField } from '../../functions';
+import { MovieEror } from '../../types/MovieError';
 type Props = {
   onAdd: (movie: Movie) => void;
 };
@@ -20,17 +20,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     imdbUrl: '',
     imdbId: '',
   });
-  const [MovieError, setMovieError] = useState<MovieEror>({
-    title: false,
-    description: false,
-    imgUrl: false,
-    imdbUrl: false,
-    imdbId: false,
-  });
-
-  // const onError = (errorMessage: string) => {
-  //   setHasError(Boolean(errorMessage));
-  // };
+  const [MovieError, setMovieError] = useState<MovieEror>({});
 
   function reset() {
     setNewMovie({

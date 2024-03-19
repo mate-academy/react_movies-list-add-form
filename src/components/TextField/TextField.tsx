@@ -40,24 +40,21 @@ export const TextField: React.FC<Props> = ({
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name: fieldName, value: fieldValue } = e.target;
 
-    setMovieError(oldMovieError => ({
-      ...oldMovieError,
-      [fieldName]: Boolean(errorMessage),
-    }));
-
     setNewMovie(oldMovie => ({
       ...oldMovie,
       [fieldName]: fieldValue,
     }));
 
     setErrorMessage('');
-    check.inputField(fieldValue, label, required, setErrorMessage);
-    check.pattern(e, pattern, setErrorMessage);
-
-    // setMovieError(oldMovieError => ({
-    //   ...oldMovieError,
-    //   [fieldName]: Boolean(errorMessage),
-    // }));
+    check.inputField(
+      fieldValue,
+      name,
+      label,
+      required,
+      setErrorMessage,
+      setMovieError,
+    );
+    check.pattern(e, name, pattern, setErrorMessage, setMovieError);
   };
 
   const hasError = touched && errorMessage;
