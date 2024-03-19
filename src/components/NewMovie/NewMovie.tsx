@@ -13,9 +13,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const isAddButtonDisabled = Boolean(
-    !title.trim() || !imgUrl.trim() || !imdbUrl.trim() || !imdbId.trim(),
-  );
+  const isAddButtonDisabled =
+    !title.trim() || !imgUrl.trim() || !imdbUrl.trim() || !imdbId.trim();
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
