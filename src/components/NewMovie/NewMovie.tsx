@@ -17,16 +17,21 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const addBtnDisability = !(title && imgUrl && imdbUrl && imdbId);
+  const addBtnDisability = !(
+    title.trim() &&
+    imgUrl.trim() &&
+    imdbUrl.trim() &&
+    imdbId.trim()
+  );
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     onAdd({
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
+      title: title.trim(),
+      description: description.trim(),
+      imgUrl: imgUrl.trim(),
+      imdbUrl: imdbUrl.trim(),
+      imdbId: imdbId.trim(),
     });
     setTitle('');
     setDescription('');
