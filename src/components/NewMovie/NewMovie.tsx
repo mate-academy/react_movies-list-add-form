@@ -21,6 +21,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     imdbId: false,
   });
 
+  const isFormInvalid = !title || !imgUrl || !imdbUrl || !imdbId;
+
   const reset = () => {
     setTitle('');
     setDescription('');
@@ -38,7 +40,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (!title || !imgUrl || !imdbUrl || !imdbId) {
+    if (isFormInvalid) {
       setErrors({
         title: !title,
         imgUrl: !imgUrl,
@@ -78,9 +80,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={title}
         onChange={setTitle}
         onBlur={() => setErrors({ ...errors, title: true })}
-        isErrorMessage={errors.title}
         required
-        requiredErrorMessage="Title is required"
       />
 
       <TextField
@@ -96,9 +96,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={imgUrl}
         onChange={setImgUrl}
         onBlur={() => setErrors({ ...errors, imgUrl: true })}
-        isErrorMessage={errors.imgUrl}
         required
-        requiredErrorMessage="Image URL is required"
       />
 
       <TextField
@@ -107,9 +105,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={imdbUrl}
         onChange={setImdbUrl}
         onBlur={() => setErrors({ ...errors, imdbUrl: true })}
-        isErrorMessage={errors.imdbUrl}
         required
-        requiredErrorMessage="Imdb URL is required"
       />
 
       <TextField
@@ -118,9 +114,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={imdbId}
         onChange={setImdbId}
         onBlur={() => setErrors({ ...errors, imdbId: true })}
-        isErrorMessage={errors.imdbId}
         required
-        requiredErrorMessage="Imdb ID is required"
       />
 
       <div className="field is-grouped">
@@ -129,7 +123,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!isBodyShown}
+            disabled={!isBodyShown || isFormInvalid}
             onSubmit={() => {
               setCount(count + 1);
             }}
