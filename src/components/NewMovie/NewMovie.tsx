@@ -15,7 +15,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbId, setImdbId] = useState('');
 
   const isEnteredValue =
-    title !== '' && imgUrl !== '' && imdbUrl !== '' && imdbId !== '';
+    title.trim() !== '' &&
+    imgUrl.trim() !== '' &&
+    imdbUrl.trim() !== '' &&
+    imdbId.trim() !== '';
 
   const reset = () => {
     setTitle('');
