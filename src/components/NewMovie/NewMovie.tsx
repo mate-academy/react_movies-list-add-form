@@ -14,6 +14,10 @@ const defaultMovie = {
   imdbId: '',
 };
 
+const URL_VALIDATION_REGEX =
+  // eslint-disable-next-line max-len
+  /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
+
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
   const [movie, setMovie] = useState(defaultMovie);
@@ -23,9 +27,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setCount(currentValue => currentValue + 1);
   };
 
-  const pattern =
-    // eslint-disable-next-line max-len
-    /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
+  const isValidLinks =
+    URL_VALIDATION_REGEX.test(movie.imgUrl.trim()) &&
+    URL_VALIDATION_REGEX.test(movie.imdbUrl.trim());
 
   const validateForm = () => {
     const isEmptyField =
@@ -34,14 +38,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       !movie.imdbUrl.trim() ||
       !movie.imgUrl.trim();
 
-    const isLink =
-      pattern.test(movie.imgUrl.trim()) && pattern.test(movie.imdbUrl.trim());
-
-    if (isEmptyField || !isLink) {
-      return false;
-    }
-
-    return true;
+    return !isEmptyField && isValidLinks;
   };
 
   const handleInputChange = (name: keyof Movie, value: string) => {
@@ -84,6 +81,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={movie.imgUrl}
         onChange={value => handleInputChange('imgUrl', value)}
         required
+        isValidLink={isValidLinks}
       />
 
       <TextField
@@ -108,15 +106,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={
-              !(
-                validateForm() &&
-                movie.title &&
-                movie.imgUrl &&
-                movie.imdbUrl &&
-                movie.imdbId
-              )
-            }
+            disabled={!validateForm()}
           >
             Add
           </button>
