@@ -1,5 +1,9 @@
 import classNames from 'classnames';
 import React, { useState } from 'react';
+import { patternRegular } from '../../constants';
+import { Movie } from '../../types/Movie';
+import { check } from '../../functions';
+import { MovieEror } from '../../types/MovieError';
 
 type Props = {
   name: string;
@@ -7,7 +11,9 @@ type Props = {
   label?: string;
   placeholder?: string;
   required?: boolean;
-  onChange?: (newValue: string) => void;
+  pattern?: RegExp;
+  setNewMovie: React.Dispatch<React.SetStateAction<Movie>>;
+  setMovieError: React.Dispatch<React.SetStateAction<MovieEror>>;
 };
 
 function getRandomDigits() {
@@ -20,14 +26,38 @@ export const TextField: React.FC<Props> = ({
   label = name,
   placeholder = `Enter ${label}`,
   required = false,
-  onChange = () => {},
+  setNewMovie,
+  pattern = patternRegular,
+  setMovieError,
 }) => {
   // generage a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
   // To show errors only if the field was touched (onBlur)
   const [touched, setTouched] = useState(false);
-  const hasError = touched && required && !value;
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name: fieldName, value: fieldValue } = e.target;
+
+    setNewMovie(oldMovie => ({
+      ...oldMovie,
+      [fieldName]: fieldValue,
+    }));
+
+    setErrorMessage('');
+    check.inputField(
+      fieldValue,
+      name,
+      label,
+      required,
+      setErrorMessage,
+      setMovieError,
+    );
+    check.pattern(e, name, pattern, setErrorMessage, setMovieError);
+  };
+
+  const hasError = touched && errorMessage;
 
   return (
     <div className="field">
@@ -39,18 +69,18 @@ export const TextField: React.FC<Props> = ({
         <input
           type="text"
           id={id}
+          name={name}
           data-cy={`movie-${name}`}
           className={classNames('input', {
             'is-danger': hasError,
           })}
           placeholder={placeholder}
           value={value}
-          onChange={event => onChange(event.target.value)}
+          onChange={handleChange}
           onBlur={() => setTouched(true)}
         />
       </div>
-
-      {hasError && <p className="help is-danger">{`${label} is required`}</p>}
+      {hasError && <p className="help is-danger">{errorMessage}</p>}
     </div>
   );
 };
