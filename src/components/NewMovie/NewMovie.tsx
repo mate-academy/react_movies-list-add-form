@@ -9,38 +9,45 @@ type Props = {
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
   const [count, setCount] = useState(0);
+  const [newMovie, setNewMovie] = useState({
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  });
 
   const isEmptyField =
-    !title.trim() || !imgUrl.trim() || !imdbUrl.trim() || !imdbId.trim();
+    !newMovie.title.trim() ||
+    !newMovie.imgUrl.trim() ||
+    !newMovie.imdbUrl.trim() ||
+    !newMovie.imdbId.trim();
 
   const reset = () => {
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
+    setNewMovie({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
   };
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    onAdd({
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    });
+    onAdd(newMovie);
 
     setCount(currentCount => currentCount + 1);
 
     reset();
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+
+    setNewMovie(prevMovie => ({ ...prevMovie, [name]: value }));
   };
 
   return (
@@ -50,39 +57,39 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value={title}
-        onChange={event => setTitle(event.target.value)}
+        value={newMovie.title}
+        onChange={handleChange}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value={description}
-        onChange={event => setDescription(event.target.value)}
+        value={newMovie.description}
+        onChange={handleChange}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={imgUrl}
-        onChange={event => setImgUrl(event.target.value)}
+        value={newMovie.imgUrl}
+        onChange={handleChange}
         required
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={imdbUrl}
-        onChange={event => setImdbUrl(event.target.value)}
+        value={newMovie.imdbUrl}
+        onChange={handleChange}
         required
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imdbId}
-        onChange={event => setImdbId(event.target.value)}
+        value={newMovie.imdbId}
+        onChange={handleChange}
         required
       />
 
