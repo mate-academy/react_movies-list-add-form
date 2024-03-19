@@ -6,7 +6,7 @@ type Props = {
   onAdd: (movie: Movie) => void;
 };
 
-export const NewMovie: React.FC<Props> = ({ onAdd: onSubmit }) => {
+export const NewMovie = ({ onAdd }: Props) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
@@ -37,15 +37,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd: onSubmit }) => {
   const handleImdbId = (event: React.ChangeEvent<HTMLInputElement>) => {
     setImdbId(event.target.value);
   };
-
-  const handleDisabledButton = () => {
-    if (!title || !imgUrl || !imdbUrl || !imdbId) {
-      return true;
-    } else {
-      return false;
-    }
-  };
   // #endregion
+
+  const isDisabled =
+    !title.trim() || !imgUrl.trim() || !imdbUrl.trim() || !imdbId.trim();
 
   const reset = () => {
     setTitle('');
@@ -58,15 +53,16 @@ export const NewMovie: React.FC<Props> = ({ onAdd: onSubmit }) => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    onSubmit({
+    onAdd({
       title,
+      description,
       imgUrl,
       imdbUrl,
       imdbId,
     });
 
-    setCount(value => value + 1);
     reset();
+    setCount(value => value + 1);
   };
 
   return (
@@ -121,7 +117,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd: onSubmit }) => {
       <div className="field is-grouped">
         <div className="control">
           <button
-            disabled={handleDisabledButton()}
+            disabled={isDisabled}
             type="submit"
             data-cy="submit-button"
             className="button is-link"
