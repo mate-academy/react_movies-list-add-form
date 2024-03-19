@@ -24,12 +24,6 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
     imdbId: imdbId.trim(),
   };
 
-  // const urlPattern =
-  //   /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
-  // const isValid = (value: string) => {
-  //   return urlPattern.test(value);
-  // };
-
   const checkEnteredValue = () => {
     return Boolean(data.title && data.imdbId && data.imdbUrl && data.imgUrl);
   };
