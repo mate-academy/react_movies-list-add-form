@@ -27,18 +27,22 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setCount(currentValue => currentValue + 1);
   };
 
-  const isValidLinks =
-    URL_VALIDATION_REGEX.test(movie.imgUrl.trim()) &&
-    URL_VALIDATION_REGEX.test(movie.imdbUrl.trim());
+  const isEmptyField =
+    !movie.title.trim() ||
+    !movie.imdbId.trim() ||
+    !movie.imdbUrl.trim() ||
+    !movie.imgUrl.trim();
+
+  const isValidLinksImdbUrl =
+    !URL_VALIDATION_REGEX.test(movie.imdbUrl.trim()) &&
+    movie.imdbUrl.trim().length > 0;
+
+  const isValidLinksImgUrl =
+    !URL_VALIDATION_REGEX.test(movie.imgUrl.trim()) &&
+    movie.imgUrl.trim().length > 0;
 
   const validateForm = () => {
-    const isEmptyField =
-      !movie.title.trim() ||
-      !movie.imdbId.trim() ||
-      !movie.imdbUrl.trim() ||
-      !movie.imgUrl.trim();
-
-    return !isEmptyField && isValidLinks;
+    return !isEmptyField && !isValidLinksImdbUrl && !isValidLinksImgUrl;
   };
 
   const handleInputChange = (name: keyof Movie, value: string) => {
@@ -81,7 +85,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={movie.imgUrl}
         onChange={value => handleInputChange('imgUrl', value)}
         required
-        isValidLink={isValidLinks}
+        isValidLink={isValidLinksImgUrl}
       />
 
       <TextField
@@ -90,6 +94,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={movie.imdbUrl}
         onChange={value => handleInputChange('imdbUrl', value)}
         required
+        isValidLink={isValidLinksImdbUrl}
       />
 
       <TextField
