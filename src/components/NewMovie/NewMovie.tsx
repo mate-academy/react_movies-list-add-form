@@ -9,23 +9,19 @@ type NewMovieProps = {
 export const NewMovie = ({ onAdd }: NewMovieProps) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
-  const [count, setCount] = useState(0);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [imgUrl, setImgUrl] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
+  const [count, setCount] = useState(0);
 
-  const [isFormValid, setIsFormValid] = useState(false);
-
-  const handleFormValidity = () => {
-    setIsFormValid(
-      title.trim() !== '' &&
-        imgUrl.trim() !== '' &&
-        imdbUrl.trim() !== '' &&
-        imdbId.trim() !== '',
-    );
-  };
+  const isFormValid = Boolean(
+    title.trim() !== '' &&
+      imgUrl.trim() !== '' &&
+      imdbUrl.trim() !== '' &&
+      imdbId.trim() !== '',
+  );
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -38,27 +34,23 @@ export const NewMovie = ({ onAdd }: NewMovieProps) => {
     };
 
     onAdd(newMovie);
-    setCount(count + 1);
+    setCount(current => current + 1);
     setTitle('');
     setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
     setImdbId('');
-    setIsFormValid(false);
+    setImdbUrl('');
+    setImgUrl('');
   };
 
   return (
-    <form className="NewMovie" key={count}>
+    <form className="NewMovie" key={count} onSubmit={handleSubmit}>
       <h2 className="title">Add a movie</h2>
 
       <TextField
         name="title"
         label="Title"
         value={title}
-        onChange={(newValue: string) => {
-          setTitle(newValue);
-          handleFormValidity();
-        }}
+        onChange={setTitle}
         required
       />
 
@@ -66,20 +58,14 @@ export const NewMovie = ({ onAdd }: NewMovieProps) => {
         name="description"
         label="Description"
         value={description}
-        onChange={(newValue: string) => {
-          setDescription(newValue);
-          handleFormValidity();
-        }}
+        onChange={setDescription}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={(newValue: string) => {
-          setImgUrl(newValue);
-          handleFormValidity();
-        }}
+        onChange={setImgUrl}
         required
       />
 
@@ -87,10 +73,7 @@ export const NewMovie = ({ onAdd }: NewMovieProps) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={(newValue: string) => {
-          setImdbUrl(newValue);
-          handleFormValidity();
-        }}
+        onChange={setImdbUrl}
         required
       />
 
@@ -98,10 +81,7 @@ export const NewMovie = ({ onAdd }: NewMovieProps) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={(newValue: string) => {
-          setImdbId(newValue);
-          handleFormValidity();
-        }}
+        onChange={setImdbId}
         required
       />
 
@@ -112,7 +92,6 @@ export const NewMovie = ({ onAdd }: NewMovieProps) => {
             data-cy="submit-button"
             className="button is-link"
             disabled={!isFormValid}
-            onClick={handleSubmit}
           >
             Add
           </button>
