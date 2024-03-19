@@ -11,8 +11,8 @@ type Props = {
   label?: string;
   placeholder?: string;
   required?: boolean;
-  setNewMovie: React.Dispatch<React.SetStateAction<Movie>>;
   pattern?: RegExp;
+  setNewMovie: React.Dispatch<React.SetStateAction<Movie>>;
   setMovieError: React.Dispatch<React.SetStateAction<MovieEror>>;
 };
 
