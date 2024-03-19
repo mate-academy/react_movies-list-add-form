@@ -1,13 +1,6 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { TextField } from '../TextField';
-
-type Movie = {
-  title: string;
-  description: string;
-  imgUrl: string;
-  imdbUrl: string;
-  imdbId: string;
-};
+import { Movie } from '../../types/Movie';
 
 type Props = {
   onAdd: (movie: Movie) => void;
@@ -19,15 +12,15 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imgUrl, setImgUrl] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
-
-  const [isBodyShown, setIsBodyShown] = useState(false);
-
   const [count, setCount] = useState(0);
 
-  const [hasTitleError, setHasTitleError] = useState(false);
-  const [hasImgUrlError, setHasImgUrlError] = useState(false);
-  const [hasImdbUrlError, setHasImdbUrlError] = useState(false);
-  const [hasImdbIdError, setHasImdbIdError] = useState(false);
+  // Track field errors after blur
+  const [errors, setErrors] = useState({
+    title: false,
+    imgUrl: false,
+    imdbUrl: false,
+    imdbId: false,
+  });
 
   const reset = () => {
     setTitle('');
@@ -35,22 +28,25 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setImgUrl('');
     setImdbUrl('');
     setImdbId('');
-
-    setHasTitleError(false);
-    setHasImgUrlError(false);
-    setHasImdbUrlError(false);
-    setHasImdbIdError(false);
+    setErrors({
+      title: false,
+      imgUrl: false,
+      imdbUrl: false,
+      imdbId: false,
+    });
   };
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    setHasTitleError(!title);
-    setHasImgUrlError(!imgUrl);
-    setHasImdbUrlError(!imdbUrl);
-    setHasImdbIdError(!imdbId);
-
     if (!title || !imgUrl || !imdbUrl || !imdbId) {
+      setErrors({
+        title: !title,
+        imgUrl: !imgUrl,
+        imdbUrl: !imdbUrl,
+        imdbId: !imdbId,
+      });
+
       return;
     }
 
@@ -64,6 +60,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
     reset();
   };
+
+  const isBodyShown = !!title && !!imgUrl && !!imdbUrl && !!imdbId;
 
   return (
     <form
@@ -79,36 +77,28 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={title}
-        onChange={value => {
-          setTitle(value);
-          setIsBodyShown(true);
-        }}
-        onBlur={() => setHasTitleError(!title)}
-        isErrorMessage={hasTitleError}
-        requiredErrorMessage="Title is required"
+        onChange={setTitle}
+        onBlur={() => setErrors({ ...errors, title: true })}
+        isErrorMessage={errors.title}
         required
+        requiredErrorMessage="Title is required"
       />
 
       <TextField
         name="description"
         label="Description"
         value={description}
-        onChange={value => {
-          setDescription(value);
-          setIsBodyShown(true);
-        }}
+        onChange={setDescription}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={value => {
-          setImgUrl(value);
-          setIsBodyShown(true);
-        }}
-        onBlur={() => setHasImgUrlError(!imgUrl)}
-        isErrorMessage={hasImgUrlError}
+        onChange={setImgUrl}
+        onBlur={() => setErrors({ ...errors, imgUrl: true })}
+        isErrorMessage={errors.imgUrl}
+        required
         requiredErrorMessage="Image URL is required"
       />
 
@@ -116,12 +106,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={value => {
-          setImdbUrl(value);
-          setIsBodyShown(true);
-        }}
-        onBlur={() => setHasImdbUrlError(!imdbUrl)}
-        isErrorMessage={hasImdbUrlError}
+        onChange={setImdbUrl}
+        onBlur={() => setErrors({ ...errors, imdbUrl: true })}
+        isErrorMessage={errors.imdbUrl}
+        required
         requiredErrorMessage="Imdb URL is required"
       />
 
@@ -129,12 +117,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={value => {
-          setImdbId(value);
-          setIsBodyShown(true);
-        }}
-        onBlur={() => setHasImdbIdError(!imdbId)}
-        isErrorMessage={hasImdbIdError}
+        onChange={setImdbId}
+        onBlur={() => setErrors({ ...errors, imdbId: true })}
+        isErrorMessage={errors.imdbId}
+        required
         requiredErrorMessage="Imdb ID is required"
       />
 
@@ -147,7 +133,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             disabled={!isBodyShown}
             onSubmit={() => {
               setCount(count + 1);
-              setIsBodyShown(false);
             }}
           >
             Add
