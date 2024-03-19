@@ -29,10 +29,8 @@ export const TextField: React.FC<Props> = ({
   requiredErrorMessage = `${label} is required`,
   inputProps = {},
 }) => {
-  // generage a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
-  // To show errors only if the field was touched (onBlur)
   const [touched, setTouched] = useState(false);
 
   return (
