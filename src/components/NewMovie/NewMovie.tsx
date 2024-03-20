@@ -24,12 +24,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setImdbUrl('');
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (!title || !imgUrl || !imdbUrl || !imdbId) {
-      return;
-    }
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
 
     onAdd({
       title,
@@ -43,6 +39,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
     setCount(currentCount => currentCount + 1);
   };
+
+  const isFiledsAreFilled = !title || !imgUrl || !imdbUrl || !imdbId;
 
   return (
     <form
@@ -98,7 +96,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!title || !imgUrl || !imdbUrl || !imdbId}
+            disabled={isFiledsAreFilled}
           >
             Add
           </button>
