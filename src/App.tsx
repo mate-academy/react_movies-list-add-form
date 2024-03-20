@@ -6,7 +6,7 @@ import { useState } from 'react';
 import { Movie } from './types/Movie';
 
 const visibleMovies: Movie[] = moviesFromServer.map(movie => ({
-  ...movie
+  ...movie,
 }));
 
 export const App = () => {
@@ -14,8 +14,8 @@ export const App = () => {
 
   const addMovie = (newMovie: Movie) => {
     setMovies(currentMovies => [...currentMovies, newMovie]);
-  }
-  
+  };
+
   return (
     <div className="page">
       <div className="page-content">
