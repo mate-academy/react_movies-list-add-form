@@ -15,7 +15,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
   const [count, setCount] = useState(0);
 
-  const sumbitDisabled =
+  const isSumbitDisabled =
     !title.trim() || !imgUrl.trim() || !imdbUrl.trim() || !imdbId.trim();
 
   const resetPost = () => {
@@ -29,7 +29,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (sumbitDisabled) {
+    if (isSumbitDisabled) {
       return;
     }
 
@@ -91,7 +91,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <div className="field is-grouped">
         <div className="control">
           <button
-            disabled={sumbitDisabled}
+            disabled={isSumbitDisabled}
             type="submit"
             data-cy="submit-button"
             className="button is-link"
