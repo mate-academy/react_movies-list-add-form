@@ -7,18 +7,14 @@ type Props = {
 };
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
-
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [imageUrl, setImageUrl] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const isRequiredFieldsFilled: boolean =
-    //!!title && !!imageUrl && !!imdbUrl && !!imdbId;
+  const isRequiredFieldsNotFilled: boolean =
     !title.trim() || !imageUrl.trim() || !imdbUrl.trim() || !imdbId.trim();
 
   function reset() {
@@ -31,10 +27,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-
-    // if (!title || !imageUrl || !imdbId || !imdbUrl) {
-    //   return;
-    // }
 
     onAdd({
       title,
@@ -49,11 +41,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   };
 
   return (
-    <form
-      className="NewMovie"
-      key={count}
-      onSubmit={event => handleSubmit(event)}
-    >
+    <form className="NewMovie" key={count} onSubmit={handleSubmit}>
       <h2 className="title">Add a movie</h2>
 
       <TextField
@@ -101,7 +89,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={isRequiredFieldsFilled}
+            disabled={isRequiredFieldsNotFilled}
           >
             Add
           </button>
