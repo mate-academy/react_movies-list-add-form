@@ -31,20 +31,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   };
 
   return (
-    <form
-      className="NewMovie"
-      onSubmit={
-        handleSubmit
-        // if (title && imdbUrl && imgUrl && imdbId) {
-        //   onAdd({ title, description, imgUrl, imdbUrl, imdbId });
-        //   setTitle('');
-        //   setImdbId('');
-        //   setImdbUrl('');
-        //   setImgUrl('');
-        //   setCount(prev => prev + 1);
-        // }
-      }
-    >
+    <form className="NewMovie" onSubmit={handleSubmit}>
       <h2 className="title">Add a movie</h2>
 
       <TextField
