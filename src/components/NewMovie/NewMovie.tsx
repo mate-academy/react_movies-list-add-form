@@ -33,7 +33,7 @@ export const NewMovie: React.FC<Props>= ({ onAdd }) => {
     })
   }
 
-  const reset = () => {
+  const resetStateToDefault = () => {
     setTitle('');
     setDescription('');
     setImgUrl('');
@@ -41,8 +41,8 @@ export const NewMovie: React.FC<Props>= ({ onAdd }) => {
     setImdbId('');
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
 
     if (!isRequiredSetFilled()) {
       return
@@ -56,9 +56,9 @@ export const NewMovie: React.FC<Props>= ({ onAdd }) => {
       imdbId,
     })
 
-    setCounter((c) => c + 1);
+    setCounter((curCount) => curCount + 1);
 
-    reset()
+    resetStateToDefault()
   }
 
   return (
@@ -69,7 +69,7 @@ export const NewMovie: React.FC<Props>= ({ onAdd }) => {
         name="title"
         label="Title"
         value={title}
-        onChange={(e) => setTitle(e)}
+        onChange={(event) => setTitle(event)}
         required={isRequiered('title')}
       />
 
@@ -77,7 +77,7 @@ export const NewMovie: React.FC<Props>= ({ onAdd }) => {
         name="description"
         label="Description"
         value={description}
-        onChange={(e) => setDescription(e)}
+        onChange={(event) => setDescription(event)}
         required={isRequiered('description')}
       />
 
@@ -85,7 +85,7 @@ export const NewMovie: React.FC<Props>= ({ onAdd }) => {
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={(e) => setImgUrl(e)}
+        onChange={(event) => setImgUrl(event)}
         required={isRequiered('imgUrl')}
       />
 
@@ -93,7 +93,7 @@ export const NewMovie: React.FC<Props>= ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={(e) => setImdbUrl(e)}
+        onChange={(event) => setImdbUrl(event)}
         required={isRequiered('imdbUrl')}
       />
 
@@ -101,7 +101,7 @@ export const NewMovie: React.FC<Props>= ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={(e) => setImdbId(e)}
+        onChange={(event) => setImdbId(event)}
         required={isRequiered('imdbId')}
       />
 
