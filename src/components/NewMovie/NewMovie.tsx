@@ -23,10 +23,6 @@ export const NewMovie: React.FC<Props>= ({ onAdd }) => {
     imdbId,
   }
 
-  const isRequiered = (field: string) => {
-    return Object.keys(requiredField).includes(field)
-  }
-
   const isRequiredSetFilled = () => {
     return !Object.values(requiredField).some(str => {
       return str.trim() === ''
@@ -70,7 +66,7 @@ export const NewMovie: React.FC<Props>= ({ onAdd }) => {
         label="Title"
         value={title}
         onChange={(event) => setTitle(event)}
-        required={isRequiered('title')}
+        required
       />
 
       <TextField
@@ -78,7 +74,6 @@ export const NewMovie: React.FC<Props>= ({ onAdd }) => {
         label="Description"
         value={description}
         onChange={(event) => setDescription(event)}
-        required={isRequiered('description')}
       />
 
       <TextField
@@ -86,7 +81,7 @@ export const NewMovie: React.FC<Props>= ({ onAdd }) => {
         label="Image URL"
         value={imgUrl}
         onChange={(event) => setImgUrl(event)}
-        required={isRequiered('imgUrl')}
+        required
       />
 
       <TextField
@@ -94,7 +89,7 @@ export const NewMovie: React.FC<Props>= ({ onAdd }) => {
         label="Imdb URL"
         value={imdbUrl}
         onChange={(event) => setImdbUrl(event)}
-        required={isRequiered('imdbUrl')}
+        required
       />
 
       <TextField
@@ -102,7 +97,7 @@ export const NewMovie: React.FC<Props>= ({ onAdd }) => {
         label="Imdb ID"
         value={imdbId}
         onChange={(event) => setImdbId(event)}
-        required={isRequiered('imdbId')}
+        required
       />
 
       <div className="field is-grouped">
