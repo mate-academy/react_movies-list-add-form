@@ -4,9 +4,9 @@ import { Movie } from '../../types/Movie';
 
 type Props = {
   onAdd: (movie: Movie) => void;
-}
+};
 
-export const NewMovie: React.FC<Props>= ({ onAdd }) => {
+export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
   const [count, setCounter] = useState(0);
@@ -21,13 +21,13 @@ export const NewMovie: React.FC<Props>= ({ onAdd }) => {
     imgUrl,
     imdbUrl,
     imdbId,
-  }
+  };
 
   const isRequiredSetFilled = () => {
     return !Object.values(requiredField).some(str => {
-      return str.trim() === ''
-    })
-  }
+      return str.trim() === '';
+    });
+  };
 
   const resetStateToDefault = () => {
     setTitle('');
@@ -35,14 +35,14 @@ export const NewMovie: React.FC<Props>= ({ onAdd }) => {
     setImgUrl('');
     setImdbUrl('');
     setImdbId('');
-  }
+  };
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
     if (!isRequiredSetFilled()) {
-      return
-    }
+      return;
+    };
 
     onAdd({
       title,
@@ -50,11 +50,11 @@ export const NewMovie: React.FC<Props>= ({ onAdd }) => {
       imgUrl,
       imdbUrl,
       imdbId,
-    })
+    });
 
-    setCounter((curCount) => curCount + 1);
+    setCounter(curCount => curCount + 1);
 
-    resetStateToDefault()
+    resetStateToDefault();
   }
 
   return (
