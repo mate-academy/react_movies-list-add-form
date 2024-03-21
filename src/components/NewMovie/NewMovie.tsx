@@ -7,8 +7,6 @@ type Props = {
 };
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
   const [count, setCounter] = useState(0);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -16,18 +14,15 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const requiredField = {
+  const requiredFields = {
     title,
     imgUrl,
     imdbUrl,
     imdbId,
   };
 
-  const isRequiredSetFilled = () => {
-    return !Object.values(requiredField).some(str => {
-      return str.trim() === '';
-    });
-  };
+  const isAnyRequiredFieldIncorrect = Object.values(requiredFields)
+    .some(str => !str.trim());
 
   const resetStateToDefault = () => {
     setTitle('');
@@ -40,7 +35,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (!isRequiredSetFilled()) {
+    if (isAnyRequiredFieldIncorrect) {
       return;
     };
 
@@ -106,7 +101,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!isRequiredSetFilled()}
+            disabled={isAnyRequiredFieldIncorrect}
           >
             Add
           </button>
