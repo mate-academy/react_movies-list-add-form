@@ -1,17 +1,12 @@
 import { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
-// import classNames from 'classnames';
 
 type Props = {
   onAdd: (movie: Movie) => void;
 };
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
-  // const [count] = useState(0);
-
   const [newMovie, setNewMovie] = useState({
     title: '',
     description: '',
@@ -30,11 +25,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   };
 
   const [count, setCount] = useState(0);
-  // const [title, setTitle] = useState('');
-  // const [description, setDescription] = useState('');
-  // const [imgUrl, setImgUrl] = useState('');
-  // const [imdbUrl, setImdbUrl] = useState('');
-  // const [imdbId, setImdbId] = useState('');
 
   const hasError =
     !newMovie.title.trim() ||
