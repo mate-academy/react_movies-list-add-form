@@ -1,16 +1,15 @@
-import classNames from 'classnames';
+import cn from 'classnames';
 import React, { useState } from 'react';
+import { Movie } from '../../types/Movie';
 
 type Props = {
   name: string;
-  value: string;
   label?: string;
   placeholder?: string;
   required?: boolean;
   change?: string;
-  // onChange?: (newValue: string) => void;
-  // isFormValid?: number;
-  setIsFormValid?: (newValue: boolean) => void;
+  formData: Movie;
+  setFormData: (newData: Movie) => void;
 };
 
 function getRandomDigits() {
@@ -19,43 +18,23 @@ function getRandomDigits() {
 
 export const TextField: React.FC<Props> = ({
   name,
-  value,
   label = name,
   placeholder = `Enter ${label}`,
   required = false,
-  // onChange = () => {},
-  // isFormValid = () => {},
-  setIsFormValid = () => {},
+  formData,
+  setFormData,
 }) => {
-  // generage a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
-
   const [touched, setTouched] = useState(false);
-  const [text, setText] = useState('');
 
-  const hasError = touched && required && !value;
-
-  // const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   const newValue = event.target.value;
-
-  //   setText(newValue);
-  //   setTouched(!!newValue.trim());
-
-  //   // Проверка на заполнение обязательных полей и обновление состояния в родительском компоненте
-  //   if (required) {
-  //     const isFilled = !!newValue.trim();
-
-  //     setIsFormValid(isFilled);
-  //   }
-  // };
+  const hasError = touched && required && !formData[name];
 
   const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setText(event.target.value);
-    setTouched(!text && false);
-
-    if (setIsFormValid && !text) {
-      setIsFormValid(true);
-    }
+    setFormData({
+      ...formData,
+      [event.target.name]: event.target.value,
+    });
+    setTouched(!formData[name] && false);
   };
 
   return (
@@ -66,18 +45,15 @@ export const TextField: React.FC<Props> = ({
 
       <div className="control">
         <input
+          name={name}
           type="text"
           id={id}
           data-cy={`movie-${name}`}
-          className={classNames('input', {
-            'is-danger': hasError,
-          })}
+          className={cn('input', { 'is-danger': hasError })}
           placeholder={placeholder}
-          value={text}
-          // onChange={handleChange}
+          value={formData[name]}
           onChange={handleOnChange}
-          onBlur={() => !text.trim() && setTouched(true)}
-          // onBlur={() => setTouched(!text)}
+          onBlur={() => setTouched(true)}
         />
       </div>
 

@@ -1,35 +1,49 @@
-import { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { TextField } from '../TextField';
+import { Movie } from '../../types/Movie';
 
-export const NewMovie = () => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
+type Props = {
+  onAdd: (newMovie: Movie) => void;
+};
 
-  const [isFormValid, setIsFormValid] = useState(false);
-
-  const [isTitleValid, setIsTitleValid] = useState(false);
-  const [isImageURLValid, setIsImageURLValid] = useState(false);
-  const [isImdbURLValid, setIsImdbURLValid] = useState(false);
-  const [isImdbIDValid, setIsImdbIDValid] = useState(false);
-
-  if (isTitleValid && isImageURLValid && isImdbURLValid && isImdbIDValid) {
-    setIsFormValid(true);
-  }
-
-  // if (isTitleValid && isImageURLValid && isImdbURLValid && isImdbIDValid) {
-  //   setIsFormValid(true);
-  // }
-
+export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
-  // const [count] = useState(0);
+  const [isFormValid, setIsFormValid] = useState(false);
+  const [formData, setFormData] = useState<Movie>({
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  });
+
+  useEffect(() => {
+    if (
+      formData.title.trim() &&
+      formData.imgUrl.trim() &&
+      formData.imdbUrl.trim() &&
+      formData.imdbId.trim()
+    ) {
+      setIsFormValid(true);
+    } else {
+      setIsFormValid(false);
+    }
+  }, [formData]);
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
+
+    onAdd(formData);
+
+    setFormData({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
+
     setCount(count + 1);
-
-    // if (!change) {
-
-    // }
   };
 
   return (
@@ -39,50 +53,40 @@ export const NewMovie = () => {
       <TextField
         name="title"
         label="Title"
-        value=""
-        // onChange={() => {}}
-        setIsFormValid={setIsTitleValid}
-        // isFormValid={isFormValid}
-        // setIsFormValid={setIsFormValid}
+        formData={formData}
+        setFormData={setFormData}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value=""
-        // setIsFormValid={setIsFormValid}
-        // setIsFormValid={setIsFormValid}
+        formData={formData}
+        setFormData={setFormData}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value=""
         required
-        // isFormValid={isFormValid}
-        setIsFormValid={setIsImageURLValid}
-        // setIsFormValid={setIsFormValid}
+        formData={formData}
+        setFormData={setFormData}
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value=""
         required
-        // isFormValid={isFormValid}
-        setIsFormValid={setIsImdbURLValid}
-        // setIsFormValid={setIsFormValid}
+        formData={formData}
+        setFormData={setFormData}
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value=""
         required
-        // isFormValid={isFormValid}
-        setIsFormValid={setIsImdbIDValid}
-        // setIsFormValid={setIsFormValid}
+        formData={formData}
+        setFormData={setFormData}
       />
 
       <div className="field is-grouped">
