@@ -20,11 +20,18 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const normalizeValue: (value: string) => string = (value: string) =>
-    value.trim();
+  const normalizeValue = (value: string) => value.trim();
 
   const validation = (value: string) => {
     return pattern?.test(value);
+  };
+
+  const reset = () => {
+    setTitle('');
+    setDescription('');
+    setImgUrl('');
+    setImdbUrl('');
+    setImdbId('');
   };
 
   const isFormFilled =
@@ -38,13 +45,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
+    reset();
 
-    setCount(count + 1);
+    setCount(prev => prev + 1);
 
     onAdd({
       title,

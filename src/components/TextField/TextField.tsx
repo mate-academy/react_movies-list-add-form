@@ -32,6 +32,16 @@ export const TextField: React.FC<Props> = ({
   const [touched, setTouched] = useState(false);
   const hasError = touched && required && !value;
 
+  const validateOnBlur = (
+    event: React.FocusEvent<HTMLInputElement, Element>,
+  ) => {
+    setTouched(true);
+
+    if (validation) {
+      setValidValue(validation(event.target.value));
+    }
+  };
+
   return (
     <div className="field">
       <label className="label" htmlFor={id}>
@@ -44,28 +54,21 @@ export const TextField: React.FC<Props> = ({
           id={id}
           data-cy={`movie-${name}`}
           className={classNames('input', {
-            'is-danger': hasError || validValue === false,
+            'is-danger': hasError || !validValue,
           })}
           placeholder={placeholder}
           value={value}
           required={required}
           onChange={event => onChange(event.target.value)}
-          onBlur={event => {
-            setTouched(true);
-
-            if (validation) {
-              setValidValue(validation(event.target.value));
-            }
-          }}
+          onBlur={event => validateOnBlur(event)}
         />
       </div>
 
-      {(hasError && (
+      {hasError ? (
         <p className="help is-danger">{`${label} is required`}</p>
-      )) ||
-        (validValue === false && (
-          <p className="help is-danger">{`${label} must be correct URL`}</p>
-        ))}
+      ) : !validValue ? (
+        <p className="help is-danger">{`${label} must be correct URL`}</p>
+      ) : null}
     </div>
   );
 };
