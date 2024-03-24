@@ -27,14 +27,7 @@ export const TextField: React.FC<Props> = ({
 
   // To show errors only if the field was touched (onBlur)
   const [touched, setTouched] = useState(false);
-  const hasError = touched && required && !value;
-  const hasSpaces = value.includes(' ');
-
-  let errorMessage = `${label} is required`;
-
-  if (hasSpaces) {
-    errorMessage = `${label} cannot have spaces`;
-  }
+  const hasError = touched && required && !value.trim();
 
   return (
     <div className="field">
@@ -49,7 +42,7 @@ export const TextField: React.FC<Props> = ({
           id={id}
           data-cy={`movie-${name}`}
           className={classNames('input', {
-            'is-danger': hasError || hasSpaces,
+            'is-danger': hasError,
           })}
           placeholder={placeholder}
           value={value}
@@ -58,9 +51,7 @@ export const TextField: React.FC<Props> = ({
         />
       </div>
 
-      {(hasError || hasSpaces) && (
-        <p className="help is-danger">{errorMessage}</p>
-      )}
+      {hasError && <p className="help is-danger">{`${label} is required`}</p>}
     </div>
   );
 };
