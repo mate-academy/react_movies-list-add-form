@@ -6,10 +6,9 @@ type Props = {
   name: string;
   label?: string;
   placeholder?: string;
-  required?: boolean;
-  change?: string;
   formData: Movie;
   setFormData: (newData: Movie) => void;
+  required?: boolean;
 };
 
 function getRandomDigits() {
@@ -20,21 +19,22 @@ export const TextField: React.FC<Props> = ({
   name,
   label = name,
   placeholder = `Enter ${label}`,
-  required = false,
   formData,
   setFormData,
+  required = false,
 }) => {
+  const currentName = formData[name as keyof Movie];
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
   const [touched, setTouched] = useState(false);
 
-  const hasError = touched && required && !formData[name];
+  const hasError = touched && required && !currentName;
 
   const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
       ...formData,
       [event.target.name]: event.target.value,
     });
-    setTouched(!formData[name] && false);
+    setTouched(!currentName && false);
   };
 
   return (
@@ -51,7 +51,7 @@ export const TextField: React.FC<Props> = ({
           data-cy={`movie-${name}`}
           className={cn('input', { 'is-danger': hasError })}
           placeholder={placeholder}
-          value={formData[name]}
+          value={currentName}
           onChange={handleOnChange}
           onBlur={() => setTouched(true)}
         />

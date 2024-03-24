@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
@@ -8,7 +8,6 @@ type Props = {
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
-  const [isFormValid, setIsFormValid] = useState(false);
   const [formData, setFormData] = useState<Movie>({
     title: '',
     description: '',
@@ -17,18 +16,11 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     imdbId: '',
   });
 
-  useEffect(() => {
-    if (
-      formData.title.trim() &&
-      formData.imgUrl.trim() &&
-      formData.imdbUrl.trim() &&
-      formData.imdbId.trim()
-    ) {
-      setIsFormValid(true);
-    } else {
-      setIsFormValid(false);
-    }
-  }, [formData]);
+  const isFormValid =
+    formData.title.trim() &&
+    formData.imgUrl.trim() &&
+    formData.imdbUrl.trim() &&
+    formData.imdbId.trim();
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -68,25 +60,25 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="imgUrl"
         label="Image URL"
-        required
         formData={formData}
         setFormData={setFormData}
+        required
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        required
         formData={formData}
         setFormData={setFormData}
+        required
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        required
         formData={formData}
         setFormData={setFormData}
+        required
       />
 
       <div className="field is-grouped">
