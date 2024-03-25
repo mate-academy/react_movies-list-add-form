@@ -19,7 +19,7 @@ export const NewMovie: React.FC<{ onAdd: (movie: Movie) => void }> = ({
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const m: Movie = {
+    const movieToTrim: Movie = {
       title: '',
       description: '',
       imgUrl: '',
@@ -28,10 +28,10 @@ export const NewMovie: React.FC<{ onAdd: (movie: Movie) => void }> = ({
     };
 
     Object.entries(newMovie).forEach(function ([k, v]) {
-      m[k as keyof Movie] = v.trim();
+      movieToTrim[k as keyof Movie] = v.trim();
     });
 
-    onAdd(m);
+    onAdd(movieToTrim);
 
     setCount(count + 1);
   };
