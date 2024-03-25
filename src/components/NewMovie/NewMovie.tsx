@@ -27,7 +27,7 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
       imdbId: newImdbId.trim(),
     });
 
-    setCount(count + 1);
+    setCount(prevCount => prevCount + 1);
 
     setNewTitle('');
     setNewDescription('');
@@ -44,8 +44,8 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={newTitle}
-        onChange={v => {
-          setNewTitle(v);
+        onChange={event => {
+          setNewTitle(event);
         }}
         required
       />
@@ -54,8 +54,8 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={newDescription}
-        onChange={v => {
-          setNewDescription(v);
+        onChange={event => {
+          setNewDescription(event);
         }}
       />
 
@@ -63,8 +63,8 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
         name="imgUrl"
         label="Image URL"
         value={newImgUrl}
-        onChange={v => {
-          setNewImgUrl(v);
+        onChange={event => {
+          setNewImgUrl(event);
         }}
         required
       />
@@ -73,8 +73,8 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={newImdbUrl}
-        onChange={v => {
-          setNewImdbUrl(v);
+        onChange={event => {
+          setNewImdbUrl(event);
         }}
         required
       />
@@ -83,8 +83,8 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={newImdbId}
-        onChange={v => {
-          setNewImdbId(v);
+        onChange={event => {
+          setNewImdbId(event);
         }}
         required
       />
