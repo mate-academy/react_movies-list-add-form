@@ -7,58 +7,50 @@ type Props = {
 };
 
 export const NewMovie = ({ onAdd }: Props) => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
 
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
+  const [newMovie, setNewMovie] = useState({
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  });
 
-  // #region change handlers
-  const handleTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(event.target.value);
-  };
+  const handleClick = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
 
-  const handleDescription = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setDescription(event.target.value);
+    setNewMovie(prev => ({
+      ...prev,
+      [name]: value,
+    }));
   };
-
-  const handleImgUrl = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setImgUrl(event.target.value);
-  };
-
-  const handleImdbUrl = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setImdbUrl(event.target.value);
-  };
-
-  const handleImdbId = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setImdbId(event.target.value);
-  };
-  // #endregion
 
   const isDisabled =
-    !title.trim() || !imgUrl.trim() || !imdbUrl.trim() || !imdbId.trim();
+    !newMovie.title.trim() ||
+    !newMovie.imgUrl.trim() ||
+    !newMovie.imdbUrl.trim() ||
+    !newMovie.imdbId.trim();
 
   const reset = () => {
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
+    setNewMovie({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
   };
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
     onAdd({
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
+      title: newMovie.title,
+      description: newMovie.description,
+      imgUrl: newMovie.imgUrl,
+      imdbUrl: newMovie.imdbUrl,
+      imdbId: newMovie.imdbId,
     });
 
     reset();
@@ -67,50 +59,50 @@ export const NewMovie = ({ onAdd }: Props) => {
 
   return (
     <form
+      onSubmit={handleSubmit}
       action="/api/movies"
       method="POST"
       className="NewMovie"
       key={count}
-      onSubmit={handleSubmit}
     >
       <h2 className="title">Add a movie</h2>
 
       <TextField
         name="title"
         label="Title"
-        value={title}
-        onChange={handleTitle}
+        value={newMovie.title}
+        onChange={handleClick}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value={description}
-        onChange={handleDescription}
+        value={newMovie.description}
+        onChange={handleClick}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={imgUrl}
-        onChange={handleImgUrl}
+        value={newMovie.imgUrl}
+        onChange={handleClick}
         required
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={imdbUrl}
-        onChange={handleImdbUrl}
+        value={newMovie.imdbUrl}
+        onChange={handleClick}
         required
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imdbId}
-        onChange={handleImdbId}
+        value={newMovie.imdbId}
+        onChange={handleClick}
         required
       />
 
