@@ -17,7 +17,7 @@ export const App = () => {
       <div className="sidebar">
         <NewMovie
           onAdd={(movie: Movie) => {
-            setNewMovies([...newMovies, movie]);
+            setNewMovies(prevMovies => [...prevMovies, movie]);
           }}
         />
       </div>
