@@ -14,6 +14,10 @@ function getRandomDigits() {
   return Math.random().toFixed(16).slice(2);
 }
 
+const urlRegex =
+  // eslint-disable-next-line max-len
+  /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
+
 export const TextField: React.FC<Props> = ({
   name,
   value,
@@ -27,7 +31,18 @@ export const TextField: React.FC<Props> = ({
 
   // To show errors only if the field was touched (onBlur)
   const [touched, setTouched] = useState(false);
-  const hasError = touched && required && !value;
+  let hasError = touched && required && !value;
+
+  let errorMessage = `${label} is required`;
+
+  if (name === 'imgUrl' || name === 'imdbUrl') {
+    if (value) {
+      if (!urlRegex.test(value)) {
+        errorMessage = 'Enter valid url';
+        hasError = true;
+      }
+    }
+  }
 
   return (
     <div className="field">
@@ -50,7 +65,7 @@ export const TextField: React.FC<Props> = ({
         />
       </div>
 
-      {hasError && <p className="help is-danger">{`${label} is required`}</p>}
+      {hasError && <p className="help is-danger">{errorMessage}</p>}
     </div>
   );
 };
