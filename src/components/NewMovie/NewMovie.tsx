@@ -17,7 +17,7 @@ export const NewMovie = ({ onAdd }: Props) => {
     imdbId: '',
   });
 
-  const handleClick = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
 
     setNewMovie(prev => ({
@@ -71,7 +71,7 @@ export const NewMovie = ({ onAdd }: Props) => {
         name="title"
         label="Title"
         value={newMovie.title}
-        onChange={handleClick}
+        onChange={onChange}
         required
       />
 
@@ -79,14 +79,14 @@ export const NewMovie = ({ onAdd }: Props) => {
         name="description"
         label="Description"
         value={newMovie.description}
-        onChange={handleClick}
+        onChange={onChange}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={newMovie.imgUrl}
-        onChange={handleClick}
+        onChange={onChange}
         required
       />
 
@@ -94,7 +94,7 @@ export const NewMovie = ({ onAdd }: Props) => {
         name="imdbUrl"
         label="Imdb URL"
         value={newMovie.imdbUrl}
-        onChange={handleClick}
+        onChange={onChange}
         required
       />
 
@@ -102,7 +102,7 @@ export const NewMovie = ({ onAdd }: Props) => {
         name="imdbId"
         label="Imdb ID"
         value={newMovie.imdbId}
-        onChange={handleClick}
+        onChange={onChange}
         required
       />
 
