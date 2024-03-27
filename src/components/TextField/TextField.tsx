@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 type Props = {
   name: string;
@@ -27,6 +27,11 @@ export const TextField: React.FC<Props> = ({
 
   // To show errors only if the field was touched (onBlur)
   const [touched, setTouched] = useState(false);
+
+  useEffect(() => {
+    setTouched(false);
+  }, [value]);
+
   const hasError = touched && required && value === '';
 
   return (
@@ -49,7 +54,6 @@ export const TextField: React.FC<Props> = ({
           onBlur={() => setTouched(true)}
         />
       </div>
-      {`${hasError}`}
       {hasError && <p className="help is-danger">{`${label} is required`}</p>}
     </div>
   );
