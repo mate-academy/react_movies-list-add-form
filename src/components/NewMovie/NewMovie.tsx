@@ -19,21 +19,19 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
 
-  const [newMovie, setNewMovie] = useState<Movie>({
-    ...defaultValueForNewMovie,
-  });
+  const [newMovie, setNewMovie] = useState<Movie>(defaultValueForNewMovie);
+
   const handleNewMovieChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const name = event.target.name;
     const value = event.target.value;
 
-    setNewMovie({ ...newMovie, [name]: value });
+    setNewMovie({ ...newMovie, [name]: value.trimStart() });
   };
 
   const resetForm = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) => {
     event.preventDefault();
-    onAdd(newMovie);
     setCount(count + 1);
     setNewMovie(defaultValueForNewMovie);
   };
@@ -100,12 +98,15 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             data-cy="submit-button"
             className="button is-link"
             disabled={!isNewMovieFill}
-            onClick={resetForm}
+            onClick={(event) => {
+              onAdd(newMovie);
+              resetForm(event);
+            }}
           >
             Add
           </button>
         </div>
       </div>
-    </form>
+    </form >
   );
 };
