@@ -29,7 +29,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   };
 
   const resetForm = (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    event: React.FormEvent<HTMLButtonElement>
   ) => {
     event.preventDefault();
     setCount(count + 1);
@@ -98,7 +98,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             data-cy="submit-button"
             className="button is-link"
             disabled={!isNewMovieFill}
-            onClick={(event) => {
+            onSubmit={event => {
               onAdd(newMovie);
               resetForm(event);
             }}
@@ -107,6 +107,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
           </button>
         </div>
       </div>
-    </form >
+    </form>
   );
 };
