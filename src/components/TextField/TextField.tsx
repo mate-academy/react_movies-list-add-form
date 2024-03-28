@@ -8,7 +8,7 @@ type Props = {
   placeholder?: string;
   required?: boolean;
   badUrl?: boolean;
-  onChange?: (e: string) => void;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
 function getRandomDigits() {
@@ -22,7 +22,6 @@ export const TextField: React.FC<Props> = ({
   placeholder = `Enter ${label}`,
   required = false,
   onChange = () => {},
-  // badUrl = false,
 }) => {
   // generage a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
@@ -47,7 +46,7 @@ export const TextField: React.FC<Props> = ({
           })}
           placeholder={placeholder}
           value={value}
-          onChange={event => onChange(event.target.value)}
+          onChange={e => onChange(e)}
           onBlur={() => setTouched(true)}
         />
       </div>
