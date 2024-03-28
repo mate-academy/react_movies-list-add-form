@@ -28,10 +28,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setNewMovie({ ...newMovie, [name]: value.trimStart() });
   };
 
-  const resetForm = (
-    event: React.FormEvent<HTMLButtonElement>
-  ) => {
-    event.preventDefault();
+  const resetForm = () => {
     setCount(count + 1);
     setNewMovie(defaultValueForNewMovie);
   };
@@ -49,7 +46,15 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   });
 
   return (
-    <form className="NewMovie" key={count}>
+    <form
+      className="NewMovie"
+      key={count}
+      onSubmit={event => {
+        event.preventDefault();
+        onAdd(newMovie);
+        resetForm();
+      }}
+    >
       <h2 className="title">Add a movie</h2>
 
       <TextField
@@ -98,10 +103,11 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             data-cy="submit-button"
             className="button is-link"
             disabled={!isNewMovieFill}
-            onSubmit={event => {
-              onAdd(newMovie);
-              resetForm(event);
-            }}
+          // onSubmit={event => {
+          //   event.preventDefault();
+          //   onAdd(newMovie);
+          //   resetForm();
+          // }}
           >
             Add
           </button>
