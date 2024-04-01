@@ -18,38 +18,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     imdbId: '',
   });
 
-  const newMovieTitle = (value: string) => {
+  const newMovieInputs = (value: string, key: string) => {
     setNewMovie({
       ...newMovie,
-      title: value,
-    });
-  };
-
-  const newMovieDescription = (value: string) => {
-    setNewMovie({
-      ...newMovie,
-      description: value,
-    });
-  };
-
-  const newMovieImageURL = (value: string) => {
-    setNewMovie({
-      ...newMovie,
-      imgUrl: value,
-    });
-  };
-
-  const newMovieImdbURL = (value: string) => {
-    setNewMovie({
-      ...newMovie,
-      imdbUrl: value,
-    });
-  };
-
-  const newMovieImdbId = (value: string) => {
-    setNewMovie({
-      ...newMovie,
-      imdbId: value,
+      [key]: value,
     });
   };
 
@@ -94,7 +66,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={newMovie.title}
-        onChange={newMovieTitle}
+        onChange={newMovieInputs}
         required
       />
 
@@ -102,14 +74,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={newMovie.description}
-        onChange={newMovieDescription}
+        onChange={newMovieInputs}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={newMovie.imgUrl}
-        onChange={newMovieImageURL}
+        onChange={newMovieInputs}
         required
       />
 
@@ -117,7 +89,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={newMovie.imdbUrl}
-        onChange={newMovieImdbURL}
+        onChange={newMovieInputs}
         required
       />
 
@@ -125,7 +97,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={newMovie.imdbId}
-        onChange={newMovieImdbId}
+        onChange={newMovieInputs}
         required
       />
 
