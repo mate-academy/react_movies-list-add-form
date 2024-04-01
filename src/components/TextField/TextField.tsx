@@ -1,5 +1,7 @@
 import classNames from 'classnames';
 import React, { useState } from 'react';
+import { Movie } from '../../types/Movie';
+import { urlRegex } from '../NewMovie';
 
 type Props = {
   name: string;
@@ -7,16 +9,14 @@ type Props = {
   label?: string;
   placeholder?: string;
   required?: boolean;
-  onChange?: (newValue: string) => void;
+  onChange?: (field: keyof Movie, newValue: string) => void;
+  setError?: (error: string) => void;
+  error?: string;
 };
 
 function getRandomDigits() {
   return Math.random().toFixed(16).slice(2);
 }
-
-const urlRegex =
-  // eslint-disable-next-line max-len
-  /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
 
 export const TextField: React.FC<Props> = ({
   name,
@@ -25,24 +25,31 @@ export const TextField: React.FC<Props> = ({
   placeholder = `Enter ${label}`,
   required = false,
   onChange = () => {},
+  setError = () => {},
+  error = false,
 }) => {
   // generage a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
   // To show errors only if the field was touched (onBlur)
   const [touched, setTouched] = useState(false);
-  let hasError = touched && required && !value;
 
-  let errorMessage = `${label} is required`;
+  const hasError = touched && required && error;
 
-  if (name === 'imgUrl' || name === 'imdbUrl') {
-    if (value) {
-      if (!urlRegex.test(value)) {
-        errorMessage = 'Enter valid url';
-        hasError = true;
+  const handleOnBlur = (
+    event: React.FocusEvent<HTMLInputElement, Element>,
+  ): void => {
+    setTouched(true);
+    const newValue = event.target.value;
+
+    if (!newValue) {
+      setError(`${label} is required`);
+    } else {
+      if (['imgUrl', 'imdbUrl'].includes(name) && !urlRegex.test(newValue)) {
+        setError(`Enter valid url`);
       }
     }
-  }
+  };
 
   return (
     <div className="field">
@@ -60,12 +67,12 @@ export const TextField: React.FC<Props> = ({
           })}
           placeholder={placeholder}
           value={value}
-          onChange={event => onChange(event.target.value)}
-          onBlur={() => setTouched(true)}
+          onChange={event => onChange(name as keyof Movie, event.target.value)}
+          onBlur={handleOnBlur}
         />
       </div>
 
-      {hasError && <p className="help is-danger">{errorMessage}</p>}
+      {hasError && <p className="help is-danger">{error}</p>}
     </div>
   );
 };

@@ -1,40 +1,80 @@
 import React, { useState } from 'react';
 import { Movie } from '../../types/Movie';
+import { MovieError } from '../../types/MovieError';
 import { TextField } from '../TextField';
 
 type Props = {
   onAdd: (movie: Movie) => void;
 };
 
+const defaultMovie: Movie = {
+  title: '',
+  description: '',
+  imgUrl: '',
+  imdbUrl: '',
+  imdbId: '',
+};
+
+const defaultMovieError: MovieError = {
+  title: '',
+  imgUrl: '',
+  imdbUrl: '',
+  imdbId: '',
+};
+
+export const urlRegex =
+  // eslint-disable-next-line max-len
+  /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
+
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
+  const [movie, setMovie] = useState(defaultMovie);
+  const [movieError, setMovieError] = useState(defaultMovieError);
 
   const hasFormErrors =
-    !title.trim() || !imgUrl.trim() || !imdbUrl.trim() || !imdbId.trim();
+    !movie.title ||
+    !movie.imgUrl ||
+    !movie.imdbUrl ||
+    !movie.imdbId ||
+    !urlRegex.test(movie.imgUrl) ||
+    !urlRegex.test(movie.imdbUrl);
+
+  const setMovieErrorFn = (field: keyof MovieError, error: string) => {
+    setMovieError(prev => {
+      const newMovieError = { ...prev };
+
+      newMovieError[field] = error;
+
+      return newMovieError;
+    });
+  };
+
+  const handleOnChange = (field: keyof Movie, newValue: string): void => {
+    setMovie(prev => {
+      const newMovie = { ...prev };
+
+      newMovie[field] = newValue;
+
+      return newMovie;
+    });
+
+    if (
+      Object.keys(movieError).includes(field) &&
+      movieError[field as keyof MovieError]
+    ) {
+      setMovieErrorFn(field as keyof MovieError, '');
+    }
+  };
 
   const handleFormSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     if (!hasFormErrors) {
       setCount(prev => prev + 1);
-      onAdd({
-        title,
-        description,
-        imgUrl,
-        imdbUrl,
-        imdbId,
-      });
-      setTitle('');
-      setDescription('');
-      setImgUrl('');
-      setImdbUrl('');
-      setImdbId('');
+      onAdd(movie);
+      setMovie(defaultMovie);
+      setMovieError(defaultMovieError);
     }
   };
 
@@ -45,40 +85,48 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value={title}
-        onChange={newTitle => setTitle(newTitle)}
+        value={movie.title}
+        onChange={handleOnChange}
+        setError={error => setMovieErrorFn('title', error)}
         required
+        error={movieError.title}
       />
 
       <TextField
         name="description"
         label="Description"
-        value={description}
-        onChange={newDesc => setDescription(newDesc)}
+        value={movie.description}
+        onChange={handleOnChange}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={imgUrl}
+        value={movie.imgUrl}
         required
-        onChange={newImgUrl => setImgUrl(newImgUrl)}
+        setError={error => setMovieErrorFn('imgUrl', error)}
+        onChange={handleOnChange}
+        error={movieError.imgUrl}
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={imdbUrl}
+        value={movie.imdbUrl}
         required
-        onChange={newImdbUrl => setImdbUrl(newImdbUrl)}
+        onChange={handleOnChange}
+        setError={error => setMovieErrorFn('imdbUrl', error)}
+        error={movieError.imdbUrl}
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imdbId}
+        value={movie.imdbId}
         required
-        onChange={newImdbId => setImdbId(newImdbId)}
+        onChange={handleOnChange}
+        setError={error => setMovieErrorFn('imdbId', error)}
+        error={movieError.imdbId}
       />
 
       <div className="field is-grouped">
