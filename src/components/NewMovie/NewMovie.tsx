@@ -40,10 +40,10 @@ export const NewMovie: React.FC<Types> = ({ onAdd }) => {
 
   const establishDisabled = () => {
     const checkMovie: MovieRequired = {
-      title: movie.title.value,
-      imdbId: movie.imdbId.value,
-      imdbUrl: movie.imdbUrl.value,
-      imgUrl: movie.imgUrl.value,
+      title: movie.title.value.trim(),
+      imdbId: movie.imdbId.value.trim(),
+      imdbUrl: movie.imdbUrl.value.trim(),
+      imgUrl: movie.imgUrl.value.trim(),
     };
 
     if (Object.values(checkMovie).includes('')) {
@@ -62,45 +62,45 @@ export const NewMovie: React.FC<Types> = ({ onAdd }) => {
     });
   };
 
+  const submit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    onAdd({
+      title: movie.title.value,
+      description: movie.description.value,
+      imdbId: movie.imdbId.value,
+      imdbUrl: movie.imdbUrl.value,
+      imgUrl: movie.imgUrl.value,
+    });
+
+    setMovie({
+      title: { value: '', touched: false },
+      description: { value: '', touched: false },
+      imdbId: { value: '', touched: false },
+      imdbUrl: { value: '', touched: false },
+      imgUrl: { value: '', touched: false },
+    });
+  };
+
+  const changeValue = (key: keyof MovieCustom, value: string) => {
+    setMovie(prev => {
+      return {
+        ...prev,
+        [key]: { touched: prev.title.touched, value: value },
+      };
+    });
+  };
+
   return (
-    <form
-      className="NewMovie"
-      key={count}
-      onSubmit={(event: FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-
-        onAdd({
-          title: movie.title.value,
-          description: movie.description.value,
-          imdbId: movie.imdbId.value,
-          imdbUrl: movie.imdbUrl.value,
-          imgUrl: movie.imgUrl.value,
-        });
-
-        setMovie({
-          title: { value: '', touched: false },
-          description: { value: '', touched: false },
-          imdbId: { value: '', touched: false },
-          imdbUrl: { value: '', touched: false },
-          imgUrl: { value: '', touched: false },
-        });
-      }}
-    >
+    <form className="NewMovie" key={count} onSubmit={submit}>
       <h2 className="title">Add a movie</h2>
 
       <TextField
         name="title"
         label="Title"
         value={movie.title}
-        onChange={value => {
-          setMovie(prev => {
-            return {
-              ...prev,
-              title: { touched: prev.title.touched, value: value },
-            };
-          });
-        }}
-        required={true}
+        onChange={value => changeValue('title', value)}
+        required
         changeTouched={changeTouched}
       />
 
@@ -108,14 +108,7 @@ export const NewMovie: React.FC<Types> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={movie.description}
-        onChange={value => {
-          setMovie(prev => {
-            return {
-              ...prev,
-              description: { touched: prev.description.touched, value: value },
-            };
-          });
-        }}
+        onChange={value => changeValue('description', value)}
         changeTouched={changeTouched}
       />
 
@@ -123,48 +116,27 @@ export const NewMovie: React.FC<Types> = ({ onAdd }) => {
         name="imgUrl"
         label="Image URL"
         value={movie.imgUrl}
-        onChange={value => {
-          setMovie(prev => {
-            return {
-              ...prev,
-              imgUrl: { touched: prev.imgUrl.touched, value: value },
-            };
-          });
-        }}
+        onChange={value => changeValue('imgUrl', value)}
         changeTouched={changeTouched}
-        required={true}
+        required
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
         value={movie.imdbUrl}
-        onChange={value => {
-          setMovie(prev => {
-            return {
-              ...prev,
-              imdbUrl: { touched: prev.imdbUrl.touched, value: value },
-            };
-          });
-        }}
+        onChange={value => changeValue('imdbUrl', value)}
         changeTouched={changeTouched}
-        required={true}
+        required
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
         value={movie.imdbId}
-        onChange={value => {
-          setMovie(prev => {
-            return {
-              ...prev,
-              imdbId: { touched: prev.imdbId.touched, value: value },
-            };
-          });
-        }}
+        onChange={value => changeValue('imdbId', value)}
         changeTouched={changeTouched}
-        required={true}
+        required
       />
 
       <div className="field is-grouped">
