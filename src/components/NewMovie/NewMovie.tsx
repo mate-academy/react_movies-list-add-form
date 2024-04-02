@@ -8,19 +8,22 @@ interface Props {
 }
 
 export const NewMovie: React.FC<Props> = ({ onSubmit }) => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
-  const [required, setRequired] = useState(true);
+  const [isSubmit, setIsSubmit] = useState(false);
+  const [newMovie, setNewMovie] = useState({
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  });
 
   const [count] = useState(0);
 
   const emptyValid =
-    !title.trim() || !imgUrl.trim() || !imdbUrl.trim() || !imdbId.trim();
+    !newMovie.title.trim() ||
+    !newMovie.imgUrl.trim() ||
+    !newMovie.imdbUrl.trim() ||
+    !newMovie.imdbId.trim();
 
   const pattern =
     // eslint-disable-next-line max-len
@@ -30,39 +33,20 @@ export const NewMovie: React.FC<Props> = ({ onSubmit }) => {
     return pattern.test(input);
   };
 
-  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setRequired(true);
-    setTitle(event.target.value);
-  };
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
 
-  const handleDescriptionChange = (
-    event: React.ChangeEvent<HTMLInputElement>,
-  ) => {
-    setDescription(event.target.value);
-    setRequired(true);
-  };
-
-  const handleImgUrlChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setImgUrl(event.target.value);
-    setRequired(true);
-  };
-
-  const handleImdbUrlChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setImdbUrl(event.target.value);
-    setRequired(true);
-  };
-
-  const handleImdbIdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setImdbId(event.target.value);
-    setRequired(true);
+    setNewMovie(prevMovie => ({ ...prevMovie, [name]: value }));
   };
 
   const reset = () => {
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
+    setNewMovie({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
   };
 
   function handleSubmit(event: React.FormEvent) {
@@ -72,19 +56,13 @@ export const NewMovie: React.FC<Props> = ({ onSubmit }) => {
       return;
     }
 
-    if (!isURL(imgUrl) || !isURL(imdbUrl)) {
+    if (!isURL(newMovie.imgUrl) || !isURL(newMovie.imdbUrl)) {
       return;
     }
 
-    onSubmit({
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    });
+    setIsSubmit(true);
 
-    setRequired(false);
+    onSubmit(newMovie);
 
     reset();
   }
@@ -96,41 +74,50 @@ export const NewMovie: React.FC<Props> = ({ onSubmit }) => {
       <TextField
         name="title"
         label="Title"
-        value={title}
-        onChange={handleTitleChange}
-        required={required}
+        value={newMovie.title}
+        onChange={handleChange}
+        isSubmit={isSubmit}
+        setIsSubmit={setIsSubmit}
+        required
       />
 
       <TextField
         name="description"
         label="Description"
-        value={description}
-        onChange={handleDescriptionChange}
-        required={required}
+        value={newMovie.description}
+        onChange={handleChange}
+        isSubmit={isSubmit}
+        setIsSubmit={setIsSubmit}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={imgUrl}
-        onChange={handleImgUrlChange}
-        required={required}
+        value={newMovie.imgUrl}
+        onChange={handleChange}
+        isSubmit={isSubmit}
+        setIsSubmit={setIsSubmit}
+        required
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={imdbUrl}
-        onChange={handleImdbUrlChange}
-        required={required}
+        value={newMovie.imdbUrl}
+        onChange={handleChange}
+        isSubmit={isSubmit}
+        setIsSubmit={setIsSubmit}
+        required
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imdbId}
-        onChange={handleImdbIdChange}
-        required={required}
+        value={newMovie.imdbId}
+        onChange={handleChange}
+        isSubmit={isSubmit}
+        setIsSubmit={setIsSubmit}
+        required
       />
 
       <div className="field is-grouped">
