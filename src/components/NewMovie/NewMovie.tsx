@@ -29,13 +29,14 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
     };
 
     onAdd(movie);
-    setTitle(' ');
-    setDescription(' ');
-    setImgUrl(' ');
-    setImdbUrl(' ');
-    setImdbId(' ');
-    setCount(count => count + 1);
+    setTitle('');
+    setDescription('');
+    setImgUrl('');
+    setImdbUrl('');
+    setImdbId('');
+    setCount(c => c + 1);
   };
+
   return (
     <form className="NewMovie" key={count} onSubmit={handleSubmit}>
       <h2 className="title">Add a movie</h2>
