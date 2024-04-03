@@ -27,6 +27,13 @@ export const TextField: React.FC<Props> = ({
 
   // To show errors only if the field was touched (onBlur)
   const [touched, setTouched] = useState(false);
+  const [text, setText] = useState(value);
+
+  const setOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setText(event.target.value);
+    onChange(event.target.value);
+  };
+
   const hasError = touched && required && !value;
 
   return (
@@ -44,8 +51,8 @@ export const TextField: React.FC<Props> = ({
             'is-danger': hasError,
           })}
           placeholder={placeholder}
-          value={value}
-          onChange={event => onChange(event.target.value)}
+          value={text}
+          onChange={setOnChange}
           onBlur={() => setTouched(true)}
         />
       </div>
