@@ -109,6 +109,18 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
           </button>
         </div>
       </div>
+      <div className="field is-grouped">
+        <div className="control">
+          <button
+            type="submit"
+            data-cy="submit-button"
+            className="button"
+            onClick={reset}
+          >
+            Cancel
+          </button>
+        </div>
+      </div>
     </form>
   );
 };
