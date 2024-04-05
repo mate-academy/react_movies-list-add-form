@@ -11,13 +11,21 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
   const [count] = useState(0);
-  const [movie, setMovie] = useState({
+  const firstStatusMovie = {
     title: '',
     description: '',
     imgUrl: '',
     imdbUrl: '',
     imdbId: '',
-  });
+  };
+  const [movie, setMovie] = useState(firstStatusMovie);
+  const addMovie = {
+    title: movie.title.trim(),
+    description: movie.description.trim(),
+    imgUrl: movie.imgUrl.trim(),
+    imdbUrl: movie.imdbUrl.trim(),
+    imdbId: movie.imdbId.trim(),
+  };
 
   const setNewMovie = (event: React.ChangeEvent<HTMLInputElement>) => {
     setMovie(prevMovie => ({
@@ -40,20 +48,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       return;
     }
 
-    onAdd({
-      title: movie.title.trim(),
-      description: movie.description.trim(),
-      imgUrl: movie.imgUrl.trim(),
-      imdbUrl: movie.imdbUrl.trim(),
-      imdbId: movie.imdbId.trim(),
-    });
-    setMovie({
-      title: '',
-      description: '',
-      imgUrl: '',
-      imdbUrl: '',
-      imdbId: '',
-    });
+    onAdd(addMovie);
+    setMovie(firstStatusMovie);
   };
 
   return (
