@@ -5,6 +5,8 @@ import { Movie } from '../../types/Movie';
 type Props = {
   onAdd: (movie: Movie) => void;
 };
+const pattern =
+  /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
@@ -21,6 +23,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
     setNewMovie(prevMovie => ({ ...prevMovie, [name]: value }));
   };
+
+  const isValidLink = (link: string) => pattern.test(link);
 
   const isFormValid =
     newMovie.title && newMovie.imdbUrl && newMovie.imdbId && newMovie.imgUrl;
@@ -72,6 +76,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Image URL"
         value={newMovie.imgUrl}
         onChange={handleChange}
+        isValidLink={isValidLink}
         required
       />
 
@@ -80,6 +85,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Imdb URL"
         value={newMovie.imdbUrl}
         onChange={handleChange}
+        isValidLink={isValidLink}
         required
       />
 
