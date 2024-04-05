@@ -24,28 +24,13 @@ export const TextField: React.FC<Props> = ({
 }) => {
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
   const [fieldValue, setFieldValue] = useState(value);
+
   const [touched, setTouched] = useState(false);
-  const [hasUrlError, setHasUrlError] = useState(false);
-
-  const hasError = (touched && required && !fieldValue) || hasUrlError;
-
-  const pattern = new RegExp(
-    '^((([A-Za-z]{3,9}:(?:\\/\\/)?)(?:[-;:&=+$,\\w]+@)?[A-Za-z0-9.-]+' +
-      '|(?:www\\.|[-;:&=+$,\\w]+@)[A-Za-z0-9.-]+)((?:\\/[+~%/.\\w-_]*)?' +
-      '?\\??(?:[-+=&;%@,.\\w_]*)#?(?:[,.!/\\\\\\w]*))?)$',
-  );
+  const hasError = touched && required && !fieldValue.trim();
 
   const hendleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFieldValue(e.target.value);
     onChange(e.target.value, name);
-
-    if (name === 'imgUrl' || name === 'imdbUrl') {
-      if (!pattern.test(e.target.value) && required) {
-        setHasUrlError(true);
-      } else {
-        setHasUrlError(false);
-      }
-    }
   };
 
   return (
@@ -69,11 +54,7 @@ export const TextField: React.FC<Props> = ({
         />
       </div>
 
-      {hasError && (
-        <p className="help is-danger">
-          {hasUrlError ? 'Invalid URL' : `${label} is required`}
-        </p>
-      )}
+      {hasError && <p className="help is-danger">{`${label} is required`}</p>}
     </div>
   );
 };
