@@ -30,11 +30,13 @@ export const TextField: React.FC<Props> = ({
   const hasError = touched && required && !value;
   // eslint-disable-next-line max-len, prettier/prettier
   const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
+  const errorSpace = touched && !value.trim() && !hasError;
   const errorLink =
     touched &&
     (name === 'imgUrl' || name === 'imdbUrl') &&
     !pattern.test(value) &&
-    !hasError;
+    !hasError &&
+    !errorSpace;
 
   return (
     <div className="field">
@@ -48,7 +50,7 @@ export const TextField: React.FC<Props> = ({
           id={id}
           data-cy={`movie-${name}`}
           className={classNames('input', {
-            'is-danger': hasError || errorLink,
+            'is-danger': hasError || errorLink || errorSpace,
           })}
           placeholder={placeholder}
           value={value}
@@ -59,6 +61,9 @@ export const TextField: React.FC<Props> = ({
 
       {hasError && <p className="help is-danger">{`${label} is required`}</p>}
       {errorLink && <p className="help is-danger">{`${label} must be url`}</p>}
+      {errorSpace && (
+        <p className="help is-danger">{`Space is not ${label}`}</p>
+      )}
     </div>
   );
 };

@@ -11,16 +11,53 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
   const [count] = useState(0);
-  const [valueTitle, setValueTitle] = useState('');
-  const [valueDescription, setValueDescription] = useState('');
-  const [valueImgUrl, setValueImgUrl] = useState('');
-  const [valueImdbUrl, setValueImdbUrl] = useState('');
-  const [valueImdbId, setValueImdbId] = useState('');
+  const [movie, setMovie] = useState({
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  });
+  const setValueTitle = (newValue: string) => {
+    setMovie(prevMovie => ({
+      ...prevMovie,
+      title: newValue,
+    }));
+  };
+
+  const setValueDescription = (newValue: string) => {
+    setMovie(prevMovie => ({
+      ...prevMovie,
+      description: newValue,
+    }));
+  };
+
+  const setValueImgUrl = (newValue: string) => {
+    setMovie(prevMovie => ({
+      ...prevMovie,
+      imgUrl: newValue,
+    }));
+  };
+
+  const setValueImdbUrl = (newValue: string) => {
+    setMovie(prevMovie => ({
+      ...prevMovie,
+      imdbUrl: newValue,
+    }));
+  };
+
+  const setValueImdbId = (newValue: string) => {
+    setMovie(prevMovie => ({
+      ...prevMovie,
+      imdbId: newValue,
+    }));
+  };
+
   const isButtonUse =
-    !valueTitle.trim() ||
-    !valueImgUrl.trim() ||
-    !valueImdbUrl.trim() ||
-    !valueImdbId.trim();
+    !movie.title.trim() ||
+    !movie.imgUrl.trim() ||
+    !movie.imdbUrl.trim() ||
+    !movie.imdbId.trim();
 
   const handleOnSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -30,11 +67,11 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     }
 
     onAdd({
-      title: valueTitle,
-      description: valueDescription,
-      imgUrl: valueImgUrl,
-      imdbUrl: valueImdbUrl,
-      imdbId: valueImdbId,
+      title: movie.title.trim(),
+      description: movie.description.trim(),
+      imgUrl: movie.imgUrl.trim(),
+      imdbUrl: movie.imdbUrl.trim(),
+      imdbId: movie.imdbId.trim(),
     });
     setValueTitle('');
     setValueDescription('');
@@ -50,7 +87,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value={valueTitle}
+        value={movie.title}
         onChange={val => {
           setValueTitle(val);
         }}
@@ -60,7 +97,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="description"
         label="Description"
-        value={valueDescription}
+        value={movie.description}
         onChange={val => {
           setValueDescription(val);
         }}
@@ -69,7 +106,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={valueImgUrl}
+        value={movie.imgUrl}
         onChange={val => {
           setValueImgUrl(val);
         }}
@@ -79,7 +116,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={valueImdbUrl}
+        value={movie.imdbUrl}
         onChange={val => {
           setValueImdbUrl(val);
         }}
@@ -89,7 +126,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={valueImdbId}
+        value={movie.imdbId}
         onChange={val => {
           setValueImdbId(val);
         }}
