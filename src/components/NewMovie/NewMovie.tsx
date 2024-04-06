@@ -43,8 +43,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
   const buttonIsValid =
     newMovie.title.trim() &&
-    newMovie.imgUrl.trim() &&
-    newMovie.imdbUrl.trim() &&
+    isValideURL(newMovie.imgUrl.trim()) &&
+    isValideURL(newMovie.imdbUrl.trim()) &&
     newMovie.imdbId.trim();
 
   return (

@@ -1,3 +1,4 @@
+// prettier-ignore
 import classNames from 'classnames';
 import React, { useState } from 'react';
 
@@ -29,7 +30,7 @@ export const TextField: React.FC<Props> = ({
 
   // To show errors only if the field was touched (onBlur)
   const [touched, setTouched] = useState(false);
-  const hasURLValidError = !checkURL(value) && touched;
+  const hasURLValidError = !checkURL(value.trim()) && touched;
   const hasError = touched && required && !value;
 
   return (
