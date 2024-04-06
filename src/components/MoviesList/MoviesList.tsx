@@ -1,3 +1,4 @@
+// prettier-ignore
 import React from 'react';
 
 import './MoviesList.scss';
