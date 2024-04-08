@@ -19,7 +19,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
 
   const handleInputChange = (value: string, name: string) => {
-    setMovie(prevMovie => ({ ...prevMovie, [name]: value }));
+    const trimmedValue = value.trim();
+
+    setMovie(prevMovie => ({ ...prevMovie, [name]: trimmedValue }));
   };
 
   const handleSubmit = (e: React.FormEvent) => {
