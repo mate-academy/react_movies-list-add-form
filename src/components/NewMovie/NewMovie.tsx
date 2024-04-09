@@ -15,10 +15,18 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imgUrl, setImgUrl] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
-  const checkDisable = !title || !imgUrl || !imdbUrl || !imdbId;
+  const checkDisable =
+    !title ||
+    !imgUrl ||
+    !imdbUrl ||
+    !imdbId ||
+    title.trim() === '' ||
+    imgUrl.trim() === '' ||
+    imdbUrl.trim() === '' ||
+    imdbId.trim() === '';
 
   const handleTitleChange = (value: string) => {
-    setTitle(value.trim());
+    setTitle(value);
   };
 
   const handleDescriptionChange = (value: string) => {
@@ -26,15 +34,15 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   };
 
   const handleImgUrlChange = (value: string) => {
-    setImgUrl(value.trim());
+    setImgUrl(value);
   };
 
   const handleImdbUrlChange = (value: string) => {
-    setImdbUrl(value.trim());
+    setImdbUrl(value);
   };
 
   const handleImdbIdChange = (value: string) => {
-    setImdbId(value.trim());
+    setImdbId(value);
   };
 
   const reset = () => {
