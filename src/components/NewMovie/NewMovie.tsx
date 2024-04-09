@@ -11,7 +11,7 @@ export const NewMovie: React.FC<{ onAdd: (movie: Movie) => void }> = ({
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
   const allFieldsFilled = !!(
-    !title ||
+    !title.trim() ||
     !imgUrl.trim() ||
     !imdbUrl.trim() ||
     !imdbId.trim()
