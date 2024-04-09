@@ -4,16 +4,18 @@ import { TextField } from '../TextField';
 export const NewMovie: React.FC<{ onAdd: (movie: Movie) => void }> = ({
   onAdd,
 }) => {
-  // export const NewMovie = () => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [imgUrl, setImgUrl] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
-  const allFieldsFilled = !!(!title || !imgUrl || !imdbUrl || !imdbId);
+  const allFieldsFilled = !!(
+    !title ||
+    !imgUrl.trim() ||
+    !imdbUrl.trim() ||
+    !imdbId.trim()
+  );
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -43,7 +45,7 @@ export const NewMovie: React.FC<{ onAdd: (movie: Movie) => void }> = ({
         name="title"
         label="Title"
         value={title}
-        onChange={(newValue: string) => setTitle(newValue)}
+        onChange={setTitle}
         required
       />
 
@@ -51,14 +53,14 @@ export const NewMovie: React.FC<{ onAdd: (movie: Movie) => void }> = ({
         name="description"
         label="Description"
         value={description}
-        onChange={(newValue: string) => setDescription(newValue)}
+        onChange={setDescription}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={(newValue: string) => setImgUrl(newValue)}
+        onChange={setImgUrl}
         required
       />
 
@@ -66,7 +68,7 @@ export const NewMovie: React.FC<{ onAdd: (movie: Movie) => void }> = ({
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={(newValue: string) => setImdbUrl(newValue)}
+        onChange={setImdbUrl}
         required
       />
 
@@ -74,7 +76,7 @@ export const NewMovie: React.FC<{ onAdd: (movie: Movie) => void }> = ({
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={(newValue: string) => setImdbId(newValue)}
+        onChange={setImdbId}
         required
       />
 
