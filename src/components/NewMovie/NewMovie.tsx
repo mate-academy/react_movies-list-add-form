@@ -18,7 +18,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const checkDisable = !title || !imgUrl || !imdbUrl || !imdbId;
 
   const handleTitleChange = (value: string) => {
-    setTitle(value);
+    setTitle(value.trim());
   };
 
   const handleDescriptionChange = (value: string) => {
@@ -26,15 +26,15 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   };
 
   const handleImgUrlChange = (value: string) => {
-    setImgUrl(value);
+    setImgUrl(value.trim());
   };
 
   const handleImdbUrlChange = (value: string) => {
-    setImdbUrl(value);
+    setImdbUrl(value.trim());
   };
 
   const handleImdbIdChange = (value: string) => {
-    setImdbId(value);
+    setImdbId(value.trim());
   };
 
   const reset = () => {
