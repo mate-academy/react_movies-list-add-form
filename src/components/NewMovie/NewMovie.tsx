@@ -10,35 +10,31 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
-
   const [title, setTitle] = useState('');
-
   const [description, setDescription] = useState('');
-
   const [imgUrl, setImgUrl] = useState('');
-
   const [imdbUrl, setImdbUrl] = useState('');
-
   const [imdbId, setImdbId] = useState('');
+  const checkDisable = !title || !imgUrl || !imdbUrl || !imdbId;
 
-  const handleTitleChange = (event: string) => {
-    setTitle(event);
+  const handleTitleChange = (value: string) => {
+    setTitle(value);
   };
 
-  const handleDescriptionChange = (event: string) => {
-    setDescription(event);
+  const handleDescriptionChange = (value: string) => {
+    setDescription(value);
   };
 
-  const handleImgUrlChange = (event: string) => {
-    setImgUrl(event);
+  const handleImgUrlChange = (value: string) => {
+    setImgUrl(value);
   };
 
-  const handleImdbUrlChange = (event: string) => {
-    setImdbUrl(event);
+  const handleImdbUrlChange = (value: string) => {
+    setImdbUrl(value);
   };
 
-  const handleImdbIdChange = (event: string) => {
-    setImdbId(event);
+  const handleImdbIdChange = (value: string) => {
+    setImdbId(value);
   };
 
   const reset = () => {
@@ -122,7 +118,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!title || !imgUrl || !imdbUrl || !imdbId}
+            disabled={checkDisable}
           >
             Add
           </button>
