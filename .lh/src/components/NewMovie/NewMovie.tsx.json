@@ -1,0 +1,30 @@
+{
+    "sourceFile": "src/components/NewMovie/NewMovie.tsx",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 3,
+            "patches": [
+                {
+                    "date": 1712756601218,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1712756609251,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,9 +4,9 @@\n export const NewMovie = () => {\n   // Increase the count after successful form submission\n   // to reset touched status of all the `Field`s\n   const [count] = useState(0);\n-  \n+  const \n \n   return (\n     <form className=\"NewMovie\" key={count}>\n       <h2 className=\"title\">Add a movie</h2>\n"
+                },
+                {
+                    "date": 1712756616694,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,9 +4,9 @@\n export const NewMovie = () => {\n   // Increase the count after successful form submission\n   // to reset touched status of all the `Field`s\n   const [count] = useState(0);\n-  const [title, setTitle]\n+  const [title, setTitle] = setState\n \n   return (\n     <form className=\"NewMovie\" key={count}>\n       <h2 className=\"title\">Add a movie</h2>\n"
+                },
+                {
+                    "date": 1712756635303,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -0,0 +1,46 @@\n+import { useState } from 'react';\n+import { TextField } from '../TextField';\n+\n+export const NewMovie = () => {\n+  // Increase the count after successful form submission\n+  // to reset touched status of all the `Field`s\n+  const [count] = useState(0);\n+  const [title, setTitle] = useState('');\n+  const [description, setDescription] = useState('');\n+  const [title, setTitle] = useState('');\n+  const [title, setTitle] = useState('');\n+\n+  return (\n+    <form className=\"NewMovie\" key={count}>\n+      <h2 className=\"title\">Add a movie</h2>\n+\n+      <TextField\n+        name=\"title\"\n+        label=\"Title\"\n+        value=\"\"\n+        onChange={() => {}}\n+        required\n+      />\n+\n+      <TextField name=\"description\" label=\"Description\" value=\"\" />\n+\n+      <TextField name=\"imgUrl\" label=\"Image URL\" value=\"\" />\n+\n+      <TextField name=\"imdbUrl\" label=\"Imdb URL\" value=\"\" />\n+\n+      <TextField name=\"imdbId\" label=\"Imdb ID\" value=\"\" />\n+\n+      <div className=\"field is-grouped\">\n+        <div className=\"control\">\n+          <button\n+            type=\"submit\"\n+            data-cy=\"submit-button\"\n+            className=\"button is-link\"\n+          >\n+            Add\n+          </button>\n+        </div>\n+      </div>\n+    </form>\n+  );\n+};\n"
+                }
+            ],
+            "date": 1712756601218,
+            "name": "Commit-0",
+            "content": "import { useState } from 'react';\nimport { TextField } from '../TextField';\n\nexport const NewMovie = () => {\n  // Increase the count after successful form submission\n  // to reset touched status of all the `Field`s\n  const [count] = useState(0);\n  \n\n  return (\n    <form className=\"NewMovie\" key={count}>\n      <h2 className=\"title\">Add a movie</h2>\n\n      <TextField\n        name=\"title\"\n        label=\"Title\"\n        value=\"\"\n        onChange={() => {}}\n        required\n      />\n\n      <TextField name=\"description\" label=\"Description\" value=\"\" />\n\n      <TextField name=\"imgUrl\" label=\"Image URL\" value=\"\" />\n\n      <TextField name=\"imdbUrl\" label=\"Imdb URL\" value=\"\" />\n\n      <TextField name=\"imdbId\" label=\"Imdb ID\" value=\"\" />\n\n      <div className=\"field is-grouped\">\n        <div className=\"control\">\n          <button\n            type=\"submit\"\n            data-cy=\"submit-button\"\n            className=\"button is-link\"\n          >\n            Add\n          </button>\n        </div>\n      </div>\n    </form>\n  );\n};\n"
+        }
+    ]
+}
