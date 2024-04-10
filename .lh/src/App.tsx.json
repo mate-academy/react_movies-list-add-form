@@ -1,0 +1,70 @@
+{
+    "sourceFile": "src/App.tsx",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 13,
+            "patches": [
+                {
+                    "date": 1712757388052,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1712757393627,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,9 +9,9 @@\n       <div className=\"page-content\">\n         <MoviesList movies={moviesFromServer} />\n       </div>\n       <div className=\"sidebar\">\n-        {/* <NewMovie /* onAdd={(movie) => {}} */ /> */}\n+        <NewMovie onAdd={(movie) => {}} />\n       </div>\n     </div>\n   );\n };\n"
+                },
+                {
+                    "date": 1712757400896,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -0,0 +1,19 @@\n+import './App.scss';\n+import { MoviesList } from './components/MoviesList';\n+import { NewMovie } from './components/NewMovie';\n+import moviesFromServer from './api/movies.json';\n+\n+export const App = () => {\n+  const \n+\n+  return (\n+    <div className=\"page\">\n+      <div className=\"page-content\">\n+        <MoviesList movies={moviesFromServer} />\n+      </div>\n+      <div className=\"sidebar\">\n+        <NewMovie onAdd={(movie) => {}} />\n+      </div>\n+    </div>\n+  );\n+};\n"
+                },
+                {
+                    "date": 1712757406446,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,9 +3,9 @@\n import { NewMovie } from './components/NewMovie';\n import moviesFromServer from './api/movies.json';\n \n export const App = () => {\n-  const \n+  const [movies, setMovies =]\n \n   return (\n     <div className=\"page\">\n       <div className=\"page-content\">\n@@ -16,21 +16,4 @@\n       </div>\n     </div>\n   );\n };\n-import './App.scss';\n-import { MoviesList } from './components/MoviesList';\n-import { NewMovie } from './components/NewMovie';\n-import moviesFromServer from './api/movies.json';\n-\n-export const App = () => {\n-  return (\n-    <div className=\"page\">\n-      <div className=\"page-content\">\n-        <MoviesList movies={moviesFromServer} />\n-      </div>\n-      <div className=\"sidebar\">\n-        <NewMovie onAdd={(movie) => {}} />\n-      </div>\n-    </div>\n-  );\n-};\n"
+                },
+                {
+                    "date": 1712757411849,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,9 +3,9 @@\n import { NewMovie } from './components/NewMovie';\n import moviesFromServer from './api/movies.json';\n \n export const App = () => {\n-  const [movies, setMovies =]\n+  const [movies, setMovies] = useState(movies)\n \n   return (\n     <div className=\"page\">\n       <div className=\"page-content\">\n"
+                },
+                {
+                    "date": 1712757421899,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,11 +1,12 @@\n import './App.scss';\n import { MoviesList } from './components/MoviesList';\n import { NewMovie } from './components/NewMovie';\n import moviesFromServer from './api/movies.json';\n+import \n \n export const App = () => {\n-  const [movies, setMovies] = useState(movies)\n+  const [movies, setMovies] = useState(moviesFromServer)\n \n   return (\n     <div className=\"page\">\n       <div className=\"page-content\">\n"
+                },
+                {
+                    "date": 1712757437277,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -0,0 +1,20 @@\n+import './App.scss';\n+import { MoviesList } from './components/MoviesList';\n+import { NewMovie } from './components/NewMovie';\n+import moviesFromServer from './api/movies.json';\n+import { useState } from 'react';\n+\n+export const App = () => {\n+  const [movies, setMovies] = useState(moviesFromServer);\n+\n+  return (\n+    <div className=\"page\">\n+      <div className=\"page-content\">\n+        <MoviesList movies={moviesFromServer} />\n+      </div>\n+      <div className=\"sidebar\">\n+        <NewMovie onAdd={(movie) => {}} />\n+      </div>\n+    </div>\n+  );\n+};\n"
+                },
+                {
+                    "date": 1712757443016,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,8 +6,9 @@\n \n export const App = () => {\n   const [movies, setMovies] = useState(moviesFromServer);\n \n+  const addm\n   return (\n     <div className=\"page\">\n       <div className=\"page-content\">\n         <MoviesList movies={moviesFromServer} />\n@@ -17,24 +18,4 @@\n       </div>\n     </div>\n   );\n };\n-import './App.scss';\n-import { MoviesList } from './components/MoviesList';\n-import { NewMovie } from './components/NewMovie';\n-import moviesFromServer from './api/movies.json';\n-import \n-\n-export const App = () => {\n-  const [movies, setMovies] = useState(moviesFromServer)\n-\n-  return (\n-    <div className=\"page\">\n-      <div className=\"page-content\">\n-        <MoviesList movies={moviesFromServer} />\n-      </div>\n-      <div className=\"sidebar\">\n-        <NewMovie onAdd={(movie) => {}} />\n-      </div>\n-    </div>\n-  );\n-};\n"
+                },
+                {
+                    "date": 1712757450625,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,9 +6,9 @@\n \n export const App = () => {\n   const [movies, setMovies] = useState(moviesFromServer);\n \n-  const addm\n+  const addMovie = (movie)\n   return (\n     <div className=\"page\">\n       <div className=\"page-content\">\n         <MoviesList movies={moviesFromServer} />\n"
+                },
+                {
+                    "date": 1712757459715,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,9 +6,11 @@\n \n export const App = () => {\n   const [movies, setMovies] = useState(moviesFromServer);\n \n-  const addMovie = (movie)\n+  const addMovie = (movie) => {\n+    setMovies\n+  }\n   return (\n     <div className=\"page\">\n       <div className=\"page-content\">\n         <MoviesList movies={moviesFromServer} />\n"
+                },
+                {
+                    "date": 1712757466512,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,9 +7,9 @@\n export const App = () => {\n   const [movies, setMovies] = useState(moviesFromServer);\n \n   const addMovie = (movie) => {\n-    setMovies\n+    setMovies(movies.)\n   }\n   return (\n     <div className=\"page\">\n       <div className=\"page-content\">\n"
+                },
+                {
+                    "date": 1712757478286,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,9 +7,9 @@\n export const App = () => {\n   const [movies, setMovies] = useState(moviesFromServer);\n \n   const addMovie = (movie) => {\n-    setMovies(movies.)\n+    setMovies(movies.concat)\n   }\n   return (\n     <div className=\"page\">\n       <div className=\"page-content\">\n"
+                },
+                {
+                    "date": 1712757485857,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,9 +6,9 @@\n \n export const App = () => {\n   const [movies, setMovies] = useState(moviesFromServer);\n \n-  const addMovie = (movie) => {\n+  const addMovie = (movie: Movie) => {\n     setMovies(movies.concat(movie))\n   }\n   return (\n     <div className=\"page\">\n"
+                },
+                {
+                    "date": 1712757493569,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,9 +16,9 @@\n       <div className=\"page-content\">\n         <MoviesList movies={moviesFromServer} />\n       </div>\n       <div className=\"sidebar\">\n-        <NewMovie onAdd={(movie) => {}} />\n+        <NewMovie onAdd={addMovie} />\n       </div>\n     </div>\n   );\n };\n"
+                }
+            ],
+            "date": 1712757388052,
+            "name": "Commit-0",
+            "content": "import './App.scss';\nimport { MoviesList } from './components/MoviesList';\nimport { NewMovie } from './components/NewMovie';\nimport moviesFromServer from './api/movies.json';\n\nexport const App = () => {\n  return (\n    <div className=\"page\">\n      <div className=\"page-content\">\n        <MoviesList movies={moviesFromServer} />\n      </div>\n      <div className=\"sidebar\">\n        {/* <NewMovie /* onAdd={(movie) => {}} */ /> */}\n      </div>\n    </div>\n  );\n};\n"
+        }
+    ]
+}
