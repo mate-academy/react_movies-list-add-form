@@ -1,0 +1,46 @@
+{
+    "sourceFile": "src/components/MovieCard/index.ts",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 7,
+            "patches": [
+                {
+                    "date": 1712762817756,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1712762824113,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,2 +1,3 @@\n export * from './MovieCard';\n-export type\n+export type Movie \n+\n"
+                },
+                {
+                    "date": 1712762830815,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,3 +1,9 @@\n export * from './MovieCard';\n-export type Movie \n+export type Movie = {\n+  \"title\": \"Inception\",\n+  \"description\": \"Follows the lives of eight very different couples in dealing with their love lives in various loosely interrelated tales all set during a frantic month before Christmas in London, England.\",\n+  \"imgUrl\": \"https://m.media-amazon.com/images/M/MV5BMjAxMzY3NjcxNF5BMl5BanBnXkFtZTcwNTI5OTM0Mw@@._V1_SX300.jpg\",\n+  \"imdbUrl\": \"https://www.imdb.com/title/tt1375666\",\n+  \"imdbId\": \"tt1375666\"\n+};\n \n"
+                },
+                {
+                    "date": 1712762836863,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,7 +3,7 @@\n   \"title\": \"Inception\",\n   \"description\": \"Follows the lives of eight very different couples in dealing with their love lives in various loosely interrelated tales all set during a frantic month before Christmas in London, England.\",\n   \"imgUrl\": \"https://m.media-amazon.com/images/M/MV5BMjAxMzY3NjcxNF5BMl5BanBnXkFtZTcwNTI5OTM0Mw@@._V1_SX300.jpg\",\n   \"imdbUrl\": \"https://www.imdb.com/title/tt1375666\",\n-  \"imdbId\": \"tt1375666\"\n+  \"imdbId\": string\n };\n \n"
+                },
+                {
+                    "date": 1712762842764,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -2,8 +2,8 @@\n export type Movie = {\n   \"title\": \"Inception\",\n   \"description\": \"Follows the lives of eight very different couples in dealing with their love lives in various loosely interrelated tales all set during a frantic month before Christmas in London, England.\",\n   \"imgUrl\": \"https://m.media-amazon.com/images/M/MV5BMjAxMzY3NjcxNF5BMl5BanBnXkFtZTcwNTI5OTM0Mw@@._V1_SX300.jpg\",\n-  \"imdbUrl\": \"https://www.imdb.com/title/tt1375666\",\n+  \"imdbUrl\": string\n   \"imdbId\": string\n };\n \n"
+                },
+                {
+                    "date": 1712762851663,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,8 @@\n export * from './MovieCard';\n export type Movie = {\n   \"title\": \"Inception\",\n-  \"description\": \"Follows the lives of eight very different couples in dealing with their love lives in various loosely interrelated tales all set during a frantic month before Christmas in London, England.\",\n-  \"imgUrl\": \"https://m.media-amazon.com/images/M/MV5BMjAxMzY3NjcxNF5BMl5BanBnXkFtZTcwNTI5OTM0Mw@@._V1_SX300.jpg\",\n+  \"description\": st\n   \"imdbUrl\": string\n   \"imdbId\": string\n };\n \n"
+                },
+                {
+                    "date": 1712762858277,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,8 +1,8 @@\n export * from './MovieCard';\n export type Movie = {\n-  \"title\": \"Inception\",\n-  \"description\": st\n+  \"title\": string\n+  \"description\": string\n   \"imdbUrl\": string\n   \"imdbId\": string\n };\n \n"
+                },
+                {
+                    "date": 1712762863743,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -0,0 +1,7 @@\n+export * from './MovieCard';\n+export type Movie = {\n+  title: string;\n+  description: string;\n+  imdbUrl: string;\n+  imdbId: string;\n+};\n"
+                }
+            ],
+            "date": 1712762817756,
+            "name": "Commit-0",
+            "content": "export * from './MovieCard';\nexport type\n"
+        }
+    ]
+}

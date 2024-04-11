@@ -1,0 +1,22 @@
+{
+    "sourceFile": "README.md",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 1,
+            "patches": [
+                {
+                    "date": 1712829043941,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1712832146112,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -29,5 +29,5 @@\n - Install Prettier Extention and use this [VSCode settings](https://mate-academy.github.io/fe-program/tools/vscode/settings.json) to enable format on save.\n - Implement a solution following the [React task guideline](https://github.com/mate-academy/react_task-guideline#react-tasks-guideline).\n - Use the [React TypeScript cheat sheet](https://mate-academy.github.io/fe-program/js/extra/react-typescript).\n - Open one more terminal and run tests with `npm test` to ensure your solution is correct.\n-- Replace `<your_account>` with your Github username in the [DEMO LINK](https://.github.io/react_movies-list-add-form/) and add it to the PR description.\n+- Replace `<your_account>` with your Github username in the marinatea.github.io/react_movies-list-add-form/) and add it to the PR description.[DEMO LINK](https://\n"
+                }
+            ],
+            "date": 1712829043941,
+            "name": "Commit-0",
+            "content": "# Movies list - Add Form\n\nYou have the `App` with the `MoviesList` and `NewMovie` form containing ready\nto use `TextField` components. Learn how it works and implement an ability to\nadd movies from [IMDB](https://www.imdb.com/).\n\nIf you want to test your page you can get first image from a [movie page](https://www.imdb.com/title/tt1312171) using `DevTools` -> `Network` -> `Img`\n\n> Here is [the demo page](https://mate-academy.github.io/react_movies-list-add-form/)\n\n1. `NewMovie` should check if `title`, `imgUrl`, `imdbUrl`, `imdbId` are\nentered when an input looses focus (`onBlur`) and show an error and a red\nborder if needed (learn how it it implemented in the `TextField`);\n1. The `description` is optional;\n1. Disable the submit button until all the required fields are filled (spaces should be trimmed);\n1. Clear the form after adding a new movie.\n1. Errors should not be shown after clearing the form (change its key to\nreinitialize the form);\n\n## (Optional) Advanced validation\nImplement the ability to add custom validation callback to the `TextField`.\nCheck if `imgUrl` and `imdbUrl` are valid URLs (you can use the next regex)\n\n```js\nconst pattern = /^((([A-Za-z]{3,9}:(?:\\/\\/)?)(?:[-;:&=+$,\\w]+@)?[A-Za-z0-9.-]+|(?:www\\.|[-;:&=+$,\\w]+@)[A-Za-z0-9.-]+)((?:\\/[+~%/.\\w-_]*)?\\??(?:[-+=&;%@,.\\w_]*)#?(?:[,.!/\\\\\\w]*))?)$/;\n```\n\n## Instructions\n- Install Prettier Extention and use this [VSCode settings](https://mate-academy.github.io/fe-program/tools/vscode/settings.json) to enable format on save.\n- Implement a solution following the [React task guideline](https://github.com/mate-academy/react_task-guideline#react-tasks-guideline).\n- Use the [React TypeScript cheat sheet](https://mate-academy.github.io/fe-program/js/extra/react-typescript).\n- Open one more terminal and run tests with `npm test` to ensure your solution is correct.\n- Replace `<your_account>` with your Github username in the [DEMO LINK](https://.github.io/react_movies-list-add-form/) and add it to the PR description.\n"
+        }
+    ]
+}
