@@ -12,6 +12,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imgUrl, setImageUrl] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
+  const [key, setKey] = useState(0);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -30,6 +31,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setImageUrl('');
     setImdbUrl('');
     setImdbId('');
+    setKey(prevKey => prevKey + 1);
   };
 
   const titleChange = (event: string) => {
@@ -59,7 +61,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     imdbId.trim() !== '';
 
   return (
-    <form className="NewMovie" onSubmit={handleSubmit}>
+    <form key={key} className="NewMovie" onSubmit={handleSubmit}>
       <h2 className="title">Add a movie</h2>
 
       <TextField

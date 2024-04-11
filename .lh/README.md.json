@@ -3,11 +3,15 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 0,
+            "activePatchIndex": 1,
             "patches": [
                 {
                     "date": 1712829043941,
                     "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1712832146112,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -29,5 +29,5 @@\n - Install Prettier Extention and use this [VSCode settings](https://mate-academy.github.io/fe-program/tools/vscode/settings.json) to enable format on save.\n - Implement a solution following the [React task guideline](https://github.com/mate-academy/react_task-guideline#react-tasks-guideline).\n - Use the [React TypeScript cheat sheet](https://mate-academy.github.io/fe-program/js/extra/react-typescript).\n - Open one more terminal and run tests with `npm test` to ensure your solution is correct.\n-- Replace `<your_account>` with your Github username in the [DEMO LINK](https://.github.io/react_movies-list-add-form/) and add it to the PR description.\n+- Replace `<your_account>` with your Github username in the marinatea.github.io/react_movies-list-add-form/) and add it to the PR description.[DEMO LINK](https://\n"
                 }
             ],
             "date": 1712829043941,
