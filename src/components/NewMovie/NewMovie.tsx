@@ -35,7 +35,8 @@ export const NewMovie = ({ onAdd }: { onAdd: (movie: Movie) => void }) => {
   };
 
   const finalResult = (): boolean => {
-    const result = title && imgURL && imdbURL && imdbId;
+    const result =
+      title.trim() && imgURL.trim() && imdbURL.trim() && imdbId.trim();
 
     return !!result;
   };
