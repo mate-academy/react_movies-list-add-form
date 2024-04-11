@@ -16,11 +16,11 @@ export const NewMovie = ({ onAdd }: { onAdd: (movie: Movie) => void }) => {
 
   const handleSubmit = () => {
     const newMovie: Movie = {
-      title: title.trim(),
-      description: description.trim(),
-      imgUrl: imgURL.trim(),
-      imdbUrl: imdbURL.trim(),
-      imdbId: imdbId.trim(),
+      title: title,
+      description: description,
+      imgUrl: imgURL,
+      imdbUrl: imdbURL,
+      imdbId: imdbId,
     };
 
     onAdd(newMovie);
