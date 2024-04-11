@@ -1,0 +1,26 @@
+{
+    "sourceFile": "src/components/TextField/TextField.tsx",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 2,
+            "patches": [
+                {
+                    "date": 1712826669865,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1712826676666,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,9 +7,9 @@\n   label?: string;\n   placeholder?: string;\n   required?: boolean;\n   onChange?: (newValue: string) => void;\n-  onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void; // Dodaj onBlur do definicji typu Props\n+  onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void; // Dodaj onBlur do definicj\n   error?: string;\n };\n \n function getRandomDigits() {\n"
+                },
+                {
+                    "date": 1712827872226,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,10 +7,9 @@\n   label?: string;\n   placeholder?: string;\n   required?: boolean;\n   onChange?: (newValue: string) => void;\n-  onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void; // Dodaj onBlur do definicj\n-  error?: string;\n+ \n };\n \n function getRandomDigits() {\n   return Math.random().toFixed(16).slice(2);\n"
+                }
+            ],
+            "date": 1712826669865,
+            "name": "Commit-0",
+            "content": "import classNames from 'classnames';\nimport React, { useState } from 'react';\n\ntype Props = {\n  name: string;\n  value: string;\n  label?: string;\n  placeholder?: string;\n  required?: boolean;\n  onChange?: (newValue: string) => void;\n  onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void; // Dodaj onBlur do definicji typu Props\n  error?: string;\n};\n\nfunction getRandomDigits() {\n  return Math.random().toFixed(16).slice(2);\n}\n\nexport const TextField: React.FC<Props> = ({\n  name,\n  value,\n  label = name,\n  placeholder = `Enter ${label}`,\n  required = false,\n  onChange = () => {},\n}) => {\n  // generage a unique id once on component load\n  const [id] = useState(() => `${name}-${getRandomDigits()}`);\n\n  // To show errors only if the field was touched (onBlur)\n  const [touched, setTouched] = useState(false);\n  const hasError = touched && required && !value;\n\n  return (\n    <div className=\"field\">\n      <label className=\"label\" htmlFor={id}>\n        {label}\n      </label>\n\n      <div className=\"control\">\n        <input\n          type=\"text\"\n          id={id}\n          data-cy={`movie-${name}`}\n          className={classNames('input', {\n            'is-danger': hasError,\n          })}\n          placeholder={placeholder}\n          value={value}\n          onChange={event => onChange(event.target.value)}\n          onBlur={() => setTouched(true)}\n        />\n      </div>\n\n      {hasError && <p className=\"help is-danger\">{`${label} is required`}</p>}\n    </div>\n  );\n};\n"
+        }
+    ]
+}
