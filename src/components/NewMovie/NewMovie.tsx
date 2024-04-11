@@ -8,35 +8,38 @@ export const NewMovie = ({ onAdd }: { onAdd: (movie: Movie) => void }) => {
   // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
 
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imgURL, setImgURL] = useState('');
-  const [imdbURL, setImdbURL] = useState('');
-  const [imdbId, setImdbId] = useState('');
+  const [movie, setMovie] = useState({
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  });
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setMovie({ ...movie, [event.target.name]: event.target.value });
+  };
 
   const handleSubmit = () => {
-    const newMovie: Movie = {
-      title: title,
-      description: description,
-      imgUrl: imgURL,
-      imdbUrl: imdbURL,
-      imdbId: imdbId,
-    };
-
-    onAdd(newMovie);
+    onAdd(movie);
 
     setCount(count + 1);
 
-    setTitle('');
-    setDescription('');
-    setImgURL('');
-    setImdbURL('');
-    setImdbId('');
+    setMovie({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
   };
 
   const finalResult = (): boolean => {
     const result =
-      title.trim() && imgURL.trim() && imdbURL.trim() && imdbId.trim();
+      movie.title.trim() &&
+      movie.imgUrl.trim() &&
+      movie.imdbUrl.trim() &&
+      movie.imdbId.trim();
 
     return !!result;
   };
@@ -48,39 +51,39 @@ export const NewMovie = ({ onAdd }: { onAdd: (movie: Movie) => void }) => {
       <TextField
         name="title"
         label="Title"
-        value={title}
-        onChange={setTitle}
+        value={movie.title}
+        onChange={handleChange}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value={description}
-        onChange={setDescription}
+        value={movie.description}
+        onChange={handleChange}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={imgURL}
-        onChange={setImgURL}
+        value={movie.imgUrl}
+        onChange={handleChange}
         required
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={imdbURL}
-        onChange={setImdbURL}
+        value={movie.imdbUrl}
+        onChange={handleChange}
         required
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imdbId}
-        onChange={setImdbId}
+        value={movie.imdbId}
+        onChange={handleChange}
         required
       />
 
