@@ -36,8 +36,6 @@ export const NewMovie = ({
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-
-    setCount(count + 1);
   };
 
   const AddMovie = () => {
