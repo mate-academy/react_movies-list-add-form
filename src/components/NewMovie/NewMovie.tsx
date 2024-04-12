@@ -19,11 +19,11 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
   const handleSubmit: FormEventHandler = e => {
     e.preventDefault();
     const movie = {
-      title: title,
-      description: description,
-      imgUrl: imgUrl,
-      imdbUrl: imdbUrl,
-      imdbId: imdbId,
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
     };
 
     onAdd(movie);
