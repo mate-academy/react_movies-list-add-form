@@ -36,7 +36,7 @@ export const TextField: React.FC<Props> = ({
         <input
           value={value ?? ''}
           onChange={onChange}
-          name={value}
+          name={name}
           type="text"
           id={id}
           data-cy={`movie-${name}`}
@@ -52,3 +52,4 @@ export const TextField: React.FC<Props> = ({
     </div>
   );
 };
+
