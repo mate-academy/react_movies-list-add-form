@@ -34,20 +34,8 @@ export const NewMovie = ({
     }));
   };
 
-  const handleSubmit = (event: React.FormEvent) => {
-    event.preventDefault();
-  };
-
   const AddMovie = () => {
-    const newMovie: Movie = {
-      title: formState.title,
-      description: formState.description,
-      imgUrl: formState.imgUrl,
-      imdbUrl: formState.imdbUrl,
-      imdbId: formState.imdbId,
-    };
-
-    setNewMovies(prevMovies => [...prevMovies, newMovie]);
+    setNewMovies(prevMovies => [...prevMovies, formState]);
 
     setFormState({
       title: '',
@@ -60,11 +48,17 @@ export const NewMovie = ({
     setCount(count + 1);
   };
 
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+
+    AddMovie();
+  };
+
   const emptyField =
-    !formState.title ||
-    !formState.imdbId ||
-    !formState.imdbUrl ||
-    !formState.imgUrl;
+    !formState.title.trim() ||
+    !formState.imdbId.trim() ||
+    !formState.imdbUrl.trim() ||
+    !formState.imgUrl.trim();
 
   return (
     <form className="NewMovie" key={count} onSubmit={handleSubmit}>
@@ -115,7 +109,6 @@ export const NewMovie = ({
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            onClick={AddMovie}
             disabled={emptyField}
           >
             Add
