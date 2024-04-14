@@ -6,35 +6,19 @@ import { NewMovie } from './components/NewMovie';
 import { Movie } from './types/Movie';
 
 export const App = () => {
-  const [add, setAdd] = useState('');
-  const [newMovieList, setNewMovieList] = useState<Movie[]>(
-    [...moviesFromServer]
-  );
-  const [formData, setFormData] = useState<Movie>({
-    title: '',
-    description: '',
-    imgUrl: '',
-    imdbUrl: '',
-    imdbId: '',
-  });
+  const [movies, setMovies] = useState(moviesFromServer);
 
-  if (add === 'add') {
-    setNewMovieList((prev => [...prev, formData]));
-    setAdd('');
+  const addMovie = (movie: Movie) => {
+    setMovies((prev) => [...prev, movie]);
   };
 
   return (
     <div className="page">
       <div className="page-content">
-        <MoviesList movies={newMovieList} />
+        <MoviesList movies={movies} />
       </div>
       <div className="sidebar">
-        <NewMovie
-          formData={formData}
-          setFormData={setFormData}
-          add={add}
-          setAdd={setAdd}
-        />
+        <NewMovie onAdd={addMovie} />
       </div>
     </div>
   );

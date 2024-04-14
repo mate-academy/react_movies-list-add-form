@@ -1,19 +1,20 @@
-import { useEffect, useState } from 'react';
+import { FormEventHandler, useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
-export const NewMovie: React.FC<{
-  formData: Movie;
-  add: string;
-  setFormData: React.Dispatch<React.SetStateAction<Movie>>,
-  setAdd: React.Dispatch<React.SetStateAction<string>>,
-}> = ({
-  formData,
-  add,
-  setFormData,
-  setAdd,
-}) => {
+interface Props {
+  onAdd: (movie: Movie) => void;
+};
+
+export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
+  const [formData, setFormData] = useState<Movie>({
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  });
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
@@ -26,25 +27,16 @@ export const NewMovie: React.FC<{
     }));
   };
 
-  const handleAddMovie = (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
+  const handleAddMovie: FormEventHandler = (event) => {
     event.preventDefault();
 
     if (
-      formData.title &&
-      formData.imgUrl &&
-      formData.imdbUrl &&
-      formData.imdbId
+      formData.title && formData.imgUrl &&
+      formData.imdbUrl && formData.imdbId
     ) {
-      setAdd('add');
-      setCount(() => count + 1);
-    } else {
-      alert("Some of your field wasn't entered");
+      onAdd(formData);
     }
-  };
 
-  useEffect(() => {
     setFormData({
       title: '',
       description: '',
@@ -52,23 +44,15 @@ export const NewMovie: React.FC<{
       imdbUrl: '',
       imdbId: '',
     });
-  }, [add, setFormData]);
-
-  const handleDisabled = (): boolean => {
-    if (
-      formData.title &&
-      formData.imgUrl &&
-      formData.imdbUrl &&
-      formData.imdbId
-    ) {
-      return false;
-    } else {
-      return true;
-    }
+    setCount(prev => prev + 1);
   };
 
+  const handleDisabled =
+    !formData.title || !formData.imgUrl ||
+    !formData.imdbUrl || !formData.imdbId;
+
   return (
-    <form className="NewMovie" key={count}>
+    <form className="NewMovie" key={count} onSubmit={handleAddMovie}>
       <h2 className="title">Add a movie</h2>
 
       <TextField
@@ -76,7 +60,6 @@ export const NewMovie: React.FC<{
         label="Title"
         value={formData.title}
         onChange={handleChange}
-        count={count}
         required
       />
 
@@ -85,7 +68,6 @@ export const NewMovie: React.FC<{
         label="Description"
         value={formData.description}
         onChange={handleChange}
-        count={count}
       />
 
       <TextField
@@ -93,7 +75,6 @@ export const NewMovie: React.FC<{
         label="Image URL"
         value={formData.imgUrl}
         onChange={handleChange}
-        count={count}
         required
       />
 
@@ -102,7 +83,6 @@ export const NewMovie: React.FC<{
         label="Imdb URL"
         value={formData.imdbUrl}
         onChange={handleChange}
-        count={count}
         required
       />
 
@@ -111,7 +91,6 @@ export const NewMovie: React.FC<{
         label="Imdb ID"
         value={formData.imdbId}
         onChange={handleChange}
-        count={count}
         required
       />
 
@@ -121,8 +100,7 @@ export const NewMovie: React.FC<{
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            onClick={handleAddMovie}
-            disabled={handleDisabled()}
+            disabled={handleDisabled}
           >
             Add
           </button>
