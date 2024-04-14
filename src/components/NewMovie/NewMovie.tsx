@@ -17,10 +17,17 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, SetCount] = useState(0);
 
   const fieldValue =
-    !titleValue || !imgUrlValue || !imdbUrlValue || !imdbIdValue;
+    !titleValue.trim() ||
+    !imgUrlValue.trim() ||
+    !imdbUrlValue.trim() ||
+    !imdbIdValue.trim();
 
   const handleAdd = (event: React.FormEvent) => {
     event.preventDefault();
+
+    if (fieldValue) {
+      return;
+    }
 
     SetTitleValue('');
     SetDescriptionValue('');
