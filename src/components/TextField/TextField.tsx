@@ -7,6 +7,7 @@ type Props = {
   label?: string;
   placeholder?: string;
   required?: boolean;
+  count: number;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
@@ -19,12 +20,13 @@ export const TextField: React.FC<Props> = ({
   value,
   label = name,
   placeholder = `Enter ${label}`,
+  count,
   required = false,
   onChange = () => {},
 }) => {
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
   const [touched, setTouched] = useState(false);
-  const hasError = touched && required && !value;
+  const hasError = count > 0 && touched && required && !value;
 
   return (
     <div className="field">

@@ -6,4 +6,12 @@ module.exports = {
   rules: {
     'prettier/prettier': 0,
   },
+  overrides: [
+    {
+      files: ["*.tsx"], // Adjust the file pattern if needed
+      rules: {
+        "padding-line-between-statements": "off",
+      },
+    },
+  ],
 };

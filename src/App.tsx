@@ -7,7 +7,9 @@ import { Movie } from './types/Movie';
 
 export const App = () => {
   const [add, setAdd] = useState('');
-  const [newMovieList, setNewMovieList] = useState<Movie[]>([...moviesFromServer]);
+  const [newMovieList, setNewMovieList] = useState<Movie[]>(
+    [...moviesFromServer]
+  );
   const [formData, setFormData] = useState<Movie>({
     title: '',
     description: '',
@@ -17,9 +19,9 @@ export const App = () => {
   });
 
   if (add === 'add') {
-    setNewMovieList((prev => [...prev, formData]))
+    setNewMovieList((prev => [...prev, formData]));
     setAdd('');
-  }
+  };
 
   return (
     <div className="page">
@@ -30,6 +32,7 @@ export const App = () => {
         <NewMovie
           formData={formData}
           setFormData={setFormData}
+          add={add}
           setAdd={setAdd}
         />
       </div>
