@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
@@ -19,6 +19,12 @@ export const NewMovie = ({ onAdd }: NewMovieProps) => {
   };
   const [movie, setMovie] = useState(initialMovie);
   const { title, description, imgUrl, imdbUrl, imdbId } = movie;
+  const onChange = (name: string, value: string) => {
+    setMovie(currentMovie => ({
+      ...currentMovie,
+      [name]: value,
+    }));
+  };
 
   const pattern =
     // eslint-disable-next-line max-len
@@ -57,18 +63,14 @@ export const NewMovie = ({ onAdd }: NewMovieProps) => {
   };
 
   return (
-    <form
-      className="NewMovie"
-      key={count}
-      onSubmit={(e: React.FormEvent<HTMLFormElement>) => reset(e)}
-    >
+    <form className="NewMovie" key={count} onSubmit={reset}>
       <h2 className="title">Add a movie</h2>
 
       <TextField
         name="title"
         label="Title"
         value={title}
-        onChange={event => setMovie({ ...movie, title: event })}
+        onChange={value => onChange('title', value)}
         required
       />
 
@@ -76,7 +78,7 @@ export const NewMovie = ({ onAdd }: NewMovieProps) => {
         name="description"
         label="Description"
         value={description}
-        onChange={event => setMovie({ ...movie, description: event })}
+        onChange={value => onChange('description', value)}
       />
 
       <TextField
@@ -84,7 +86,7 @@ export const NewMovie = ({ onAdd }: NewMovieProps) => {
         label="Image URL"
         value={imgUrl}
         required
-        onChange={event => setMovie({ ...movie, imgUrl: event })}
+        onChange={value => onChange('imgUrl', value)}
         validURL={validImgUrl}
       />
 
@@ -93,7 +95,7 @@ export const NewMovie = ({ onAdd }: NewMovieProps) => {
         label="Imdb URL"
         value={imdbUrl}
         required
-        onChange={event => setMovie({ ...movie, imdbUrl: event })}
+        onChange={value => onChange('imdbUrl', value)}
         validURL={validImdbUrl}
       />
 
@@ -101,8 +103,8 @@ export const NewMovie = ({ onAdd }: NewMovieProps) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
+        onChange={value => onChange('imdbId', value)}
         required
-        onChange={event => setMovie({ ...movie, imdbId: event })}
       />
 
       <div className="field is-grouped">
