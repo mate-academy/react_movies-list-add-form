@@ -20,7 +20,7 @@ export const NewMovie = ({ onAdd }: Props) => {
     if (
       !titleValue.trim() ||
       !imgUrl.trim() ||
-      !imgUrl.trim() ||
+      !imdbUrl.trim() ||
       !imdbId.trim()
     ) {
       return true;
