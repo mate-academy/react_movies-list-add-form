@@ -56,6 +56,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
           setDescription(value);
         }}
         value={description}
+        required
       />
 
       <TextField
@@ -65,6 +66,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
           setImgUrl(value);
         }}
         value={imgUrl}
+        required
       />
 
       <TextField
@@ -74,6 +76,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
           setImdbUrl(value);
         }}
         value={imdbUrl}
+        required
       />
 
       <TextField
@@ -83,6 +86,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
           setImdbId(value);
         }}
         value={imdbId}
+        required
       />
 
       <div className="field is-grouped">
