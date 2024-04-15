@@ -33,19 +33,15 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     movie.imdbId = '';
   };
 
-  const spaceCheck = Object.values(movie).every(
-    value => value.trim().length === 0,
+  const spaceCheck = Object.entries(movie).some(
+    ([key, value]) => value.trim().length === 0 && key !== 'description',
   );
 
   const inputIsDisabled =
     !movie.title || !movie.imgUrl || !movie.imdbUrl || !movie.imdbId;
 
   const isDisabled = (): boolean | undefined => {
-    if (inputIsDisabled || spaceCheck) {
-      return true;
-    }
-
-    return false;
+    return spaceCheck || inputIsDisabled;
   };
 
   const handleSumbit = (e: React.FormEvent) => {
