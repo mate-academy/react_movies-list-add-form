@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
+import { pattern } from '../../utils';
+
 type Props = {
   onAdd: (movie: Movie) => void;
 };
@@ -29,6 +31,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
   const handlerSumbit = (event: React.FormEvent) => {
     event.preventDefault();
+
+    if (!pattern.test(imdbUrl) || !pattern.test(imgUrl)) {
+      return;
+    }
 
     onAdd({ imdbId, title, imgUrl, imdbUrl, description });
     setCount(count + 1);
