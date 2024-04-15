@@ -7,7 +7,7 @@ type Props = {
   label?: string;
   placeholder?: string;
   required?: boolean;
-  onChange?: (newValue: string) => void;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
 function getRandomDigits() {
@@ -29,6 +29,27 @@ export const TextField: React.FC<Props> = ({
   const [touched, setTouched] = useState(false);
   const hasError = touched && required && !value;
 
+  const [onValidate, setOnValidate] = useState(false);
+
+  const validateUrl = (url: string): boolean => {
+    const urlPattern =
+      // eslint-disable-next-line max-len
+      /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
+
+    return urlPattern.test(url);
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    onChange(e);
+    if (onValidate) {
+      if (name === 'imgUrl' || name === 'imdbUrl') {
+        const isValid = validateUrl(e.target.value);
+
+        setOnValidate(isValid);
+      }
+    }
+  };
+
   return (
     <div className="field">
       <label className="label" htmlFor={id}>
@@ -38,6 +59,7 @@ export const TextField: React.FC<Props> = ({
       <div className="control">
         <input
           type="text"
+          name={name}
           id={id}
           data-cy={`movie-${name}`}
           className={classNames('input', {
@@ -45,7 +67,7 @@ export const TextField: React.FC<Props> = ({
           })}
           placeholder={placeholder}
           value={value}
-          onChange={event => onChange(event.target.value)}
+          onChange={handleChange}
           onBlur={() => setTouched(true)}
         />
       </div>
