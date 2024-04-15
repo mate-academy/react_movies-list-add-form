@@ -10,30 +10,48 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
+  const [movie, setMovie] = useState({
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  });
 
-  const reset = () => {
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
+  const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setMovie(movies => ({
+      ...movies,
+      [event.target.name]: event.target.value,
+    }));
   };
 
-  const isDisabled = !title || !imgUrl || !imdbUrl || !imdbId;
+  const reset = () => {
+    movie.title = '';
+    movie.description = '';
+    movie.imgUrl = '';
+    movie.imdbUrl = '';
+    movie.imdbId = '';
+  };
+
+  const spaceCheck = Object.values(movie).every(
+    value => value.trim().length === 0,
+  );
+
+  const inputIsDisabled =
+    !movie.title || !movie.imgUrl || !movie.imdbUrl || !movie.imdbId;
+
+  const isDisabled = (): boolean | undefined => {
+    if (inputIsDisabled || spaceCheck) {
+      return true;
+    }
+
+    return false;
+  };
 
   const handleSumbit = (e: React.FormEvent) => {
     e.preventDefault();
     onAdd({
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
+      ...movie,
     });
 
     reset();
@@ -48,39 +66,39 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value={title}
-        onChange={setTitle}
+        value={movie.title}
+        onChange={onChange}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value={description}
-        onChange={setDescription}
+        value={movie.description}
+        onChange={onChange}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={imgUrl}
-        onChange={setImgUrl}
+        value={movie.imgUrl}
+        onChange={onChange}
         required
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={imdbUrl}
-        onChange={setImdbUrl}
+        value={movie.imdbUrl}
+        onChange={onChange}
         required
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imdbId}
-        onChange={setImdbId}
+        value={movie.imdbId}
+        onChange={onChange}
         required
       />
 
@@ -90,7 +108,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={isDisabled}
+            disabled={isDisabled()}
           >
             Add
           </button>
