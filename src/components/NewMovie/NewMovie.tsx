@@ -40,7 +40,15 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
     setCount(count + 1);
   };
 
-  const isDisabled = !title || !imgUrl || !imdbUrl || !imdbId;
+  const pattern =
+    // eslint-disable-next-line max-len
+    /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?: www\.| [-;:&=+$, \w] + @)[A - Za - z0 - 9. -] +) ((?: \/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
+
+  const isDisabled =
+    !title ||
+    (!imgUrl && pattern.test(imgUrl)) ||
+    (!imdbUrl && pattern.test(imdbUrl)) ||
+    !imdbId;
 
   return (
     <form className="NewMovie" key={count} onSubmit={handleSubmit}>
