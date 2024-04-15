@@ -48,8 +48,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   };
 
   const handleDisabled =
-    !formData.title || !formData.imgUrl ||
-    !formData.imdbUrl || !formData.imdbId;
+    !formData.title.trim() || !formData.imgUrl.trim() ||
+    !formData.imdbUrl.trim() || !formData.imdbId.trim();
 
   return (
     <form className="NewMovie" key={count} onSubmit={handleAddMovie}>
