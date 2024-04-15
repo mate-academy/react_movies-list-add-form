@@ -7,61 +7,41 @@ type Prop = {
 };
 
 export const NewMovie: React.FC<Prop> = ({ onAdd }) => {
-  // #region state
   const [count, setCount] = useState(0);
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
-  // #endregion
-  const conditionToAdd = !title || !imgUrl || !imdbUrl || !imdbId;
-  // #region handlers
-  const handleTitleChange = (newValue: string) => {
-    setTitle(newValue);
-  };
+  const [movie, setMovie] = useState({
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  });
 
-  const handleDescriptionChange = (newValue: string) => {
-    setDescription(newValue);
-  };
+  const conditionToReject =
+    !movie.title.trim() ||
+    !movie.imgUrl.trim() ||
+    !movie.imdbUrl.trim() ||
+    !movie.imdbId.trim();
 
-  const handleImgUrlChange = (newValue: string) => {
-    setImgUrl(newValue);
+  const handleChange = (name: string, newValue: string) => {
+    setMovie(newMovie => ({
+      ...newMovie,
+      [name]: newValue,
+    }));
   };
-
-  const handleImdbUrlChange = (newValue: string) => {
-    setImdbUrl(newValue);
-  };
-
-  const handleImdbIdChange = (newValue: string) => {
-    setImdbId(newValue);
-  };
-  // #endregion
-  //#region Submit
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (conditionToAdd) {
+    if (conditionToReject) {
       return;
     } else {
       onAdd({
-        title,
-        description,
-        imgUrl,
-        imdbUrl,
-        imdbId,
+        ...movie,
       });
 
       setCount(count + 1);
-      setTitle('');
-      setDescription('');
-      setImgUrl('');
-      setImdbUrl('');
-      setImdbId('');
     }
   };
-  //#endregion
 
   return (
     <form
@@ -75,46 +55,46 @@ export const NewMovie: React.FC<Prop> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value={title}
-        onChange={handleTitleChange}
+        value={movie.title}
+        onChange={newValue => handleChange('title', newValue)}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value={description}
-        onChange={handleDescriptionChange}
+        value={movie.description}
+        onChange={newValue => handleChange('description', newValue)}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={imgUrl}
-        onChange={handleImgUrlChange}
+        value={movie.imgUrl}
+        onChange={newValue => handleChange('imgUrl', newValue)}
         required
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={imdbUrl}
-        onChange={handleImdbUrlChange}
+        value={movie.imdbUrl}
+        onChange={newValue => handleChange('imdbUrl', newValue)}
         required
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imdbId}
-        onChange={handleImdbIdChange}
+        value={movie.imdbId}
+        onChange={newValue => handleChange('imdbId', newValue)}
         required
       />
 
       <div className="field is-grouped">
         <div className="control">
           <button
-            disabled={conditionToAdd}
+            disabled={conditionToReject}
             type="submit"
             data-cy="submit-button"
             className="button is-link"
