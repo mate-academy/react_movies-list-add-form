@@ -16,6 +16,10 @@ export const NewMovie: React.FC<NewMovieAdd> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
+  const urlPattern =
+    // eslint-disable-next-line max-len
+    /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
+
   const handleSetTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
   };
@@ -29,11 +33,23 @@ export const NewMovie: React.FC<NewMovieAdd> = ({ onAdd }) => {
   };
 
   const handleSetImgUrl = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setImgUrl(event.target.value);
+    const url = event.target.value;
+
+    if (!urlPattern.test(url)) {
+      return;
+    }
+
+    setImgUrl(url);
   };
 
   const handleSetImdbId = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setImdbId(event.target.value);
+    const url = event.target.value;
+
+    if (!urlPattern.test(url)) {
+      return;
+    }
+
+    setImdbId(url);
   };
 
   const submitData = (event: React.FormEvent) => {
@@ -101,16 +117,6 @@ export const NewMovie: React.FC<NewMovieAdd> = ({ onAdd }) => {
     }
   };
 
-  const pattern =
-    // eslint-disable-next-line max-len
-    /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?: www\.| [-;:&=+$, \w] + @)[A - Za - z0 - 9. -] +) ((?: \/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
-
-  const isDisabled =
-    !title ||
-    (!imgUrl && pattern.test(imgUrl)) ||
-    (!imdbUrl && pattern.test(imdbUrl)) ||
-    !imdbId;
-
   return (
     <form className="NewMovie" key={count} onSubmit={submitData}>
       <h2 className="title">Add a movie</h2>
@@ -133,7 +139,6 @@ export const NewMovie: React.FC<NewMovieAdd> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={isDisabled}
           >
             Add
           </button>
