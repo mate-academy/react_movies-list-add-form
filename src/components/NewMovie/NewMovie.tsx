@@ -29,27 +29,27 @@ export const NewMovie: React.FC<NewMovieAdd> = ({ onAdd }) => {
   };
 
   const handleSetImdbUrl = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setImdbUrl(event.target.value);
+    const url = event.target.value;
+
+    if (!urlPattern.test(url)) {
+      throw new Error('its not a url');
+    }
+
+    setImdbUrl(url);
   };
 
   const handleSetImgUrl = (event: React.ChangeEvent<HTMLInputElement>) => {
     const url = event.target.value;
 
     if (!urlPattern.test(url)) {
-      return;
+      throw new Error('its not a url');
     }
 
     setImgUrl(url);
   };
 
   const handleSetImdbId = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const url = event.target.value;
-
-    if (!urlPattern.test(url)) {
-      return;
-    }
-
-    setImdbId(url);
+    setImdbId(event.target.value);
   };
 
   const submitData = (event: React.FormEvent) => {
@@ -117,6 +117,8 @@ export const NewMovie: React.FC<NewMovieAdd> = ({ onAdd }) => {
     }
   };
 
+  const isDisabled = !title || !description || !imgUrl || !imdbUrl || !imdbId;
+
   return (
     <form className="NewMovie" key={count} onSubmit={submitData}>
       <h2 className="title">Add a movie</h2>
@@ -139,6 +141,7 @@ export const NewMovie: React.FC<NewMovieAdd> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
+            disabled={isDisabled}
           >
             Add
           </button>
