@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import React, { useState } from 'react';
+import { isURLInvalid } from '../../services/URLValidation';
 
 type Props = {
   name: string;
@@ -7,6 +8,7 @@ type Props = {
   label?: string;
   placeholder?: string;
   required?: boolean;
+  requiredURLValidation?: boolean;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
@@ -20,6 +22,7 @@ export const TextField: React.FC<Props> = ({
   label = name,
   placeholder = `Enter ${label}`,
   required = false,
+  requiredURLValidation = false,
   onChange,
 }) => {
   // generage a unique id once on component load
@@ -52,6 +55,9 @@ export const TextField: React.FC<Props> = ({
       </div>
 
       {hasError && <p className="help is-danger">{`${label} is required`}</p>}
+      {isURLInvalid(value) && requiredURLValidation && (
+        <p className="help is-danger">Enter valid URL</p>
+      )}
     </div>
   );
 };

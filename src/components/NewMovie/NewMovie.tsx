@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
+import { isURLInvalid } from '../../services/URLValidation';
 
 type Props = {
   onAdd: (movie: Movie) => void;
@@ -26,16 +27,29 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     });
   };
 
-  const requiredFields = ['title', 'imgUrl', 'imdbUrl', 'imdbId'];
+  const requiredFields: Array<keyof Movie> = [
+    'title',
+    'imgUrl',
+    'imdbUrl',
+    'imdbId',
+  ];
+  const fieldsRequireingURLValidation: Array<keyof Movie> = [
+    'imgUrl',
+    'imdbUrl',
+  ];
 
   const emptyTextfields = Object.entries(newMovie).some(([key, value]) => {
-    return requiredFields.includes(key) && value.trim() == '';
+    return requiredFields.includes(key as keyof Movie) && value.trim() == '';
   });
+
+  const areInvalidFields = (fields: Array<keyof Movie>) => {
+    return fields.some(field => isURLInvalid(newMovie[field]));
+  };
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (emptyTextfields) {
+    if (emptyTextfields || areInvalidFields(fieldsRequireingURLValidation)) {
       return;
     }
 
@@ -75,6 +89,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={newMovie.imgUrl}
         onChange={handleChange}
         required
+        requiredURLValidation
       />
 
       <TextField
@@ -83,6 +98,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={newMovie.imdbUrl}
         onChange={handleChange}
         required
+        requiredURLValidation
       />
 
       <TextField
@@ -99,7 +115,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={emptyTextfields}
+            disabled={
+              emptyTextfields || areInvalidFields(fieldsRequireingURLValidation)
+            }
           >
             Add
           </button>
