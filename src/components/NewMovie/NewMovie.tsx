@@ -20,8 +20,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const pattern =
     /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
   /* eslint-enable */
-  const imgUrlValid = pattern.test(imgUrl);
-  const imdbUrlValid = pattern.test(imdbUrl);
+  const imgUrlValid = pattern.test(imgUrl.trim());
+  const imdbUrlValid = pattern.test(imdbUrl.trim());
 
   const addButtonHide = !(
     title.trim() &&
