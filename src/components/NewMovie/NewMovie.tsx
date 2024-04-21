@@ -7,9 +7,11 @@ type Props = {
   onAdd: (movie: Movie) => void;
 };
 
+const pattern =
+  // eslint-disable-next-line max-len
+  /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
+
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [imgUrl, setImgUrl] = useState('');
@@ -17,7 +19,27 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbId, setImdbId] = useState('');
   const [count, setCount] = useState(0);
 
-  const disactive = !title || !imgUrl || !imdbUrl || !imdbId;
+  let isDisabled = true;
+
+  const addValidation = () => {
+    const imgUrlsValidation = pattern.test(imgUrl);
+    const imdbUrlsValidation = pattern.test(imdbUrl);
+
+    if (
+      title.trim() &&
+      imgUrlsValidation &&
+      imdbUrlsValidation &&
+      imdbId.trim()
+    ) {
+      isDisabled = false;
+
+      return;
+    }
+
+    isDisabled = true;
+
+    return;
+  };
 
   const handleSubmission: FormEventHandler = event => {
     event.preventDefault();
@@ -39,6 +61,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setCount(countClicks => countClicks + 1);
   };
 
+  addValidation();
+
   return (
     <form className="NewMovie" key={count} onSubmit={handleSubmission}>
       <h2 className="title">Add a movie</h2>
@@ -56,7 +80,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Description"
         value={description}
         onChange={setDescription}
-        required
       />
 
       <TextField
@@ -89,7 +112,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={disactive}
+            disabled={isDisabled}
           >
             Add
           </button>
