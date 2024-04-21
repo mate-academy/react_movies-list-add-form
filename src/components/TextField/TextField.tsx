@@ -45,7 +45,7 @@ export const TextField: React.FC<Props> = ({
             'is-danger': hasError,
           })}
           placeholder={placeholder}
-          value={value}
+          value={value.trimStart()}
           onChange={onChange}
           onBlur={() => setTouched(true)}
           // eslint-disable-next-line max-len
