@@ -30,4 +30,13 @@ const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(
 - Implement a solution following the [React task guideline](https://github.com/mate-academy/react_task-guideline#react-tasks-guideline).
 - Use the [React TypeScript cheat sheet](https://mate-academy.github.io/fe-program/js/extra/react-typescript).
 - Open one more terminal and run tests with `npm test` to ensure your solution is correct.
-- Replace `<your_account>` with your Github username in the [DEMO LINK](https://<your_account>.github.io/react_movies-list-add-form/) and add it to the PR description.
+- Replace `<your_account>` with your Github username in the [DEMO LINK](https://Zubkovskiy.github.io/react_movies-list-add-form/) and add it to the PR description.
+
+1. NewMovie должен проверить, являются ли `title`, `imgUrl`, `imdbUrl`, `imdbId`
+вводится, когда ввод теряет фокус («onBlur») и показывает ошибку и красный
+граница, если необходимо (узнайте, как она реализована в TextField);
+1. «Описание» не является обязательным;
+1. Отключите кнопку отправки до тех пор, пока не будут заполнены все обязательные поля (пробелы следует обрезать);
+1. Очистите форму после добавления нового фильма.
+1. После очистки формы не должны отображаться ошибки (измените ее ключ на
+повторно инициализировать форму);
