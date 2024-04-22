@@ -6,33 +6,28 @@ interface Props {
   onAdd: (newMovie: Movie) => void;
 }
 
+const DEFAULT_VALUES: Movie = {
+  title: '',
+  description: '',
+  imgUrl: '',
+  imdbId: '',
+  imdbUrl: '',
+};
+
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
-  // const [count, setCount] = useState(0);
-  const defaultValues: Movie = {
-    title: '',
-    description: '',
-    imgUrl: '',
-    imdbId: '',
-    imdbUrl: '',
-  };
-  const [values, setValues] = useState<Movie>(defaultValues);
+  const [movieData, setMovieData] = useState<Movie>(DEFAULT_VALUES);
+  const { title, description, imgUrl, imdbUrl, imdbId } = movieData;
   const [count, setCount] = useState<number>(0);
 
   const handleChangeValues = (
     event: React.ChangeEvent<HTMLInputElement>,
     fieldName: keyof Movie,
   ) => {
-    const { value } = event.target;
-
-    setValues(item => ({
+    setMovieData(item => ({
       ...item,
-      [fieldName]: value,
+      [fieldName]: event.target.value,
     }));
   };
-
-  const { title, description, imgUrl, imdbUrl, imdbId } = values;
 
   const isFormValid =
     title.trim() && imgUrl.trim() && imdbId.trim() && imdbUrl.trim();
@@ -40,9 +35,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    onAdd(values);
+    onAdd(movieData);
 
-    setValues(defaultValues);
+    setMovieData(DEFAULT_VALUES);
     setCount(count + 1);
   };
 
