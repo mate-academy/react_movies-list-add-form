@@ -29,6 +29,10 @@ export const TextField: React.FC<Props> = ({
   const [touched, setTouched] = useState(false);
   const hasError = touched && required && !value;
 
+  const handleBlur = () => {
+    setTouched(true);
+  };
+
   return (
     <div className="field">
       <label className="label" htmlFor={id}>
@@ -47,9 +51,7 @@ export const TextField: React.FC<Props> = ({
           placeholder={placeholder}
           value={value.trimStart()}
           onChange={onChange}
-          onBlur={() => setTouched(true)}
-          // eslint-disable-next-line max-len
-          pattern="/^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;"
+          onBlur={handleBlur}
         />
       </div>
 

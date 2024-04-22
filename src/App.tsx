@@ -19,6 +19,7 @@ export const App: React.FC = () => {
       <div className="page-content">
         <MoviesList movies={movies} />
       </div>
+
       <div className="sidebar">
         <NewMovie onAdd={addMovie} />
       </div>

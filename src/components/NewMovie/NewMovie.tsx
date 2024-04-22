@@ -17,6 +17,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     imdbId: '',
   });
 
+  const { title, description, imgUrl, imdbUrl, imdbId } = movieFields;
+
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
 
@@ -46,7 +48,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value={movieFields.title}
+        value={title}
         onChange={handleChange}
         required={true}
       />
@@ -54,14 +56,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="description"
         label="Description"
-        value={movieFields.description}
+        value={description}
         onChange={handleChange}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={movieFields.imgUrl}
+        value={imgUrl}
         onChange={handleChange}
         required={true}
       />
@@ -69,7 +71,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={movieFields.imdbUrl}
+        value={imdbUrl}
         onChange={handleChange}
         required={true}
       />
@@ -77,7 +79,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={movieFields.imdbId}
+        value={imdbId}
         onChange={handleChange}
         required={true}
       />
