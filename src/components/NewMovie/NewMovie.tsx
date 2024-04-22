@@ -2,37 +2,48 @@ import { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
-// eslint-disable-next-line @typescript-eslint/naming-convention
-type Props = {
+interface Props {
   onAdd: (newMovie: Movie) => void;
-};
+}
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
-  const [count, setCount] = useState(0);
+  // const [count, setCount] = useState(0);
+  const defaultValues: Movie = {
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbId: '',
+    imdbUrl: '',
+  };
+  const [values, setValues] = useState<Movie>(defaultValues);
+  const [count, setCount] = useState<number>(0);
 
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
+  const handleChangeValues = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    fieldName: keyof Movie,
+  ) => {
+    const { value } = event.target;
+
+    setValues(item => ({
+      ...item,
+      [fieldName]: value,
+    }));
+  };
+
+  const { title, description, imgUrl, imdbUrl, imdbId } = values;
 
   const isFormValid =
-    title.trim() && imgUrl.trim() && imdbUrl.trim() && imdbId.trim();
+    title.trim() && imgUrl.trim() && imdbId.trim() && imdbUrl.trim();
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (isFormValid) {
-      onAdd({ title, description, imgUrl, imdbUrl, imdbId });
-      setTitle('');
-      setDescription('');
-      setImgUrl('');
-      setImdbUrl('');
-      setImdbId('');
-      setCount(count + 1);
-    }
+    onAdd(values);
+
+    setValues(defaultValues);
+    setCount(count + 1);
   };
 
   return (
@@ -43,39 +54,36 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={title}
-        onChange={setTitle}
-        required
+        onChange={e => handleChangeValues(e, 'title')}
       />
 
       <TextField
         name="description"
         label="Description"
         value={description}
-        onChange={setDescription}
+        onChange={e => handleChangeValues(e, 'description')}
+        required={false}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={setImgUrl}
-        required
+        onChange={e => handleChangeValues(e, 'imgUrl')}
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={setImdbUrl}
-        required
+        onChange={e => handleChangeValues(e, 'imdbUrl')}
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={setImdbId}
-        required
+        onChange={e => handleChangeValues(e, 'imdbId')}
       />
 
       <div className="field is-grouped">
