@@ -1,51 +1,65 @@
 import React, { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
-// import cn from 'classnames';
+import { InputState } from '../../types/InputState';
 
 interface Props {
   onAdd: (movie: Movie) => void;
 }
 
-export const NewMovie: React.FC<Props> = ({ onAdd }) => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
-  const [count, setCount] = useState(0);
+type State = {
+  titleValue: string;
+  imgUrlValue: string;
+  imdbUrlValue: string;
+  imdbIdValue: string;
+  descrValue: string;
+};
 
-  const [titleValue, setTitleValue] = useState('');
-  const [imgUrlValue, setImgUrlValue] = useState('');
-  const [imdbUrlValue, setImdbUrlValue] = useState('');
-  const [imdbIdValue, setImdbIdValue] = useState('');
-  const [descrValue, setDescrValue] = useState('');
+export const NewMovie: React.FC<Props> = ({ onAdd }) => {
+  const initialValue = {
+    titleValue: '',
+    imgUrlValue: '',
+    imdbUrlValue: '',
+    imdbIdValue: '',
+    descrValue: '',
+  };
+
+  const [count, setCount] = useState(0);
+  const [inputValue, setInputValue] = useState<State>(initialValue);
+
+  const { titleValue, imgUrlValue, imdbUrlValue, imdbIdValue, descrValue } =
+    inputValue;
 
   const pattern =
     // eslint-disable-next-line
     /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
 
-  const notAllInformationGathered =
-    titleValue.length === 0 ||
-    imdbUrlValue.length === 0 ||
-    imdbIdValue.length === 0 ||
-    imgUrlValue.length === 0;
+  const notAllInformationGathered = Object.entries(inputValue).some(
+    ([key, value]) => {
+      if (key === 'descrValue') {
+        return false;
+      }
 
-  const handlerTitleInput = (value: string) => {
-    setTitleValue(value);
+      return value.length === 0;
+    },
+  );
+
+  const resetInputState = () => {
+    setInputValue(() => {
+      return {
+        titleValue: '',
+        imgUrlValue: '',
+        imdbUrlValue: '',
+        imdbIdValue: '',
+        descrValue: '',
+      };
+    });
   };
 
-  const handlerImageInput = (value: string) => {
-    setImgUrlValue(value);
-  };
-
-  const handlerImdbUrlInput = (value: string) => {
-    setImdbUrlValue(value);
-  };
-
-  const handlerImdbIdInput = (value: string) => {
-    setImdbIdValue(value);
-  };
-
-  const handlerDescrInput = (value: string) => {
-    setDescrValue(value);
+  const handlerInput = (value: string, key: keyof State) => {
+    setInputValue(newState => {
+      return { ...newState, [key]: value };
+    });
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -64,11 +78,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     };
 
     onAdd(newMovie);
-    setDescrValue('');
-    setImdbIdValue('');
-    setImdbUrlValue('');
-    setImgUrlValue('');
-    setTitleValue('');
+
+    resetInputState();
+
     setCount(prevState => prevState + 1);
   };
 
@@ -84,41 +96,41 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={titleValue}
-        onChange={handlerTitleInput}
+        onChange={handlerInput}
+        inputState={InputState.titleValue}
         required
       />
-
       <TextField
         name="description"
         label="Description"
         value={descrValue}
-        onChange={handlerDescrInput}
+        onChange={handlerInput}
+        inputState={InputState.descrValue}
       />
-
       <TextField
         name="imgUrl"
         label="Image URL"
         value={imgUrlValue}
-        onChange={handlerImageInput}
+        onChange={handlerInput}
+        inputState={InputState.imgUrlValue}
         required
       />
-
       <TextField
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrlValue}
-        onChange={handlerImdbUrlInput}
+        onChange={handlerInput}
+        inputState={InputState.imdbUrlValue}
         required
       />
-
       <TextField
         name="imdbId"
         label="Imdb ID"
         value={imdbIdValue}
-        onChange={handlerImdbIdInput}
+        onChange={handlerInput}
+        inputState={InputState.imdbIdValue}
         required
       />
-
       <div className="field is-grouped">
         <div className="control">
           <button
