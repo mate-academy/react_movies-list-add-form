@@ -7,8 +7,6 @@ type Props = {
 };
 
 export const NewMovie = ({ onAdd }: Props) => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
 
   const initialMovie = {
@@ -21,6 +19,7 @@ export const NewMovie = ({ onAdd }: Props) => {
 
   const [movie, setMovie] = useState(initialMovie);
   const { title, description, imgUrl, imdbUrl, imdbId } = movie;
+
   const onChange = (name: string, value: string) => {
     setMovie(currentMovie => ({
       ...currentMovie,
@@ -90,6 +89,7 @@ export const NewMovie = ({ onAdd }: Props) => {
         value={imgUrl}
         onChange={value => onChange('imgUrl', value)}
         required
+        hasError={validImgUrl}
       />
 
       <TextField
@@ -98,6 +98,7 @@ export const NewMovie = ({ onAdd }: Props) => {
         value={imdbUrl}
         onChange={value => onChange('imdbUrl', value)}
         required
+        hasError={validImdbUrl}
       />
 
       <TextField
