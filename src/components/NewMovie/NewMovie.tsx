@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
@@ -7,7 +8,7 @@ interface NewMovieProps {
 }
 
 export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
-  let [count, setCount] = useState(0);
+  const [count, setCount] = useState(0);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [imgUrl, setImgUrl] = useState('');

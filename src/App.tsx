@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+
 import './App.scss';
 import { MoviesList } from './components/MoviesList';
 import { NewMovie } from './components/NewMovie';
