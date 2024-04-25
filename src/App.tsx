@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import 'bulma/css/bulma.css';
 import './App.scss';
 import { MoviesList } from './components/MoviesList';
 import { NewMovie } from './components/NewMovie';
