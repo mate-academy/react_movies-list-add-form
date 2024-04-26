@@ -15,7 +15,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbId, setImdbId] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
 
-  const canAdd = !!title && !!imgUrl && !!imdbId && !!imdbUrl;
+  const canAdd =
+    title.trim() && imgUrl.trim() && imdbId.trim() && imdbUrl.trim();
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
