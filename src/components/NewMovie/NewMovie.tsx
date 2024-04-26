@@ -61,7 +61,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={imdbUrl}
+        value={imgUrl}
         onChange={setImgUrl}
         required
       />
@@ -77,7 +77,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={imdbId}
+        value={imdbUrl}
         onChange={setImdbUrl}
         required
       />
