@@ -36,11 +36,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     );
 
   const handleFormatCheck = (value: string) => {
-    const pattern = new RegExp(
-      '^((([A-Za-z]{3,9}:(?://)?)(?:[-;:&=+$,w]+@)?[A-Za-z0-9.-]' +
-        '+|(?:www.|[-;:&=+$,w]+@)[A-Za-z0-9.-]+)((?:/[+~%/.w-_]*)?' +
-        '??(?:[-+=&;%@,.w_]*)#?(?:[,.!/\\w]*))?)$/',
-    );
+    const pattern =
+      // eslint-disable-next-line
+      /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
 
     return pattern.test(value);
   };
