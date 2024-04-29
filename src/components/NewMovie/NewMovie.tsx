@@ -52,7 +52,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   };
 
   const isFormValid = () => {
-    const emptyFieldsCheck = Object.values(movie).some(value => !value.trim());
+    const emptyFieldsCheck =
+      !title.trim() || !imgUrl.trim() || !imdbUrl.trim() || !imdbId.trim();
 
     const URLInValidCheck = Object.values(isURLValid).some(
       validCheck => !validCheck,
