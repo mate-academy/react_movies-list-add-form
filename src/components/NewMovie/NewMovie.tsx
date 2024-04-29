@@ -12,35 +12,53 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
 
   // #region formStates
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
+  const [movie, setMovie] = useState<Movie>({
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  });
 
-  const [imgUrl, setImgUrl] = useState('');
-  const [isImgUrlValid, setIsImgUrlValid] = useState(false);
+  const { title, description, imgUrl, imdbUrl, imdbId } = movie;
 
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [isImdbUrlValid, setIsImdbUrlValid] = useState(false);
-
-  const [imdbId, setImdbId] = useState('');
+  const [isURLValid, setIsURLValid] = useState({
+    imgUrl: false,
+    imdbUrl: false,
+  });
   // #endregion
 
   // #region handles
-  const inValidCheck = () =>
-    !(
-      title.trim() &&
-      imgUrl.trim() &&
-      imdbUrl.trim() &&
-      imdbId.trim() &&
-      isImgUrlValid &&
-      isImdbUrlValid
-    );
+  const handleChanges = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
 
-  const handleFormatCheck = (value: string) => {
+    setMovie({
+      ...movie,
+      [name]: value,
+    });
+  };
+
+  const handleURLCheck = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+
     const pattern =
       // eslint-disable-next-line
       /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
 
-    return pattern.test(value);
+    setIsURLValid({
+      ...isURLValid,
+      [name]: pattern.test(value.trim()),
+    });
+  };
+
+  const isFormValid = () => {
+    const emptyFieldsCheck = Object.values(movie).some(value => !value.trim());
+
+    const URLInValidCheck = Object.values(isURLValid).some(
+      validCheck => !validCheck,
+    );
+
+    return !(emptyFieldsCheck || URLInValidCheck);
   };
 
   const handleSubmit = (e: FormEvent) => {
@@ -54,11 +72,18 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       imdbId,
     });
 
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
+    setMovie({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
+
+    setIsURLValid({
+      imgUrl: false,
+      imdbUrl: false,
+    });
 
     setCount(count + 1);
   };
@@ -72,7 +97,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={title}
-        onChange={setTitle}
+        onChange={handleChanges}
         required
       />
 
@@ -80,19 +105,16 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={description}
-        onChange={setDescription}
+        onChange={handleChanges}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={setImgUrl}
-        formalCheck={value => {
-          setIsImgUrlValid(handleFormatCheck(value));
-
-          return handleFormatCheck(value);
-        }}
+        onChange={handleChanges}
+        isURLValid={isURLValid.imgUrl}
+        setIsURLValid={handleURLCheck}
         required
       />
 
@@ -100,12 +122,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={setImdbUrl}
-        formalCheck={value => {
-          setIsImdbUrlValid(handleFormatCheck(value));
-
-          return handleFormatCheck(value);
-        }}
+        onChange={handleChanges}
+        isURLValid={isURLValid.imdbUrl}
+        setIsURLValid={handleURLCheck}
         required
       />
 
@@ -113,7 +132,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={setImdbId}
+        onChange={handleChanges}
         required
       />
 
@@ -123,7 +142,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={inValidCheck()}
+            disabled={!isFormValid()}
           >
             Add
           </button>
