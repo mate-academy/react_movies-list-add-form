@@ -23,6 +23,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     imdbId: '',
   });
 
+  const { title, description, imdbId, imdbUrl, imgUrl } = newMovie;
+
   const handleSubmit = (event: React.FormEvent<HTMLButtonElement>) => {
     event.preventDefault();
 
@@ -32,17 +34,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   };
 
   const isButtonDisabled = () => {
-    if (
-      !newMovie.title.trim() ||
-      !newMovie.imdbId.trim() ||
-      !newMovie.imdbUrl.trim() ||
-      !newMovie.imgUrl.trim()
-    ) {
+    if (!title.trim() || !imdbId.trim() || !imdbUrl.trim() || !imgUrl.trim()) {
       return true;
-    } else if (
-      !pattern.test(newMovie.imdbUrl) ||
-      !pattern.test(newMovie.imgUrl)
-    ) {
+    } else if (!pattern.test(imdbUrl) || !pattern.test(imgUrl)) {
       return true;
     }
 
@@ -62,7 +56,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value={newMovie.title}
+        value={title}
         onChange={handleChange}
         required
       />
@@ -70,14 +64,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="description"
         label="Description"
-        value={newMovie.description}
+        value={description}
         onChange={handleChange}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={newMovie.imgUrl}
+        value={imgUrl}
         onChange={handleChange}
         required
       />
@@ -85,7 +79,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={newMovie.imdbUrl}
+        value={imdbUrl}
         onChange={handleChange}
         required
       />
@@ -93,7 +87,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={newMovie.imdbId}
+        value={imdbId}
         onChange={handleChange}
         required
       />
