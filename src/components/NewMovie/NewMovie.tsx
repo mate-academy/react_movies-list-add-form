@@ -14,23 +14,27 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImbdURL] = useState('');
   const [imdbId, setImdbID] = useState('');
 
-  const handleAdd = (event: React.FormEvent) => {
-    event.preventDefault();
-
-    onAdd({
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    });
-
-    setCount(count + 1);
+  const resetAll = () => {
     setTitle('');
     setDescription('');
     setImageURL('');
     setImbdURL('');
     setImdbID('');
+  };
+
+  const handleAdd = (event: React.FormEvent) => {
+    event.preventDefault();
+
+    onAdd({
+      title: title.trim(),
+      description: description.trim(),
+      imgUrl: imgUrl.trim(),
+      imdbUrl: imdbUrl.trim(),
+      imdbId: imdbId.trim(),
+    });
+
+    setCount(count + 1);
+    resetAll();
   };
 
   const disableButton = () => {
