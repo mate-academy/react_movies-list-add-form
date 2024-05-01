@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
@@ -11,52 +11,54 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
 
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
+  const pattern =
+    // eslint-disable-next-line max-len
+    /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
+
+  const [newMovie, setNewMovie] = useState<Movie>({
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  });
 
   const handleSubmit = (event: React.FormEvent<HTMLButtonElement>) => {
     event.preventDefault();
 
     onAdd({
-      title: title,
-      description: description,
-      imgUrl: imgUrl,
-      imdbId: imdbId,
-      imdbUrl: imdbUrl,
+      title: newMovie.title,
+      description: newMovie.description,
+      imgUrl: newMovie.imgUrl,
+      imdbId: newMovie.imdbId,
+      imdbUrl: newMovie.imdbUrl,
     });
 
     setCount(prev => prev + 1);
   };
 
   const isDisabledButton = () => {
-    if (!title || !imdbId || !imdbUrl || !imgUrl) {
+    if (
+      !newMovie.title.trim() ||
+      !newMovie.imdbId.trim() ||
+      !newMovie.imdbUrl.trim() ||
+      !newMovie.imgUrl.trim()
+    ) {
+      return true;
+    } else if (
+      !pattern.test(newMovie.imdbUrl) ||
+      !pattern.test(newMovie.imgUrl)
+    ) {
       return true;
     }
 
     return false;
   };
 
-  const handleTitleChange = (newTitle: string): void => {
-    setTitle(newTitle);
-  };
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
 
-  const handleDescriptionChange = (newDescription: string): void => {
-    setDescription(newDescription);
-  };
-
-  const handleImgUrlChange = (newImgUrl: string): void => {
-    setImgUrl(newImgUrl);
-  };
-
-  const handleImdbUrlChange = (newImdbUrl: string): void => {
-    setImdbUrl(newImdbUrl);
-  };
-
-  const handleImdbIdChange = (newImdbId: string): void => {
-    setImdbId(newImdbId);
+    setNewMovie(prevMovie => ({ ...prevMovie, [name]: value }));
   };
 
   return (
@@ -66,39 +68,39 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value={title}
-        onChange={handleTitleChange}
+        value={newMovie.title}
+        onChange={handleChange}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value={description}
-        onChange={handleDescriptionChange}
+        value={newMovie.description}
+        onChange={handleChange}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={imgUrl}
-        onChange={handleImgUrlChange}
+        value={newMovie.imgUrl}
+        onChange={handleChange}
         required
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={imdbUrl}
-        onChange={handleImdbUrlChange}
+        value={newMovie.imdbUrl}
+        onChange={handleChange}
         required
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imdbId}
-        onChange={handleImdbIdChange}
+        value={newMovie.imdbId}
+        onChange={handleChange}
         required
       />
 
