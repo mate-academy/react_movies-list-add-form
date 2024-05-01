@@ -26,18 +26,12 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const handleSubmit = (event: React.FormEvent<HTMLButtonElement>) => {
     event.preventDefault();
 
-    onAdd({
-      title: newMovie.title,
-      description: newMovie.description,
-      imgUrl: newMovie.imgUrl,
-      imdbId: newMovie.imdbId,
-      imdbUrl: newMovie.imdbUrl,
-    });
+    onAdd(newMovie);
 
     setCount(prev => prev + 1);
   };
 
-  const isDisabledButton = () => {
+  const isButtonDisabled = () => {
     if (
       !newMovie.title.trim() ||
       !newMovie.imdbId.trim() ||
@@ -110,8 +104,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            onClick={event => handleSubmit(event)}
-            disabled={isDisabledButton()}
+            onClick={handleSubmit}
+            disabled={isButtonDisabled()}
           >
             Add
           </button>
