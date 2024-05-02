@@ -3,7 +3,7 @@ import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
 interface NewMovieProps {
-  onAddMovie: (newMovie: Movie) => void;
+  onAdd: (newMovie: Movie) => void;
 }
 
 const initialMovieState: Movie = {
@@ -14,7 +14,7 @@ const initialMovieState: Movie = {
   imdbId: '',
 };
 
-export const NewMovie = ({ onAddMovie }: NewMovieProps) => {
+export const NewMovie = ({ onAdd }: NewMovieProps) => {
   const [count, setCount] = useState(0);
 
   const [formData, setFormData] = useState<Movie>({
@@ -36,7 +36,7 @@ export const NewMovie = ({ onAddMovie }: NewMovieProps) => {
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (isFormValid) {
-      onAddMovie(formData);
+      onAdd(formData);
       setFormData(initialMovieState);
       setCount(c => c + 1);
     }
