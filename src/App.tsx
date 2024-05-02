@@ -3,19 +3,12 @@ import { MoviesList } from './components/MoviesList';
 import { NewMovie } from './components/NewMovie';
 import moviesFromServer from './api/movies.json';
 import { useState } from 'react';
-
-interface Movies {
-  title: string;
-  description: string;
-  imgUrl: string;
-  imdbUrl: string;
-  imdbId: string;
-}
+import { Movie } from './types/Movie';
 
 export const App = () => {
   const [movies, setMovies] = useState(moviesFromServer);
 
-  const addMovie = (newMovie: Movies) => {
+  const onAddMovie = (newMovie: Movie) => {
     setMovies([...movies, newMovie]);
   };
 
@@ -25,7 +18,7 @@ export const App = () => {
         <MoviesList movies={movies} />
       </div>
       <div className="sidebar">
-        <NewMovie onAddMovie={addMovie} />
+        <NewMovie onAddMovie={onAddMovie} />
       </div>
     </div>
   );
