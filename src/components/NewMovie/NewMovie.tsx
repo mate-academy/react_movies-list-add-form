@@ -29,9 +29,17 @@ export const NewMovie = ({ onAdd }: NewMovieProps) => {
     setFormData(prevState => ({ ...prevState, [name]: value }));
   };
 
+  const npSpaces = (value: string): boolean => {
+    return value.trim().length > 0;
+  };
+
   const { title, imgUrl, imdbUrl, imdbId } = formData;
 
-  const isFormValid = title && imgUrl && imdbUrl && imdbId;
+  const isFormValid =
+    npSpaces(title) &&
+    npSpaces(imgUrl) &&
+    npSpaces(imdbUrl) &&
+    npSpaces(imdbId);
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
