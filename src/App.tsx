@@ -5,9 +5,10 @@ import { NewMovie } from './components/NewMovie';
 
 import moviesFromServer from './api/movies.json';
 import { useState } from 'react';
+import { Movie } from './types/Movie';
 
 export const App = () => {
-  const [existMovie, setExistMovie] = useState(moviesFromServer);
+  const [existMovie, setExistMovie] = useState<Movie[]>(moviesFromServer);
 
   return (
     <div className="page">

@@ -16,9 +16,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbId, setImdbId] = useState('');
   const [count, setCount] = useState(0);
 
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
-
   const isFormValid = title && imgUrl && imdbUrl && imdbId;
 
   const handleAddButton = (event: FormEvent<HTMLFormElement>) => {
