@@ -18,6 +18,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
   const isFormValid = title && imgUrl && imdbUrl && imdbId;
 
+  const resetForm = () => {
+    setTitle('');
+    setDescription('');
+    setImgUrl('');
+    setImdbUrl('');
+    setImdbId('');
+  };
+
   const handleAddButton = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -30,14 +38,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     };
 
     onAdd(attachedMovie);
-
+    resetForm();
     setCount(count + 1);
-
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
   };
 
   return (
