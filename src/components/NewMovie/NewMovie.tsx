@@ -13,7 +13,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imgUrl, setImageURL] = useState('');
   const [imdbUrl, setImbdURL] = useState('');
   const [imdbId, setImdbID] = useState('');
-  const [formKey, setFormKey] = useState(0);
 
   const reset = () => {
     setTitle('');
@@ -21,7 +20,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setImageURL('');
     setImbdURL('');
     setImdbID('');
-    setFormKey(prevKey => prevKey + 1);
+    setCount(prevKey => prevKey + 1);
   };
 
   const handleAddMovie = (event: React.FormEvent) => {
@@ -52,7 +51,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   };
 
   return (
-    <form className="NewMovie" onSubmit={handleAddMovie} key={formKey}>
+    <form className="NewMovie" onSubmit={handleAddMovie} key={count}>
       <h2 className="title">Add a movie</h2>
 
       <TextField
