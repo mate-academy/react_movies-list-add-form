@@ -38,7 +38,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   };
 
   const disableButton = () => {
-    if (!title || !imgUrl || !imdbUrl || !imdbId) {
+    if (!title.trim() || !imgUrl.trim() || !imdbUrl.trim() || !imdbId.trim()) {
       return true;
     }
 
