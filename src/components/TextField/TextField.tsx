@@ -39,7 +39,7 @@ export const TextField: React.FC<Props> = ({
   const handleOnBlur = () => {
     setTouched(true);
 
-    if (name === 'imgUrl' || name === 'imdbUrl') {
+    if ((name === 'imgUrl' || name === 'imdbUrl') && value) {
       const newValid = !pattern.test(value);
       handleValidate(newValid);
       setValid(newValid);
