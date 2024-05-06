@@ -20,7 +20,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [{ title, imdbId, imdbUrl, imgUrl, description }, setNewMovie] =
     useState(initialNewMovie);
 
-  const isFormCompleted = !!title && !!imgUrl && !!imdbUrl && !!imdbId;
+  const isFormCompleted =
+    !!title.trim() && !!imgUrl.trim() && !!imdbUrl.trim() && !!imdbId.trim();
 
   const handlerFormSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
