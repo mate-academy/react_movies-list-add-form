@@ -21,10 +21,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     event.preventDefault();
     setCount(e => e + 1);
 
-    // if (!title.trim() || !imgUrl.trim() || !imdbId.trim() || !imdbUrl.trim()) {
-    //   return;
-    // }
-
     const newMovie = {
       title,
       description,
