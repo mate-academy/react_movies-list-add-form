@@ -10,6 +10,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const pattern =
     // eslint-disable-next-line max-len
     /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
+
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
@@ -24,7 +25,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     title.trim() !== '' &&
     imgUrl.trim() !== '' &&
     imdbUrl.trim() !== '' &&
-    imdbId.trim() !== '';
+    imdbId.trim() !== '' &&
+    pattern.test(imgUrl) &&
+    pattern.test(imdbUrl);
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -49,11 +52,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   }
 
   return (
-    <form
-      className="NewMovie"
-      key={count}
-      onSubmit={event => handleSubmit(event)}
-    >
+    <form className="NewMovie" key={count} onSubmit={handleSubmit}>
       <h2 className="title">Add a movie</h2>
 
       <TextField
@@ -61,7 +60,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Title"
         value={title}
         onChange={setTitle}
-        required={true}
+        required
       />
 
       <TextField
@@ -76,8 +75,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Image URL"
         value={imgUrl}
         onChange={setImgUrl}
-        required={true}
         pattern={pattern}
+        required
       />
 
       <TextField
@@ -85,8 +84,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Imdb URL"
         value={imdbUrl}
         onChange={setImdbUrl}
-        required={true}
         pattern={pattern}
+        required
       />
 
       <TextField
@@ -94,7 +93,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Imdb ID"
         value={imdbId}
         onChange={setImdbId}
-        required={true}
+        required
       />
 
       <div className="field is-grouped">
