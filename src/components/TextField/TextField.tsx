@@ -24,14 +24,12 @@ export const TextField: React.FC<Props> = ({
   onChange = () => {},
   pattern = null,
 }) => {
-  // generage a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
-  // To show errors only if the field was touched (onBlur)
   const matchPattern = pattern ? pattern.test(value) : true;
   const [touched, setTouched] = useState(false);
   const hasError =
-    (touched && required && !value) || (touched && value && !matchPattern);
+    (touched && required && !value.trim()) || (touched && value && !matchPattern);
 
   let errMessage = `${label} is required`;
 
