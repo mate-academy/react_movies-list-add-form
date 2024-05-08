@@ -16,10 +16,6 @@ export const NewMovie: React.FC<NewMovieAdd> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const urlPattern =
-    // eslint-disable-next-line max-len
-    /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
-
   const handleSetTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
   };
@@ -28,22 +24,22 @@ export const NewMovie: React.FC<NewMovieAdd> = ({ onAdd }) => {
     setDescription(event.target.value);
   };
 
+  const isValidUrl = (url: string) => {
+    const urlPattern =
+      // eslint-disable-next-line max-len
+      /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
+
+    return urlPattern.test(url);
+  };
+
   const handleSetImdbUrl = (event: React.ChangeEvent<HTMLInputElement>) => {
     const url = event.target.value;
-
-    if (!urlPattern.test(url)) {
-      throw new Error('its not a url');
-    }
 
     setImdbUrl(url);
   };
 
   const handleSetImgUrl = (event: React.ChangeEvent<HTMLInputElement>) => {
     const url = event.target.value;
-
-    if (!urlPattern.test(url)) {
-      throw new Error('its not a url');
-    }
 
     setImgUrl(url);
   };
@@ -54,18 +50,31 @@ export const NewMovie: React.FC<NewMovieAdd> = ({ onAdd }) => {
 
   const submitData = (event: React.FormEvent) => {
     event.preventDefault();
+
+    const isValidImgUrl = isValidUrl(imgUrl);
+    const isValidImdbUrl = isValidUrl(imdbUrl);
+
+    if (
+      !title ||
+      !description ||
+      !isValidImgUrl ||
+      !isValidImdbUrl ||
+      !imdbId
+    ) {
+      return;
+    }
+
     const newMovie: Movie = {
       title,
       description,
-      imgUrl,
-      imdbUrl,
+      imgUrl: isValidImgUrl ? imgUrl : '',
+      imdbUrl: isValidImdbUrl ? imdbUrl : '',
       imdbId,
     };
 
     onAdd(newMovie);
 
     setCount(prevCount => prevCount + 1);
-
     setTitle('');
     setDescription('');
     setImgUrl('');
