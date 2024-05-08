@@ -27,7 +27,8 @@ export const TextField: React.FC<Props> = ({
 
   // To show errors only if the field was touched (onBlur)
   const [touched, setTouched] = useState(false);
-  const hasError = touched && required && !value;
+  const [focused, setFocused] = useState(false);
+  const hasError = touched && focused && required && !value.trim();
 
   return (
     <div className="field">
@@ -46,7 +47,11 @@ export const TextField: React.FC<Props> = ({
           placeholder={placeholder}
           value={value}
           onChange={event => onChange(event.target.value)}
-          onBlur={() => setTouched(true)}
+          onBlur={() => {
+            setTouched(true);
+            setFocused(true);
+          }}
+          onFocus={() => setFocused(false)}
         />
       </div>
 
