@@ -17,8 +17,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const handleDisabled =
-    !title.trim() || !imgUrl.trim() || !imdbId.trim() || !imdbUrl.trim();
+  const isFormValid =
+    title.trim() && imgUrl.trim() && imdbId.trim() && imdbUrl.trim();
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -48,39 +48,39 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={title}
-        onChange={newTitle => setTitle(newTitle)}
-        required={true}
+        onChange={setTitle}
+        required
       />
 
       <TextField
         name="description"
         label="Description"
         value={description}
-        onChange={newDescription => setDescription(newDescription)}
+        onChange={setDescription}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={newImgUrl => setImgUrl(newImgUrl)}
-        required={true}
+        onChange={setImgUrl}
+        required
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={newImdbUrl => setImdbUrl(newImdbUrl)}
-        required={true}
+        onChange={setImdbUrl}
+        required
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={newImdbId => setImdbId(newImdbId)}
-        required={true}
+        onChange={setImdbId}
+        required
       />
 
       <div className="field is-grouped">
@@ -89,7 +89,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={handleDisabled}
+            disabled={!isFormValid}
           >
             Add
           </button>
