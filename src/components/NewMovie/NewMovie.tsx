@@ -1,143 +1,114 @@
 import React, { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
-import { InputState } from '../../types/InputState';
 
-interface Props {
+type Props = {
   onAdd: (movie: Movie) => void;
-}
-
-type State = {
-  titleValue: string;
-  imgUrlValue: string;
-  imdbUrlValue: string;
-  imdbIdValue: string;
-  descrValue: string;
 };
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
-  const initialValue = {
-    titleValue: '',
-    imgUrlValue: '',
-    imdbUrlValue: '',
-    imdbIdValue: '',
-    descrValue: '',
-  };
-
   const [count, setCount] = useState(0);
-  const [inputValue, setInputValue] = useState<State>(initialValue);
 
-  const { titleValue, imgUrlValue, imdbUrlValue, imdbIdValue, descrValue } =
-    inputValue;
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [imgUrl, setImgUrl] = useState('');
+  const [imdbUrl, setImdbUrl] = useState('');
+  const [imdbId, setImdbId] = useState('');
 
-  const pattern =
-    // eslint-disable-next-line
-    /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
+  const isUrlValid = (url: string) => {
+    const pattern =
+      // eslint-disable-next-line
+      /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
 
-  const notAllInformationGathered = Object.entries(inputValue).some(
-    ([key, value]) => {
-      if (key === 'descrValue') {
-        return false;
-      }
-
-      return value.length === 0;
-    },
-  );
-
-  const resetInputState = () => {
-    setInputValue(() => {
-      return {
-        titleValue: '',
-        imgUrlValue: '',
-        imdbUrlValue: '',
-        imdbIdValue: '',
-        descrValue: '',
-      };
-    });
-  };
-
-  const handlerInput = (value: string, key: keyof State) => {
-    setInputValue(newState => {
-      return { ...newState, [key]: value };
-    });
-  };
-
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-    if (!imgUrlValue.match(pattern) || !imdbUrlValue.match(pattern)) {
-      return;
+    if (!url) {
+      return true;
     }
 
-    const newMovie = {
-      title: titleValue,
-      description: descrValue,
-      imgUrl: imgUrlValue,
-      imdbUrl: imdbUrlValue,
-      imdbId: imdbIdValue,
-    };
+    return pattern.test(url);
+  };
 
-    onAdd(newMovie);
+  const isFormValid =
+    !!title.trim() &&
+    !!imgUrl.trim() &&
+    !!imdbUrl.trim() &&
+    !!imdbId.trim() &&
+    isUrlValid(imdbUrl) &&
+    isUrlValid(imgUrl);
 
-    resetInputState();
+  const newMovie: Movie = {
+    title: title.trim(),
+    description: description.trim(),
+    imgUrl: imgUrl.trim(),
+    imdbUrl: imdbUrl.trim(),
+    imdbId: imdbId.trim(),
+  };
 
-    setCount(prevState => prevState + 1);
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+
+    if (isFormValid) {
+      setCount(count + 1);
+
+      onAdd(newMovie);
+
+      setTitle('');
+      setDescription('');
+      setImgUrl('');
+      setImdbUrl('');
+      setImdbId('');
+    }
   };
 
   return (
-    <form
-      className="NewMovie"
-      onSubmit={event => handleSubmit(event)}
-      key={count}
-    >
+    <form className="NewMovie" key={count} onSubmit={handleSubmit}>
       <h2 className="title">Add a movie</h2>
 
       <TextField
         name="title"
         label="Title"
-        value={titleValue}
-        onChange={handlerInput}
-        inputState={InputState.titleValue}
+        value={title}
+        onChange={setTitle}
         required
       />
+
       <TextField
         name="description"
         label="Description"
-        value={descrValue}
-        onChange={handlerInput}
-        inputState={InputState.descrValue}
+        value={description}
+        onChange={setDescription}
       />
+
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={imgUrlValue}
-        onChange={handlerInput}
-        inputState={InputState.imgUrlValue}
+        value={imgUrl}
+        onChange={setImgUrl}
         required
       />
+
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={imdbUrlValue}
-        onChange={handlerInput}
-        inputState={InputState.imdbUrlValue}
+        value={imdbUrl}
+        onChange={setImdbUrl}
         required
       />
+
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imdbIdValue}
-        onChange={handlerInput}
-        inputState={InputState.imdbIdValue}
+        value={imdbId}
+        onChange={setImdbId}
         required
       />
+
       <div className="field is-grouped">
         <div className="control">
           <button
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            {...(notAllInformationGathered && { disabled: true })}
+            disabled={!isFormValid}
           >
             Add
           </button>

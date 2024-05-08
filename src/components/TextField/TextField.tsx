@@ -1,6 +1,5 @@
 import classNames from 'classnames';
 import React, { useState } from 'react';
-import { InputState } from '../../types/InputState';
 
 type Props = {
   name: string;
@@ -8,8 +7,7 @@ type Props = {
   label?: string;
   placeholder?: string;
   required?: boolean;
-  onChange?: (newValue: string, key: InputState) => void;
-  inputState: InputState;
+  onChange?: (newValue: string) => void;
 };
 
 function getRandomDigits() {
@@ -23,7 +21,6 @@ export const TextField: React.FC<Props> = ({
   placeholder = `Enter ${label}`,
   required = false,
   onChange = () => {},
-  inputState,
 }) => {
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
@@ -46,7 +43,7 @@ export const TextField: React.FC<Props> = ({
           })}
           placeholder={placeholder}
           value={value}
-          onChange={event => onChange(event.target.value, inputState)}
+          onChange={event => onChange(event.target.value)}
           onBlur={() => setTouched(true)}
         />
       </div>
