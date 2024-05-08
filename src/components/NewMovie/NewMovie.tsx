@@ -17,20 +17,12 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbIdentifier, setImdbIdentifier] = useState('');
 
   const validateRequiredFields = (): boolean => {
-    const pattern =
-      // eslint-disable-next-line
-      /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
-
     if (
       !movieTitle.trim() ||
       !imdbIdentifier.trim() ||
       !movieImage.trim() ||
       !imdbLink.trim()
     ) {
-      return false;
-    }
-
-    if (!pattern.test(movieImage) || !pattern.test(imdbLink)) {
       return false;
     }
 
@@ -64,7 +56,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={movieTitle}
-        onChange={title => setMovieTitle(title)}
+        onChange={setMovieTitle}
         required
       />
 
@@ -72,14 +64,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={movieDescription}
-        onChange={description => setMovieDescription(description)}
+        onChange={setMovieDescription}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={movieImage}
-        onChange={image => setMovieImage(image)}
+        onChange={setMovieImage}
         required
       />
 
@@ -87,7 +79,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbLink}
-        onChange={link => setImdbLink(link)}
+        onChange={setImdbLink}
         required
       />
 
@@ -95,7 +87,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbIdentifier}
-        onChange={id => setImdbIdentifier(id)}
+        onChange={setImdbIdentifier}
         required
       />
 
