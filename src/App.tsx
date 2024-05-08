@@ -6,17 +6,16 @@ import { Movie } from './types/Movie';
 import { useState } from 'react';
 
 export const App = () => {
-  const [moviesFinaleList, setMoviesFinaleList] =
-    useState<Movie[]>(moviesFromServer);
+  const [moviesList, setMoviesList] = useState<Movie[]>(moviesFromServer);
 
   const handleAddMovie = (newMovie: Movie) => {
-    setMoviesFinaleList(current => [...current, newMovie]);
+    setMoviesList(current => [...current, newMovie]);
   };
 
   return (
     <div className="page">
       <div className="page-content">
-        <MoviesList movies={moviesFinaleList} />
+        <MoviesList movies={moviesList} />
       </div>
       <div className="sidebar">
         <NewMovie onAdd={handleAddMovie} />
