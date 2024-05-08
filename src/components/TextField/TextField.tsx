@@ -32,7 +32,8 @@ export const TextField: React.FC<Props> = ({
 
   const [touched, setTouched] = useState(false);
   const hasError =
-    (touched && required && !value) || (touched && value && !matchesPattern);
+    (touched && required && !value.trim()) ||
+    (touched && value && !matchesPattern);
   let errorMessage = `${label} is required`;
 
   if (!matchesPattern && value) {
