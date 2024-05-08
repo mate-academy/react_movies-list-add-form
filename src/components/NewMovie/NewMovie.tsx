@@ -28,13 +28,12 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     // eslint-disable-next-line
     /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
 
-  const isValidForm = title && imgUrl && imdbUrl && imdbId;
+  const isValidForm =
+    title.trim() && imgUrl.trim() && imdbUrl.trim() && imdbId.trim();
 
   const handleInputChangeText = (
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
-    // const key = event.target.name;
-    // const value = event.target.value;
     const { name, value } = event.target;
 
     if (name === 'imgUrl' || name === 'imdbUrl') {
@@ -50,6 +49,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
   const resetInputsOnSubmit = () => {
     setFilmInputs(initialFilmInputs);
+    setCount(prevCount => prevCount + 1);
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -58,7 +58,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     if (isValidForm) {
       onAdd(filmInputs);
       resetInputsOnSubmit();
-      setCount(prevCount => prevCount + 1);
     }
   };
 
