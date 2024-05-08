@@ -2,13 +2,24 @@ import { FC, useState } from 'react';
 
 import { TextField } from '../TextField';
 
-import { INITIAL_FORM, URL_PATTERN } from '../../constants';
+import { URL_PATTERN } from '../../constants';
 
 import { getFields } from '../../helpers/getTextField';
+import { IMovie } from '../../types/Movie';
 
-import { INewMovie } from '../../types/NewMovie.types';
+const INITIAL_FORM = {
+  title: '',
+  description: '',
+  imgUrl: '',
+  imdbId: '',
+  imdbUrl: '',
+};
 
-export const NewMovie: FC<INewMovie> = ({ onAdd }) => {
+export interface INewMovieFormProps {
+  onAdd: (movie: IMovie) => void;
+}
+
+export const NewMovie: FC<INewMovieFormProps> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
 
   const [form, setForm] = useState(INITIAL_FORM);
