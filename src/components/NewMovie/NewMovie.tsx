@@ -43,7 +43,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     }
 
     setFilmInputs(prevState => {
-      return { ...prevState, [name]: value };
+      return { ...prevState, [name]: value.trimStart() };
     });
   };
 
