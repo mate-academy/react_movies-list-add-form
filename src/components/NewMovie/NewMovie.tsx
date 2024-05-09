@@ -2,19 +2,11 @@ import { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
-type State = {
-  title: string;
-  imgUrl: string;
-  imdbUrl: string;
-  imdbId: string;
-  description: string;
-};
-
 export const NewMovie: React.FC<{ onAdd: (movie: Movie) => void }> = ({
   onAdd,
 }) => {
   const [count, setCount] = useState(0);
-  const [inputValue, setInputValue] = useState<State>({
+  const [inputValue, setInputValue] = useState<Movie>({
     title: '',
     imgUrl: '',
     imdbUrl: '',
@@ -23,7 +15,7 @@ export const NewMovie: React.FC<{ onAdd: (movie: Movie) => void }> = ({
   });
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
-  const [errors, setErrors] = useState<Partial<State>>({});
+  const [errors, setErrors] = useState<Partial<Movie>>({});
 
   const resetInputState = () => {
     setInputValue({
@@ -36,20 +28,42 @@ export const NewMovie: React.FC<{ onAdd: (movie: Movie) => void }> = ({
     setErrors({});
   };
 
-  const handleInput = (value: string, key: keyof State) => {
+  const handleInput = (value: string, key: keyof Movie) => {
     setInputValue(prevState => ({
       ...prevState,
       [key]: value,
     }));
   };
 
-  const handleBlur = (key: keyof State) => {
-    if (!inputValue[key].trim()) {
+  const handleBlur = (key: keyof Movie) => {
+    const value = inputValue[key];
+
+    if (!value || !value.trim()) {
       setErrors(prevErrors => ({
         ...prevErrors,
         [key]: `${key} is required`,
       }));
+    } else {
+      setErrors(prevErrors => ({
+        ...prevErrors,
+        [key]: undefined,
+      }));
     }
+  };
+
+  const isNotEmptyOrSpaces = (str: string) => {
+    return str.trim() !== '';
+  };
+
+  const fields = () => {
+    const { title, imgUrl, imdbUrl, imdbId } = inputValue;
+
+    return (
+      isNotEmptyOrSpaces(title) &&
+      isNotEmptyOrSpaces(imgUrl) &&
+      isNotEmptyOrSpaces(imdbUrl) &&
+      isNotEmptyOrSpaces(imdbId)
+    );
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -58,16 +72,28 @@ export const NewMovie: React.FC<{ onAdd: (movie: Movie) => void }> = ({
       // eslint-disable-next-line max-len
       /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
 
-    if (
-      !inputValue.imgUrl.match(pattern) ||
-      !inputValue.imdbUrl.match(pattern)
-    ) {
+    if (!fields()) {
       return;
     }
 
-    onAdd(inputValue as Movie);
+    const { imgUrl, imdbUrl } = inputValue;
+
+    if (!imgUrl.match(pattern) || !imdbUrl.match(pattern)) {
+      return;
+    }
+
+    const movieToAdd: Movie = {
+      ...inputValue,
+      description: inputValue.description?.trim() || '',
+    };
+
+    onAdd(movieToAdd);
     resetInputState();
     setCount(prevCount => prevCount + 1);
+  };
+
+  const isButtonActive = () => {
+    return fields();
   };
 
   return (
@@ -89,8 +115,6 @@ export const NewMovie: React.FC<{ onAdd: (movie: Movie) => void }> = ({
         label="Description"
         value={inputValue.description}
         onChange={value => handleInput(value, 'description')}
-        onBlur={() => handleBlur('description')}
-        error={errors.description}
       />
 
       <TextField
@@ -129,12 +153,7 @@ export const NewMovie: React.FC<{ onAdd: (movie: Movie) => void }> = ({
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={
-              !inputValue.title ||
-              !inputValue.imgUrl ||
-              !inputValue.imdbUrl ||
-              !inputValue.imdbId
-            }
+            disabled={!isButtonActive()}
           >
             Add
           </button>
