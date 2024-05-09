@@ -46,7 +46,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (isFormValid) {
+    if (!isFormValid) {
       setCount(count + 1);
 
       onAdd(newMovie);
