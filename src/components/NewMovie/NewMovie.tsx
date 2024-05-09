@@ -7,46 +7,40 @@ interface Props {
 }
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
-  // #region states
   const [count, setCount] = useState(0);
 
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
-  // #endregion
+  const [formState, setFormState] = useState({
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  });
 
-  const reset = () => {
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+
+    setFormState(prevState => ({
+      ...prevState,
+      [name]: value,
+    }));
   };
 
-  // #region handlers
-  const handleTitleChange = (newTitle: string) => {
-    setTitle(newTitle);
+  const resetForm = () => {
+    setFormState({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
   };
 
-  const handleDescriptionChange = (newDescription: string) => {
-    setDescription(newDescription);
-  };
-
-  const handleImgUrlChange = (newImgUrl: string) => {
-    setImgUrl(newImgUrl);
-  };
-
-  const handleImdbUrlChange = (newImdbUrl: string) => {
-    setImdbUrl(newImdbUrl);
-  };
-
-  const handleImdbIdChange = (newImdbId: string) => {
-    setImdbId(newImdbId);
-  };
-
-  const isFormValid = title && imgUrl && imdbUrl && imdbId;
+  const isFormValid =
+    formState.title &&
+    formState.imgUrl &&
+    formState.imdbUrl &&
+    formState.imdbId;
 
   const handleSubmitForm = (event: React.FormEvent) => {
     event.preventDefault();
@@ -58,16 +52,15 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setCount(n => n + 1);
 
     onAdd({
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
+      title: formState.title,
+      description: formState.description,
+      imgUrl: formState.imgUrl,
+      imdbUrl: formState.imdbUrl,
+      imdbId: formState.imdbId,
     });
 
-    reset();
+    resetForm();
   };
-  // #endregion
 
   return (
     <form className="NewMovie" key={count} onSubmit={handleSubmitForm}>
@@ -76,39 +69,39 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value={title}
-        onChange={handleTitleChange}
+        value={formState.title}
+        onChange={handleInputChange}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        onChange={handleDescriptionChange}
-        value={description}
+        value={formState.description}
+        onChange={handleInputChange}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        onChange={handleImgUrlChange}
-        value={imgUrl}
+        value={formState.imgUrl}
+        onChange={handleInputChange}
         required
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        onChange={handleImdbUrlChange}
-        value={imdbUrl}
+        value={formState.imdbUrl}
+        onChange={handleInputChange}
         required
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        onChange={handleImdbIdChange}
-        value={imdbId}
+        value={formState.imdbId}
+        onChange={handleInputChange}
         required
       />
 
