@@ -1,6 +1,7 @@
 import { FC, useState } from 'react';
 
 import classNames from 'classnames';
+import { URL_PATTERN } from '../../constants';
 
 interface Props {
   name: string;
@@ -28,6 +29,8 @@ export const TextField: FC<Props> = ({
   const [touched, setTouched] = useState(false);
   const hasError = touched && required && !value;
 
+  const correctURL = name.includes('Url') && value && !value.match(URL_PATTERN);
+
   return (
     <div className="field">
       <label className="label" htmlFor={id}>
@@ -48,8 +51,16 @@ export const TextField: FC<Props> = ({
           onChange={onChange}
           onBlur={() => setTouched(true)}
         />
+        {correctURL && (
+          <span
+            style={{
+              color: 'red',
+            }}
+          >
+            {label} is not valid
+          </span>
+        )}
       </div>
-
       {hasError && <p className="help is-danger">{`${label} is required`}</p>}
     </div>
   );
