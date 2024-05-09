@@ -37,10 +37,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   };
 
   const isFormValid =
-    formState.title &&
-    formState.imgUrl &&
-    formState.imdbUrl &&
-    formState.imdbId;
+    formState.title.trim() &&
+    formState.imgUrl.trim() &&
+    formState.imdbUrl.trim() &&
+    formState.imdbId.trim();
 
   const handleSubmitForm = (event: React.FormEvent) => {
     event.preventDefault();
