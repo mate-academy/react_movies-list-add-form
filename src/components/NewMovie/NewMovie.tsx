@@ -68,17 +68,25 @@ export const NewMovie: React.FC<{ onAdd: (movie: Movie) => void }> = ({
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
     const pattern =
       // eslint-disable-next-line max-len
       /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
 
-    if (!fields()) {
-      return;
+    const { imgUrl, imdbUrl } = inputValue;
+    const urlErrors: Partial<Movie> = {};
+
+    if (!imgUrl.trim().match(pattern)) {
+      urlErrors.imgUrl = 'Invalid Image URL format';
     }
 
-    const { imgUrl, imdbUrl } = inputValue;
+    if (!imdbUrl.trim().match(pattern)) {
+      urlErrors.imdbUrl = 'Invalid IMDB URL format';
+    }
 
-    if (!imgUrl.match(pattern) || !imdbUrl.match(pattern)) {
+    setErrors(urlErrors);
+
+    if (Object.keys(urlErrors).length > 0) {
       return;
     }
 
