@@ -1,0 +1,30 @@
+{
+    "sourceFile": "src/App.tsx",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 3,
+            "patches": [
+                {
+                    "date": 1713276268516,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1713279613255,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,9 @@\n import './App.scss';\n import { MoviesList } from './components/MoviesList';\n import { NewMovie } from './components/NewMovie';\n import moviesFromServer from './api/movies.json';\n-import  { useState } from 'react';\n+import { useState } from 'react';\n import { Movie } from './types/Movie';\n \n export const App = () => {\n   const [movies, setMovies] = useState(moviesFromServer);\n@@ -17,9 +17,11 @@\n       <div className=\"page-content\">\n         <MoviesList movies={movies} />\n       </div>\n       <div className=\"sidebar\">\n-        <NewMovie onAdd={addMovie} />\n+        <NewMovie onAdd={addMovie} onBlur={function (name: string, value: string): void {\n+          throw new Error('Function not implemented.');\n+        } } />\n       </div>\n     </div>\n   );\n };\n"
+                },
+                {
+                    "date": 1713453346332,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,25 +1,50 @@\n-import './App.scss';\n-import { MoviesList } from './components/MoviesList';\n-import { NewMovie } from './components/NewMovie';\n-import moviesFromServer from './api/movies.json';\n-import { useState } from 'react';\n-import { Movie } from './types/Movie';\n+import { useState } from \"react\";\n+import { Form } from \"./Form\";\n+import { ListTodo } from \"./ListTodo\";\n+import \"./styles.css\";\n \n-export const App = () => {\n-  const [movies, setMovies] = useState(moviesFromServer);\n+const App = () => {\n+  const [todo, setTodo] = useState([{ title: \"\", complete: false, id: 1 }]);\n \n-  function addMovie(newMovie: Movie) {\n-    setMovies(prevMovies => [...prevMovies, newMovie]);\n-  }\n+  const addTodo = (title) => {\n+    const id = Math.max(todo.map((todo) => todo.id));\n+    const newTodo = {\n+      title,\n+      complete: false,\n+      id: id + 1,\n+    };\n \n+    setTodo((prev) => [...prev, newTodo]);\n+  };\n+\n+  const deleteTodo = (id) => {\n+    setTodo((prev) => prev.filter((todoItem) => todoItem.id !== id));\n+  };\n+\n+  const toggleComplete = (id) => {\n+    setTodo((prev) =>\n+      prev.map((todoItem) =>\n+        todoItem.id === id\n+          ? { ...todoItem, complete: !todoItem.complete }\n+          : todoItem,\n+      ),\n+    );\n+  };\n+\n+  const handleReset = () => {\n+    setTodo([]);\n+  };\n+\n   return (\n-    <div className=\"page\">\n-      <div className=\"page-content\">\n-        <MoviesList movies={movies} />\n-      </div>\n-      <div className=\"sidebar\">\n-        <NewMovie onAdd={addMovie} />\n-      </div>\n+    <div className=\"App\">\n+      <Form add={addTodo} handleReset={handleReset} />\n+      <ListTodo\n+        todo={todo}\n+        deleteTodo={deleteTodo}\n+        toggleComplete={toggleComplete}\n+      />\n     </div>\n   );\n };\n+\n+export default App;\n"
+                },
+                {
+                    "date": 1713453356275,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -0,0 +1,50 @@\n+import { useState } from \"react\";\n+import { Form } from \"./Form\";\n+import { ListTodo } from \"./ListTodo\";\n+import \"./styles.css\";\n+\n+const App = () => {\n+  const [todo, setTodo] = useState([{ title: \"\", complete: false, id: 1 }]);\n+\n+  const addTodo = (title) => {\n+    const id = Math.max(todo.map((todo) => todo.id));\n+    const newTodo = {\n+      title,\n+      complete: false,\n+      id: id + 1,\n+    };\n+\n+    setTodo((prev) => [...prev, newTodo]);\n+  };\n+\n+  const deleteTodo = (id) => {\n+    setTodo((prev) => prev.filter((todoItem) => todoItem.id !== id));\n+  };\n+\n+  const toggleComplete = (id) => {\n+    setTodo((prev) =>\n+      prev.map((todoItem) =>\n+        todoItem.id === id\n+          ? { ...todoItem, complete: !todoItem.complete }\n+          : todoItem,\n+      ),\n+    );\n+  };\n+\n+  const handleReset = () => {\n+    setTodo([]);\n+  };\n+\n+  return (\n+    <div className=\"App\">\n+      <Form add={addTodo} handleReset={handleReset} />\n+      <ListTodo\n+        todo={todo}\n+        deleteTodo={deleteTodo}\n+        toggleComplete={toggleComplete}\n+      />\n+    </div>\n+  );\n+};\n+\n+export default App;\n"
+                }
+            ],
+            "date": 1713276268516,
+            "name": "Commit-0",
+            "content": "import './App.scss';\nimport { MoviesList } from './components/MoviesList';\nimport { NewMovie } from './components/NewMovie';\nimport moviesFromServer from './api/movies.json';\nimport  { useState } from 'react';\nimport { Movie } from './types/Movie';\n\nexport const App = () => {\n  const [movies, setMovies] = useState(moviesFromServer);\n\n  function addMovie(newMovie: Movie) {\n    setMovies(prevMovies => [...prevMovies, newMovie]);\n  }\n\n  return (\n    <div className=\"page\">\n      <div className=\"page-content\">\n        <MoviesList movies={movies} />\n      </div>\n      <div className=\"sidebar\">\n        <NewMovie onAdd={addMovie} />\n      </div>\n    </div>\n  );\n};\n"
+        }
+    ]
+}
