@@ -5,20 +5,20 @@ import moviesFromServer from './api/movies.json';
 import { Movie } from './types/Movie';
 import { useState } from 'react';
 
-export const App: React.FC = () => {
-  const [movies, setMovies] = useState<Movie[]>(moviesFromServer);
+export const App = () => {
+  const [visibleMovies, setVisibleMovies] = useState<Movie[]>(moviesFromServer);
 
-  const handleAddMovie = (newMovie: Movie) => {
-    setMovies(currentMovie => [...currentMovie, newMovie]);
-  };
+  function onAdd(movie: Movie) {
+    setVisibleMovies([...visibleMovies, movie]);
+  }
 
   return (
     <div className="page">
       <div className="page-content">
-        <MoviesList movies={movies} />
+        <MoviesList movies={visibleMovies} />
       </div>
       <div className="sidebar">
-        <NewMovie onAdd={handleAddMovie} />
+        <NewMovie onAdd={onAdd} />
       </div>
     </div>
   );
