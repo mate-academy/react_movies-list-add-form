@@ -2,13 +2,13 @@ import './App.scss';
 import { MoviesList } from './components/MoviesList';
 import { NewMovie } from './components/NewMovie';
 import moviesFromServer from './api/movies.json';
-import { useState } from 'react';
 import { Movie } from './types/Movie';
+import { useState } from 'react';
 
-export const App = () => {
+export const App: React.FC = () => {
   const [movies, setMovies] = useState<Movie[]>(moviesFromServer);
 
-  const addMovie = (newMovie: Movie) => {
+  const handleAddMovie = (newMovie: Movie) => {
     setMovies(currentMovie => [...currentMovie, newMovie]);
   };
 
@@ -18,7 +18,7 @@ export const App = () => {
         <MoviesList movies={movies} />
       </div>
       <div className="sidebar">
-        <NewMovie onAdd={addMovie} />
+        <NewMovie onAdd={handleAddMovie} />
       </div>
     </div>
   );
