@@ -54,13 +54,7 @@ export const NewMovie: React.FC<NewMovieAdd> = ({ onAdd }) => {
     const isValidImgUrl = isValidUrl(imgUrl);
     const isValidImdbUrl = isValidUrl(imdbUrl);
 
-    if (
-      !title ||
-      !description ||
-      !isValidImgUrl ||
-      !isValidImdbUrl ||
-      !imdbId
-    ) {
+    if (!title || !isValidImgUrl || !isValidImdbUrl || !imdbId) {
       return;
     }
 
@@ -113,8 +107,6 @@ export const NewMovie: React.FC<NewMovieAdd> = ({ onAdd }) => {
     switch (field) {
       case 'title':
         return title;
-      case 'description':
-        return description;
       case 'imgUrl':
         return imgUrl;
       case 'imdbUrl':
@@ -126,7 +118,7 @@ export const NewMovie: React.FC<NewMovieAdd> = ({ onAdd }) => {
     }
   };
 
-  const isDisabled = !title || !description || !imgUrl || !imdbUrl || !imdbId;
+  const isDisabled = !title || !imgUrl || !imdbUrl || !imdbId;
 
   return (
     <form className="NewMovie" key={count} onSubmit={submitData}>
