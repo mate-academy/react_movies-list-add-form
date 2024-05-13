@@ -24,7 +24,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     newMovie.imdbId.trim() !== '';
 
   const handleChange = (name: string, value: string) => {
-    setNewMovie(newMovie => ({ ...newMovie, [name]: value }));
+    setNewMovie(prevMovie => ({ ...prevMovie, [name]: value }));
   };
 
   const handleSubmit = (event: React.FormEvent) => {
@@ -34,7 +34,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       onAdd(newMovie);
     }
 
-    setCount(count => count + 1);
+    setCount(prevCount => prevCount + 1);
   };
 
   return (

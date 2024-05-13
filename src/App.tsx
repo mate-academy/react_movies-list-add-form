@@ -8,8 +8,8 @@ import { useState } from 'react';
 export const App = () => {
   const [movies, setMovies] = useState(moviesFromServer);
 
-  const onAdd = (newMovie: Movie ) => {
-     setMovies(prevMovies => [...prevMovies, newMovie]);
+  const onAdd = (newMovie: Movie) => {
+    setMovies(prevMovies => [...prevMovies, newMovie]);
   };
 
   return (
