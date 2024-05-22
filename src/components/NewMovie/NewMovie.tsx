@@ -37,7 +37,13 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setImdbUrl('');
   }
 
-  const handleSubmit = () => {
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+
+    if (!fieldsAreFilled(requiredFields)) {
+      return;
+    }
+
     onAdd({
       title,
       imgUrl,
