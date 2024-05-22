@@ -22,10 +22,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   };
 
   const visibleButton = !(
-    newMovie.title &&
-    newMovie.imgUrl &&
-    newMovie.imdbUrl &&
-    newMovie.imdbId
+    newMovie.title.trim() &&
+    newMovie.imgUrl.trim() &&
+    newMovie.imdbUrl.trim() &&
+    newMovie.imdbId.trim()
   );
 
   const reset = () => {
