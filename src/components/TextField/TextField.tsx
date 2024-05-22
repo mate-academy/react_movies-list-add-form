@@ -22,6 +22,8 @@ export const TextField: React.FC<Props> = ({
   required = false,
   onChange = () => {},
 }) => {
+  const [inputValue, setInputValue] = useState('');
+
   // generage a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
@@ -44,8 +46,13 @@ export const TextField: React.FC<Props> = ({
             'is-danger': hasError,
           })}
           placeholder={placeholder}
-          value={value}
-          onChange={event => onChange(event.target.value)}
+          value={inputValue}
+          onChange={event => {
+            const newValue = event.target.value;
+
+            setInputValue(newValue);
+            onChange(newValue);
+          }}
           onBlur={() => setTouched(true)}
         />
       </div>
