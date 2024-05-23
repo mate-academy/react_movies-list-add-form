@@ -76,6 +76,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Image URL"
         value={newMovie.imgUrl}
         onChange={value => handleChange('imgUrl', value)}
+        required
       />
 
       <TextField
@@ -83,6 +84,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Imdb URL"
         value={newMovie.imdbUrl}
         onChange={value => handleChange('imdbUrl', value)}
+        required
       />
 
       <TextField
@@ -90,6 +92,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Imdb ID"
         value={newMovie.imdbId}
         onChange={value => handleChange('imdbId', value)}
+        required
       />
 
       <div className="field is-grouped">
