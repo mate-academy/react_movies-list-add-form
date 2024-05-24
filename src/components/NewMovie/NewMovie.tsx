@@ -1,23 +1,48 @@
-import { useState } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect, useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
+import './NewMovie.scss';
 
 type Props = {
   onAdd: (movie: Movie) => void;
 };
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [imgUrl, setImgUrl] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
+  const [error, setError] = useState('');
 
-  const isFormValid =
-    !!title && !!imgUrl && !!imdbUrl && !!imdbId && imdbUrl.includes(imdbId);
+  const isFieldsNotEmpty =
+    !!title.trim() &&
+    !!imgUrl.trim() &&
+    !!imdbUrl.trim() &&
+    !!imdbId.trim() &&
+    !!imdbUrl.trim();
+
+  const isValidImdbId = imdbUrl.includes(imdbId);
+
+  const isFormValid = isFieldsNotEmpty && isValidImdbId;
+
+  useEffect(() => {
+    if (!isFieldsNotEmpty) {
+      setError('All fields must be filled');
+
+      return;
+    }
+
+    if (!isValidImdbId) {
+      setError('Imdb URL must include Imdb ID');
+
+      return;
+    }
+
+    setError('');
+  }, [isFormValid, isValidImdbId]);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -49,7 +74,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={title}
-        onChange={event => setTitle(event)}
+        onChange={setTitle}
         required
       />
 
@@ -57,14 +82,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={description}
-        onChange={event => setDescription(event)}
+        onChange={setDescription}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={event => setImgUrl(event)}
+        onChange={setImgUrl}
         required
       />
 
@@ -72,7 +97,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={event => setImdbUrl(event)}
+        onChange={setImdbUrl}
         required
       />
 
@@ -80,7 +105,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={event => setImdbId(event)}
+        onChange={setImdbId}
         required
       />
 
@@ -96,6 +121,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
           </button>
         </div>
       </div>
+
+      <div className="field is-danger">{error}</div>
     </form>
   );
 };
