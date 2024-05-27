@@ -30,10 +30,10 @@ export const TextField: React.FC<Props> = ({
   const hasError = touched && required && !value;
   const pattern =
     // eslint-disable-next-line max-len
-    '/^((([A-Za-z]{3,9}:(?://)?)(?:[-;:&=+$,w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=+$,w]+@)[A-Za-z0-9.-]+)((?:/[+~%/.w-_]*)???(?:[-+=&;%@,.w_]*)#?(?:[,.!/\\w]*))?)$/';
+    /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
 
   const validateUrl =
-    !pattern.includes(value) && (name === 'imgUrl' || name === 'imdbUrl');
+    !pattern.test(value) && (name === 'imgUrl' || name === 'imdbUrl');
 
   return (
     <div className="field">
@@ -57,7 +57,9 @@ export const TextField: React.FC<Props> = ({
       </div>
 
       {hasError && <p className="help is-danger">{`${label} is required`}</p>}
-      {validateUrl && <p className="help is-danger">{`Add a correct Url`}</p>}
+      {validateUrl && value && (
+        <p className="help is-danger">{'Add a correct Url'}</p>
+      )}
     </div>
   );
 };

@@ -8,9 +8,9 @@ type Props = {
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
-  // const pattern =
-  //   // eslint-disable-next-line max-len
-  //   '/^((([A-Za-z]{3,9}:(?://)?)(?:[-;:&=+$,w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=+$,w]+@)[A-Za-z0-9.-]+)((?:/[+~%/.w-_]*)???(?:[-+=&;%@,.w_]*)#?(?:[,.!/\\w]*))?)$/';
+  const pattern =
+    // eslint-disable-next-line max-len
+    /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
 
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -21,9 +21,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const validateInputs =
     title &&
     imgUrl &&
-    // pattern.includes(imgUrl) &&
+    pattern.test(imgUrl) &&
     imdbUrl &&
-    // pattern.includes(imdbUrl) &&
+    pattern.test(imdbUrl) &&
     imdbId;
 
   function resetInput() {
