@@ -54,6 +54,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const disabledButton: boolean =
     !movieInfo.title.trim() ||
     !movieInfo.imageURL.trim() ||
+    !movieInfo.imdbURL.trim() ||
+    !movieInfo.imdbID.trim() ||
     !isValidURL(movieInfo.imageURL.trim()) ||
     !isValidURL(movieInfo.imdbURL.trim());
 
