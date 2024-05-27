@@ -61,7 +61,7 @@ export const TextField: React.FC<Props> = ({
               patternError(event.target.value);
             }
 
-            onChange(event.target.value);
+            onChange(event.target.value.trimStart());
           }}
           onBlur={() => setTouched(true)}
         />
