@@ -22,8 +22,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       '(?:www\\.|[-;:&=+$,\\w]+@)[A-Za-z0-9.-]+)((?:\\/[+~%/.\\w-_]*)?' +
       '\\??(?:[-+=&;%@,.\\w_]*)#?(?:[,.!/\\\\\\w]*))?)$',
   );
-  const urlValidator = (value: string): string | undefined => {
-    return pattern.test(value) ? undefined : 'Invalid URL';
+
+  const isValidURL = (value: string): boolean => {
+    return pattern.test(value);
   };
 
   const [movieInfo, setMovieInfo] = useState(initialInfo);
@@ -53,8 +54,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const disabledButton: boolean =
     !movieInfo.title.trim() ||
     !movieInfo.imageURL.trim() ||
-    !movieInfo.imdbURL.trim() ||
-    !movieInfo.imdbID.trim();
+    !isValidURL(movieInfo.imageURL.trim()) ||
+    !isValidURL(movieInfo.imdbURL.trim());
 
   return (
     <form className="NewMovie" key={count} onSubmit={handleFormSubmit}>
@@ -89,7 +90,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={movieInfo.imdbURL}
         onChange={value => handleValueChange('imdbURL', value)}
         required
-        validate={urlValidator}
+        validate={value => (isValidURL(value) ? undefined : 'Invalid URL')}
       />
 
       <TextField
@@ -98,7 +99,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={movieInfo.imdbID}
         onChange={value => handleValueChange('imdbID', value)}
         required
-        validate={urlValidator}
+        validate={value => (isValidURL(value) ? undefined : 'Invalid URL')}
       />
 
       <div className="field is-grouped">
