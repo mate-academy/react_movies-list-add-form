@@ -15,13 +15,11 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imgUrl, setImgUrl] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
-  const [valid, setValid] = useState(true);
   const reg = new RegExp(
-    `^((([A-Za-z]{3,9}:(?:\\/\\/)?)(?:[-;:&=+$,\\w]+@)?[A-Za-z0-9.-]+|` +
-      `(?:www\\.|[-;:&=+$,\\w]+@)[A-Za-z0-9.-]+)((?:\\/\\+~%\\/\\.\\w-_]*)?\\??` +
-      `(?:[-+=&;%@,\\.\\w_]*)#?(?:[,.!\\/\\\\\\w]*))?)$`,
+    // eslint-disable-next-line
+    /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/,
   );
-  const isRequired = title && imgUrl && imdbUrl && imdbId && valid;
+  const isRequired = title && imdbId && reg.test(imgUrl) && reg.test(imdbUrl);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -77,7 +75,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={imgUrl}
         onChange={setImgUrl}
         pattern={reg}
-        setValid={setValid}
         required
       />
 
@@ -86,7 +83,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Imdb URL"
         value={imdbUrl}
         pattern={reg}
-        setValid={setValid}
         onChange={setImdbUrl}
         required
       />

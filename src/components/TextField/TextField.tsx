@@ -23,7 +23,6 @@ export const TextField: React.FC<Props> = ({
   placeholder = `Enter ${label}`,
   required = false,
   pattern,
-  setValid = () => {},
   onChange = () => {},
 }) => {
   // generage a unique id once on component load
@@ -36,7 +35,6 @@ export const TextField: React.FC<Props> = ({
   const patternError = (currentValue: string) => {
     if (pattern) {
       setCurrentParrent(pattern.test(currentValue));
-      setValid(pattern.test(currentValue));
     }
   };
 
