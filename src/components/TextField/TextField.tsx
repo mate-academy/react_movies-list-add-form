@@ -8,8 +8,7 @@ type Props = {
   placeholder?: string;
   required?: boolean;
   pattern?: RegExp;
-  setValid?: (newValue: boolean) => void;
-  onChange?: (newValue: string) => void;
+  onChange?: (newValue: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
 function getRandomDigits() {
@@ -52,6 +51,7 @@ export const TextField: React.FC<Props> = ({
           className={classNames('input', {
             'is-danger': hasError,
           })}
+          name={name}
           placeholder={placeholder}
           value={value}
           onChange={event => {
@@ -59,7 +59,7 @@ export const TextField: React.FC<Props> = ({
               patternError(event.target.value);
             }
 
-            onChange(event.target.value.trimStart());
+            onChange(event);
           }}
           onBlur={() => setTouched(true)}
         />
