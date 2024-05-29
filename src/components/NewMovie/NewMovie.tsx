@@ -9,41 +9,46 @@ type Props = {
 
 export const NewMovie: React.FC<Props> = ({ onAdd: getPreparedMovies }) => {
   const [count, setCount] = useState(0);
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
+  const [newMovie, setNewMovie] = useState({
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  });
 
   const reset = () => {
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
+    setNewMovie({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
   };
 
   const handleAdd = (event: React.FormEvent) => {
     event.preventDefault();
 
-    getPreparedMovies({
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    });
+    getPreparedMovies(newMovie);
 
     setCount(count + 1);
 
     reset();
   };
 
+  const handleChange = (field: string, value: string) => {
+    setNewMovie({
+      ...newMovie,
+      [field]: value,
+    });
+  };
+
   const disabledButton =
-    !title ||
-    !getPatternCorect(imgUrl) ||
-    !getPatternCorect(imdbUrl) ||
-    !imdbId;
+    !newMovie.title ||
+    !getPatternCorect(newMovie.imgUrl) ||
+    !getPatternCorect(newMovie.imdbUrl) ||
+    !newMovie.imdbId;
 
   return (
     <form className="NewMovie" key={count} onSubmit={handleAdd}>
@@ -52,41 +57,41 @@ export const NewMovie: React.FC<Props> = ({ onAdd: getPreparedMovies }) => {
       <TextField
         name="title"
         label="Title"
-        value={title}
-        onChange={setTitle}
+        value={newMovie.title}
+        onChange={value => handleChange('title', value)}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value={description}
-        onChange={setDescription}
+        value={newMovie.description}
+        onChange={value => handleChange('description', value)}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={imgUrl}
-        onChange={setImgUrl}
+        value={newMovie.imgUrl}
+        onChange={value => handleChange('imgUrl', value)}
         required
-        patternCorect={getPatternCorect(imgUrl)}
+        patternCorect={getPatternCorect(newMovie.imgUrl)}
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={imdbUrl}
-        onChange={setImdbUrl}
+        value={newMovie.imdbUrl}
+        onChange={value => handleChange('imdbUrl', value)}
         required
-        patternCorect={getPatternCorect(imdbUrl)}
+        patternCorect={getPatternCorect(newMovie.imdbUrl)}
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imdbId}
-        onChange={setImdbId}
+        value={newMovie.imdbId}
+        onChange={value => handleChange('imdbId', value)}
         required
       />
 
