@@ -82,10 +82,10 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
   useEffect(() => {
     const formValid =
       !Object.values(errors).length &&
-      values.title.trim() !== '' &&
-      values.imdbId.trim() !== '' &&
-      values.imdbUrl.trim() !== '' &&
-      values.imgUrl.trim() !== '';
+      !!values.title.trim() &&
+      !!values.imdbId.trim() &&
+      !!values.imdbUrl.trim() &&
+      !!values.imgUrl.trim();
 
     setIsFormValid(formValid);
   }, [errors, values]);
