@@ -22,12 +22,15 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const validFields = [imgUrlisValid, imdbUrlisValid];
 
   function fieldsAreFilled(fields: string[]) {
-    return fields.every(field => field.trim() !== '');
+    return fields.every(field => field.trim());
   }
 
   function fieldsAreValid(fields: boolean[]) {
-    return fields.every(field => field === true);
+    return fields.every(Boolean);
   }
+
+  const fieldsAreCorrect =
+    fieldsAreFilled(requiredFields) && fieldsAreValid(validFields);
 
   function reset() {
     setTitle('');
@@ -40,7 +43,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (!fieldsAreFilled(requiredFields)) {
+    if (!fieldsAreCorrect) {
       return;
     }
 
@@ -81,7 +84,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Image URL"
         value={imgUrl}
         onChange={newImgUrl => setImgUrl(newImgUrl)}
-        validator={(value: string, pattern: RegExp) => {
+        validator={(value, pattern) => {
           if (pattern.test(value)) {
             setimgUrlisValid(true);
 
@@ -100,7 +103,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Imdb URL"
         value={imdbUrl}
         onChange={newImdbUrl => setImdbUrl(newImdbUrl)}
-        validator={(value: string, pattern: RegExp) => {
+        validator={(value, pattern) => {
           if (pattern.test(value)) {
             setimdbUrlisValid(true);
 
@@ -128,10 +131,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={
-              !fieldsAreFilled(requiredFields) ||
-              (fieldsAreFilled(requiredFields) && !fieldsAreValid(validFields))
-            }
+            disabled={!fieldsAreCorrect}
           >
             Add
           </button>
