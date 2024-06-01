@@ -16,6 +16,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
   const [error, setError] = useState('');
+  const [aciveButton, setAciveButton] = useState(false);
 
   const isFieldsNotEmpty =
     !!title.trim() &&
@@ -42,6 +43,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     }
 
     setError('');
+    setAciveButton(false);
   }, [isFormValid, isValidImdbId]);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -115,14 +117,19 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!isFormValid}
+            disabled={aciveButton}
+            onClick={() => {
+              if (!isFormValid) {
+                setAciveButton(true);
+              }
+            }}
           >
             Add
           </button>
         </div>
       </div>
 
-      <div className="field is-danger">{error}</div>
+      {aciveButton && <div className="field is-danger">{error}</div>}
     </form>
   );
 };
