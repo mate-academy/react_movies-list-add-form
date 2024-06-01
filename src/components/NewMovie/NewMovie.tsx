@@ -10,15 +10,24 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
-  const [title, setTitle] = useState('');
-  const [desc, setDesc] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
+
+  const [movie, setMovie] = useState({
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  });
+
   const [imgUrlisValid, setimgUrlisValid] = useState(false);
   const [imdbUrlisValid, setimdbUrlisValid] = useState(false);
 
-  const requiredFields = [title, imgUrl, imdbUrl, imdbId];
+  const requiredFields = [
+    movie.title,
+    movie.imgUrl,
+    movie.imdbUrl,
+    movie.imdbId,
+  ];
   const validFields = [imgUrlisValid, imdbUrlisValid];
 
   function fieldsAreFilled(fields: string[]) {
@@ -33,11 +42,13 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     fieldsAreFilled(requiredFields) && fieldsAreValid(validFields);
 
   function reset() {
-    setTitle('');
-    setDesc('');
-    setImgUrl('');
-    setImdbId('');
-    setImdbUrl('');
+    setMovie({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
   }
 
   const handleSubmit = (event: React.FormEvent) => {
@@ -47,13 +58,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       return;
     }
 
-    onAdd({
-      title,
-      imgUrl,
-      imdbId,
-      imdbUrl,
-      description: desc,
-    });
+    onAdd(movie);
 
     setCount(count + 1);
 
@@ -67,23 +72,38 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value={title}
-        onChange={newTitle => setTitle(newTitle)}
+        value={movie.title}
+        onChange={newTitle =>
+          setMovie(prevState => ({
+            ...prevState,
+            title: newTitle,
+          }))
+        }
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value={desc}
-        onChange={newDesc => setDesc(newDesc)}
+        value={movie.description}
+        onChange={newDesc =>
+          setMovie(prevState => ({
+            ...prevState,
+            description: newDesc,
+          }))
+        }
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={imgUrl}
-        onChange={newImgUrl => setImgUrl(newImgUrl)}
+        value={movie.imgUrl}
+        onChange={newImgUrl =>
+          setMovie(prevState => ({
+            ...prevState,
+            imgUrl: newImgUrl,
+          }))
+        }
         validator={(value, pattern) => {
           if (pattern.test(value)) {
             setimgUrlisValid(true);
@@ -101,8 +121,13 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={imdbUrl}
-        onChange={newImdbUrl => setImdbUrl(newImdbUrl)}
+        value={movie.imdbUrl}
+        onChange={newImdbUrl =>
+          setMovie(prevState => ({
+            ...prevState,
+            imdbUrl: newImdbUrl,
+          }))
+        }
         validator={(value, pattern) => {
           if (pattern.test(value)) {
             setimdbUrlisValid(true);
@@ -120,8 +145,13 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imdbId}
-        onChange={newImdbId => setImdbId(newImdbId)}
+        value={movie.imdbId}
+        onChange={newImdbId =>
+          setMovie(prevState => ({
+            ...prevState,
+            imdbId: newImdbId,
+          }))
+        }
         required
       />
 
