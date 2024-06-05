@@ -7,7 +7,7 @@ type Props = {
   label?: string;
   placeholder?: string;
   required?: boolean;
-  onChange?: (newValue: string) => void;
+  onChange?: (newValue: React.ChangeEvent<HTMLInputElement>) => void;
   validate?: (value: string) => string | null;
 };
 
@@ -25,8 +25,6 @@ export const TextField: React.FC<Props> = ({
   validate = () => null,
 }) => {
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
-
-  // To show errors only if the field was touched (onBlur)
   const [touched, setTouched] = useState(false);
   const hasError = touched && required && !value.trim();
   const validateUrlError = validate(value);
@@ -41,13 +39,14 @@ export const TextField: React.FC<Props> = ({
         <input
           type="text"
           id={id}
+          name={name}
           data-cy={`movie-${name}`}
           className={classNames('input', {
-            'is-danger': hasError || validateUrlError,
+            'is-danger': hasError || (validateUrlError && touched),
           })}
           placeholder={placeholder}
           value={value}
-          onChange={event => onChange(event.target.value)}
+          onChange={onChange}
           onBlur={() => setTouched(true)}
         />
       </div>
