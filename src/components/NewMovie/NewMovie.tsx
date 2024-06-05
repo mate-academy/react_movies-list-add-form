@@ -7,25 +7,26 @@ type Props = {
 };
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
+  const initialSate = {
+    title: '',
+    description: '',
+    imdbUrl: '',
+    imgUrl: '',
+    imdbId: '',
+  };
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
 
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
+  const [newMovie, setNewMovie] = useState(initialSate);
+
+  const { title, description, imdbId, imdbUrl, imgUrl } = newMovie;
 
   const isDisabled =
     !title.trim() || !imgUrl.trim() || !imdbUrl.trim() || !imdbId.trim();
 
   const onReset = (): void => {
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
+    setNewMovie(initialSate);
   };
 
   const handleSubmit = (event: React.FormEvent) => {
@@ -44,6 +45,15 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     onReset();
   };
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+
+    setNewMovie(prevMovie => ({
+      ...prevMovie,
+      [name]: value,
+    }));
+  };
+
   return (
     <form className="NewMovie" key={count} onSubmit={handleSubmit}>
       <h2 className="title">Add a movie</h2>
@@ -52,37 +62,36 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={title}
-        onChange={setTitle}
+        onChange={handleChange}
         required
-        // isError={true}
       />
 
       <TextField
         name="description"
         label="Description"
         value={description}
-        onChange={setDescription}
+        onChange={handleChange}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={setImgUrl}
+        onChange={handleChange}
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={setImdbUrl}
+        onChange={handleChange}
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={setImdbId}
+        onChange={handleChange}
       />
 
       <div className="field is-grouped">
