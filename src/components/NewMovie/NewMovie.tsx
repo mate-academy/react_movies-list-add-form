@@ -10,11 +10,7 @@ interface MovieForm {
   description: string;
 }
 
-export const NewMovie = ({
-  onAddMovie,
-}: {
-  onAddMovie: (movie: Movie) => void;
-}) => {
+export const NewMovie = ({ onAdd }: { onAdd: (movie: Movie) => void }) => {
   const [form, setForm] = useState<Movie>({
     title: '',
     imgUrl: '',
@@ -29,7 +25,8 @@ export const NewMovie = ({
     setTouched(prev => ({ ...prev, [name]: true }));
   };
 
-  const handleChange = (name: string, value: string) => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
     setForm(prevForm => ({
       ...prevForm,
       [name]: value,
@@ -38,12 +35,13 @@ export const NewMovie = ({
 
   const isFormValid = () => {
     const requiredFields = ['title', 'imgUrl', 'imdbUrl', 'imdbId'];
+
     return requiredFields.every(field => !!form[field as keyof MovieForm]);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onAddMovie(form);
+    onAdd(form);
     setForm({
       title: '',
       imgUrl: '',
@@ -62,7 +60,7 @@ export const NewMovie = ({
         name="title"
         label="Title"
         value={form.title}
-        onChange={value => handleChange('title', value)}
+        onChange={handleChange}
         onBlur={() => handleBlur('title')}
         required
         touched={!!touched.title}
@@ -72,14 +70,14 @@ export const NewMovie = ({
         name="description"
         label="Description"
         value={form.description}
-        onChange={value => handleChange('description', value)}
+        onChange={handleChange}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={form.imgUrl}
-        onChange={value => handleChange('imgUrl', value)}
+        onChange={handleChange}
         onBlur={() => handleBlur('imgUrl')}
         required
         touched={!!touched.imgUrl}
@@ -89,7 +87,7 @@ export const NewMovie = ({
         name="imdbUrl"
         label="Imdb URL"
         value={form.imdbUrl}
-        onChange={value => handleChange('imdbUrl', value)}
+        onChange={handleChange}
         onBlur={() => handleBlur('imdbUrl')}
         required
         touched={!!touched.imdbUrl}
@@ -99,7 +97,7 @@ export const NewMovie = ({
         name="imdbId"
         label="Imdb ID"
         value={form.imdbId}
-        onChange={value => handleChange('imdbId', value)}
+        onChange={handleChange}
         onBlur={() => handleBlur('imdbId')}
         required
         touched={!!touched.imdbId}
