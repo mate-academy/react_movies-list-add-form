@@ -25,8 +25,7 @@ export const NewMovie = ({ onAdd }: { onAdd: (movie: Movie) => void }) => {
     setTouched(prev => ({ ...prev, [name]: true }));
   };
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
+  const handleChange = (name: string, value: string) => {
     setForm(prevForm => ({
       ...prevForm,
       [name]: value,
@@ -35,7 +34,6 @@ export const NewMovie = ({ onAdd }: { onAdd: (movie: Movie) => void }) => {
 
   const isFormValid = () => {
     const requiredFields = ['title', 'imgUrl', 'imdbUrl', 'imdbId'];
-
     return requiredFields.every(field => !!form[field as keyof MovieForm]);
   };
 
@@ -60,7 +58,7 @@ export const NewMovie = ({ onAdd }: { onAdd: (movie: Movie) => void }) => {
         name="title"
         label="Title"
         value={form.title}
-        onChange={handleChange}
+        onChange={value => handleChange('title', value)}
         onBlur={() => handleBlur('title')}
         required
         touched={!!touched.title}
@@ -70,14 +68,14 @@ export const NewMovie = ({ onAdd }: { onAdd: (movie: Movie) => void }) => {
         name="description"
         label="Description"
         value={form.description}
-        onChange={handleChange}
+        onChange={value => handleChange('description', value)}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={form.imgUrl}
-        onChange={handleChange}
+        onChange={value => handleChange('imgUrl', value)}
         onBlur={() => handleBlur('imgUrl')}
         required
         touched={!!touched.imgUrl}
@@ -87,7 +85,7 @@ export const NewMovie = ({ onAdd }: { onAdd: (movie: Movie) => void }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={form.imdbUrl}
-        onChange={handleChange}
+        onChange={value => handleChange('imdbUrl', value)}
         onBlur={() => handleBlur('imdbUrl')}
         required
         touched={!!touched.imdbUrl}
@@ -97,7 +95,7 @@ export const NewMovie = ({ onAdd }: { onAdd: (movie: Movie) => void }) => {
         name="imdbId"
         label="Imdb ID"
         value={form.imdbId}
-        onChange={handleChange}
+        onChange={value => handleChange('imdbId', value)}
         onBlur={() => handleBlur('imdbId')}
         required
         touched={!!touched.imdbId}
