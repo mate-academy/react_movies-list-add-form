@@ -3,12 +3,14 @@ import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
 type Props = {
-  onSubmit: (movie: Movie) => void;
+  onAdd: (movie: Movie) => void;
 };
 
-export const NewMovie: React.FC<Props> = ({ onSubmit }) => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
+const pattern =
+  // eslint-disable-next-line max-len
+  /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
+
+export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -24,8 +26,18 @@ export const NewMovie: React.FC<Props> = ({ onSubmit }) => {
     setImdbId('');
   }
 
+  const correctImgUrl = !pattern.test(imgUrl);
+  const correctImbddUrl = !pattern.test(imdbUrl);
+
   function isEmpty() {
-    if (!title.trim() || !imgUrl.trim() || !imdbUrl.trim() || !imdbId.trim()) {
+    if (
+      !title.trim() ||
+      !imgUrl.trim() ||
+      !imdbUrl.trim() ||
+      !imdbId.trim() ||
+      correctImgUrl ||
+      correctImbddUrl
+    ) {
       return;
     } else {
       return true;
@@ -37,7 +49,7 @@ export const NewMovie: React.FC<Props> = ({ onSubmit }) => {
 
     isEmpty();
 
-    onSubmit({
+    onAdd({
       title,
       description,
       imgUrl,
