@@ -3,7 +3,7 @@ import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
 type Props = {
-  onAdd: (movies: Movie) => void;
+  onAdd: (movie: Movie) => void;
 };
 
 const pattern =
@@ -12,42 +12,49 @@ const pattern =
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
-
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
-
-  const disabled =
-    !title.trim() || !imgUrl.trim() || !imdbUrl.trim() || !imdbId.trim();
-  const notImgUrl = !pattern.test(imgUrl);
-  const notImdUrl = !pattern.test(imdbUrl);
+  const [movie, setMovie] = useState({
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  });
 
   const reset = () => {
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
+    setMovie({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
   };
+
+  const disabled =
+    !movie.title.trim() ||
+    !movie.imgUrl.trim() ||
+    !movie.imdbUrl.trim() ||
+    !movie.imdbId.trim();
+  const notImgUrl = !pattern.test(movie.imgUrl);
+  const notImdbUrl = !pattern.test(movie.imdbUrl);
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (disabled || notImgUrl || notImdUrl) {
-      onAdd({
-        title,
-        description,
-        imgUrl,
-        imdbUrl,
-        imdbId,
-      });
+    if (disabled || notImgUrl || notImdbUrl) {
+      onAdd(movie);
 
       setCount(count + 1);
 
       reset();
     }
+  };
+
+  const handleInputChange = (name: string, value: string) => {
+    setMovie(prevState => ({
+      ...prevState,
+      [name]: value,
+    }));
   };
 
   return (
@@ -57,41 +64,39 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value={title}
-        onChange={setTitle}
+        value={movie.title}
+        onChange={value => handleInputChange('title', value)}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value={description}
-        onChange={setDescription}
+        value={movie.description}
+        onChange={value => handleInputChange('description', value)}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={imgUrl}
-        onChange={setImgUrl}
+        value={movie.imgUrl}
+        onChange={value => handleInputChange('imgUrl', value)}
         required
-        notValid={notImgUrl}
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={imdbUrl}
-        onChange={setImdbUrl}
+        value={movie.imdbUrl}
+        onChange={value => handleInputChange('imdbUrl', value)}
         required
-        notValid={notImdUrl}
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imdbId}
-        onChange={setImdbId}
+        value={movie.imdbId}
+        onChange={value => handleInputChange('imdbId', value)}
         required
       />
 
