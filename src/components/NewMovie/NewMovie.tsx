@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { TextField } from '../TextField';
+import { TextField } from '../TextField/TextField';
 import { Movie } from '../../types/Movie';
 
 type Props = {
@@ -30,8 +30,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     });
   }
 
-  const correctImgUrl = !pattern.test(movie.imgUrl);
-  const correctImbddUrl = !pattern.test(movie.imdbUrl);
+  const correctImgUrl = pattern.test(movie.imgUrl);
+  const correctImbddUrl = pattern.test(movie.imdbUrl);
 
   function isEmpty() {
     if (
@@ -39,8 +39,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       !movie.imgUrl.trim() ||
       !movie.imdbUrl.trim() ||
       !movie.imdbId.trim() ||
-      correctImgUrl ||
-      correctImbddUrl
+      !correctImgUrl ||
+      !correctImbddUrl
     ) {
       return;
     } else {
@@ -92,6 +92,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={movie.imgUrl}
         onChange={handleChange}
         required
+        isValidLink={correctImgUrl}
       />
 
       <TextField
@@ -100,6 +101,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={movie.imdbUrl}
         onChange={handleChange}
         required
+        isValidLink={correctImbddUrl}
       />
 
       <TextField
