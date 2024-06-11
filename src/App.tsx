@@ -6,13 +6,11 @@ import React, { useState } from 'react';
 import { Movie } from './types/Movie';
 
 export const App = () => {
-  const [movies, setMovies] = useState<Movie[]>(moviesFromServer);
+  const [movies, setMovies] = useState(moviesFromServer);
   const onAdd = function (newMovie: Movie) {
-    if (movies) {
-      setMovies([...movies, newMovie]);
-    } else {
-      setMovies([newMovie]);
-    }
+    setMovies(previousMovies =>
+      previousMovies ? [...previousMovies, newMovie] : [newMovie],
+    );
   };
 
   return (
@@ -21,7 +19,11 @@ export const App = () => {
         {movies && <MoviesList movies={movies} />}
       </div>
       <div className="sidebar">
-        {movies && <NewMovie movies={movies} onAdd={onAdd} />}
+        {movies ? (
+          <NewMovie movies={movies} onAdd={onAdd} />
+        ) : (
+          <NewMovie onAdd={onAdd} />
+        )}
       </div>
     </div>
   );
