@@ -34,6 +34,7 @@ export const NewMovie = ({ onAdd }: { onAdd: (movie: Movie) => void }) => {
 
   const isFormValid = () => {
     const requiredFields = ['title', 'imgUrl', 'imdbUrl', 'imdbId'];
+
     return requiredFields.every(field => !!form[field as keyof MovieForm]);
   };
 
