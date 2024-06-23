@@ -35,14 +35,12 @@ export const TextField: React.FC<Props> = ({
   const hasError = touched && required && errorMessage;
 
   function handleOnBlur(event: React.FocusEvent<HTMLInputElement>) {
-    if (event.target.value.trim()) {
-      setErrorMessage('');
-    } else if (!event.target.value.trim()) {
+    if (!event.target.value.trim()) {
       setErrorMessage('is required');
-    }
-
-    if (error) {
+    } else if (error) {
       setErrorMessage(error);
+    } else {
+      setErrorMessage('');
     }
 
     setTouched(true);
