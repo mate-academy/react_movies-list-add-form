@@ -9,37 +9,47 @@ export const NewMovie: React.FC<AddMovieProps> = ({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
 
-  const [addTitle, setAddTitle] = useState('');
-  const [addDescription, setAddDescription] = useState('');
-  const [addImgUrl, setAddImgUrl] = useState('');
-  const [addImdbUrl, setaddImdbUrl] = useState('');
-  const [imdbId, setimdbId] = useState('');
-
+  const [newMovies, setNewMovies] = useState({
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  });
   const [count, setCount] = useState(0);
 
   const resetForm = () => {
-    setAddTitle('');
-    setAddDescription('');
-    setAddImgUrl('');
-    setaddImdbUrl('');
-    setimdbId('');
+    setNewMovies({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
+  };
+
+  const handleChange = (name: string, value: string) => {
+    setNewMovies(prevState => ({
+      ...prevState,
+      [name]: value,
+    }));
   };
 
   const handleMovie = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setCount(currentCount => currentCount + 1);
+
     if (
-      addTitle.trim() &&
-      addImgUrl.trim() &&
-      addImdbUrl.trim() &&
-      imdbId.trim()
+      newMovies.title.trim() &&
+      newMovies.imgUrl.trim() &&
+      newMovies.imdbUrl.trim() &&
+      newMovies.imdbId.trim()
     ) {
       const newMovie: Movie = {
-        title: addTitle.trim(),
-        description: addDescription.trim(),
-        imgUrl: addImgUrl.trim(),
-        imdbUrl: addImdbUrl.trim(),
-        imdbId: imdbId.trim(),
+        title: newMovies.title.trim(),
+        description: newMovies.description.trim(),
+        imgUrl: newMovies.imgUrl.trim(),
+        imdbUrl: newMovies.imdbUrl.trim(),
+        imdbId: newMovies.imdbId.trim(),
       };
 
       if (onAdd) {
@@ -47,6 +57,7 @@ export const NewMovie: React.FC<AddMovieProps> = ({ onAdd }) => {
       }
 
       resetForm();
+      setCount(currentCount => currentCount + 1);
     }
   };
 
@@ -57,46 +68,53 @@ export const NewMovie: React.FC<AddMovieProps> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value={addTitle}
-        onChange={event => setAddTitle(event)}
+        value={newMovies.title}
+        onChange={(newValue: string) => handleChange('title', newValue)}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value={addDescription}
-        onChange={event => setAddDescription(event)}
+        value={newMovies.description}
+        onChange={(newValue: string) => handleChange('description', newValue)}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={addImgUrl}
-        onChange={event => setAddImgUrl(event)}
+        value={newMovies.imgUrl}
+        onChange={(newValue: string) => handleChange('imgUrl', newValue)}
         required
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={addImdbUrl}
-        onChange={event => setaddImdbUrl(event)}
+        value={newMovies.imdbUrl}
+        onChange={(newValue: string) => handleChange('imdbUrl', newValue)}
         required
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={`${imdbId}`}
-        onChange={event => setimdbId(event)}
+        value={`${newMovies.imdbId}`}
+        onChange={(newValue: string) => handleChange('imdbId', newValue)}
         required
       />
 
       <div className="field is-grouped">
         <div className="control">
           <button
-            disabled={!(addTitle && addImgUrl && addImdbUrl && imdbId)}
+            disabled={
+              !(
+                newMovies.title &&
+                newMovies.imgUrl &&
+                newMovies.imdbUrl &&
+                newMovies.imdbId
+              )
+            }
             type="submit"
             data-cy="submit-button"
             className="button is-link"
