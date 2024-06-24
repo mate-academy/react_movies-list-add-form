@@ -56,7 +56,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   }
 
   const isValidData =
-    title.trim() && imdbId.trim() && isValidUrl(imdbUrl) && isValidUrl(imgUrl);
+    title.trim() &&
+    imdbId.trim() &&
+    isValidUrl(imdbUrl) &&
+    isValidUrl(imgUrl);
 
   return (
     <form className="NewMovie" key={count} onSubmit={submitForm}>
