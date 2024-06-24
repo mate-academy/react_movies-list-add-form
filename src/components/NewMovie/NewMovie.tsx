@@ -7,11 +7,7 @@ const pattern =
   /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
 
 const validateUrl = (value: string) => {
-  if (!pattern.test(value)) {
-    return false;
-  }
-
-  return true;
+  return pattern.test(value);
 };
 
 type Props = {
@@ -19,8 +15,6 @@ type Props = {
 };
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
   const [formData, setFormData] = useState({
     title: '',
@@ -35,6 +29,16 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       ...prevFormData,
       [name]: value,
     }));
+  };
+
+  const resetForm = () => {
+    setFormData({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
   };
 
   const isFormValid = () => {
@@ -57,13 +61,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
       onAdd(newMovie);
 
-      setFormData({
-        title: '',
-        description: '',
-        imgUrl: '',
-        imdbUrl: '',
-        imdbId: '',
-      });
+      resetForm();
       setCount(prevCount => prevCount + 1);
     }
   };
