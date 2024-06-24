@@ -8,10 +8,10 @@ const pattern =
 
 const validateUrl = (value: string) => {
   if (!pattern.test(value)) {
-    return true;
+    return false;
   }
 
-  return false;
+  return true;
 };
 
 type Props = {
