@@ -5,3 +5,4 @@ export interface Movie {
   imdbUrl: string;
   imdbId: string;
 }
+//Movie.ts
