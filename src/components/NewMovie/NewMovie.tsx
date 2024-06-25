@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
+import { isValidUrl } from '../../utils';
 
 type Props = {
   onAdd: (movie: Movie) => void;
@@ -42,24 +43,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setformData(initialMovie);
   }
 
-  function isValidUrl(string: string) {
-    const regex = new RegExp(
-      '^(' +
-        '((([A-Za-z]{3,9}:(?:\\/\\/)?)(?:[-;:&=+$,\\w]+@)?[A-Za-z0-9.-]+|' +
-        '(?:www\\.|[-;:&=+$,\\w]+@)[A-Za-z0-9.-]+)' +
-        '((?:\\/[+~%/.\\w-_]*)?\\??(?:' +
-        '[-+=&;%@.,\\w_]*)#?(?:[,.!/\\\\\\w]*))?)' +
-        ')$',
-    );
-
-    return regex.test(string);
-  }
-
   const isValidData =
-    title.trim() &&
-    imdbId.trim() &&
-    isValidUrl(imdbUrl) &&
-    isValidUrl(imgUrl);
+    title.trim() && imdbId.trim() && isValidUrl(imdbUrl) && isValidUrl(imgUrl);
 
   return (
     <form className="NewMovie" key={count} onSubmit={submitForm}>
