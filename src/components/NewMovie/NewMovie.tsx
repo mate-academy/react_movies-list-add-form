@@ -74,6 +74,7 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAddMovie }) => {
         onBlur={() => handleBlur('title', title)}
         error={errors.title}
         required
+        data-cy="movie-title"
       />
 
       <TextField
@@ -81,6 +82,7 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAddMovie }) => {
         label="Description"
         value={description}
         onChange={e => setDescription(e.target.value)}
+        data-cy="movie-description"
       />
 
       <TextField
@@ -91,6 +93,7 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAddMovie }) => {
         onBlur={() => handleBlur('imgUrl', imgUrl)}
         error={errors.imgUrl}
         required
+        data-cy="movie-imgUrl"
       />
 
       <TextField
@@ -101,6 +104,7 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAddMovie }) => {
         onBlur={() => handleBlur('imdbUrl', imdbUrl)}
         error={errors.imdbUrl}
         required
+        data-cy="movie-imdbUrl"
       />
 
       <TextField
@@ -111,6 +115,7 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAddMovie }) => {
         onBlur={() => handleBlur('imdbId', imdbId)}
         error={errors.imdbId}
         required
+        data-cy="movie-imdbId"
       />
 
       <div className="field is-grouped">
