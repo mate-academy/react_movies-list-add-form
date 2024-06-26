@@ -1,6 +1,11 @@
 import classNames from 'classnames';
 import React, { useState } from 'react';
 
+export enum URLTypes {
+  ImdbUrl = 'imdbUrl',
+  imgUrl = 'imgUrl',
+}
+
 type Props = {
   name: string;
   value: string;
@@ -14,6 +19,14 @@ function getRandomDigits() {
   return Math.random().toFixed(16).slice(2);
 }
 
+export const checkURL = (value: string): boolean => {
+  const pattern =
+    // eslint-disable-next-line max-len
+    /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
+
+  return pattern.test(value.trim());
+};
+
 export const TextField: React.FC<Props> = ({
   name,
   value,
@@ -22,12 +35,11 @@ export const TextField: React.FC<Props> = ({
   required = false,
   onChange = () => {},
 }) => {
-  // generage a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
-
-  // To show errors only if the field was touched (onBlur)
   const [touched, setTouched] = useState(false);
   const hasError = touched && required && !value;
+  const urlType = name === URLTypes.ImdbUrl || name === URLTypes.imgUrl;
+  const hasInvalidURL = urlType && !checkURL(value) && !hasError && touched;
 
   return (
     <div className="field">
@@ -51,6 +63,7 @@ export const TextField: React.FC<Props> = ({
       </div>
 
       {hasError && <p className="help is-danger">{`${label} is required`}</p>}
+      {hasInvalidURL && <p className="help is-danger">{`Invalid URL`}</p>}
     </div>
   );
 };
