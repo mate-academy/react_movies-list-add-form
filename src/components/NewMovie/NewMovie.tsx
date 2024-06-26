@@ -17,16 +17,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
   const isDisabledButton: boolean = !title || !imdbUrl || !imgUrl || !imdbId;
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    if (!title.trim()) {
-      return;
-    }
-
-    onAdd({ title, description, imgUrl, imdbUrl, imdbId });
-  };
-
   const resetAll = () => {
     setTitle('');
     setDescription('');
@@ -34,6 +24,18 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setImbdUrl('');
     setImdbId('');
     setCount(count + 1);
+  };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (!title.trim()) {
+      return;
+    }
+
+    resetAll();
+
+    onAdd({ title, description, imgUrl, imdbUrl, imdbId });
   };
 
   return (
@@ -85,7 +87,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            onClick={resetAll}
             disabled={isDisabledButton}
           >
             Add
