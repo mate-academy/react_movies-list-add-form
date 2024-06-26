@@ -6,52 +6,62 @@ type Props = {
   onAdd: (movie: Movie) => void;
 };
 
+const EMPTY_MOVIE: Movie = {
+  title: '',
+  description: '',
+  imgUrl: '',
+  imdbUrl: '',
+  imdbId: '',
+};
+
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
   const [disabled, setDisabled] = useState(true);
+  const [newMovie, setNewMovie] = useState({ ...EMPTY_MOVIE });
 
-  if (!disabled && (!title || !imgUrl || !imdbUrl || !imdbId)) {
+  if (
+    !disabled &&
+    (!newMovie.title ||
+      !newMovie.imgUrl ||
+      !newMovie.imdbUrl ||
+      !newMovie.imdbId)
+  ) {
     setDisabled(true);
   }
 
   if (
     disabled &&
-    title.trim() &&
-    imgUrl.trim() &&
-    imdbUrl.trim() &&
-    imdbId.trim()
+    newMovie.title.trim() &&
+    newMovie.imgUrl.trim() &&
+    newMovie.imdbUrl.trim() &&
+    newMovie.imdbId.trim()
   ) {
     setDisabled(false);
   }
 
   const resetFormFields = () => {
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
+    setNewMovie({ ...EMPTY_MOVIE });
     setDisabled(true);
   };
 
   const addNewMovie = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
+    for (const key in newMovie) {
+      newMovie[key] = newMovie[key].trim();
+    }
+
     setCount(count + 1);
 
-    onAdd({
-      title: title.trim(),
-      description: description.trim(),
-      imgUrl: imgUrl.trim(),
-      imdbUrl: imdbUrl.trim(),
-      imdbId: imdbId.trim(),
-    });
+    onAdd(newMovie);
 
     resetFormFields();
+  };
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+
+    setNewMovie((currentMovie: Movie) => ({ ...currentMovie, [name]: value }));
   };
 
   return (
@@ -61,39 +71,39 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value={title}
-        onChange={newTitle => setTitle(newTitle)}
+        value={newMovie.title}
+        onChange={handleChange}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value={description}
-        onChange={newDescription => setDescription(newDescription)}
+        value={newMovie.description}
+        onChange={handleChange}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={imgUrl}
-        onChange={newImgUrl => setImgUrl(newImgUrl)}
+        value={newMovie.imgUrl}
+        onChange={handleChange}
         required
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={imdbUrl}
-        onChange={newImdbUrl => setImdbUrl(newImdbUrl)}
+        value={newMovie.imdbUrl}
+        onChange={handleChange}
         required
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imdbId}
-        onChange={newImdbId => setImdbId(newImdbId)}
+        value={newMovie.imdbId}
+        onChange={handleChange}
         required
       />
 
