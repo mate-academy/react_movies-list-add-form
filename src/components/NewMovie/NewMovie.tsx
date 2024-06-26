@@ -19,7 +19,13 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setDisabled(true);
   }
 
-  if (disabled && title && imgUrl && imdbUrl && imdbId) {
+  if (
+    disabled &&
+    title.trim() &&
+    imgUrl.trim() &&
+    imdbUrl.trim() &&
+    imdbId.trim()
+  ) {
     setDisabled(false);
   }
 
@@ -38,11 +44,11 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setCount(count + 1);
 
     onAdd({
-      title: title,
-      description: description,
-      imgUrl: imgUrl,
-      imdbUrl: imdbUrl,
-      imdbId: imdbId,
+      title: title.trim(),
+      description: description.trim(),
+      imgUrl: imgUrl.trim(),
+      imdbUrl: imdbUrl.trim(),
+      imdbId: imdbId.trim(),
     });
 
     resetFormFields();
