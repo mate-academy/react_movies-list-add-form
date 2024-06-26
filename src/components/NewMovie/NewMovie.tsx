@@ -1,121 +1,92 @@
 import React, { useState } from 'react';
 import { TextField } from '../TextField';
+import { Movie } from '../../types/Movie';
+// import { event } from 'cypress/types/jquery';
 
-interface Movie {
-  title: string;
-  description?: string;
-  imgUrl: string;
-  imdbUrl: string;
-  imdbId: string;
-}
+type Props = {
+  onAdd: (movie: Movie) => void;
+};
 
-interface NewMovieProps {
-  onAddMovie: (movie: Movie) => void;
-}
+export const NewMovie: React.FC<Props> = ({ onAdd }) => {
+  // Increase the count after successful form submission
+  // to reset touched status of all the `Field`s
+  const [count, setCount] = useState(0);
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [imgUrl, setImgUrl] = useState('');
+  const [imdbUrl, setImdbUrl] = useState('');
+  const [imdbId, setImdbId] = useState('');
 
-export const NewMovie: React.FC<NewMovieProps> = ({ onAddMovie }) => {
-  const [title, setTitle] = useState<string>('');
-  const [description, setDescription] = useState<string>('');
-  const [imgUrl, setImgUrl] = useState<string>('');
-  const [imdbUrl, setImdbUrl] = useState<string>('');
-  const [imdbId, setImdbId] = useState<string>('');
-  const [errors, setErrors] = useState<{ [key: string]: string }>({});
-
-  const handleBlur = (field: string, value: string) => {
-    if (!value.trim()) {
-      setErrors(prev => ({ ...prev, [field]: 'This field is required' }));
-    } else {
-      setErrors(prev => {
-        const { [field]: removed, ...rest } = prev;
-
-        return rest;
-      });
-    }
-  };
+  const isFormValid =
+    title.trim() && imgUrl.trim() && imdbId.trim() && imdbUrl.trim();
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (!title.trim() || !imgUrl.trim() || !imdbUrl.trim() || !imdbId.trim()) {
+    if (!isFormValid) {
       return;
     }
 
     const newMovie: Movie = {
-      title: title.trim(),
-      description: description.trim(),
-      imgUrl: imgUrl.trim(),
-      imdbUrl: imdbUrl.trim(),
-      imdbId: imdbId.trim(),
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
     };
 
-    onAddMovie(newMovie);
+    onAdd(newMovie);
 
-    // Clear form state after successful submission
     setTitle('');
     setDescription('');
     setImgUrl('');
+    setImgUrl('');
     setImdbUrl('');
     setImdbId('');
-    setErrors({});
+    setCount(count + 1);
   };
 
-  const isSubmitDisabled =
-    !title.trim() || !imgUrl.trim() || !imdbUrl.trim() || !imdbId.trim();
-
   return (
-    <form className="NewMovie" onSubmit={handleSubmit}>
+    <form className="NewMovie" key={count} onSubmit={handleSubmit}>
       <h2 className="title">Add a movie</h2>
 
       <TextField
         name="title"
         label="Title"
         value={title}
-        onChange={e => setTitle(e.target.value)}
-        onBlur={() => handleBlur('title', title)}
-        error={errors.title}
+        onChange={setTitle}
         required
-        data-cy="movie-title"
       />
 
       <TextField
         name="description"
         label="Description"
         value={description}
-        onChange={e => setDescription(e.target.value)}
-        data-cy="movie-description"
+        onChange={setDescription}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={e => setImgUrl(e.target.value)}
-        onBlur={() => handleBlur('imgUrl', imgUrl)}
-        error={errors.imgUrl}
+        onChange={setImgUrl}
         required
-        data-cy="movie-imgUrl"
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={e => setImdbUrl(e.target.value)}
-        onBlur={() => handleBlur('imdbUrl', imdbUrl)}
-        error={errors.imdbUrl}
+        onChange={setImdbUrl}
         required
-        data-cy="movie-imdbUrl"
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={e => setImdbId(e.target.value)}
-        onBlur={() => handleBlur('imdbId', imdbId)}
-        error={errors.imdbId}
+        onChange={setImdbId}
         required
-        data-cy="movie-imdbId"
       />
 
       <div className="field is-grouped">
@@ -124,7 +95,7 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAddMovie }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={isSubmitDisabled}
+            disabled={!isFormValid}
           >
             Add
           </button>

@@ -14,7 +14,7 @@ interface MovieCardProps {
 }
 
 export const MovieCard: React.FC<MovieCardProps> = ({ movie }) => (
-  <div className="card">
+  <div className="card" data-cy="movie-card">
     <div className="card-image">
       <figure className="image is-4by3">
         <img src={movie.imgUrl} alt="Film logo" />

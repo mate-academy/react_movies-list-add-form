@@ -1,40 +1,53 @@
-import React from 'react';
+import classNames from 'classnames';
+import React, { useState } from 'react';
 
-interface TextFieldProps {
+type Props = {
   name: string;
-  label: string;
   value: string;
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  onBlur?: () => void;
-  error?: string;
+  label?: string;
+  placeholder?: string;
   required?: boolean;
-}
+  onChange?: (newValue: string) => void;
+  id?: string;
+};
+// id generator due to date
+const generateUniqueId = () => Date.now().toString();
 
-export const TextField: React.FC<TextFieldProps> = ({
+export const TextField: React.FC<Props> = ({
   name,
-  label,
   value,
-  onChange,
-  onBlur,
-  error,
-  required,
-}) => (
-  <div className="field">
-    <label className="label" htmlFor={name}>
-      {label}
-    </label>
-    <div className="control">
-      <input
-        id={name}
-        name={name}
-        type="text"
-        className={`input ${error ? 'is-danger' : ''}`}
-        value={value}
-        onChange={onChange}
-        onBlur={onBlur}
-        required={required}
-      />
+  label = name,
+  placeholder = `Enter ${label}`,
+  required = false,
+  onChange = () => {},
+  id,
+}) => {
+  const [generatedId] = useState(() => `${name}-${generateUniqueId()}`);
+  const inputId = id || generatedId;
+
+  const [touched, setTouched] = useState(false);
+  const hasError = touched && required && !value;
+
+  return (
+    <div className="field">
+      <label className="label" htmlFor={inputId}>
+        {label}
+      </label>
+      <div className="control">
+        <input
+          type="text"
+          id={inputId}
+          data-cy={`movie-${name}`}
+          className={classNames('input', {
+            'is-danger': hasError,
+          })}
+          placeholder={placeholder}
+          value={value}
+          onChange={event => onChange(event.target.value)}
+          onBlur={() => setTouched(true)}
+        />
+      </div>
+      {hasError && <p className="help is-danger">{`${label} is required`}</p>}
     </div>
-    {error && <p className="help is-danger">{error}</p>}
-  </div>
-);
+  );
+};
