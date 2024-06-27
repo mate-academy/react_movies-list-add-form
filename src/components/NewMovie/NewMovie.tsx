@@ -36,6 +36,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     !newMovie.imdbId ||
     areUrlsInvalid;
 
+  const [count, setCount] = useState(0);
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -52,10 +54,12 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       imdbUrl: '',
       imdbId: '',
     });
+
+    setCount(prevCount => prevCount + 1);
   };
 
   return (
-    <form className="NewMovie" onSubmit={handleSubmit}>
+    <form className="NewMovie" key={count} onSubmit={handleSubmit}>
       <h2 className="title">Add a movie</h2>
 
       <TextField
