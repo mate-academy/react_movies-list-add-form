@@ -9,7 +9,7 @@ export const App: React.FC = () => {
   const [movies, setMovies] = useState<Movie[]>(moviesFromServer);
 
   const handleAddMovie = (newMovie: Movie) => {
-    setMovies([...movies, newMovie]);
+    setMovies(currentMovie => [...currentMovie, newMovie]);
   };
 
   return (
