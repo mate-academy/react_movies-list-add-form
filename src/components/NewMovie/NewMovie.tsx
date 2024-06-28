@@ -8,42 +8,35 @@ interface Props {
 }
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
-  const [valueTitle, setValueTitle] = useState('');
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [imgUrl, setImgUrl] = useState('');
+  const [imdbUrl, setImdbUrl] = useState('');
+  const [imdbId, setImdbId] = useState('');
 
-  const [valueDescription, setValueDescription] = useState('');
-
-  const [valueImgUrl, setValueImgUrl] = useState('');
-
-  const [valueImdbUrl, setValueImdbUrl] = useState('');
-
-  const [valueImdbId, setValueImdbId] = useState('');
-
-  const disabledReason =
-    !valueTitle || !valueImgUrl || !valueImdbUrl || !valueImdbId;
+  const isAddButtonDisabled = !title || !imgUrl || !imdbUrl || !imdbId;
 
   const resetValues = () => {
-    setValueTitle('');
-    setValueDescription('');
-    setValueImgUrl('');
-    setValueImdbUrl('');
-    setValueImdbId('');
+    setTitle('');
+    setDescription('');
+    setImgUrl('');
+    setImdbUrl('');
+    setImdbId('');
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     onAdd({
-      title: valueTitle,
-      description: valueDescription,
-      imgUrl: valueImgUrl,
-      imdbUrl: valueImdbUrl,
-      imdbId: valueImdbId,
+      title: title,
+      description: description,
+      imgUrl: imgUrl,
+      imdbUrl: imdbUrl,
+      imdbId: imdbId,
     });
 
-    setCount(count + 1);
+    setCount(prevId => prevId + 1);
     resetValues();
   };
 
@@ -53,36 +46,36 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value={valueTitle}
-        onChange={setValueTitle}
+        value={title}
+        onChange={setTitle}
         required
       />
       <TextField
         name="description"
         label="Description"
-        value={valueDescription}
-        onChange={setValueDescription}
+        value={description}
+        onChange={setDescription}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={valueImgUrl}
-        onChange={setValueImgUrl}
+        value={imgUrl}
+        onChange={setImgUrl}
         required
       />
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={valueImdbUrl}
-        onChange={setValueImdbUrl}
+        value={imdbUrl}
+        onChange={setImdbUrl}
         required
       />
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={valueImdbId}
-        onChange={setValueImdbId}
+        value={imdbId}
+        onChange={setImdbId}
         required
       />
       <div className="field is-grouped">
@@ -91,7 +84,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={disabledReason}
+            disabled={isAddButtonDisabled}
           >
             Add
           </button>
