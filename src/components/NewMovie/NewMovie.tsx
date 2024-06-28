@@ -1,10 +1,7 @@
 import React, { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
-
-type Props = {
-  onAdd: (movie: Movie) => void;
-};
+import { NewMovieProps } from '../../types/NewMovieProps';
 
 const EMPTY_MOVIE: Movie = {
   title: '',
@@ -14,47 +11,26 @@ const EMPTY_MOVIE: Movie = {
   imdbId: '',
 };
 
-export const NewMovie: React.FC<Props> = ({ onAdd }) => {
+export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
-  const [disabled, setDisabled] = useState(true);
   const [newMovie, setNewMovie] = useState({ ...EMPTY_MOVIE });
 
-  if (
-    !disabled &&
-    (!newMovie.title ||
-      !newMovie.imgUrl ||
-      !newMovie.imdbUrl ||
-      !newMovie.imdbId)
-  ) {
-    setDisabled(true);
-  }
+  const canSubmit = Object.entries(newMovie).every(field => {
+    if (field[0] === 'description') {
+      return true;
+    }
 
-  if (
-    disabled &&
-    newMovie.title.trim() &&
-    newMovie.imgUrl.trim() &&
-    newMovie.imdbUrl.trim() &&
-    newMovie.imdbId.trim()
-  ) {
-    setDisabled(false);
-  }
+    return field[1].trim() !== '';
+  });
 
   const resetFormFields = () => {
     setNewMovie({ ...EMPTY_MOVIE });
-    setDisabled(true);
   };
 
   const addNewMovie = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
-    for (const key in newMovie) {
-      newMovie[key] = newMovie[key].trim();
-    }
-
     setCount(count + 1);
-
     onAdd(newMovie);
-
     resetFormFields();
   };
 
@@ -113,7 +89,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={disabled}
+            disabled={!canSubmit}
           >
             Add
           </button>
