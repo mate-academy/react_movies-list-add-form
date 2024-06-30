@@ -15,7 +15,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImbdUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const isDisabledButton: boolean = !title || !imdbUrl || !imgUrl || !imdbId;
+  const isDisabledButton: boolean =
+    !title.trim() || !imgUrl.trim() || !imdbUrl.trim() || !imdbId.trim();
 
   const resetAll = () => {
     setTitle('');
@@ -23,13 +24,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setImgUrl('');
     setImbdUrl('');
     setImdbId('');
-    setCount(count + 1);
+    // eslint-disable-next-line @typescript-eslint/no-shadow
+    setCount(count => count + 1);
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!title.trim()) {
+    if (!title.trim() || !imgUrl.trim() || !imdbUrl.trim() || !imdbId.trim()) {
       return;
     }
 
