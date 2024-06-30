@@ -29,7 +29,7 @@ export const NewMovie = ({ onAdd }: NewMovieProps) => {
       imdbUrl,
       imdbId,
     });
-    setCount(count + 1);
+    setCount(countPlus => countPlus + 1);
   };
 
   return (
