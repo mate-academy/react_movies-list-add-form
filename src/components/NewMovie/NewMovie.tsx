@@ -2,7 +2,11 @@ import { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
-export const NewMovie: React.FC<{ onAdd: (movie: Movie) => void }> = ({ onAdd }) => {
+interface Props {
+  onAdd: (movie: Movie) => void;
+}
+
+export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [imgUrl, setImgUrl] = useState('');
@@ -10,18 +14,29 @@ export const NewMovie: React.FC<{ onAdd: (movie: Movie) => void }> = ({ onAdd })
   const [imdbId, setImdbId] = useState('');
   const [count, setCount] = useState(0);
 
-  const isFormValid = title.trim() && imgUrl.trim() && imdbUrl.trim() && imdbId.trim();
+  const isFormValid =
+    title.trim() && imgUrl.trim() && imdbUrl.trim() && imdbId.trim();
+
+  const handleReset = () => {
+    setTitle('');
+    setDescription('');
+    setImgUrl('');
+    setImdbUrl('');
+    setImdbId('');
+  };
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
     if (isFormValid) {
-      onAdd({ title: title.trim(), description: description.trim(), imgUrl: imgUrl.trim(), imdbUrl: imdbUrl.trim(), imdbId: imdbId.trim() });
-      setTitle('');
-      setDescription('');
-      setImgUrl('');
-      setImdbUrl('');
-      setImdbId('');
+      onAdd({
+        title: title.trim(),
+        description: description.trim(),
+        imgUrl: imgUrl.trim(),
+        imdbUrl: imdbUrl.trim(),
+        imdbId: imdbId.trim(),
+      });
+      handleReset();
       setCount(prevCount => prevCount + 1);
     }
   };
