@@ -40,7 +40,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setImgUrl('');
     setImdbUrl('');
     setImdbId('');
-    setCount(count + 1);
+    // eslint-disable-next-line @typescript-eslint/no-shadow
+    setCount(count => count + 1);
   };
 
   return (
