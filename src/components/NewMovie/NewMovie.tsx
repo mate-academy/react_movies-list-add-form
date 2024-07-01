@@ -6,7 +6,7 @@ type Props = {
   onAdd: (movie: Movie) => void;
 };
 
-const defaultNewMovieState = {
+const DEFAULT_NEW_MOVIE_STATE = {
   title: '',
   description: '',
   imgUrl: '',
@@ -15,7 +15,7 @@ const defaultNewMovieState = {
 };
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
-  const [newMovie, setNewMovie] = useState(defaultNewMovieState);
+  const [newMovie, setNewMovie] = useState(DEFAULT_NEW_MOVIE_STATE);
   const [count, setCount] = useState(0);
   const urlRegExp = new RegExp(
     // eslint-disable-next-line
@@ -29,7 +29,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setCount(count + 1);
+    setCount(prevCount => prevCount + 1);
 
     if (!isAllRequiredFieldsFilled) {
       return;
@@ -37,7 +37,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
     onAdd(newMovie);
 
-    setNewMovie(defaultNewMovieState);
+    setNewMovie(DEFAULT_NEW_MOVIE_STATE);
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
