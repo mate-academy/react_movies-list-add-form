@@ -6,42 +6,38 @@ type Props = {
   onAdd: (movie: Movie) => void;
 };
 
+const defaultNewMovieState = {
+  title: '',
+  description: '',
+  imgUrl: '',
+  imdbUrl: '',
+  imdbId: '',
+};
+
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
-  const [newMovie, setNewMovie] = useState({
-    title: '',
-    description: '',
-    imgUrl: '',
-    imdbUrl: '',
-    imdbId: '',
-  });
+  const [newMovie, setNewMovie] = useState(defaultNewMovieState);
   const [count, setCount] = useState(0);
-  const reg = new RegExp(
+  const urlRegExp = new RegExp(
     // eslint-disable-next-line
     /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/,
   );
-  const isRequired =
+  const isAllRequiredFieldsFilled =
     newMovie.title &&
     newMovie.imdbId &&
-    reg.test(newMovie.imgUrl) &&
-    reg.test(newMovie.imdbUrl);
+    urlRegExp.test(newMovie.imgUrl) &&
+    urlRegExp.test(newMovie.imdbUrl);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setCount(count + 1);
 
-    if (!isRequired) {
+    if (!isAllRequiredFieldsFilled) {
       return;
     }
 
     onAdd(newMovie);
 
-    setNewMovie({
-      title: '',
-      description: '',
-      imgUrl: '',
-      imdbUrl: '',
-      imdbId: '',
-    });
+    setNewMovie(defaultNewMovieState);
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -82,7 +78,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imgUrl"
         label="Image URL"
         value={newMovie.imgUrl}
-        pattern={reg}
+        pattern={urlRegExp}
         onChange={handleChange}
         required
       />
@@ -91,7 +87,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={newMovie.imdbUrl}
-        pattern={reg}
+        pattern={urlRegExp}
         onChange={handleChange}
         required
       />
@@ -110,7 +106,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!isRequired ? true : false}
+            disabled={!isAllRequiredFieldsFilled}
           >
             Add
           </button>

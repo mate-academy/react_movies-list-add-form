@@ -35,6 +35,14 @@ export const TextField: React.FC<Props> = ({
     }
   };
 
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (pattern) {
+      patternError(event.target.value);
+    }
+
+    onChange(event);
+  };
+
   return (
     <div className="field">
       <label className="label" htmlFor={id}>
@@ -52,13 +60,7 @@ export const TextField: React.FC<Props> = ({
           placeholder={placeholder}
           value={value}
           name={name}
-          onChange={event => {
-            if (pattern) {
-              patternError(event.target.value);
-            }
-
-            onChange(event);
-          }}
+          onChange={handleInputChange}
           onBlur={() => setTouched(true)}
         />
       </div>
