@@ -8,11 +8,10 @@ type Props = {
   placeholder?: string;
   required?: boolean;
   onChange?: (newValue: string) => void;
+  id?: string;
 };
-
-function getRandomDigits() {
-  return Math.random().toFixed(16).slice(2);
-}
+// id generator due to date
+const generateUniqueId = () => Date.now().toString();
 
 export const TextField: React.FC<Props> = ({
   name,
@@ -21,24 +20,23 @@ export const TextField: React.FC<Props> = ({
   placeholder = `Enter ${label}`,
   required = false,
   onChange = () => {},
+  id,
 }) => {
-  // generage a unique id once on component load
-  const [id] = useState(() => `${name}-${getRandomDigits()}`);
+  const [generatedId] = useState(() => `${name}-${generateUniqueId()}`);
+  const inputId = id || generatedId;
 
-  // To show errors only if the field was touched (onBlur)
   const [touched, setTouched] = useState(false);
   const hasError = touched && required && !value;
 
   return (
     <div className="field">
-      <label className="label" htmlFor={id}>
+      <label className="label" htmlFor={inputId}>
         {label}
       </label>
-
       <div className="control">
         <input
           type="text"
-          id={id}
+          id={inputId}
           data-cy={`movie-${name}`}
           className={classNames('input', {
             'is-danger': hasError,
@@ -49,7 +47,6 @@ export const TextField: React.FC<Props> = ({
           onBlur={() => setTouched(true)}
         />
       </div>
-
       {hasError && <p className="help is-danger">{`${label} is required`}</p>}
     </div>
   );
