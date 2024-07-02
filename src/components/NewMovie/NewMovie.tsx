@@ -1,4 +1,3 @@
-import './App.scss';
 import { useState, ChangeEvent, FormEvent } from 'react';
 import { TextField } from '../TextField/TextField';
 
@@ -73,6 +72,7 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
         label="Title"
         value={formValues.title}
         onChange={e => handleChange('title', e)}
+        data-cy="movie-title"
       />
 
       <TextField
@@ -80,6 +80,7 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
         label="Description"
         value={formValues.description}
         onChange={e => handleChange('description', e)}
+        data-cy="movie-description"
       />
 
       <TextField
@@ -87,6 +88,7 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
         label="Image URL"
         value={formValues.imgUrl}
         onChange={e => handleChange('imgUrl', e)}
+        data-cy="movie-imgUrl"
       />
 
       <TextField
@@ -94,12 +96,14 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
         label="Imdb URL"
         value={formValues.imdbUrl}
         onChange={e => handleChange('imdbUrl', e)}
+        data-cy="movie-imdbUrl"
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
         value={formValues.imdbId}
+        data-cy="movie-imdbId"
         onChange={e => handleChange('imdbId', e)}
       />
 
