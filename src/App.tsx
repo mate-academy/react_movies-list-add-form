@@ -2,15 +2,8 @@ import { useState } from 'react';
 import { MoviesList } from './components/MoviesList';
 import { NewMovie } from './components/NewMovie';
 import moviesFromServer from './api/movies.json';
-import '../src/App.scss';
-
-type Movie = {
-  title: string;
-  description: string;
-  imgUrl: string;
-  imdbUrl: string;
-  imdbId: string;
-};
+import { Movie } from './types/Movie';
+import './App.scss';
 
 export const App = () => {
   const [movies, setMovies] = useState<Movie[]>(moviesFromServer);

@@ -1,16 +1,9 @@
-import { useState, ChangeEvent, FormEvent } from 'react';
-import { TextField } from '../TextField/TextField';
+import React, { useState, FormEvent, ChangeEvent } from 'react';
+import { Movie } from '../../types/Movie';
+import { TextField } from '../TextField';
 
 type Props = {
   addMovie: (newMovie: Movie) => void;
-};
-
-type Movie = {
-  title: string;
-  description: string;
-  imgUrl: string;
-  imdbUrl: string;
-  imdbId: string;
 };
 
 export const NewMovie: React.FC<Props> = ({ addMovie }) => {
@@ -22,6 +15,24 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
     imdbId: '',
   });
 
+  const [touched, setTouched] = useState({
+    title: false,
+    imgUrl: false,
+    imdbUrl: false,
+    imdbId: false,
+  });
+
+  const isValidFields = (): boolean => {
+    const { title, imgUrl, imdbUrl, imdbId } = formValues;
+
+    return (
+      title.trim() !== '' &&
+      imgUrl.trim() !== '' &&
+      imdbUrl.trim() !== '' &&
+      imdbId.trim() !== ''
+    );
+  };
+
   const handleFormValues = (name: keyof Movie, value: string) => {
     setFormValues({
       ...formValues,
@@ -29,23 +40,12 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
     });
   };
 
-  const isValidFields = (): boolean => {
-    const { title, description, imgUrl, imdbUrl, imdbId } = formValues;
-
-    return (
-      title.trim() !== '' &&
-      description.trim() !== '' &&
-      imgUrl.trim() !== '' &&
-      imdbUrl.trim() !== '' &&
-      imdbId.trim() !== ''
-    );
-  };
-
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (isValidFields()) {
       addMovie(formValues);
+
       setFormValues({
         title: '',
         description: '',
@@ -53,14 +53,25 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
         imdbUrl: '',
         imdbId: '',
       });
+
+      setTouched({
+        title: false,
+        imgUrl: false,
+        imdbUrl: false,
+        imdbId: false,
+      });
     }
   };
 
-  const handleChange = (
-    name: keyof Movie,
-    e: ChangeEvent<HTMLInputElement>,
-  ) => {
-    handleFormValues(name, e.target.value);
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    handleFormValues(e.target.name as keyof Movie, e.target.value);
+  };
+
+  const handleBlur = (name: keyof Movie) => {
+    setTouched({
+      ...touched,
+      [name]: true,
+    });
   };
 
   return (
@@ -71,40 +82,43 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
         name="title"
         label="Title"
         value={formValues.title}
-        onChange={e => handleChange('title', e)}
-        data-cy="movie-title"
+        onChange={handleChange}
+        onBlur={() => handleBlur('title')}
+        required
       />
 
       <TextField
         name="description"
         label="Description"
         value={formValues.description}
-        onChange={e => handleChange('description', e)}
-        data-cy="movie-description"
+        onChange={handleChange}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={formValues.imgUrl}
-        onChange={e => handleChange('imgUrl', e)}
-        data-cy="movie-imgUrl"
+        onChange={handleChange}
+        onBlur={() => handleBlur('imgUrl')}
+        required
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
         value={formValues.imdbUrl}
-        onChange={e => handleChange('imdbUrl', e)}
-        data-cy="movie-imdbUrl"
+        onChange={handleChange}
+        onBlur={() => handleBlur('imdbUrl')}
+        required
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
         value={formValues.imdbId}
-        data-cy="movie-imdbId"
-        onChange={e => handleChange('imdbId', e)}
+        onChange={handleChange}
+        onBlur={() => handleBlur('imdbId')}
+        required
       />
 
       <div className="field is-grouped">
