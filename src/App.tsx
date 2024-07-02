@@ -1,10 +1,10 @@
 import './App.scss';
+import { useState } from 'react';
 import { MoviesList } from './components/MoviesList';
 import { NewMovie } from './components/NewMovie';
 import moviesFromServer from './api/movies.json';
-import { useState } from 'react';
 
-type Props = {
+type Movie = {
   title: string;
   description: string;
   imgUrl: string;
@@ -13,9 +13,9 @@ type Props = {
 };
 
 export const App = () => {
-  const [movies, setMovies] = useState(moviesFromServer);
+  const [movies, setMovies] = useState<Movie[]>(moviesFromServer);
 
-  const addMovie = (newMovie: Props) => {
+  const addMovie = (newMovie: Movie) => {
     setMovies([...movies, newMovie]);
   };
 

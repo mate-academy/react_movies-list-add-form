@@ -1,5 +1,6 @@
-import { useState, FormEvent, ChangeEvent } from 'react';
-import { TextField } from '../TextField';
+import './App.scss';
+import { useState, ChangeEvent, FormEvent } from 'react';
+import { TextField } from '../TextField/TextField';
 
 type Props = {
   addMovie: (newMovie: Movie) => void;
@@ -22,7 +23,7 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
     imdbId: '',
   });
 
-  const handleFormValues = (name: string, value: string) => {
+  const handleFormValues = (name: keyof Movie, value: string) => {
     setFormValues({
       ...formValues,
       [name]: value,
@@ -41,7 +42,7 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
     );
   };
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (isValidFields()) {
@@ -71,35 +72,35 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
         name="title"
         label="Title"
         value={formValues.title}
-        onChange={newValue => handleChange('title', newValue)}
+        onChange={e => handleChange('title', e)}
       />
 
       <TextField
         name="description"
         label="Description"
         value={formValues.description}
-        onChange={newValue => handleChange('description', newValue)}
+        onChange={e => handleChange('description', e)}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={formValues.imgUrl}
-        onChange={newValue => handleChange('imgUrl', newValue)}
+        onChange={e => handleChange('imgUrl', e)}
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
         value={formValues.imdbUrl}
-        onChange={newValue => handleChange('imdbUrl', newValue)}
+        onChange={e => handleChange('imdbUrl', e)}
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
         value={formValues.imdbId}
-        onChange={newValue => handleChange('imdbId', newValue)}
+        onChange={e => handleChange('imdbId', e)}
       />
 
       <div className="field is-grouped">
