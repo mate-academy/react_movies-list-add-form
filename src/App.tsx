@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { MoviesList } from './components/MoviesList';
 import { NewMovie } from './components/NewMovie';
 import moviesFromServer from './api/movies.json';
-import './App.scss';
+import '../src/App.scss';
 
 type Movie = {
   title: string;
