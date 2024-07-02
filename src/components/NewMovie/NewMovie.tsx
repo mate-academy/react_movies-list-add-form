@@ -64,7 +64,9 @@ export const NewMovie: React.FC<Props> = ({ addMovie }) => {
   };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    handleFormValues(e.target.name as keyof Movie, e.target.value);
+    const { name, value } = e.target;
+
+    handleFormValues(name as keyof Movie, value);
   };
 
   const handleBlur = (name: keyof Movie) => {
