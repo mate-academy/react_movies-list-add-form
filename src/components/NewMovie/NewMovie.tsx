@@ -18,7 +18,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [buttonDisabled, setButtonDisabled] = useState(false);
 
   const BUTTONDESABLED = title && imgUrl && imdbUrl && imdbId;
-  const FALSEONSUBMIT = !title || !description || !imgUrl || !imdbUrl || !imdbId;
+  const FALSEONSUBMIT =
+    !title || !description || !imgUrl || !imdbUrl || !imdbId;
 
   function updateButton() {
     if (BUTTONDESABLED) {
