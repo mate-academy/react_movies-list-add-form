@@ -1,5 +1,5 @@
 {
-  "extends": "@mate-academy/students-ts-config",
+  "extends": "./node_modules/@mate-academy/students-ts-config/tsconfig.json",
   "include": [
     "src"
   ],
