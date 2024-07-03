@@ -2,19 +2,18 @@ import React, { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '/sdssdfsdfd/react_movies-list-add-form/src/types/Movie';
 
-
 type Props = {
   onSubmit: (movie: Movie) => void;
-}
+};
 
 export const NewMovie: React.FC<Props> = ({ onSubmit }) => {
   const [count, SetCount] = useState(0);
 
-  const [title, setTitle] = useState('')
-  const [description, setDescription] = useState('')
-  const [imgUrl, setImgUrl] = useState('')
-  const [imdbUrl, setImdbUrl] = useState('')
-  const [imdbId, setImdbId] = useState('')
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [imgUrl, setImgUrl] = useState('');
+  const [imdbUrl, setImdbUrl] = useState('');
+  const [imdbId, setImdbId] = useState('');
 
   const [buttonDisabled, setButtonDisabled] = useState(false);
 
@@ -33,7 +32,7 @@ export const NewMovie: React.FC<Props> = ({ onSubmit }) => {
       return;
     }
 
-    SetCount((prev) => prev + 1)
+    SetCount(prev => prev + 1);
 
     onSubmit({
       title,
@@ -41,7 +40,7 @@ export const NewMovie: React.FC<Props> = ({ onSubmit }) => {
       imgUrl,
       imdbUrl,
       imdbId,
-    })
+    });
 
     setTitle('');
     setDescription('');
@@ -51,11 +50,7 @@ export const NewMovie: React.FC<Props> = ({ onSubmit }) => {
   }
 
   return (
-    <form
-      className="NewMovie"
-      key={count}
-      onSubmit={submitForm}
-    >
+    <form className="NewMovie" key={count} onSubmit={submitForm}>
       <h2 className="title">Add a movie</h2>
 
       <TextField
@@ -63,8 +58,8 @@ export const NewMovie: React.FC<Props> = ({ onSubmit }) => {
         label="Title"
         value={title}
         onChange={(newValue: string) => {
-          setTitle(newValue)
-          updateButton()
+          setTitle(newValue);
+          updateButton();
         }}
         required
       />
@@ -74,8 +69,8 @@ export const NewMovie: React.FC<Props> = ({ onSubmit }) => {
         label="Description"
         value={description}
         onChange={(newValue: string) => {
-          setDescription(newValue)
-          updateButton()
+          setDescription(newValue);
+          updateButton();
         }}
         required
       />
@@ -85,9 +80,9 @@ export const NewMovie: React.FC<Props> = ({ onSubmit }) => {
         label="Image URL"
         value={imgUrl}
         onChange={(newValue: string) => {
-          setImgUrl(newValue)
-          updateButton()
-        } }
+          setImgUrl(newValue);
+          updateButton();
+        }}
         required
       />
 
@@ -96,8 +91,8 @@ export const NewMovie: React.FC<Props> = ({ onSubmit }) => {
         label="IMDB URL"
         value={imdbUrl}
         onChange={(newValue: string) => {
-          setImdbUrl(newValue)
-          updateButton()
+          setImdbUrl(newValue);
+          updateButton();
         }}
         required
       />
@@ -107,9 +102,9 @@ export const NewMovie: React.FC<Props> = ({ onSubmit }) => {
         label="IMDB ID"
         value={imdbId}
         onChange={(newValue: string) => {
-          setImdbId(newValue)
-          updateButton()
-        } }
+          setImdbId(newValue);
+          updateButton();
+        }}
         required
       />
 

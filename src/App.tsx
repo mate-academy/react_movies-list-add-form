@@ -3,14 +3,14 @@ import { MoviesList } from './components/MoviesList';
 import { NewMovie } from './components/NewMovie';
 import moviesFromServer from './api/movies.json';
 import { useState } from 'react';
-import { Movie } from './types/Movie'
+import { Movie } from './types/Movie';
 
 export const App = () => {
   const [movies, setMovies] = useState(moviesFromServer);
 
   const moviesNew = (newMovie: Movie) => {
-    setMovies((prevMovies) => [...prevMovies, newMovie]);
-  }
+    setMovies(prevMovies => [...prevMovies, newMovie]);
+  };
 
   return (
     <div className="page">
