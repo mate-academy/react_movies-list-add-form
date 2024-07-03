@@ -47,6 +47,7 @@ export const NewMovie: React.FC<Props> = ({ onSubmit }) => {
     setImgUrl('');
     setImdbUrl('');
     setImdbId('');
+    setButtonDisabled(false);
   }
 
   return (
