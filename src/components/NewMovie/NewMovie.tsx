@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { TextField } from '../TextField';
-import { Movie } from '/sdssdfsdfd/react_movies-list-add-form/src/types/Movie';
+import { Movie } from '../../types/Movie';
 
 type Props = {
   onSubmit: (movie: Movie) => void;
