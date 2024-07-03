@@ -17,8 +17,11 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
   const [buttonDisabled, setButtonDisabled] = useState(false);
 
+  const BUTTONDESABLED = title && imgUrl && imdbUrl && imdbId;
+  const FALSEONSUBMIT = !title || !description || !imgUrl || !imdbUrl || !imdbId;
+
   function updateButton() {
-    if (title && description && imgUrl && imdbUrl && imdbId) {
+    if (BUTTONDESABLED) {
       setButtonDisabled(true);
     } else {
       setButtonDisabled(false);
@@ -28,7 +31,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   function submitForm(event: React.FormEvent) {
     event.preventDefault();
 
-    if (!title || !description || !imgUrl || !imdbUrl || !imdbId) {
+    if (FALSEONSUBMIT) {
       return;
     }
 
