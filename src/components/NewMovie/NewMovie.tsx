@@ -18,8 +18,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [buttonDisabled, setButtonDisabled] = useState(false);
 
   const BUTTONDESABLED = title && imgUrl && imdbUrl && imdbId;
-  const FALSEONSUBMIT =
-    !title || !description || !imgUrl || !imdbUrl || !imdbId;
+  const FALSEONSUBMIT = !title || !imgUrl || !imdbUrl || !imdbId;
 
   function updateButton() {
     if (BUTTONDESABLED) {
@@ -28,6 +27,33 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       setButtonDisabled(false);
     }
   }
+
+  // #region handle
+  function handleTitleChange(newValue: string) {
+    setTitle(newValue);
+    updateButton();
+  }
+
+  function handleDescriptionChange (newValue: string) {
+    setDescription(newValue);
+    updateButton()
+  }
+
+  function handleImgUrlChange(newValue: string) {
+    setImgUrl(newValue);
+    updateButton();
+  }
+
+  function handleImdbUrlChange (newValue: string) {
+    setImdbUrl(newValue);
+    updateButton()
+  }
+
+  function handleImdbIdChange (newValue: string) {
+    setImdbId(newValue);
+    updateButton()
+  }
+  // #endregion
 
   function submitForm(event: React.FormEvent) {
     event.preventDefault();
@@ -62,10 +88,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={title}
-        onChange={(newValue: string) => {
-          setTitle(newValue);
-          updateButton();
-        }}
+        onChange={handleTitleChange}
         required
       />
 
@@ -73,20 +96,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={description}
-        onChange={(newValue: string) => {
-          setDescription(newValue);
-          updateButton();
-        }}
+        onChange={handleDescriptionChange}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={(newValue: string) => {
-          setImgUrl(newValue);
-          updateButton();
-        }}
+        onChange={handleImgUrlChange}
         required
       />
 
@@ -94,10 +111,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="IMDB URL"
         value={imdbUrl}
-        onChange={(newValue: string) => {
-          setImdbUrl(newValue);
-          updateButton();
-        }}
+        onChange={handleImdbUrlChange}
         required
       />
 
@@ -105,10 +119,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbId"
         label="IMDB ID"
         value={imdbId}
-        onChange={(newValue: string) => {
-          setImdbId(newValue);
-          updateButton();
-        }}
+        onChange={handleImdbIdChange}
         required
       />
 
