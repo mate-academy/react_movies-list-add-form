@@ -34,9 +34,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     updateButton();
   }
 
-  function handleDescriptionChange (newValue: string) {
+  function handleDescriptionChange(newValue: string) {
     setDescription(newValue);
-    updateButton()
+    updateButton();
   }
 
   function handleImgUrlChange(newValue: string) {
@@ -44,14 +44,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     updateButton();
   }
 
-  function handleImdbUrlChange (newValue: string) {
+  function handleImdbUrlChange(newValue: string) {
     setImdbUrl(newValue);
-    updateButton()
+    updateButton();
   }
 
-  function handleImdbIdChange (newValue: string) {
+  function handleImdbIdChange(newValue: string) {
     setImdbId(newValue);
-    updateButton()
+    updateButton();
   }
   // #endregion
 
