@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
-import { FieldInfo, FormInfo, FormState } from '../../types/Form';
+import { FormInfo, FormState } from '../../types/Form';
 import {
+  getValidationError,
   isAllRequiredFilled,
   minLengthValidation,
   requiredValidation,
@@ -65,22 +66,8 @@ export const NewMovie: React.FC<Props> = ({
     !Object.values(form).some(value => !!value.error) &&
     (!disableByDefault || isAllRequiredFilled<MovieForm>(form, movieFormInfo));
 
-  const getValidationError = (fieldName: string, value: string): string => {
-    const field: FieldInfo = movieFormInfo[fieldName];
-
-    if (field.validation) {
-      for (let i = 0; i < field.validation.length; i++) {
-        if (!field.validation[i].check(value)) {
-          return field.validation[i].getErrorText(field.label);
-        }
-      }
-    }
-
-    return '';
-  };
-
   const handleChange = (fieldName: string, value: string) => {
-    const error = getValidationError(fieldName, value);
+    const error = getValidationError(movieFormInfo[fieldName], value);
 
     if (error) {
       isFormValid = false;

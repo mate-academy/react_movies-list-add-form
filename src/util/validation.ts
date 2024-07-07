@@ -1,4 +1,4 @@
-import { FieldValidation, FormInfo, FormState } from '../types/Form';
+import { FieldInfo, FieldValidation, FormInfo, FormState } from '../types/Form';
 
 const URL_PATTERN =
   // eslint-disable-next-line max-len
@@ -29,3 +29,15 @@ export const isAllRequiredFilled = <T extends string>(
     .every(([fieldName]) =>
       requiredValidation.check(form[fieldName as T].value),
     );
+
+export const getValidationError = (field: FieldInfo, value: string): string => {
+  if (field.validation) {
+    for (let i = 0; i < field.validation.length; i++) {
+      if (!field.validation[i].check(value)) {
+        return field.validation[i].getErrorText(field.label);
+      }
+    }
+  }
+
+  return '';
+};
