@@ -6,35 +6,26 @@ type Props = {
   onAdd: (movie: Movie) => void;
 };
 
+const initialMovieState: Movie = {
+  title: '',
+  description: '',
+  imgUrl: '',
+  imdbUrl: '',
+  imdbId: '',
+};
+
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
-  const [movie, setMovie] = useState<Movie>({
-    title: '',
-    description: '',
-    imgUrl: '',
-    imdbUrl: '',
-    imdbId: '',
-  });
-
-  const pattern =
-    /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/; // eslint-disable-line
+  const [movie, setMovie] = useState<Movie>(initialMovieState);
 
   const isValidForm =
     movie.title.trim().length > 0 &&
     movie.imgUrl.trim().length > 0 &&
     movie.imdbUrl.trim().length > 0 &&
-    movie.imdbId.trim().length > 0 &&
-    pattern.test(movie.imgUrl.trim()) &&
-    pattern.test(movie.imdbUrl.trim());
+    movie.imdbId.trim().length > 0;
 
   const reset = () => {
-    setMovie({
-      title: '',
-      description: '',
-      imgUrl: '',
-      imdbUrl: '',
-      imdbId: '',
-    });
+    setMovie(initialMovieState);
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
