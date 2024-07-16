@@ -1,10 +1,21 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { TextField } from '../TextField';
+import { Movie } from '../../types/Movie';
 
-export const NewMovie = () => {
+
+interface NewMoviesProps {
+  onAdd: (newMovie: Movie) => void;
+}
+
+export const NewMovie = ({ onAdd }): NewMoviesProps => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
-  const [count] = useState(0);
+
+
+  const [count, setCount] = useState(0);
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  
 
   return (
     <form className="NewMovie" key={count}>
