@@ -9,36 +9,43 @@ type Props = {
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
-  const [valueTitle, setValueTitle] = useState('');
-  const [valueDesc, setValueDesc] = useState('');
-  const [valueImg, setValueImg] = useState('');
-  const [valueUrl, setValueUrl] = useState('');
-  const [valueId, setValueId] = useState('');
   const [count, setCount] = useState(0);
+  const [newData, setNewData] = useState({
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  });
+
+  const handleNewData = (name: string, value: string) => {
+    setNewData(prevData => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
 
   const isValid =
-    valueTitle.trim() && valueImg.trim() && valueUrl.trim() && valueId.trim();
+    newData.title.trim() &&
+    newData.imdbUrl.trim() &&
+    newData.imgUrl.trim() &&
+    newData.imdbId.trim();
 
-  const reset = () => {
-    setValueTitle('');
-    setValueDesc('');
-    setValueImg('');
-    setValueUrl('');
-    setValueId('');
-  };
+  const reset = () =>
+    setNewData({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
 
   const handleOnSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     setCount(prev => prev + 1);
 
-    onAdd({
-      title: valueTitle,
-      description: valueDesc,
-      imgUrl: valueImg,
-      imdbUrl: valueUrl,
-      imdbId: valueId,
-    });
+    onAdd(newData);
 
     reset();
   };
@@ -54,40 +61,40 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value={valueTitle}
-        onChange={setValueTitle}
+        value={newData.title}
+        onChange={newValue => handleNewData('title', newValue)}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value={valueDesc}
-        onChange={setValueDesc}
+        value={newData.description}
+        onChange={newValue => handleNewData('description', newValue)}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={valueImg}
+        value={newData.imgUrl}
         required
-        onChange={setValueImg}
+        onChange={newValue => handleNewData('imgUrl', newValue)}
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={valueUrl}
+        value={newData.imdbUrl}
         required
-        onChange={setValueUrl}
+        onChange={newValue => handleNewData('imdbUrl', newValue)}
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={valueId}
+        value={newData.imdbId}
         required
-        onChange={setValueId}
+        onChange={newValue => handleNewData('imdbId', newValue)}
       />
 
       <div className="field is-grouped">
