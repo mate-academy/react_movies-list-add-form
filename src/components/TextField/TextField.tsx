@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { useState } from 'react';
+import React, { useState, ChangeEvent } from 'react';
 
 type Props = {
   name: string;
@@ -8,6 +8,7 @@ type Props = {
   placeholder?: string;
   required?: boolean;
   onChange?: (newValue: string) => void;
+  validate?: (value: string) => boolean;
 };
 
 function getRandomDigits() {
@@ -21,13 +22,29 @@ export const TextField: React.FC<Props> = ({
   placeholder = `Enter ${label}`,
   required = false,
   onChange = () => {},
+  validate = () => true,
 }) => {
-  // generage a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
-
-  // To show errors only if the field was touched (onBlur)
   const [touched, setTouched] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const newValue = event.target.value;
+
+    onChange(newValue);
+
+    if (touched) {
+      setError(validate(newValue) ? null : 'Invalid value');
+    }
+  };
+
+  const handleBlur = () => {
+    setTouched(true);
+    setError(validate(value) ? null : 'Invalid value');
+  };
+
   const hasError = touched && required && !value;
+  const displayError = hasError || error;
 
   return (
     <div className="field">
@@ -41,16 +58,20 @@ export const TextField: React.FC<Props> = ({
           id={id}
           data-cy={`movie-${name}`}
           className={classNames('input', {
-            'is-danger': hasError,
+            'is-danger': displayError,
           })}
           placeholder={placeholder}
           value={value}
-          onChange={event => onChange(event.target.value)}
-          onBlur={() => setTouched(true)}
+          onChange={handleChange}
+          onBlur={handleBlur}
         />
       </div>
 
-      {hasError && <p className="help is-danger">{`${label} is required`}</p>}
+      {displayError && (
+        <p className="help is-danger">
+          {displayError ? `${label} is required` : error}
+        </p>
+      )}
     </div>
   );
 };
