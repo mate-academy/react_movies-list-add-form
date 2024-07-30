@@ -17,26 +17,13 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   });
 
   const reset = () => {
-    setMovie(prevMovie => ({
-      ...prevMovie,
+    setMovie({
       title: '',
-    }));
-    setMovie(prevMovie => ({
-      ...prevMovie,
       description: '',
-    }));
-    setMovie(prevMovie => ({
-      ...prevMovie,
       imgUrl: '',
-    }));
-    setMovie(prevMovie => ({
-      ...prevMovie,
       imdbUrl: '',
-    }));
-    setMovie(prevMovie => ({
-      ...prevMovie,
       imdbId: '',
-    }));
+    })
   };
 
   const handleSubmit = (event: React.FormEvent) => {
