@@ -7,7 +7,7 @@ type Props = {
   label?: string;
   placeholder?: string;
   required?: boolean;
-  onChange?: (newValue: string) => void;
+  onChange?: (newValue: string, name: string) => void;
   validate?: (value: string) => boolean;
 };
 
@@ -47,7 +47,7 @@ export const TextField: React.FC<Props> = ({
           })}
           placeholder={placeholder}
           value={value}
-          onChange={event => onChange(event.target.value)}
+          onChange={event => onChange(event.target.value, name)}
           onBlur={() => setTouched(true)}
         />
       </div>
