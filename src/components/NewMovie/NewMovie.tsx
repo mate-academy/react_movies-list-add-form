@@ -1,42 +1,107 @@
-import { useState } from 'react';
-import { TextField } from '../TextField';
+/* eslint-disable max-len */
+/* eslint-disable no-console */
+import React, { useState } from 'react';
 
-export const NewMovie = () => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
-  const [count] = useState(0);
+interface NewMovieProps {
+  onAdd: (movie: {
+    title: string;
+    description: string;
+    imgUrl: string;
+    imdbUrl: string;
+    imdbId: string;
+  }) => void;
+}
+
+const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
+  const [formValues, setFormValues] = useState({
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+
+    setFormValues(prevValues => ({
+      ...prevValues,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    onAdd(formValues);
+    setFormValues({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
+  };
 
   return (
-    <form className="NewMovie" key={count}>
-      <h2 className="title">Add a movie</h2>
-
-      <TextField
-        name="title"
-        label="Title"
-        value=""
-        onChange={() => {}}
-        required
-      />
-
-      <TextField name="description" label="Description" value="" />
-
-      <TextField name="imgUrl" label="Image URL" value="" />
-
-      <TextField name="imdbUrl" label="Imdb URL" value="" />
-
-      <TextField name="imdbId" label="Imdb ID" value="" />
-
-      <div className="field is-grouped">
-        <div className="control">
-          <button
-            type="submit"
-            data-cy="submit-button"
-            className="button is-link"
-          >
-            Add
-          </button>
-        </div>
+    <form onSubmit={handleSubmit}>
+      <div>
+        <label>
+          Title:
+          <input
+            type="text"
+            name="title"
+            value={formValues.title}
+            onChange={handleChange}
+          />
+        </label>
       </div>
+      <div>
+        <label>
+          Description:
+          <input
+            type="text"
+            name="description"
+            value={formValues.description}
+            onChange={handleChange}
+          />
+        </label>
+      </div>
+      <div>
+        <label>
+          Image URL:
+          <input
+            type="text"
+            name="imgUrl"
+            value={formValues.imgUrl}
+            onChange={handleChange}
+          />
+        </label>
+      </div>
+      <div>
+        <label>
+          IMDB URL:
+          <input
+            type="text"
+            name="imdbUrl"
+            value={formValues.imdbUrl}
+            onChange={handleChange}
+          />
+        </label>
+      </div>
+      <div>
+        <label>
+          IMDB ID:
+          <input
+            type="text"
+            name="imdbId"
+            value={formValues.imdbId}
+            onChange={handleChange}
+          />
+        </label>
+      </div>
+      <button type="submit">Add Movie</button>
     </form>
   );
 };
+
+export default NewMovie;
