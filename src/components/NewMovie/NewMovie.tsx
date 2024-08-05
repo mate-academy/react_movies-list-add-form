@@ -21,12 +21,15 @@ export const NewMovie = () => {
   const handleDescriptionField = (newValue: string) => {
     setDescription(newValue);
   };
+
   const handleImgUrlField = (newValue: string) => {
     setImgUrl(newValue);
   };
+
   const handleImdbUrlField = (newValue: string) => {
     setImdbUrl(newValue);
   };
+
   const handleImdbIdField = (newValue: string) => {
     setImdbId(newValue);
   };
