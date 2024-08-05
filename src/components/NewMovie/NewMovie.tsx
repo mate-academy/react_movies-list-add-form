@@ -12,6 +12,8 @@ export const NewMovie = () => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
+  let visibleButton = false;
+
   const handleTextfieldChange = (newValue: string) => {
     setTitle(newValue);
   };
@@ -29,8 +31,26 @@ export const NewMovie = () => {
     setImdbId(newValue);
   };
 
+  const resetForm = () => {
+    setImdbId('');
+    setImdbUrl('');
+    setImgUrl('');
+    setDescription('');
+    setTitle('');
+  };
+
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+
+    resetForm();
+  };
+
+  if (title && imgUrl && imdbUrl && imdbId) {
+    visibleButton = true;
+  }
+
   return (
-    <form className="NewMovie" key={count}>
+    <form className="NewMovie" key={count} onSubmit={handleSubmit}>
       <h2 className="title">Add a movie</h2>
 
       <TextField
@@ -78,6 +98,7 @@ export const NewMovie = () => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
+            disabled={!visibleButton}
           >
             Add
           </button>

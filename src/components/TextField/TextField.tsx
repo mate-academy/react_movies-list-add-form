@@ -27,7 +27,22 @@ export const TextField: React.FC<Props> = ({
 
   // To show errors only if the field was touched (onBlur)
   const [touched, setTouched] = useState(false);
-  const hasError = touched && required && !value;
+  let hasError = touched && required && !value;
+
+  // const pattern =
+  //   /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
+
+  // const validationTextField = () => {
+  //   console.log(pattern.test(value));
+
+  //   if (name === 'imgUrl') {
+  //     if (pattern.test(value)) {
+  //       hasError = false;
+  //     }
+  //   }
+  // };
+
+  // validationTextField();
 
   return (
     <div className="field">
