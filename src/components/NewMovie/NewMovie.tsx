@@ -4,7 +4,7 @@ import { TextField } from '../TextField';
 export const NewMovie = () => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
-  const [count] = useState(0);
+  const [count, setCount] = useState(0);
 
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -44,7 +44,7 @@ export const NewMovie = () => {
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-
+    setCount(count + 1);
     resetForm();
   };
 
