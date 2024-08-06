@@ -1,54 +1,55 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { TextField } from '../TextField';
+import { Movie } from '../../types/Movie';
 
-export const NewMovie = () => {
+type Props = {
+  onAdd: (movie: Movie) => void;
+};
+
+export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
 
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
+  const [movie, setMovie] = useState({
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  });
 
-  let visibleButton = false;
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
 
-  const handleTextfieldChange = (newValue: string) => {
-    setTitle(newValue);
-  };
-
-  const handleDescriptionField = (newValue: string) => {
-    setDescription(newValue);
-  };
-
-  const handleImgUrlField = (newValue: string) => {
-    setImgUrl(newValue);
-  };
-
-  const handleImdbUrlField = (newValue: string) => {
-    setImdbUrl(newValue);
-  };
-
-  const handleImdbIdField = (newValue: string) => {
-    setImdbId(newValue);
+    setMovie(prevMovie => ({ ...prevMovie, [name]: value }));
   };
 
   const resetForm = () => {
-    setImdbId('');
-    setImdbUrl('');
-    setImgUrl('');
-    setDescription('');
-    setTitle('');
+    setMovie({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
+  };
+
+  const validationAfterSubmit = (movie: Movie): void => {
+    const { title, description, imgUrl, imdbUrl, imdbId } = movie;
   };
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
+
+    onAdd(movie);
     setCount(count + 1);
     resetForm();
   };
 
-  if (title && imgUrl && imdbUrl && imdbId) {
+  let visibleButton = false;
+
+  if (movie.title && movie.imgUrl && movie.imdbUrl && movie.imdbId) {
     visibleButton = true;
   }
 
@@ -59,39 +60,39 @@ export const NewMovie = () => {
       <TextField
         name="title"
         label="Title"
-        value={title}
-        onChange={handleTextfieldChange}
+        value={movie.title}
+        onChange={handleChange}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value={description}
-        onChange={handleDescriptionField}
+        value={movie.description}
+        onChange={handleChange}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={imgUrl}
-        onChange={handleImgUrlField}
+        value={movie.imgUrl}
+        onChange={handleChange}
         required
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={imdbUrl}
-        onChange={handleImdbUrlField}
+        value={movie.imdbUrl}
+        onChange={handleChange}
         required
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imdbId}
-        onChange={handleImdbIdField}
+        value={movie.imdbId}
+        onChange={handleChange}
         required
       />
 
