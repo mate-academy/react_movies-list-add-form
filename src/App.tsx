@@ -4,6 +4,7 @@ import { NewMovie } from './components/NewMovie';
 import moviesFromServer from './api/movies.json';
 import React, { useReducer } from 'react';
 
+// random comment
 export const App = () => {
   const [, requestRerender] = useReducer(x => x + 1, 0);
 
