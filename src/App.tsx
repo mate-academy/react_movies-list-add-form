@@ -3,8 +3,8 @@ import { MoviesList } from './components/MoviesList';
 import { NewMovie } from './components/NewMovie';
 import moviesFromServer from './api/movies.json';
 import { useReducer } from 'react';
+import React from 'react';
 
-// random comment
 export const App = () => {
   const [, requestRerender] = useReducer(x => x + 1, 0);
 
