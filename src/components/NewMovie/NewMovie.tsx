@@ -35,9 +35,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     });
   };
 
-  const validationAfterSubmit = (movie: Movie): void => {
-    const { title, description, imgUrl, imdbUrl, imdbId } = movie;
-  };
+  // const validationAfterSubmit = (movie: Movie): void => {
+  //   const { title, description, imgUrl, imdbUrl, imdbId } = movie;
+  // };
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
