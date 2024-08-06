@@ -2,7 +2,7 @@ import './App.scss';
 import { MoviesList } from './components/MoviesList';
 import { NewMovie } from './components/NewMovie';
 import moviesFromServer from './api/movies.json';
-import React, { useReducer } from 'react';
+import { useReducer } from 'react';
 
 export const App = () => {
   const [, requestRerender] = useReducer(x => x + 1, 0);
