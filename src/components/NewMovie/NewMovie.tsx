@@ -1,42 +1,117 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { TextField } from '../TextField';
+import { Movie } from '../../types/Movie';
 
-export const NewMovie = () => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
-  const [count] = useState(0);
+interface NewMovieProps {
+  onAdd: (movie: Movie) => void;
+}
+
+export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [imgUrl, setImgUrl] = useState('');
+  const [imdbUrl, setImdbUrl] = useState('');
+  const [imdbId, setImdbId] = useState('');
+
+  const [touchedFields, setTouchedFields] = useState<{
+    [key: string]: boolean;
+  }>({
+    title: false,
+    description: false,
+    imgUrl: false,
+    imdbUrl: false,
+    imdbId: false,
+  });
+
+  const handleBlur = (field: string) => {
+    setTouchedFields({
+      ...touchedFields,
+      [field]: true,
+    });
+  };
+
+  const isFormValid = (): boolean => {
+    return (
+      title.trim() !== '' &&
+      imgUrl.trim() !== '' &&
+      imdbUrl.trim() !== '' &&
+      imdbId.trim() !== ''
+    );
+  };
+
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+
+    if (!isFormValid()) {
+      return;
+    }
+
+    onAdd({ title, description, imgUrl, imdbUrl, imdbId });
+
+    setTitle('');
+    setDescription('');
+    setImgUrl('');
+    setImdbUrl('');
+    setImdbId('');
+    setTouchedFields({
+      title: false,
+      description: false,
+      imgUrl: false,
+      imdbUrl: false,
+      imdbId: false,
+    });
+  };
+
+  const getFieldError = (field: string): string | undefined => {
+    if (touchedFields[field] && !eval(field).trim()) {
+      return 'This field is required';
+    }
+
+    return undefined;
+  };
 
   return (
-    <form className="NewMovie" key={count}>
-      <h2 className="title">Add a movie</h2>
-
+    <form onSubmit={handleSubmit}>
       <TextField
         name="title"
-        label="Title"
-        value=""
-        onChange={() => {}}
-        required
+        value={title}
+        onChange={e => setTitle(e.target.value)}
+        onBlur={() => handleBlur('title')}
+        error={getFieldError('title')}
       />
-
-      <TextField name="description" label="Description" value="" />
-
-      <TextField name="imgUrl" label="Image URL" value="" />
-
-      <TextField name="imdbUrl" label="Imdb URL" value="" />
-
-      <TextField name="imdbId" label="Imdb ID" value="" />
-
-      <div className="field is-grouped">
-        <div className="control">
-          <button
-            type="submit"
-            data-cy="submit-button"
-            className="button is-link"
-          >
-            Add
-          </button>
-        </div>
-      </div>
+      <TextField
+        name="description"
+        value={description}
+        onChange={e => setDescription(e.target.value)}
+        onBlur={() => handleBlur('description')}
+        error={getFieldError('description')}
+      />
+      <TextField
+        name="imgUrl"
+        value={imgUrl}
+        onChange={e => setImgUrl(e.target.value)}
+        onBlur={() => handleBlur('imgUrl')}
+        error={getFieldError('imgUrl')}
+      />
+      <TextField
+        name="imdbUrl"
+        value={imdbUrl}
+        onChange={e => setImdbUrl(e.target.value)}
+        onBlur={() => handleBlur('imdbUrl')}
+        error={getFieldError('imdbUrl')}
+      />
+      <TextField
+        name="imdbId"
+        value={imdbId}
+        onChange={e => setImdbId(e.target.value)}
+        onBlur={() => handleBlur('imdbId')}
+        error={getFieldError('imdbId')}
+      />
+      <button type="submit" data-cy="submit-button" disabled={!isFormValid()}>
+        Add Movie
+      </button>
     </form>
   );
 };
+
+export default NewMovie;
