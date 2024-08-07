@@ -2,23 +2,20 @@ import './App.scss';
 import { MoviesList } from './components/MoviesList';
 import { NewMovie } from './components/NewMovie';
 import moviesFromServer from './api/movies.json';
-import { useReducer } from 'react';
+import { useState } from 'react';
 import React from 'react';
 
 export const App = () => {
-  const [, requestRerender] = useReducer(x => x + 1, 0);
+  const [movies, setMovies] = useState([...moviesFromServer]);
 
   return (
     <div className="page">
       <div className="page-content">
-        <MoviesList movies={moviesFromServer} />
+        <MoviesList movies={movies} />
       </div>
       <div className="sidebar">
         <NewMovie
-          onAdd={movie => {
-            moviesFromServer.push(movie);
-            requestRerender();
-          }}
+          onAdd={newMovie => setMovies(oldMovies => [...oldMovies, newMovie])}
         />
       </div>
     </div>
