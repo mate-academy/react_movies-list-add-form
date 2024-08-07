@@ -37,7 +37,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd = () => {} }) => {
   });
 
   const fields = [title, description, imgUrl, imdbUrl, imdbId];
-
   const areFieldsValid = fields.every(field => field.isValid);
 
   const reset = () => {

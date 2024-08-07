@@ -42,7 +42,7 @@ export const TextField: React.FC<Props> = ({
   const isValid = errorMessage === '';
 
   // on mount determine if initial value is valid
-  useEffect(() => onChange(value, isValid), []);
+  useEffect(() => onChange(value, isValid), [value, isValid, onChange]);
 
   // show error only for untouched
   const isErrorDisplayed = !isValid && touched;
