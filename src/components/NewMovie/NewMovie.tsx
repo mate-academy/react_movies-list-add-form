@@ -40,6 +40,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd = () => {} }) => {
 
   const areFieldsValid = fields.every(field => field.isValid);
 
+  const reset = () => {
+    setTitle({ value: '', isValid: false });
+    setDescription({ value: '', isValid: false });
+    setImgUrl({ value: '', isValid: false });
+    setImdbUrl({ value: '', isValid: false });
+    setImdbId({ value: '', isValid: false });
+  };
+
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
@@ -57,12 +65,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd = () => {} }) => {
 
     onAdd(movie);
 
-    // reset
-    setTitle({ value: '', isValid: false });
-    setDescription({ value: '', isValid: false });
-    setImgUrl({ value: '', isValid: false });
-    setImdbUrl({ value: '', isValid: false });
-    setImdbId({ value: '', isValid: false });
+    reset();
 
     setCount(count + 1);
   };
