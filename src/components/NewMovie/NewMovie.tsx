@@ -22,7 +22,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
 
-    setMovie(prevMovie => ({ ...prevMovie, [name]: value }));
+    setMovie(prevMovie => ({
+      ...prevMovie,
+      [name]: !value.trim() ? value.trim() : value,
+    }));
   };
 
   const resetForm = () => {
@@ -34,10 +37,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       imdbId: '',
     });
   };
-
-  // const validationAfterSubmit = (movie: Movie): void => {
-  //   const { title, description, imgUrl, imdbUrl, imdbId } = movie;
-  // };
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
