@@ -8,65 +8,46 @@ interface NewMovieProps {
 }
 
 export const NewMovie: FC<NewMovieProps> = ({ onAdd }) => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
-  const [newMovieTitle, setNewMovieTitle] = useState('');
-  const [newMovieDescription, setNewMovieDescription] = useState('');
-  const [newMovieImageUrl, setNewMovieImageUrl] = useState('');
-  const [newMovieImdbUrl, setNewMovieImdbUrl] = useState('');
-  const [newMovieImdbId, setNewMovieImdbId] = useState('');
-  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+  const [newMovie, setNewMovie] = useState({
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  });
 
-  const handleInputChange = () => {
-    const isFormValid =
-      newMovieTitle.trim() &&
-      newMovieImageUrl.trim() &&
-      newMovieImdbUrl.trim() &&
-      newMovieImdbId.trim();
+  const isButtonDisabled = !(
+    newMovie.title.trim() &&
+    newMovie.imgUrl.trim() &&
+    newMovie.imdbUrl.trim() &&
+    newMovie.imdbId.trim()
+  );
 
-    setIsButtonDisabled(!isFormValid);
+  const handleInputChange = (name: string, value: string) => {
+    setNewMovie(prevMovie => ({
+      ...prevMovie,
+      [name]: value,
+    }));
   };
 
-  const handleTitleChange = (value: string) => {
-    setNewMovieTitle(value);
-    handleInputChange();
-  };
-
-  const handleImageUrlChange = (value: string) => {
-    setNewMovieImageUrl(value);
-    handleInputChange();
-  };
-
-  const handleImdbUrlChange = (value: string) => {
-    setNewMovieImdbUrl(value);
-    handleInputChange();
-  };
-
-  const handleImdbIdChange = (value: string) => {
-    setNewMovieImdbId(value);
-    handleInputChange();
+  const resetForm = () => {
+    setNewMovie({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
   };
 
   const handleAddButtonClick = (event: React.FormEvent) => {
     event.preventDefault();
 
-    const newMovie: Movie = {
-      title: newMovieTitle,
-      description: newMovieDescription,
-      imgUrl: newMovieImageUrl,
-      imdbUrl: newMovieImdbUrl,
-      imdbId: newMovieImdbId,
-    };
-
     onAdd(newMovie);
 
-    setNewMovieTitle('');
-    setNewMovieDescription('');
-    setNewMovieImageUrl('');
-    setNewMovieImdbUrl('');
-    setNewMovieImdbId('');
-    setCount(count + 1);
+    resetForm();
+    setCount(prevCount => prevCount + 1);
   };
 
   return (
@@ -76,39 +57,39 @@ export const NewMovie: FC<NewMovieProps> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value={newMovieTitle}
-        onChange={handleTitleChange}
+        value={newMovie.title}
+        onChange={value => handleInputChange('title', value)}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value={newMovieDescription}
-        onChange={(value: string) => setNewMovieDescription(value)}
+        value={newMovie.description}
+        onChange={value => handleInputChange('description', value)}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={newMovieImageUrl}
-        onChange={handleImageUrlChange}
+        value={newMovie.imgUrl}
+        onChange={value => handleInputChange('imgUrl', value)}
         required
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={newMovieImdbUrl}
-        onChange={handleImdbUrlChange}
+        value={newMovie.imdbUrl}
+        onChange={value => handleInputChange('imdbUrl', value)}
         required
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={newMovieImdbId}
-        onChange={handleImdbIdChange}
+        value={newMovie.imdbId}
+        onChange={value => handleInputChange('imdbId', value)}
         required
       />
 
