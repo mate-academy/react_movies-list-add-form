@@ -51,21 +51,21 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={title}
-        onChange={event => setTitle(event)}
+        onChange={newTitle => setTitle(newTitle)}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        onChange={event => setDescription(event)}
+        onChange={newDescription => setDescription(newDescription)}
         value={description}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        onChange={event => setImgUrl(event)}
+        onChange={newImageURL => setImgUrl(newImageURL)}
         value={imgUrl}
         required
       />
@@ -73,7 +73,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        onChange={event => setImdbUrl(event)}
+        onChange={newImdbURL => setImdbUrl(newImdbURL)}
         value={imdbUrl}
         required
       />
@@ -81,7 +81,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="imdbId"
         label="Imdb ID"
-        onChange={event => setImdbId(event)}
+        onChange={newImdbID => setImdbId(newImdbID)}
         value={imdbId}
         required
       />
