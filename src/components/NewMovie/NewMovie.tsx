@@ -6,80 +6,97 @@ interface Props {
   onAdd: (movie: Movie) => void;
 }
 
+const urlPattern =
+  // eslint-disable-next-line max-len
+  /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
+
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
-  const [count, setCount] = useState(0);
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
+  const [formState, setFormState] = useState({
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+    count: 0,
+  });
 
   const resetForm = () => {
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
-
-    setCount(currentCount => currentCount + 1);
+    setFormState(previousState => ({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+      count: previousState.count + 1,
+    }));
   };
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    onAdd({
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    });
+    const { title, description, imgUrl, imdbUrl, imdbId } = formState;
+
+    onAdd({ title, description, imgUrl, imdbUrl, imdbId });
 
     resetForm();
   };
 
-  const isSubmitDisabled = !title || !imgUrl || !imdbUrl || !imdbId;
+  const handleInputChange = (name: string) => (value: string) => {
+    setFormState(prevState => ({ ...prevState, [name]: value }));
+  };
+
+  const isSubmitDisabled =
+    !formState.title ||
+    !formState.imgUrl ||
+    !formState.imdbUrl ||
+    !formState.imdbId;
+
+  const validateUrl = (value: string) => {
+    return urlPattern.test(value) ? null : 'Invalid URL';
+  };
 
   return (
-    <form onSubmit={handleSubmit} className="NewMovie" key={count}>
+    <form onSubmit={handleSubmit} className="NewMovie" key={formState.count}>
       <h2 className="title">Add a movie</h2>
 
       <TextField
         name="title"
         label="Title"
-        value={title}
-        onChange={event => setTitle(event)}
+        value={formState.title}
+        onChange={handleInputChange('title')}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value={description}
-        onChange={event => setDescription(event)}
+        value={formState.description}
+        onChange={handleInputChange('description')}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={imgUrl}
-        onChange={event => setImgUrl(event)}
+        value={formState.imgUrl}
+        onChange={handleInputChange('imgUrl')}
         required
+        validate={validateUrl}
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={imdbUrl}
-        onChange={event => setImdbUrl(event)}
+        value={formState.imdbUrl}
+        onChange={handleInputChange('imdbUrl')}
         required
+        validate={validateUrl}
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imdbId}
-        onChange={event => setImdbId(event)}
+        value={formState.imdbId}
+        onChange={handleInputChange('imdbId')}
         required
       />
 
