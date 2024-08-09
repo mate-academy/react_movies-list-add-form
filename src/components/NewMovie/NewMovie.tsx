@@ -9,16 +9,18 @@ type Props = {
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
-  const [count, setCount] = useState(0);
-
-  const [movie, setMovie] = useState({
+  const patternMovie: Movie = {
     title: '',
     description: '',
     imgUrl: '',
     imdbUrl: '',
     imdbId: '',
-  });
+  };
 
+  const [count, setCount] = useState(0);
+  const [movie, setMovie] = useState(patternMovie);
+
+  const { title, description, imgUrl, imdbUrl, imdbId } = movie;
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
 
@@ -29,13 +31,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   };
 
   const resetForm = () => {
-    setMovie({
-      title: '',
-      description: '',
-      imgUrl: '',
-      imdbUrl: '',
-      imdbId: '',
-    });
+    setMovie(patternMovie);
   };
 
   const handleSubmit = (event: React.FormEvent) => {
@@ -48,7 +44,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
   let visibleButton = false;
 
-  if (movie.title && movie.imgUrl && movie.imdbUrl && movie.imdbId) {
+  if (title && imgUrl && imdbUrl && imdbId) {
     visibleButton = true;
   }
 
@@ -59,7 +55,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value={movie.title}
+        value={title}
         onChange={handleChange}
         required
       />
@@ -67,14 +63,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="description"
         label="Description"
-        value={movie.description}
+        value={description}
         onChange={handleChange}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={movie.imgUrl}
+        value={imgUrl}
         onChange={handleChange}
         required
       />
@@ -82,7 +78,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={movie.imdbUrl}
+        value={imdbUrl}
         onChange={handleChange}
         required
       />
@@ -90,7 +86,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={movie.imdbId}
+        value={imdbId}
         onChange={handleChange}
         required
       />
