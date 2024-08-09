@@ -6,20 +6,17 @@ interface Props {
   onAdd: (newMovie: Movie) => void;
 }
 
+const DEFAULT_MOVIE: Movie = {
+  imdbId: '',
+  imdbUrl: '',
+  imgUrl: '',
+  description: '',
+  title: '',
+};
+
 export const NewMovie = ({ onAdd }: Props) => {
-  const [movie, setMovie] = useState({
-    imdbId: '',
-
-    imdbUrl: '',
-
-    imgUrl: '',
-
-    description: '',
-
-    count: 0,
-
-    title: '',
-  });
+  const [movie, setMovie] = useState<Movie>(DEFAULT_MOVIE);
+  const [count, setCount] = useState<number>(0);
 
   const isFormValid = (): boolean =>
     [
@@ -32,14 +29,12 @@ export const NewMovie = ({ onAdd }: Props) => {
   const isValid = isFormValid();
 
   const resetForm = () => {
-    setMovie(prevSt => ({
-      imdbId: '',
-      imdbUrl: '',
-      imgUrl: '',
-      description: '',
-      count: prevSt.count + 1,
-      title: '',
-    }));
+    setMovie(DEFAULT_MOVIE);
+    setCount(0);
+  };
+
+  const handleChange = (field: keyof Movie) => (value: string) => {
+    setMovie(prev => ({ ...prev, [field]: value }));
   };
 
   const handleSubmit = (event: React.FormEvent) => {
@@ -49,28 +44,20 @@ export const NewMovie = ({ onAdd }: Props) => {
       return;
     }
 
-    onAdd({
-      title: movie.title,
-      description: movie.description,
-      imgUrl: movie.imgUrl,
-      imdbUrl: movie.imdbUrl,
-      imdbId: movie.imdbId,
-    });
-
+    onAdd(movie);
+    setCount(count + 1);
     resetForm();
   };
 
   return (
-    <form className="NewMovie" key={movie.count} onSubmit={handleSubmit}>
+    <form className="NewMovie" key={count} onSubmit={handleSubmit}>
       <h2 className="title">Add a movie</h2>
 
       <TextField
         name="title"
         label="Title"
         value={movie.title}
-        onChange={newTitle => {
-          setMovie(prev => ({ ...prev, title: newTitle }));
-        }}
+        onChange={handleChange('title')}
         required
       />
 
@@ -78,18 +65,14 @@ export const NewMovie = ({ onAdd }: Props) => {
         name="description"
         label="Description"
         value={movie.description}
-        onChange={newDescription => {
-          setMovie(prev => ({ ...prev, description: newDescription }));
-        }}
+        onChange={handleChange('description')}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={movie.imgUrl}
-        onChange={newImgUrl => {
-          setMovie(prev => ({ ...prev, imgUrl: newImgUrl }));
-        }}
+        onChange={handleChange('imgUrl')}
         required
         errorMessage="Please, enter valid image URL"
       />
@@ -98,9 +81,7 @@ export const NewMovie = ({ onAdd }: Props) => {
         name="imdbUrl"
         label="Imdb URL"
         value={movie.imdbUrl}
-        onChange={newImdbUrl => {
-          setMovie(prev => ({ ...prev, imdbUrl: newImdbUrl }));
-        }}
+        onChange={handleChange('imdbUrl')}
         required
         errorMessage="Please, enter valid image URL IMDB"
       />
@@ -109,9 +90,7 @@ export const NewMovie = ({ onAdd }: Props) => {
         name="imdbId"
         label="Imdb ID"
         value={movie.imdbId}
-        onChange={newImdbId => {
-          setMovie(prev => ({ ...prev, imdbId: newImdbId }));
-        }}
+        onChange={handleChange('imdbId')}
         required
       />
 
