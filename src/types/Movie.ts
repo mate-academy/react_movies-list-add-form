@@ -5,3 +5,7 @@ export interface Movie {
   imdbUrl: string;
   imdbId: string;
 }
+
+export interface NewMovieProps {
+  onAdd: (movie: Movie) => void;
+}
