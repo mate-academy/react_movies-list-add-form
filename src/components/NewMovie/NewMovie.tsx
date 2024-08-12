@@ -6,6 +6,14 @@ type NewMovieProps = {
   onAdd: (movie: Movie) => void;
 };
 
+enum MovieField {
+  Title = 'title',
+  Description = 'description',
+  ImgUrl = 'imgUrl',
+  ImdbUrl = 'imdbUrl',
+  ImdbId = 'imdbId',
+}
+
 export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
   const [title, setTitle] = useState('');
@@ -14,24 +22,30 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const handleChange = (name: string, newValue: string) => {
+  const resetForm = () => {
+    setTitle('');
+    setDescription('');
+    setImgUrl('');
+    setImdbUrl('');
+    setImdbId('');
+  };
+
+  const handleChange = (name: MovieField, newValue: string) => {
     switch (name) {
-      case 'title':
+      case MovieField.Title:
         setTitle(newValue);
         break;
-      case 'description':
+      case MovieField.Description:
         setDescription(newValue);
         break;
-      case 'imgUrl':
+      case MovieField.ImgUrl:
         setImgUrl(newValue);
         break;
-      case 'imdbUrl':
+      case MovieField.ImdbUrl:
         setImdbUrl(newValue);
         break;
-      case 'imdbId':
+      case MovieField.ImdbId:
         setImdbId(newValue);
-        break;
-      default:
         break;
     }
   };
@@ -53,13 +67,7 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
       };
 
       onAdd(newMovie);
-
-      setTitle('');
-      setDescription('');
-      setImgUrl('');
-      setImdbUrl('');
-      setImdbId('');
-
+      resetForm();
       setCount(prevCount => prevCount + 1);
     }
   };
@@ -72,7 +80,7 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={title}
-        onChange={value => handleChange('title', value)}
+        onChange={value => handleChange(MovieField.Title, value)}
         required
       />
 
@@ -80,7 +88,7 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={description}
-        onChange={value => handleChange('description', value)}
+        onChange={value => handleChange(MovieField.Description, value)}
         required
       />
 
@@ -88,7 +96,7 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={value => handleChange('imgUrl', value)}
+        onChange={value => handleChange(MovieField.ImgUrl, value)}
         required
       />
 
@@ -96,7 +104,7 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={value => handleChange('imdbUrl', value)}
+        onChange={value => handleChange(MovieField.ImdbUrl, value)}
         required
       />
 
@@ -104,7 +112,7 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={value => handleChange('imdbId', value)}
+        onChange={value => handleChange(MovieField.ImdbId, value)}
         required
       />
 
