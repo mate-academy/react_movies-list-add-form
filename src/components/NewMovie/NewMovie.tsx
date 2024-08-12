@@ -7,22 +7,32 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
   // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
 
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
+  const [movie, setMovie] = useState({
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  });
 
   const isFormHasChar = () => {
-    return title || imgUrl || imdbUrl || imdbId || description;
+    return (
+      movie.title ||
+      movie.imgUrl ||
+      movie.imdbUrl ||
+      movie.imdbId ||
+      movie.description
+    );
   };
 
   const reset = () => {
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
+    setMovie({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
   };
 
   const [hasErrors, setHasErrors] = useState({
@@ -44,22 +54,22 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
       imdbId: false,
     };
 
-    if (!title) {
+    if (!movie.title) {
       newErrors.title = true;
       hasError = true;
     }
 
-    if (!imgUrl) {
+    if (!movie.imgUrl) {
       newErrors.imgUrl = true;
       hasError = true;
     }
 
-    if (!imdbUrl) {
+    if (!movie.imdbUrl) {
       newErrors.imdbUrl = true;
       hasError = true;
     }
 
-    if (!imdbId) {
+    if (!movie.imdbId) {
       newErrors.imdbId = true;
       hasError = true;
     }
@@ -70,13 +80,7 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
       return;
     }
 
-    const newMovie = {
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    };
+    const newMovie = { ...movie };
 
     onAdd(newMovie);
 
@@ -92,6 +96,13 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
     });
   };
 
+  const handleChange = (name: string) => (newValue: string) => {
+    setMovie(prevMovie => ({
+      ...prevMovie,
+      [name]: newValue,
+    }));
+  };
+
   return (
     <form className="NewMovie" key={count} onSubmit={handleSubmit}>
       <h2 className="title">Add a movie</h2>
@@ -99,8 +110,8 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value={title}
-        onChange={setTitle}
+        value={movie.title}
+        onChange={handleChange('title')}
         required
         externalError={hasErrors.title}
         resetErrorState={count > 0}
@@ -109,16 +120,16 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
       <TextField
         name="description"
         label="Description"
-        value={description}
-        onChange={setDescription}
+        value={movie.description}
+        onChange={handleChange('description')}
         resetErrorState={count > 0}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={imgUrl}
-        onChange={setImgUrl}
+        value={movie.imgUrl}
+        onChange={handleChange('imgUrl')}
         externalError={hasErrors.imgUrl}
         resetErrorState={count > 0}
         required
@@ -127,8 +138,8 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={imdbUrl}
-        onChange={setImdbUrl}
+        value={movie.imdbUrl}
+        onChange={handleChange('imdbUrl')}
         externalError={hasErrors.imdbUrl}
         resetErrorState={count > 0}
         required
@@ -137,8 +148,8 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imdbId}
-        onChange={setImdbId}
+        value={movie.imdbId}
+        onChange={handleChange('imdbId')}
         externalError={hasErrors.imdbId}
         resetErrorState={count > 0}
         required
@@ -150,7 +161,7 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!isFormHasChar()}
+            disabled={!isFormHasChar().trim()}
           >
             Add
           </button>
