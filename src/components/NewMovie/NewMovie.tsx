@@ -29,11 +29,8 @@ export const NewMovie = ({ onAdd }: { onAdd: (newMovie: Movie) => void }) => {
     });
   };
 
-  const onChange = (field: keyof Movie) => (value: string) => {
-    setMovie(prevMovie => ({
-      ...prevMovie,
-      [field]: value,
-    }));
+  const onChange = (event: any) => {
+    setMovie({ ...newMovie, [event.target.name]: event.target.value });
   };
 
   return (
@@ -43,7 +40,8 @@ export const NewMovie = ({ onAdd }: { onAdd: (newMovie: Movie) => void }) => {
         event.preventDefault();
         onAdd(newMovie);
         resetForm();
-        setResetTouched(true);
+        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+        resetTouched === true ? setResetTouched(false) : setResetTouched(true);
       }}
     >
       <h2 className="title">Add a movie</h2>
@@ -52,7 +50,7 @@ export const NewMovie = ({ onAdd }: { onAdd: (newMovie: Movie) => void }) => {
         name="title"
         label="Title"
         value={newMovie.title}
-        onChange={onChange('title')}
+        onChange={onChange}
         required
         resetTouched={resetTouched}
       />
@@ -61,7 +59,7 @@ export const NewMovie = ({ onAdd }: { onAdd: (newMovie: Movie) => void }) => {
         name="description"
         label="Description"
         value={newMovie.description}
-        onChange={onChange('description')}
+        onChange={onChange}
         resetTouched={resetTouched}
       />
 
@@ -69,7 +67,7 @@ export const NewMovie = ({ onAdd }: { onAdd: (newMovie: Movie) => void }) => {
         name="imgUrl"
         label="Image URL"
         value={newMovie.imgUrl}
-        onChange={onChange('imgUrl')}
+        onChange={onChange}
         required
         resetTouched={resetTouched}
       />
@@ -78,7 +76,7 @@ export const NewMovie = ({ onAdd }: { onAdd: (newMovie: Movie) => void }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={newMovie.imdbUrl}
-        onChange={onChange('imdbUrl')}
+        onChange={onChange}
         required
         resetTouched={resetTouched}
       />
@@ -87,7 +85,7 @@ export const NewMovie = ({ onAdd }: { onAdd: (newMovie: Movie) => void }) => {
         name="imdbId"
         label="Imdb ID"
         value={newMovie.imdbId}
-        onChange={onChange('imdbId')}
+        onChange={onChange}
         required
         resetTouched={resetTouched}
       />
