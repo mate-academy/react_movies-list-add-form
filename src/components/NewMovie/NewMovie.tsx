@@ -3,33 +3,30 @@ import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
 export const NewMovie = ({ onAdd }: { onAdd: (newMovie: Movie) => void }) => {
-
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
+  const [newMovie, setMovie] = useState({
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  });
 
   const [resetTouched, setResetTouched] = useState(false);
 
-  const newMovie: Movie = {
-    title,
-    description,
-    imgUrl,
-    imdbUrl,
-    imdbId,
-  };
-
   const isAnyRequiredFieldEmpty =
-    title == '' || imgUrl == '' || imdbUrl == '' || imdbId == '';
+    newMovie.title == '' ||
+    newMovie.imgUrl == '' ||
+    newMovie.imdbUrl == '' ||
+    newMovie.imdbId == '';
 
   const resetForm = () => {
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
-    setResetTouched(true);
+    setMovie({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
   };
 
   return (
@@ -39,6 +36,7 @@ export const NewMovie = ({ onAdd }: { onAdd: (newMovie: Movie) => void }) => {
         event.preventDefault();
         onAdd(newMovie);
         resetForm();
+        setResetTouched(true);
       }}
     >
       <h2 className="title">Add a movie</h2>
@@ -46,8 +44,13 @@ export const NewMovie = ({ onAdd }: { onAdd: (newMovie: Movie) => void }) => {
       <TextField
         name="title"
         label="Title"
-        value={title}
-        onChange={newValue => setTitle(newValue)}
+        value={newMovie.title}
+        onChange={newValue =>
+          setMovie(prevMovie => ({
+            ...prevMovie,
+            title: newValue,
+          }))
+        }
         required
         resetTouched={resetTouched}
       />
@@ -55,16 +58,26 @@ export const NewMovie = ({ onAdd }: { onAdd: (newMovie: Movie) => void }) => {
       <TextField
         name="description"
         label="Description"
-        value={description}
-        onChange={newValue => setDescription(newValue)}
+        value={newMovie.description}
+        onChange={newValue =>
+          setMovie(prevMovie => ({
+            ...prevMovie,
+            description: newValue,
+          }))
+        }
         resetTouched={resetTouched}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={imgUrl}
-        onChange={newValue => setImgUrl(newValue)}
+        value={newMovie.imgUrl}
+        onChange={newValue =>
+          setMovie(prevMovie => ({
+            ...prevMovie,
+            imgUrl: newValue,
+          }))
+        }
         required
         resetTouched={resetTouched}
       />
@@ -72,8 +85,13 @@ export const NewMovie = ({ onAdd }: { onAdd: (newMovie: Movie) => void }) => {
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={imdbUrl}
-        onChange={newValue => setImdbUrl(newValue)}
+        value={newMovie.imdbUrl}
+        onChange={newValue =>
+          setMovie(prevMovie => ({
+            ...prevMovie,
+            imdbUrl: newValue,
+          }))
+        }
         required
         resetTouched={resetTouched}
       />
@@ -81,8 +99,13 @@ export const NewMovie = ({ onAdd }: { onAdd: (newMovie: Movie) => void }) => {
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imdbId}
-        onChange={newValue => setImdbId(newValue)}
+        value={newMovie.imdbId}
+        onChange={newValue =>
+          setMovie(prevMovie => ({
+            ...prevMovie,
+            imdbId: newValue,
+          }))
+        }
         required
         resetTouched={resetTouched}
       />
