@@ -28,7 +28,7 @@ export const TextField: React.FC<Props> = ({
   const [inputValue, setInputValue] = useState(value);
 
   const [touched, setTouched] = useState(false);
-  const hasError = touched && required && !inputValue;
+  const hasError = touched && required && !inputValue.trim();
   const handleChange = (newValue: string) => {
     setInputValue(newValue);
     onChange(newValue);
@@ -59,7 +59,8 @@ export const TextField: React.FC<Props> = ({
             'is-danger': hasError,
           })}
           placeholder={placeholder}
-          value={inputValue}
+          value={value}
+          name={name}
           onChange={event => handleChange(event.target.value)}
           onBlur={() => setTouched(true)}
         />

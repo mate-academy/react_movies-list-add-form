@@ -14,10 +14,10 @@ export const NewMovie = ({ onAdd }: { onAdd: (newMovie: Movie) => void }) => {
   const [resetTouched, setResetTouched] = useState(false);
 
   const isAnyRequiredFieldEmpty =
-    newMovie.title == '' ||
-    newMovie.imgUrl == '' ||
-    newMovie.imdbUrl == '' ||
-    newMovie.imdbId == '';
+    newMovie.title.trim() == '' ||
+    newMovie.imgUrl.trim() == '' ||
+    newMovie.imdbUrl.trim() == '' ||
+    newMovie.imdbId.trim() == '';
 
   const resetForm = () => {
     setMovie({
