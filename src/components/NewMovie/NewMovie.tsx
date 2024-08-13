@@ -24,11 +24,12 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     }));
   };
 
-  const trimmedFieldsValues = Object.values(movie).map(value => value.trim());
+  const isSubmitDisabled = Object.keys(movie).some(
+    key =>
+      key !== 'description' && movie[key as keyof typeof movie].trim() === '',
+  );
 
-  const hasEmptyField = trimmedFieldsValues.includes('');
-
-  function reset() {
+  const reset = () => {
     setMovie({
       title: '',
       description: '',
@@ -36,7 +37,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       imdbUrl: '',
       imdbId: '',
     });
-  }
+  };
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -97,7 +98,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={hasEmptyField}
+            disabled={isSubmitDisabled}
           >
             Add
           </button>
