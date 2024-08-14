@@ -1,52 +1,35 @@
 import React, { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
+import { defaultMovie } from '../Constans/defaultMovie';
 
 type Props = {
   onAdd: (movie: Movie) => void;
 };
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
+  const [newMovie, setNewMovie] = useState<Movie>(defaultMovie);
   const [count, setCount] = useState(0);
 
-  const [title, setTille] = useState('');
-  const [description, setDescription] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
-
-  const fieldsValues = {
-    title,
-    imgUrl,
-    imdbUrl,
-    imdbId,
+  const handleInputChange = (field: keyof Movie) => (newValue: string) => {
+    setNewMovie({
+      ...newMovie,
+      [field]: newValue.trim(),
+    });
   };
 
-  const trimmedFieldsValues = Object.values(fieldsValues).map(value =>
-    value.trim(),
-  );
-
-  const hasEmptyField = trimmedFieldsValues.includes('');
-
-  function reset() {
-    setTille('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
-  }
+  const hasEmptyField = Object.values(newMovie).some(value => value === '');
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    onAdd({
-      ...fieldsValues,
-      description,
-    });
+    if (hasEmptyField) {
+      return;
+    }
 
+    onAdd(newMovie);
     setCount(currentCount => currentCount + 1);
-
-    reset();
+    setNewMovie(defaultMovie);
   };
 
   return (
@@ -56,39 +39,39 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value={title}
-        onChange={setTille}
+        value={newMovie.title}
+        onChange={handleInputChange('title')}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value={description}
-        onChange={setDescription}
+        value={newMovie.description}
+        onChange={handleInputChange('description')}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={imgUrl}
-        onChange={setImgUrl}
+        value={newMovie.imgUrl}
+        onChange={handleInputChange('imgUrl')}
         required
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={imdbUrl}
-        onChange={setImdbUrl}
+        value={newMovie.imdbUrl}
+        onChange={handleInputChange('imdbUrl')}
         required
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imdbId}
-        onChange={setImdbId}
+        value={newMovie.imdbId}
+        onChange={handleInputChange('imdbId')}
         required
       />
 
