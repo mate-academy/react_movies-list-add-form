@@ -34,15 +34,26 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAddMovie }) => {
       imdbId: '',
     };
 
-    if (!title.trim()) newErrs.title = 'Title is required';
-    if (!imgUrl.trim()) newErrs.imgUrl = 'Image URL is required';
-    if (!imdbUrl.trim()) newErrs.imdbUrl = 'IMDB URL is required';
-    if (!imdbId.trim()) newErrs.imdbId = 'IMDB ID is required';
+    if (!title.trim()) {
+      newErrs.title = 'Title is required';
+    }
+
+    if (!imgUrl.trim()) {
+      newErrs.imgUrl = 'Image URL is required';
+    }
+
+    if (!imdbUrl.trim()) {
+      newErrs.imdbUrl = 'IMDB URL is required';
+    }
+
+    if (!imdbId.trim()) {
+      newErrs.imdbId = 'IMDB ID is required';
+    }
 
     setErrs(newErrs);
 
-    return !(Object.values(newErrs).some(err => err !== ''));
-  }
+    return !Object.values(newErrs).some(err => err !== '');
+  };
 
   const clearErrs = () => {
     setErrs({
@@ -51,7 +62,7 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAddMovie }) => {
       imdbUrl: '',
       imdbId: '',
     });
-  }
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -72,9 +83,9 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAddMovie }) => {
       setImdbUrl('');
       setImdbId('');
 
-      clearErrs()
+      clearErrs();
     }
-  }
+  };
 
   return (
     <form className="NewMovie" onSubmit={handleSubmit}>
