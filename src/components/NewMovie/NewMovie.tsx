@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { TextField } from '../TextField';
+import classNames from 'classnames';
 
 interface NewMovieProps {
   onAdd: (movie: Movie) => void;
@@ -13,7 +15,7 @@ interface Movie {
 }
 
 export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
-  const [formFields, setFormFields] = useState<Movie>({
+  const [movie, setMovie] = useState<Movie>({
     title: '',
     description: '',
     imgUrl: '',
@@ -32,8 +34,8 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
 
-    setFormFields(prevFields => ({
-      ...prevFields,
+    setMovie(prevMovie => ({
+      ...prevMovie,
       [name]: value,
     }));
   };
@@ -56,10 +58,10 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
   const isFormValid = (): boolean => {
     return (
       Object.values(errors).every(error => error === '') &&
-      formFields.title.trim() !== '' &&
-      formFields.imgUrl.trim() !== '' &&
-      formFields.imdbUrl.trim() !== '' &&
-      formFields.imdbId.trim() !== ''
+      movie.title.trim() !== '' &&
+      movie.imgUrl.trim() !== '' &&
+      movie.imdbUrl.trim() !== '' &&
+      movie.imdbId.trim() !== ''
     );
   };
 
@@ -67,14 +69,14 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
     event.preventDefault();
 
     if (isFormValid()) {
-      onAdd(formFields); // Call the onAdd callback with the form data
-      setFormFields({
+      onAdd(movie);
+      setMovie({
         title: '',
         description: '',
         imgUrl: '',
         imdbUrl: '',
         imdbId: '',
-      }); // Clear the form fields after submission
+      });
 
       setErrors({
         title: '',
@@ -90,87 +92,71 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div className={`field ${errors.title ? 'has-error' : ''}`}>
-        <label htmlFor="title">Title</label>
-        <input
-          id="title"
+      <div className={classNames('field', { 'has-error': errors.title })}>
+        <TextField
           name="title"
-          type="text"
+          value={movie.title}
+          onChange={handleChange}
+          onBlur={handleBlur}
+          error={errors.title}
+          required
           data-cy="movie-title"
-          value={formFields.title}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          required
         />
-        {errors.title && <span className="help is-danger">{errors.title}</span>}
       </div>
 
-      <div className={`field ${errors.description ? 'has-error' : ''}`}>
-        <label htmlFor="description">Description</label>
-        <input
-          id="description"
+      <div className={classNames('field', { 'has-error': errors.description })}>
+        <TextField
           name="description"
-          type="text"
+          value={movie.description}
+          onChange={handleChange}
+          onBlur={handleBlur}
+          error={errors.description}
           data-cy="movie-description"
-          value={formFields.description}
-          onChange={handleChange}
-          onBlur={handleBlur}
         />
-        {/* Description might not need an error message, so no condition here */}
       </div>
 
-      <div className={`field ${errors.imgUrl ? 'has-error' : ''}`}>
-        <label htmlFor="imgUrl">Image URL</label>
-        <input
-          id="imgUrl"
+      <div className={classNames('field', { 'has-error': errors.imgUrl })}>
+        <TextField
           name="imgUrl"
-          type="text"
+          value={movie.imgUrl}
+          onChange={handleChange}
+          onBlur={handleBlur}
+          error={errors.imgUrl}
+          required
           data-cy="movie-imgUrl"
-          value={formFields.imgUrl}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          required
         />
-        {errors.imgUrl && (
-          <span className="help is-danger">{errors.imgUrl}</span>
-        )}
       </div>
 
-      <div className={`field ${errors.imdbUrl ? 'has-error' : ''}`}>
-        <label htmlFor="imdbUrl">IMDb URL</label>
-        <input
-          id="imdbUrl"
+      <div className={classNames('field', { 'has-error': errors.imdbUrl })}>
+        <TextField
           name="imdbUrl"
-          type="text"
+          value={movie.imdbUrl}
+          onChange={handleChange}
+          onBlur={handleBlur}
+          error={errors.imdbUrl}
+          required
           data-cy="movie-imdbUrl"
-          value={formFields.imdbUrl}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          required
         />
-        {errors.imdbUrl && (
-          <span className="help is-danger">{errors.imdbUrl}</span>
-        )}
       </div>
 
-      <div className={`field ${errors.imdbId ? 'has-error' : ''}`}>
-        <label htmlFor="imdbId">IMDb ID</label>
-        <input
-          id="imdbId"
+      <div className={classNames('field', { 'has-error': errors.imdbId })}>
+        <TextField
           name="imdbId"
-          type="text"
-          data-cy="movie-imdbId"
-          value={formFields.imdbId}
+          value={movie.imdbId}
           onChange={handleChange}
           onBlur={handleBlur}
+          error={errors.imdbId}
           required
+          data-cy="movie-imdbId"
         />
-        {errors.imdbId && (
-          <span className="help is-danger">{errors.imdbId}</span>
-        )}
       </div>
 
-      <button type="submit" disabled={!isFormValid()} data-cy="submit-button">
+      <button
+        type="submit"
+        className={classNames('button', { 'is-disabled': !isFormValid() })}
+        disabled={!isFormValid()}
+        data-cy="submit-button"
+      >
         Add Movie
       </button>
     </form>
