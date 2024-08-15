@@ -13,17 +13,19 @@ type NewMovieProps = {
 };
 
 export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
+  const [movie, setMovie] = useState<Movie>({
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  });
+
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
   useEffect(() => {
+    const { title, imgUrl, imdbUrl, imdbId } = movie;
     const allRequiredFieldsFilled =
       title.trim() !== '' &&
       imgUrl.trim() !== '' &&
@@ -31,31 +33,31 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
       imdbId.trim() !== '';
 
     setIsButtonDisabled(!allRequiredFieldsFilled);
-  }, [title, imgUrl, imdbUrl, imdbId]);
+  }, [movie]);
 
   const reset = () => {
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
-
+    setMovie({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
     setCount(prevCount => prevCount + 1);
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const newMovie: Movie = {
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    };
 
-    onAdd(newMovie);
-
+    onAdd(movie);
     reset();
+  };
+
+  const handleChange = (field: keyof Movie) => (newValue: string) => {
+    setMovie(prevMovie => ({
+      ...prevMovie,
+      [field]: newValue,
+    }));
   };
 
   return (
@@ -65,47 +67,41 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value={title}
-        onChange={newValue => setTitle(newValue)}
+        value={movie.title}
+        onChange={handleChange('title')}
         required
-        resetTouched={count === 0}
       />
 
       <TextField
         name="description"
         label="Description"
-        value={description}
-        onChange={newValue => setDescription(newValue)}
-        resetTouched={count === 0}
+        value={movie.description}
+        onChange={handleChange('description')}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={imgUrl}
-        onChange={newValue => setImgUrl(newValue)}
+        value={movie.imgUrl}
+        onChange={handleChange('imgUrl')}
         required
-        resetTouched={count === 0}
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={imdbUrl}
-        onChange={newValue => setImdbUrl(newValue)}
+        value={movie.imdbUrl}
+        onChange={handleChange('imdbUrl')}
         required
-        resetTouched={count === 0}
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imdbId}
-        onChange={newValue => setImdbId(newValue)}
+        value={movie.imdbId}
+        onChange={handleChange('imdbId')}
         required
-        resetTouched={count === 0}
       />
-
       <div className="field is-grouped">
         <div className="control">
           <button
