@@ -1,3 +1,5 @@
+// TextField.tsx
+
 import classNames from 'classnames';
 import React, { useState } from 'react';
 
@@ -31,7 +33,9 @@ export const TextField: React.FC<Props> = ({
 
   // To show errors only if the field was touched (onBlur)
   const [touched, setTouched] = useState(false);
-  const hasError = touched && required && !value;
+
+  // Determine if there should be an error message
+  const showError = touched && required && !value || error;
 
   return (
     <div className="field">
@@ -46,22 +50,19 @@ export const TextField: React.FC<Props> = ({
           name={name}
           data-cy={`movie-${name}`}
           className={classNames('input', {
-            'is-danger': hasError || !!error,
+            'is-danger': showError,
           })}
           placeholder={placeholder}
           value={value}
           onChange={onChange}
           onBlur={() => {
             setTouched(true);
-            if (onBlur) {
-              onBlur();
-            }
+            if (onBlur) onBlur();
           }}
         />
       </div>
 
-      {hasError && <p className="help is-danger">{`${label} is required`}</p>}
-      {error && <p className="help is-danger">{error}</p>}
+      {showError && <p className="help is-danger">{error || `${label} is required`}</p>}
     </div>
   );
 };
