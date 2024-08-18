@@ -35,7 +35,7 @@ export const TextField: React.FC<Props> = ({
   const [touched, setTouched] = useState(false);
 
   // Determine if there should be an error message
-  const showError = touched && required && !value || error;
+  const showError = (touched && required && !value) || error;
 
   return (
     <div className="field">
@@ -57,12 +57,16 @@ export const TextField: React.FC<Props> = ({
           onChange={onChange}
           onBlur={() => {
             setTouched(true);
-            if (onBlur) onBlur();
+            if (onBlur) {
+              onBlur();
+            }
           }}
         />
       </div>
 
-      {showError && <p className="help is-danger">{error || `${label} is required`}</p>}
+      {showError && (
+        <p className="help is-danger">{error || `${label} is required`}</p>
+      )}
     </div>
   );
 };
