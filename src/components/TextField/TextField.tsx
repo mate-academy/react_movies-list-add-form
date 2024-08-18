@@ -53,7 +53,9 @@ export const TextField: React.FC<Props> = ({
           onChange={onChange}
           onBlur={() => {
             setTouched(true);
-            if (onBlur) onBlur();
+            if (onBlur) {
+              onBlur();
+            }
           }}
         />
       </div>

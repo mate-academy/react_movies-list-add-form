@@ -24,7 +24,8 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAddMovie }) => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setNewMovie((prevMovie) => ({ ...prevMovie, [name]: value }));
+
+    setNewMovie(prevMovie => ({ ...prevMovie, [name]: value }));
   };
 
   const validate = () => {
@@ -53,7 +54,7 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAddMovie }) => {
 
     setErrs(newErrs);
 
-    return !Object.values(newErrs).some((err) => err !== '');
+    return !Object.values(newErrs).some(err => err !== '');
   };
 
   const clearErrs = () => {
@@ -140,10 +141,10 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAddMovie }) => {
             data-cy="submit-button"
             className="button is-link"
             disabled={
-              newMovie.title.trim() === ''
-              || newMovie.imdbId.trim() === ''
-              || newMovie.imdbUrl.trim() === ''
-              || newMovie.imdbUrl.trim() === ''
+              newMovie.title.trim() === '' ||
+              newMovie.imdbId.trim() === '' ||
+              newMovie.imdbUrl.trim() === '' ||
+              newMovie.imdbUrl.trim() === ''
             }
           >
             Add
