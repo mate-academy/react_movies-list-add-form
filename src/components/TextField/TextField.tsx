@@ -1,5 +1,6 @@
 import classNames from 'classnames';
-import React, { useState } from 'react';
+import { useState } from 'react';
+import React from 'react';
 
 type Props = {
   name: string;
