@@ -1,59 +1,52 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
-
-interface NewMovieProps {
+interface Props {
   onAdd: (movie: Movie) => void;
 }
 
-export const NewMovie = ({ onAdd }: NewMovieProps) => {
+const emptyMovieFields: Movie = {
+  title: '',
+  description: '',
+  imgUrl: '',
+  imdbUrl: '',
+  imdbId: '',
+};
+
+export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
-  const [formData, setFormData] = useState({
-    title: '',
-    description: '',
-    imgUrl: '',
-    imdbUrl: '',
-    imdbId: '',
-  });
+  const [movieData, setMovieData] = useState(emptyMovieFields);
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    event.preventDefault();
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
 
-    const { name, value } = event.target;
-
-    setFormData(prevData => ({
-      ...prevData,
+    setMovieData(currentData => ({
+      ...currentData,
       [name]: value,
     }));
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const buttonDisabled =
+    !movieData.title.trim() ||
+    !movieData.imgUrl.trim() ||
+    !movieData.imdbUrl.trim() ||
+    !movieData.imdbId.trim();
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
 
     if (
-      formData.title &&
-      formData.imgUrl &&
-      formData.imdbUrl &&
-      formData.imdbId
+      movieData.title &&
+      movieData.imgUrl &&
+      movieData.imdbUrl &&
+      movieData.imdbId
     ) {
-      onAdd(formData);
+      onAdd(movieData);
     }
 
-    setFormData({
-      title: '',
-      description: '',
-      imgUrl: '',
-      imdbUrl: '',
-      imdbId: '',
-    });
-    setCount(prev => prev + 1);
+    setMovieData(emptyMovieFields);
+    setCount(current => current + 1);
   };
-
-  const handleDisabled =
-    !formData.title.trim() ||
-    !formData.imgUrl.trim() ||
-    !formData.imdbUrl.trim() ||
-    !formData.imdbId.trim();
 
   return (
     <form className="NewMovie" key={count} onSubmit={handleSubmit}>
@@ -62,46 +55,44 @@ export const NewMovie = ({ onAdd }: NewMovieProps) => {
       <TextField
         name="title"
         label="Title"
-        value={formData.title}
-        onChange={handleInputChange}
+        value={movieData.title}
+        onChange={handleChange}
         required
       />
-
       <TextField
         name="description"
         label="Description"
-        value={formData.description}
-        onChange={handleInputChange}
+        value={movieData.description}
+        onChange={handleChange}
       />
-
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={formData.imgUrl}
-        onChange={handleInputChange}
+        value={movieData.imgUrl}
+        onChange={handleChange}
+        required
       />
-
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={formData.imdbUrl}
-        onChange={handleInputChange}
+        value={movieData.imdbUrl}
+        onChange={handleChange}
+        required
       />
-
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={formData.imdbId}
-        onChange={handleInputChange}
+        value={movieData.imdbId}
+        onChange={handleChange}
+        required
       />
-
       <div className="field is-grouped">
         <div className="control">
           <button
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={handleDisabled}
+            disabled={buttonDisabled}
           >
             Add
           </button>
