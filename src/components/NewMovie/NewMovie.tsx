@@ -1,10 +1,6 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
-
-type Props = {
-  onAdd: (newMovie: Movie) => void;
-};
 
 function validateUrl(value: string) {
   const pattern =
@@ -14,55 +10,47 @@ function validateUrl(value: string) {
   return pattern.test(value);
 }
 
+const defaultMovieValues = {
+  title: '',
+  description: '',
+  imgUrl: '',
+  imdbUrl: '',
+  imdbId: '',
+};
+
+type FormValues = typeof defaultMovieValues;
+
+type Props = {
+  onAdd: (newMovie: Movie) => void;
+};
+
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
 
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
+  const [movieValues, setMovieValues] =
+    React.useState<FormValues>(defaultMovieValues);
 
   const hasError =
-    !title.trim() ||
-    !imgUrl.trim() ||
-    !imdbUrl.trim() ||
-    !imdbId.trim() ||
-    !validateUrl(imgUrl) ||
-    !validateUrl(imdbUrl);
+    !movieValues.title.trim() ||
+    !movieValues.imgUrl.trim() ||
+    !movieValues.imdbUrl.trim() ||
+    !movieValues.imdbId.trim() ||
+    !validateUrl(movieValues.imgUrl) ||
+    !validateUrl(movieValues.imdbUrl);
 
-  const handleTitleChange = (newTitle: string) => {
-    setTitle(() => newTitle);
-  };
-
-  const handleDescriptionChange = (newDescription: string) => {
-    setDescription(newDescription);
-  };
-
-  const handleImgUrlChange = (newImgUrl: string) => {
-    setImgUrl(newImgUrl);
-  };
-
-  const handleImdbUrlChange = (newImdbUrl: string) => {
-    setImdbUrl(newImdbUrl);
-  };
-
-  const handleImdbIdChange = (newImdbId: string) => {
-    setImdbId(newImdbId);
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setMovieValues(prev => ({
+      ...prev,
+      [event.target.name]: event.target.value,
+    }));
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    onAdd({ title, description, imgUrl, imdbUrl, imdbId });
+    onAdd({ ...movieValues });
 
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
+    setMovieValues(defaultMovieValues);
 
     setCount(count + 1);
   };
@@ -74,23 +62,23 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value={title}
-        onChange={handleTitleChange}
+        value={movieValues.title}
+        onChange={handleChange}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value={description}
-        onChange={handleDescriptionChange}
+        value={movieValues.description}
+        onChange={handleChange}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={imgUrl}
-        onChange={handleImgUrlChange}
+        value={movieValues.imgUrl}
+        onChange={handleChange}
         onValidate={validateUrl}
         required
       />
@@ -98,8 +86,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={imdbUrl}
-        onChange={handleImdbUrlChange}
+        value={movieValues.imdbUrl}
+        onChange={handleChange}
         onValidate={validateUrl}
         required
       />
@@ -107,8 +95,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imdbId}
-        onChange={handleImdbIdChange}
+        value={movieValues.imdbId}
+        onChange={handleChange}
         required
       />
 
