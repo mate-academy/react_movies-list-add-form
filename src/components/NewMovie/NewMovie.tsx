@@ -7,9 +7,6 @@ interface NewMovieProps {
 }
 
 export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
-
   const [count, setCount] = useState(0);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -18,12 +15,11 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
   const [imdbId, setImdbId] = useState('');
   const [isFormValid, setIsFormValid] = useState(false);
 
-  // простой переменной
   useEffect(() => {
-    const isTitleValid = title.trim() !== '';
-    const isImgUrlValid = imgUrl.trim() !== '';
-    const isImdbUrlValid = imdbUrl.trim() !== '';
-    const isImdbIdValid = imdbId.trim() !== '';
+    const isTitleValid = Boolean(title.trim());
+    const isImgUrlValid = Boolean(imgUrl.trim());
+    const isImdbUrlValid = Boolean(imdbUrl.trim());
+    const isImdbIdValid = Boolean(imdbId.trim());
 
     setIsFormValid(
       isTitleValid && isImgUrlValid && isImdbUrlValid && isImdbIdValid,
@@ -49,10 +45,10 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
       imdbId,
     };
 
-    onAdd(newMovie); // Вызываем onAdd с новым фильмом
+    onAdd(newMovie);
     setCount(count + 1);
 
-    reset(); // Очистка полей формы после добавления фильма
+    reset();
   };
 
   return (

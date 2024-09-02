@@ -9,7 +9,7 @@ export const App = () => {
   const [movies, setMovies] = useState<Movie[]>(moviesFromServer);
 
   const addMovie = (newMovie: Movie) => {
-    setMovies([...movies, newMovie]); // Добавляем новый фильм в начало списка
+    setMovies([...movies, newMovie]);
   };
 
   return (
