@@ -2,12 +2,12 @@ import classNames from 'classnames';
 import React, { useState } from 'react';
 
 type Props = {
-  name: string;
-  value: string;
+  newName: string;
+  newValue: string;
   label?: string;
   placeholder?: string;
   required?: boolean;
-  onChange?: (newValue: string) => void;
+  onChange?: (name: string, value: string) => void;
 };
 
 function getRandomDigits() {
@@ -15,20 +15,25 @@ function getRandomDigits() {
 }
 
 export const TextField: React.FC<Props> = ({
-  name,
-  value,
-  label = name,
+  newName,
+  newValue,
+  label = newName,
   placeholder = `Enter ${label}`,
   required = false,
-  newPattern,
   onChange = () => {},
 }) => {
   // generate a unique id once on component load
-  const [id] = useState(() => `${name}-${getRandomDigits()}`);
+  const [id] = useState(() => `${newName}-${getRandomDigits()}`);
 
   // To show errors only if the field was touched (onBlur)
   const [touched, setTouched] = useState(false);
-  const hasError = touched && required && !value;
+  const hasError = touched && required && !newValue;
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+
+    onChange(name, value);
+  };
 
   return (
     <div className="field">
@@ -38,15 +43,16 @@ export const TextField: React.FC<Props> = ({
 
       <div className="control">
         <input
+          name={newName}
           type="text"
           id={id}
-          data-cy={`movie-${name}`}
+          data-cy={`movie-${newName}`}
           className={classNames('input', {
             'is-danger': hasError,
           })}
           placeholder={placeholder}
-          value={value}
-          onChange={event => onChange(event.target.value)}
+          value={newValue}
+          onChange={handleChange}
           onBlur={() => setTouched(true)}
         />
       </div>
