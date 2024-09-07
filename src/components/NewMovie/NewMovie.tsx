@@ -52,7 +52,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         newName="title"
         label="Title"
-        newValue={newMovie.title.trim()}
+        newValue={newMovie.title.trimStart()}
         onChange={(name: string, value: string) =>
           handleFieldChange(name, value)
         }
@@ -62,7 +62,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         newName="description"
         label="Description"
-        newValue={newMovie.description.trim()}
+        newValue={newMovie.description.trimStart()}
         onChange={(name: string, value: string) =>
           handleFieldChange(name, value)
         }
@@ -71,7 +71,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         newName="imgUrl"
         label="Image URL"
-        newValue={newMovie.imgUrl.trim()}
+        newValue={newMovie.imgUrl.trimStart()}
         onChange={(name: string, value: string) =>
           handleFieldChange(name, value)
         }
@@ -81,7 +81,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         newName="imdbUrl"
         label="Imdb URL"
-        newValue={newMovie.imdbUrl.trim()}
+        newValue={newMovie.imdbUrl.trimStart()}
         onChange={(name: string, value: string) =>
           handleFieldChange(name, value)
         }
@@ -91,7 +91,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         newName="imdbId"
         label="Imdb ID"
-        newValue={newMovie.imdbId.trim()}
+        newValue={newMovie.imdbId.trimStart()}
         onChange={(name: string, value: string) =>
           handleFieldChange(name, value)
         }
