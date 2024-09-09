@@ -10,16 +10,26 @@ export const NewMovie: React.FC<NewMovie> = ({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId]= useState('');
+  const [movie, setMovie] = useState({
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  });
+
   const [touched, setTouched] = useState({
     imgUrl: false,
     imdbUrl: false,
     imdbId: false,
   });
+
+  const handleChange = (field: keyof typeof movie) => (value: string) => {
+    setMovie((prevMovie) => ({
+      ...prevMovie,
+      [field]: value,
+    }));
+  };
 
   const handleBlur = (fieldName: keyof typeof touched) => {
     setTouched((prev) => ({ ...prev, [fieldName]: true }));
@@ -29,35 +39,36 @@ export const NewMovie: React.FC<NewMovie> = ({ onAdd }) => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-  const newMovie: Movie = {
-    title,
-    description,
-    imgUrl,
-    imdbUrl,
-    imdbId,
-  }
+    const newMovie: Movie = {
+      title: movie.title,
+      description: movie.description,
+      imgUrl: movie.imgUrl,
+      imdbUrl: movie.imdbUrl,
+      imdbId: movie.imdbId,
+    };
 
-  onAdd(newMovie)
+    onAdd(newMovie);
 
-  setTitle('');
-  setDescription('');
-  setImgUrl('');
-  setImdbUrl('');
-  setImdbId('');
-  setCount(count + 1);
-  setTouched({
-    imgUrl: false,
-    imdbUrl: false,
-    imdbId: false,
-  });
-}
+    setMovie({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
+    setCount(count + 1);
+    setTouched({
+      imgUrl: false,
+      imdbUrl: false,
+      imdbId: false,
+    });
+  };
 
-const isFormValid =
-  title.trim() !== '' &&
-  imgUrl.trim() !== '' &&
-  imdbUrl.trim() !== '' &&
-  imdbId.trim() !== '';
-
+  const isFormValid =
+    movie.title.trim() !== '' &&
+    movie.imgUrl.trim() !== '' &&
+    movie.imdbUrl.trim() !== '' &&
+    movie.imdbId.trim() !== '';
 
     return (
     <form className="NewMovie" key={count} onSubmit={handleSubmit}>
@@ -66,46 +77,46 @@ const isFormValid =
       <TextField
         name="title"
         label="Title"
-        value={title}
-        onChange={setTitle}
+        value={movie.title}
+        onChange={handleChange('title')}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value={description}
-        onChange={setDescription}
+        value={movie.description}
+        onChange={handleChange('description')}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={imgUrl}
-        onChange={setImgUrl}
+        value={movie.imgUrl}
+        onChange={handleChange('imgUrl')}
         onBlur={() => handleBlur('imgUrl')}
         required
-        showError={touched.imgUrl && !imgUrl}
+        showError={touched.imgUrl && !movie.imgUrl}
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={imdbUrl}
-        onChange={setImdbUrl}
+        value={movie.imdbUrl}
+        onChange={handleChange('imdbUrl')}
         onBlur={() => handleBlur('imdbUrl')}
         required
-        showError={touched.imdbUrl && !imdbUrl}
+        showError={touched.imdbUrl && !movie.imdbUrl}
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imdbId}
-        onChange={setImdbId}
+        value={movie.imdbId}
+        onChange={handleChange('imdbId')}
         onBlur={() => handleBlur('imdbId')}
         required
-        showError={touched.imdbId && !imdbId}
+        showError={touched.imdbId && !movie.imdbId}
       />
 
       <div className="field is-grouped">
