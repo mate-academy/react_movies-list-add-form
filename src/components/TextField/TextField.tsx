@@ -24,7 +24,6 @@ export const TextField: React.FC<Props> = ({
   label = name,
   placeholder = `Enter ${label}`,
   required = false,
-  validateUrl,
   onChange = () => {},
   onBlur = () => {},
   customValidation,
@@ -38,9 +37,7 @@ export const TextField: React.FC<Props> = ({
 
   const isRequiredError = required && !value.trim();
   const isValidationError = customValidation && !customValidation(value);
-  const isUrlValidationError = validateUrl && validateUrl(value);
-  const hasError =
-    touched && (isRequiredError || !isValidationError || isUrlValidationError);
+  const hasError = touched && (isRequiredError || isValidationError);
 
   return (
     <div className="field">
