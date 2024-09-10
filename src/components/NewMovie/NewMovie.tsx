@@ -33,7 +33,16 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
 
   const handleClick = (event: React.FormEvent) => {
     event.preventDefault();
-    if (!title.trim() || !imgUrl.trim() || !imdbUrl.trim() || !imdbId.trim()) {
+
+    const isFormValid =
+      !!title.trim() &&
+      !!imgUrl.trim() &&
+      validateUrl(imgUrl) &&
+      !!imdbUrl.trim() &&
+      validateUrl(imdbUrl) &&
+      !!imdbId.trim();
+
+    if (!isFormValid) {
       return;
     }
 
@@ -63,9 +72,9 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
 
   const isSubmitDisabled = !(
     isValid.title &&
-    isValid.imgUrl &&
-    isValid.imdbUrl &&
-    isValid.imdbId
+    validateUrl(imgUrl) &&
+    validateUrl(imdbUrl) &&
+    !!imdbId.trim()
   );
 
   return (

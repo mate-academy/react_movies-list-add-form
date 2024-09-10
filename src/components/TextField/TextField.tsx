@@ -7,6 +7,7 @@ type Props = {
   label?: string;
   placeholder?: string;
   required?: boolean;
+  validateUrl?: (value: string) => boolean;
   onChange?: (newValue: string) => void;
   onBlur?: () => void;
   customValidation?: (value: string) => boolean;
@@ -23,6 +24,7 @@ export const TextField: React.FC<Props> = ({
   label = name,
   placeholder = `Enter ${label}`,
   required = false,
+  validateUrl,
   onChange = () => {},
   onBlur = () => {},
   customValidation,
@@ -33,7 +35,12 @@ export const TextField: React.FC<Props> = ({
 
   // To show errors only if the field was touched (onBlur)
   const [touched, setTouched] = useState(false);
-  const hasError = touched && required && !value;
+
+  const isRequiredError = required && !value.trim();
+  const isValidationError = customValidation && !customValidation(value);
+  const isUrlValidationError = validateUrl && validateUrl(value);
+  const hasError =
+    touched && (isRequiredError || !isValidationError || isUrlValidationError);
 
   return (
     <div className="field">
@@ -63,9 +70,7 @@ export const TextField: React.FC<Props> = ({
 
       {hasError && (
         <p className="help is-danger">
-          {customValidation && !customValidation(value)
-            ? customValidationMessage
-            : `${label} is required`}
+          {isValidationError ? customValidationMessage : `${label} is required`}
         </p>
       )}
     </div>
