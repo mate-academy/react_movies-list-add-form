@@ -38,17 +38,7 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
       [name]: value,
     }));
 
-    if (name === 'title') {
-      setIsValid(prev => ({ ...prev, title: !!value.trim() }));
-    }
-
-    if (name === 'imgUrl' || name === 'imdbUrl') {
-      setIsValid(prev => ({ ...prev, [name]: validateUrl(value) }));
-    }
-
-    if (name === 'imdbId') {
-      setIsValid(prev => ({ ...prev, imdbId: !!value.trim() }));
-    }
+    setIsValid(prev => ({ ...prev, [name]: !!value.trim() }));
   };
 
   const handleClick = (event: React.FormEvent) => {
