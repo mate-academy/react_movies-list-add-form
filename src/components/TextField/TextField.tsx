@@ -7,7 +7,11 @@ type Props = {
   label?: string;
   placeholder?: string;
   required?: boolean;
-  onChange?: (newValue: string) => void;
+  validateUrl?: (value: string) => boolean;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onBlur?: () => void;
+  customValidation?: (value: string) => boolean;
+  customValidationMessage?: string;
 };
 
 function getRandomDigits() {
@@ -21,13 +25,25 @@ export const TextField: React.FC<Props> = ({
   placeholder = `Enter ${label}`,
   required = false,
   onChange = () => {},
+  onBlur = () => {},
+  customValidation,
+  customValidationMessage = 'Invalid value',
 }) => {
-  // generate a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
-
-  // To show errors only if the field was touched (onBlur)
   const [touched, setTouched] = useState(false);
-  const hasError = touched && required && !value;
+
+  const isRequiredError = required && !value.trim();
+  const isValidationError = customValidation && !customValidation(value);
+  const hasError = touched && (isRequiredError || isValidationError);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    onChange(e);
+  };
+
+  const handleBlur = () => {
+    setTouched(true);
+    onBlur();
+  };
 
   return (
     <div className="field">
@@ -39,18 +55,23 @@ export const TextField: React.FC<Props> = ({
         <input
           type="text"
           id={id}
+          name={name}
           data-cy={`movie-${name}`}
           className={classNames('input', {
             'is-danger': hasError,
           })}
           placeholder={placeholder}
           value={value}
-          onChange={event => onChange(event.target.value)}
-          onBlur={() => setTouched(true)}
+          onChange={handleChange}
+          onBlur={handleBlur}
         />
       </div>
 
-      {hasError && <p className="help is-danger">{`${label} is required`}</p>}
+      {hasError && (
+        <p className="help is-danger">
+          {isValidationError ? customValidationMessage : `${label} is required`}
+        </p>
+      )}
     </div>
   );
 };
