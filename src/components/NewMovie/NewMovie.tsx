@@ -6,19 +6,20 @@ interface NewMovieProps {
   onAdd: (movie: Movie) => void;
 }
 
-const pattern =
-  // eslint-disable-next-line max-len
-  /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
+const pattern = new RegExp(
+  '^((([A-Za-z]{3,9}:(?:\\/\\/)?)(?:[-;:&=+$,\\w]+@)?[A-Za-z0-9.-]+|' +
+    '(?:www\\.|[-;:&=+$,\\w]+@)[A-Za-z0-9.-]+)((?:\\/[+~%\\/\\w-_]*)?' +
+    '\\??(?:[-+=&;%@.\\w_]*)#?(?:[.!/\\\\\\w]*))?)$',
+);
 
 export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
-  const [count, setCount] = useState(0);
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
+  const [newMovie, setNewMovie] = useState({
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  });
 
   const [isValid, setIsValid] = useState({
     title: false,
@@ -29,9 +30,31 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
 
   const validateUrl = (url: string) => pattern.test(url);
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+
+    setNewMovie(prevMovie => ({
+      ...prevMovie,
+      [name]: value,
+    }));
+
+    if (name === 'title') {
+      setIsValid(prev => ({ ...prev, title: !!value.trim() }));
+    }
+
+    if (name === 'imgUrl' || name === 'imdbUrl') {
+      setIsValid(prev => ({ ...prev, [name]: validateUrl(value) }));
+    }
+
+    if (name === 'imdbId') {
+      setIsValid(prev => ({ ...prev, imdbId: !!value.trim() }));
+    }
+  };
+
   const handleClick = (event: React.FormEvent) => {
     event.preventDefault();
 
+    const { title, imgUrl, imdbUrl, imdbId } = newMovie;
     const isFormValid =
       !!title.trim() &&
       !!imgUrl.trim() &&
@@ -44,35 +67,28 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
       return;
     }
 
-    const newMovie: Movie = {
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    };
-
     onAdd(newMovie);
 
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
+    setNewMovie({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
     setIsValid({
       title: false,
       imgUrl: false,
       imdbUrl: false,
       imdbId: false,
     });
-    setCount(count + 1);
   };
 
   const isSubmitDisabled = !(
     isValid.title &&
-    validateUrl(imgUrl) &&
-    validateUrl(imdbUrl) &&
-    !!imdbId.trim()
+    validateUrl(newMovie.imgUrl) &&
+    validateUrl(newMovie.imdbUrl) &&
+    !!newMovie.imdbId.trim()
   );
 
   return (
@@ -82,35 +98,31 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value={title}
+        value={newMovie.title}
         required
-        onChange={newValue => {
-          setTitle(newValue);
-          setIsValid(prev => ({ ...prev, title: !!newValue.trim() }));
-        }}
-        onBlur={() => setIsValid(prev => ({ ...prev, title: !!title.trim() }))}
+        onChange={handleChange}
+        onBlur={() =>
+          setIsValid(prev => ({ ...prev, title: !!newMovie.title.trim() }))
+        }
       />
 
       <TextField
         name="description"
         label="Description"
-        value={description}
-        onChange={setDescription}
+        value={newMovie.description}
+        onChange={handleChange}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={imgUrl}
-        onChange={newValue => {
-          setImgUrl(newValue);
+        value={newMovie.imgUrl}
+        onChange={handleChange}
+        onBlur={() =>
           setIsValid(prev => ({
             ...prev,
-            imgUrl: validateUrl(newValue),
-          }));
-        }}
-        onBlur={() =>
-          setIsValid(prev => ({ ...prev, imgUrl: validateUrl(imgUrl) }))
+            imgUrl: validateUrl(newMovie.imgUrl),
+          }))
         }
         customValidation={validateUrl}
         customValidationMessage="Invalid URL"
@@ -119,16 +131,13 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={imdbUrl}
-        onChange={newValue => {
-          setImdbUrl(newValue);
+        value={newMovie.imdbUrl}
+        onChange={handleChange}
+        onBlur={() =>
           setIsValid(prev => ({
             ...prev,
-            imdbUrl: validateUrl(newValue),
-          }));
-        }}
-        onBlur={() =>
-          setIsValid(prev => ({ ...prev, imdbUrl: validateUrl(imdbUrl) }))
+            imdbUrl: validateUrl(newMovie.imdbUrl),
+          }))
         }
         customValidation={validateUrl}
         customValidationMessage="Invalid URL"
@@ -137,14 +146,11 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imdbId}
+        value={newMovie.imdbId}
         required
-        onChange={newValue => {
-          setImdbId(newValue);
-          setIsValid(prev => ({ ...prev, imdbId: !!newValue.trim() }));
-        }}
+        onChange={handleChange}
         onBlur={() =>
-          setIsValid(prev => ({ ...prev, imdbId: !!imdbId.trim() }))
+          setIsValid(prev => ({ ...prev, imdbId: !!newMovie.imdbId.trim() }))
         }
       />
 

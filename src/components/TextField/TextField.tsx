@@ -8,7 +8,7 @@ type Props = {
   placeholder?: string;
   required?: boolean;
   validateUrl?: (value: string) => boolean;
-  onChange?: (newValue: string) => void;
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onBlur?: () => void;
   customValidation?: (value: string) => boolean;
   customValidationMessage?: string;
@@ -24,7 +24,7 @@ export const TextField: React.FC<Props> = ({
   label = name,
   placeholder = `Enter ${label}`,
   required = false,
-  onChange = () => {},
+  onChange,
   onBlur = () => {},
   customValidation,
   customValidationMessage = 'Invalid value',
@@ -32,7 +32,6 @@ export const TextField: React.FC<Props> = ({
   // generate a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
-  // To show errors only if the field was touched (onBlur)
   const [touched, setTouched] = useState(false);
 
   const isRequiredError = required && !value.trim();
@@ -55,9 +54,7 @@ export const TextField: React.FC<Props> = ({
           })}
           placeholder={placeholder}
           value={value}
-          onChange={event => {
-            onChange(event.target.value);
-          }}
+          onChange={onChange}
           onBlur={() => {
             setTouched(true);
             onBlur();
