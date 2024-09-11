@@ -34,7 +34,7 @@ export const TextField: React.FC<Props> = ({
 
   const isRequiredError = required && !value.trim();
   const isValidationError = customValidation && !customValidation(value);
-  const hasError = touched && (isRequiredError || !isValidationError);
+  const hasError = touched && (isRequiredError || isValidationError);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onChange(e);
