@@ -6,13 +6,12 @@ interface NewMovieProps {
   onAdd: (movie: Movie) => void;
 }
 
-const pattern = new RegExp(
-  '^((([A-Za-z]{3,9}:(?:\\/\\/)?)(?:[-;:&=+$,\\w]+@)?[A-Za-z0-9.-]+|' +
-    '(?:www\\.|[-;:&=+$,\\w]+@)[A-Za-z0-9.-]+)((?:\\/[+~%\\/\\w-_]*)?' +
-    '\\??(?:[-+=&;%@.\\w_]*)#?(?:[.!/\\\\\\w]*))?)$',
-);
+const pattern =
+  // eslint-disable-next-line max-len
+  /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
 
 export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
+  const [count, setCount] = useState(0);
   const [newMovie, setNewMovie] = useState({
     title: '',
     description: '',
@@ -20,7 +19,6 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
     imdbUrl: '',
     imdbId: '',
   });
-
   const [isValid, setIsValid] = useState({
     title: false,
     imgUrl: false,
@@ -33,25 +31,24 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
-    setNewMovie(prevMovie => ({
-      ...prevMovie,
-      [name]: value,
-    }));
-
-    setIsValid(prev => ({ ...prev, [name]: !!value.trim() }));
+    setNewMovie(prev => ({ ...prev, [name]: value }));
+    if (name === 'imgUrl' || name === 'imdbUrl') {
+      setIsValid(prev => ({ ...prev, [name]: validateUrl(value) }));
+    } else {
+      setIsValid(prev => ({ ...prev, [name]: !!value.trim() }));
+    }
   };
 
   const handleClick = (event: React.FormEvent) => {
     event.preventDefault();
 
-    const { title, imgUrl, imdbUrl, imdbId } = newMovie;
     const isFormValid =
-      !!title.trim() &&
-      !!imgUrl.trim() &&
-      validateUrl(imgUrl) &&
-      !!imdbUrl.trim() &&
-      validateUrl(imdbUrl) &&
-      !!imdbId.trim();
+      !!newMovie.title.trim() &&
+      !!newMovie.imgUrl.trim() &&
+      validateUrl(newMovie.imgUrl) &&
+      !!newMovie.imdbUrl.trim() &&
+      validateUrl(newMovie.imdbUrl) &&
+      !!newMovie.imdbId.trim();
 
     if (!isFormValid) {
       return;
@@ -59,6 +56,7 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
 
     onAdd(newMovie);
 
+    // Reset the form
     setNewMovie({
       title: '',
       description: '',
@@ -72,13 +70,14 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
       imdbUrl: false,
       imdbId: false,
     });
+    setCount(count + 1);
   };
 
   const isSubmitDisabled = !(
     isValid.title &&
-    validateUrl(newMovie.imgUrl) &&
-    validateUrl(newMovie.imdbUrl) &&
-    !!newMovie.imdbId.trim()
+    isValid.imgUrl &&
+    isValid.imdbUrl &&
+    isValid.imdbId
   );
 
   return (

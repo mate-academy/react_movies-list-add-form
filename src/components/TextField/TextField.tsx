@@ -8,7 +8,7 @@ type Props = {
   placeholder?: string;
   required?: boolean;
   validateUrl?: (value: string) => boolean;
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onBlur?: () => void;
   customValidation?: (value: string) => boolean;
   customValidationMessage?: string;
@@ -24,19 +24,26 @@ export const TextField: React.FC<Props> = ({
   label = name,
   placeholder = `Enter ${label}`,
   required = false,
-  onChange,
+  onChange = () => {},
   onBlur = () => {},
   customValidation,
   customValidationMessage = 'Invalid value',
 }) => {
-  // generate a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
-
   const [touched, setTouched] = useState(false);
 
   const isRequiredError = required && !value.trim();
   const isValidationError = customValidation && !customValidation(value);
-  const hasError = touched && (isRequiredError || isValidationError);
+  const hasError = touched && (isRequiredError || !isValidationError);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    onChange(e);
+  };
+
+  const handleBlur = () => {
+    setTouched(true);
+    onBlur();
+  };
 
   return (
     <div className="field">
@@ -48,17 +55,15 @@ export const TextField: React.FC<Props> = ({
         <input
           type="text"
           id={id}
+          name={name}
           data-cy={`movie-${name}`}
           className={classNames('input', {
             'is-danger': hasError,
           })}
           placeholder={placeholder}
           value={value}
-          onChange={onChange}
-          onBlur={() => {
-            setTouched(true);
-            onBlur();
-          }}
+          onChange={handleChange}
+          onBlur={handleBlur}
         />
       </div>
 
