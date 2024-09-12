@@ -17,10 +17,14 @@ export const NewMovie = () => {
     imdbId: false,
   });
 
+  const isFormValid = () => {
+    return title && imgUrl && imdbUrl && imdbId;
+  };
+
   const handleBlur = (field: string, value: string) => {
     setErrors(prev => ({
       ...prev,
-      [field]: !value,
+      [field]: !value.trim(),
     }));
   };
 
@@ -44,18 +48,25 @@ export const NewMovie = () => {
   //   handleBlur('imdbId', event.target.value);
   // };
 
-  // const handleSubmit = (event: React.FormEvent) => {
-  //   event.preventDefault();
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
 
-  //   const newErrors = {
-  //     title: !title,
-  //     imgUrl: !imgUrl,
-  //     imdbUrl: !imdbUrl,
-  //     imdbId: !imdbId,
-  //   };
+    const newErrors = {
+      title: !title,
+      imgUrl: !imgUrl,
+      imdbUrl: !imdbUrl,
+      imdbId: !imdbId,
+    };
 
-  //   setErrors(newErrors);
-  // };
+    if (!Object.values(newErrors).includes(true)) {
+      setTitle('');
+      setImgUrl('');
+      setImdbUrl('');
+      setImdbId('');
+    }
+
+    setErrors(newErrors);
+  };
 
   return (
     <form className="NewMovie" key={count}>
@@ -105,6 +116,8 @@ export const NewMovie = () => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
+            disabled={!isFormValid()}
+            onChange={handleSubmit}
           >
             Add
           </button>
