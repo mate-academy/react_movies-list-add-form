@@ -13,17 +13,18 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
   const [description, setDescription] = useState('');
+
   const isFormValid = () => {
-    return title && imgUrl && imdbUrl && imdbId;
+    return title.trim() && imgUrl.trim() && imdbUrl.trim() && imdbId.trim();
   };
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     const newErrors = {
-      title: !title,
-      imgUrl: !imgUrl,
-      imdbUrl: !imdbUrl,
-      imdbId: !imdbId,
+      title: !title.trim(),
+      imgUrl: !imgUrl.trim(),
+      imdbUrl: !imdbUrl.trim(),
+      imdbId: !imdbId.trim(),
     };
 
     if (isFormValid()) {
@@ -35,11 +36,11 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
 
     if (!Object.values(newErrors).includes(true) && isFormValid()) {
       const newMovie: Movie = {
-        title,
-        imgUrl,
-        imdbUrl,
-        imdbId,
-        description,
+        title: title.trim(),
+        imgUrl: imgUrl.trim(),
+        imdbUrl: imdbUrl.trim(),
+        imdbId: imdbId.trim(),
+        description: description.trim(),
       };
 
       onAdd(newMovie);
