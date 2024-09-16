@@ -1,7 +1,12 @@
 import { useState } from 'react';
 import { TextField } from '../TextField';
+import { Movie } from '../../types/Movie';
 
-export const NewMovie = () => {
+type NewMovieProps = {
+  onAdd: (movie: Movie) => void;
+};
+
+export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
   const [count] = useState(0);
@@ -48,6 +53,16 @@ export const NewMovie = () => {
     }
 
     if (!Object.values(newErrors).includes(true) && isFormValid()) {
+      const newMovie: Movie = {
+        title,
+        imgUrl,
+        imdbUrl,
+        imdbId,
+        description,
+      };
+
+      onAdd(newMovie);
+
       setTitle('');
       setImgUrl('');
       setImdbUrl('');
