@@ -7,7 +7,8 @@ type Props = {
   label?: string;
   placeholder?: string;
   required?: boolean;
-  onChange?: (newValue: string) => void;
+  onChange?: (newValue: React.ChangeEvent<HTMLInputElement>) => void;
+  pattern?: RegExp;
 };
 
 function getRandomDigits() {
@@ -21,13 +22,29 @@ export const TextField: React.FC<Props> = ({
   placeholder = `Enter ${label}`,
   required = false,
   onChange = () => {},
+  pattern,
 }) => {
   // generate a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
   // To show errors only if the field was touched (onBlur)
   const [touched, setTouched] = useState(false);
+  const [patternError, setPatternError] = useState(false);
+
+  const hadleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (onChange) {
+      onChange(event);
+    }
+
+    setPatternError(() => {
+      return !pattern?.test(event.target.value.trim());
+    });
+  };
+
   const hasError = touched && required && !value;
+  const hasSpaces = touched && value.trim().length === 0 && value.length > 0;
+  const hasValidError =
+    !hasError && !hasSpaces && pattern && patternError && touched;
 
   return (
     <div className="field">
@@ -37,6 +54,7 @@ export const TextField: React.FC<Props> = ({
 
       <div className="control">
         <input
+          name={name}
           type="text"
           id={id}
           data-cy={`movie-${name}`}
@@ -45,12 +63,20 @@ export const TextField: React.FC<Props> = ({
           })}
           placeholder={placeholder}
           value={value}
-          onChange={event => onChange(event.target.value)}
+          onChange={hadleChange}
           onBlur={() => setTouched(true)}
         />
       </div>
 
+      {hasValidError && (
+        <p className="help is-danger">{`${label} is not valid`}</p>
+      )}
+
       {hasError && <p className="help is-danger">{`${label} is required`}</p>}
+
+      {hasSpaces && (
+        <p className="help is-danger">You added only spaces into field</p>
+      )}
     </div>
   );
 };
