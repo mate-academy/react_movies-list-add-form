@@ -18,10 +18,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
   const [newMovie, setNewMovie] = useState(defautValue);
   const isDisabled =
-    !newMovie.title ||
-    !newMovie.imdbUrl ||
-    !newMovie.imgUrl ||
-    !newMovie.imdbId;
+    !newMovie.title.trim() ||
+    !newMovie.imdbUrl.trim() ||
+    !newMovie.imgUrl.trim() ||
+    !newMovie.imdbId.trim();
 
   const reset = () => {
     setNewMovie(defautValue);
@@ -30,7 +30,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const handleChange = (name: string, value: string) => {
     setNewMovie(prevMovie => ({
       ...prevMovie,
-      [name]: value,
+      [name]: value.trimStart(),
     }));
   };
 
