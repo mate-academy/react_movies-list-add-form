@@ -17,23 +17,23 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
 
   const [description, setDescription] = useState('');
 
-  const [errors, setErrors] = useState({
-    title: false,
-    imgUrl: false,
-    imdbUrl: false,
-    imdbId: false,
-  });
+  // const [errors, setErrors] = useState({
+  //   title: false,
+  //   imgUrl: false,
+  //   imdbUrl: false,
+  //   imdbId: false,
+  // });
 
   const isFormValid = () => {
-    return title && imgUrl && imdbUrl && imdbId && description;
+    return title && imgUrl && imdbUrl && imdbId;
   };
 
-  const handleBlur = (field: string, value: string) => {
-    setErrors(prev => ({
-      ...prev,
-      [field]: !value.trim(),
-    }));
-  };
+  // const handleBlur = (field: string, value: string) => {
+  //   setErrors(prev => ({
+  //     ...prev,
+  //     [field]: !value.trim(),
+  //   }));
+  // };
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -69,7 +69,7 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
       setImdbId('');
     }
 
-    setErrors(newErrors);
+    // setErrors(newErrors);
   };
 
   return (
@@ -81,9 +81,9 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
         label="Title"
         value={title}
         onChange={setTitle}
-        onBlur={() => handleBlur('title', title)}
+        // onBlur={() => handleBlur('title', title)}
         required
-        hasError={errors.title}
+        // hasError={errors.title}
       />
 
       <TextField
@@ -98,8 +98,8 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
         label="Image URL"
         value={imgUrl}
         onChange={setImgUrl}
-        onBlur={() => handleBlur('imgUrl', imgUrl)}
-        hasError={errors.imgUrl}
+        // onBlur={() => handleBlur('imgUrl', imgUrl)}
+        // hasError={errors.imgUrl}
       />
 
       <TextField
@@ -107,8 +107,8 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
         label="Imdb URL"
         value={imdbUrl}
         onChange={setImdbUrl}
-        onBlur={() => handleBlur('imdbUrl', imdbUrl)}
-        hasError={errors.imdbUrl}
+        // onBlur={() => handleBlur('imdbUrl', imdbUrl)}
+        // hasError={errors.imdbUrl}
       />
 
       <TextField
@@ -116,8 +116,8 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
         label="Imdb ID"
         value={imdbId}
         onChange={setImdbId}
-        onBlur={() => handleBlur('imdbId', imdbId)}
-        hasError={errors.imdbId}
+        // onBlur={() => handleBlur('imdbId', imdbId)}
+        // hasError={errors.imdbId}
       />
 
       <div className="field is-grouped">
