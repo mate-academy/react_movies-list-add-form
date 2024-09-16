@@ -10,6 +10,8 @@ export const NewMovie = () => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
+  const [description, setDescription] = useState('');
+
   const [errors, setErrors] = useState({
     title: false,
     imgUrl: false,
@@ -18,7 +20,7 @@ export const NewMovie = () => {
   });
 
   const isFormValid = () => {
-    return title && imgUrl && imdbUrl && imdbId;
+    return title && imgUrl && imdbUrl && imdbId && description;
   };
 
   const handleBlur = (field: string, value: string) => {
@@ -27,26 +29,6 @@ export const NewMovie = () => {
       [field]: !value.trim(),
     }));
   };
-
-  // const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   setTitle(event.target.value);
-  //   handleBlur('title', event.target.value);
-  // };
-
-  // const handleImgUrlChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   setImgUrl(event.target.value);
-  //   handleBlur('imgUrl', event.target.value);
-  // };
-
-  // const handleImdbUrlChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   setImdbUrl(event.target.value);
-  //   handleBlur('imdbUrl', event.target.value);
-  // };
-
-  // const handleImdbIdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   setImdbId(event.target.value);
-  //   handleBlur('imdbId', event.target.value);
-  // };
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -58,7 +40,14 @@ export const NewMovie = () => {
       imdbId: !imdbId,
     };
 
-    if (!Object.values(newErrors).includes(true)) {
+    if (isFormValid()) {
+      setTitle('');
+      setImgUrl('');
+      setImdbUrl('');
+      setImdbId('');
+    }
+
+    if (!Object.values(newErrors).includes(true) && isFormValid()) {
       setTitle('');
       setImgUrl('');
       setImdbUrl('');
@@ -82,7 +71,12 @@ export const NewMovie = () => {
         hasError={errors.title}
       />
 
-      <TextField name="description" label="Description" value="" />
+      <TextField
+        name="description"
+        label="Description"
+        value={description}
+        onChange={setDescription}
+      />
 
       <TextField
         name="imgUrl"
@@ -108,6 +102,7 @@ export const NewMovie = () => {
         value={imdbId}
         onChange={setImdbId}
         onBlur={() => handleBlur('imdbId', imdbId)}
+        hasError={errors.imdbId}
       />
 
       <div className="field is-grouped">
@@ -117,7 +112,7 @@ export const NewMovie = () => {
             data-cy="submit-button"
             className="button is-link"
             disabled={!isFormValid()}
-            onChange={handleSubmit}
+            onClick={handleSubmit}
           >
             Add
           </button>
