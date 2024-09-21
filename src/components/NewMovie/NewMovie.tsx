@@ -8,11 +8,6 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
   const [count] = useState(0);
-  // const [title, setTitle] = useState('');
-  // const [imgUrl, setImgUrl] = useState('');
-  // const [imdbUrl, setImdbUrl] = useState('');
-  // const [imdbId, setImdbId] = useState('');
-  // const [description, setDescription] = useState('');
 
   const [newMovie, setNewMovie] = useState({
     title: '',
@@ -58,22 +53,6 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
       });
     }
 
-    // if (isFormValid()) {
-    //   setTitle('');
-    //   setImgUrl('');
-    //   setImdbUrl('');
-    //   setImdbId('');
-    // }
-
-    // if (!Object.values(newErrors).includes(true) && isFormValid()) {
-    //   const newMovie: Movie = {
-    //     title: title.trim(),
-    //     imgUrl: imgUrl.trim(),
-    //     imdbUrl: imdbUrl.trim(),
-    //     imdbId: imdbId.trim(),
-    //     description: description.trim(),
-    //   };
-
     setNewMovie({
       title: '',
       imgUrl: '',
@@ -81,15 +60,6 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
       imdbId: '',
       description: '',
     });
-
-    // setCount(prevCount => prevCount + 1);
-
-    //   onAdd(newMovie);
-    //   setTitle('');
-    //   setImgUrl('');
-    //   setImdbUrl('');
-    //   setImdbId('');
-    // }
   };
 
   return (
