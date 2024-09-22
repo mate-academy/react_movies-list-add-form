@@ -15,6 +15,30 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imgURL, setImgURL] = useState('');
   const [imdbURL, setImdbURL] = useState('');
   const [imdbID, setImdbID] = useState('');
+
+  const resetForm = () => {
+    setTitle('');
+    setImgURL('');
+    setImdbURL('');
+    setDescription('');
+    setImdbID('');
+    setCount(count + 1);
+  };
+
+  const bntClickHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+
+    onAdd({
+      title,
+      description,
+      imgUrl: imgURL,
+      imdbId: imdbID,
+      imdbUrl: imdbURL,
+    });
+
+    resetForm();
+  };
+
   const allFilled =
     title.trim() && imgURL.trim() && imdbURL.trim() && imdbID.trim();
 
@@ -68,23 +92,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             data-cy="submit-button"
             className="button is-link"
             disabled={!allFilled}
-            onClick={event => {
-              event.preventDefault();
-
-              onAdd({
-                title,
-                description,
-                imgUrl: imgURL,
-                imdbId: imdbID,
-                imdbUrl: imdbURL,
-              });
-              setTitle('');
-              setImgURL('');
-              setImdbURL('');
-              setDescription('');
-              setImdbID('');
-              setCount(count + 1);
-            }}
+            onClick={bntClickHandler}
           >
             Add
           </button>
