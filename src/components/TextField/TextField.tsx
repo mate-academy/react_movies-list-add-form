@@ -8,6 +8,7 @@ type Props = {
   placeholder?: string;
   required?: boolean;
   onChange?: (newValue: string) => void;
+  validationCallback?: (value: string) => string;
 };
 
 function getRandomDigits() {
@@ -21,13 +22,24 @@ export const TextField: React.FC<Props> = ({
   placeholder = `Enter ${label}`,
   required = false,
   onChange = () => {},
+  validationCallback,
 }) => {
-  // generate a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
+  const [errorMessage, setErrorMessage] = useState('');
 
-  // To show errors only if the field was touched (onBlur)
-  const [touched, setTouched] = useState(false);
-  const hasError = touched && required && !value;
+  const handleBlur = () => {
+    if (!value.trim() && required) {
+      setErrorMessage(`${label} is required`);
+
+      return;
+    }
+
+    if (validationCallback) {
+      setErrorMessage(validationCallback(value.trim()));
+
+      return;
+    }
+  };
 
   return (
     <div className="field">
@@ -41,16 +53,21 @@ export const TextField: React.FC<Props> = ({
           id={id}
           data-cy={`movie-${name}`}
           className={classNames('input', {
-            'is-danger': hasError,
+            'is-danger': Boolean(errorMessage),
           })}
           placeholder={placeholder}
           value={value}
-          onChange={event => onChange(event.target.value)}
-          onBlur={() => setTouched(true)}
+          onChange={event => {
+            onChange(event.target.value);
+            setErrorMessage('');
+          }}
+          onBlur={handleBlur}
         />
       </div>
 
-      {hasError && <p className="help is-danger">{`${label} is required`}</p>}
+      {Boolean(errorMessage) && (
+        <p className="help is-danger">{errorMessage}</p>
+      )}
     </div>
   );
 };
