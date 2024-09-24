@@ -1,7 +1,12 @@
 import { useState } from 'react';
 import { TextField } from '../TextField';
+import { Movie } from '../../types/Movie';
 
-export const NewMovie = () => {
+type NewMovieProps = {
+  onAdd: (movie: Movie) => void;
+};
+
+export const NewMovie = ({ onAdd }: NewMovieProps) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
@@ -34,6 +39,15 @@ export const NewMovie = () => {
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = event => {
     event.preventDefault();
 
+    const newMovie: Movie = {
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    };
+
+    onAdd(newMovie);
     setTitle('');
     setDescription('');
     setImgUrl('');
