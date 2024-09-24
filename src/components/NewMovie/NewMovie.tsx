@@ -2,6 +2,10 @@ import { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
+const pattern =
+  // eslint-disable-next-line max-len
+  /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
+
 type NewMovieProps = {
   onAdd: (movie: Movie) => void;
 };
@@ -16,6 +20,9 @@ export const NewMovie = ({ onAdd }: NewMovieProps) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
+  const [imgUrlError, setImgUrlError] = useState(false);
+  const [imdbUrlError, setImdbUrlError] = useState(false);
+
   const handleTitleChange = (newTitle: string) => {
     setTitle(newTitle);
   };
@@ -26,10 +33,12 @@ export const NewMovie = ({ onAdd }: NewMovieProps) => {
 
   const handleImgUrlChange = (newImgUrl: string) => {
     setImgUrl(newImgUrl);
+    setImgUrlError(false);
   };
 
   const handleImdbUrlChange = (newImdbUrl: string) => {
     setImdbUrl(newImdbUrl);
+    setImdbUrlError(false);
   };
 
   const handleImdbIdChange = (newImdbId: string) => {
@@ -38,6 +47,18 @@ export const NewMovie = ({ onAdd }: NewMovieProps) => {
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = event => {
     event.preventDefault();
+
+    if (!pattern.test(imgUrl)) {
+      setImgUrlError(true);
+    }
+
+    if (!pattern.test(imdbUrl)) {
+      setImdbUrlError(true);
+    }
+
+    if (!pattern.test(imgUrl) || !pattern.test(imdbUrl)) {
+      return;
+    }
 
     const newMovie: Movie = {
       title,
@@ -80,6 +101,7 @@ export const NewMovie = ({ onAdd }: NewMovieProps) => {
         label="Image URL"
         value={imgUrl}
         onChange={handleImgUrlChange}
+        imgUrlError={imgUrlError}
         required
       />
 
@@ -88,6 +110,7 @@ export const NewMovie = ({ onAdd }: NewMovieProps) => {
         label="Imdb URL"
         value={imdbUrl}
         onChange={handleImdbUrlChange}
+        imdbUrlError={imdbUrlError}
         required
       />
 
@@ -105,7 +128,14 @@ export const NewMovie = ({ onAdd }: NewMovieProps) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!title || !imgUrl || !imdbUrl || !imdbId}
+            disabled={
+              !title ||
+              !imgUrl ||
+              !imdbUrl ||
+              !imdbId ||
+              imgUrlError ||
+              imdbUrlError
+            }
           >
             Add
           </button>
