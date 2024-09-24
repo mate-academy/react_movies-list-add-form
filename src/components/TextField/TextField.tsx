@@ -33,6 +33,16 @@ export const TextField: React.FC<Props> = ({
   const [touched, setTouched] = useState(false);
   const hasError = touched && required && !value;
 
+  let errorMessage = '';
+
+  if (imgUrlError) {
+    errorMessage = 'Invalid Image Url';
+  } else if (imdbUrlError) {
+    errorMessage = 'Invalid Imdb Url';
+  } else if (hasError) {
+    errorMessage = `${label} is required`;
+  }
+
   return (
     <div className="field">
       <label className="label" htmlFor={id}>
@@ -55,13 +65,7 @@ export const TextField: React.FC<Props> = ({
       </div>
 
       {(hasError || imgUrlError || imdbUrlError) && (
-        <p className="help is-danger">
-          {imgUrlError
-            ? 'Invalid Image Url'
-            : imdbUrlError
-              ? 'Invalid Imdb Url'
-              : `${label} is required`}
-        </p>
+        <p className="help is-danger">{errorMessage}</p>
       )}
     </div>
   );

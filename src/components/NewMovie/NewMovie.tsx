@@ -23,6 +23,9 @@ export const NewMovie = ({ onAdd }: NewMovieProps) => {
   const [imgUrlError, setImgUrlError] = useState(false);
   const [imdbUrlError, setImdbUrlError] = useState(false);
 
+  const isFormInvalid =
+    !title || !imgUrl || !imdbUrl || !imdbId || imgUrlError || imdbUrlError;
+
   const handleTitleChange = (newTitle: string) => {
     setTitle(newTitle);
   };
@@ -128,14 +131,7 @@ export const NewMovie = ({ onAdd }: NewMovieProps) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={
-              !title ||
-              !imgUrl ||
-              !imdbUrl ||
-              !imdbId ||
-              imgUrlError ||
-              imdbUrlError
-            }
+            disabled={isFormInvalid}
           >
             Add
           </button>
