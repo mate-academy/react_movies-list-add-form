@@ -9,8 +9,6 @@ type NewMovieProps = {
 };
 
 export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
   const [newMovie, setNewMovie] = useState({
     title: '',
@@ -20,14 +18,10 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
     imdbId: '',
   });
 
-  const { title, description, imgUrl, imdbUrl, imdbId } = newMovie;
+  const { title, imgUrl, imdbUrl, imdbId } = newMovie;
 
   const hasValidInputs =
-    title.trim() &&
-    description.trim() &&
-    imgUrl.trim() &&
-    imdbUrl.trim() &&
-    imdbId.trim();
+    title.trim() && imgUrl.trim() && imdbUrl.trim() && imdbId.trim();
 
   const reset = () => {
     setNewMovie({
@@ -46,8 +40,7 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
     }));
   }
 
-  function handleSubmit(event: React.FormEvent) {
-    event.preventDefault();
+  function handleSubmit() {
     onAdd(newMovie);
     reset();
     setCount(count + 1);
@@ -68,15 +61,15 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
       <TextField
         name="description"
         label="Description"
-        value=""
-        onChange={value => handleInputChange('title', value)}
+        value={newMovie.description}
+        onChange={value => handleInputChange('description', value)}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={newMovie.imgUrl}
-        onChange={value => handleInputChange('title', value)}
+        onChange={value => handleInputChange('imgUrl', value)}
         required
       />
 
@@ -84,7 +77,7 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={newMovie.imdbUrl}
-        onChange={value => handleInputChange('title', value)}
+        onChange={value => handleInputChange('imdbUrl', value)}
         required
       />
 
@@ -92,7 +85,7 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={newMovie.imdbId}
-        onChange={value => handleInputChange('title', value)}
+        onChange={value => handleInputChange('imdbId', value)}
         required
       />
 
