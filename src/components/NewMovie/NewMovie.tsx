@@ -29,6 +29,12 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     isValidUrl(movie.imgUrl.trim()) &&
     isValidUrl(movie.imdbUrl.trim());
 
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+
+    setMovie(prevMovie => ({ ...prevMovie, [name]: value }));
+  };
+
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
@@ -53,7 +59,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={movie.title}
-        onChange={value => setMovie({ ...movie, title: value })}
+        onChange={handleChange}
         required
       />
 
@@ -61,14 +67,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={movie.description}
-        onChange={value => setMovie({ ...movie, description: value })}
+        onChange={handleChange}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={movie.imgUrl}
-        onChange={value => setMovie({ ...movie, imgUrl: value })}
+        onChange={handleChange}
         required
       />
 
@@ -76,7 +82,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={movie.imdbUrl}
-        onChange={value => setMovie({ ...movie, imdbUrl: value })}
+        onChange={handleChange}
         required
       />
 
@@ -84,7 +90,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={movie.imdbId}
-        onChange={value => setMovie({ ...movie, imdbId: value })}
+        onChange={handleChange}
         required
       />
 
