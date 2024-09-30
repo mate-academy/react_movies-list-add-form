@@ -16,8 +16,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbId, setImdbId] = useState('');
 
   const isValidUrl = (url: string) => {
-    // eslint-disable-next-line
-      const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
+    const pattern =
+      // eslint-disable-next-line
+      /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
 
     return pattern.test(url);
   };
@@ -27,27 +28,27 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
+
+    if (!isFormValid) {
+      return;
+    }
+
+    const newMovie: Movie = {
+      title: title.trim(),
+      description: description.trim(),
+      imgUrl: imgUrl.trim(),
+      imdbUrl: imdbUrl.trim(),
+      imdbId: imdbId.trim(),
+    };
+
+    onAdd(newMovie);
+
+    setTitle('');
+    setDescription('');
+    setImgUrl('');
+    setImdbUrl('');
+    setImdbId('');
   };
-
-  if (!isFormValid) {
-    return;
-  }
-
-  const newMovie: Movie = {
-    title: title.trim(),
-    description: description.trim(),
-    imgUrl: imgUrl.trim(),
-    imdbUrl: imdbUrl.trim(),
-    imdbId: imdbId.trim(),
-  };
-
-  onAdd(newMovie);
-
-  setTitle('');
-  setDescription('');
-  setImgUrl('');
-  setImdbUrl('');
-  setImdbId('');
 
   return (
     <form className="NewMovie" onSubmit={handleSubmit}>
