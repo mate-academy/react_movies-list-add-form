@@ -7,13 +7,13 @@ type Props = {
 };
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
+  const [movie, setMovie] = useState<Movie>({
+    title: '',
+    description: '',
+    imdbUrl: '',
+    imgUrl: '',
+    imdbId: '',
+  });
 
   const isValidUrl = (url: string) => {
     const pattern =
@@ -24,30 +24,25 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   };
 
   const isFormValid =
-    title.trim() && imdbId.trim() && isValidUrl(imgUrl) && isValidUrl(imdbUrl);
+    movie.title.trim() &&
+    movie.imdbId.trim() &&
+    isValidUrl(movie.imgUrl) &&
+    isValidUrl(movie.imdbUrl);
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (!isFormValid) {
-      return;
+    if (isFormValid) {
+      onAdd(movie);
+
+      setMovie({
+        title: '',
+        description: '',
+        imdbUrl: '',
+        imgUrl: '',
+        imdbId: '',
+      });
     }
-
-    const newMovie: Movie = {
-      title: title.trim(),
-      description: description.trim(),
-      imgUrl: imgUrl.trim(),
-      imdbUrl: imdbUrl.trim(),
-      imdbId: imdbId.trim(),
-    };
-
-    onAdd(newMovie);
-
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
   };
 
   return (
@@ -57,39 +52,39 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value={title}
-        onChange={setTitle}
+        value={movie.title}
+        onChange={value => setMovie({ ...movie, title: value })}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value={description}
-        onChange={setDescription}
+        value={movie.description}
+        onChange={value => setMovie({ ...movie, description: value })}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={imgUrl}
-        onChange={setImgUrl}
+        value={movie.imgUrl}
+        onChange={value => setMovie({ ...movie, imdbUrl: value })}
         required
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={imdbUrl}
-        onChange={setImdbUrl}
+        value={movie.imdbUrl}
+        onChange={value => setMovie({ ...movie, imdbUrl: value })}
         required
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imdbId}
-        onChange={setImdbId}
+        value={movie.imdbId}
+        onChange={value => setMovie({ ...movie, imdbId: value })}
         required
       />
 
