@@ -68,7 +68,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imgUrl"
         label="Image URL"
         value={movie.imgUrl}
-        onChange={value => setMovie({ ...movie, imdbUrl: value })}
+        onChange={value => setMovie({ ...movie, imgUrl: value })}
         required
       />
 
