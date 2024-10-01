@@ -23,6 +23,13 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
   const hasValidInputs =
     title.trim() && imgUrl.trim() && imdbUrl.trim() && imdbId.trim();
 
+  function handleInputChange(name: InputTypes, value: string): void {
+    setNewMovie(prevMovie => ({
+      ...prevMovie,
+      [name]: value,
+    }));
+  }
+
   const reset = () => {
     setNewMovie({
       title: '',
@@ -33,18 +40,12 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
     });
   };
 
-  function handleInputChange(name: InputTypes, value: string): void {
-    setNewMovie(prevMovie => ({
-      ...prevMovie,
-      [name]: value,
-    }));
-  }
-
-  function handleSubmit() {
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
     onAdd(newMovie);
     reset();
     setCount(count + 1);
-  }
+  };
 
   return (
     <form className="NewMovie" key={count} onSubmit={handleSubmit}>
