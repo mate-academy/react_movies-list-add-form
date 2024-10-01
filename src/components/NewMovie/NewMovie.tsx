@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
@@ -22,10 +22,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     return title.trim() && imgUrl.trim() && imdbUrl.trim() && imdbId.trim();
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleChange = (name: string, value: string) => {
+    setNewMovie(prevMovie => ({ ...prevMovie, [name]: value }));
+  };
 
-    if (!isValid) {
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+
+    if (!isValid()) {
       return;
     }
 
@@ -38,10 +42,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       imdbUrl: '',
       imdbId: '',
     });
-  };
-
-  const handleChange = (name: string, value: string) => {
-    setNewMovie(prevMovie => ({ ...prevMovie, [name]: value }));
   };
 
   return (
