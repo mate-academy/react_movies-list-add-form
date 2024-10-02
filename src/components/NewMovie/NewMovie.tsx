@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
+import { FormDataKeys } from '../../types/FormatDataKeys';
 
 type Props = {
   onAdd: (movie: Movie) => void;
@@ -22,8 +23,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     imdbUrl: false,
     imdbId: false,
   });
-
-  type FormDataKeys = 'title' | 'description' | 'imgUrl' | 'imdbUrl' | 'imdbId';
 
   const handleBlur = (field: FormDataKeys) => {
     setErrors(prevErrors => ({
@@ -59,7 +58,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (!isFormValid) {
+    if (!isFormValid()) {
       return;
     }
 
