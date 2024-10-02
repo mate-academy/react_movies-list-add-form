@@ -27,6 +27,12 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       [event.target.name]: event.target.value,
     }));
   };
+  const urlPattern =
+    /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
+
+  const validateUrl = (value: string) => {
+    return urlPattern.test(value) ? null : 'Invalid URL format';
+  };
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -71,6 +77,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Image URL"
         value={imgUrl}
         onChange={handleInput}
+        validate={validateUrl}
         required
       />
 
@@ -79,6 +86,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Imdb URL"
         value={imdbUrl}
         onChange={handleInput}
+        validate={validateUrl}
         required
       />
 
