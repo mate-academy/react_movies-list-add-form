@@ -16,6 +16,29 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     imdbId: '',
   });
 
+  const [, setErrors] = useState({
+    title: false,
+    imgUrl: false,
+    imdbUrl: false,
+    imdbId: false,
+  });
+
+  type FormDataKeys = 'title' | 'description' | 'imgUrl' | 'imdbUrl' | 'imdbId';
+
+  const handleBlur = (field: FormDataKeys) => {
+    setErrors(prevErrors => ({
+      ...prevErrors,
+      [field]: !formData[field].trim(),
+    }));
+  };
+
+  const handleChange = (field: FormDataKeys, value: string) => {
+    setFormData(prevData => ({
+      ...prevData,
+      [field]: value,
+    }));
+  };
+
   const resetFormAfterSubmit = () => {
     setFormData({
       title: '',
@@ -30,14 +53,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const isFormValid = () => {
     const { title, imdbId, imdbUrl, imgUrl } = formData;
 
-    return title && imdbId && imdbUrl && imgUrl;
-  };
-
-  const handleChange = (field: string, value: string) => {
-    setFormData(prevData => ({
-      ...prevData,
-      [field]: value,
-    }));
+    return title.trim() && imdbId.trim() && imdbUrl.trim() && imgUrl.trim();
   };
 
   const handleSubmit = (event: React.FormEvent) => {
@@ -66,6 +82,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Title"
         value={formData.title}
         onChange={value => handleChange('title', value)}
+        onBlur={() => handleBlur('title')}
         required
       />
 
@@ -81,6 +98,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Image URL"
         value={formData.imgUrl}
         onChange={value => handleChange('imgUrl', value)}
+        onBlur={() => handleBlur('imgUrl')}
         required
       />
 
@@ -89,6 +107,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Imdb URL"
         value={formData.imdbUrl}
         onChange={value => handleChange('imdbUrl', value)}
+        onBlur={() => handleBlur('imdbUrl')}
         required
       />
 
@@ -97,6 +116,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Imdb ID"
         value={formData.imdbId}
         onChange={value => handleChange('imdbId', value)}
+        onBlur={() => handleBlur('imdbId')}
         required
       />
 
