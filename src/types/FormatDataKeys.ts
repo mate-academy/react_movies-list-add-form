@@ -1,6 +1,3 @@
-export type FormDataKeys =
-  | 'title'
-  | 'description'
-  | 'imgUrl'
-  | 'imdbUrl'
-  | 'imdbId';
+import { Movie } from './Movie';
+
+export type FormDataKeys = keyof Movie;

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 import { FormDataKeys } from '../../types/FormatDataKeys';
+import { DEFAULT_MOVIE } from '../../constants/defaultMovie';
 
 type Props = {
   onAdd: (movie: Movie) => void;
@@ -9,26 +10,15 @@ type Props = {
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
-  const [formData, setFormData] = useState({
-    title: '',
-    description: '',
-    imgUrl: '',
-    imdbUrl: '',
-    imdbId: '',
-  });
+  const [formData, setFormData] = useState(DEFAULT_MOVIE);
 
-  const [, setErrors] = useState({
-    title: false,
-    imgUrl: false,
-    imdbUrl: false,
-    imdbId: false,
-  });
+  let errors = { title: false, imgUrl: false, imdbUrl: false, imdbId: false };
 
   const handleBlur = (field: FormDataKeys) => {
-    setErrors(prevErrors => ({
-      ...prevErrors,
+    errors = {
+      ...errors,
       [field]: !formData[field].trim(),
-    }));
+    };
   };
 
   const handleChange = (field: FormDataKeys, value: string) => {
@@ -39,35 +29,24 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   };
 
   const resetFormAfterSubmit = () => {
-    setFormData({
-      title: '',
-      description: '',
-      imgUrl: '',
-      imdbUrl: '',
-      imdbId: '',
-    });
+    setFormData(DEFAULT_MOVIE);
     setCount(prevCount => prevCount + 1);
   };
 
-  const isFormValid = () => {
-    const { title, imdbId, imdbUrl, imgUrl } = formData;
-
-    return title.trim() && imdbId.trim() && imdbUrl.trim() && imgUrl.trim();
-  };
+  const isFormValid =
+    formData.title.trim() &&
+    formData.imdbId.trim() &&
+    formData.imdbUrl.trim() &&
+    formData.imgUrl.trim();
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (!isFormValid()) {
+    if (!isFormValid) {
       return;
     }
 
-    const newMovie: Movie = {
-      ...formData,
-      description: formData.description || '',
-    };
-
-    onAdd(newMovie);
+    onAdd(formData);
 
     resetFormAfterSubmit();
   };
@@ -125,7 +104,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!isFormValid()}
+            disabled={!isFormValid}
           >
             Add
           </button>
