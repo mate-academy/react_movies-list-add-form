@@ -10,6 +10,10 @@ interface Props {
   onAdd: (movie: Movie) => void;
 }
 
+type FormFieldsState<T> = {
+  [K in keyof T]: boolean;
+};
+
 const initialFormState: Movie = {
   title: '',
   description: '',
@@ -18,7 +22,7 @@ const initialFormState: Movie = {
   imdbId: '',
 };
 
-const initialValidationState = {
+const initialValidationState: FormFieldsState<Movie> = {
   title: false,
   description: false,
   imgUrl: false,
@@ -33,7 +37,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
 
   const isFormValid = Object.values(validation).every(Boolean);
 
-  const reset = () => {
+  const handleReset = () => {
     setFormData(initialFormState);
     setValidation(initialValidationState);
   };
@@ -54,7 +58,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
     return null;
   };
 
-  const handleChange = (name: keyof typeof initialFormState, value: string) => {
+  const handleChange = (name: keyof Movie, value: string) => {
     setFormData(prev => ({ ...prev, [name]: value }));
     setValidation(prev => ({ ...prev, [name]: validateField(name, value) }));
   };
@@ -63,7 +67,10 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
     name: keyof typeof initialValidationState,
     value: boolean,
   ) => {
-    setValidation(prev => ({ ...prev, [name]: value }));
+    setValidation(prevValidation => ({
+      ...prevValidation,
+      [name]: value,
+    }));
   };
 
   const handleSubmit = (event: FormEvent) => {
@@ -71,8 +78,8 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
 
     if (isFormValid) {
       onAdd(formData);
-      reset();
-      setCount(count + 1);
+      handleReset();
+      setCount(prevCount => prevCount + 1);
     }
   };
 
