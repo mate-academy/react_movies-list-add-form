@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 type Props = {
   name: string;
   value: string;
+  onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
   label?: string;
   placeholder?: string;
   required?: boolean;
