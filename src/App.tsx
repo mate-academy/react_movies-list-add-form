@@ -12,7 +12,7 @@ import './App.scss';
 export const App = () => {
   const [movies, setMovies] = useState(moviesFromServer);
 
-  const addMovie = (movie: Movie) => {
+  const handleAddNewMovie = (movie: Movie) => {
     setMovies(currentMovies => [...currentMovies, movie]);
   };
 
@@ -23,7 +23,7 @@ export const App = () => {
       </div>
 
       <div className="sidebar">
-        <NewMovie onAdd={addMovie} />
+        <NewMovie onAdd={handleAddNewMovie} />
       </div>
     </div>
   );

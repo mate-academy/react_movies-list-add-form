@@ -26,7 +26,6 @@ export const TextField: React.FC<Props> = ({
   validate = () => null,
   onValidationChange = () => {},
 }) => {
-  // generate a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
   // To show errors only if the field was touched (onBlur)
@@ -38,6 +37,7 @@ export const TextField: React.FC<Props> = ({
   const handleBlur = () => {
     setTouched(true);
     const validationError = validate(value);
+
     setError(validationError);
     onValidationChange(!validationError);
   };
@@ -58,7 +58,7 @@ export const TextField: React.FC<Props> = ({
           })}
           placeholder={placeholder}
           value={value}
-          onChange={event => onChange(event.target.value)}
+          onChange={event => onChange(event.target.value.trimStart())}
           onBlur={handleBlur}
         />
       </div>

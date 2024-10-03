@@ -1,9 +1,10 @@
 import { FC, FormEvent, useState } from 'react';
-import { TextField } from '../TextField';
+
+import { Movie } from '../../types/Movie';
 
 import { pattern } from '../../constants/pattern';
 
-import { Movie } from '../../types/Movie';
+import { TextField } from '../TextField';
 
 interface Props {
   onAdd: (movie: Movie) => void;
@@ -26,8 +27,6 @@ const initialValidationState = {
 };
 
 export const NewMovie: FC<Props> = ({ onAdd }) => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
   const [formData, setFormData] = useState<Movie>(initialFormState);
   const [validation, setValidation] = useState(initialValidationState);
