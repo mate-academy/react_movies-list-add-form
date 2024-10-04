@@ -1,4 +1,5 @@
 import { useState, FC, FormEvent } from 'react';
+
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
@@ -9,21 +10,14 @@ interface NewMovieProps {
 export const NewMovie: FC<NewMovieProps> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
 
-  const [newTitle, setNewTitle] = useState('');
   const [newDescription, setNewDescription] = useState('');
+
+  const [newTitle, setNewTitle] = useState('');
   const [newImgUrl, setNewImgUrl] = useState('');
   const [newImdbUrl, setNewImdbUrl] = useState('');
   const [newImdbId, setNewImdbId] = useState('');
 
   const isReadyToSubmit = newTitle && newImgUrl && newImdbUrl && newImdbId;
-
-  const newMovie: Movie = {
-    title: newTitle,
-    description: newDescription,
-    imgUrl: newImgUrl,
-    imdbUrl: newImdbUrl,
-    imdbId: newImdbId,
-  };
 
   function handleFormReset() {
     setNewDescription('');
@@ -37,6 +31,14 @@ export const NewMovie: FC<NewMovieProps> = ({ onAdd }) => {
     event.preventDefault();
 
     setCount(current => current + 1);
+
+    const newMovie: Movie = {
+      title: newTitle,
+      description: newDescription,
+      imgUrl: newImgUrl,
+      imdbUrl: newImdbUrl,
+      imdbId: newImdbId,
+    };
 
     onAdd(newMovie);
 
