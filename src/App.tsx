@@ -8,7 +8,7 @@ import { useState } from 'react';
 export const App = () => {
   const [movies, setMovies] = useState<Movie[]>(moviesFromServer);
 
-  const addMovie = (newMovie: Movie) => {
+  const handleNewMovie = (newMovie: Movie) => {
     setMovies(currentMovies => [...currentMovies, newMovie]);
   };
 
@@ -18,7 +18,7 @@ export const App = () => {
         <MoviesList movies={movies} />
       </div>
       <div className="sidebar">
-        <NewMovie onAdd={addMovie} />
+        <NewMovie onAdd={handleNewMovie} />
       </div>
     </div>
   );
