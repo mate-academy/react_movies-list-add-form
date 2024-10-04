@@ -33,13 +33,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     return !urlPattern.test(value) && 'Invalid URL format';
   };
 
-  const handleSubmit = (event: React.FormEvent) => {
-    event.preventDefault();
-
-    if (!isValidInputs) {
-      return;
-    }
-
+  const resetForm = () => {
     setNewMovie({
       title: '',
       description: '',
@@ -47,9 +41,20 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       imdbUrl: '',
       imdbId: '',
     });
+  };
+
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+
+    if (!isValidInputs) {
+      return;
+    }
 
     onAdd(newMovie);
-    setCount(count + 1);
+
+    resetForm();
+
+    setCount((prevCount) => prevCount + 1);
   };
 
   return (
