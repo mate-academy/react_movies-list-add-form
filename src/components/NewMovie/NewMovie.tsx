@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
+import { urlPattern } from '../../utils/consts/RegEx';
 
 type Props = {
   onAdd: (movie: Movie) => void;
@@ -18,7 +19,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
   const { title, imgUrl, imdbUrl, imdbId, description } = newMovie;
 
-  const isValid =
+  const isValidInputs =
     title.trim() && imgUrl.trim() && imdbUrl.trim() && imdbId.trim();
 
   const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -27,17 +28,15 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       [event.target.name]: event.target.value,
     }));
   };
-  const urlPattern =
-    /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
 
   const validateUrl = (value: string) => {
-    return urlPattern.test(value) ? null : 'Invalid URL format';
+    return !urlPattern.test(value) && 'Invalid URL format';
   };
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (!isValid) {
+    if (!isValidInputs) {
       return;
     }
 
@@ -70,6 +69,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Description"
         value={description}
         onChange={handleInput}
+        required
       />
 
       <TextField
@@ -104,7 +104,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!isValid}
+            disabled={!isValidInputs}
           >
             Add
           </button>

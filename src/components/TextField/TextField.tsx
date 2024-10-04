@@ -30,11 +30,11 @@ export const TextField: React.FC<Props> = ({
 
   const handleBlur = () => {
     setTouched(true);
-    if (validate) {
+    if (required && !value) {
+      setError(`${label} is required`);
+    } else if (validate) {
       const validationError = validate(value);
       setError(validationError);
-    } else if (required && !value) {
-      setError(`${label} is required`);
     } else {
       setError(null);
     }
