@@ -1,30 +1,109 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { TextField } from '../TextField';
+import { Movie } from '../../types/Movie';
 
-export const NewMovie = () => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
-  const [count] = useState(0);
+interface Props {
+  onAdd: (movie: Movie) => void;
+}
+
+export const NewMovie = ({ onAdd }: Props) => {
+  const [count, setCount] = useState(0);
+  const [formValues, setFormValues] = useState<Movie>({
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  });
+
+  const handleFormValueChange = (newValue: string, formFieldTitle: string) => {
+    setFormValues(prevState => {
+      return {
+        ...prevState,
+        [formFieldTitle]: newValue,
+      };
+    });
+  };
+
+  const isErrorsInForm =
+    formValues.title &&
+    formValues.imdbId &&
+    formValues.imgUrl &&
+    formValues.imdbUrl;
+
+  const handleClearForm = () => {
+    setFormValues({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
+  };
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (!isErrorsInForm) {
+      return;
+    }
+
+    onAdd({ ...formValues });
+    setCount(prevState => prevState + 1);
+    handleClearForm();
+  };
 
   return (
-    <form className="NewMovie" key={count}>
+    <form className="NewMovie" key={count} onSubmit={handleSubmit}>
       <h2 className="title">Add a movie</h2>
 
       <TextField
         name="title"
         label="Title"
-        value=""
-        onChange={() => {}}
+        value={formValues.title}
+        onChange={(newValue: string, formTitle: string) =>
+          handleFormValueChange(newValue.trimStart(), formTitle)
+        }
         required
       />
 
-      <TextField name="description" label="Description" value="" />
+      <TextField
+        onChange={(newValue: string, formTitle: string) =>
+          handleFormValueChange(newValue.trimStart(), formTitle)
+        }
+        name="description"
+        label="Description"
+        value={formValues.description}
+      />
 
-      <TextField name="imgUrl" label="Image URL" value="" />
+      <TextField
+        onChange={(newValue: string, formTitle: string) =>
+          handleFormValueChange(newValue.trimStart(), formTitle)
+        }
+        name="imgUrl"
+        label="Image URL"
+        value={formValues.imgUrl}
+        required
+      />
 
-      <TextField name="imdbUrl" label="Imdb URL" value="" />
+      <TextField
+        onChange={(newValue: string, formTitle: string) =>
+          handleFormValueChange(newValue.trimStart(), formTitle)
+        }
+        name="imdbUrl"
+        label="Imdb URL"
+        value={formValues.imdbUrl}
+        required
+      />
 
-      <TextField name="imdbId" label="Imdb ID" value="" />
+      <TextField
+        onChange={(newValue: string, formTitle: string) =>
+          handleFormValueChange(newValue.trimStart(), formTitle)
+        }
+        name="imdbId"
+        label="Imdb ID"
+        value={formValues.imdbId}
+        required
+      />
 
       <div className="field is-grouped">
         <div className="control">
@@ -32,6 +111,7 @@ export const NewMovie = () => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
+            disabled={!isErrorsInForm}
           >
             Add
           </button>
