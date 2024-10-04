@@ -22,6 +22,20 @@ export const TextField: React.FC<Props> = ({
   required = false,
   onChange = () => {},
 }) => {
+  const urlPattern = new RegExp(
+    `^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\\w]+@)?[A-Za-z0-9.-]+|` +
+      `(?:www\\.|[-;:&=+$,\\w]+@)[A-Za-z0-9.-]+)` +
+      `((?:\/[+~%/\\.\\w-_]*)?\\??(?:[-+=&;%@,\\w_]*)#?(?:[,.!/\\\\\\w]*))?)$`,
+  );
+
+  const validateByPattern = (pattern: RegExp, testedValue = value) => {
+    if (name === 'imdbUrl' || name === 'imgUrl') {
+      return !pattern.test(testedValue);
+    }
+
+    return false;
+  };
+
   // generate a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
@@ -51,6 +65,9 @@ export const TextField: React.FC<Props> = ({
       </div>
 
       {hasError && <p className="help is-danger">{`${label} is required`}</p>}
+      {value && validateByPattern(urlPattern, value) && (
+        <p className="help is-danger">Please enter a valid URL</p>
+      )}
     </div>
   );
 };
