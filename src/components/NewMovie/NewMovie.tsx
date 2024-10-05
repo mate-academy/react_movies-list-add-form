@@ -10,20 +10,11 @@ export const NewMovie = ({
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
-
   const [currentTitle, setCurrentTitle] = useState('');
-  // const [hasTitleError, setHasTitleError] = useState(false);
-
   const [currentDescription, setCurrentDescription] = useState('');
-
   const [currentImdbUrl, setCurrentImdbUrl] = useState('');
-  // const [hasImdbUrl, setHasImdbUrl] = useState(false);
-
   const [currentImdbId, setCurrentImdbId] = useState('');
-  // const [hasImdbId, setHasImdbId] = useState(false);
-
   const [currentImgUrl, setCurrentImgUrl] = useState('');
-  // const [hasImgUrl, setHasImgUrl] = useState(false);
 
   const allFieldsAreValid = () => {
     const urlFields = ['imdbUrl', 'imgUrl'];
@@ -63,11 +54,6 @@ export const NewMovie = ({
       setCount(count + 1);
     }
   };
-
-  // const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   setCurrentTitle(event.target.value);
-  //   hasTitleError(false);
-  // };
 
   return (
     <form className="NewMovie" key={count} onSubmit={handleSubmit}>
