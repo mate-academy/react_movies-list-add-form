@@ -20,7 +20,7 @@ export const NewMovie: React.FC<Props> = ({ onSubmit }) => {
 
   const { description, ...valuesWithoutDescription } = formValues;
   const formHasEmptyFields = Object.values(valuesWithoutDescription).some(
-    value => value === '',
+    value => value.trim() === '',
   );
 
   function prepareFormValues(value: string, name: string) {
