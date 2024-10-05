@@ -30,7 +30,22 @@ export const NewMovie = ({
       return urlPattern.test(fieldValue);
     });
 
-    return currentTitle && urlFieldsValid && currentImdbId;
+    return (
+      currentTitle.trim() &&
+      currentImgUrl.trim() &&
+      urlFieldsValid &&
+      currentImdbId.trim()
+    );
+  };
+
+  const resetForm = () => {
+    setCurrentTitle('');
+    setCurrentDescription('');
+    setCurrentImdbUrl('');
+    setCurrentImdbId('');
+    setCurrentImgUrl('');
+
+    setCount(prevCount => prevCount + 1);
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -45,13 +60,7 @@ export const NewMovie = ({
         imdbId: currentImdbId.trim(),
       });
 
-      setCurrentTitle('');
-      setCurrentDescription('');
-      setCurrentImdbUrl('');
-      setCurrentImdbId('');
-      setCurrentImgUrl('');
-
-      setCount(count + 1);
+      resetForm();
     }
   };
 
@@ -63,7 +72,7 @@ export const NewMovie = ({
         name="title"
         label="Title"
         value={currentTitle}
-        onChange={title => setCurrentTitle(title)}
+        onChange={setCurrentTitle}
         required
       />
 
@@ -71,14 +80,14 @@ export const NewMovie = ({
         name="description"
         label="Description"
         value={currentDescription}
-        onChange={description => setCurrentDescription(description)}
+        onChange={setCurrentDescription}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={currentImgUrl}
-        onChange={imgUrl => setCurrentImgUrl(imgUrl)}
+        onChange={setCurrentImgUrl}
         required
       />
 
@@ -86,7 +95,7 @@ export const NewMovie = ({
         name="imdbUrl"
         label="Imdb URL"
         value={currentImdbUrl}
-        onChange={imdbUrl => setCurrentImdbUrl(imdbUrl)}
+        onChange={setCurrentImdbUrl}
         required
       />
 
@@ -94,7 +103,7 @@ export const NewMovie = ({
         name="imdbId"
         label="Imdb ID"
         value={currentImdbId}
-        onChange={imdbId => setCurrentImdbId(imdbId)}
+        onChange={setCurrentImdbId}
         required
       />
 
