@@ -26,7 +26,20 @@ export const NewMovie = ({
   // const [hasImgUrl, setHasImgUrl] = useState(false);
 
   const allFieldsAreValid = () => {
-    return currentTitle && currentImdbUrl && currentImdbId && currentImgUrl;
+    const urlFields = ['imdbUrl', 'imgUrl'];
+    const urlPattern = new RegExp(
+      `^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\\w]+@)?[A-Za-z0-9.-]+|` +
+        `(?:www\\.|[-;:&=+$,\\w]+@)[A-Za-z0-9.-]+)` +
+        `((?:\/[+~%/\\.\\w-_]*)?\\??(?:[-+=&;%@,\\w_]*)#?(?:[,.!/\\\\\\w]*))?)$`,
+    );
+
+    const urlFieldsValid = urlFields.every(field => {
+      const fieldValue = field === 'imdbUrl' ? currentImdbUrl : currentImgUrl;
+
+      return urlPattern.test(fieldValue);
+    });
+
+    return currentTitle && urlFieldsValid && currentImdbId;
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
