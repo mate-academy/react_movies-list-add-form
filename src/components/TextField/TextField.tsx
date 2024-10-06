@@ -8,6 +8,9 @@ type Props = {
   placeholder?: string;
   required?: boolean;
   onChange?: (newValue: string) => void;
+  onBlur?: () => void;
+  error?: string;
+  validate?: (value: string) => string;
 };
 
 function getRandomDigits() {
