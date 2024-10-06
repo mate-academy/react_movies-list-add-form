@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { TextField } from '../TextField';
-import { Movie } from '../../App';
+import { Movie } from '../../types/Movie';
 
 interface Props {
   onAdd(newFilm: Movie): void;
@@ -85,7 +85,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             data-cy="submit-button"
             className="button is-link"
             disabled={
-              title === '' || imdbId === '' || imdbUrl === '' || imgUrl === ''
+              title.trim() === '' ||
+              imdbId.trim() === '' ||
+              imdbUrl.trim() === '' ||
+              imgUrl.trim() === ''
             }
           >
             Add

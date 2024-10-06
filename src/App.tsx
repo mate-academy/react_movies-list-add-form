@@ -3,14 +3,7 @@ import { MoviesList } from './components/MoviesList';
 import { NewMovie } from './components/NewMovie';
 import moviesFromServer from './api/movies.json';
 import { useState } from 'react';
-
-export interface Movie {
-  title: string;
-  description: string;
-  imgUrl: string;
-  imdbUrl: string;
-  imdbId: string;
-}
+import { Movie } from './types/Movie';
 
 export const App = () => {
   const [visibleMovies, setVisibleMovies] = useState<Movie[]>(moviesFromServer);
