@@ -6,14 +6,18 @@ interface Props {
   onAdd: (movie: Movie) => void;
 }
 
-export const NewMovie = ({ onAdd }: Props) => {
+const DEFAULT_FORM_VALUES = {
+  title: '',
+  description: '',
+  imgUrl: '',
+  imdbUrl: '',
+  imdbId: '',
+};
+
+export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
   const [formValues, setFormValues] = useState<Movie>({
-    title: '',
-    description: '',
-    imgUrl: '',
-    imdbUrl: '',
-    imdbId: '',
+    ...DEFAULT_FORM_VALUES,
   });
 
   const handleFormValueChange = (newValue: string, formFieldTitle: string) => {
@@ -32,13 +36,7 @@ export const NewMovie = ({ onAdd }: Props) => {
     formValues.imdbUrl;
 
   const handleClearForm = () => {
-    setFormValues({
-      title: '',
-      description: '',
-      imgUrl: '',
-      imdbUrl: '',
-      imdbId: '',
-    });
+    setFormValues({ ...DEFAULT_FORM_VALUES });
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
