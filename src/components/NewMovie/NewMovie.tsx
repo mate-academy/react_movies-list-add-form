@@ -37,6 +37,10 @@ export const NewMovie: FC<NewMovieProps> = ({ onAdd }) => {
     handleFormReset();
   }
 
+  function handleImputChange(key: keyof Movie, value: string) {
+    setNewMovie(current => ({ ...current, [key]: value }));
+  }
+
   return (
     <form className="NewMovie" key={count} onSubmit={handleSubmit}>
       <h2 className="title">Add a movie</h2>
@@ -45,9 +49,7 @@ export const NewMovie: FC<NewMovieProps> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={newMovie.title}
-        onChange={value =>
-          setNewMovie(current => ({ ...current, title: value }))
-        }
+        onChange={value => handleImputChange('title', value)}
         required
       />
 
@@ -55,18 +57,14 @@ export const NewMovie: FC<NewMovieProps> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={newMovie.description}
-        onChange={value =>
-          setNewMovie(current => ({ ...current, description: value }))
-        }
+        onChange={value => handleImputChange('description', value)}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={newMovie.imgUrl}
-        onChange={value =>
-          setNewMovie(current => ({ ...current, imgUrl: value }))
-        }
+        onChange={value => handleImputChange('imgUrl', value)}
         required
       />
 
@@ -74,9 +72,7 @@ export const NewMovie: FC<NewMovieProps> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={newMovie.imdbUrl}
-        onChange={value =>
-          setNewMovie(current => ({ ...current, imdbUrl: value }))
-        }
+        onChange={value => handleImputChange('imdbUrl', value)}
         required
       />
 
@@ -84,9 +80,7 @@ export const NewMovie: FC<NewMovieProps> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={newMovie.imdbId}
-        onChange={value =>
-          setNewMovie(current => ({ ...current, imdbId: value }))
-        }
+        onChange={value => handleImputChange('imdbId', value)}
         required
       />
 
