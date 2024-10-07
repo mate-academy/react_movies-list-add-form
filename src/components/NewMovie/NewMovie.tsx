@@ -33,6 +33,13 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     });
   };
 
+  const handleOnChange = (value: string, field: string) => {
+    setFormData(prevFormData => ({
+      ...prevFormData,
+      [field]: value,
+    }));
+  };
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -60,12 +67,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={formData.title}
-        onChange={value =>
-          setFormData(prevFormData => ({
-            ...prevFormData,
-            title: value,
-          }))
-        }
+        onChange={value => handleOnChange(value, 'title')}
         required
       />
 
@@ -73,24 +75,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={formData.description}
-        onChange={value =>
-          setFormData(prevFormData => ({
-            ...prevFormData,
-            description: value,
-          }))
-        }
+        onChange={value => handleOnChange(value, 'description')}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={formData.imgUrl}
-        onChange={value =>
-          setFormData(prevFormData => ({
-            ...prevFormData,
-            imgUrl: value,
-          }))
-        }
+        onChange={value => handleOnChange(value, 'imgUrl')}
         required
       />
 
@@ -98,12 +90,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={formData.imdbUrl}
-        onChange={value =>
-          setFormData(prevFormData => ({
-            ...prevFormData,
-            imdbUrl: value,
-          }))
-        }
+        onChange={value => handleOnChange(value, 'imdbUrl')}
         required
       />
 
@@ -111,12 +98,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={formData.imdbId}
-        onChange={value =>
-          setFormData(prevFormData => ({
-            ...prevFormData,
-            imdbId: value,
-          }))
-        }
+        onChange={value => handleOnChange(value, 'imdbId')}
         required
       />
 
