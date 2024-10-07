@@ -1,42 +1,61 @@
-import { useState } from 'react';
-import { TextField } from '../TextField';
+import React, { useState } from 'react';
+import { Movie } from '../../types/Movie';
+import { NewMovieForm } from '../NewMovieForm/NewMovieForm';
 
-export const NewMovie = () => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
-  const [count] = useState(0);
+interface Props {
+  onAdd: (movie: Movie) => void;
+}
+
+const DEFAULT_FORM_VALUES = {
+  title: '',
+  description: '',
+  imgUrl: '',
+  imdbUrl: '',
+  imdbId: '',
+};
+
+export const NewMovie: React.FC<Props> = ({ onAdd }) => {
+  const [count, setCount] = useState(0);
+  const [formValues, setFormValues] = useState<Movie>(DEFAULT_FORM_VALUES);
+
+  const handleFormValueChange = (newValue: string, formFieldTitle: string) => {
+    setFormValues(prevState => {
+      return {
+        ...prevState,
+        [formFieldTitle]: newValue,
+      };
+    });
+  };
+
+  const isErrorsInForm =
+    formValues.title.trimStart() &&
+    formValues.imdbId.trimStart() &&
+    formValues.imgUrl.trimStart() &&
+    formValues.imdbUrl.trimStart();
+
+  const handleClearForm = () => {
+    setFormValues(DEFAULT_FORM_VALUES);
+  };
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (!isErrorsInForm) {
+      return;
+    }
+
+    onAdd({ ...formValues });
+    setCount(prevState => prevState + 1);
+    handleClearForm();
+  };
 
   return (
-    <form className="NewMovie" key={count}>
-      <h2 className="title">Add a movie</h2>
-
-      <TextField
-        name="title"
-        label="Title"
-        value=""
-        onChange={() => {}}
-        required
-      />
-
-      <TextField name="description" label="Description" value="" />
-
-      <TextField name="imgUrl" label="Image URL" value="" />
-
-      <TextField name="imdbUrl" label="Imdb URL" value="" />
-
-      <TextField name="imdbId" label="Imdb ID" value="" />
-
-      <div className="field is-grouped">
-        <div className="control">
-          <button
-            type="submit"
-            data-cy="submit-button"
-            className="button is-link"
-          >
-            Add
-          </button>
-        </div>
-      </div>
-    </form>
+    <NewMovieForm
+      isErrorsInForm={isErrorsInForm}
+      formValues={formValues}
+      onChange={handleFormValueChange}
+      count={count}
+      onSubmit={handleSubmit}
+      key={count}
+    />
   );
 };
