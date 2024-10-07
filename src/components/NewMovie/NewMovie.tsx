@@ -7,21 +7,21 @@ type Props = {
 };
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
-  const [count, setCount] = useState(0);
+  const [formKey, setformKey] = useState(0);
 
   //Text
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
 
   //Url/text & Id
-  const [imgUrl, setImgUrltext] = useState('');
+  const [imgUrl, setImgUrl] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
   const handleReset = () => {
     setTitle('');
     setDescription('');
-    setImgUrltext('');
+    setImgUrl('');
     setImdbUrl('');
     setImdbId('');
   };
@@ -38,15 +38,15 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
     onAdd(newMovie);
 
-    setCount(curresntCount => curresntCount + 1);
+    setformKey(currentformKey => currentformKey + 1);
     handleReset();
   };
 
-  const isDisbled =
+  const isDisabled =
     !title.trim() || !imgUrl.trim() || !imdbUrl.trim() || !imdbId.trim();
 
   return (
-    <form className="NewMovie" key={count} onSubmit={handleSubmit}>
+    <form className="NewMovie" key={formKey} onSubmit={handleSubmit}>
       <h2 className="title">Add a movie</h2>
 
       <TextField
@@ -68,7 +68,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={setImgUrltext}
+        onChange={setImgUrl}
         required
       />
 
@@ -94,7 +94,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={isDisbled}
+            disabled={isDisabled}
           >
             Add
           </button>
