@@ -7,41 +7,45 @@ type Props = {
 };
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
 
-  const [title, setTitle] = useState('');
+  const [formData, setFormData] = useState({
+    description: '',
+    title: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  });
 
-  const [imgUrl, setImgUrl] = useState('');
-
-  const [imdbUrl, setImdbUrl] = useState('');
-
-  const [imdbId, setImdbId] = useState('');
-
-  const [description, setDescription] = useState('');
+  const isNotValid =
+    !formData.title ||
+    !formData.imgUrl ||
+    !formData.imdbUrl ||
+    !formData.imdbId;
 
   const handleReset = () => {
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
+    setFormData({
+      description: '',
+      title: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!title || !imgUrl || !imdbUrl || !imdbId) {
+    if (isNotValid) {
       return;
     }
 
     onAdd({
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
+      title: formData.title,
+      description: formData.description,
+      imgUrl: formData.imgUrl,
+      imdbUrl: formData.imdbUrl,
+      imdbId: formData.imdbId,
     });
 
     setCount(current => current + 1);
@@ -55,41 +59,64 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value={title}
-        onChange={value => setTitle(value)}
+        value={formData.title}
+        onChange={value =>
+          setFormData(prevFormData => ({
+            ...prevFormData,
+            title: value,
+          }))
+        }
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value={description}
-        onChange={value => {
-          setDescription(value);
-        }}
+        value={formData.description}
+        onChange={value =>
+          setFormData(prevFormData => ({
+            ...prevFormData,
+            description: value,
+          }))
+        }
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={imgUrl}
-        onChange={value => setImgUrl(value)}
+        value={formData.imgUrl}
+        onChange={value =>
+          setFormData(prevFormData => ({
+            ...prevFormData,
+            imgUrl: value,
+          }))
+        }
         required
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={imdbUrl}
-        onChange={value => setImdbUrl(value)}
+        value={formData.imdbUrl}
+        onChange={value =>
+          setFormData(prevFormData => ({
+            ...prevFormData,
+            imdbUrl: value,
+          }))
+        }
         required
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imdbId}
-        onChange={value => setImdbId(value)}
+        value={formData.imdbId}
+        onChange={value =>
+          setFormData(prevFormData => ({
+            ...prevFormData,
+            imdbId: value,
+          }))
+        }
         required
       />
 
@@ -99,7 +126,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={Boolean(!title || !imgUrl || !imdbUrl || !imdbId)}
+            disabled={isNotValid}
           >
             Add
           </button>
