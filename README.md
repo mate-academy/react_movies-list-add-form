@@ -15,7 +15,7 @@ border if needed (learn how it it implemented in the `TextField`);
 1. Disable the submit button until all the required fields are filled (spaces should be trimmed);
 1. Clear the form after adding a new movie.
 1. Errors should not be shown after clearing the form (change its key to
-reinitialize the form);
+reinitialize the form);   
 
 ## (Optional) Advanced validation
 Implement the ability to add custom validation callback to the `TextField`.
@@ -30,4 +30,4 @@ const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(
 - Implement a solution following the [React task guideline](https://github.com/mate-academy/react_task-guideline#react-tasks-guideline).
 - Use the [React TypeScript cheat sheet](https://mate-academy.github.io/fe-program/js/extra/react-typescript).
 - Open one more terminal and run tests with `npm test` to ensure your solution is correct.
-- Replace `<your_account>` with your Github username in the [DEMO LINK](https://<your_account>.github.io/react_movies-list-add-form/) and add it to the PR description.
+- Replace `<your_account>` with your Github username in the [DEMO LINK](https://WatarJoy.github.io/react_movies-list-add-form/) and add it to the PR description.
