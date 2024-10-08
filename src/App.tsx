@@ -4,6 +4,7 @@ import { NewMovie } from './components/NewMovie';
 import moviesFromServer from './api/movies.json';
 import { useState } from 'react';
 import { Movie } from './types/Movie';
+import React from 'react';
 
 export const App = () => {
   const [movies, setMovies] = useState<Movie[]>(moviesFromServer);

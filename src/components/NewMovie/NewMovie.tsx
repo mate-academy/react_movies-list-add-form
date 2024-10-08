@@ -1,93 +1,83 @@
-/* eslint-disable prettier/prettier */
 import { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
+import React from 'react';
 
 type Props = {
   onAdd: (movie: Movie) => void;
 };
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
-  const [count] = useState(0);
-  const [inputTitle, setInputTitle] = useState('');
-  const [inputDescription, setInputDescription] = useState('');
-  const [inputImgUrl, setInputImgUrl] = useState('');
-  const [inputImdbUrl, setInputImdbUrl] = useState('');
-  const [inputImdbId, setInputImdbId] = useState('');
+  const [newMovie, setNewMovie] = useState<Movie>({
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  });
 
   const formValidation =
-  inputTitle.trim() &&
-  inputImdbId.trim() &&
-  inputImgUrl.trim() &&
-  inputImdbUrl.trim();
+    newMovie.title.trim() &&
+    newMovie.imdbId.trim() &&
+    newMovie.imgUrl.trim() &&
+    newMovie.imdbUrl.trim();
 
+  const handleChange = (newValue: string, name: keyof Movie) => {
+    setNewMovie(prevMovie => ({ ...prevMovie, [name]: newValue }));
+  };
 
   const handleSubmit = (evnt: React.FormEvent) => {
     evnt.preventDefault();
-
-    const newMovie: Movie = {
-      title: inputTitle,
-      description: inputDescription,
-      imgUrl: inputImgUrl,
-      imdbUrl: inputImdbUrl,
-      imdbId: inputImdbId,
-    };
-
     onAdd(newMovie);
-
-    setInputTitle('');
-    setInputDescription('');
-    setInputImgUrl('');
-    setInputImdbUrl('');
-    setInputImdbId('');
+    setNewMovie({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
   };
 
-
-
-
   return (
-    <form className="NewMovie" key={count} onSubmit={handleSubmit}>
+    <form className="NewMovie" onSubmit={handleSubmit}>
       <h2 className="title">Add a movie</h2>
 
       <TextField
         name="title"
         label="Title"
-        value={inputTitle}
-        onChange={newInputTitle => setInputTitle(newInputTitle)}
+        value={newMovie.title}
+        onChange={newValue => handleChange(newValue, 'title')}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value={inputDescription}
-        onChange={newInputDescription =>
-          setInputDescription(newInputDescription)}
+        value={newMovie.description}
+        onChange={newValue => handleChange(newValue, 'description')}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={inputImgUrl}
-        onChange={newInputImgUrl => setInputImgUrl(newInputImgUrl)}
+        value={newMovie.imgUrl}
+        onChange={newValue => handleChange(newValue, 'imgUrl')}
         required
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={inputImdbUrl}
-        onChange={newInputImdbUrl => setInputImdbUrl(newInputImdbUrl)}
+        value={newMovie.imdbUrl}
+        onChange={newValue => handleChange(newValue, 'imdbUrl')}
         required
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={inputImdbId}
-        onChange={newInputImdbId => setInputImdbId(newInputImdbId)}
+        value={newMovie.imdbId}
+        onChange={newValue => handleChange(newValue, 'imdbId')}
         required
       />
 
