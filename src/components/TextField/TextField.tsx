@@ -22,10 +22,8 @@ export const TextField: React.FC<Props> = ({
   placeholder = `Enter ${label}`,
   required = false,
   onChange = () => {},
-  onBlur = () => {},
 }) => {
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
-
   const [touched, setTouched] = useState(false);
   const hasError = touched && required && !value;
 
@@ -48,7 +46,6 @@ export const TextField: React.FC<Props> = ({
           onChange={event => onChange(event.target.value)}
           onBlur={() => {
             setTouched(true);
-            onBlur();
           }}
         />
       </div>
