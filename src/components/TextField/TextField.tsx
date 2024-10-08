@@ -1,33 +1,44 @@
+import React, { useState, useEffect } from 'react';
 import classNames from 'classnames';
-import React, { useState } from 'react';
 
-type Props = {
+interface TextFieldProps {
   name: string;
+  label: string;
   value: string;
-  label?: string;
-  placeholder?: string;
+  onChange: (newValue: string) => void;
+  onBlur: (event: React.FocusEvent<HTMLInputElement>) => void;
+  error?: string;
   required?: boolean;
-  onChange?: (newValue: string) => void;
-};
+  validate?: (value: string) => string;
+  placeholder?: string;
+}
 
 function getRandomDigits() {
   return Math.random().toFixed(16).slice(2);
 }
 
-export const TextField: React.FC<Props> = ({
+export const TextField: React.FC<TextFieldProps> = ({
   name,
   value,
   label = name,
   placeholder = `Enter ${label}`,
   required = false,
-  onChange = () => {},
+  onChange,
+  onBlur,
+  error,
+  validate,
 }) => {
-  // generate a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
-
-  // To show errors only if the field was touched (onBlur)
   const [touched, setTouched] = useState(false);
-  const hasError = touched && required && !value;
+  const [internalError, setInternalError] = useState('');
+
+  const hasError = touched && ((required && !value) || error);
+
+  useEffect(() => {
+    if (validate && touched) {
+      setInternalError(validate(value));
+    }
+  }, [value, touched, validate]);
 
   return (
     <div className="field">
@@ -40,17 +51,24 @@ export const TextField: React.FC<Props> = ({
           type="text"
           id={id}
           data-cy={`movie-${name}`}
-          className={classNames('input', {
-            'is-danger': hasError,
-          })}
+          className={classNames('input', { 'is-danger': hasError })}
           placeholder={placeholder}
           value={value}
           onChange={event => onChange(event.target.value)}
-          onBlur={() => setTouched(true)}
+          onBlur={event => {
+            setTouched(true);
+            onBlur(event);
+          }}
         />
       </div>
 
-      {hasError && <p className="help is-danger">{`${label} is required`}</p>}
+      {(hasError || internalError) && (
+        <p className="help is-danger">
+          {error || internalError || `${label} is required`}
+        </p>
+      )}
     </div>
   );
 };
+
+export default TextField;
