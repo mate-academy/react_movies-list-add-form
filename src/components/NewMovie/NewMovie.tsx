@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
+
 interface NewMovieProps {
   onAdd: (movie: Movie) => void;
 }
@@ -53,17 +54,23 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
     }
   };
 
-  const handleBlur = (field: keyof typeof form) => {
+  const handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
+    const { name } = event.target;
+
     setTouched({
       ...touched,
-      [field]: true,
+      [name]: true,
     });
 
-    validateField(field);
+    validateField(name as keyof typeof form);
   };
 
-  const handleChange = (name: string) => (value: string) => {
-    setForm(prev => ({ ...prev, [name]: value }));
+  const handleChange = (name: string) => (newValue: string) => {
+    setForm(prev => ({ ...prev, [name]: newValue }));
+    setErrors(prevErrors => ({
+      ...prevErrors,
+      [name]: '',
+    }));
   };
 
   const validateUrl = (value: string) => {
@@ -123,8 +130,8 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={form.title}
-        onChange={handleChange('title')}
-        onBlur={() => handleBlur('title')}
+        onChange={handleChange}
+        onBlur={handleBlur}
         error={errors.title}
         required
       />
@@ -133,16 +140,16 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={form.description}
-        onChange={handleChange('description')}
-        onBlur={() => handleBlur('description')}
+        onChange={handleChange}
+        onBlur={handleBlur}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={form.imgUrl}
-        onChange={handleChange('imgUrl')}
-        onBlur={() => handleBlur('imgUrl')}
+        onChange={handleChange}
+        onBlur={handleBlur}
         error={errors.imgUrl}
         validate={validateUrl}
         required
@@ -152,8 +159,8 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={form.imdbUrl}
-        onChange={handleChange('imdbUrl')}
-        onBlur={() => handleBlur('imdbUrl')}
+        onChange={handleChange}
+        onBlur={handleBlur}
         error={errors.imdbUrl}
         validate={validateUrl}
         required
@@ -163,8 +170,8 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={form.imdbId}
-        onChange={handleChange('imdbId')}
-        onBlur={() => handleBlur('imdbId')}
+        onChange={handleChange}
+        onBlur={handleBlur}
         error={errors.imdbId}
         required
       />
