@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import classNames from 'classnames';
 
 interface TextFieldProps {
@@ -26,11 +26,19 @@ export const TextField: React.FC<TextFieldProps> = ({
   onChange,
   onBlur,
   error,
+  validate,
 }) => {
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
   const [touched, setTouched] = useState(false);
+  const [internalError, setInternalError] = useState('');
 
-  const hasError = touched && required && !value;
+  const hasError = touched && ((required && !value) || error);
+
+  useEffect(() => {
+    if (validate && touched) {
+      setInternalError(validate(value));
+    }
+  }, [value, touched, validate]);
 
   return (
     <div className="field">
@@ -54,8 +62,11 @@ export const TextField: React.FC<TextFieldProps> = ({
         />
       </div>
 
-      {hasError && <p className="help is-danger">{`${label} is required`}</p>}
-      {error && <p className="help is-danger">{error}</p>}
+      {(hasError || internalError) && (
+        <p className="help is-danger">
+          {error || internalError || `${label} is required`}
+        </p>
+      )}
     </div>
   );
 };

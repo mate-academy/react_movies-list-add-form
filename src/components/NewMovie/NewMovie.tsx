@@ -6,6 +6,23 @@ interface NewMovieProps {
   onAdd: (movie: Movie) => void;
 }
 
+// Функція для валідації URL
+const validateUrl = (value: string): string => {
+  const pattern =
+    // eslint-disable-next-line max-len
+    /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
+
+  return pattern.test(value) ? '' : 'Invalid URL';
+};
+
+const fieldsConfig = [
+  { name: 'title', label: 'Title', required: true },
+  { name: 'description', label: 'Description', required: false },
+  { name: 'imgUrl', label: 'Image URL', required: true, validate: validateUrl },
+  { name: 'imdbUrl', label: 'Imdb URL', required: true, validate: validateUrl },
+  { name: 'imdbId', label: 'Imdb ID', required: true },
+];
+
 export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
   const [form, setForm] = useState({
     title: '',
@@ -52,6 +69,19 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
         [field]: '',
       }));
     }
+
+    const fieldConfig = fieldsConfig.find(config => config.name === field);
+
+    if (fieldConfig?.validate) {
+      const errorMessage = fieldConfig.validate(form[field]);
+
+      if (errorMessage) {
+        setErrors(prevErrors => ({
+          ...prevErrors,
+          [field]: errorMessage,
+        }));
+      }
+    }
   };
 
   const handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
@@ -65,20 +95,12 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
     validateField(name as keyof typeof form);
   };
 
-  const handleChange = (name: string) => (newValue: string) => {
+  const handleChange = (name: keyof typeof form) => (newValue: string) => {
     setForm(prev => ({ ...prev, [name]: newValue }));
     setErrors(prevErrors => ({
       ...prevErrors,
       [name]: '',
     }));
-  };
-
-  const validateUrl = (value: string) => {
-    const pattern =
-      // eslint-disable-next-line max-len
-      /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
-
-    return pattern.test(value) ? '' : 'Invalid URL';
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -126,55 +148,18 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
     <form className="NewMovie" onSubmit={handleSubmit}>
       <h2 className="title">Add a movie</h2>
 
-      <TextField
-        name="title"
-        label="Title"
-        value={form.title}
-        onChange={handleChange}
-        onBlur={handleBlur}
-        error={errors.title}
-        required
-      />
-
-      <TextField
-        name="description"
-        label="Description"
-        value={form.description}
-        onChange={handleChange}
-        onBlur={handleBlur}
-      />
-
-      <TextField
-        name="imgUrl"
-        label="Image URL"
-        value={form.imgUrl}
-        onChange={handleChange}
-        onBlur={handleBlur}
-        error={errors.imgUrl}
-        validate={validateUrl}
-        required
-      />
-
-      <TextField
-        name="imdbUrl"
-        label="Imdb URL"
-        value={form.imdbUrl}
-        onChange={handleChange}
-        onBlur={handleBlur}
-        error={errors.imdbUrl}
-        validate={validateUrl}
-        required
-      />
-
-      <TextField
-        name="imdbId"
-        label="Imdb ID"
-        value={form.imdbId}
-        onChange={handleChange}
-        onBlur={handleBlur}
-        error={errors.imdbId}
-        required
-      />
+      {fieldsConfig.map(({ name, label, required }) => (
+        <TextField
+          key={name}
+          name={name}
+          label={label}
+          value={form[name]}
+          onChange={handleChange(name)}
+          onBlur={handleBlur}
+          error={errors[name]}
+          required={required}
+        />
+      ))}
 
       <div className="field is-grouped">
         <div className="control">
