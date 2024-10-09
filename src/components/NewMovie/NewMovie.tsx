@@ -11,33 +11,39 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
 
-  const [title, setHaveTitle] = useState('');
-  const [description, setHaveDescription] = useState('');
-  const [imageUrl, setHaveImageUrl] = useState('');
-  const [imdbUrl, setHaveImdbUrl] = useState('');
-  const [imdbId, setHaveImdbId] = useState('');
+  const initialFormData = {
+    description: '',
+    title: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  };
+
+  const [formData, setFormData] = useState(initialFormData);
+
+  const isSumbitDisabled =
+    !formData.title ||
+    !formData.imgUrl ||
+    !formData.imdbUrl ||
+    !formData.imdbId;
 
   function handleReset() {
-    setHaveTitle('');
-    setHaveDescription('');
-    setHaveImageUrl('');
-    setHaveImdbUrl('');
-    setHaveImdbId('');
+    setFormData(initialFormData);
   }
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    if (!title || !imageUrl || !imdbUrl || !imdbId) {
+    if (isSumbitDisabled) {
       return;
     }
 
     const newMovie: Movie = {
-      title: title,
-      description: description,
-      imgUrl: imageUrl,
-      imdbUrl: imdbUrl,
-      imdbId: imdbId,
+      title: formData.title,
+      description: formData.description,
+      imgUrl: formData.imgUrl,
+      imdbUrl: formData.imdbUrl,
+      imdbId: formData.imdbId,
     };
 
     onAdd(newMovie);
@@ -46,7 +52,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     handleReset();
   }
 
-  const isDisabled = !title || !imageUrl || !imdbUrl || !imdbId;
+  function handleUpdateField(field: string, value: string) {
+    setFormData({ ...formData, [field]: value });
+  }
 
   return (
     <form className="NewMovie" key={count} onSubmit={handleSubmit} noValidate>
@@ -55,39 +63,39 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value={title}
-        onChange={setHaveTitle}
+        value={formData.title}
+        onChange={handleUpdateField}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value={description}
-        onChange={setHaveDescription}
+        value={formData.description}
+        onChange={handleUpdateField}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={imageUrl}
-        onChange={setHaveImageUrl}
+        value={formData.imgUrl}
+        onChange={handleUpdateField}
         required
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={imdbUrl}
-        onChange={setHaveImdbUrl}
+        value={formData.imdbUrl}
+        onChange={handleUpdateField}
         required
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imdbId}
-        onChange={setHaveImdbId}
+        value={formData.imdbId}
+        onChange={handleUpdateField}
         required
       />
 
@@ -97,7 +105,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={isDisabled}
+            disabled={isSumbitDisabled}
           >
             Add
           </button>

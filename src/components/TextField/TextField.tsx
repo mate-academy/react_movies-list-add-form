@@ -7,7 +7,7 @@ type Props = {
   label?: string;
   placeholder?: string;
   required?: boolean;
-  onChange?: (newValue: string) => void;
+  onChange?: (field: string, newValue: string) => void;
 };
 
 function getRandomDigits() {
@@ -45,7 +45,7 @@ export const TextField: React.FC<Props> = ({
           })}
           placeholder={placeholder}
           value={value}
-          onChange={event => onChange(event.target.value.trimStart())}
+          onChange={event => onChange(name, event.target.value.trimStart())}
           onBlur={() => setTouched(true)}
         />
       </div>
