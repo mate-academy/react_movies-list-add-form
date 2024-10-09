@@ -8,20 +8,20 @@ interface Props {
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [formKeyCount, setFormKeyCount] = useState(0);
-  const [titleValue, setTitleValue] = useState('');
-  const [descriptionValue, setDescriptionValue] = useState('');
+  const [movieTitle, setMovieTitle] = useState('');
+  const [movieDescription, setMovieDescription] = useState('');
   const [imgUrlValue, setImgUrlValue] = useState('');
   const [imdbUrlValue, setImdbUrlValue] = useState('');
-  const [imdbIdValue, setImdbIdValue] = useState('');
+  const [movieImdbId, setMovieImdbId] = useState('');
 
-  const isVerify = titleValue && imgUrlValue && imdbUrlValue && imdbIdValue;
+  const isVerify = movieTitle && imgUrlValue && imdbUrlValue && movieImdbId;
 
   const reset = () => {
-    setTitleValue('');
-    setDescriptionValue('');
+    setMovieTitle('');
+    setMovieDescription('');
     setImgUrlValue('');
     setImdbUrlValue('');
-    setImdbIdValue('');
+    setMovieImdbId('');
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -29,11 +29,11 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
     if (isVerify) {
       onAdd({
-        title: titleValue,
-        description: descriptionValue,
+        title: movieTitle,
+        description: movieDescription,
         imgUrl: imgUrlValue,
         imdbUrl: imdbUrlValue,
-        imdbId: imdbIdValue,
+        imdbId: movieImdbId,
       });
       reset();
       setFormKeyCount(() => formKeyCount + 1);
@@ -47,9 +47,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value={titleValue}
-        onChange={newTitle => {
-          setTitleValue(newTitle);
+        value={movieTitle}
+        onChange={newTitleValue => {
+          setMovieTitle(newTitleValue);
         }}
         required
       />
@@ -57,9 +57,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="description"
         label="Description"
-        value={descriptionValue}
-        onChange={newDescription => {
-          setDescriptionValue(newDescription);
+        value={movieDescription}
+        onChange={newDescriptionValue => {
+          setMovieDescription(newDescriptionValue);
         }}
       />
 
@@ -67,8 +67,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imgUrl"
         label="Image URL"
         value={imgUrlValue}
-        onChange={newImageURL => {
-          setImgUrlValue(newImageURL);
+        onChange={newImgUrlValue => {
+          setImgUrlValue(newImgUrlValue);
         }}
         required
       />
@@ -77,8 +77,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrlValue}
-        onChange={newimdbUrl => {
-          setImdbUrlValue(newimdbUrl);
+        onChange={newImdbUrlValue => {
+          setImdbUrlValue(newImdbUrlValue);
         }}
         required
       />
@@ -86,9 +86,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imdbIdValue}
-        onChange={newimdbId => {
-          setImdbIdValue(newimdbId);
+        value={movieImdbId}
+        onChange={newImdbIdValue => {
+          setMovieImdbId(newImdbIdValue);
         }}
         required
       />
