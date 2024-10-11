@@ -6,8 +6,9 @@ interface NewMovieProps {
   onAdd: (movie: Movie) => void;
 }
 
-// Функція для валідації URL
-const validateUrl = (value: string): string => {
+type MovieField = 'title' | 'description' | 'imgUrl' | 'imdbUrl' | 'imdbId';
+
+const validateUrl = (value: string) => {
   const pattern =
     // eslint-disable-next-line max-len
     /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
@@ -15,16 +16,21 @@ const validateUrl = (value: string): string => {
   return pattern.test(value) ? '' : 'Invalid URL';
 };
 
-const fieldsConfig = [
+const fields: Array<{
+  name: MovieField;
+  label: string;
+  required?: boolean;
+  validate?: (value: string) => string;
+}> = [
   { name: 'title', label: 'Title', required: true },
-  { name: 'description', label: 'Description', required: false },
+  { name: 'description', label: 'Description' },
   { name: 'imgUrl', label: 'Image URL', required: true, validate: validateUrl },
   { name: 'imdbUrl', label: 'Imdb URL', required: true, validate: validateUrl },
   { name: 'imdbId', label: 'Imdb ID', required: true },
 ];
 
 export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
-  const [form, setForm] = useState({
+  const [form, setForm] = useState<Record<MovieField, string>>({
     title: '',
     description: '',
     imgUrl: '',
@@ -32,20 +38,20 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
     imdbId: '',
   });
 
-  const [errors, setErrors] = useState({
-    title: '',
-    description: '',
-    imgUrl: '',
-    imdbUrl: '',
-    imdbId: '',
-  });
-
-  const [touched, setTouched] = useState({
+  const [touched, setTouched] = useState<Record<MovieField, boolean>>({
     title: false,
     description: false,
     imgUrl: false,
     imdbUrl: false,
     imdbId: false,
+  });
+
+  const [errors, setErrors] = useState<Record<MovieField, string>>({
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
   });
 
   const isFormValid = () => {
@@ -57,7 +63,7 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
     );
   };
 
-  const validateField = (field: keyof typeof form) => {
+  const validateField = (field: MovieField) => {
     if (!form[field].trim() && field !== 'description') {
       setErrors(prevErrors => ({
         ...prevErrors,
@@ -69,56 +75,35 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
         [field]: '',
       }));
     }
-
-    const fieldConfig = fieldsConfig.find(config => config.name === field);
-
-    if (fieldConfig?.validate) {
-      const errorMessage = fieldConfig.validate(form[field]);
-
-      if (errorMessage) {
-        setErrors(prevErrors => ({
-          ...prevErrors,
-          [field]: errorMessage,
-        }));
-      }
-    }
   };
 
   const handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
     const { name } = event.target;
 
-    setTouched({
-      ...touched,
-      [name]: true,
-    });
-
+    setTouched({ ...touched, [name]: true });
     validateField(name as keyof typeof form);
   };
 
-  const handleChange = (name: keyof typeof form) => (newValue: string) => {
-    setForm(prev => ({ ...prev, [name]: newValue }));
-    setErrors(prevErrors => ({
-      ...prevErrors,
-      [name]: '',
-    }));
+  const handleChange = (event: { target: { name: string; value: string } }) => {
+    const { name, value } = event.target;
+
+    setForm(prev => ({ ...prev, [name]: value }));
+    setErrors(prevErrors => ({ ...prevErrors, [name]: '' }));
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-
     if (!isFormValid()) {
       return;
     }
 
-    const newMovie: Movie = {
+    onAdd({
       title: form.title,
       description: form.description,
       imgUrl: form.imgUrl,
       imdbUrl: form.imdbUrl,
       imdbId: form.imdbId,
-    };
-
-    onAdd(newMovie);
+    });
 
     setForm({
       title: '',
@@ -135,29 +120,27 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
       imdbUrl: '',
       imdbId: '',
     });
-    setTouched({
-      title: false,
-      description: false,
-      imgUrl: false,
-      imdbUrl: false,
-      imdbId: false,
-    });
   };
 
   return (
     <form className="NewMovie" onSubmit={handleSubmit}>
       <h2 className="title">Add a movie</h2>
 
-      {fieldsConfig.map(({ name, label, required }) => (
+      {fields.map(({ name, label, required, validate }) => (
         <TextField
           key={name}
           name={name}
           label={label}
           value={form[name]}
-          onChange={handleChange(name)}
+          onChange={(value: string) =>
+            handleChange({
+              target: { name, value },
+            })
+          }
           onBlur={handleBlur}
           error={errors[name]}
           required={required}
+          validate={validate}
         />
       ))}
 
