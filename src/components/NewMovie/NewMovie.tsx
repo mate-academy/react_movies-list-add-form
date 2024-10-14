@@ -3,10 +3,10 @@ import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
 interface Props {
-  setNewMovie: (newMovie: Movie[]) => void;
+  onAdd: (newMovie: Movie) => void;
 }
 
-export const NewMovie: React.FC<Props> = ({ setNewMovie }) => {
+export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [imgUrl, setImgUrl] = useState('');
@@ -44,19 +44,16 @@ export const NewMovie: React.FC<Props> = ({ setNewMovie }) => {
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    const newMovie = [
-      {
-        title,
-        description,
-        imgUrl,
-        imdbUrl,
-        imdbId,
-      },
-    ];
+    const newMovie: Movie = {
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    };
 
+    onAdd(newMovie);
     reset();
-
-    setNewMovie(newMovie);
   };
 
   return (
