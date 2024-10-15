@@ -1,19 +1,14 @@
-import { useState } from 'react';
-
 import './App.scss';
 import { MoviesList } from './components/MoviesList';
 import { NewMovie } from './components/NewMovie';
 import moviesFromServer from './api/movies.json';
+import { useState } from 'react';
 import { Movie } from './types/Movie';
 
-const initialMovies: Movie[] = moviesFromServer.map(movie => movie);
-
 export const App = () => {
-  const [movies, setMovie] = useState<Movie[]>(initialMovies);
+  const [movies, setMovies] = useState(moviesFromServer);
 
-  const addMovie = (movie: Movie) => {
-    setMovie(currentMovie => [...currentMovie, movie]);
-  };
+  const onAdd = (movie: Movie) => setMovies([...movies, movie]);
 
   return (
     <div className="page">
@@ -21,7 +16,7 @@ export const App = () => {
         <MoviesList movies={movies} />
       </div>
       <div className="sidebar">
-        <NewMovie onAdd={addMovie} />
+        <NewMovie onAdd={onAdd} />
       </div>
     </div>
   );

@@ -1,107 +1,63 @@
-import React, { ChangeEvent, useState } from 'react';
+import { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
+const defaultValues = {
+  title: '',
+  description: '',
+  imgUrl: '',
+  imdbUrl: '',
+  imdbId: '',
+};
+
+type FormValues = typeof defaultValues;
 type Props = {
   onAdd: (post: Movie) => void;
 };
 
-interface ForNewMovie {
-  title: string;
-  description: string;
-  imgUrl: string;
-  imdbUrl: string;
-  imdbId: string;
-  [key: string]: string;
-}
-
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
+  const [newMovie, setNewMovie] = useState<FormValues>(defaultValues);
 
-  const [newMovie, setNewMovie] = useState<ForNewMovie>({
-    title: '',
-    description: '',
-    imgUrl: '',
-    imdbUrl: '',
-    imdbId: '',
-  });
-
-  const isDisabled: boolean = Object.keys(newMovie)
+  const isDisabled = Object.keys(newMovie)
     .filter(key => key !== 'description')
-    .some(key => !newMovie[key] || !newMovie[key].trim());
+    .some(key => {
+      const typedKey = key as keyof typeof newMovie;
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+      return !newMovie[typedKey] || !newMovie[typedKey].trim();
+    });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
-    setNewMovie(prevMovie => ({
-      ...prevMovie,
+    setNewMovie(currentValues => ({
+      ...currentValues,
       [name]: value,
     }));
   };
 
-  const reset = () => {
-    setNewMovie({
-      title: '',
-      description: '',
-      imgUrl: '',
-      imdbUrl: '',
-      imdbId: '',
-    });
-  };
+  const handleOnSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
 
-  const handleSubmit = (event: React.FormEvent) => {
-    if (!isDisabled) {
-      event.preventDefault();
-
-      onAdd(newMovie);
-
-      setCount(count + 1);
-      reset();
-    }
+    onAdd(newMovie);
+    setNewMovie(defaultValues);
+    setCount(preventCount => preventCount + 1);
   };
 
   return (
-    <form className="NewMovie" key={count} onSubmit={handleSubmit}>
+    <form className="NewMovie" key={count} onSubmit={handleOnSubmit}>
       <h2 className="title">Add a movie</h2>
 
-      <TextField
-        name="title"
-        label="Title"
-        value={newMovie.title}
-        onChange={handleChange}
-        required
-      />
-
-      <TextField
-        name="description"
-        label="Description"
-        value={newMovie.description}
-        onChange={handleChange}
-      />
-
-      <TextField
-        name="imgUrl"
-        label="Image URL"
-        value={newMovie.imgUrl}
-        onChange={handleChange}
-        required
-      />
-
-      <TextField
-        name="imdbUrl"
-        label="Imdb URL"
-        value={newMovie.imdbUrl}
-        onChange={handleChange}
-        required
-      />
-
-      <TextField
-        name="imdbId"
-        label="Imdb ID"
-        value={newMovie.imdbId}
-        onChange={handleChange}
-        required
-      />
+      {Object.keys(defaultValues).map(input => (
+        <TextField
+          key={`${input} - ${count}`}
+          name={input}
+          label={input[0].toUpperCase() + input.slice(1)}
+          value={newMovie[input as keyof FormValues]}
+          onChange={event => handleChange(event)}
+          required={input !== 'description'}
+        />
+      ))}
 
       <div className="field is-grouped">
         <div className="control">
