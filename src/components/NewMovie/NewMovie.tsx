@@ -6,25 +6,23 @@ interface Props {
   onAdd: (newMovie: Movie) => void;
 }
 
+const initialForm: Movie = {
+  description: '',
+  title: '',
+  imgUrl: '',
+  imdbUrl: '',
+  imdbId: '',
+};
+
 export const NewMovie: FC<Props> = ({ onAdd }) => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
+  const [formData, setFormData] = useState(initialForm);
 
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imageUrl, setImageUrl] = useState('');
-  const [imbdUrl, setImbdUrl] = useState('');
-  const [imbdId, setImbdId] = useState('');
-
-  const isFormFull = title && imageUrl && imbdUrl && imbdId;
+  const isFormFull =
+    formData.title && formData.imgUrl && formData.imdbUrl && formData.imdbId;
 
   const handleReset = () => {
-    setTitle('');
-    setDescription('');
-    setImageUrl('');
-    setImbdUrl('');
-    setImbdId('');
+    setFormData(initialForm);
   };
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -34,15 +32,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
       return;
     }
 
-    const newMovieToPush: Movie = {
-      title: title,
-      description: description,
-      imgUrl: imageUrl,
-      imdbUrl: imbdUrl,
-      imdbId: imbdId,
-    };
-
-    onAdd(newMovieToPush);
+    onAdd(formData);
     setCount(current => current + 1);
     handleReset();
   };
@@ -54,63 +44,62 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value={title}
-        onChange={event => setTitle(event)}
+        value={formData.title}
+        onChange={event =>
+          setFormData({ ...formData, title: event.trimStart() })
+        }
         required
       />
 
       <TextField
-        onChange={event => setDescription(event)}
-        required
+        onChange={event =>
+          setFormData({ ...formData, description: event.trimStart() })
+        }
         name="description"
         label="Description"
-        value={description}
+        value={formData.description}
       />
 
       <TextField
-        onChange={event => setImageUrl(event)}
+        onChange={event =>
+          setFormData({ ...formData, imgUrl: event.trimStart() })
+        }
         required
         name="imgUrl"
         label="Image URL"
-        value={imageUrl}
+        value={formData.imgUrl}
       />
 
       <TextField
-        onChange={event => setImbdUrl(event)}
+        onChange={event =>
+          setFormData({ ...formData, imdbUrl: event.trimStart() })
+        }
         required
         name="imdbUrl"
         label="Imdb URL"
-        value={imbdUrl}
+        value={formData.imdbUrl}
       />
 
       <TextField
-        onChange={event => setImbdId(event)}
+        onChange={event =>
+          setFormData({ ...formData, imdbId: event.trimStart() })
+        }
         required
         name="imdbId"
         label="Imdb ID"
-        value={imbdId}
+        value={formData.imdbId}
       />
 
       <div className="field is-grouped">
         <div className="control">
-          {isFormFull ? (
-            <button
-              type="submit"
-              data-cy="submit-button"
-              className="button is-link"
-            >
-              Add
-            </button>
-          ) : (
-            <button
-              type="submit"
-              data-cy="submit-button"
-              className="button is-link"
-              disabled
-            >
-              Add
-            </button>
-          )}
+          <button
+            type="submit"
+            data-cy="submit-button"
+            className="button is-link"
+            disabled={!isFormFull}
+          >
+            Add
+          </button>
         </div>
       </div>
     </form>
