@@ -48,15 +48,22 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   };
 
   return (
-    <form className="NewMovie" key={count}>
+    <form
+      className="NewMovie"
+      key={count}
+      onSubmit={e => {
+        e.preventDefault();
+        submit();
+      }}
+    >
       <h2 className="title">Add a movie</h2>
 
       <TextField
         name="title"
         label="Title"
         value={title}
-        onChange={curr => {
-          setTitle(curr);
+        onChange={newValue => {
+          setTitle(newValue);
           setTitleError(true);
         }}
         required
@@ -68,8 +75,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={description}
-        onChange={curr => {
-          setDescription(curr);
+        onChange={newValue => {
+          setDescription(newValue);
           setDescriptionError(true);
         }}
         required
@@ -81,8 +88,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={curr => {
-          setImgUrl(curr);
+        onChange={newValue => {
+          setImgUrl(newValue);
           setImgUrlError(true);
         }}
         required
@@ -94,8 +101,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={curr => {
-          setImdbUrl(curr);
+        onChange={newValue => {
+          setImdbUrl(newValue);
           setImdbUrlError(true);
         }}
         required
@@ -107,8 +114,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={curr => {
-          setImdbId(curr);
+        onChange={newValue => {
+          setImdbId(newValue);
           setImdbIdError(true);
         }}
         required
@@ -122,10 +129,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            onClick={e => {
-              e.preventDefault();
-              submit();
-            }}
             disabled={!title || !imgUrl || !imdbUrl || !imdbId}
           >
             Add
