@@ -1,11 +1,18 @@
 import { type FormEvent, useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
-import { INITIAL_FORM_VALUES } from './utils/constants';
 import { pattern } from './utils/validation';
 
 type Props = {
   onAdd: (movie: Movie) => void;
+};
+
+const INITIAL_FORM_VALUES = {
+  title: '',
+  description: '',
+  imgUrl: '',
+  imdbUrl: '',
+  imdbId: '',
 };
 
 export const NewMovie = ({ onAdd }: Props) => {
@@ -24,14 +31,14 @@ export const NewMovie = ({ onAdd }: Props) => {
     return pattern.test(value) ? null : 'Invalid URL format';
   };
 
-  const { title, imdbId, imdbUrl, imgUrl } = formValues;
+  const { title, imdbId, imgUrl, imdbUrl } = formValues;
   const isFormValid =
     title.trim() &&
-    imdbId.trim() &&
-    imdbUrl.trim() &&
     imgUrl.trim() &&
-    !getUrlValidationError(imdbUrl) &&
-    !getUrlValidationError(imgUrl);
+    imdbUrl.trim() &&
+    imdbId.trim() &&
+    !getUrlValidationError(imgUrl) &&
+    !getUrlValidationError(imdbUrl);
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
