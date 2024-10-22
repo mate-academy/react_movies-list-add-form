@@ -1,6 +1,13 @@
 import { useState } from 'react';
 import { TextField } from '../TextField';
-import { Movie } from '../../types/Movie';
+
+type Movie = {
+  title: string;
+  description: string;
+  imgUrl: string;
+  imdbUrl: string;
+  imdbId: string;
+};
 
 interface OnAdd {
   onAdd: (movie: Movie) => void;
@@ -10,6 +17,7 @@ export const NewMovie = ({ onAdd }: OnAdd) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
+
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [imgUrl, setImgUrl] = useState('');
