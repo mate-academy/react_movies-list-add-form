@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { TextField } from '../TextField';
 
-type Movie = {
+export type Movie = {
   title: string;
   description: string;
   imgUrl: string;
