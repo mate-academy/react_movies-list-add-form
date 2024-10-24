@@ -23,12 +23,12 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
   const [imgUrl, setImgUrl] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
-  const [touched, setTouched] = useState({
-    title: false,
-    imgUrl: false,
-    imdbUrl: false,
-    imdbId: false,
-  });
+  // const [touched, setTouched] = useState({
+  //   title: false,
+  //   imgUrl: false,
+  //   imdbUrl: false,
+  //   imdbId: false,
+  // });
   const isFormValid =
     title.trim() && imgUrl.trim() && imdbUrl.trim() && imdbId.trim();
 
@@ -53,12 +53,12 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
       setImgUrl('');
       setImdbUrl('');
       setImdbId('');
-      setTouched({
-        title: false,
-        imgUrl: false,
-        imdbUrl: false,
-        imdbId: false,
-      });
+      // setTouched({
+      //   title: false,
+      //   imgUrl: false,
+      //   imdbUrl: false,
+      //   imdbId: false,
+      // });
 
       setCount(count + 1);
     }
@@ -73,7 +73,7 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
         label="Title"
         value={title}
         onChange={setTitle}
-        onBlur={() => setTouched(prev => ({ ...prev, title: true }))}
+        // onBlur={() => setTouched(prev => ({ ...prev, title: true }))}
         required
       />
 
@@ -89,7 +89,7 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
         label="Image URL"
         value={imgUrl}
         onChange={setImgUrl}
-        onBlur={() => setTouched(prev => ({ ...prev, imgUrl: true }))}
+        // onBlur={() => setTouched(prev => ({ ...prev, imgUrl: true }))}
         required
       />
 
@@ -98,7 +98,7 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
         label="Imdb URL"
         value={imdbUrl}
         onChange={setImdbUrl}
-        onBlur={() => setTouched(prev => ({ ...prev, imdbUrl: true }))}
+        // onBlur={() => setTouched(prev => ({ ...prev, imdbUrl: true }))}
         required
       />
 
@@ -107,7 +107,7 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
         label="Imdb ID"
         value={imdbId}
         onChange={setImdbId}
-        onBlur={() => setTouched(prev => ({ ...prev, imdbId: true }))}
+        // onBlur={() => setTouched(prev => ({ ...prev, imdbId: true }))}
         required
       />
 
