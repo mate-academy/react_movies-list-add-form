@@ -53,12 +53,6 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
       setImgUrl('');
       setImdbUrl('');
       setImdbId('');
-      // setTouched({
-      //   title: false,
-      //   imgUrl: false,
-      //   imdbUrl: false,
-      //   imdbId: false,
-      // });
 
       setCount(count + 1);
     }
@@ -73,7 +67,6 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
         label="Title"
         value={title}
         onChange={setTitle}
-        // onBlur={() => setTouched(prev => ({ ...prev, title: true }))}
         required
       />
 
@@ -89,7 +82,6 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
         label="Image URL"
         value={imgUrl}
         onChange={setImgUrl}
-        // onBlur={() => setTouched(prev => ({ ...prev, imgUrl: true }))}
         required
       />
 
@@ -98,7 +90,6 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
         label="Imdb URL"
         value={imdbUrl}
         onChange={setImdbUrl}
-        // onBlur={() => setTouched(prev => ({ ...prev, imdbUrl: true }))}
         required
       />
 
@@ -107,7 +98,6 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
         label="Imdb ID"
         value={imdbId}
         onChange={setImdbId}
-        // onBlur={() => setTouched(prev => ({ ...prev, imdbId: true }))}
         required
       />
 
