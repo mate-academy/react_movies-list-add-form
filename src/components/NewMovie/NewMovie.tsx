@@ -15,7 +15,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imgUrl, setImgUrl] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
-  const [hasError, setHasError] = useState(true);
+
+  const isFormValid = title && imgUrl && imdbUrl && imdbId;
 
   const reset = () => {
     setTitle('');
@@ -25,18 +26,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setImdbId('');
   };
 
-  const handleDisabledButton = () => {
-    if (title.trim() && imgUrl.trim() && imdbUrl.trim() && imdbId.trim()) {
-      setHasError(false);
-    } else {
-      setHasError(true);
-    }
-  };
-
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (!title || !imgUrl || !imdbUrl || !imdbId) {
+    if (!isFormValid) {
       return;
     }
 
@@ -53,12 +46,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   };
 
   return (
-    <form
-      className="NewMovie"
-      key={count}
-      onSubmit={handleSubmit}
-      onChange={handleDisabledButton}
-    >
+    <form className="NewMovie" key={count} onSubmit={handleSubmit}>
       <h2 className="title">Add a movie</h2>
 
       <TextField
@@ -106,7 +94,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={hasError}
+            disabled={!isFormValid}
           >
             Add
           </button>
