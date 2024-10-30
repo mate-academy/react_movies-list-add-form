@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { TextField } from '../TextField';
-import { Movie } from '../../types/Movie';
+import { Movie, TextFieldProps } from '../../types/Movie';
 
 type NewMovieProps = {
   onAdd: (movie: Movie) => void;
+  TextField: React.ComponentType<TextFieldProps>;
 };
 
 type ValidationErrors = {
@@ -13,7 +13,7 @@ type ValidationErrors = {
   imdbId?: string;
 };
 
-export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
+export const NewMovie: React.FC<NewMovieProps> = ({ onAdd, TextField }) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [imgUrl, setImgUrl] = useState('');
@@ -74,7 +74,8 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={title}
-        onChange={setTitle}
+        onChange={(e: string) => setTitle(e)}
+        onBlur={validateFields}
         required
       />
       {errors.title && <p className="help is-danger">{errors.title}</p>}
@@ -83,14 +84,15 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={description}
-        onChange={setDescription}
+        onChange={(e: string) => setDescription(e)}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={setImgUrl}
+        onChange={(e: string) => setImgUrl(e)}
+        onBlur={validateFields}
         required
       />
       {errors.imgUrl && <p className="help is-danger">{errors.imgUrl}</p>}
@@ -99,7 +101,8 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
         name="imdbUrl"
         label="IMDB URL"
         value={imdbUrl}
-        onChange={setImdbUrl}
+        onChange={(e: string) => setImdbUrl(e)}
+        onBlur={validateFields}
         required
       />
       {errors.imdbUrl && <p className="help is-danger">{errors.imdbUrl}</p>}
@@ -108,7 +111,8 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
         name="imdbId"
         label="IMDB ID"
         value={imdbId}
-        onChange={setImdbId}
+        onChange={(e: string) => setImdbId(e)}
+        onBlur={validateFields}
         required
       />
       {errors.imdbId && <p className="help is-danger">{errors.imdbId}</p>}

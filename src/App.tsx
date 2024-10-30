@@ -1,6 +1,7 @@
 import './App.scss';
 import { MoviesList } from './components/MoviesList';
 import { NewMovie } from './components/NewMovie';
+import { TextField } from './components/TextField';
 import moviesFromServer from './api/movies.json';
 import { useState } from 'react';
 import { Movie } from './types/Movie';
@@ -18,7 +19,7 @@ export const App = () => {
         <MoviesList movies={movies} />
       </div>
       <div className="sidebar">
-        <NewMovie onAdd={addMovie} />
+        <NewMovie onAdd={addMovie} TextField={TextField} />
       </div>
     </div>
   );
