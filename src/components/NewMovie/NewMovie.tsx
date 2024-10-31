@@ -11,6 +11,7 @@ const InitialState = {
 };
 
 const imageURLPattern =
+  // eslint-disable-next-line
   /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
 
 interface IProps {
@@ -33,7 +34,9 @@ export const NewMovie: FC<IProps> = ({ onAdd }) => {
   const handleSumbit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!isValid) return;
+    if (!isValid) {
+      return;
+    }
 
     onAdd(state);
 
