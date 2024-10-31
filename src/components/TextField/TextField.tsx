@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 type Props = {
   name: string;
   value: string;
+  pattern?: RegExp;
   label?: string;
   placeholder?: string;
   required?: boolean;
@@ -21,6 +22,7 @@ export const TextField: React.FC<Props> = ({
   placeholder = `Enter ${label}`,
   required = false,
   onChange = () => {},
+  pattern,
 }) => {
   // generate a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
@@ -28,6 +30,7 @@ export const TextField: React.FC<Props> = ({
   // To show errors only if the field was touched (onBlur)
   const [touched, setTouched] = useState(false);
   const hasError = touched && required && !value;
+  const patternError = pattern && !pattern.test(value);
 
   return (
     <div className="field">
@@ -47,10 +50,15 @@ export const TextField: React.FC<Props> = ({
           value={value}
           onChange={event => onChange(event.target.value)}
           onBlur={() => setTouched(true)}
+          name={name}
         />
       </div>
 
-      {hasError && <p className="help is-danger">{`${label} is required`}</p>}
+      {hasError && (
+        <p className="help is-danger">
+          {patternError ? 'Invalid format' : `${label} is required`}
+        </p>
+      )}
     </div>
   );
 };
