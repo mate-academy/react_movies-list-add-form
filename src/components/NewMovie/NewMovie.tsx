@@ -28,6 +28,17 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     if (isValidImdb && isValidImg && title && imdbId && imdbUrl && imgUrl) {
       onAdd(newMovie);
       setCount(prev => prev + 1);
+
+      setIsValidImdb(false);
+      setIsValidImg(false);
+
+      setNewMovie({
+        title: '',
+        imdbId: '',
+        imdbUrl: '',
+        imgUrl: '',
+        description: '',
+      })
     }
   }
 
@@ -92,7 +103,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!isValidImg && !isValidImdb}
+            disabled={!isValidImg || !isValidImdb}
           >
             Add
           </button>

@@ -7,19 +7,19 @@ type Props = {
   label?: string;
   placeholder?: string;
   required?: boolean;
-    onChange?: (newValue: string) => void;
+  onChange?: (newValue: string) => void;
   onValid?: (isValid: boolean) => void;
 };
 
-function testPattern (text: string): boolean {
+function testPattern(text: string): boolean {
   const pattern = new RegExp(
-    "^(" +
-      "((([A-Za-z]{3,9}:(?:\\/\\/)?)(?:[-;:&=+$,\\w]+@)?" +
-      "[A-Za-z0-9.-]+|(?:www\\.|[-;:&=+$,\\w]+@)[A-Za-z0-9.-]+)" +
-      "((?:\\/[+~%/.\\w-_]*)?\\??(?:[-+=&;%@,.\\w_]*)#?" +
-      "(?:[,.!/\\\\\\w]*))?)" +
-    ")$",
-    "i"
+    '^(' +
+      '((([A-Za-z]{3,9}:(?:\\/\\/)?)(?:[-;:&=+$,\\w]+@)?' +
+      '[A-Za-z0-9.-]+|(?:www\\.|[-;:&=+$,\\w]+@)[A-Za-z0-9.-]+)' +
+      '((?:\\/[+~%/.\\w-_]*)?\\??(?:[-+=&;%@,.\\w_]*)#?' +
+      '(?:[,.!/\\\\\\w]*))?)' +
+      ')$',
+    'i',
   );
 
   return pattern.test(text);
@@ -37,16 +37,15 @@ export const TextField: React.FC<Props> = ({
   required = false,
   onChange = () => {},
   onValid = () => {},
-
 }) => {
   // generate a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
   const [errorMessage, setErrorMessage] = useState('');
   // To show errors only if the field was touched (onBlur)
 
-  function handleChange (event: React.ChangeEvent<HTMLInputElement>) {
+  function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     onChange(event.target.value);
-    setErrorMessage('')
+    setErrorMessage('');
   }
 
   function validateValue() {
@@ -59,6 +58,7 @@ export const TextField: React.FC<Props> = ({
         onValid(true);
       } else {
         onValid(false);
+
         return `${label} is not valid`;
       }
     }
