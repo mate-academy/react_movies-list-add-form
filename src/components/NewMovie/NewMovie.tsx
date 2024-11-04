@@ -19,20 +19,19 @@ interface IProps {
 }
 
 export const NewMovie: FC<IProps> = ({ onAdd }) => {
-  const [count, setCount] = useState(0);
   const [state, setState] = useState({ ...InitialState });
 
   const { title, imgUrl, imdbUrl, imdbId, description } = state;
   const isValid = !!title && !!imgUrl && !!imdbUrl && !!imdbId;
 
-  const handleChange = (e: ChangeEvent<HTMLFormElement>) => {
-    const { name, value } = e.target;
+  const handleChange = (event: ChangeEvent<HTMLFormElement>) => {
+    const { name, value } = event.target;
 
-    setState(s => ({ ...s, [name]: value }));
+    setState(prevState => ({ ...prevState, [name]: value }));
   };
 
-  const handleSumbit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleSumbit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
 
     if (!isValid) {
       return;
@@ -40,17 +39,11 @@ export const NewMovie: FC<IProps> = ({ onAdd }) => {
 
     onAdd(state);
 
-    setCount(s => s + 1);
     setState({ ...InitialState });
   };
 
   return (
-    <form
-      className="NewMovie"
-      key={count}
-      onChange={handleChange}
-      onSubmit={handleSumbit}
-    >
+    <form className="NewMovie" onChange={handleChange} onSubmit={handleSumbit}>
       <h2 className="title">Add a movie</h2>
 
       <TextField name="title" label="Title" value={state.title} required />
