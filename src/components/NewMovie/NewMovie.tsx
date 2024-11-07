@@ -19,18 +19,18 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     imdbId: '',
   });
 
-  const isFormComplete = () => {
-    return (
-      formInfo.title.trim() !== '' &&
-      formInfo.imgUrl.trim() !== '' &&
-      formInfo.imdbUrl.trim() !== '' &&
-      formInfo.imdbId.trim() !== ''
-    );
-  };
-
   useEffect(() => {
+    const isFormComplete = () => {
+      return (
+        formInfo.title.trim() !== '' &&
+        formInfo.imgUrl.trim() !== '' &&
+        formInfo.imdbUrl.trim() !== '' &&
+        formInfo.imdbId.trim() !== ''
+      );
+    };
+
     setShowSubmit(!isFormComplete());
-  }, [formInfo, isFormComplete]);
+  }, [formInfo]);
 
   const handleChange = (name: string, value: string) => {
     setFormInfo(prevInfo => ({ ...prevInfo, [name]: value }));
