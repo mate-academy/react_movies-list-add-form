@@ -9,25 +9,26 @@ type Props = {
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
-  const [count] = useState(0);
+  const [count, setCount] = useState(0);
 
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [imgUrl, setImgUrl] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImbId] = useState('');
+  const [imdbId, setImdbId] = useState('');
 
   const hasDisable = !title || !imgUrl || !imdbUrl || !imdbId;
 
-  let hasRequered = true;
+  let hasRequired = true;
 
   function reset() {
     setTitle('');
     setDescription('');
     setImgUrl('');
     setImdbUrl('');
-    setImbId('');
-    hasRequered = true;
+    setImdbId('');
+    setCount(0);
+    hasRequired = true;
   }
 
   function handleAdd(event: React.FormEvent) {
@@ -41,6 +42,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       imdbId,
     });
 
+    setCount(prevCount => prevCount + 1);
+
     reset();
   }
 
@@ -53,7 +56,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Title"
         value={title}
         onChange={setTitle}
-        required={hasRequered}
+        required={hasRequired}
       />
 
       <TextField
@@ -68,7 +71,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Image URL"
         value={imgUrl}
         onChange={setImgUrl}
-        required={hasRequered}
+        required={hasRequired}
       />
 
       <TextField
@@ -76,15 +79,15 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Imdb URL"
         value={imdbUrl}
         onChange={setImdbUrl}
-        required={hasRequered}
+        required={hasRequired}
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={setImbId}
-        required={hasRequered}
+        onChange={setImdbId}
+        required={hasRequired}
       />
 
       <div className="field is-grouped">
