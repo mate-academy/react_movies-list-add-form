@@ -20,7 +20,12 @@ export const NewMovie: React.FC<Props> = ({ onSubmit }) => {
   const [isDisabled, setIsDisabled] = useState(true);
 
   useEffect(() => {
-    if (titleChecker && imgUrlChecker && imdbUrlChecker && imdbIdChecker) {
+    if (
+      titleChecker.trim() &&
+      imgUrlChecker.trim() &&
+      imdbUrlChecker.trim() &&
+      imdbIdChecker.trim()
+    ) {
       setIsDisabled(false);
     } else {
       setIsDisabled(true);
@@ -53,15 +58,13 @@ export const NewMovie: React.FC<Props> = ({ onSubmit }) => {
     const newMovie: Movie = {
       title: titleChecker,
       imgUrl: imgUrlChecker,
-      imdbUrl: imdbIdChecker,
+      imdbUrl: imdbUrlChecker,
       imdbId: imdbIdChecker,
     };
 
     if (descriptionChecker.trim()) {
-      newMovie.description = descriptionChecker;
+      newMovie.description = descriptionChecker.trim();
     }
-
-    setCount(count + 1);
 
     onSubmit(newMovie);
 
@@ -70,6 +73,8 @@ export const NewMovie: React.FC<Props> = ({ onSubmit }) => {
     setImgUrlChecker('');
     setImdbUrlChecker('');
     setImdbIdChecker('');
+
+    setCount(count + 1);
   };
 
   return (
