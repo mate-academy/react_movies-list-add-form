@@ -4,16 +4,16 @@ import { NewMovie } from './components/NewMovie';
 import moviesFromServer from './api/movies.json';
 import { useState } from 'react';
 
+type Move = {
+  title: string;
+  description: string;
+  imgUrl: string;
+  imdbUrl: string;
+  imdbId: string;
+};
+
 export const App = () => {
   const [movies, setMovies] = useState(moviesFromServer);
-
-  type Move = {
-    title: string;
-    description: string;
-    imgUrl: string;
-    imdbUrl: string;
-    imdbId: string;
-  };
 
   const onAdd = (movie: Move) => {
     setMovies(currentMovies => [...currentMovies, movie]);

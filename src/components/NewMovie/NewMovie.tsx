@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
@@ -28,7 +28,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
-  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
   const [newMovie, setNewMovie] = useState<Move>({
     title: '',
@@ -44,13 +43,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setNewMovie(prevMovie => ({ ...prevMovie, [name]: value }));
   };
 
-  useEffect(() => {
-    if (checkContent(newMovie)) {
-      setIsButtonDisabled(false);
-    } else {
-      setIsButtonDisabled(true);
-    }
-  }, [newMovie]);
+  const isButtonDisabled = !checkContent(newMovie);
 
   const resset = () => {
     setNewMovie({
@@ -60,8 +53,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       imdbUrl: '',
       imdbId: '',
     });
-
-    setCount(0);
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
