@@ -52,11 +52,25 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     }
   }, [newMovie]);
 
+  const resset = () => {
+    setNewMovie({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
+
+    setCount(0);
+  };
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     onAdd(newMovie);
     setCount(currentCount => currentCount + 1);
+
+    resset();
   };
 
   return (
