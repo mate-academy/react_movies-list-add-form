@@ -16,17 +16,7 @@ export const App = () => {
   };
 
   const onAdd = (movie: Move) => {
-    const { title, imgUrl, imdbUrl, description, imdbId } = movie;
-
-    const trimmedMovie: Move = {
-      title: title.trim(),
-      description: description.trim(),
-      imgUrl: imgUrl.trim(),
-      imdbUrl: imdbUrl.trim(),
-      imdbId: imdbId.trim(),
-    };
-
-    setMovies(currentMovies => [...currentMovies, trimmedMovie]);
+    setMovies(currentMovies => [...currentMovies, movie]);
   };
 
   return (

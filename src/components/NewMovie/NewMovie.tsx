@@ -1,5 +1,16 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { TextField } from '../TextField';
+import { Movie } from '../../types/Movie';
+
+const checkContent = (newMovie: Movie) => {
+  const content = Object.values(newMovie);
+  // delete for checking Description
+  const indexOfDescription = 1;
+
+  content.splice(indexOfDescription, 1);
+
+  return content.every(data => data.trim().length > 0);
+};
 
 type Move = {
   title: string;
@@ -17,55 +28,35 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
-  const [title, setTitile] = useState('');
-  const [imgUrl, setImg] = useState('');
-  const [imdbUrl, setImdb] = useState('');
-  const [imdbId, setId] = useState('');
-  const [description, setDescription] = useState('');
+  const [newMovie, setNewMovie] = useState<Move>({
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  });
 
-  function getTitle(data: string) {
-    setTitile(data);
-  }
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
 
-  function getDescription(data: string) {
-    setDescription(data);
-  }
-
-  function getImg(data: string) {
-    setImg(data);
-  }
-
-  function getImdb(data: string) {
-    setImdb(data);
-  }
-
-  function getId(data: string) {
-    setId(data);
-  }
-
-  const reset = () => {
-    setTitile('');
-    setImg('');
-    setImdb('');
-    setId('');
-    setDescription('');
-    setCount(0);
+    setNewMovie(prevMovie => ({ ...prevMovie, [name]: value }));
   };
 
-  let checkFullForm = true;
-
-  if (title && imgUrl && imdbUrl && description && imdbId) {
-    checkFullForm = false;
-  }
+  useEffect(() => {
+    if (checkContent(newMovie)) {
+      setIsButtonDisabled(false);
+    } else {
+      setIsButtonDisabled(true);
+    }
+  }, [newMovie]);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    onAdd({ title, imgUrl, imdbUrl, description, imdbId });
-    setCount(prevCount => prevCount + 1);
-
-    reset();
+    onAdd(newMovie);
+    setCount(currentCount => currentCount + 1);
   };
 
   return (
@@ -75,39 +66,39 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value={title}
-        onChange={getTitle}
+        value={newMovie.title}
+        onChange={handleChange}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value={description}
-        onChange={getDescription}
+        value={newMovie.description}
+        onChange={handleChange}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={imgUrl}
-        onChange={getImg}
+        value={newMovie.imgUrl}
+        onChange={handleChange}
         required
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={imdbUrl}
-        onChange={getImdb}
+        value={newMovie.imdbUrl}
+        onChange={handleChange}
         required
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imdbId}
-        onChange={getId}
+        value={newMovie.imdbId}
+        onChange={handleChange}
         required
       />
 
@@ -117,7 +108,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={checkFullForm}
+            disabled={isButtonDisabled}
           >
             Add
           </button>
