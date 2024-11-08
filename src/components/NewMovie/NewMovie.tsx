@@ -7,27 +7,31 @@ type Props = {
 };
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
 
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
+  const [newMovie, setNewMovie] = useState<Movie>({
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  });
+
+  const { title, description, imgUrl, imdbUrl, imdbId } = newMovie;
 
   const hasDisable = !title || !imgUrl || !imdbUrl || !imdbId;
 
   let hasRequired = true;
 
   function reset() {
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
-    setCount(0);
+    setNewMovie({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
+
     hasRequired = true;
   }
 
@@ -47,6 +51,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     reset();
   }
 
+  const changeHandle = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+
+    const trimmedValue = value.replace(/^\s+/, '');
+
+    setNewMovie(prevMovie => ({ ...prevMovie, [name]: trimmedValue }));
+  };
+
   return (
     <form className="NewMovie" key={count} onSubmit={handleAdd}>
       <h2 className="title">Add a movie</h2>
@@ -55,7 +67,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={title}
-        onChange={setTitle}
+        onChange={changeHandle}
         required={hasRequired}
       />
 
@@ -63,14 +75,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={description}
-        onChange={setDescription}
+        onChange={changeHandle}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={setImgUrl}
+        onChange={changeHandle}
         required={hasRequired}
       />
 
@@ -78,7 +90,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={setImdbUrl}
+        onChange={changeHandle}
         required={hasRequired}
       />
 
@@ -86,7 +98,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={setImdbId}
+        onChange={changeHandle}
         required={hasRequired}
       />
 
