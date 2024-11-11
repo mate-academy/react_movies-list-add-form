@@ -19,7 +19,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const { title, description, imgUrl, imdbUrl, imdbId } = newMovie;
 
   const isValid = () => {
-    return title.trim() && imgUrl.trim() && imdbUrl.trim() && imdbId.trim();
+    return Boolean(
+      title.trim() && imgUrl.trim() && imdbUrl.trim() && imdbId.trim(),
+    );
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
