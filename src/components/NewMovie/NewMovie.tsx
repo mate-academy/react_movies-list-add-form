@@ -33,11 +33,11 @@ export const NewMovie: React.FC<Props> = ({ onSubmit }) => {
     setImageUrl(value.trim());
   };
 
-  const handleImbdUrlChange = (value: string) => {
+  const handleImdbUrlChange = (value: string) => {
     setImdbUrl(value.trim());
   };
 
-  const handleImbdIdChange = (value: string) => {
+  const handleImdbIdChange = (value: string) => {
     setImdbId(value.trim());
   };
 
@@ -54,7 +54,7 @@ export const NewMovie: React.FC<Props> = ({ onSubmit }) => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (!title || !imdbId || !imdbId || !imdbId) {
+    if (!title || !imgUrl || !imdbUrl || !imdbId) {
       return;
     }
 
@@ -105,7 +105,7 @@ export const NewMovie: React.FC<Props> = ({ onSubmit }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={handleImbdUrlChange}
+        onChange={handleImdbUrlChange}
         required
       />
 
@@ -113,7 +113,7 @@ export const NewMovie: React.FC<Props> = ({ onSubmit }) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={handleImbdIdChange}
+        onChange={handleImdbIdChange}
         required
       />
 
