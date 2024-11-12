@@ -25,7 +25,7 @@ export const App = () => {
         <MoviesList movies={movies} />
       </div>
       <div className="sidebar">
-        <NewMovie onSubmit={addMovie} />
+        <NewMovie onAdd={addMovie} />
       </div>
     </div>
   );
