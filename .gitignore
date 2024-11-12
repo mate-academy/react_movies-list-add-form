@@ -4,6 +4,7 @@ build
 dist
 node_modules
 .DS_Store
+.xmind
 
 npm-debug.log*
 yarn-debug.log*
