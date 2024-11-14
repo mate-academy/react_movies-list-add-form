@@ -14,7 +14,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [description, setDescription] = useState('');
   const [imgUrl, setImgUrl] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setimdbId] = useState('');
+  const [imdbId, setImdbId] = useState('');
   const noErrors = title && imdbUrl && imgUrl && imdbId;
   const newForm: Movie = {
     title,
@@ -40,7 +40,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       setDescription('');
       setImgUrl('');
       setImdbUrl('');
-      setimdbId('');
+      setImdbId('');
     }
   };
 
@@ -92,7 +92,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Imdb ID"
         value={imdbId}
         onChange={value => {
-          setimdbId(value);
+          setImdbId(value);
         }}
         required
       />
