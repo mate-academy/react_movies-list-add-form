@@ -17,33 +17,21 @@ export const NewMovie: FC<NewMovieProps> = ({ onAdd }) => {
     description: '',
     imdbId: '',
   });
-  const [error, setError] = useState({
-    title: '',
-    imgUrl: '',
-    imdbUrl: '',
-    imdbId: '',
-  });
 
   const handleChanges = (fieldName: string, newValue: string) => {
     setMovie(prevState => ({
       ...prevState,
       [fieldName]: newValue,
     }));
-    setError(prevError => ({
-      ...prevError,
-      [fieldName]: '',
-    }));
   };
 
   const handleErrors = () => {
     const newError = {
-      title: movie.title.trim() ? '' : 'Title is required',
-      imgUrl: movie.imgUrl.trim() ? '' : 'Image URL is required',
-      imdbUrl: movie.imdbUrl.trim() ? '' : 'Imdb URL is required',
-      imdbId: movie.imdbId.trim() ? '' : 'Imdb ID is required',
+      title: !movie.title.trim(),
+      imgUrl: !movie.imgUrl.trim(),
+      imdbUrl: !movie.imdbUrl.trim(),
+      imdbId: !movie.imdbId.trim(),
     };
-
-    setError(newError);
 
     return !Object.values(newError).some(value => value);
   };
@@ -62,12 +50,6 @@ export const NewMovie: FC<NewMovieProps> = ({ onAdd }) => {
         imdbId: '',
       });
 
-      setError({
-        title: '',
-        imgUrl: '',
-        imdbUrl: '',
-        imdbId: '',
-      });
       setCount(prevCount => prevCount + 1);
     }
   };
@@ -82,7 +64,6 @@ export const NewMovie: FC<NewMovieProps> = ({ onAdd }) => {
         value={movie.title}
         onChange={newValue => handleChanges('title', newValue)}
         required
-        errorMessage={error.title}
       />
 
       <TextField
@@ -98,7 +79,6 @@ export const NewMovie: FC<NewMovieProps> = ({ onAdd }) => {
         value={movie.imgUrl}
         onChange={newValue => handleChanges('imgUrl', newValue)}
         required
-        errorMessage={error.imgUrl}
       />
 
       <TextField
@@ -107,7 +87,6 @@ export const NewMovie: FC<NewMovieProps> = ({ onAdd }) => {
         value={movie.imdbUrl}
         onChange={newValue => handleChanges('imdbUrl', newValue)}
         required
-        errorMessage={error.imdbUrl}
       />
 
       <TextField
@@ -116,7 +95,6 @@ export const NewMovie: FC<NewMovieProps> = ({ onAdd }) => {
         value={movie.imdbId}
         onChange={newValue => handleChanges('imdbId', newValue)}
         required
-        errorMessage={error.imdbId}
       />
 
       <div className="field is-grouped">
