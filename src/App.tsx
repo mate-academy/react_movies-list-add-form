@@ -10,10 +10,10 @@ const initialMovies: Movie[] = moviesFromServer.map(movie => ({
 }));
 
 export const App: React.FC = () => {
-  const [movies, setMovie] = useState<Movie[]>(initialMovies);
+  const [movies, setMovies] = useState<Movie[]>(initialMovies);
 
   const addMovie = (newMovie: Movie) => {
-    setMovie(currentMovies => [...currentMovies, newMovie]);
+    setMovies(currentMovies => [...currentMovies, newMovie]);
   };
 
   return (

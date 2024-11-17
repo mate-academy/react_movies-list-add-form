@@ -29,14 +29,22 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   };
 
   const handleChange = (name: keyof FormValues) => (value: string) => {
-    setData(prevData => ({
-      ...prevData,
-      [name]: value,
-    }));
+    setData(prevData => {
+      const updatedData = {
+        ...prevData,
+        [name]: value,
+      };
 
-    if (data.title && data.imgUrl && data.imdbUrl && data.imdbId) {
-      setIsDisabled(false);
-    }
+      const isFormValid =
+        updatedData.title &&
+        updatedData.imgUrl &&
+        updatedData.imdbUrl &&
+        updatedData.imdbId;
+
+      setIsDisabled(!isFormValid);
+
+      return updatedData;
+    });
   };
 
   const handleSubmit = (event: React.FormEvent) => {
