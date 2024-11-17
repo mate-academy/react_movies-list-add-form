@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 
 type Props = {
   name: string;
-  value: string | undefined;
+  value?: string;
   label?: string;
   placeholder?: string;
   required?: boolean;
@@ -30,10 +30,6 @@ export const TextField: React.FC<Props> = ({
   // To show errors only if the field was touched (onBlur)
   const [touched, setTouched] = useState(false);
   const hasError = touched && required && !value?.trim();
-
-  console.log(hasError);
-
-
 
   return (
     <div className="field">

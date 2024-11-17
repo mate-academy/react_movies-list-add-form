@@ -4,9 +4,8 @@ const pattern =
 
 export const isValidUrl = (url: string) => {
   if (!url) {
-    return true;
+    return;
   }
-
 
   return pattern.test(url);
 };

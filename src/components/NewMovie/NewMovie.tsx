@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
-import { isValidUrl } from '../../helpers/isValidUrl'
+import { isValidUrl } from '../../helpers/isValidUrl';
 
 type Props = {
   onAdd: (movie: Movie) => void;
@@ -29,7 +29,12 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     || !isValidUrl(inputs.imdbUrl)
     || !isValidUrl(inputs.imgUrl);
 
-
+  useEffect(
+    () => {
+      setInputs(formInputs);
+    },
+    [count]
+  )
 
   const inputHandle = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setInputs(prevState => {
@@ -45,14 +50,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setCount(prevCount => prevCount + 1);
   };
 
-  if (count > 0) {
-    setInputs(formInputs);
-    setCount(0);
-  }
-
-
   const { title, description, imgUrl, imdbUrl, imdbId } = inputs;
-
 
   return (
     <form
