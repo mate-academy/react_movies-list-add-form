@@ -37,11 +37,12 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   );
 
   const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    onAdd(formState);
-    setFormState(defaultState);
-
-    setCounter(currentValue => currentValue + 1);
+    if (isValidForm) {
+      event.preventDefault();
+      onAdd(formState);
+      setFormState(defaultState);
+      setCounter(currentValue => currentValue + 1);
+    }
   };
 
   const handleChangeByField = (field: keyof DefaultState) => {
