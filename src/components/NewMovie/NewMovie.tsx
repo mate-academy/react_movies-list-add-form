@@ -18,9 +18,7 @@ enum Fields {
   imdbId = 'Imdb ID',
 }
 
-export const NewMovie: React.FC<Props> = props => {
-  const { onAdd } = props;
-
+export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -28,6 +26,11 @@ export const NewMovie: React.FC<Props> = props => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
+  const isValidValues =
+    !isValid(title) ||
+    !isValid(imgUrl) ||
+    !isValid(imdbUrl) ||
+    !isValid(imdbId);
   const onNewMovieSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -96,12 +99,7 @@ export const NewMovie: React.FC<Props> = props => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={
-              !isValid(title) ||
-              !isValid(imgUrl) ||
-              !isValid(imdbUrl) ||
-              !isValid(imdbId)
-            }
+            disabled={isValidValues}
           >
             Add
           </button>
