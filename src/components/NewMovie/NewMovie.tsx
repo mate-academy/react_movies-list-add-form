@@ -14,10 +14,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbId, setImdbId] = useState('');
   const [description, setDescription] = useState('');
 
-  const isValid = !!(title && imgUrl && imdbUrl && imdbId);
+  const isValid = title.trim() && imgUrl.trim() && imdbUrl.trim() && imdbId.trim();
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+
+    if (!title.trim()) {
+      return;
+    }
 
     if (isValid) {
       onAdd({
