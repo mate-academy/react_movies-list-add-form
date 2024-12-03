@@ -6,44 +6,44 @@ interface OnAdd {
   onAdd: (newMovie: Movie) => void;
 }
 
-export const NewMovie: React.FC<OnAdd> = ({ onAdd }) => {
+export const NewMovie: React.FC<OnAdd> = props => {
+  const { onAdd } = props;
   const [count, setCount] = useState(0);
-  const [description, setDescription] = useState('');
+  const [desc, setDesc] = useState('');
   const [imgUrl, setImgUrl] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
   const [title, setTitle] = useState('');
 
   const onReset = () => {
-    setDescription('');
+    setDesc('');
     setImgUrl('');
     setImdbUrl('');
     setImdbId('');
     setTitle('');
   };
 
-  const validFields =
-    imgUrl.trim() && imdbUrl.trim() && imdbId.trim() && title.trim();
+  const validFields = imgUrl && imdbUrl && imdbId && title;
 
-  const formHandle = (event: React.FormEvent<HTMLFormElement>) => {
+  const formSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (validFields) {
       const moviesForms = {
-        description: description.trim(),
-        imgUrl: imgUrl.trim(),
-        imdbUrl: imdbUrl.trim(),
-        imdbId: imdbId.trim(),
-        title: title.trim(),
+        description: desc,
+        imgUrl: imgUrl,
+        imdbUrl: imdbUrl,
+        imdbId: imdbId,
+        title: title,
       };
 
       onAdd(moviesForms);
-      onReset();
       setCount(prevCount => prevCount + 1);
+      onReset();
     }
   };
 
   return (
-    <form className="NewMovie" key={count} onSubmit={formHandle}>
+    <form className="NewMovie" key={count} onSubmit={formSubmit}>
       <h2 className="title">Add a movie</h2>
 
       <TextField
@@ -57,8 +57,8 @@ export const NewMovie: React.FC<OnAdd> = ({ onAdd }) => {
       <TextField
         name="description"
         label="Description"
-        value={description}
-        onChange={setDescription}
+        value={desc}
+        onChange={setDesc}
       />
 
       <TextField
