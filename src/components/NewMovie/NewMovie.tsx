@@ -22,17 +22,20 @@ export const NewMovie: React.FC<OnAdd> = ({ onAdd }) => {
     setTitle('');
   };
 
-  const validFields = title && imgUrl && imdbUrl && imdbId ? true : false;
+  const validFields =
+    title.trim() && imgUrl.trim() && imdbUrl.trim() && imdbId.trim()
+      ? true
+      : false;
 
   const formHandle = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (validFields) {
       const moviesForms = {
         description: desc,
-        imgUrl: imgUrl,
-        imdbUrl: imdbUrl,
-        imdbId: imdbId,
-        title: title,
+        imgUrl: imgUrl.trim(),
+        imdbUrl: imdbUrl.trim(),
+        imdbId: imdbId.trim(),
+        title: title.trim(),
       };
 
       setCount(prevCount => prevCount + 1);
