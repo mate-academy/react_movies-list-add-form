@@ -13,11 +13,11 @@ export const NewMovie: React.FC<Props> = ({ onAdd = () => {} }) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [imgUrl, setImgUrl] = useState('');
-  const [imbdUrl, setImbdUrl] = useState('');
-  const [imbdId, setImbdId] = useState('');
+  const [imdbUrl, setImdbUrl] = useState('');
+  const [imdbId, setImdbId] = useState('');
 
   const allFieldEmpty =
-    !title.trim() || !imgUrl.trim() || !imbdUrl.trim() || !imbdId.trim();
+    !title.trim() || !imgUrl.trim() || !imdbUrl.trim() || !imdbId.trim();
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -25,8 +25,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd = () => {} }) => {
       title: title,
       description: description,
       imgUrl: imgUrl,
-      imdbUrl: imbdUrl,
-      imdbId: imbdId,
+      imdbUrl: imdbUrl,
+      imdbId: imdbId,
     };
 
     onAdd(newMovie);
@@ -35,8 +35,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd = () => {} }) => {
     setTitle('');
     setDescription('');
     setImgUrl('');
-    setImbdUrl('');
-    setImbdId('');
+    setImdbUrl('');
+    setImdbId('');
   };
 
   return (
@@ -69,17 +69,17 @@ export const NewMovie: React.FC<Props> = ({ onAdd = () => {} }) => {
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={imbdUrl}
+        value={imdbUrl}
         required
-        onChange={newValue => setImbdUrl(newValue)}
+        onChange={newValue => setImdbUrl(newValue)}
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imbdId}
+        value={imdbId}
         required
-        onChange={newValue => setImbdId(newValue)}
+        onChange={newValue => setImdbId(newValue)}
       />
 
       <div className="field is-grouped">
@@ -89,7 +89,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd = () => {} }) => {
             data-cy="submit-button"
             className="button is-link"
             disabled={allFieldEmpty}
-            onClick={handleSubmit}
           >
             Add
           </button>
