@@ -29,11 +29,11 @@ export const NewMovie: React.FC<OnAdd> = ({ onAdd }) => {
     event.preventDefault();
     if (validFields) {
       const moviesForms = {
-        description: description,
-        imgUrl: imgUrl,
-        imdbUrl: imdbUrl,
-        imdbId: imdbId,
-        title: title,
+        description: description.trim(),
+        imgUrl: imgUrl.trim(),
+        imdbUrl: imdbUrl.trim(),
+        imdbId: imdbId.trim(),
+        title: title.trim(),
       };
 
       onAdd(moviesForms);
