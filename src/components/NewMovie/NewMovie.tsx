@@ -16,7 +16,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const hasAllRequiredValues: boolean =
+  const isMissingRequiredValues: boolean =
     !title.trim() || !imgUrl.trim() || !imdbUrl.trim() || !imdbId.trim();
 
   const reset = () => {
@@ -92,7 +92,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={hasAllRequiredValues}
+            disabled={isMissingRequiredValues}
           >
             Add
           </button>
