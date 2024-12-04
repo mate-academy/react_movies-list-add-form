@@ -5,7 +5,7 @@ import moviesFromServer from './api/movies.json';
 import { useState } from 'react';
 
 export const App = () => {
-  const [movies, setMovie] = useState([...moviesFromServer]);
+  const [movies, setMovies] = useState([...moviesFromServer]);
 
   return (
     <div className="page">
@@ -13,7 +13,7 @@ export const App = () => {
         <MoviesList movies={movies} />
       </div>
       <div className="sidebar">
-        <NewMovie onAdd={movie => setMovie([...movies, movie])} />
+        <NewMovie onAdd={movie => setMovies([...movies, movie])} />
       </div>
     </div>
   );
