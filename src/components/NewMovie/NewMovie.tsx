@@ -48,7 +48,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (!title || !imdbUrl || !imdbUrl || !imdbId) {
+    if (!title || !imgUrl || !imdbUrl || !imdbId) {
       return;
     }
 

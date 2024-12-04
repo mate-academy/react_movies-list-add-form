@@ -5,8 +5,8 @@ import moviesFromServer from './api/movies.json';
 import { Movie } from './types/Movie';
 import { useState } from 'react';
 
-export const App = () => {
-  const [movies, setMovies] = useState(moviesFromServer);
+export const App: React.FC<Movie> = () => {
+  const [movies, setMovies] = useState<Movie[]>(moviesFromServer);
 
   return (
     <div className="page">
