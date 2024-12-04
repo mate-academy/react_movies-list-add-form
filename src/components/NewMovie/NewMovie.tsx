@@ -16,15 +16,15 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [img, setImg] = useState('');
-  const [imbdLink, setImbdLink] = useState('');
-  const [imbdId, setImbdId] = useState('');
+  const [imdbLink, setImdbLink] = useState('');
+  const [imdbId, setImdbId] = useState('');
 
   const isValid = () => {
-    const isFilled = [title, img, imbdLink, imbdId].every(
+    const isFilled = [title, img, imdbLink, imdbId].every(
       field => field.trim() !== '',
     );
 
-    const isUrlValid = [imbdLink, img].every(field => pattern.test(field));
+    const isUrlValid = [imdbLink, img].every(field => pattern.test(field));
 
     return isFilled && isUrlValid;
   };
@@ -33,8 +33,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setTitle('');
     setDescription('');
     setImg('');
-    setImbdLink('');
-    setImbdId('');
+    setImdbLink('');
+    setImdbId('');
   };
 
   const handleFormSubmission = (event: React.FormEvent): void => {
@@ -44,8 +44,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       title: title.trim(),
       description: description.trim(),
       imgUrl: img.trim(),
-      imdbUrl: imbdLink.trim(),
-      imdbId: imbdId.trim(),
+      imdbUrl: imdbLink.trim(),
+      imdbId: imdbId.trim(),
     };
 
     onAdd(newMovie);
@@ -83,16 +83,16 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={imbdLink}
-        onChange={setImbdLink}
+        value={imdbLink}
+        onChange={setImdbLink}
         required
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imbdId}
-        onChange={setImbdId}
+        value={imdbId}
+        onChange={setImdbId}
         required
       />
 
