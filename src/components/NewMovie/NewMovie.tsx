@@ -7,8 +7,6 @@ type Props = {
 };
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -16,10 +14,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const isValidFields =
+  const handleValidFields =
     title.trim() && imgUrl.trim() && imdbUrl.trim() && imdbId.trim();
 
-  const reset = () => {
+  const handleReset = () => {
     setTitle('');
     setDescription('');
     setImgUrl('');
@@ -30,7 +28,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (isValidFields) {
+    if (handleValidFields) {
       onAdd({
         title: title.trim(),
         description: description.trim(),
@@ -40,7 +38,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       });
     }
 
-    reset();
+    handleReset();
 
     setCount(currentCount => currentCount + 1);
   };
@@ -94,7 +92,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!isValidFields}
+            disabled={!handleValidFields}
           >
             Add
           </button>
