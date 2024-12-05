@@ -7,6 +7,7 @@ type Props = {
   label?: string;
   placeholder?: string;
   required?: boolean;
+  isValidated?: boolean;
   onChange?: (newValue: string) => void;
 };
 
@@ -20,6 +21,7 @@ export const TextField: React.FC<Props> = ({
   label = name,
   placeholder = `Enter ${label}`,
   required = false,
+  isValidated = true,
   onChange = () => {},
 }) => {
   // generate a unique id once on component load
@@ -34,7 +36,6 @@ export const TextField: React.FC<Props> = ({
       <label className="label" htmlFor={id}>
         {label}
       </label>
-
       <div className="control">
         <input
           type="text"
@@ -49,8 +50,8 @@ export const TextField: React.FC<Props> = ({
           onBlur={() => setTouched(true)}
         />
       </div>
-
       {hasError && <p className="help is-danger">{`${label} is required`}</p>}
+      {!isValidated && <p className="help is-danger">{`Url is not valid`}</p>}
     </div>
   );
 };
