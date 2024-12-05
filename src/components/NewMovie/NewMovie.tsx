@@ -29,10 +29,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const handleAdd = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (!title || !imgUrl || !imdbUrl || !imdbId) {
-      return;
-    }
-
     const movie: Movie = {
       title: title,
       description: description,
