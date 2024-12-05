@@ -14,8 +14,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imgUrlValue, setImgUrlValue] = useState<string>('');
   const [imdbUrlValue, setImdbUrlValue] = useState<string>('');
   const [imdbIdValue, setImdbIdValue] = useState<string>('');
-  const [isValidated, setIsValidated] = useState<boolean>(true);
-  const isButtonDisabled = !(
+  let isValidated: boolean = true;
+  const isButtonDisabled: boolean = !(
     !!titleValue &&
     !!imgUrlValue &&
     !!imdbUrlValue &&
@@ -28,7 +28,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setImgUrlValue('');
     setImdbUrlValue('');
     setImdbIdValue('');
-    setIsValidated(true);
+    isValidated = true;
   };
 
   const urlValidaton = (url: string): boolean => {
@@ -37,12 +37,12 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
 
     if (url.match(pattern) || !url) {
-      setIsValidated(true);
+      isValidated = true;
 
       return true;
     }
 
-    setIsValidated(false);
+    isValidated = false;
 
     return false;
   };
