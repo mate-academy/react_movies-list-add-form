@@ -17,7 +17,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const disabledButton = !(!!title && !!imgUrl && !!imdbUrl && !!imdbId);
+  const disabledButton = !(title && imgUrl && imdbUrl && imdbId);
   const clearInputs = () => {
     setTitle('');
     setDescription('');
