@@ -3,10 +3,10 @@ import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
 type Props = {
-  handleMovie: (movie: Movie) => void;
+  onAdd: (movie: Movie) => void;
 };
 
-export const NewMovie: React.FC<Props> = ({ handleMovie }) => {
+export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
@@ -31,7 +31,7 @@ export const NewMovie: React.FC<Props> = ({ handleMovie }) => {
     event.preventDefault();
 
     if (isValidFields) {
-      handleMovie({
+      onAdd({
         title: title.trim(),
         description: description.trim(),
         imgUrl: imgUrl.trim(),
