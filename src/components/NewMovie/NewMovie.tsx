@@ -9,7 +9,7 @@ type Props = {
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
-  const [count, setCount] = useState('');
+  const [count, setCount] = useState(0);
   const [title, setTitle] = useState('');
 
   const [imgUrl, setImgUrl] = useState('');
@@ -20,7 +20,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [disableSubmit, setDisableSubmit] = useState(true);
 
   const checkAllFields = () => {
-    return title && imgUrl && imdbUrl && imdbId
+    return title.trim() && imgUrl.trim() && imdbUrl.trim() && imdbId.trim()
       ? setDisableSubmit(false)
       : setDisableSubmit(true);
   };
@@ -65,7 +65,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setImdbUrl('');
     setImdbId('');
     setDescription('');
-    setCount(count + 1);
+    setCount(prevCount => prevCount + 1);
   };
 
   return (
@@ -92,6 +92,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Image URL"
         value={imgUrl}
         onChange={handleImgUrl}
+        required
       />
 
       <TextField
@@ -99,6 +100,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Imdb URL"
         value={imdbUrl}
         onChange={handleImdbUrl}
+        required
       />
 
       <TextField
@@ -106,6 +108,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Imdb ID"
         value={imdbId}
         onChange={handleImdbId}
+        required
       />
 
       <div className="field is-grouped">
