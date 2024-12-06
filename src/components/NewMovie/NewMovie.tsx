@@ -19,11 +19,7 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
     description: '',
   });
 
-  const isFormValid =
-    form.title.trim() === '' ||
-    form.imgUrl.trim() === '' ||
-    form.imdbUrl.trim() === '' ||
-    form.imdbId.trim() === '';
+  const isFormValid = !(form.title.trim() && form.imgUrl.trim() && form.imdbUrl.trim() && form.imdbId.trim());
 
   const handleChange = (name: string, value: string) => {
     setForm(prevForm => ({
