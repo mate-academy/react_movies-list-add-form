@@ -1,5 +1,5 @@
 import './App.scss';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import moviesFromServer from './api/movies.json';
 import { Movie } from './types/Movie';
 import { MoviesList } from './components/MoviesList';
