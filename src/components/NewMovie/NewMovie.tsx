@@ -14,7 +14,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imgUrlValue, setImgUrlValue] = useState<string>('');
   const [imdbUrlValue, setImdbUrlValue] = useState<string>('');
   const [imdbIdValue, setImdbIdValue] = useState<string>('');
-  let isValidated: boolean = true;
+  const [isValidated, setIsValidated] = useState<boolean>(true);
   const isButtonDisabled: boolean = !(
     !!titleValue &&
     !!imgUrlValue &&
@@ -28,7 +28,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setImgUrlValue('');
     setImdbUrlValue('');
     setImdbIdValue('');
-    isValidated = true;
+    setIsValidated(true);
   };
 
   const urlValidaton = (url: string): boolean => {
@@ -36,15 +36,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       // eslint-disable-next-line max-len
       /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
 
-    if (url.match(pattern) || !url) {
-      isValidated = true;
+    const isValid: boolean = !!url.match(pattern) || !url;
 
-      return true;
-    }
-
-    isValidated = false;
-
-    return false;
+    return isValid;
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -91,6 +85,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={imgUrlValue}
         onChange={(newImgUrl: string) => {
           setImgUrlValue(newImgUrl);
+          setIsValidated(urlValidaton(imgUrlValue));
         }}
         isValidated={urlValidaton(imgUrlValue)}
         required
@@ -102,6 +97,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={imdbUrlValue}
         onChange={(newImdbUrl: string) => {
           setImdbUrlValue(newImdbUrl);
+          setIsValidated(urlValidaton(imdbUrlValue));
         }}
         isValidated={urlValidaton(imdbUrlValue)}
         required
