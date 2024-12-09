@@ -48,12 +48,12 @@ const page = {
 };
 
 describe('NewMovie', () => {
-  let onAdd;
+  let handleAddMovie;
 
   beforeEach(() => {
-    onAdd = cy.stub();
+    handleAddMovie = cy.stub();
 
-    cy.mount(<NewMovie onAdd={onAdd} />);
+    cy.mount(<NewMovie handleAddMovie={handleAddMovie} />);
   });
 
   it('should have empty fields by default', () => {
@@ -213,7 +213,7 @@ describe('NewMovie', () => {
     page.assertNoErrors();
   });
 
-  it('should call onAdd after a successful submission', () => {
+  it('should call handleAddMovie after a successful submission', () => {
     const movie = {
       title: 'The Umbrella Academy',
       description:
@@ -227,11 +227,11 @@ describe('NewMovie', () => {
     page.fillForm(movie);
 
     page.submitForm().then(() => {
-      expect(onAdd).to.be.calledWith(movie);
+      expect(handleAddMovie).to.be.calledWith(movie);
     });
   });
 
-  it('should call onAdd if description is empty', () => {
+  it('should call handleAddMovie if description is empty', () => {
     const movie = {
       title: 'The Umbrella Academy',
       description: '',
@@ -244,11 +244,11 @@ describe('NewMovie', () => {
     page.fillForm(movie);
 
     page.submitForm().then(() => {
-      expect(onAdd).to.be.calledWith(movie);
+      expect(handleAddMovie).to.be.calledWith(movie);
     });
   });
 
-  it('should not call onAdd if title is empty', () => {
+  it('should not call handleAddMovie if title is empty', () => {
     const movie = {
       title: '',
       description:
@@ -262,11 +262,11 @@ describe('NewMovie', () => {
     page.fillForm(movie);
 
     page.submitForm().then(() => {
-      expect(onAdd).not.to.be.called;
+      expect(handleAddMovie).not.to.be.called;
     });
   });
 
-  it('should not call onAdd if imgUrl is empty', () => {
+  it('should not call handleAddMovie if imgUrl is empty', () => {
     const movie = {
       title: 'The Umbrella Academy',
       description:
@@ -279,11 +279,11 @@ describe('NewMovie', () => {
     page.fillForm(movie);
 
     page.submitForm().then(() => {
-      expect(onAdd).not.to.be.called;
+      expect(handleAddMovie).not.to.be.called;
     });
   });
 
-  it('should not call onAdd if imdbUrl is empty', () => {
+  it('should not call handleAddMovie if imdbUrl is empty', () => {
     const movie = {
       title: 'The Umbrella Academy',
       description:
@@ -297,11 +297,11 @@ describe('NewMovie', () => {
     page.fillForm(movie);
 
     page.submitForm().then(() => {
-      expect(onAdd).not.to.be.called;
+      expect(handleAddMovie).not.to.be.called;
     });
   });
 
-  it('should not call onAdd if imdbId is empty', () => {
+  it('should not call handleAddMovie if imdbId is empty', () => {
     const movie = {
       title: 'The Umbrella Academy',
       description:
@@ -315,7 +315,7 @@ describe('NewMovie', () => {
     page.fillForm(movie);
 
     page.submitForm().then(() => {
-      expect(onAdd).not.to.be.called;
+      expect(handleAddMovie).not.to.be.called;
     });
   });
 });
