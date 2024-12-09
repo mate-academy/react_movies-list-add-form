@@ -6,12 +6,7 @@ import { useState } from 'react';
 import { Movie } from './types/Movie';
 
 export const App = () => {
-
   const [movies, setMovies] = useState<Movie[]>(moviesFromServer);
-
-  // const test = (movie:Movie) => {
-  //   setMovies((prev: Movie[]):Movie[] => [...prev, movie]);
-  // };
 
   return (
     <div className="page">
@@ -19,8 +14,9 @@ export const App = () => {
         <MoviesList movies={movies} />
       </div>
       <div className="sidebar">
-        {/* <NewMovie setMovies={setMovies} /> */}
-        <NewMovie onAdd={(movie:Movie):void => setMovies([...movies, movie])} />
+        <NewMovie
+          onAdd={(movie: Movie): void => setMovies([...movies, movie])}
+        />
       </div>
     </div>
   );

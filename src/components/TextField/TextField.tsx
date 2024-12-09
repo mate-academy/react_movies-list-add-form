@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import React, { useState } from 'react';
 
-type Props = {
+export type Props = {
   name: string;
   value: string;
   label?: string;
@@ -23,10 +23,8 @@ export const TextField: React.FC<Props> = props => {
     required = false,
     onChange,
   } = props;
-  // generate a unique id once on component load
-  const [id] = useState<string>(() => `${name}-${getRandomDigits()}`);
 
-  // To show errors only if the field was touched (onBlur)
+  const [id] = useState<string>(() => `${name}-${getRandomDigits()}`);
   const [touched, setTouched] = useState<boolean>(false);
   const hasError = touched && required && !value;
 
