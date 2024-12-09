@@ -14,6 +14,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
+  const setInputStartState = (): void => {
+    setTitle('');
+    setDescription('');
+    setImgUrl('');
+    setImdbUrl('');
+    setImdbId('');
+  };
+
   const isAddButtonEnabled =
     title.trim() && imgUrl.trim() && imdbUrl.trim() && imdbId.trim();
 
@@ -21,11 +29,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     event.preventDefault();
     setCount(prevCount => prevCount + 1);
     onAdd({ title, description, imgUrl, imdbUrl, imdbId });
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
+    setInputStartState();
   };
 
   return (
@@ -36,7 +40,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={title}
-        onChange={(newValue: string) => setTitle(newValue)}
+        onChange={setTitle}
         required
       />
 
@@ -44,14 +48,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={description}
-        onChange={(newValue: string) => setDescription(newValue)}
+        onChange={setDescription}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={(newValue: string) => setImgUrl(newValue)}
+        onChange={setImgUrl}
         required
       />
 
@@ -59,7 +63,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={(newValue: string) => setImdbUrl(newValue)}
+        onChange={setImdbUrl}
         required
       />
 
@@ -67,7 +71,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={(newValue: string) => setImdbId(newValue)}
+        onChange={setImdbId}
         required
       />
 
