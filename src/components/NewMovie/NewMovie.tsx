@@ -7,47 +7,16 @@ type Props = {
 };
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
   const [title, setTitle] = useState('');
 
   const [imgUrl, setImgUrl] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
-
   const [description, setDescription] = useState('');
-  const [disableSubmit, setDisableSubmit] = useState(true);
 
-  const checkAllFields = () => {
-    return title.trim() && imgUrl.trim() && imdbUrl.trim() && imdbId.trim()
-      ? setDisableSubmit(false)
-      : setDisableSubmit(true);
-  };
-
-  const handleTitle = (newValue: string) => {
-    setTitle(newValue);
-    checkAllFields();
-  };
-
-  const handleImgUrl = (newValue: string) => {
-    setImgUrl(newValue);
-    checkAllFields();
-  };
-
-  const handleImdbUrl = (newValue: string) => {
-    setImdbUrl(newValue);
-    checkAllFields();
-  };
-
-  const handleImdbId = (newValue: string) => {
-    setImdbId(newValue);
-    checkAllFields();
-  };
-
-  const handleDescription = (newValue: string) => {
-    setDescription(newValue);
-  };
+  const isDisabledSubmit =
+    !title.trim() || !imgUrl.trim() || !imdbUrl.trim() || !imdbId.trim();
 
   const resetAllFields = () => {
     setTitle('');
@@ -80,7 +49,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={title}
-        onChange={handleTitle}
+        onChange={setTitle}
         required
       />
 
@@ -88,14 +57,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={description}
-        onChange={handleDescription}
+        onChange={setDescription}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={handleImgUrl}
+        onChange={setImgUrl}
         required
       />
 
@@ -103,7 +72,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={handleImdbUrl}
+        onChange={setImdbUrl}
         required
       />
 
@@ -111,7 +80,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={handleImdbId}
+        onChange={setImdbId}
         required
       />
 
@@ -121,7 +90,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={disableSubmit}
+            disabled={isDisabledSubmit}
           >
             Add
           </button>
