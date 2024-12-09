@@ -7,56 +7,53 @@ type Props = {
   onAdd: (movie: Movie) => void;
 };
 
-export const NewMovie: FC<Props> = props => {
-  const { onAdd } = props;
-
+export const NewMovie: FC<Props> = ({ onAdd }) => {
   const [formKey, setFormKey] = useState<number>(0);
 
-  const [titleValue, setTitleValue] = useState<string>('');
-  const [descriptionValue, setDescriptionValue] = useState<string>('');
-  const [imgUrlValue, setImgUrlValue] = useState<string>('');
-  const [imdbUrlValue, setImdbUrlValue] = useState<string>('');
-  const [imdbIdValue, setImdbIdValue] = useState<string>('');
+  const [title, setTitle] = useState<string>('');
+  const [description, setDescription] = useState<string>('');
+  const [imgUrl, setImgUrl] = useState<string>('');
+  const [imdbUrl, setImdbUrl] = useState<string>('');
+  const [imdbId, setImdbId] = useState<string>('');
+
+  const resetFormFields = (): void => {
+    setTitle('');
+    setDescription('');
+    setImgUrl('');
+    setImdbUrl('');
+    setImdbId('');
+  };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
 
     const newFilm: Movie = {
-      title: titleValue.trim(),
-      description: descriptionValue.trim(),
-      imgUrl: imgUrlValue.trim(),
-      imdbUrl: imdbUrlValue.trim(),
-      imdbId: imdbIdValue.trim(),
+      title: title.trim(),
+      description: description.trim(),
+      imgUrl: imgUrl.trim(),
+      imdbUrl: imdbUrl.trim(),
+      imdbId: imdbId.trim(),
     };
 
     onAdd(newFilm);
-
-    setTitleValue('');
-    setDescriptionValue('');
-    setImgUrlValue('');
-    setImdbUrlValue('');
-    setImdbIdValue('');
-
+    resetFormFields();
     setFormKey(prev => prev + 1);
   };
 
   const isFormValid =
-    titleValue.trim() &&
-    imgUrlValue.trim() &&
-    imdbUrlValue.trim() &&
-    imdbIdValue.trim();
+    title.trim() && imgUrl.trim() && imdbUrl.trim() && imdbId.trim();
 
   const formInputs = getFormInputs({
-    titleValue,
-    setTitleValue,
-    descriptionValue,
-    setDescriptionValue,
-    imgUrlValue,
-    setImgUrlValue,
-    imdbUrlValue,
-    setImdbUrlValue,
-    imdbIdValue,
-    setImdbIdValue,
+    title,
+    setTitle,
+    description,
+    setDescription,
+    imgUrl,
+    setImgUrl,
+    imdbUrl,
+    setImdbUrl,
+    imdbId,
+    setImdbId,
   });
 
   return (

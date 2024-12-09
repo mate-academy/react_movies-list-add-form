@@ -1,66 +1,66 @@
 import { Props } from '../components/TextField/TextField';
 
 interface FormInputsProps {
-  titleValue: string;
-  setTitleValue: (value: string) => void;
-  descriptionValue: string;
-  setDescriptionValue: (value: string) => void;
-  imgUrlValue: string;
-  setImgUrlValue: (value: string) => void;
-  imdbUrlValue: string;
-  setImdbUrlValue: (value: string) => void;
-  imdbIdValue: string;
-  setImdbIdValue: (value: string) => void;
+  title: string;
+  setTitle: (value: string) => void;
+  description: string;
+  setDescription: (value: string) => void;
+  imgUrl: string;
+  setImgUrl: (value: string) => void;
+  imdbUrl: string;
+  setImdbUrl: (value: string) => void;
+  imdbId: string;
+  setImdbId: (value: string) => void;
 }
 
 export const getFormInputs = (props: FormInputsProps): Props[] => {
   const {
-    titleValue,
-    setTitleValue,
-    descriptionValue,
-    setDescriptionValue,
-    imgUrlValue,
-    setImgUrlValue,
-    imdbUrlValue,
-    setImdbUrlValue,
-    imdbIdValue,
-    setImdbIdValue,
+    title,
+    setTitle,
+    description,
+    setDescription,
+    imgUrl,
+    setImgUrl,
+    imdbUrl,
+    setImdbUrl,
+    imdbId,
+    setImdbId,
   } = props;
 
   return [
     {
       name: 'title',
       label: 'Title',
-      value: titleValue,
-      onChange: setTitleValue,
+      value: title,
+      onChange: setTitle,
       required: true,
     },
     {
       name: 'description',
       label: 'Description',
-      value: descriptionValue,
-      onChange: setDescriptionValue,
+      value: description,
+      onChange: setDescription,
       required: true,
     },
     {
       name: 'imgUrl',
       label: 'Image URL',
-      value: imgUrlValue,
-      onChange: setImgUrlValue,
+      value: imgUrl,
+      onChange: setImgUrl,
       required: true,
     },
     {
       name: 'imdbUrl',
       label: 'Imdb URL',
-      value: imdbUrlValue,
-      onChange: setImdbUrlValue,
+      value: imdbUrl,
+      onChange: setImdbUrl,
       required: true,
     },
     {
       name: 'imdbId',
       label: 'Imdb ID',
-      value: imdbIdValue,
-      onChange: setImdbIdValue,
+      value: imdbId,
+      onChange: setImdbId,
       required: true,
     },
   ];
