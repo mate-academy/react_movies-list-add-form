@@ -3,7 +3,7 @@ import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
 interface NewMovieProps {
-  onAdd?: (movie: Movie) => void;
+  onAdd: (movie: Movie) => void;
 }
 
 export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
@@ -14,7 +14,7 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const areAllQueries: boolean =
+  const areAllQueries =
     title.trim() !== '' &&
     imgUrl.trim() !== '' &&
     imdbUrl.trim() !== '' &&
@@ -50,7 +50,7 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={title}
-        onChange={(e: string) => setTitle(e)}
+        onChange={setTitle}
         required
       />
 
@@ -58,14 +58,14 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={description}
-        onChange={(e: string) => setDescription(e)}
+        onChange={setDescription}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={(e: string) => setImgUrl(e)}
+        onChange={setImgUrl}
         required
       />
 
@@ -73,7 +73,7 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={(e: string) => setImdbUrl(e)}
+        onChange={setImdbUrl}
         required
       />
 
@@ -81,7 +81,7 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={(e: string) => setImdbId(e)}
+        onChange={setImdbId}
         required
       />
 
