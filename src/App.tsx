@@ -20,8 +20,8 @@ export const App = () => {
   ) => {
     const newMovie: Movie = {
       ...movie,
-      imdbId: `imdb-${Math.random().toString(36).substr(2, 9)}`, // Generate a unique ID for the movie
-      description: movie.description ?? '', // Ensure description is not undefined
+      imdbId: `imdb-${Math.random().toString(36).substr(2, 9)}`,
+      description: movie.description ?? '',
     };
 
     setMovies(prevMovies => [...prevMovies, newMovie]);
