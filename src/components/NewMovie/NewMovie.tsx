@@ -7,7 +7,7 @@ type Props = {
 };
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
-  const [count, setCount] = useState(0);
+  const [formCount, setFormCount] = useState(0);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [imgUrl, setImgUrl] = useState('');
@@ -44,7 +44,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setCount(count + 1);
+    setFormCount(formCount + 1);
 
     onAdd({
       title,
@@ -58,7 +58,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   };
 
   return (
-    <form className="NewMovie" key={count} onSubmit={handleSubmit}>
+    <form className="NewMovie" key={formCount} onSubmit={handleSubmit}>
       <h2 className="title">Add a movie</h2>
 
       <TextField
@@ -76,7 +76,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Description"
         value={description}
         onChange={handleDescriptionChange}
-        required
       />
 
       <TextField
