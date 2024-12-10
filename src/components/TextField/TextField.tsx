@@ -37,12 +37,10 @@ export const TextField: React.FC<Props> = ({
   const [errors, setErrors] = useState(false);
 
   const handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-
     setTouched(true);
 
-    if (name === 'imgUrl' || name === 'imdbUrl') {
-      if (!pattern.test(value)) {
+    if (event.target.name === 'imgUrl' || event.target.name === 'imdbUrl') {
+      if (!pattern.test(event.target.value)) {
         setErrors(true);
       } else {
         setErrors(false);
