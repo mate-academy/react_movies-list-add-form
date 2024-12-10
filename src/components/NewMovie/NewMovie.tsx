@@ -1,17 +1,8 @@
 import { useState } from 'react';
 import { TextField } from '../TextField';
+import { Movie } from '../../types/Movie';
 
-export const NewMovie = ({
-  onAdd,
-}: {
-  onAdd: (movie: {
-    title: string;
-    description: string;
-    imgUrl: string;
-    imdbUrl: string;
-    imdbId: string;
-  }) => void;
-}) => {
+export const NewMovie = ({ onAdd }: { onAdd: (movie: Movie) => void }) => {
   const [count, setCount] = useState(0);
   const [formData, setFormData] = useState({
     title: '',
