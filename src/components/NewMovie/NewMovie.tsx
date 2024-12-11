@@ -25,20 +25,12 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     imdbId: imdbID.trim(),
   };
 
-  const acceptableForm = () => {
-    if (data.title && data.imgUrl && data.imdbUrl && data.imdbId) {
-      return true;
-    }
-
-    return false;
-  };
+  const acceptableForm = Boolean(
+    data.title && data.imdbId && data.imdbUrl && data.imgUrl,
+  );
 
   const submit = (event: React.FormEvent) => {
     event.preventDefault();
-
-    if (!acceptableForm) {
-      return;
-    }
 
     onAdd(data);
 
