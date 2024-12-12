@@ -10,10 +10,6 @@ type Props = {
   onChange?: (newValue: string) => void;
 };
 
-// function getRandomDigits(): string {
-//   return Math.random().toFixed(16).slice(2);
-// }
-
 export const TextField: React.FC<Props> = ({
   name,
   value,
