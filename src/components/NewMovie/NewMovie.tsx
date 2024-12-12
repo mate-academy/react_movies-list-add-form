@@ -25,6 +25,22 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const isFormValid =
     title.trim() && imgUrl.trim() && imdbUrl.trim() && imdbId.trim();
 
+  // Константи для обробників подій
+  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) =>
+    setTitle(event.target.value);
+
+  const handleDescriptionChange = (event: React.ChangeEvent<HTMLInputElement>) =>
+    setDescription(event.target.value);
+
+  const handleImgUrlChange = (event: React.ChangeEvent<HTMLInputElement>) =>
+    setImgUrl(event.target.value);
+
+  const handleImdbUrlChange = (event: React.ChangeEvent<HTMLInputElement>) =>
+    setImdbUrl(event.target.value);
+
+  const handleImdbIdChange = (event: React.ChangeEvent<HTMLInputElement>) =>
+    setImdbId(event.target.value);
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -58,7 +74,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={title}
-        onChange={setTitle}
+        onChange={handleTitleChange}
         required
       />
 
@@ -66,14 +82,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={description}
-        onChange={setDescription}
+        onChange={handleDescriptionChange}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={setImgUrl}
+        onChange={handleImgUrlChange}
         required
       />
 
@@ -81,7 +97,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={setImdbUrl}
+        onChange={handleImdbUrlChange}
         required
       />
 
@@ -89,7 +105,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={setImdbId}
+        onChange={handleImdbIdChange}
         required
       />
 
