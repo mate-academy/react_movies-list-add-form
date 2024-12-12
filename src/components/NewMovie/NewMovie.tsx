@@ -3,11 +3,10 @@ import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
 type Props = {
-  onAdd: (movies: Array<Movie>) => void;
-  movies: Array<Movie>;
+  onAdd: (newMovie: Movie) => void;
 };
 
-export const NewMovie: React.FC<Props> = ({ onAdd, movies }) => {
+export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
@@ -34,7 +33,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd, movies }) => {
     <form
       className="NewMovie"
       key={count}
-      onSubmit={() => {
+      onSubmit={event => {
         event!.preventDefault();
         const newMovie: Movie = {
           title: title,
@@ -45,7 +44,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd, movies }) => {
         };
 
         if (!Object.values(newMovie).some(value => !value)) {
-          onAdd([...movies, newMovie]);
+          onAdd(newMovie);
           handleResetForm();
         }
       }}
@@ -56,7 +55,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd, movies }) => {
         name="title"
         label="Title"
         value={title}
-        onChange={setTitle}
+        onChange={(newValue: string) => setTitle(newValue)}
         required
       />
 
@@ -64,28 +63,28 @@ export const NewMovie: React.FC<Props> = ({ onAdd, movies }) => {
         name="description"
         label="Description"
         value={description}
-        onChange={setDescription}
+        onChange={(newValue: string) => setDescription(newValue)}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={imageUrl}
-        onChange={setImageUrl}
+        onChange={(newValue: string) => setImageUrl(newValue)}
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={setImdbUrl}
+        onChange={(newValue: string) => setImdbUrl(newValue)}
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={setImdbId}
+        onChange={(newValue: string) => setImdbId(newValue)}
       />
 
       <div className="field is-grouped">
