@@ -31,48 +31,32 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     });
   }
 
+  type Input = [string, string, string, (value: string) => void, boolean];
+
+  const inputList: Input[] = [
+    ['title', 'Title', title, setTitle, true],
+    ['description', 'Description', description, setDescription, false],
+    ['imgUrl', 'Image URL', imgUrl, setImgUrl, true],
+    ['imdbUrl', 'Imdb URL', imdbUrl, setImdbUrl, true],
+    ['imdbId', 'Imdb ID', imdbId, setImdbId, true],
+  ];
+
   return (
     <form className="NewMovie" key={count} onSubmit={handleSubmit}>
       <h2 className="title">Add a movie</h2>
 
-      <TextField
-        name="title"
-        label="Title"
-        value={title}
-        handleChange={setTitle}
-        required
-      />
-
-      <TextField
-        name="description"
-        label="Description"
-        value={description}
-        handleChange={setDescription}
-      />
-
-      <TextField
-        name="imgUrl"
-        label="Image URL"
-        value={imgUrl}
-        handleChange={setImgUrl}
-        required
-      />
-
-      <TextField
-        name="imdbUrl"
-        label="Imdb URL"
-        value={imdbUrl}
-        handleChange={setImdbUrl}
-        required
-      />
-
-      <TextField
-        name="imdbId"
-        label="Imdb ID"
-        value={imdbId}
-        handleChange={setImdbId}
-        required
-      />
+      {inputList.map(field => {
+        return (
+          <TextField
+            key={field[0]}
+            name={field[0]}
+            label={field[1]}
+            value={field[2]}
+            handleChange={field[3]}
+            required={field[4]}
+          />
+        );
+      })}
 
       <div className="field is-grouped">
         <div className="control">
