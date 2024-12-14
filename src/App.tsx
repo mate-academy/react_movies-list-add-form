@@ -15,7 +15,7 @@ export const App = () => {
   return (
     <div className="page">
       <div className="page-content">
-        <MoviesList movies={[...moviesFromServer, ...movies]} />
+        <MoviesList movies={[...movies]} />
       </div>
       <div className="sidebar">
         <NewMovie onAdd={onAdd} />
