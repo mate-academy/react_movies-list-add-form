@@ -8,10 +8,17 @@ interface Props {
   movies: Movie[];
 }
 
-export const MoviesList: React.FC<Props> = ({ movies }) => (
-  <div className="movies">
-    {movies.map(movie => (
-      <MovieCard key={movie.imdbId} movie={movie} />
-    ))}
-  </div>
-);
+export const MoviesList: React.FC<Props> = ({ movies }) => {
+  const uniqueMovies = movies.filter(
+    (movie, index, arr) =>
+      arr.findIndex(m => m.imdbId === movie.imdbId) === index,
+  );
+
+  return (
+    <div className="movies">
+      {uniqueMovies.map(movie => (
+        <MovieCard key={movie.imdbId} movie={movie} />
+      ))}
+    </div>
+  );
+};
