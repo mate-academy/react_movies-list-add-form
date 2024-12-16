@@ -5,19 +5,16 @@ import { Movie } from '../../types/Movie';
 
 type Props = {
   onAdd: (newMovie: Movie) => void;
-  //getMaxId: (movies: Movie[]) => number | (() => number);
+
   movies: Movie[];
   errorMessage: string;
   titleErrorMessage: string;
 };
 function getMaxId(movies: Movie[]) {
-  return Math.max(...movies.map(m => movies.indexOf(m)));
+  return Math.max(...movies.map(movie => movies.indexOf(movie)));
 }
 
 export const NewMovie: React.FC<Props> = ({ onAdd, movies }) => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
-
   const [count, setCount] = useState(getMaxId(movies) + 1);
 
   const [title, setTitle] = useState('');
@@ -51,9 +48,12 @@ export const NewMovie: React.FC<Props> = ({ onAdd, movies }) => {
       count: count,
     };
 
-    //if (!title || !imdbUrl || !imgUrl) {
-    // return;
-    //}
+    if (movies.find(el => el.title === title)?.title) {
+      setTitleErrorMessage('this title already exist');
+
+      return;
+    }
+
     if (!title) {
       setTitleErrorMessage('should have some text');
     } else if (title.length < 5) {

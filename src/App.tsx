@@ -6,8 +6,7 @@ import React, { useState, useCallback } from 'react';
 import { Movie } from './types/Movie';
 
 export const App = () => {
-  const visibleMovies = [...moviesFromServer];
-  const [movies, setMovies] = useState<Movie[]>(visibleMovies);
+  const [movies, setMovies] = useState<Movie[]>(moviesFromServer);
 
   const addMovie = useCallback((newMovie: Movie) => {
     setMovies(currentMovies => {
