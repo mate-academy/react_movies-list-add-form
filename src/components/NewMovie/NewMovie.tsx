@@ -14,7 +14,7 @@ interface NewMovieProps {
 export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
-  const [count] = useState(0);
+  const [count, setCount] = useState(0);
 
   const [newMovie, setNewMovie] = useState({
     title: '',
@@ -24,17 +24,37 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
     imdbId: '',
   });
 
+  const pattern = new RegExp(
+    '^((([A-Za-z]{3,9}:(?:\\/\\/)?)(?:[-;:&=+$,\\w]+@)?[A-Za-z0-9.-]+|' +
+      '(?:www\\.|[-;:&=+$,\\w]+@)[A-Za-z0-9.-]+)((?:\\/+[~%/\\.\\w-_]*)?' +
+      '\\??(?:[-+=&;%@,\\.\\w_]*)#?(?:[,.!/\\\\w]*))?)$',
+  );
+
+  const validateUrl = (value: string) => pattern.test(value);
+
   const checkBlankLines = () => {
     if (
       newMovie.title.trim() == '' ||
       newMovie.imgUrl.trim() == '' ||
       newMovie.imdbUrl.trim() == '' ||
-      newMovie.imdbId.trim() == ''
+      newMovie.imdbId.trim() == '' ||
+      !validateUrl(newMovie.imgUrl) ||
+      !validateUrl(newMovie.imdbUrl)
     ) {
       return true;
     } else {
       return false;
     }
+  };
+
+  const handleResetNewMovie = () => {
+    setNewMovie({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
   };
 
   const handleSubmit = (event: React.FormEvent) => {
@@ -48,6 +68,10 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
       imdbUrl: '',
       imdbId: '',
     });
+
+    setCount(current => current + 1);
+
+    handleResetNewMovie();
   };
 
   return (
@@ -103,7 +127,7 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
 
       <TextField
         name="imdbUrl"
-        label="Imdb URsL"
+        label="Imdb URL"
         value={newMovie.imdbUrl}
         onChange={inputValue => {
           setNewMovie({
