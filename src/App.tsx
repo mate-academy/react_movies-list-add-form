@@ -13,7 +13,7 @@ type Movie = {
 };
 
 export const App = () => {
-  const [films, setFilms] = useState<Movie[]>(moviesFromServer);
+  const [films, setFilms] = useState<Movie[]>(moviesFromServer as Movie[]);
   const handleAdd = (newMovie: Movie): void => {
     setFilms(prevMovies => [...prevMovies, newMovie]);
   };

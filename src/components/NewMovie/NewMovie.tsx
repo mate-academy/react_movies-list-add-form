@@ -22,7 +22,7 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
   const [imgUrl, setImgUrl] = useState<string>('');
   const [imdbUrl, setImdbUrl] = useState<string>('');
   const [imdbId, setImdbId] = useState<string>('');
-  const buttonEnabled = title || imgUrl || imdbUrl || imdbId;
+  const buttonEnabled = title && imgUrl && imdbUrl && imdbId ? true : false;
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
@@ -64,44 +64,39 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value=""
+        value={title}
         required
-        data={title}
         onChange={setTitle}
       />
 
       <TextField
         name="description"
         label="Description"
-        value=""
-        data={description}
+        value={description}
         onChange={setDescription}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value=""
+        value={imgUrl}
         required
-        data={imgUrl}
         onChange={setImgUrl}
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value=""
+        value={imdbUrl}
         required
-        data={imdbUrl}
         onChange={setImdbUrl}
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value=""
+        value={imdbId}
         required
-        data={imdbId}
         onChange={setImdbId}
       />
 
