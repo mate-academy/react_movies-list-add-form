@@ -1,16 +1,13 @@
 # Movies list - Add Form
 
-You have the `App` with the `MoviesList` and `NewMovie` form containing ready
-to use `TextField` components. Learn how it works and implement an ability to
+You have the `App` with the `MoviesList` and the `NewMovie` form containing ready-to-use `TextField` components. Learn how it works and implement an ability to
 add movies from [IMDB](https://www.imdb.com/).
 
-If you want to test your page you can get first image from a [movie page](https://www.imdb.com/title/tt1312171) using `DevTools` -> `Network` -> `Img`
+If you want to test your page you can get the first image from a [movie page](https://www.imdb.com/title/tt1312171) using `DevTools` -> `Network` -> `Img`
 
 > Here is [the demo page](https://mate-academy.github.io/react_movies-list-add-form/)
 
-1. `NewMovie` should check if `title`, `imgUrl`, `imdbUrl`, `imdbId` are
-entered when an input looses focus (`onBlur`) and show an error and a red
-border if needed (learn how it it implemented in the `TextField`);
+1. The `NewMovie` component should verify that the `title`, `imgUrl`, `imdbUrl`, and `imdbId` fields are filled out when an input field loses focus (`onBlur`). If any of these fields are empty, it should display an error message and apply a red border to indicate the issue. This functionality is already implemented in the `TextField`, so you can refer to that for guidance on how it works. There is no need to implement this part in this task;
 1. The `description` is optional;
 1. Disable the submit button until all the required fields are filled (spaces should be trimmed);
 1. Clear the form after adding a new movie.
