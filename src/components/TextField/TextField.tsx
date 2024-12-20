@@ -8,6 +8,7 @@ type Props = {
   placeholder?: string;
   required?: boolean;
   onChange?: (newValue: string) => void;
+  validationCallback?: (value: string) => boolean; // for custom validation
 };
 
 function getRandomDigits() {
@@ -21,13 +22,16 @@ export const TextField: React.FC<Props> = ({
   placeholder = `Enter ${label}`,
   required = false,
   onChange = () => {},
+  validationCallback = () => true, // default to always valid
 }) => {
-  // generate a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
-  // To show errors only if the field was touched (onBlur)
+  // Track whether the field was touched
   const [touched, setTouched] = useState(false);
-  const hasError = touched && required && !value;
+
+  // Check if the field has an error
+  const hasError =
+    touched && ((required && !value.trim()) || !validationCallback(value));
 
   return (
     <div className="field">
@@ -41,12 +45,12 @@ export const TextField: React.FC<Props> = ({
           id={id}
           data-cy={`movie-${name}`}
           className={classNames('input', {
-            'is-danger': hasError,
+            'is-danger': hasError, // Add red border for errors
           })}
           placeholder={placeholder}
           value={value}
           onChange={event => onChange(event.target.value)}
-          onBlur={() => setTouched(true)}
+          onBlur={() => setTouched(true)} // Mark as touched on blur
         />
       </div>
 
