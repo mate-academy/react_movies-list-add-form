@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 /* eslint-disable react/jsx-filename-extension */
 import React from 'react';
-import { NewMovie } from './NewMovie';
+import { NewMovieForm } from './NewMovieForm';
 
 const page = {
   getByDataCy: name => cy.get(`[data-cy="${name}"]`),
@@ -53,7 +53,7 @@ describe('NewMovie', () => {
   beforeEach(() => {
     onAdd = cy.stub();
 
-    cy.mount(<NewMovie onAdd={onAdd} />);
+    cy.mount(<NewMovieForm onAdd={onAdd} />);
   });
 
   it('should have empty fields by default', () => {
