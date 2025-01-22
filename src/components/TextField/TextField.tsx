@@ -1,26 +1,19 @@
 import classNames from 'classnames';
 import React, { useState } from 'react';
-
-type Props = {
-  name: string;
-  value: string;
-  label?: string;
-  placeholder?: string;
-  required?: boolean;
-  onChange?: (newValue: string) => void;
-};
+import { TextFieldProps } from '../../types/Movie';
 
 function getRandomDigits() {
   return Math.random().toFixed(16).slice(2);
 }
 
-export const TextField: React.FC<Props> = ({
+export const TextField: React.FC<TextFieldProps> = ({
   name,
   value,
   label = name,
   placeholder = `Enter ${label}`,
   required = false,
   onChange = () => {},
+  onBlur,
 }) => {
   // generate a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
@@ -46,7 +39,12 @@ export const TextField: React.FC<Props> = ({
           placeholder={placeholder}
           value={value}
           onChange={event => onChange(event.target.value)}
-          onBlur={() => setTouched(true)}
+          onBlur={event => {
+            setTouched(true);
+            if (onBlur) {
+              onBlur(event);
+            }
+          }}
         />
       </div>
 
