@@ -40,6 +40,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setImdbID(newValue);
   };
 
+  const reset = () => {
+    setTitle('');
+    setDescription('');
+    setImageURL('');
+    setImdbURL('');
+    setImdbID('');
+  };
+
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
@@ -58,18 +66,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     reset();
   };
 
-  const reset = () => {
-    setTitle('');
-    setDescription('');
-    setImageURL('');
-    setImdbURL('');
-    setImdbID('');
-  };
-
   return (
-    <form 
-      className="NewMovie" 
-      key={count} 
+    <form
+      className="NewMovie"
+      key={count}
       onSubmit={handleSubmit}
       onReset={reset}
     >
