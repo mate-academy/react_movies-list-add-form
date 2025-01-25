@@ -1,11 +1,10 @@
 import { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
-import { log } from 'console';
 
 type Props = {
   onAdd: (movie: Movie) => void;
-}
+};
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   // Increase the count after successful form submission
@@ -15,8 +14,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [imgUrl, setImageURL] = useState('');
-  const [imdbUrl, setImbdURL] = useState('');
-  const [imdbId, setImbdID] = useState('');
+  const [imdbUrl, setImdbURL] = useState('');
+  const [imdbId, setImdbID] = useState('');
 
   // const [buttonDisabled, setButtonDisabled] = useState(true);
   const buttonDisabled = !title || !imgUrl || !imdbUrl || !imdbId;
@@ -33,15 +32,15 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setImageURL(newValue);
   };
 
-  const handleImbdURLChange = (newValue: string) => {
-    setImbdURL(newValue);
+  const handleImdbURLChange = (newValue: string) => {
+    setImdbURL(newValue);
   };
 
-  const handleImbdIDChange = (newValue: string) => {
-    setImbdID(newValue);
+  const handleImdbIDChange = (newValue: string) => {
+    setImdbID(newValue);
   };
 
-  const handleSumbit = (event: React.FormEvent) => {
+  const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
     if (!title || !imgUrl || !imdbUrl || !imdbId) {
@@ -55,14 +54,24 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       imdbUrl,
       imdbId,
     });
-  }
 
+    reset();
+  };
+
+  const reset = () => {
+    setTitle('');
+    setDescription('');
+    setImageURL('');
+    setImdbURL('');
+    setImdbID('');
+  };
 
   return (
-    <form
-      className="NewMovie"
-      key={count}
-      onSubmit={handleSumbit}
+    <form 
+      className="NewMovie" 
+      key={count} 
+      onSubmit={handleSubmit}
+      onReset={reset}
     >
       <h2 className="title">Add a movie</h2>
 
@@ -93,7 +102,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={handleImbdURLChange}
+        onChange={handleImdbURLChange}
         required
       />
 
@@ -101,7 +110,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={handleImbdIDChange}
+        onChange={handleImdbIDChange}
         required
       />
 
