@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import classNames from 'classnames';
 import React, { useState } from 'react';
 
@@ -54,3 +55,4 @@ export const TextField: React.FC<Props> = ({
     </div>
   );
 };
+
