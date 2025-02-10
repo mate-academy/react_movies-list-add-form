@@ -15,3 +15,4 @@ export const MoviesList: React.FC<Props> = ({ movies }) => (
     ))}
   </div>
 );
+export default MoviesList;

@@ -1,0 +1,13 @@
+import axios from 'axios';
+
+const API_KEY = 'YOUR_OMDB_API_KEY'; // Замінити на ваш ключ API
+
+export async function searchMovie(query: string) {
+  try {
+    const response = await axios.get(`http://www.omdbapi.com/?apikey=${API_KEY}&t=${query}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching movie data:', error);
+    return null;
+  }
+}
