@@ -16,6 +16,7 @@ function getRandomDigits() {
 
 export const TextField: React.FC<Props> = ({
   name,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   value,
   label = name,
   placeholder = `Enter ${label}`,
@@ -27,7 +28,15 @@ export const TextField: React.FC<Props> = ({
 
   // To show errors only if the field was touched (onBlur)
   const [touched, setTouched] = useState(false);
-  const hasError = touched && required && !value;
+  const [generatedValue, setGeneratedValue] = useState('');
+  const hasError = touched && required && !generatedValue;
+
+  const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = event.target.value;
+
+    setGeneratedValue(newValue);
+    onChange(newValue);
+  };
 
   return (
     <div className="field">
@@ -45,8 +54,10 @@ export const TextField: React.FC<Props> = ({
           })}
           placeholder={placeholder}
           value={value}
-          onChange={event => onChange(event.target.value)}
-          onBlur={() => setTouched(true)}
+          onChange={handleInput}
+          onBlur={() => {
+            setTouched(true);
+          }}
         />
       </div>
 
