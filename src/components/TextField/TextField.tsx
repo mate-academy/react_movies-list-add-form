@@ -9,11 +9,11 @@ type Props = {
   required?: boolean;
   onChange?: (newValue: string) => void;
   validate?: (value: string) => string | undefined;
-  };
+};
 
-  function getRandomDigits() {
+function getRandomDigits() {
   return Math.random().toFixed(16).slice(2);
-  }
+}
 
 export const TextField: React.FC<Props> = ({
   name,
@@ -28,14 +28,21 @@ export const TextField: React.FC<Props> = ({
   const [touched, setTouched] = useState(false);
 
   const errorMessage = (() => {
-    if (!touched) return undefined;
+    if (!touched) {
+      return undefined;
+    }
 
     if (validate) {
       const validationError = validate(value);
-      if (validationError) return validationError;
+
+      if (validationError) {
+        return validationError;
+      }
     }
 
-    if (required && !value) return `${label} is required`;
+    if (required && !value) {
+      return `${label} is required`;
+    }
 
     return undefined;
   })();

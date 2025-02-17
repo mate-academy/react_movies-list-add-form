@@ -10,9 +10,9 @@ const initialMovies: Movie[] = moviesFromServer;
 export const App = () => {
   const [movies, setMovies] = useState<Movie[]>(initialMovies);
   const addMovie = (newMovie: Movie) => {
-    console.log(123, newMovie)
-    setMovies(currentMovies => [...currentMovies, newMovie])
-  }
+    setMovies(currentMovies => [...currentMovies, newMovie]);
+  };
+
   return (
     <div className="page">
       <div className="page-content">
