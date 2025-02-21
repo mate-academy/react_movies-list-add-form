@@ -6,6 +6,7 @@ type Props = {
   value: string;
   label?: string;
   placeholder?: string;
+  isValid?: (value: string) => boolean;
   required?: boolean;
   onChange?: (newValue: string) => void;
 };
@@ -19,6 +20,7 @@ export const TextField: React.FC<Props> = ({
   value,
   label = name,
   placeholder = `Enter ${label}`,
+  isValid,
   required = false,
   onChange = () => {},
 }) => {
@@ -28,6 +30,7 @@ export const TextField: React.FC<Props> = ({
   // To show errors only if the field was touched (onBlur)
   const [touched, setTouched] = useState(false);
   const hasError = touched && required && !value;
+  const isValidValue = touched && isValid && !isValid(value);
 
   return (
     <div className="field">
@@ -41,7 +44,7 @@ export const TextField: React.FC<Props> = ({
           id={id}
           data-cy={`movie-${name}`}
           className={classNames('input', {
-            'is-danger': hasError,
+            'is-danger': hasError || isValidValue,
           })}
           placeholder={placeholder}
           value={value}
@@ -51,6 +54,9 @@ export const TextField: React.FC<Props> = ({
       </div>
 
       {hasError && <p className="help is-danger">{`${label} is required`}</p>}
+      {!hasError && isValidValue && (
+        <p className="help is-danger">{`${label} is invalid`}</p>
+      )}
     </div>
   );
 };
