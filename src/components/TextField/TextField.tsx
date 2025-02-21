@@ -3,11 +3,11 @@ import React, { useState } from 'react';
 
 type Props = {
   name: string;
-  value: string;
   label?: string;
-  placeholder?: string;
-  required?: boolean;
+  value: string;
   onChange?: (newValue: string) => void;
+  required?: boolean;
+  placeholder?: string;
 };
 
 function getRandomDigits() {
@@ -16,11 +16,11 @@ function getRandomDigits() {
 
 export const TextField: React.FC<Props> = ({
   name,
-  value,
   label = name,
-  placeholder = `Enter ${label}`,
-  required = false,
+  value,
   onChange = () => {},
+  required = false,
+  placeholder = `Enter ${label}`,
 }) => {
   // generate a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
