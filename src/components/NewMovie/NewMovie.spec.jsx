@@ -1,7 +1,10 @@
 /* eslint-disable max-len */
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 /* eslint-disable react/jsx-filename-extension */
+/* eslint-disable operator-linebreak */
+
 import React from 'react';
+import { mount } from '@cypress/react';
 import { NewMovie } from './NewMovie';
 
 const page = {
@@ -53,7 +56,7 @@ describe('NewMovie', () => {
   beforeEach(() => {
     onAdd = cy.stub();
 
-    cy.mount(<NewMovie onAdd={onAdd} />);
+    mount(<NewMovie onAdd={onAdd} />);
   });
 
   it('should have empty fields by default', () => {
