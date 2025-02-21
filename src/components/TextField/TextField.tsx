@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import React, { useState } from 'react';
+import { isURLInvalid } from '../../services/URLValidation';
 
 type Props = {
   name: string;
@@ -7,7 +8,8 @@ type Props = {
   label?: string;
   placeholder?: string;
   required?: boolean;
-  onChange?: (newValue: string) => void;
+  requiredURLValidation?: boolean;
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
 function getRandomDigits() {
@@ -20,7 +22,8 @@ export const TextField: React.FC<Props> = ({
   label = name,
   placeholder = `Enter ${label}`,
   required = false,
-  onChange = () => {},
+  requiredURLValidation = false,
+  onChange,
 }) => {
   // generate a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
@@ -39,18 +42,22 @@ export const TextField: React.FC<Props> = ({
         <input
           type="text"
           id={id}
+          name={name}
           data-cy={`movie-${name}`}
           className={classNames('input', {
             'is-danger': hasError,
           })}
           placeholder={placeholder}
           value={value}
-          onChange={event => onChange(event.target.value)}
+          onChange={event => onChange(event)}
           onBlur={() => setTouched(true)}
         />
       </div>
 
       {hasError && <p className="help is-danger">{`${label} is required`}</p>}
+      {isURLInvalid(value) && requiredURLValidation && (
+        <p className="help is-danger">Enter valid URL</p>
+      )}
     </div>
   );
 };
