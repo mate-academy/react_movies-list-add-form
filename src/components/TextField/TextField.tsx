@@ -27,7 +27,17 @@ export const TextField: React.FC<Props> = ({
 
   // To show errors only if the field was touched (onBlur)
   const [touched, setTouched] = useState(false);
-  const hasError = touched && required && !value;
+  const [validPattern, setValidPattern] = useState(false);
+
+  const urlField = ['imdbUrl', 'imgUrl'].includes(name);
+  // eslint-disable-next-line max-len, prettier/prettier
+  const pattern =
+    // eslint-disable-next-line max-len
+    /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
+
+  const hasError = urlField
+    ? touched && required && (!value || !validPattern)
+    : touched && required && !value;
 
   return (
     <div className="field">
@@ -45,7 +55,15 @@ export const TextField: React.FC<Props> = ({
           })}
           placeholder={placeholder}
           value={value}
-          onChange={event => onChange(event.target.value)}
+          onChange={event => {
+            const inputValue = event.target.value;
+
+            onChange(inputValue);
+
+            if (urlField) {
+              setValidPattern(pattern.test(inputValue));
+            }
+          }}
           onBlur={() => setTouched(true)}
         />
       </div>
