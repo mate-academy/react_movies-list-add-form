@@ -1,34 +1,121 @@
-import { useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import { TextField } from '../TextField';
+import { Movie } from '../../types/Movie';
 
-export const NewMovie = () => {
+type Props = {
+  onAdd: (movie: Movie) => void;
+};
+
+export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
-  const [count] = useState(0);
+  const [showSubmit, setShowSubmit] = useState(true);
+  const [count, setCount] = useState(0);
+  const [formInfo, setFormInfo] = useState({
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  });
+
+  useEffect(() => {
+    const isFormComplete = () => {
+      return (
+        formInfo.title.trim() !== '' &&
+        formInfo.imgUrl.trim() !== '' &&
+        formInfo.imdbUrl.trim() !== '' &&
+        formInfo.imdbId.trim() !== ''
+      );
+    };
+
+    setShowSubmit(!isFormComplete());
+  }, [formInfo]);
+
+  const handleChange = (name: string, value: string) => {
+    setFormInfo(prevInfo => ({ ...prevInfo, [name]: value }));
+  };
+
+  const handleSubmit = (event: FormEvent) => {
+    event.preventDefault();
+    const newMovie: Movie = {
+      title: formInfo.title,
+      description: formInfo.description,
+      imgUrl: formInfo.imgUrl,
+      imdbUrl: formInfo.imdbUrl,
+      imdbId: formInfo.imdbId,
+    };
+
+    onAdd(newMovie);
+
+    setFormInfo({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
+
+    setCount(count + 1);
+  };
 
   return (
-    <form className="NewMovie" key={count}>
+    <form onSubmit={handleSubmit} className="NewMovie" key={count}>
       <h2 className="title">Add a movie</h2>
 
       <TextField
         name="title"
         label="Title"
-        value=""
-        onChange={() => {}}
+        onChange={value => {
+          handleChange('title', value);
+        }}
+        value={formInfo.title}
         required
       />
 
-      <TextField name="description" label="Description" value="" />
+      <TextField
+        onChange={value => {
+          handleChange('description', value);
+        }}
+        name="description"
+        label="Description"
+        value={formInfo.description}
+      />
 
-      <TextField name="imgUrl" label="Image URL" value="" />
+      <TextField
+        required
+        onChange={value => {
+          handleChange('imgUrl', value);
+        }}
+        name="imgUrl"
+        label="Image URL"
+        value={formInfo.imgUrl}
+      />
 
-      <TextField name="imdbUrl" label="Imdb URL" value="" />
+      <TextField
+        required
+        onChange={value => {
+          handleChange('imdbUrl', value);
+        }}
+        name="imdbUrl"
+        label="Imdb URL"
+        value={formInfo.imdbUrl}
+      />
 
-      <TextField name="imdbId" label="Imdb ID" value="" />
+      <TextField
+        required
+        onChange={value => {
+          handleChange('imdbId', value);
+        }}
+        name="imdbId"
+        label="Imdb ID"
+        value={formInfo.imdbId}
+      />
 
       <div className="field is-grouped">
         <div className="control">
           <button
+            disabled={showSubmit}
             type="submit"
             data-cy="submit-button"
             className="button is-link"
