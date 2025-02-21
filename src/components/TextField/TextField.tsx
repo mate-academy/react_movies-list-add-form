@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { useState } from 'react';
+import { FC, useState } from 'react';
 
 type Props = {
   name: string;
@@ -14,7 +14,7 @@ function getRandomDigits() {
   return Math.random().toFixed(16).slice(2);
 }
 
-export const TextField: React.FC<Props> = ({
+export const TextField: FC<Props> = ({
   name,
   value,
   label = name,
@@ -45,7 +45,7 @@ export const TextField: React.FC<Props> = ({
           })}
           placeholder={placeholder}
           value={value}
-          onChange={event => onChange(event.target.value)}
+          onChange={event => onChange(event.target.value.trimStart())}
           onBlur={() => setTouched(true)}
         />
       </div>
