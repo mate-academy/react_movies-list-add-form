@@ -77,7 +77,10 @@ export const NewMovie: React.FC<AddMovie> = ({ onAdd }) => {
             data-cy="submit-button"
             className="button is-link"
             disabled={
-              !movieImgUrl.trim() || !movieImdbUrl.trim() || !movieImdbId.trim()
+              !movieImgUrl.trim() ||
+              !movieImdbUrl.trim() ||
+              !movieImdbId.trim() ||
+              !movieTitle.trim()
             }
             onClick={(event) => {
               event.preventDefault();
@@ -92,7 +95,8 @@ export const NewMovie: React.FC<AddMovie> = ({ onAdd }) => {
               setMovieTitle("");
               setMovieImdbId("");
               setMovieImgUrl("");
-              setCount(currentCount => currentCount + 1)
+              setMovieImdbUrl("");
+              setCount((currentCount) => currentCount + 1);
             }}
           >
             Add
