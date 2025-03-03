@@ -14,6 +14,18 @@ function getRandomDigits() {
   return Math.random().toFixed(16).slice(2);
 }
 
+function isValidUrl(url: string) {
+  const pattern = new RegExp(
+    '^(https?:\\/\\/)?' +
+      '((([a-zA-Z0-9$-_@.&+!*\\(\\),]+)\\.)+' +
+      '[a-zA-Z]{2,})' +
+      '(\\/[a-zA-Z0-9$-_@.&+!*\\(\\),]*)*$',
+    'i',
+  );
+
+  return pattern.test(url);
+}
+
 export const TextField: React.FC<Props> = ({
   name,
   value,
@@ -24,10 +36,14 @@ export const TextField: React.FC<Props> = ({
 }) => {
   // generate a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
-
   // To show errors only if the field was touched (onBlur)
   const [touched, setTouched] = useState(false);
-  const hasError = touched && required && !value;
+  const isUrlField = name === 'imgUrl' || name === 'imdbUrl';
+  const isUrlError = isUrlField && !isValidUrl(value);
+  const hasUrlError = isUrlField && value !== '' && isUrlError;
+  const hasEmptyError = required && !value;
+
+  const hasError = touched && (hasEmptyError || hasUrlError);
 
   return (
     <div className="field">
@@ -50,7 +66,13 @@ export const TextField: React.FC<Props> = ({
         />
       </div>
 
-      {hasError && <p className="help is-danger">{`${label} is required`}</p>}
+      {hasError && (
+        <p className="help is-danger">
+          {hasEmptyError
+            ? `${label} is required`
+            : hasUrlError && `${label} is invalid`}
+        </p>
+      )}
     </div>
   );
 };
