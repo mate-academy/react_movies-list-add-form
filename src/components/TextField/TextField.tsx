@@ -38,6 +38,7 @@ export const TextField: React.FC<Props> = ({
       <div className="control">
         <input
           type="text"
+          name={name}
           id={id}
           data-cy={`movie-${name}`}
           className={classNames('input', {
