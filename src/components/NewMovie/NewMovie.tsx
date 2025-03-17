@@ -35,18 +35,18 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     return false;
   };
 
-  const onSubmit = (e: SubmitEvent): void => {
-    e.preventDefault();
+  const onSubmit = (event: SubmitEvent): void => {
+    event.preventDefault();
     if (requiredFieldMiss()) {
       return;
     }
 
     const newMovie: Movie = {
       title: title.trim(),
-      imgUrl: imgUrl,
-      imdbUrl: imdbUrl,
-      imdbId: imdbId,
-      description: description,
+      imgUrl: imgUrl.trim(),
+      imdbUrl: imdbUrl.trim(),
+      imdbId: imdbId.trim(),
+      description: description.trim(),
     };
 
     onAdd(newMovie);
@@ -56,7 +56,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   };
 
   return (
-    <form className="NewMovie" key={count} onSubmit={e => onSubmit(e)}>
+    <form className="NewMovie" key={count} onSubmit={event => onSubmit(event)}>
       <h2 className="title">Add a movie</h2>
 
       <TextField
