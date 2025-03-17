@@ -23,7 +23,10 @@ export const NewMovie: React.FC<Prop> = ({ onAdd }) => {
   const { title, description, imgUrl, imdbUrl, imdbId } = movie;
 
   const isInputsFilled =
-    !!title.trim().length && !!imgUrl.trim().length && !!imdbUrl.trim().length && !!imdbId.trim().length;
+    !!title.trim().length &&
+    !!imgUrl.trim().length &&
+    !!imdbUrl.trim().length &&
+    !!imdbId.trim().length;
 
   function handleFormSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -50,7 +53,7 @@ export const NewMovie: React.FC<Prop> = ({ onAdd }) => {
         label="Title"
         value={movie.title}
         onChange={value => setMovie({ ...movie, title: value })}
-        required={!movie.title}
+        required
       />
 
       <TextField
