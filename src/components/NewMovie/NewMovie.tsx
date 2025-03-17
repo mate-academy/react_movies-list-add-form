@@ -23,7 +23,7 @@ export const NewMovie: React.FC<Prop> = ({ onAdd }) => {
   const { title, description, imgUrl, imdbUrl, imdbId } = movie;
 
   const isInputsFilled =
-    !!title.length && !!imgUrl.length && !!imdbUrl.length && !!imdbId.length;
+    !!title.trim().length && !!imgUrl.trim().length && !!imdbUrl.trim().length && !!imdbId.trim().length;
 
   function handleFormSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
