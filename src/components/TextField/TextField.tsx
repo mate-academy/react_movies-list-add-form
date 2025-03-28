@@ -4,10 +4,12 @@ import React, { useState } from 'react';
 type Props = {
   name: string;
   value: string;
-  label?: string;
+  label: string;
   placeholder?: string;
   required?: boolean;
-  onChange?: (newValue: string) => void;
+  onChange: (newValue: string) => void;
+  onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
+  error?: string;
 };
 
 function getRandomDigits() {
@@ -21,6 +23,8 @@ export const TextField: React.FC<Props> = ({
   placeholder = `Enter ${label}`,
   required = false,
   onChange = () => {},
+  onBlur = () => {},
+  error,
 }) => {
   // generate a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
@@ -46,11 +50,14 @@ export const TextField: React.FC<Props> = ({
           placeholder={placeholder}
           value={value}
           onChange={event => onChange(event.target.value)}
-          onBlur={() => setTouched(true)}
+          onBlur={event => {
+            setTouched(true);
+            onBlur(event);
+          }}
         />
       </div>
 
-      {hasError && <p className="help is-danger">{`${label} is required`}</p>}
+      {(hasError || error) && <p className="help is-danger">{error}</p>}
     </div>
   );
 };
