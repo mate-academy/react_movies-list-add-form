@@ -1,13 +1,14 @@
 import classNames from 'classnames';
 import React, { useState } from 'react';
 
-type Props = {
+export type Props = {
   name: string;
   value: string;
   label?: string;
   placeholder?: string;
   required?: boolean;
   onChange?: (newValue: string) => void;
+  onBlur?: () => void;
 };
 
 function getRandomDigits() {
