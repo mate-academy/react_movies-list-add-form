@@ -3,14 +3,7 @@ import { MoviesList } from './components/MoviesList';
 import { NewMovie } from './components/NewMovie';
 import moviesFromServer from './api/movies.json';
 import React, { useState } from 'react';
-
-interface Values {
-  title: string;
-  description?: string;
-  imgUrl: string;
-  imdbUrl: string;
-  imdbId: string;
-}
+import { Values } from './types/Values';
 
 export const App = () => {
   const [preparedMovieList, setPreparedMovieList] =

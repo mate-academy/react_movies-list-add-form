@@ -1,29 +1,7 @@
 import { useEffect, useState } from 'react';
 import { TextField } from '../TextField';
 import React from 'react';
-
-interface DefaultValues {
-  title: string;
-  description: string;
-  imgUrl: string;
-  imdbUrl: string;
-  imdbId: string;
-}
-
-export interface Values {
-  title: string;
-  description?: string;
-  imgUrl: string;
-  imdbUrl: string;
-  imdbId: string;
-}
-
-interface DefaultErrors {
-  title: boolean;
-  imgUrl: boolean;
-  imdbUrl: boolean;
-  imdbId: boolean;
-}
+import { DefaultErrors, DefaultValues } from '../../types/Default';
 
 const pattern =
   // eslint-disable-next-line max-len
@@ -100,7 +78,7 @@ export const NewMovie = ({
       <TextField
         name="description"
         label="Description"
-        value={values.description}
+        value={values.description || ''}
         onChange={(newDescription: string) => {
           setValue(prev => ({
             ...prev,
