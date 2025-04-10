@@ -36,7 +36,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     return false;
   };
 
-  const heandleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
     onAdd({
@@ -58,7 +58,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       method="POST"
       className="NewMovie"
       key={count}
-      onSubmit={heandleSubmit}
+      onSubmit={handleSubmit}
     >
       <h2 className="title">Add a movie</h2>
 
@@ -67,7 +67,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Title"
         value={title}
         onChange={newValue => {
-          setTitle(newValue);
+          setTitle(newValue.trim());
         }}
         required
       />
@@ -87,7 +87,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={imgUrl}
         validationPattern={pattern}
         onChange={newValue => {
-          setImgUrl(newValue);
+          setImgUrl(newValue.trim());
         }}
         required
       />
@@ -98,7 +98,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={imdbUrl}
         validationPattern={pattern}
         onChange={newValue => {
-          setImdbUrl(newValue);
+          setImdbUrl(newValue.trim());
         }}
         required
       />
@@ -108,7 +108,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Imdb ID"
         value={imdbId}
         onChange={newValue => {
-          setImdbId(newValue);
+          setImdbId(newValue.trim());
         }}
         required
       />
