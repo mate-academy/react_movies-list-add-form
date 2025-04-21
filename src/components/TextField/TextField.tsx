@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import React, { useState } from 'react';
+import { FieldValidator } from '../../types/FieldValidator';
 
 type Props = {
   name: string;
@@ -8,6 +9,7 @@ type Props = {
   placeholder?: string;
   required?: boolean;
   onChange?: (newValue: string) => void;
+  validators?: FieldValidator[];
 };
 
 function getRandomDigits() {
@@ -21,13 +23,41 @@ export const TextField: React.FC<Props> = ({
   placeholder = `Enter ${label}`,
   required = false,
   onChange = () => {},
+  validators = [],
 }) => {
   // generate a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
   // To show errors only if the field was touched (onBlur)
-  const [touched, setTouched] = useState(false);
-  const hasError = touched && required && !value;
+  const [errorMessage, setErrorMessage] = useState('');
+
+  // const [touched, setTouched] = useState(false);
+  // const hasError = touched && required && !value;
+  const handleOnBlur = (
+    event: React.FocusEvent<HTMLInputElement, Element>,
+  ): void => {
+    const fieldValue = event.target.value.trim();
+
+    if (required) {
+      if (fieldValue === '') {
+        setErrorMessage(`${label} is required`);
+
+        return;
+      } else {
+        setErrorMessage('');
+      }
+
+      for (const validator of validators) {
+        const validatorMessage = validator(fieldValue, label);
+
+        if (validatorMessage) {
+          setErrorMessage(validatorMessage);
+
+          return;
+        }
+      }
+    }
+  };
 
   return (
     <div className="field">
@@ -41,16 +71,16 @@ export const TextField: React.FC<Props> = ({
           id={id}
           data-cy={`movie-${name}`}
           className={classNames('input', {
-            'is-danger': hasError,
+            'is-danger': errorMessage,
           })}
           placeholder={placeholder}
           value={value}
           onChange={event => onChange(event.target.value)}
-          onBlur={() => setTouched(true)}
+          onBlur={handleOnBlur}
         />
       </div>
 
-      {hasError && <p className="help is-danger">{`${label} is required`}</p>}
+      {errorMessage && <p className="help is-danger">{errorMessage}</p>}
     </div>
   );
 };
