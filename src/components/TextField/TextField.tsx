@@ -8,6 +8,8 @@ type Props = {
   placeholder?: string;
   required?: boolean;
   onChange?: (newValue: string) => void;
+  validate?: (newValue: string) => boolean;
+  errorMessage?: string;
 };
 
 function getRandomDigits() {
@@ -21,13 +23,17 @@ export const TextField: React.FC<Props> = ({
   placeholder = `Enter ${label}`,
   required = false,
   onChange = () => {},
+  validate,
+  errorMessage = 'Invalid value',
 }) => {
-  // generate a unique id once on component load
+  // генерируйте уникальный идентификатор один раз при загрузке компонента
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
-  // To show errors only if the field was touched (onBlur)
+  // Показывать ошибки только в том случае, если поле было затронуто (onBlur)
   const [touched, setTouched] = useState(false);
-  const hasError = touched && required && !value;
+  const isEmpty = required && !value.trim();
+  const isInvalid = validate && !validate(value);
+  const hasError = touched && (isEmpty || isInvalid);
 
   return (
     <div className="field">
@@ -50,7 +56,11 @@ export const TextField: React.FC<Props> = ({
         />
       </div>
 
-      {hasError && <p className="help is-danger">{`${label} is required`}</p>}
+      {hasError && (
+        <p className="help is-danger">
+          {isEmpty ? `${label} is required` : errorMessage}
+        </p>
+      )}
     </div>
   );
 };
