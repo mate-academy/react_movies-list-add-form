@@ -8,7 +8,6 @@ type Props = {
   placeholder?: string;
   required?: boolean;
   onChange?: (newValue: string) => void;
-  errorMessage?: string;
 };
 
 function getRandomDigits() {
@@ -45,7 +44,7 @@ export const TextField: React.FC<Props> = ({
             'is-danger': hasError,
           })}
           placeholder={placeholder}
-          defaultValue={value}
+          value={value}
           onChange={event => onChange(event.target.value)}
           onBlur={() => setTouched(true)}
         />
