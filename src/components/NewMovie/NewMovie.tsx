@@ -27,7 +27,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setCount((prev: number): number => prev + 1);
   };
 
-  const isFormValid = () => {
+  const isInvalid = () => {
     return (
       title.trim() == '' ||
       imgUrl.trim() == '' ||
@@ -38,7 +38,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (isFormValid()) {
+    if (isInvalid()) {
       return;
     }
 
@@ -103,7 +103,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={isFormValid()}
+            disabled={isInvalid()}
           >
             Add
           </button>
