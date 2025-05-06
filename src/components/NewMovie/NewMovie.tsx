@@ -50,7 +50,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     return null;
   };
 
-  const resertForm = () => {
+  const resetForm = () => {
     setTitle('');
     setDescription('');
     setImgUrl('');
@@ -69,7 +69,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       imdbId,
     });
 
-    resertForm();
+    resetForm();
   };
 
   return (
