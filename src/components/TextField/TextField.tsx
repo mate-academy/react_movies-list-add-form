@@ -7,7 +7,9 @@ type Props = {
   label?: string;
   placeholder?: string;
   required?: boolean;
-  onChange?: (newValue: string) => void;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  setDisabled: (arg: boolean) => void;
+  validate: (name: string, value: string) => string | null;
 };
 
 function getRandomDigits() {
@@ -21,13 +23,17 @@ export const TextField: React.FC<Props> = ({
   placeholder = `Enter ${label}`,
   required = false,
   onChange = () => {},
+  setDisabled,
+  validate,
 }) => {
   // generate a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
+  const validationMessage = validate(name, value);
 
   // To show errors only if the field was touched (onBlur)
   const [touched, setTouched] = useState(false);
-  const hasError = touched && required && !value;
+  const hasError = touched && Boolean(validationMessage);
+  // const isRequired = required === true && value.length > 0;
 
   return (
     <div className="field">
@@ -45,12 +51,17 @@ export const TextField: React.FC<Props> = ({
           })}
           placeholder={placeholder}
           value={value}
-          onChange={event => onChange(event.target.value)}
-          onBlur={() => setTouched(true)}
+          onChange={onChange}
+          onBlur={() => {
+            setTouched(true);
+            {
+              // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+              setDisabled(validationMessage === null && false);
+            }
+          }}
         />
       </div>
-
-      {hasError && <p className="help is-danger">{`${label} is required`}</p>}
+      {hasError && <p className="help is-danger">{validationMessage}</p>}
     </div>
   );
 };
