@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 type Props = {
   name: string;
   value: string;
+  className?: string;
   label?: string;
   placeholder?: string;
   required?: boolean;
