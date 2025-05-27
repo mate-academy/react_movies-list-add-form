@@ -15,24 +15,13 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imgUrl, setImgUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
-  const [titleError, setTitleError] = useState(false);
-  const [descriptionError, setDescriptionError] = useState(false);
-  const [imgUrlError, setImgUrlError] = useState(false);
-  const [imdbUrlError, setImdbUrlError] = useState(false);
-  const [imdbIdError, setImdbIdError] = useState(false);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    setTitleError(!title);
-    setDescriptionError(!description);
-    setImgUrlError(!imgUrl);
-    setImdbUrlError(!imdbUrl);
-    setImdbIdError(!imdbId);
-
-    if (!title || !description || !imgUrl || !imdbUrl || !imdbId) {
-      return;
-    }
+    // if (!title || !description || !imgUrl || !imdbUrl || !imdbId) {
+    //   return;
+    // }
 
     onAdd({
       title,
@@ -49,6 +38,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setImdbId('');
     setCount(count + 1);
   };
+
+  const isFormValid = title && imgUrl && imdbUrl && imdbId;
+
 
   return (
     <form className="NewMovie" key={count} onSubmit={handleSubmit}>
@@ -99,8 +91,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled
-            // onClick={() => {}}
+            disabled={!isFormValid}
+            onClick={() => {}}
           >
             Add
           </button>
