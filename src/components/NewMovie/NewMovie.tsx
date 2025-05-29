@@ -8,23 +8,23 @@ interface Props {
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
-  const [newTitile, setNewTitle] = useState('');
+  const [newTitle, setNewTitle] = useState('');
   const [newDescription, setNewDescription] = useState('');
   const [newImgUrl, setNewImgUrl] = useState('');
   const [newImdbUrl, setNewImdbUrl] = useState('');
   const [newImdbId, setNewImdbId] = useState('');
 
   const isFormValid =
-    newTitile.trim() &&
+    newTitle.trim() &&
     newImgUrl.trim() &&
     newImdbUrl.trim() &&
     newImdbId.trim();
 
-  const handleSumbit = (event: React.FormEvent) => {
+  const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
     const newMovie: Movie = {
-      title: newTitile.trim(),
+      title: newTitle.trim(),
       description: newDescription.trim(),
       imgUrl: newImgUrl.trim(),
       imdbUrl: newImdbUrl.trim(),
@@ -43,13 +43,13 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   };
 
   return (
-    <form className="NewMovie" key={count} onSubmit={handleSumbit}>
+    <form className="NewMovie" key={count} onSubmit={handleSubmit}>
       <h2 className="title">Add a movie</h2>
 
       <TextField
         name="title"
         label="Title"
-        value={newTitile}
+        value={newTitle}
         onChange={setNewTitle}
         required
       />
