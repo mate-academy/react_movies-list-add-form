@@ -23,7 +23,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   };
 
   const isActive =
-    title.trim() && imgUrl.trim() && imdbUrl.trim() && imdbId.trim();
+    Boolean(title.trim() && imgUrl.trim() && imdbUrl.trim() && imdbId.trim());
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
