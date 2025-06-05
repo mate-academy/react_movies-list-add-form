@@ -5,7 +5,7 @@ import moviesFromServer from './api/movies.json';
 import { useState } from 'react';
 
 export const App = () => {
-  const [movies, setMovies] = useState(moviesFromServer);
+  const [movies, setMovies] = useState([...moviesFromServer]);
 
   return (
     <div className="page">
