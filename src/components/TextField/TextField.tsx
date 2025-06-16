@@ -7,6 +7,7 @@ type Props = {
   label?: string;
   placeholder?: string;
   required?: boolean;
+  resetKey?: number;
   onChange?: (newValue: string) => void;
 };
 
