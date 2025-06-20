@@ -1,42 +1,112 @@
-import { useState } from 'react';
-import { TextField } from '../TextField';
+import React, { useState, useEffect } from 'react';
+import { TextField } from '../TextField/TextField';
 
-export const NewMovie = () => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
-  const [count] = useState(0);
+type NewMovieProps = {
+  onAdd: (movie: {
+    title: string;
+    imgUrl: string;
+    imdbUrl: string;
+    imdbId: string;
+    description: string; // zmienione na nieopcjonalne
+  }) => void;
+};
+
+export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
+  const [title, setTitle] = useState('');
+  const [imgUrl, setImgUrl] = useState('');
+  const [imdbUrl, setImdbUrl] = useState('');
+  const [imdbId, setImdbId] = useState('');
+  const [description, setDescription] = useState('');
+
+  const [isSubmitDisabled, setIsSubmitDisabled] = useState(true);
+  const [formKey, setFormKey] = useState(0);
+
+  useEffect(() => {
+    const requiredFieldsFilled =
+      title.trim() !== '' &&
+      imgUrl.trim() !== '' &&
+      imdbUrl.trim() !== '' &&
+      imdbId.trim() !== '';
+
+    setIsSubmitDisabled(!requiredFieldsFilled);
+  }, [title, imgUrl, imdbUrl, imdbId]);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (isSubmitDisabled) {
+      return;
+    }
+
+    const movieData = {
+      title: title.trim(),
+      imgUrl: imgUrl.trim(),
+      imdbUrl: imdbUrl.trim(),
+      imdbId: imdbId.trim(),
+      description: description.trim(),
+    };
+
+    onAdd(movieData);
+
+    setTitle('');
+    setImgUrl('');
+    setImdbUrl('');
+    setImdbId('');
+    setDescription('');
+    setFormKey(prev => prev + 1);
+  };
+
+  const handleChange =
+    (setter: React.Dispatch<React.SetStateAction<string>>) => (value: string) =>
+      setter(value);
+
+  const handleBlur = () => {};
 
   return (
-    <form className="NewMovie" key={count}>
-      <h2 className="title">Add a movie</h2>
-
+    <form key={formKey} onSubmit={handleSubmit}>
       <TextField
         name="title"
         label="Title"
-        value=""
-        onChange={() => {}}
+        value={title}
+        onChange={handleChange(setTitle)}
+        onBlur={handleBlur}
         required
       />
-
-      <TextField name="description" label="Description" value="" />
-
-      <TextField name="imgUrl" label="Image URL" value="" />
-
-      <TextField name="imdbUrl" label="Imdb URL" value="" />
-
-      <TextField name="imdbId" label="Imdb ID" value="" />
-
-      <div className="field is-grouped">
-        <div className="control">
-          <button
-            type="submit"
-            data-cy="submit-button"
-            className="button is-link"
-          >
-            Add
-          </button>
-        </div>
-      </div>
+      <TextField
+        name="imgUrl"
+        label="Image URL"
+        value={imgUrl}
+        onChange={handleChange(setImgUrl)}
+        onBlur={handleBlur}
+        required
+      />
+      <TextField
+        name="imdbUrl"
+        label="IMDB URL"
+        value={imdbUrl}
+        onChange={handleChange(setImdbUrl)}
+        onBlur={handleBlur}
+        required
+      />
+      <TextField
+        name="imdbId"
+        label="IMDB ID"
+        value={imdbId}
+        onChange={handleChange(setImdbId)}
+        onBlur={handleBlur}
+        required
+      />
+      <TextField
+        name="description"
+        label="Description"
+        value={description}
+        onChange={handleChange(setDescription)}
+        onBlur={handleBlur}
+        required={false}
+      />
+      <button type="submit" data-cy="submit-button" disabled={isSubmitDisabled}>
+        Add Movie
+      </button>
     </form>
   );
 };
