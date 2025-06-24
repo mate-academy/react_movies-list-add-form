@@ -9,7 +9,7 @@ type Props = {
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [img, setImg] = useState('');
+  const [imgUrl, setimgUrl] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
@@ -17,7 +17,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
   // eslint-disable-next-line max-len
   const isFormInvalid =
-    !title.trim() || !imdbUrl.trim() || !img.trim() || !imdbId.trim();
+    !title.trim() || !imdbUrl.trim() || !imgUrl.trim() || !imdbId.trim();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -25,7 +25,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     const newMovie: Movie = {
       title: title.trim(),
       description: description.trim(),
-      imgUrl: img.trim(),
+      imgUrl: imgUrl.trim(),
       imdbUrl: imdbUrl.trim(),
       imdbId: imdbId.trim(),
     };
@@ -34,7 +34,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
     setTitle('');
     setDescription('');
-    setImg('');
+    setimgUrl('');
     setImdbUrl('');
     setImdbId('');
     setCount(prev => prev + 1);
@@ -63,8 +63,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         required
         name="imgUrl"
         label="Image URL"
-        value={img}
-        onChange={setImg}
+        value={imgUrl}
+        onChange={setimgUrl}
       />
 
       <TextField
