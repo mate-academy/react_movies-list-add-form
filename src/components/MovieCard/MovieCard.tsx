@@ -1,3 +1,4 @@
+// src/components/MovieCard/MovieCard.tsx
 import React from 'react';
 import { Movie } from '../../types/Movie';
 import './MovieCard.scss';
