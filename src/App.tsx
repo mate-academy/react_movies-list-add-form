@@ -14,10 +14,11 @@ export const App = () => {
         <MoviesList movies={movies} />
       </div>
       <div className="sidebar">
-        <NewMovie onAdd={(movie) => {
-          setMovies([...movies, movie]);
-          console.log(movies);
-        }} />
+        <NewMovie
+          onAdd={movie => {
+            setMovies([...movies, movie]);
+          }}
+        />
       </div>
     </div>
   );

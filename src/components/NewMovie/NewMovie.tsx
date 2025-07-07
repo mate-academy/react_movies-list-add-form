@@ -1,11 +1,10 @@
 import { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
-import '../../api/movies.json'
 
 type Props = {
   onAdd: (movie: Movie) => void;
-}
+};
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
@@ -66,16 +65,16 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setCount(count + 1);
 
     handleInputContent('', 'title');
-      handleInputContent('', 'description');
-      handleInputContent('', 'imgUrl');
-      handleInputContent('', 'imdbUrl');
-      handleInputContent('', 'imdbId');
+    handleInputContent('', 'description');
+    handleInputContent('', 'imgUrl');
+    handleInputContent('', 'imdbUrl');
+    handleInputContent('', 'imdbId');
   }
 
   return (
-    <form 
-      className="NewMovie" 
-      key={count} 
+    <form
+      className="NewMovie"
+      key={count}
       onSubmit={event => handleButtonClick(event)}
     >
       <h2 className="title">Add a movie</h2>
@@ -126,7 +125,16 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <div className="field is-grouped">
         <div className="control">
           <button
-            disabled={hasTitleError || hasImgUrlError || hasImdbUrlError || hasImdbIdError || !title || !imgUrl || !imdbUrl || !imdbId}
+            disabled={
+              hasTitleError ||
+              hasImgUrlError ||
+              hasImdbUrlError ||
+              hasImdbIdError ||
+              !title ||
+              !imgUrl ||
+              !imdbUrl ||
+              !imdbId
+            }
             type="submit"
             data-cy="submit-button"
             className="button is-link"
