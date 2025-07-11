@@ -16,17 +16,15 @@ function getRandomDigits() {
 
 export const TextField: React.FC<Props> = ({
   name,
-  value,
   label = name,
+  value,
   placeholder = `Enter ${label}`,
   required = false,
   onChange = () => {},
 }) => {
-  // generate a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
-
-  // To show errors only if the field was touched (onBlur)
   const [touched, setTouched] = useState(false);
+
   const hasError = touched && required && !value;
 
   return (
