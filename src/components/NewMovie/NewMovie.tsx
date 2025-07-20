@@ -14,8 +14,6 @@ interface Props {
 }
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
-  const [count, setCount] = useState(0);
-
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [imgUrl, setImgUrl] = useState('');
@@ -28,12 +26,17 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbIdError, setImdbIdError] = useState(false);
 
   function onSubmit() {
-    if (!title.trim() || !imgUrl.trim() || !imdbUrl.trim() || !imdbId.trim()) {
-      setTitleError(!title.trim());
-      setImgUrlError(!imgUrl.trim());
-      setImdbUrlError(!imdbUrl.trim());
-      setImdbIdError(!imdbId.trim());
+    const isTitleValid = !!title.trim();
+    const isImgUrlValid = !!imgUrl.trim();
+    const isImdbUrlValid = !!imdbUrl.trim();
+    const isImdbIdValid = !!imdbId.trim();
 
+    setTitleError(!isTitleValid);
+    setImgUrlError(!isImgUrlValid);
+    setImdbUrlError(!isImdbUrlValid);
+    setImdbIdError(!isImdbIdValid);
+
+    if (!isTitleValid || !isImgUrlValid || !isImdbUrlValid || !isImdbIdValid) {
       return;
     }
 
@@ -41,12 +44,12 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
     onAdd(movie);
 
+    // Reset all fields
     setTitle('');
     setDescription('');
     setImgUrl('');
     setImdbUrl('');
     setImdbId('');
-    setCount(prev => prev + 1);
   }
 
   const isFormValid =
@@ -58,7 +61,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   return (
     <form
       className="NewMovie"
-      key={count}
       onSubmit={event => {
         event.preventDefault();
         onSubmit();
@@ -70,10 +72,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={title}
-        onChange={text => setTitle(text)}
-        onBlur={() => {
-          setTitleError(!title.trim());
-        }}
+        onChange={setTitle}
+        onBlur={() => setTitleError(!title.trim())}
         required
         error={titleError}
       />
@@ -82,17 +82,15 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={description}
-        onChange={text => setDescription(text)}
+        onChange={setDescription}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={text => setImgUrl(text)}
-        onBlur={() => {
-          setImgUrlError(!imgUrl.trim());
-        }}
+        onChange={setImgUrl}
+        onBlur={() => setImgUrlError(!imgUrl.trim())}
         required
         error={imgUrlError}
       />
@@ -101,10 +99,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={text => setImdbUrl(text)}
-        onBlur={() => {
-          setImdbUrlError(!imdbUrl.trim());
-        }}
+        onChange={setImdbUrl}
+        onBlur={() => setImdbUrlError(!imdbUrl.trim())}
         required
         error={imdbUrlError}
       />
@@ -113,10 +109,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={text => setImdbId(text)}
-        onBlur={() => {
-          setImdbIdError(!imdbId.trim());
-        }}
+        onChange={setImdbId}
+        onBlur={() => setImdbIdError(!imdbId.trim())}
         required
         error={imdbIdError}
       />
