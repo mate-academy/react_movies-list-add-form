@@ -6,8 +6,10 @@ type Props = {
   value: string;
   label?: string;
   placeholder?: string;
+  onBlur?: () => void;
   required?: boolean;
   onChange?: (newValue: string) => void;
+  error?: boolean;
 };
 
 function getRandomDigits() {
