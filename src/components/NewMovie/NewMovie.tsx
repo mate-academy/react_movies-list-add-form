@@ -24,7 +24,7 @@ export const NewMovie = ({ onAdd }: Props) => {
     setImdbId('');
   };
 
-  const handleSumbit = event => {
+  const handleSubmit = event => {
     event.preventDefault();
 
     if (!title || !imgUrl || !imdbUrl || !imdbId) {
@@ -47,7 +47,7 @@ export const NewMovie = ({ onAdd }: Props) => {
   };
 
   return (
-    <form className="NewMovie" key={count} onSubmit={handleSumbit}>
+    <form className="NewMovie" key={count} onSubmit={handleSubmit}>
       <h2 className="title">Add a movie</h2>
 
       <TextField
