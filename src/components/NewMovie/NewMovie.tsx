@@ -17,13 +17,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbId, setImdbId] = useState('');
 
   const isFormValid =
-    title.trim() === '' ||
-    imdbUrl.trim() === '' ||
-    imgUrl.trim() === '' ||
-    imdbId.trim() === '';
+    !title.trim() || !imdbUrl.trim() || !imgUrl.trim() || !imdbId.trim();
 
   const addMovie = (event: React.FormEvent) => {
     event.preventDefault();
+
+    if (!title || !imgUrl || !imdbUrl || !imdbId) {
+      return;
+    }
 
     onAdd({
       title,
