@@ -62,9 +62,12 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       key={count}
       onSubmit={(event: React.FormEvent) => {
         event.preventDefault();
-        setCount(count + 1);
-        reset();
-        createMovie();
+
+        if (isFormValid()) {
+          reset();
+          createMovie();
+          setCount(count + 1);
+        }
       }}
     >
       <h2 className="title">Add a movie</h2>
