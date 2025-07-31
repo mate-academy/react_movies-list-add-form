@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
-type Pops = {
+type Props = {
   onAdd: (movie: Movie) => void;
 };
 
@@ -14,7 +14,7 @@ const DEFAULT_VALUES: Movie = {
   imdbId: '',
 };
 
-export const NewMovie: React.FC<Pops> = ({ onAdd }) => {
+export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
   const [movie, setMovie] = useState(DEFAULT_VALUES);
 
