@@ -29,6 +29,12 @@ export const TextField: React.FC<Props> = ({
   const [touched, setTouched] = useState(false);
   const hasError = touched && required && !value;
 
+  const pattern =
+    // eslint-disable-next-line max-len
+    /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
+  const [isValidImgUrl, setIsValidImgUrl] = useState(true);
+  const [isValidImdbUrl, setIsValidImdbUrl] = useState(true);
+
   return (
     <div className="field">
       <label className="label" htmlFor={id}>
@@ -45,12 +51,29 @@ export const TextField: React.FC<Props> = ({
           })}
           placeholder={placeholder}
           value={value}
-          onChange={event => onChange(event.target.value)}
-          onBlur={() => setTouched(true)}
+          onChange={event => {
+            onChange(event.target.value);
+          }}
+          onBlur={() => {
+            setTouched(true);
+            if (name === 'imgUrl') {
+              setIsValidImgUrl(pattern.test(value));
+            }
+
+            if (name === 'imdbUrl') {
+              setIsValidImdbUrl(pattern.test(value));
+            }
+          }}
         />
       </div>
 
       {hasError && <p className="help is-danger">{`${label} is required`}</p>}
+      {isValidImgUrl === false && (
+        <p className="help is-danger">{`URL of img is invalid`}</p>
+      )}
+      {isValidImdbUrl === false && (
+        <p className="help is-danger">{`URL of imdb is invalid`}</p>
+      )}
     </div>
   );
 };
