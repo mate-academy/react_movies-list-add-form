@@ -4,11 +4,21 @@ import { NewMovie } from './components/NewMovie';
 import moviesFromServer from './api/movies.json';
 import { useState } from 'react';
 import { Movie } from './types/Movie';
+function getRandomDigits() {
+  return Math.random().toFixed(16).slice(2);
+}
 
+const generateId = () => {
+  return `movie-${getRandomDigits()}`;
+};
 export const App = () => {
   const [movies, setMovies] = useState(moviesFromServer);
-  const addMovies = (newMovie: Movie) => {
-    setMovies([...movies, newMovie]);
+  const addMovies = (newMovie: Omit<Movie, 'id'>) => {
+    const movieWithId: Movie = {
+      ...newMovie,
+      id: generateId(),
+    };
+    setMovies([...movies, movieWithId]);
   };
 
   return (
