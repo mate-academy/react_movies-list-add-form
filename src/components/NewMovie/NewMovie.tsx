@@ -65,11 +65,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         imgUrl: imgUrl,
         imdbUrl: imdbUrl,
         imdbId: imdbId,
+        description: description,
       }
 
-     if (!isFormValid) {
-      return;
-    }
       onAdd(newMovie);
       setTitle('')
       setImgUrl('')
