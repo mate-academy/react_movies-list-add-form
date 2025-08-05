@@ -15,7 +15,7 @@ export const App = () => {
       <div className="sidebar">
         <NewMovie
           onAdd={newMovie => {
-            setNewListOfMovies([...moviesFromServer, newMovie]);
+            setNewListOfMovies([...newListOfMovies, newMovie]);
           }}
         />
       </div>
