@@ -9,7 +9,7 @@ type Props = {
 export const NewMovie = ({ onAdd }: Props) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
-  const [count] = useState(0);
+  const [count, setCount] = useState(0);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [imgUrl, setImgUrl] = useState('');
@@ -19,7 +19,7 @@ export const NewMovie = ({ onAdd }: Props) => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    const newMovie = {
+    const newMovie: Movie = {
       title: title,
       description: description,
       imgUrl: imgUrl,
@@ -35,6 +35,8 @@ export const NewMovie = ({ onAdd }: Props) => {
       setImgUrl('');
       setImdbUrl('');
       setImdbId('');
+
+      setCount(count + 1);
     }
   };
 
