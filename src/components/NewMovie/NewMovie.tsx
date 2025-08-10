@@ -3,44 +3,41 @@ import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
 type Props = {
-  onAdd: (value: Movie) => void;
+  onAdd: (movie: Movie) => void;
 };
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
-  const [description, setDescription] = useState('');
   const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
   const [imgUrl, setImgUrl] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
-  const noErrors = title && imdbId && imgUrl && imdbUrl;
 
-  const handleOnSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const isFormValid =
+    title.trim() && imgUrl.trim() && imdbUrl.trim() && imdbId.trim();
 
-    setCount(prev => prev + 1);
+  const submitHandler = (event: React.FormEvent) => {
+    event.preventDefault();
 
-    if (noErrors) {
-      onAdd({
-        title,
-        description,
-        imgUrl,
-        imdbUrl,
-        imdbId,
-      });
+    if (!isFormValid) {
+      return;
     }
 
-    setDescription('');
+    onAdd({ title, description, imgUrl, imdbUrl, imdbId });
+
     setTitle('');
+    setDescription('');
     setImgUrl('');
     setImdbUrl('');
     setImdbId('');
+    setCount(prev => prev + 1);
   };
 
   return (
-    <form className="NewMovie" key={count} onSubmit={handleOnSubmit}>
+    <form className="NewMovie" key={count} onSubmit={submitHandler}>
       <h2 className="title">Add a movie</h2>
 
       <TextField
@@ -70,16 +67,16 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        required
         onChange={setImdbUrl}
+        required
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        required
         onChange={setImdbId}
+        required
       />
 
       <div className="field is-grouped">
@@ -88,7 +85,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={noErrors ? false : true}
+            disabled={!isFormValid}
           >
             Add
           </button>
