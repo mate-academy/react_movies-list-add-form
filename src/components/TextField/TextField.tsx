@@ -10,7 +10,7 @@ type Props = {
   onChange?: (newValue: string) => void;
 };
 
-function getRandomDigits():string {
+function getRandomDigits(): string {
   return Math.random().toFixed(16).slice(2);
 }
 
@@ -28,7 +28,6 @@ export const TextField: React.FC<Props> = ({
   // To show errors only if the field was touched (onBlur)
   const [touched, setTouched] = useState(false);
   const hasError = touched && required && !value;
-
 
   return (
     <div className="field">

@@ -1,16 +1,12 @@
 import { useState } from 'react';
 import { TextField } from '../TextField';
-import { Movie } from '../../types/Movie'
-
-interface Props {
-  movies: Movie[];
-}
+import { Movie } from '../../types/Movie';
 
 type NewMovieProps = {
   onAdd: (movie: Movie) => void;
 };
 
-export const NewMovie: React.FC<NewMovieProps>  = ({ onAdd }) => {
+export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
@@ -22,16 +18,14 @@ export const NewMovie: React.FC<NewMovieProps>  = ({ onAdd }) => {
   const [imdbId, setImdbId] = useState('');
 
   const isFormValid =
-    title.trim() &&
-    imgUrl.trim() &&
-    imdbUrl.trim() &&
-    imdbId.trim();
+    title.trim() && imgUrl.trim() && imdbUrl.trim() && imdbId.trim();
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (!isFormValid) return;
-
+    if (!isFormValid) {
+      return;
+    }
 
     const newMovie = {
       title: title,
@@ -39,10 +33,10 @@ export const NewMovie: React.FC<NewMovieProps>  = ({ onAdd }) => {
       imgUrl: imgUrl,
       imdbUrl: imdbUrl,
       imdbId: imdbId,
-    }
+    };
 
     onAdd(newMovie);
-  
+
     setTitle('');
     setDescription('');
     setImgUrl('');
@@ -69,7 +63,7 @@ export const NewMovie: React.FC<NewMovieProps>  = ({ onAdd }) => {
         value={description}
         onChange={setDescription}
         required
-        />
+      />
 
       <TextField
         name="imgUrl"
@@ -77,7 +71,7 @@ export const NewMovie: React.FC<NewMovieProps>  = ({ onAdd }) => {
         value={imgUrl}
         onChange={setImgUrl}
         required
-        />
+      />
 
       <TextField
         name="imdbUrl"
@@ -85,7 +79,7 @@ export const NewMovie: React.FC<NewMovieProps>  = ({ onAdd }) => {
         value={imdbUrl}
         onChange={setImdbUrl}
         required
-        />
+      />
 
       <TextField
         name="imdbId"
@@ -93,7 +87,7 @@ export const NewMovie: React.FC<NewMovieProps>  = ({ onAdd }) => {
         value={imdbId}
         onChange={setImdbId}
         required
-        />
+      />
 
       <div className="field is-grouped">
         <div className="control">

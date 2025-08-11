@@ -5,12 +5,8 @@ import moviesFromServer from './api/movies.json';
 import { useState } from 'react';
 import { Movie } from './types/Movie';
 
-interface Props {
-  movies: Movie[];
-}
-
 export const App = () => {
-  const[movies, setMovies] = useState([...moviesFromServer]);
+  const [movies, setMovies] = useState([...moviesFromServer]);
 
   const handleAddMovie = (movie: Movie) => {
     setMovies(prev => [...prev, movie]);
@@ -22,7 +18,7 @@ export const App = () => {
         <MoviesList movies={movies} />
       </div>
       <div className="sidebar">
-        <NewMovie onAdd={handleAddMovie}  />
+        <NewMovie onAdd={handleAddMovie} />
       </div>
     </div>
   );
