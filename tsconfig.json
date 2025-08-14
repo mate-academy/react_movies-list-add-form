@@ -4,6 +4,13 @@
     "src"
   ],
   "compilerOptions": {
-    "sourceMap": false
+    "jsx": "react-jsx",
+    "module": "esnext",
+    "target": "esnext",
+    "allowJs": true,
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "strict": true,
+    "skipLibCheck": true
   }
 }
