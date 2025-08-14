@@ -23,30 +23,27 @@ export const NewMovie: React.FC<Props> = ({ onSubmit }) => {
   // const [touched, setTouched] = useState(false);
 
   const handlerOnTitle = (value: string) => {
-    setTitle(value);
+    setTitle(value.trim());
   };
 
   const handlerOnDescription = (value: string) => {
-    setDescription(value);
+    setDescription(value.trim());
   };
 
   const handlerOnImgUrl = (value: string) => {
-    setImgUrl(value);
+    setImgUrl(value.trim());
   };
 
   const handlerOnImdbUrl = (value: string) => {
-    setImdbUrl(value);
+    setImdbUrl(value.trim());
   };
 
   const handlerOnImdbId = (value: string) => {
-    setimdbId(value);
+    setimdbId(value.trim());
   };
 
   const notAllDataInput =
-    title.length <= 0 ||
-    imgUrl.length <= 0 ||
-    imdbUrl.length <= 0 ||
-    imdbId.length <= 0;
+    !title.trim() || !imgUrl.trim() || !imdbUrl.trim() || !imdbId.trim();
 
   const handlerSubmit = (event: React.FormEvent) => {
     event.preventDefault();
