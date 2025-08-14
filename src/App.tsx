@@ -9,12 +9,7 @@ export const App = () => {
   const [movies, setMovies] = useState([...moviesFromServer]);
 
   function addMovie(movie: Movie) {
-    const copy = movies.map(m => ({
-      ...m,
-    }));
-
-    copy.push(movie);
-    setMovies(copy);
+    setMovies([...movies, movie]);
   }
 
   return (
