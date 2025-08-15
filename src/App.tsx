@@ -5,10 +5,10 @@ import moviesFromServer from './api/movies.json';
 import { useState } from 'react';
 
 export const App = () => {
-  const [movies, setMovies] = useState([...moviesFromServer])
+  const [movies, setMovies] = useState([...moviesFromServer]);
 
-  const handleAddMovie = (newMovie: any) => {
-    setMovies([...movies, newMovie])
+  const handleAddMovie = newMovie => {
+    setMovies([...movies, newMovie]);
   };
 
   return (
@@ -17,7 +17,7 @@ export const App = () => {
         <MoviesList movies={movies} />
       </div>
       <div className="sidebar">
-        <NewMovie onAdd = {handleAddMovie}/>
+        <NewMovie onAdd={handleAddMovie} />
       </div>
     </div>
   );
