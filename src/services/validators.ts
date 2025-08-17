@@ -1,0 +1,15 @@
+const urlPattern = new RegExp(
+  '^(' +
+    '((([A-Za-z]{3,9}:(?:\\/\\/)?)(?:[-;:&=+$,\\w]+@)?[A-Za-z0-9.-]+)' +
+    '|(?:www\\.|[-;:&=+$,\\w]+@)[A-Za-z0-9.-]+)' +
+    '((?:\\/[+~%/\\.\\w-_]*)?\\??(?:[-+=&;%@,\\.\\w_]*)#?(?:[,.!/\\\\\\w]*))?' +
+    ')$',
+);
+
+export const validateUrl = (value: string) => {
+  if (!value) {
+    return null;
+  }
+
+  return urlPattern.test(value) ? null : 'Please enter a valid URL';
+};
