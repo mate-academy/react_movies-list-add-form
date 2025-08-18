@@ -76,12 +76,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={form.title}
         onChange={v => handleChange('title', v)}
         required
+        errorMessage={errors.title}
       />
       <TextField
         name="description"
         label="Description"
         value={form.description}
         onChange={v => handleChange('description', v)}
+        errorMessage={errors.description}
       />
       <TextField
         name="imgUrl"
@@ -89,6 +91,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={form.imgUrl}
         onChange={v => handleChange('imgUrl', v)}
         required
+        errorMessage={errors.imgUrl}
       />
       <TextField
         name="imdbUrl"
@@ -96,6 +99,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={form.imdbUrl}
         onChange={v => handleChange('imdbUrl', v)}
         required
+        errorMessage={errors.imdbUrl}
       />
       <TextField
         name="imdbId"
@@ -103,6 +107,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={form.imdbId}
         onChange={v => handleChange('imdbId', v)}
         required
+        errorMessage={errors.imdbId}
       />
       <div className="field is-grouped">
         <div className="control">

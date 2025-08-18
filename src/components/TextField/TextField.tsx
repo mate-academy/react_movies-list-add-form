@@ -7,7 +7,7 @@ type Props = {
   label?: string;
   placeholder?: string;
   required?: boolean;
-  error?: string;
+  errorMessage?: string;
   onChange?: (newValue: string) => void;
 
   validate?: (value: string) => string | null;
