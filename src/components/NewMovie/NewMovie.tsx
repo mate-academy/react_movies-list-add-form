@@ -14,9 +14,11 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     imdbUrl: '',
     imdbId: '',
   });
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
   const handleChange = (field: keyof Movie, value: string) => {
     setForm(prev => ({ ...prev, [field]: value }));
+    setErrors(prev => ({ ...prev, [field]: '' }));
   };
 
   const isValid =
@@ -27,6 +29,30 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
+    const newErrors: { [key: string]: string } = {};
+
+    if (!form.title.trim()) {
+      newErrors.title = 'Title is required';
+    }
+
+    if (!form.imgUrl.trim()) {
+      newErrors.imgUrl = 'Image URL is required';
+    }
+
+    if (!form.imdbUrl.trim()) {
+      newErrors.imdbUrl = 'IMDB URL is required';
+    }
+
+    if (!form.imdbId.trim()) {
+      newErrors.imdbId = 'IMDB ID is required';
+    }
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+
+      return;
+    }
+
     if (!isValid) {
       return;
     }
@@ -39,6 +65,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       imdbUrl: '',
       imdbId: '',
     });
+    setErrors({});
   };
 
   return (
