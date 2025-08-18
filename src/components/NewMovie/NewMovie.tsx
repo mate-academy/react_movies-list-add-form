@@ -15,6 +15,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     imdbId: '',
   });
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
+  const [formKey, setFormKey] = useState(0);
 
   const handleChange = (field: keyof Movie, value: string) => {
     setForm(prev => ({ ...prev, [field]: value }));
@@ -66,10 +67,11 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       imdbId: '',
     });
     setErrors({});
+    setFormKey(prev => prev + 1);
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form key={formKey} onSubmit={handleSubmit}>
       <TextField
         name="title"
         label="Title"
