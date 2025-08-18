@@ -1,6 +1,5 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { TextField } from '../TextField'
-import { Movie } from '../../types/Movie';
 
 export const NewMovie = () => {
   // Increase the count after successful form submission
