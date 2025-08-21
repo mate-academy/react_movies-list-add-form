@@ -1,30 +1,136 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { TextField } from '../TextField';
+import { Movie } from '../../types/Movie';
 
-export const NewMovie = () => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
-  const [count] = useState(0);
+type Props = {
+  onAdd: (movie: Movie) => void;
+};
+
+export const NewMovie: React.FC<Props> = ({ onAdd }) => {
+  const [form, setForm] = useState({
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  });
+
+  const [errors, setErrors] = useState({
+    title: false,
+    description: false,
+    imgUrl: false,
+    imdbUrl: false,
+    imdbId: false,
+  });
+
+  // зміна значення у формі
+  const handleChange = (field: string, value: string) => {
+    setForm(prev => ({
+      ...prev,
+      [field]: value,
+    }));
+  };
+
+  // зміна статусу помилки з TextField
+  const handleErrorChange = (field: string, hasError: boolean) => {
+    setErrors(prev => ({
+      ...prev,
+      [field]: hasError,
+    }));
+  };
+
+  // перевірка чи форма валідна
+  const isFormValid = () => {
+    const hasEmpty =
+      !form.title || !form.imgUrl || !form.imdbUrl || !form.imdbId;
+    const hasErrors = Object.values(errors).some(Boolean);
+
+    return !hasEmpty && !hasErrors;
+  };
+
+  const formReset = () => {
+    setForm({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
+    setErrors({
+      title: false,
+      description: false,
+      imgUrl: false,
+      imdbUrl: false,
+      imdbId: false,
+    });
+  };
+
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+
+    if (!isFormValid()) {
+      return;
+    }
+
+    onAdd({
+      title: form.title,
+      description: form.description,
+      imgUrl: form.imgUrl,
+      imdbUrl: form.imdbUrl,
+      imdbId: form.imdbId,
+    });
+
+    formReset();
+  };
 
   return (
-    <form className="NewMovie" key={count}>
+    <form className="NewMovie" onSubmit={handleSubmit}>
       <h2 className="title">Add a movie</h2>
 
       <TextField
         name="title"
         label="Title"
-        value=""
-        onChange={() => {}}
+        value={form.title}
+        onChange={value => handleChange('title', value)}
+        onErrorChange={handleErrorChange}
+        placeholder="Enter Title"
         required
       />
 
-      <TextField name="description" label="Description" value="" />
+      <TextField
+        name="description"
+        label="Description"
+        value={form.description}
+        onChange={value => handleChange('description', value)}
+        placeholder="Enter Description"
+      />
 
-      <TextField name="imgUrl" label="Image URL" value="" />
+      <TextField
+        name="imgUrl"
+        label="Image URL"
+        value={form.imgUrl}
+        onChange={value => handleChange('imgUrl', value)}
+        onErrorChange={handleErrorChange}
+        placeholder="Enter Image URL"
+      />
 
-      <TextField name="imdbUrl" label="Imdb URL" value="" />
+      <TextField
+        name="imdbUrl"
+        label="Imdb URL"
+        value={form.imdbUrl}
+        onChange={value => handleChange('imdbUrl', value)}
+        onErrorChange={handleErrorChange}
+        placeholder="Enter Imdb URL"
+      />
 
-      <TextField name="imdbId" label="Imdb ID" value="" />
+      <TextField
+        name="imdbId"
+        label="Imdb ID"
+        value={form.imdbId}
+        onChange={value => handleChange('imdbId', value)}
+        onErrorChange={handleErrorChange}
+        placeholder="Enter Imdb ID"
+      />
 
       <div className="field is-grouped">
         <div className="control">
@@ -32,6 +138,7 @@ export const NewMovie = () => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
+            disabled={!isFormValid()}
           >
             Add
           </button>
