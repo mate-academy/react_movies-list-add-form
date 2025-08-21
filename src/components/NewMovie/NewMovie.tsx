@@ -81,11 +81,11 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     }
 
     onAdd({
-      title: form.title,
-      description: form.description,
-      imgUrl: form.imgUrl,
-      imdbUrl: form.imdbUrl,
-      imdbId: form.imdbId,
+      title: form.title.trim(),
+      description: form.description.trim(),
+      imgUrl: form.imgUrl.trim(),
+      imdbUrl: form.imdbUrl.trim(),
+      imdbId: form.imdbId.trim(),
     });
 
     formReset();
