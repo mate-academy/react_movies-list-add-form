@@ -42,27 +42,35 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   // перевірка чи форма валідна
   const isFormValid = () => {
     const hasEmpty =
-      !form.title || !form.imgUrl || !form.imdbUrl || !form.imdbId;
+      !form.title.trim() ||
+      !form.imgUrl.trim() ||
+      !form.imdbUrl.trim() ||
+      !form.imdbId.trim();
+
     const hasErrors = Object.values(errors).some(Boolean);
 
     return !hasEmpty && !hasErrors;
   };
 
+  const initialForm = {
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  };
+
+  const initialErrors = {
+    title: false,
+    description: false,
+    imgUrl: false,
+    imdbUrl: false,
+    imdbId: false,
+  };
+
   const formReset = () => {
-    setForm({
-      title: '',
-      description: '',
-      imgUrl: '',
-      imdbUrl: '',
-      imdbId: '',
-    });
-    setErrors({
-      title: false,
-      description: false,
-      imgUrl: false,
-      imdbUrl: false,
-      imdbId: false,
-    });
+    setForm(initialForm);
+    setErrors(initialErrors);
   };
 
   const handleSubmit = (event: React.FormEvent) => {
@@ -112,6 +120,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         onChange={value => handleChange('imgUrl', value)}
         onErrorChange={handleErrorChange}
         placeholder="Enter Image URL"
+        required
       />
 
       <TextField
@@ -121,6 +130,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         onChange={value => handleChange('imdbUrl', value)}
         onErrorChange={handleErrorChange}
         placeholder="Enter Imdb URL"
+        required
       />
 
       <TextField
@@ -130,6 +140,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         onChange={value => handleChange('imdbId', value)}
         onErrorChange={handleErrorChange}
         placeholder="Enter Imdb ID"
+        required
       />
 
       <div className="field is-grouped">
