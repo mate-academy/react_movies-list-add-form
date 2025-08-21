@@ -8,7 +8,12 @@ type Props = {
   placeholder?: string;
   required?: boolean;
   onChange?: (newValue: string) => void;
+  onErrorChange?: (name: string, hasError: boolean) => void; // зробив необов’язковим
 };
+
+const pattern =
+  // eslint-disable-next-line max-len
+  /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
 
 function getRandomDigits() {
   return Math.random().toFixed(16).slice(2);
@@ -21,13 +26,37 @@ export const TextField: React.FC<Props> = ({
   placeholder = `Enter ${label}`,
   required = false,
   onChange = () => {},
+  onErrorChange,
 }) => {
   // generate a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
   // To show errors only if the field was touched (onBlur)
   const [touched, setTouched] = useState(false);
-  const hasError = touched && required && !value;
+  const hasError =
+    touched &&
+    ((required && !value) ||
+      (['imgUrl', 'imdbUrl'].includes(name) &&
+        !!value &&
+        !pattern.test(value)));
+
+  const validate = (val: string) => {
+    if (required && onErrorChange) {
+      onErrorChange(name, !val);
+    }
+  };
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = event.target.value;
+
+    onChange(newValue);
+    validate(newValue);
+  };
+
+  const handleBlur = () => {
+    setTouched(true);
+    validate(value);
+  };
 
   return (
     <div className="field">
@@ -45,8 +74,8 @@ export const TextField: React.FC<Props> = ({
           })}
           placeholder={placeholder}
           value={value}
-          onChange={event => onChange(event.target.value)}
-          onBlur={() => setTouched(true)}
+          onChange={handleChange}
+          onBlur={handleBlur}
         />
       </div>
 
