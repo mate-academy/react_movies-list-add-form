@@ -8,6 +8,8 @@ type Props = {
   placeholder?: string;
   required?: boolean;
   onChange?: (newValue: string) => void;
+  validImgUrl?: boolean;
+  validImdbUrl?: boolean;
 };
 
 function getRandomDigits() {
@@ -21,6 +23,8 @@ export const TextField: React.FC<Props> = ({
   placeholder = `Enter ${label}`,
   required = false,
   onChange = () => {},
+  validImgUrl,
+  validImdbUrl,
 }) => {
   // generate a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
@@ -51,6 +55,12 @@ export const TextField: React.FC<Props> = ({
       </div>
 
       {hasError && <p className="help is-danger">{`${label} is required`}</p>}
+      {!validImgUrl && label === 'Image URL' && (
+        <p className="help is-danger">{`${label} is inncorrect`}</p>
+      )}
+      {!validImdbUrl && label === 'Imdb URL' && (
+        <p className="help is-danger">{`${label} is inncorrect`}</p>
+      )}
     </div>
   );
 };
