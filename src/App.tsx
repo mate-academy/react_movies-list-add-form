@@ -6,6 +6,7 @@ import moviesFromServer from './api/movies.json';
 
 export const App = () => {
   const [movies, setMovies] = useState(moviesFromServer);
+  const [formKey, setFormKey] = useState(0);
 
   const handleAddMovie = (movie: {
     title: string;
@@ -21,6 +22,7 @@ export const App = () => {
         description: movie.description ?? '',
       },
     ]);
+    setFormKey(k => k + 1);
   };
 
   return (
@@ -29,7 +31,7 @@ export const App = () => {
         <MoviesList movies={movies} />
       </div>
       <div className="sidebar">
-        <NewMovie onAdd={handleAddMovie} />
+        <NewMovie key={formKey} onAdd={handleAddMovie} />
       </div>
     </div>
   );
