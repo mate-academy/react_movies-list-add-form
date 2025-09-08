@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { FormEvent, useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
@@ -16,7 +16,7 @@ export const NewMovie = ({ onAdd }: Props) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     const newMovie: Movie = {
@@ -29,13 +29,15 @@ export const NewMovie = ({ onAdd }: Props) => {
 
     onAdd(newMovie);
 
-    setCount(count + 1);
+    setCount(c => c + 1);
     setTitle('');
     setDescription('');
     setImgUrl('');
     setImdbUrl('');
     setImdbId('');
   }
+
+  const makeSetter = (setter: (v: string) => void) => (v: string) => setter(v);
 
   return (
     <form className="NewMovie" key={count} onSubmit={handleSubmit}>
@@ -45,9 +47,7 @@ export const NewMovie = ({ onAdd }: Props) => {
         name="title"
         label="Title"
         value={title}
-        onChange={newTitle => {
-          setTitle(newTitle);
-        }}
+        onChange={makeSetter(setTitle)}
         required
       />
 
@@ -55,18 +55,14 @@ export const NewMovie = ({ onAdd }: Props) => {
         name="description"
         label="Description"
         value={description}
-        onChange={newDescription => {
-          setDescription(newDescription);
-        }}
+        onChange={makeSetter(setDescription)}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={newImgUrl => {
-          setImgUrl(newImgUrl);
-        }}
+        onChange={makeSetter(setImgUrl)}
         required
       />
 
@@ -74,9 +70,7 @@ export const NewMovie = ({ onAdd }: Props) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={newImdbUrl => {
-          setImdbUrl(newImdbUrl);
-        }}
+        onChange={makeSetter(setImdbUrl)}
         required
       />
 
@@ -84,9 +78,7 @@ export const NewMovie = ({ onAdd }: Props) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={newImdbId => {
-          setImdbId(newImdbId);
-        }}
+        onChange={makeSetter(setImdbId)}
         required
       />
 
