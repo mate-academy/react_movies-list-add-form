@@ -9,6 +9,7 @@ type Props = {
 const isValidUrl = (value: string) => {
   try {
     new URL(value);
+
     return true;
   } catch {
     return false;
@@ -35,7 +36,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!isFormValid) return;
+    if (!isFormValid) {
+      return;
+    }
 
     const newMovie: Movie = {
       title: title.trim(),
