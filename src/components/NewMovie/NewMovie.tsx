@@ -6,9 +6,15 @@ type Props = {
   onAdd?: (movie: Movie) => void;
 };
 
-const urlPattern =
-  `/^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=
-  +$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;`
+const isValidUrl = (value: string) => {
+  try {
+    new URL(value);
+    return true;
+  } catch {
+    return false;
+  }
+};
+
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
@@ -24,15 +30,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     imgUrl.trim() &&
     imdbUrl.trim() &&
     imdbId.trim() &&
-    urlPattern.test(imgUrl) &&
-    urlPattern.test(imdbUrl);
+    isValidUrl(imgUrl) &&
+    isValidUrl(imdbUrl);
+
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!isFormValid) {
-      return;
-    }
+    if (!isFormValid) return;
 
     const newMovie: Movie = {
       title: title.trim(),
