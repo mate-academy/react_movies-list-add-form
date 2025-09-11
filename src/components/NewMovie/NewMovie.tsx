@@ -9,7 +9,6 @@ type Props = {
 const isValidUrl = (value: string) => {
   try {
     new URL(value);
-
     return true;
   } catch {
     return false;
@@ -26,19 +25,15 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbId, setImdbId] = useState('');
 
   const isFormValid =
-    title.trim() &&
-    imgUrl.trim() &&
-    imdbUrl.trim() &&
-    imdbId.trim() &&
-    isValidUrl(imgUrl) &&
-    isValidUrl(imdbUrl);
+    title.trim().length > 0 &&
+    imgUrl.trim().length > 0 &&
+    imdbUrl.trim().length > 0 &&
+    imdbId.trim().length > 0;
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
 
-    if (!isFormValid) {
-      return;
-    }
+    if (!isFormValid) return;
 
     const newMovie: Movie = {
       title: title.trim(),
@@ -55,7 +50,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setImgUrl('');
     setImdbUrl('');
     setImdbId('');
-    setCount(prev => prev + 1);
+    setCount(prev => prev + 1); // reset TextField touched state
   };
 
   return (
@@ -69,26 +64,36 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         onChange={setTitle}
         required
       />
+
       <TextField
         name="description"
         label="Description"
         value={description}
         onChange={setDescription}
       />
+
       <TextField
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
         onChange={setImgUrl}
         required
+        validator={value =>
+          !value.trim() || isValidUrl(value) ? null : 'Please enter a valid URL'
+        }
       />
+
       <TextField
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
         onChange={setImdbUrl}
         required
+        validator={value =>
+          !value.trim() || isValidUrl(value) ? null : 'Please enter a valid URL'
+        }
       />
+
       <TextField
         name="imdbId"
         label="Imdb ID"
