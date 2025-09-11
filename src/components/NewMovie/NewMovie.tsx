@@ -7,34 +7,11 @@ type Props = {
 };
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
-  const [count, setCount] = useState(0);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [imgUrl, setImgURL] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
-
-  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(event.target.value);
-  };
-
-  const handleDescriptionChange = (
-    event: React.ChangeEvent<HTMLInputElement>,
-  ) => {
-    setDescription(event.target.value);
-  };
-
-  const handleImgURLChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setImgURL(event.target.value);
-  };
-
-  const handleImdbUrlChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setImdbUrl(event.target.value);
-  };
-
-  const handleImdbIdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setImdbId(event.target.value);
-  };
 
   const isButtonDisabled = !(
     title.trim() &&
@@ -47,30 +24,27 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     event.preventDefault();
 
     onAdd({
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
+      title: title.trim(),
+      description: description.trim(),
+      imgUrl: imgUrl.trim(),
+      imdbUrl: imdbUrl.trim(),
+      imdbId: imdbId.trim(),
     });
 
-    setTitle('');
-    setDescription('');
-    setImgURL('');
-    setImdbUrl('');
-    setImdbId('');
-    setCount(prev => prev + 1);
+    // після submit App перерендерить NewMovie з новим key
+    // тому локальний state тут можна не скидати
   };
 
   return (
-    <form className="NewMovie" key={count} onSubmit={handleSubmit}>
+    <form className="NewMovie" onSubmit={handleSubmit}>
       <h2 className="title">Add a movie</h2>
 
       <TextField
         name="title"
         label="Title"
         value={title}
-        onChange={event => handleTitleChange(event)}
+        onChange={e => setTitle(e.target.value)}
+        onBlur={() => setTitle(prev => prev.trim())}
         required
       />
 
@@ -78,14 +52,16 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={description}
-        onChange={event => handleDescriptionChange(event)}
+        onChange={e => setDescription(e.target.value)}
+        onBlur={() => setDescription(prev => prev.trim())}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={event => handleImgURLChange(event)}
+        onChange={e => setImgURL(e.target.value)}
+        onBlur={() => setImgURL(prev => prev.trim())}
         required
       />
 
@@ -93,7 +69,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={event => handleImdbUrlChange(event)}
+        onChange={e => setImdbUrl(e.target.value)}
+        onBlur={() => setImdbUrl(prev => prev.trim())}
         required
       />
 
@@ -101,7 +78,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={event => handleImdbIdChange(event)}
+        onChange={e => setImdbId(e.target.value)}
+        onBlur={() => setImdbId(prev => prev.trim())}
         required
       />
 
