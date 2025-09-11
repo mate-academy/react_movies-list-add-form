@@ -17,6 +17,20 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     imdbUrl: '',
     imdbId: '',
   });
+
+  const handleFieldChange = (field: keyof Movie, value: string) => {
+    setNewMovie(prevMovie => ({ ...prevMovie, [field]: value }));
+  };
+
+  const isEmpty = () => {
+    return (
+      !newMovie.title.trim() ||
+      !newMovie.imdbId.trim() ||
+      !newMovie.imdbUrl.trim() ||
+      !newMovie.imgUrl.trim()
+    );
+  };
+
   const reset = () => {
     setNewMovie({
       title: '',
@@ -31,6 +45,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
+    if (isEmpty()) {
+      return;
+    }
+
     onAdd(newMovie);
     reset();
   };
@@ -43,9 +61,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={newMovie.title}
-        onChange={value =>
-          setNewMovie(prevMovie => ({ ...prevMovie, title: value }))
-        }
+        onChange={v => handleFieldChange('title', v)}
         required
       />
 
@@ -53,21 +69,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={newMovie.description}
-        onChange={value =>
-          setNewMovie(prevMovie => ({
-            ...prevMovie,
-            description: value,
-          }))
-        }
+        onChange={v => handleFieldChange('description', v)}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={newMovie.imgUrl}
-        onChange={value =>
-          setNewMovie(prevMovie => ({ ...prevMovie, imgUrl: value }))
-        }
+        onChange={v => handleFieldChange('imgUrl', v)}
         required
       />
 
@@ -75,9 +84,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={newMovie.imdbUrl}
-        onChange={value =>
-          setNewMovie(prevMovie => ({ ...prevMovie, imdbUrl: value }))
-        }
+        onChange={v => handleFieldChange('imdbUrl', v)}
         required
       />
 
@@ -85,9 +92,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={newMovie.imdbId}
-        onChange={value =>
-          setNewMovie(prevMovie => ({ ...prevMovie, imdbId: value }))
-        }
+        onChange={v => handleFieldChange('imdbId', v)}
         required
       />
 
@@ -95,12 +100,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         <div className="control">
           <button
             type="submit"
-            disabled={
-              !newMovie.title.trim() ||
-              !newMovie.imdbId.trim() ||
-              !newMovie.imdbUrl.trim() ||
-              !newMovie.imgUrl.trim()
-            }
+            disabled={isEmpty()}
             data-cy="submit-button"
             className="button is-link"
           >
