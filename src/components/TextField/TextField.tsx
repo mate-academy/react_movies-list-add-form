@@ -1,5 +1,5 @@
-import classNames from 'classnames';
 import React, { useState } from 'react';
+import classNames from 'classnames';
 
 type Props = {
   name: string;
@@ -7,52 +7,44 @@ type Props = {
   label?: string;
   placeholder?: string;
   required?: boolean;
-  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
+  onChange: (value: string) => void;
 };
 
-function getRandomDigits() {
-  return Math.random().toFixed(16).slice(2);
-}
-
+  
 export const TextField: React.FC<Props> = ({
   name,
   value,
   label = name,
   placeholder = `Enter ${label}`,
   required = false,
-  onChange = () => {},
-  onBlur,
+  onChange,
 }) => {
-
-  const [id] = useState(() => `${name}-${getRandomDigits()}`);
-
-
+  
   const [touched, setTouched] = useState(false);
 
-  const hasError = touched && required && !value.trim();
+  const handleBlur = () => {
+    onChange(value.trim());
+    setTouched(true);
+  };
+
+  const hasError = required && touched && value.trim() === '';
 
   return (
     <div className="field">
-      <label className="label" htmlFor={id}>
+      <label className="label" htmlFor={name}>
         {label}
       </label>
 
       <div className="control">
         <input
           type="text"
-          id={id}
+          id={name}
           data-cy={`movie-${name}`}
-          className={classNames('input', {
-            'is-danger': hasError,
-          })}
+          className={classNames('input', { 'is-danger': hasError })}
           placeholder={placeholder}
           value={value}
-          onChange={onChange}
-          onBlur={(event) => {
-            onBlur?.(event);
-            setTouched(true);
-          }}
+          onChange={e => onChange(e.target.value)}
+          onBlur={handleBlur}
         />
       </div>
 

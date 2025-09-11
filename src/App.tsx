@@ -1,17 +1,13 @@
-import { useState } from 'react';
-import { Movie } from './types/Movie';
-import './App.scss';
 import { MoviesList } from './components/MoviesList';
 import { NewMovie } from './components/NewMovie';
 import moviesFromServer from './api/movies.json';
+import { Movie } from './types/Movie';
+import { useState } from 'react';
 
 export const App = () => {
   const [movies, setMovies] = useState<Movie[]>(moviesFromServer);
-  const [formKey, setFormKey] = useState(0);
-
-  const addMovie = (newMovie: Movie) => {
-    setMovies(currentMovies => [...currentMovies, newMovie]);
-    setFormKey(prev => prev + 1);
+  const addMovie = (movie: Movie) => {
+    setMovies(currentMovies => [...currentMovies, movie]);
   };
 
   return (
@@ -20,7 +16,7 @@ export const App = () => {
         <MoviesList movies={movies} />
       </div>
       <div className="sidebar">
-        <NewMovie key={formKey} onAdd={addMovie} />
+        <NewMovie onAdd={addMovie} />
       </div>
     </div>
   );
