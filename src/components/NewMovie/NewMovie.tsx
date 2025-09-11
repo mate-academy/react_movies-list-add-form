@@ -6,9 +6,15 @@ type Props = {
   onAdd?: (movie: Movie) => void;
 };
 
+const isValidUrl = (value: string) => {
+  try {
+    new URL(value);
 
-const urlPattern =
-  /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
+    return true;
+  } catch {
+    return false;
+  }
+};
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
@@ -76,9 +82,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         onChange={setImgUrl}
         required
         validator={value =>
-          !value.trim() || urlPattern.test(value)
-            ? null
-            : 'Please enter a valid URL'
+          !value.trim() || isValidUrl(value) ? null : 'Please enter a valid URL'
         }
       />
 
@@ -89,9 +93,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         onChange={setImdbUrl}
         required
         validator={value =>
-          !value.trim() || urlPattern.test(value)
-            ? null
-            : 'Please enter a valid URL'
+          !value.trim() || isValidUrl(value) ? null : 'Please enter a valid URL'
         }
       />
 
