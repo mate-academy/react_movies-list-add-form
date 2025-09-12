@@ -16,14 +16,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const handleAddMovie = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleAddMovie = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
 
     if (
-      title.length === 0 ||
-      imgUrl.length === 0 ||
-      imdbUrl.length === 0 ||
-      imdbId.length === 0
+      title.trim().length === 0 ||
+      imgUrl.trim().length === 0 ||
+      imdbUrl.trim().length === 0 ||
+      imdbId.trim().length === 0
     ) {
       return;
     }
@@ -44,7 +44,11 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   };
 
   return (
-    <form className="NewMovie" key={count} onSubmit={e => handleAddMovie(e)}>
+    <form
+      className="NewMovie"
+      key={count}
+      onSubmit={event => handleAddMovie(event)}
+    >
       <h2 className="title">Add a movie</h2>
 
       <TextField
@@ -97,10 +101,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             data-cy="submit-button"
             className="button is-link"
             disabled={
-              title.length === 0 ||
-              imgUrl.length === 0 ||
-              imdbUrl.length === 0 ||
-              imdbId.length === 0
+              title.trim().length === 0 ||
+              imgUrl.trim().length === 0 ||
+              imdbUrl.trim().length === 0 ||
+              imdbId.trim().length === 0
             }
           >
             Add
