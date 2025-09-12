@@ -16,15 +16,16 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
+  const isFormNotValid =
+    title.trim().length === 0 ||
+    imgUrl.trim().length === 0 ||
+    imdbUrl.trim().length === 0 ||
+    imdbId.trim().length === 0;
+
   const handleAddMovie = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (
-      title.trim().length === 0 ||
-      imgUrl.trim().length === 0 ||
-      imdbUrl.trim().length === 0 ||
-      imdbId.trim().length === 0
-    ) {
+    if (isFormNotValid) {
       return;
     }
 
@@ -100,12 +101,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={
-              title.trim().length === 0 ||
-              imgUrl.trim().length === 0 ||
-              imdbUrl.trim().length === 0 ||
-              imdbId.trim().length === 0
-            }
+            disabled={isFormNotValid}
           >
             Add
           </button>
