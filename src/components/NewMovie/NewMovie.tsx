@@ -15,6 +15,15 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imgUrl, setImgUrl] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
+
+  const resetForm = () => {
+    setTitle('');
+    setDescription('');
+    setImgUrl('');
+    setImdbUrl('');
+    setImdbId('');
+  };
+
   const validForm: boolean = !!(
     title.trim() &&
     imgUrl.trim() &&
@@ -30,12 +39,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     }
 
     onAdd({ title, description, imgUrl, imdbUrl, imdbId });
+    resetForm();
 
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
     setCount(prev => prev + 1);
   };
 
@@ -47,7 +52,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={title}
-        onChange={event => setTitle(event)}
+        onChange={value => setTitle(value)}
         required
       />
 
@@ -55,14 +60,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={description}
-        onChange={event => setDescription(event)}
+        onChange={value => setDescription(value)}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={event => setImgUrl(event)}
+        onChange={value => setImgUrl(value)}
         required
       />
 
@@ -70,7 +75,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={event => setImdbUrl(event)}
+        onChange={value => setImdbUrl(value)}
         required
       />
 
@@ -78,7 +83,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={event => setImdbId(event)}
+        onChange={value => setImdbId(value)}
         required
       />
 
