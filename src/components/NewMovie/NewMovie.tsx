@@ -7,7 +7,7 @@ type Props = {
 };
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
-  const [count] = useState(0);
+  const [count, setCount] = useState(0);
   const [title, setTitle] = useState('');
 
   const [description, setDescription] = useState('');
@@ -18,8 +18,11 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
   const [imdbId, setImdbId] = useState('');
 
-  const errors: boolean =
-    !title || !description || !imgUrl || !imdbUrl || !imdbId;
+  const isFormValid =
+    title.trim() !== '' &&
+    imgUrl.trim() !== '' &&
+    imdbUrl.trim() !== '' &&
+    imdbId.trim() !== '';
 
   const reset = () => {
     setTitle('');
@@ -31,9 +34,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
   const handlSunlit = (event: React.FormEvent) => {
     event.preventDefault();
-    reset();
 
-    if (errors) {
+    if (!isFormValid) {
       return;
     }
 
@@ -44,6 +46,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       imdbUrl,
       imdbId,
     });
+    setCount(c => c + 1);
+    reset();
   };
 
   return (
@@ -63,7 +67,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Description"
         value={description}
         onChange={setDescription}
-        required
       />
 
       <TextField
@@ -93,7 +96,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <div className="field is-grouped">
         <div className="control">
           <button
-            disabled={errors}
+            disabled={!isFormValid}
             type="submit"
             data-cy="submit-button"
             className="button is-link"
