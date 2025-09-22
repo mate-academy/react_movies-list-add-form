@@ -11,6 +11,7 @@ export const App = () => {
   const handleAddMovie = (newMovieData: Omit<Movie, 'id'>) => {
     const newMovie: Movie = {
       ...newMovieData,
+      id: Math.max(0, ...movies.map(m => m.id)) + 1,
     };
 
     setMovies(currentMovies => [...currentMovies, newMovie]);
