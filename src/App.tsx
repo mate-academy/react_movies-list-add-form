@@ -8,13 +8,17 @@ import { Movie } from './types/Movie';
 export const App = () => {
   const [movies, setMovies] = useState<Movie[]>(moviesFromServer);
 
+  function handleNewMovie(movie: Movie) {
+    setMovies([...movies, movie]);
+  }
+
   return (
     <div className="page">
       <div className="page-content">
         <MoviesList movies={movies} />
       </div>
       <div className="sidebar">
-        <NewMovie onAdd={(movie: Movie) => setMovies([...movies, movie])} />
+        <NewMovie onAdd={handleNewMovie} />
       </div>
     </div>
   );

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { TextField } from '../TextField';
 
 import { Movie, MovieFields } from '../../types/Movie';
@@ -7,30 +7,25 @@ type Props = {
   onAdd: (movie: Movie) => void;
 };
 
+const INITIAL_MOVIE: Movie = {
+  title: '',
+  description: '',
+  imgUrl: '',
+  imdbUrl: '',
+  imdbId: '',
+};
+
 export const NewMovie = ({ onAdd }: Props) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
 
-  const initialMovie: Movie = {
-    title: '',
-    description: '',
-    imgUrl: '',
-    imdbUrl: '',
-    imdbId: '',
-  };
-
-  const [movie, setMovie] = useState<Movie>(initialMovie);
-  const [isValid, setIsValid] = useState<boolean>(false);
-
-  // Check if the form is valid when the movie state changes
-  useEffect(() => {
-    const { title, imgUrl, imdbUrl, imdbId } = movie;
-
-    setIsValid(
-      !!(title.trim() && imgUrl.trim() && imdbUrl.trim() && imdbId.trim()),
-    );
-  }, [movie]);
+  const [movie, setMovie] = useState<Movie>(INITIAL_MOVIE);
+  const isValid =
+    movie.title.trim() !== '' &&
+    movie.imgUrl.trim() !== '' &&
+    movie.imdbUrl.trim() !== '' &&
+    movie.imdbId.trim() !== '';
 
   const handleChange = (value: string, field: MovieFields) => {
     setMovie({
@@ -47,8 +42,8 @@ export const NewMovie = ({ onAdd }: Props) => {
     }
 
     onAdd(movie);
-    setMovie(initialMovie);
-    setCount(count + 1);
+    setMovie(INITIAL_MOVIE);
+    setCount(prevCount => prevCount + 1);
   };
 
   return (
