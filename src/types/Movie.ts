@@ -5,3 +5,5 @@ export interface Movie {
   imdbUrl: string;
   imdbId: string;
 }
+
+export type MovieFields = keyof Movie;
