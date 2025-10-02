@@ -1,13 +1,12 @@
 import { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
-// import React = require('react');
 
 type Props = {
   onAdd: (movie: Movie) => void;
 };
 
-export const NewMovie: React.FC<Props> = ({ onAdd }) => {
+export const NewMovie = ({ onAdd }: Props) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
@@ -21,11 +20,11 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     event.preventDefault();
     setCount(prev => prev + 1);
     onAdd({
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
+      title: title.trim(),
+      description: description.trim(),
+      imgUrl: imgUrl.trim(),
+      imdbUrl: imdbUrl.trim(),
+      imdbId: imdbId.trim(),
     });
     setTitle('');
     setDescription('');
@@ -36,32 +35,28 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
   return (
     <form className="NewMovie" onSubmit={handleSubmit}>
+      key={count}
       <h2 className="title">Add a movie</h2>
-
       <TextField
         name="title"
         label="Title"
-        key={count}
-        value={title.trim()}
+        value={title}
         onChange={setTitle}
         required
       />
-
       <TextField
         name="description"
         label="Description"
-        value={description.trim()}
+        value={description}
         onChange={setDescription}
       />
-
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={imgUrl.trim()}
+        value={imgUrl}
         onChange={setImgUrl}
         required
       />
-
       <TextField
         name="imdbUrl"
         label="Imdb URL"
@@ -69,15 +64,13 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         onChange={setImdbUrl}
         required
       />
-
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imdbId.trim()}
+        value={imdbId}
         onChange={setImdbId}
         required
       />
-
       <div className="field is-grouped">
         <div className="control">
           <button
