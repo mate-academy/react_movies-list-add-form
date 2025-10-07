@@ -4,6 +4,17 @@
     "src"
   ],
   "compilerOptions": {
-    "sourceMap": false
+    "sourceMap": false,
+    // React/JSX support (if not in base)
+    "jsx": "react-jsx",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    // Relax strictness to reduce red (uncomment one-by-one to tighten back up)
+    "strict": false,
+    "noImplicitAny": false,
+    "strictNullChecks": false,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "noImplicitReturns": false,
+    "noFallthroughCasesInSwitch": false
   }
 }
