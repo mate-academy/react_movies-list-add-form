@@ -66,7 +66,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={form.title}
-        onChange={v => handleChange('title', v)}
+        onChange={value => handleChange('title', value)}
         required
       />
 
@@ -74,14 +74,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={form.description}
-        onChange={v => handleChange('description', v)}
+        onChange={value => handleChange('description', value)}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={form.imgUrl}
-        onChange={v => handleChange('imgUrl', v)}
+        onChange={value => handleChange('imgUrl', value)}
         required
       />
 
@@ -89,7 +89,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={form.imdbUrl}
-        onChange={v => handleChange('imdbUrl', v)}
+        onChange={value => handleChange('imdbUrl', value)}
         required
       />
 
@@ -97,7 +97,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={form.imdbId}
-        onChange={v => handleChange('imdbId', v)}
+        onChange={value => handleChange('imdbId', value)}
         required
       />
 
