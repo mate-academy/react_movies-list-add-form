@@ -23,7 +23,13 @@ export const NewMovie = ({ onAdd }: Props) => {
     event.preventDefault();
 
     if (isFiledRequiredTextField) {
-      onAdd({ title, description, imgUrl, imdbUrl, imdbId });
+      onAdd({
+        title: title.trim(),
+        description: description.trim(),
+        imgUrl: imgUrl.trim(),
+        imdbUrl: imdbUrl.trim(),
+        imdbId: imdbId.trim(),
+      });
 
       setTitle('');
       setDescription('');
