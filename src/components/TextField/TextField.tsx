@@ -29,10 +29,10 @@ export const TextField: React.FC<Props> = ({
 
   // To show errors only if the field was touched (onBlur)
   const [touched, setTouched] = useState(false);
-  const hasError = touched && required && !value;
-  const validationErrorMessage = validation(value);
+  const hasError = touched && required && !value.trim();
+  const validationErrorMessage = validation(value.trim());
   const isValidationError = !hasError && validationErrorMessage;
-  const isRequeredError = hasError && !validationErrorMessage;
+  const isRequiredError = hasError && !validationErrorMessage;
 
   return (
     <div className="field">
@@ -58,7 +58,7 @@ export const TextField: React.FC<Props> = ({
       {isValidationError && (
         <p className="help is-danger">{`${validationErrorMessage}`}</p>
       )}
-      {isRequeredError && (
+      {isRequiredError && (
         <p className="help is-danger">{`${label} is required`}</p>
       )}
     </div>

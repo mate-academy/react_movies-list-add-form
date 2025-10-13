@@ -16,13 +16,16 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const isSubmitDisabled = [title, imgUrl, imdbUrl, imdbId].some(
-    v => !v.trim(),
-  );
+  const trimmedValues = {
+    title: title.trim(),
+    imgUrl: imgUrl.trim(),
+    imdbUrl: imdbUrl.trim(),
+    imdbId: imdbId.trim(),
+  };
 
-  const isEmpty = [title, imgUrl, imdbUrl, imdbId]
-    .map(v => v.trim())
-    .some(tv => tv.length === 0);
+  const isSubmitDisabled = Object.values(trimmedValues).some(v => !v);
+
+  const isEmpty = Object.values(trimmedValues).some(tv => tv.length === 0);
 
   const pattern =
     // eslint-disable-next-line max-len
@@ -30,7 +33,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
   const isValid = (url: string) => {
     if (url) {
-      if (!pattern.test(url.trim())) {
+      if (!pattern.test(url)) {
         return 'Your URL is not valid';
       } else {
         return null;
@@ -39,6 +42,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       return null;
     }
   };
+
+  const imgUrlError = isValid(imgUrl.trim());
+  const imdbError = isValid(imdbUrl.trim());
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -114,7 +120,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={isSubmitDisabled || isValid === null}
+            disabled={isSubmitDisabled || !!imgUrlError || !!imdbError}
           >
             Add
           </button>
