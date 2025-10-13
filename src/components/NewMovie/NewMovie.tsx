@@ -9,12 +9,20 @@ type Props = {
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
-  const [count] = useState(0);
+  const [count, setCount] = useState(0);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [imgUrl, setimgUrl] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
+
+  const isSubmitDisabled = [title, imgUrl, imdbUrl, imdbId].some(
+    v => !v.trim(),
+  );
+
+  const isEmpty = [title, imgUrl, imdbUrl, imdbId]
+    .map(v => v.trim())
+    .some(tv => tv.length === 0);
 
   const pattern =
     // eslint-disable-next-line max-len
@@ -33,6 +41,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   };
 
   const handleSubmit = (event: React.FormEvent) => {
+    if (isEmpty) {
+      return;
+    }
+
     event.preventDefault();
 
     onAdd({
@@ -48,6 +60,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setimgUrl('');
     setImdbUrl('');
     setImdbId('');
+    setCount(c => c + 1);
   };
 
   return (
@@ -101,7 +114,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!title || !imgUrl || !imdbUrl || !imdbId}
+            disabled={
+              !title ||
+              !imgUrl ||
+              !imdbUrl ||
+              !imdbId ||
+              isSubmitDisabled ||
+              isValid === null
+            }
           >
             Add
           </button>
