@@ -12,7 +12,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [imgUrl, setimgUrl] = useState('');
+  const [imgUrl, setImgUrl] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
@@ -30,8 +30,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
   const isValid = (url: string) => {
     if (url) {
-      if (!pattern.test(url)) {
-        return 'Yor url is not valid';
+      if (!pattern.test(url.trim())) {
+        return 'Your URL is not valid';
       } else {
         return null;
       }
@@ -41,23 +41,23 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   };
 
   const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+
     if (isEmpty) {
       return;
     }
 
-    event.preventDefault();
-
     onAdd({
-      title,
+      title: title.trim(),
       description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
+      imgUrl: imgUrl.trim(),
+      imdbUrl: imdbUrl.trim(),
+      imdbId: imdbId.trim(),
     });
 
     setTitle('');
     setDescription('');
-    setimgUrl('');
+    setImgUrl('');
     setImdbUrl('');
     setImdbId('');
     setCount(c => c + 1);
@@ -86,7 +86,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={setimgUrl}
+        onChange={setImgUrl}
         validation={isValid}
         required
       />
@@ -114,14 +114,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={
-              !title ||
-              !imgUrl ||
-              !imdbUrl ||
-              !imdbId ||
-              isSubmitDisabled ||
-              isValid === null
-            }
+            disabled={isSubmitDisabled || isValid === null}
           >
             Add
           </button>
