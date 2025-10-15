@@ -30,8 +30,10 @@ export const TextField: React.FC<Props> = ({
   // To show errors only if the field was touched (onBlur)
   const [touched, setTouched] = useState(false);
 
+  const trimmed = value.trim();
   const hasError =
-    touched && ((required && !value) || !validationCallback(value));
+    touched &&
+    ((required && !trimmed) || (trimmed && !validationCallback(trimmed)));
 
   return (
     <div className="field">
