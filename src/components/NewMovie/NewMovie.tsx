@@ -7,58 +7,47 @@ export interface Props {
 }
 
 export const NewMovie = ({ onAdd }: Props) => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
-  const [title, setTitle] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
-  const [description, setDescription] = useState('');
 
-  const handleTitleChange = (newValue: string) => {
-    setTitle(newValue);
-  };
+  const [form, setForm] = useState({
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  });
 
-  const handleDescriptionChange = (newValue: string) => {
-    setDescription(newValue);
-  };
-
-  const handleImgUrlChange = (newValue: string) => {
-    setImgUrl(newValue);
-  };
-
-  const handleImdbUrlChange = (newValue: string) => {
-    setImdbUrl(newValue);
-  };
-
-  const handleImdbIdChange = (newValue: string) => {
-    setImdbId(newValue);
+  const handleChange = (field: keyof typeof form, value: string) => {
+    setForm(prev => ({ ...prev, [field]: value }));
   };
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    const movie = {
-      title: title.trim(),
-      description: description.trim(),
-      imgUrl: imgUrl.trim(),
-      imdbUrl: imdbUrl.trim(),
-      imdbId: imdbId.trim(),
+    const movie: Movie = {
+      title: form.title.trim(),
+      description: form.description.trim(),
+      imgUrl: form.imgUrl.trim(),
+      imdbUrl: form.imdbUrl.trim(),
+      imdbId: form.imdbId.trim(),
     };
 
     onAdd(movie);
 
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
+    setForm({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
 
-    setCount(c => c + 1);
+    setCount(prevCount => prevCount + 1);
   };
 
-  const isValid = [title, imgUrl, imdbUrl, imdbId].every(v => v.trim());
+  const isValid = [form.title, form.imgUrl, form.imdbUrl, form.imdbId].every(
+    v => v.trim().length > 0,
+  );
 
   return (
     <form className="NewMovie" key={count} onSubmit={handleSubmit}>
@@ -67,39 +56,39 @@ export const NewMovie = ({ onAdd }: Props) => {
       <TextField
         name="title"
         label="Title"
-        value={title}
-        onChange={handleTitleChange}
+        value={form.title}
+        onChange={value => handleChange('title', value)}
         required
       />
 
       <TextField
         name="description"
         label="Description"
-        value={description}
-        onChange={handleDescriptionChange}
+        value={form.description}
+        onChange={value => handleChange('description', value)}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={imgUrl}
-        onChange={handleImgUrlChange}
+        value={form.imgUrl}
+        onChange={value => handleChange('imgUrl', value)}
         required
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={imdbUrl}
-        onChange={handleImdbUrlChange}
+        value={form.imdbUrl}
+        onChange={value => handleChange('imdbUrl', value)}
         required
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imdbId}
-        onChange={handleImdbIdChange}
+        value={form.imdbId}
+        onChange={value => handleChange('imdbId', value)}
         required
       />
 
