@@ -15,7 +15,8 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
   const [imgUrl, setImageUrl] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
-  const activateButton = !!title && !!imgUrl && !!imdbUrl && !!imdbId;
+  const activateButton =
+    !!title.trim() && !!imgUrl.trim() && !!imdbUrl.trim() && !!imdbId.trim();
 
   const handleReset = () => {
     setTitle('');
@@ -30,7 +31,14 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (!(!!title && !!imgUrl && !!imdbUrl && !!imdbId)) {
+    if (
+      !(
+        !!title.trim() &&
+        !!imgUrl.trim() &&
+        !!imdbUrl.trim() &&
+        !!imdbId.trim()
+      )
+    ) {
       return;
     }
 
