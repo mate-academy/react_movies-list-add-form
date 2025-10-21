@@ -1,17 +1,28 @@
-import './App.scss';
+import React, { useState } from 'react';
 import { MoviesList } from './components/MoviesList';
 import { NewMovie } from './components/NewMovie';
-import moviesFromServer from './api/movies.json';
+import { moviesFromServer } from './api/movies.json';
 
-export const App = () => {
+export interface Movie {
+  title: string;
+  imgUrl: string;
+  imdbUrl: string;
+  imdbId: string;
+  description?: string;
+}
+
+export const App: React.FC = () => {
+  const [movies, setMovies] = useState<Movie[]>(moviesFromServer);
+
+  const addMovie = (newMovie: Movie) => {
+    setMovies(prevMovies => [...prevMovies, newMovie]);
+  };
+
   return (
-    <div className="page">
-      <div className="page-content">
-        <MoviesList movies={moviesFromServer} />
-      </div>
-      <div className="sidebar">
-        <NewMovie /* onAdd={(movie) => {}} */ />
-      </div>
+    <div className="App">
+      <h1 className="App__title">Movies from IMDB</h1>
+      <NewMovie onAdd={addMovie} />
+      <MoviesList movies={movies} />
     </div>
   );
 };
