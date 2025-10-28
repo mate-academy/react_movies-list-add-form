@@ -7,9 +7,12 @@ import { Movie } from './types/Movie';
 
 export const App = () => {
   const [movies, setMovies] = useState(moviesFromServer);
+  const [formKey, setFormKey] = useState(0);
 
   const handleAddMovie = (movie: Movie) => {
     setMovies(prevMovies => [...prevMovies, movie]);
+
+    setFormKey(prev => prev + 1);
   };
 
   return (
@@ -18,7 +21,7 @@ export const App = () => {
         <MoviesList movies={movies} />
       </div>
       <div className="sidebar">
-        <NewMovie onAdd={handleAddMovie} />
+        <NewMovie key={formKey} onAdd={handleAddMovie} />
       </div>
     </div>
   );

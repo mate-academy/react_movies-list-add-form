@@ -17,7 +17,9 @@ export const NewMovie = ({ onAdd }: { onAdd: (movie: Movie) => void }) => {
   });
 
   const handleBlur = (field: string, value: string) => {
-    if (!value.trim()) {
+    const trimmedValue = value.trim();
+
+    if (!trimmedValue) {
       setErrors(prevErrors => ({
         ...prevErrors,
         [field]: `${field} is required`,
@@ -33,7 +35,10 @@ export const NewMovie = ({ onAdd }: { onAdd: (movie: Movie) => void }) => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (!title.trim() || !imgUrl.trim() || !imdbUrl.trim() || !imdbId.trim()) {
+    const isFormValid =
+      title.trim() && imgUrl.trim() && imdbUrl.trim() && imdbId.trim();
+
+    if (!isFormValid) {
       return;
     }
 
@@ -43,19 +48,6 @@ export const NewMovie = ({ onAdd }: { onAdd: (movie: Movie) => void }) => {
       imgUrl,
       imdbUrl,
       imdbId,
-    });
-
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
-
-    setErrors({
-      title: '',
-      imgUrl: '',
-      imdbUrl: '',
-      imdbId: '',
     });
   };
 
