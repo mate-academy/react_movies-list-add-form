@@ -22,12 +22,12 @@ export const TextField: React.FC<Props> = ({
   required = false,
   onChange = () => {},
 }) => {
-  // generate a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
-  // To show errors only if the field was touched (onBlur)
   const [touched, setTouched] = useState(false);
-  const hasError = touched && required && !value;
+
+  const normalizedValue = String(value ?? '').trim();
+  const hasError = touched && required && !normalizedValue;
 
   return (
     <div className="field">
@@ -40,11 +40,9 @@ export const TextField: React.FC<Props> = ({
           type="text"
           id={id}
           data-cy={`movie-${name}`}
-          className={classNames('input', {
-            'is-danger': hasError,
-          })}
+          className={classNames('input', { 'is-danger': hasError })}
           placeholder={placeholder}
-          value={value}
+          value={value ?? ''}
           onChange={event => onChange(event.target.value)}
           onBlur={() => setTouched(true)}
         />
@@ -54,3 +52,5 @@ export const TextField: React.FC<Props> = ({
     </div>
   );
 };
+
+export default TextField;
