@@ -1,7 +1,12 @@
 import React, { useState } from 'react';
 import { TextField } from '../TextField';
+import { Movie } from '../../types/Movie';
 
-export const NewMovie = () => {
+interface NewMovieProps {
+  onAdd: (movie: Movie) => void;
+}
+
+export const NewMovie = ({ onAdd }: NewMovieProps) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
@@ -28,6 +33,15 @@ export const NewMovie = () => {
 
   const preventSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    onAdd({
+      title: valueTitle,
+      description: valueDescription,
+      imdbId: valueImdbId,
+      imdbUrl: valueImdbUrl,
+      imgUrl: valueImgUrl,
+    });
+
     formClear();
     setCount(prev => prev + 1);
   };
@@ -94,18 +108,21 @@ export const NewMovie = () => {
             data-cy="submit-button"
             className="button is-link"
             disabled={
-              !valueTitle || !valueImdbId || !valueImgUrl || !valueImdbUrl
+              !valueTitle.trim() ||
+              !valueImdbId.trim() ||
+              !valueImgUrl.trim() ||
+              !valueImdbUrl.trim()
             }
           >
             Add
           </button>
         </div>
       </div>
-      {(valueTitle ||
-        valueImdbId ||
-        valueImgUrl ||
-        valueImdbUrl ||
-        valueDescription) && (
+      {(valueTitle.trim() ||
+        valueImdbId.trim() ||
+        valueImgUrl.trim() ||
+        valueImdbUrl.trim() ||
+        valueDescription.trim()) && (
         <div className="field is-grouped">
           <div className="control">
             <button
