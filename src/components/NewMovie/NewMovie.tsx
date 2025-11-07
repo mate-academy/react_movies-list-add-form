@@ -23,8 +23,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     imdbUrl.trim() !== '' &&
     imdbId.trim() !== '';
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
 
     if (!requiredFilled) {
       return;
@@ -38,7 +38,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       imdbId: imdbId.trim(),
     };
 
-  onAdd?.(movie);
+    onAdd?.(movie);
 
     // clear form
     setTitle('');
@@ -48,7 +48,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setImdbId('');
 
     // bump count to reset internal touched state of TextField (key)
-    setCount(c => c + 1);
+  setCount(prevCount => prevCount + 1);
   };
 
   return (
