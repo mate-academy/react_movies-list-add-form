@@ -1,56 +1,46 @@
-import classNames from 'classnames';
-import React, { useState } from 'react';
-
-type Props = {
+interface Props {
   name: string;
+  label: string;
   value: string;
-  label?: string;
-  placeholder?: string;
+  onChange: (value: string) => void;
+  onBlur?: () => void;
   required?: boolean;
-  onChange?: (newValue: string) => void;
-};
-
-function getRandomDigits() {
-  return Math.random().toFixed(16).slice(2);
+  error?: boolean;
 }
 
 export const TextField: React.FC<Props> = ({
   name,
+  label,
   value,
-  label = name,
-  placeholder = `Enter ${label}`,
+  onChange,
+  onBlur,
   required = false,
-  onChange = () => {},
+  error = false,
 }) => {
-  // generate a unique id once on component load
-  const [id] = useState(() => `${name}-${getRandomDigits()}`);
-
-  // To show errors only if the field was touched (onBlur)
-  const [touched, setTouched] = useState(false);
-  const hasError = touched && required && !value;
-
   return (
     <div className="field">
-      <label className="label" htmlFor={id}>
+      <label className="label" htmlFor={name}>
         {label}
       </label>
 
       <div className="control">
         <input
-          type="text"
-          id={id}
+          id={name}
           data-cy={`movie-${name}`}
-          className={classNames('input', {
-            'is-danger': hasError,
-          })}
-          placeholder={placeholder}
+          className={`input ${error ? 'is-danger' : ''}`}
+          type="text"
+          placeholder={`Enter ${label.toLowerCase()}`}
           value={value}
-          onChange={event => onChange(event.target.value)}
-          onBlur={() => setTouched(true)}
+          onChange={(e) => onChange(e.target.value)}
+          onBlur={onBlur}
         />
       </div>
 
-      {hasError && <p className="help is-danger">{`${label} is required`}</p>}
+      {error && (
+        <p className="help is-danger" data-cy="error">
+          {required ? 'This field is required' : 'Please enter a valid URL'}
+        </p>
+      )}
     </div>
   );
 };
