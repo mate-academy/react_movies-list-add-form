@@ -2,15 +2,17 @@ import React, { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
+const INITIAL_FORM_STATE: Movie = {
+  title: '',
+  imgUrl: '',
+  imdbUrl: '',
+  imdbId: '',
+  description: '',
+};
+
 export const NewMovie = ({ onAdd }: { onAdd?: (movie: Movie) => void }) => {
   const [formKey, setFormKey] = useState(0);
-  const [movieData, setMovieData] = useState({
-    title: '',
-    imgUrl: '',
-    imdbUrl: '',
-    imdbId: '',
-    description: '',
-  });
+  const [movieData, setMovieData] = useState<Movie>(INITIAL_FORM_STATE);
 
   const handleChange = (fieldName: keyof Movie) => (value: string) => {
     setMovieData(prevData => ({
@@ -28,8 +30,8 @@ export const NewMovie = ({ onAdd }: { onAdd?: (movie: Movie) => void }) => {
     );
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleSubmit = (submitEvent: React.FormEvent<HTMLFormElement>) => {
+    submitEvent.preventDefault();
 
     if (!isFormValid()) {
       return;
@@ -47,13 +49,7 @@ export const NewMovie = ({ onAdd }: { onAdd?: (movie: Movie) => void }) => {
       onAdd(newMovie);
     }
 
-    setMovieData({
-      title: '',
-      imgUrl: '',
-      imdbUrl: '',
-      imdbId: '',
-      description: '',
-    });
+    setMovieData(INITIAL_FORM_STATE);
 
     setFormKey(prevKey => prevKey + 1);
   };
