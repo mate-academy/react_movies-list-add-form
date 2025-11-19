@@ -12,8 +12,6 @@ export const NewMovie = ({ onAdd }: { onAdd?: (movie: Movie) => void }) => {
     description: '',
   });
 
-  // TextField calls onChange with the new value (string).
-  // We create a factory to produce handlers for each field.
   const handleChange = (fieldName: keyof Movie) => (value: string) => {
     setMovieData(prevData => ({
       ...prevData,
