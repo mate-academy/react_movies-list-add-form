@@ -4,6 +4,10 @@
     "src"
   ],
   "compilerOptions": {
-    "sourceMap": false
+    "sourceMap": false,
+    "jsx": "react-jsx",
+    "target": "es2020",
+    "module": "esnext",
+    "lib": ["DOM", "ES2020"]
   }
 }
