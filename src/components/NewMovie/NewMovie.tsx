@@ -13,8 +13,17 @@ export const NewMovie = ({ onAdd }: { onAdd: (movie: Movie) => void }) => {
   const [description, setDescription] = useState('');
 
   const isValid = [title, imgUrl, imdbUrl, imdbId].every(
-    v => v.trim().length > 0,
+    value => value.trim().length > 0,
   );
+
+  function resetForm() {
+    setTitle('');
+    setImgUrl('');
+    setImdbUrl('');
+    setImdbId('');
+    setDescription('');
+    setCount(newCount => newCount + 1);
+  }
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -27,13 +36,7 @@ export const NewMovie = ({ onAdd }: { onAdd: (movie: Movie) => void }) => {
     };
 
     onAdd(newMovie);
-
-    setTitle('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
-    setDescription('');
-    setCount(c => c + 1);
+    resetForm();
   }
 
   return (
