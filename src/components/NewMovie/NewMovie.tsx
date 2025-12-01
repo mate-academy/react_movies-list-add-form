@@ -1,30 +1,130 @@
 import { useState } from 'react';
 import { TextField } from '../TextField';
+import { Movie } from '../../types/Movie';
 
-export const NewMovie = () => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
-  const [count] = useState(0);
+interface NewMovieProps {
+  onAdd?: (movie: Movie) => void;
+}
+
+export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
+  const [count, setCount] = useState(0);
+  const [movieTitle, setMovieTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [imgUrl, setImgUrl] = useState('');
+  const [imdbUrl, setImdbUrl] = useState('');
+  const [imdbId, setImdbId] = useState('');
+
+  const [errors, setErrors] = useState({
+    title: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  });
+
+  const isFormValid =
+    movieTitle.trim() !== '' &&
+    imgUrl.trim() !== '' &&
+    imdbUrl.trim() !== '' &&
+    imdbId.trim() !== '' &&
+    !errors.imgUrl &&
+    !errors.imdbUrl;
+
+  const handleBlur = (field: keyof typeof errors, value: string) => {
+    let errorMsg = '';
+
+    if (value.trim() === '') {
+      errorMsg = 'This field is required';
+    } else if (field === 'imgUrl' || field === 'imdbUrl') {
+      const pattern = new RegExp(
+        '^((([A-Za-z]{3,9}:(?://)?)(?:[-;:&=+$,\\w]+@)?[A-Za-z0-9.-]+|' +
+          '(?:www\\.|[-;:&=+$,\\w]+@)[A-Za-z0-9.-]+)' +
+          '((?:/[+~%/.\\w-_]*)?\\??(?:[-+=&;%@,.\\w_]*)#?' +
+          '(?:[,.!/\\\\\\w]*))?)$',
+      );
+
+      if (!pattern.test(value.trim())) {
+        errorMsg = 'Введите корректный URL';
+      }
+    }
+
+    setErrors(prev => ({ ...prev, [field]: errorMsg }));
+  };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const newMovie: Movie = {
+      title: movieTitle,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    };
+
+    if (onAdd) {
+      onAdd(newMovie);
+    }
+
+    setMovieTitle('');
+    setDescription('');
+    setImgUrl('');
+    setImdbUrl('');
+    setImdbId('');
+    setErrors({ title: '', imgUrl: '', imdbUrl: '', imdbId: '' });
+    setCount(count + 1);
+  };
 
   return (
-    <form className="NewMovie" key={count}>
+    <form className="NewMovie" key={count} onSubmit={handleSubmit} noValidate>
       <h2 className="title">Add a movie</h2>
 
       <TextField
         name="title"
         label="Title"
-        value=""
-        onChange={() => {}}
+        value={movieTitle}
+        onChange={setMovieTitle}
+        onBlur={() => handleBlur('title', movieTitle)}
+        error={errors.title}
         required
       />
 
-      <TextField name="description" label="Description" value="" />
+      <TextField
+        name="description"
+        label="Description"
+        value={description}
+        onChange={setDescription}
+      />
 
-      <TextField name="imgUrl" label="Image URL" value="" />
+      <TextField
+        name="imgUrl"
+        label="Image URL"
+        value={imgUrl}
+        onChange={setImgUrl}
+        onBlur={() => {
+          handleBlur('imgUrl', imgUrl);
+        }}
+        error={errors.imgUrl}
+      />
 
-      <TextField name="imdbUrl" label="Imdb URL" value="" />
+      <TextField
+        name="imdbUrl"
+        label="Imdb URL"
+        value={imdbUrl}
+        onChange={setImdbUrl}
+        onBlur={() => {
+          handleBlur('imdbUrl', imdbUrl);
+        }}
+        error={errors.imdbUrl}
+      />
 
-      <TextField name="imdbId" label="Imdb ID" value="" />
+      <TextField
+        name="imdbId"
+        label="Imdb ID"
+        value={imdbId}
+        onChange={setImdbId}
+        onBlur={() => handleBlur('imdbId', imdbId)}
+        error={errors.imdbId}
+      />
 
       <div className="field is-grouped">
         <div className="control">
@@ -32,6 +132,7 @@ export const NewMovie = () => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
+            disabled={!isFormValid}
           >
             Add
           </button>
