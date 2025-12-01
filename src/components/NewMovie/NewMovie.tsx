@@ -26,8 +26,10 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
     imgUrl.trim() !== '' &&
     imdbUrl.trim() !== '' &&
     imdbId.trim() !== '' &&
+    !errors.title &&
     !errors.imgUrl &&
-    !errors.imdbUrl;
+    !errors.imdbUrl &&
+    !errors.imdbId;
 
   const handleBlur = (field: keyof typeof errors, value: string) => {
     let errorMsg = '';
@@ -43,15 +45,15 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
       );
 
       if (!pattern.test(value.trim())) {
-        errorMsg = 'Введите корректный URL';
+        errorMsg = 'Please enter a valid URL';
       }
     }
 
     setErrors(prev => ({ ...prev, [field]: errorMsg }));
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
 
     const newMovie: Movie = {
       title: movieTitle,

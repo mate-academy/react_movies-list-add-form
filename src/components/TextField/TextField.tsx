@@ -21,7 +21,6 @@ export const TextField: React.FC<Props> = ({
   value,
   label = name,
   placeholder = `Enter ${label}`,
-  required = false,
   onChange = () => {},
   error,
   onBlur = () => {},
@@ -36,7 +35,6 @@ export const TextField: React.FC<Props> = ({
       <label className="label" htmlFor={id}>
         {label}
       </label>
-
       <div className="control">
         <input
           type="text"
@@ -45,15 +43,13 @@ export const TextField: React.FC<Props> = ({
           className={classNames('input', { 'is-danger': showError })}
           placeholder={placeholder}
           value={value}
-          onChange={e => onChange(e.target.value)}
+          onChange={event => onChange(event.target.value)}
           onBlur={() => {
             setTouched(true);
             onBlur();
           }}
-          required={required}
         />
       </div>
-
       {showError && <p className="help is-danger">{error}</p>}
     </div>
   );
