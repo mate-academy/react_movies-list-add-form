@@ -1,6 +1,5 @@
 import classNames from 'classnames';
 import React, { useState } from 'react';
-
 type Props = {
   name: string;
   value: string;

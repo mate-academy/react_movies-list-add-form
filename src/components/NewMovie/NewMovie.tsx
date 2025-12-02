@@ -7,12 +7,13 @@ interface NewMovieProps {
 }
 
 export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
-  const [count, setCount] = useState(0);
-  const [movieTitle, setMovieTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
+  const [movie, setMovie] = useState({
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  });
 
   const [errors, setErrors] = useState({
     title: '',
@@ -21,11 +22,13 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
     imdbId: '',
   });
 
+  const [count, setCount] = useState(0);
+
   const isFormValid =
-    movieTitle.trim() !== '' &&
-    imgUrl.trim() !== '' &&
-    imdbUrl.trim() !== '' &&
-    imdbId.trim() !== '' &&
+    movie.title.trim() !== '' &&
+    movie.imgUrl.trim() !== '' &&
+    movie.imdbUrl.trim() !== '' &&
+    movie.imdbId.trim() !== '' &&
     !errors.title &&
     !errors.imgUrl &&
     !errors.imdbUrl &&
@@ -55,23 +58,17 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const newMovie: Movie = {
-      title: movieTitle,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
-    };
-
     if (onAdd) {
-      onAdd(newMovie);
+      onAdd(movie);
     }
 
-    setMovieTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
+    setMovie({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
     setErrors({ title: '', imgUrl: '', imdbUrl: '', imdbId: '' });
     setCount(count + 1);
   };
@@ -83,9 +80,9 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value={movieTitle}
-        onChange={setMovieTitle}
-        onBlur={() => handleBlur('title', movieTitle)}
+        value={movie.title}
+        onChange={value => setMovie(prev => ({ ...prev, title: value }))}
+        onBlur={() => handleBlur('title', movie.title)}
         error={errors.title}
         required
       />
@@ -93,38 +90,34 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
       <TextField
         name="description"
         label="Description"
-        value={description}
-        onChange={setDescription}
+        value={movie.description}
+        onChange={value => setMovie(prev => ({ ...prev, description: value }))}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={imgUrl}
-        onChange={setImgUrl}
-        onBlur={() => {
-          handleBlur('imgUrl', imgUrl);
-        }}
+        value={movie.imgUrl}
+        onChange={value => setMovie(prev => ({ ...prev, imgUrl: value }))}
+        onBlur={() => handleBlur('imgUrl', movie.imgUrl)}
         error={errors.imgUrl}
       />
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={imdbUrl}
-        onChange={setImdbUrl}
-        onBlur={() => {
-          handleBlur('imdbUrl', imdbUrl);
-        }}
+        value={movie.imdbUrl}
+        onChange={value => setMovie(prev => ({ ...prev, imdbUrl: value }))}
+        onBlur={() => handleBlur('imdbUrl', movie.imdbUrl)}
         error={errors.imdbUrl}
       />
 
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imdbId}
-        onChange={setImdbId}
-        onBlur={() => handleBlur('imdbId', imdbId)}
+        value={movie.imdbId}
+        onChange={value => setMovie(prev => ({ ...prev, imdbId: value }))}
+        onBlur={() => handleBlur('imdbId', movie.imdbId)}
         error={errors.imdbId}
       />
 
