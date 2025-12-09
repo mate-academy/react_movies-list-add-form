@@ -60,7 +60,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
     reset();
 
-    setCount(c => c + 1);
+    setCount(prevCount => prevCount + 1);
   };
 
   return (
