@@ -3,17 +3,10 @@ import './App.scss';
 import { MoviesList } from './components/MoviesList';
 import { NewMovie } from './components/NewMovie';
 import moviesFromServer from './api/movies.json';
+import type { NewMovieData } from './types/NewMovieData';
 
 export const App = () => {
   const [movies, setMovies] = useState(moviesFromServer);
-
-  type NewMovieData = {
-    title: string;
-    description: string;
-    imgUrl: string;
-    imdbUrl: string;
-    imdbId: string;
-  };
 
   const handleAddMovie = (newMovie: NewMovieData) => {
     setMovies(prevMovies => [...prevMovies, newMovie]);

@@ -1,13 +1,7 @@
 import { useState, FormEvent } from 'react';
 import { TextField } from '../TextField';
+import type { NewMovieData } from '../../types/Movie';
 
-type NewMovieData = {
-  title: string;
-  description: string;
-  imgUrl: string;
-  imdbUrl: string;
-  imdbId: string;
-};
 type Props = {
   onAdd: (movie: NewMovieData) => void;
 };
