@@ -23,8 +23,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     imdbId: imdbId.trim(),
   };
 
-  const isImgUrlValid = !validateUrl(imgUrl);
-  const isImdbUrlValid = !validateUrl(imdbUrl);
+  const isImgUrlValid = !validateUrl(data.imgUrl);
+  const isImdbUrlValid = !validateUrl(data.imdbUrl);
 
   const isFormValid = Boolean(
     data.title &&
@@ -50,7 +50,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setImdbUrl('');
     setImdbId('');
 
-    setCount(n => n + 1);
+    setCount(prevCount => prevCount + 1);
   };
 
   return (
