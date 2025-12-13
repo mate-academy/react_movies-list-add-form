@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
+import { validateUrl } from '../../utils/validator';
 
 type Props = {
   onAdd: (movie: Movie) => void;
@@ -22,8 +23,16 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     imdbId: imdbId.trim(),
   };
 
+  const isImgUrlValid = !validateUrl(imgUrl);
+  const isImdbUrlValid = !validateUrl(imdbUrl);
+
   const isFormValid = Boolean(
-    data.title && data.imgUrl && data.imdbUrl && data.imdbId,
+    data.title &&
+      data.imgUrl &&
+      data.imdbUrl &&
+      data.imdbId &&
+      isImgUrlValid &&
+      isImdbUrlValid,
   );
 
   const handleSubmit = (event: React.FormEvent) => {
@@ -69,7 +78,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={imgUrl}
         onChange={setImgUrl}
         required
-        isUrl
+        validate={validateUrl}
       />
 
       <TextField
@@ -78,7 +87,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={imdbUrl}
         onChange={setImdbUrl}
         required
-        isUrl
+        validate={validateUrl}
       />
 
       <TextField
