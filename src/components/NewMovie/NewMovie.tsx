@@ -13,9 +13,6 @@ export const NewMovie = ({ onAdd }: Props) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  // key для скидання touched-станів TextField
-  const [formKey, setFormKey] = useState(0);
-
   const isFormValid =
     title.trim() && imgUrl.trim() && imdbUrl.trim() && imdbId.trim();
 
@@ -33,18 +30,10 @@ export const NewMovie = ({ onAdd }: Props) => {
       imdbUrl: imdbUrl.trim(),
       imdbId: imdbId.trim(),
     });
-
-    // очищення форми та помилок
-    setFormKey(key => key + 1);
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
   };
 
   return (
-    <form className="NewMovie" key={formKey} onSubmit={handleSubmit}>
+    <form className="NewMovie" onSubmit={handleSubmit}>
       <h2 className="title">Add a movie</h2>
 
       <TextField
