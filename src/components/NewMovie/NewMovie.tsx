@@ -14,7 +14,6 @@ export const NewMovie: React.FC<Props> = ({ onSubmit }) => {
   const [titleError, setTitleError] = useState(false);
 
   const [description, setDescription] = useState('');
-  const [descriptionError, setDescriptionError] = useState(false);
 
   const [imgUrl, setImgUrl] = useState('');
   const [imgUrlError, setImgUrlError] = useState(false);
@@ -25,15 +24,17 @@ export const NewMovie: React.FC<Props> = ({ onSubmit }) => {
   const [imdbId, setImdbId] = useState('');
   const [imdbIdError, setImdbIdError] = useState(false);
 
+  const isFormValid =
+    Boolean(title.trim()) &&
+    Boolean(imgUrl.trim()) &&
+    Boolean(imdbUrl.trim()) &&
+    Boolean(imdbId.trim());
+
   const onSubmitEvent = (event: React.FormEvent) => {
     event.preventDefault();
 
     if (!title) {
       setTitleError(!titleError);
-    }
-
-    if (!description) {
-      setDescriptionError(!descriptionError);
     }
 
     if (!imgUrl) {
@@ -48,7 +49,7 @@ export const NewMovie: React.FC<Props> = ({ onSubmit }) => {
       setImdbIdError(!imdbIdError);
     }
 
-    if (!title || description || imgUrl || imdbUrl || imdbId) {
+    if (!title.trim() || !imgUrl.trim() || !imdbUrl.trim() || !imdbId.trim()) {
       return;
     }
 
@@ -119,6 +120,7 @@ export const NewMovie: React.FC<Props> = ({ onSubmit }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
+            disabled={isFormValid}
           >
             Add
           </button>
