@@ -28,11 +28,17 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     }));
   };
 
-  const isRequiredFilled =
-    movie.title.trim() !== '' &&
-    movie.imgUrl.trim() !== '' &&
-    movie.imdbUrl.trim() !== '' &&
-    movie.imdbId.trim() !== '';
+  // DRY: required fields checked dynamically
+  const requiredFields: (keyof Movie)[] = [
+    'title',
+    'imgUrl',
+    'imdbUrl',
+    'imdbId',
+  ];
+
+  const isRequiredFilled = requiredFields.every(
+    field => movie[field].trim() !== '',
+  );
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -41,14 +47,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       return;
     }
 
-    const movieToAdd: Movie = {
-      ...movie,
-      title: movie.title.trim(),
-      description: movie.description.trim(),
-      imgUrl: movie.imgUrl.trim(),
-      imdbUrl: movie.imdbUrl.trim(),
-      imdbId: movie.imdbId.trim(),
-    };
+    // DRY: trim all string values dynamically
+    const movieToAdd: Movie = Object.fromEntries(
+      Object.entries(movie).map(([key, value]) => [key, value.trim()]),
+    ) as Movie;
 
     onAdd(movieToAdd);
 
