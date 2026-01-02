@@ -28,7 +28,12 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     }));
   };
 
-  // DRY: required fields checked dynamically
+  // Trimmed version of the movie object (DRY)
+  const trimmedMovie: Movie = Object.fromEntries(
+    Object.entries(movie).map(([key, value]) => [key, value.trim()]),
+  ) as Movie;
+
+  // Required fields checked using trimmed values
   const requiredFields: (keyof Movie)[] = [
     'title',
     'imgUrl',
@@ -37,7 +42,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   ];
 
   const isRequiredFilled = requiredFields.every(
-    field => movie[field].trim() !== '',
+    field => trimmedMovie[field] !== '',
   );
 
   const handleSubmit = (event: React.FormEvent) => {
@@ -47,12 +52,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       return;
     }
 
-    // DRY: trim all string values dynamically
-    const movieToAdd: Movie = Object.fromEntries(
-      Object.entries(movie).map(([key, value]) => [key, value.trim()]),
-    ) as Movie;
-
-    onAdd(movieToAdd);
+    // Use trimmedMovie directly
+    onAdd(trimmedMovie);
 
     // clear form
     setMovie(emptyMovie);
