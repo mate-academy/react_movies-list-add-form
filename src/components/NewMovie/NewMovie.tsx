@@ -26,7 +26,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    if (!isFormValid) return;
+    if (!isFormValid) {
+      return;
+    }
 
     const movie: Movie = {
       title: title.trim(),
