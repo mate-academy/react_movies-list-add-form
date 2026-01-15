@@ -3,9 +3,9 @@ import React, { useState } from 'react';
 
 type Props = {
   name: string;
-  value: string;
   label?: string;
   placeholder?: string;
+  value: string;
   required?: boolean;
   onChange?: (newValue: string) => void;
 };
@@ -16,9 +16,9 @@ function getRandomDigits() {
 
 export const TextField: React.FC<Props> = ({
   name,
-  value,
   label = name,
   placeholder = `Enter ${label}`,
+  value,
   required = false,
   onChange = () => {},
 }) => {
