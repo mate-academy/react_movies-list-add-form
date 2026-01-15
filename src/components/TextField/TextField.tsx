@@ -5,6 +5,8 @@ type Props = {
   name: string;
   value: string;
   label?: string;
+  error?: boolean;
+  errorMessage?: string;
   placeholder?: string;
   required?: boolean;
   onChange?: (newValue: string) => void;
@@ -18,6 +20,8 @@ export const TextField: React.FC<Props> = ({
   name,
   value,
   label = name,
+  error,
+  errorMessage,
   placeholder = `Enter ${label}`,
   required = false,
   onChange = () => {},
@@ -27,7 +31,7 @@ export const TextField: React.FC<Props> = ({
 
   // To show errors only if the field was touched (onBlur)
   const [touched, setTouched] = useState(false);
-  const hasError = touched && required && !value;
+  const hasError = (touched && required && !value) || error;
 
   return (
     <div className="field">
@@ -50,7 +54,11 @@ export const TextField: React.FC<Props> = ({
         />
       </div>
 
-      {hasError && <p className="help is-danger">{`${label} is required`}</p>}
+      {hasError && (
+        <p className="help is-danger">
+          {errorMessage || `${label} is required`}
+        </p>
+      )}
     </div>
   );
 };
