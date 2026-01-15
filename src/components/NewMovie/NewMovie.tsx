@@ -16,7 +16,7 @@ export const NewMovie: React.FC<OnAdd> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const isSubmitAllowed =
+  const isFormInvalid =
     !title.trim() || !imgUrl.trim() || !imdbId.trim() || !imdbUrl.trim();
 
   const reset = () => {
@@ -30,7 +30,7 @@ export const NewMovie: React.FC<OnAdd> = ({ onAdd }) => {
   function handleSubmitButton(event: React.FormEvent) {
     event.preventDefault();
 
-    if (isSubmitAllowed) {
+    if (isFormInvalid) {
       return;
     }
 
@@ -96,7 +96,7 @@ export const NewMovie: React.FC<OnAdd> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={isSubmitAllowed}
+            disabled={isFormInvalid}
           >
             Add
           </button>
