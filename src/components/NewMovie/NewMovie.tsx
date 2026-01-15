@@ -28,26 +28,25 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       '(?:[,.!/\\\\\\w]*))?)$',
   );
 
-  const areUrlsValid = pattern.test(imgUrl) && pattern.test(imdbUrl);
+  const isImgValid = pattern.test(imgUrl);
+  const isImdbValid = pattern.test(imdbUrl);
 
   const isFormValid: boolean = Boolean(
     title.trim() &&
     imgUrl.trim() &&
     imdbUrl.trim() &&
     imdbId.trim() &&
-    areUrlsValid,
+    isImgValid &&
+    isImdbValid,
   );
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    const isImgValid = pattern.test(imgUrl);
-    const isImdbValid = pattern.test(imdbUrl);
-
     setImgUrlHasError(!isImgValid);
     setImdbUrlHasError(!isImdbValid);
 
-    if (!isFormValid || !isImgValid || !isImdbValid) {
+    if (!isFormValid) {
       return;
     }
 
