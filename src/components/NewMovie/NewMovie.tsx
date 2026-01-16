@@ -16,26 +16,33 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imgUrl, setImgUrl] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
-  const [errorURL, setErrorURL] = useState(false);
-  const [errorImdbUrl, setErrorImdbUrl] = useState(false);
+  const [errorURL, setErrorURL] = useState('');
+  const [errorImdbUrl, setErrorImdbUrl] = useState('');
 
-  const isValidUrl = (url: string) => setErrorURL(!patternURL.test(url));
-  const isValidImdbUrl = (url: string) =>
-    setErrorImdbUrl(!patternURL.test(url));
+  const isValidUrl = (url: string, label: string) =>
+    patternURL.test(url) ? '' : `${label} is not correct`;
 
-  const isDisabled =
-    !title.trim() || !imgUrl.trim() || !imdbUrl.trim() || !imdbId.trim();
+  const isDisabled = !title || !imgUrl || !imdbUrl || !imdbId;
 
   const handlerOnSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!patternURL.test(imgUrl) || !patternURL.test(imdbUrl)) {
-      isValidUrl(imgUrl.trim());
-      isValidImdbUrl(imdbUrl.trim());
+    const imgError = isValidUrl(imgUrl, 'Image URL');
+    const imdbError = isValidUrl(imdbUrl, 'Imdb URL');
+
+    if (imgError || imdbError) {
+      setErrorURL(imgError);
+      setErrorImdbUrl(imdbError);
 
       return;
     } else {
-      const newMovie = { title, description, imgUrl, imdbUrl, imdbId };
+      const newMovie = {
+        title,
+        description,
+        imgUrl,
+        imdbUrl,
+        imdbId,
+      };
 
       onAdd(newMovie);
 
@@ -56,7 +63,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={title}
-        onChange={val => setTitle(val)}
+        onChange={val => setTitle(val.trim())}
         required
         count={count}
       />
@@ -65,7 +72,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={description}
-        onChange={val => setDescription(val)}
+        onChange={val => setDescription(val.trim())}
         count={count}
       />
 
@@ -76,8 +83,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         required
         errorURL={errorURL}
         onChange={val => {
-          setImgUrl(val);
-          setErrorURL(false);
+          setImgUrl(val.trim());
+          setErrorURL('');
         }}
         count={count}
       />
@@ -89,8 +96,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         required
         errorImdbUrl={errorImdbUrl}
         onChange={val => {
-          setImdbUrl(val);
-          setErrorImdbUrl(false);
+          setImdbUrl(val.trim());
+          setErrorImdbUrl('');
         }}
         count={count}
       />
@@ -100,7 +107,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Imdb ID"
         value={imdbId}
         required
-        onChange={val => setImdbId(val)}
+        onChange={val => setImdbId(val.trim())}
         count={count}
       />
 
