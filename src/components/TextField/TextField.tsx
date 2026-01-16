@@ -7,6 +7,7 @@ type Props = {
   label?: string;
   placeholder?: string;
   errorURL?: boolean;
+  errorImdbUrl?: boolean;
   required?: boolean;
   count: number;
   onChange?: (newValue: string) => void;
@@ -23,6 +24,7 @@ export const TextField: React.FC<Props> = ({
   placeholder = `Enter ${label}`,
   errorURL = false,
   required = false,
+  errorImdbUrl = false,
   count,
   onChange = () => {},
 }) => {
@@ -58,12 +60,12 @@ export const TextField: React.FC<Props> = ({
         />
       </div>
 
-      {(hasError && (
-        <p className="help is-danger">{`${label} is required`}</p>
-      )) ||
-        (errorURL && (
-          <p className="help is-danger">{`${label} is not correct`}</p>
-        ))}
+      {(hasError || errorURL || errorImdbUrl) && (
+        <p className="help is-danger">
+          {' '}
+          {hasError ? `${label} is required` : `${label} is not correct`}{' '}
+        </p>
+      )}
     </div>
   );
 };
