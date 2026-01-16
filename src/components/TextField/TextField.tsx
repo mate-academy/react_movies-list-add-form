@@ -1,12 +1,15 @@
 import classNames from 'classnames';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 type Props = {
   name: string;
   value: string;
   label?: string;
   placeholder?: string;
+  errorURL?: string;
+  errorImdbUrl?: string;
   required?: boolean;
+  count: number;
   onChange?: (newValue: string) => void;
 };
 
@@ -19,7 +22,10 @@ export const TextField: React.FC<Props> = ({
   value,
   label = name,
   placeholder = `Enter ${label}`,
+  errorURL = '',
   required = false,
+  errorImdbUrl = '',
+  count,
   onChange = () => {},
 }) => {
   // generate a unique id once on component load
@@ -28,6 +34,10 @@ export const TextField: React.FC<Props> = ({
   // To show errors only if the field was touched (onBlur)
   const [touched, setTouched] = useState(false);
   const hasError = touched && required && !value;
+
+  useEffect(() => {
+    setTouched(false);
+  }, [count]);
 
   return (
     <div className="field">
@@ -50,7 +60,12 @@ export const TextField: React.FC<Props> = ({
         />
       </div>
 
-      {hasError && <p className="help is-danger">{`${label} is required`}</p>}
+      {(hasError || errorURL || errorImdbUrl) && (
+        <p className="help is-danger">
+          {' '}
+          {hasError ? `${label} is required` : errorURL || errorImdbUrl}{' '}
+        </p>
+      )}
     </div>
   );
 };
