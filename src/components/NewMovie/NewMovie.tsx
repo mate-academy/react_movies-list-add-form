@@ -1,19 +1,23 @@
 import { useState } from 'react';
 import { TextField } from '../TextField';
+import { Movie } from '../../types/Movie';
 
-export const NewMovie = () => {
+type Props = {
+  onAdd: (movie: Movie) => void;
+};
+
+export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
-
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [imgUrl, setImgUrl] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const handleSubmit = event => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const newMovie = {
+    const newMovie: Movie = {
       title: title.trim(),
       description: description.trim(),
       imgUrl: imgUrl.trim(),
@@ -45,14 +49,12 @@ export const NewMovie = () => {
         onChange={setTitle}
         required
       />
-
       <TextField
         name="description"
         label="Description"
         value={description}
         onChange={setDescription}
       />
-
       <TextField
         name="imgUrl"
         label="Image URL"
@@ -60,7 +62,6 @@ export const NewMovie = () => {
         onChange={setImgUrl}
         required
       />
-
       <TextField
         name="imdbUrl"
         label="Imdb URL"
@@ -68,7 +69,6 @@ export const NewMovie = () => {
         onChange={setImdbUrl}
         required
       />
-
       <TextField
         name="imdbId"
         label="Imdb ID"
@@ -77,18 +77,14 @@ export const NewMovie = () => {
         required
       />
 
-      <div className="field is-grouped">
-        <div className="control">
-          <button
-            type="submit"
-            data-cy="submit-button"
-            className="button is-link"
-            disabled={isSubmitDisabled}
-          >
-            Add
-          </button>
-        </div>
-      </div>
+      <button
+        type="submit"
+        className="button is-link"
+        data-cy="submit-button"
+        disabled={isSubmitDisabled}
+      >
+        Add
+      </button>
     </form>
   );
 };
