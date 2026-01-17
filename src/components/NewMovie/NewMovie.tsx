@@ -2,17 +2,40 @@ import { useState } from 'react';
 import { TextField } from '../TextField';
 
 export const NewMovie = () => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
-  const [count] = useState(0);
+  const [count, setCount] = useState(0);
+
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [imgUrl, setImgUrl] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
+  const handleSubmit = event => {
+    event.preventDefault();
+
+    const newMovie = {
+      title: title.trim(),
+      description: description.trim(),
+      imgUrl: imgUrl.trim(),
+      imdbUrl: imdbUrl.trim(),
+      imdbId: imdbId.trim(),
+    };
+
+    onAdd(newMovie);
+
+    setTitle('');
+    setDescription('');
+    setImgUrl('');
+    setImdbUrl('');
+    setImdbId('');
+    setCount(prev => prev + 1);
+  };
+
+  const isSubmitDisabled =
+    !title.trim() || !imgUrl.trim() || !imdbUrl.trim() || !imdbId.trim();
+
   return (
-    <form className="NewMovie" key={count}>
+    <form className="NewMovie" key={count} onSubmit={handleSubmit}>
       <h2 className="title">Add a movie</h2>
 
       <TextField
@@ -35,6 +58,7 @@ export const NewMovie = () => {
         label="Image URL"
         value={imgUrl}
         onChange={setImgUrl}
+        required
       />
 
       <TextField
@@ -42,6 +66,7 @@ export const NewMovie = () => {
         label="Imdb URL"
         value={imdbUrl}
         onChange={setImdbUrl}
+        required
       />
 
       <TextField
@@ -49,6 +74,7 @@ export const NewMovie = () => {
         label="Imdb ID"
         value={imdbId}
         onChange={setImdbId}
+        required
       />
 
       <div className="field is-grouped">
@@ -57,6 +83,7 @@ export const NewMovie = () => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
+            disabled={isSubmitDisabled}
           >
             Add
           </button>
