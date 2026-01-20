@@ -20,14 +20,18 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     imdbId: '',
   };
 
+  const [values, setValues] = useState(defaultValues);
+  const [count, setCount] = useState(0);
+
+  const handleChange = (key: keyof typeof defaultValues, value: string) => {
+    setValues(prevValues => ({ ...prevValues, [key]: value }));
+  };
+
   const pattern = new RegExp(
     '^((([A-Za-z]{3,9}:(?:\\/\\/)?)(?:[-;:&=+$,\\w]+@)?[A-Za-z0-9.-]+|' +
       '(?:www\\.|[-;:&=+$,\\w]+@)[A-Za-z0-9.-]+)' +
       '((?:\\/[+~%/.\\w-_]*)?\\??(?:[-+=&;%@,\\w_]*)#?(?:[,.!/\\\\\\w]*))?)$',
   );
-
-  const [values, setValues] = useState(defaultValues);
-  const [count, setCount] = useState(0);
 
   const isTitleValid = values.title.trim().length > 0;
   const isImgUrlValid = values.imgUrl.trim().length > 0;
@@ -43,13 +47,12 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       return;
     }
 
-    onAdd({
-      title: values.title.trim(),
-      description: values.description.trim(),
-      imgUrl: values.imgUrl.trim(),
-      imdbUrl: values.imdbUrl.trim(),
-      imdbId: values.imdbId.trim(),
-    });
+    const trimmedValues = Object.entries(values).reduce(
+      (acc, [key, value]) => ({ ...acc, [key]: value.trim() }),
+      {} as typeof defaultValues,
+    );
+
+    onAdd(trimmedValues);
 
     setValues(defaultValues);
     setCount(prev => prev + 1);
@@ -75,7 +78,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={values.title}
-        onChange={value => setValues({ ...values, title: value })}
+        onChange={value => handleChange('title', value)}
         required
       />
 
@@ -83,14 +86,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={values.description}
-        onChange={value => setValues({ ...values, description: value })}
+        onChange={value => handleChange('description', value)}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={values.imgUrl}
-        onChange={value => setValues({ ...values, imgUrl: value })}
+        onChange={value => handleChange('imgUrl', value)}
         required
         validate={validateUrl}
       />
@@ -99,7 +102,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={values.imdbUrl}
-        onChange={value => setValues({ ...values, imdbUrl: value })}
+        onChange={value => handleChange('imdbUrl', value)}
         required
         validate={validateUrl}
       />
@@ -108,7 +111,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={values.imdbId}
-        onChange={value => setValues({ ...values, imdbId: value })}
+        onChange={value => handleChange('imdbId', value)}
         required
       />
 
