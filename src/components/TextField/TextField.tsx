@@ -29,6 +29,7 @@ export const TextField: React.FC<Props> = ({
   const [touched, setTouched] = useState(false);
   const hasError = touched && required && !value;
 
+
   return (
     <div className="field">
       <label className="label" htmlFor={id}>
@@ -46,13 +47,7 @@ export const TextField: React.FC<Props> = ({
           placeholder={placeholder}
           value={value}
           onChange={event => onChange(event.target.value)}
-          onBlur={() => {
-            setTouched(true);
-
-            if (hasError) {
-              return;
-            }
-          }}
+          onBlur={() => setTouched(true)}
         />
       </div>
 
