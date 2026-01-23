@@ -23,7 +23,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }: Props) => {
   const handleOnSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!title || !imgUrl || !imdbUrl || !imdbId) {
+    if (!isFormValid) {
       return;
     }
 
@@ -94,7 +94,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }: Props) => {
             data-cy="submit-button"
             className="button is-link"
             disabled={!isFormValid}
-            onClick={() => {}}
           >
             Add
           </button>
