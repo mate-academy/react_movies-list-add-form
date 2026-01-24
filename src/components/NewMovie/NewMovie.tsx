@@ -32,12 +32,7 @@ export const NewMovie = ({ onAdd }: { onAdd?: (movie: Movie) => void }) => {
       imdbId: imdbId.trim(),
     } as Movie);
 
-    setCount(c => c + 1);
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
+    setCount(currentCount => currentCount + 1);
   };
 
   return (
