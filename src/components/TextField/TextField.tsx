@@ -7,6 +7,9 @@ type Props = {
   label?: string;
   placeholder?: string;
   required?: boolean;
+
+  submitted?: boolean;
+
   onChange?: (newValue: string) => void;
 };
 
@@ -20,6 +23,9 @@ export const TextField: React.FC<Props> = ({
   label = name,
   placeholder = `Enter ${label}`,
   required = false,
+
+  submitted = false,
+
   onChange = () => {},
 }) => {
   // generate a unique id once on component load
@@ -27,7 +33,8 @@ export const TextField: React.FC<Props> = ({
 
   // To show errors only if the field was touched (onBlur)
   const [touched, setTouched] = useState(false);
-  const hasError = touched && required && !value;
+  // const hasError = touched && required && !value;
+  const hasError = (touched || submitted) && required && !value;
 
   return (
     <div className="field">
