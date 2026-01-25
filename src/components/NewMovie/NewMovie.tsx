@@ -8,7 +8,7 @@ export const NewMovie = ({ onAdd }: { onAdd: (movie: Movie) => void }) => {
   const [imgUrl, setImgUrl] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
-  const [count] = useState(0);
+  const [count, setCount] = useState(0);
   const [touchedFields, setTouchedFields] = useState({
     title: false,
     description: false,
@@ -17,8 +17,8 @@ export const NewMovie = ({ onAdd }: { onAdd: (movie: Movie) => void }) => {
     imdbId: false,
   });
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
 
     const newMovie = {
       title,
@@ -42,6 +42,7 @@ export const NewMovie = ({ onAdd }: { onAdd: (movie: Movie) => void }) => {
       imdbUrl: false,
       imdbId: false,
     });
+    setCount(count + 1);
   };
 
   return (
@@ -112,7 +113,12 @@ export const NewMovie = ({ onAdd }: { onAdd: (movie: Movie) => void }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!title || !imgUrl || !imdbUrl || !imdbId}
+            disabled={
+              !title.trim() ||
+              !imgUrl.trim() ||
+              !imdbUrl.trim() ||
+              !imdbId.trim()
+            }
           >
             Add
           </button>
