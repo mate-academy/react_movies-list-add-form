@@ -24,7 +24,7 @@ export const Field: React.FC<Props> = ({
   });
 
   // To show errors only if the field was touched
-  const [touched, setToched] = useState(false);
+  const [touched, setTouched] = useState(false);
   const hasError = touched && required && !value;
 
   return (
@@ -44,7 +44,7 @@ export const Field: React.FC<Props> = ({
           onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
             onChange(event.target.value)
           }
-          onBlur={() => setToched(true)}
+          onBlur={() => setTouched(true)}
         />
       </div>
 
