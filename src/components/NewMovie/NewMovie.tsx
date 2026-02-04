@@ -1,42 +1,96 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { TextField } from '../TextField';
+import { Movie } from '../../types/Movie';
 
-export const NewMovie = () => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
-  const [count] = useState(0);
+type Props = {
+  onAdd: (movie: Movie) => void;
+};
+
+export const NewMovie: React.FC<Props> = ({ onAdd }) => {
+  const [title, setTitle] = useState('');
+  const [imgUrl, setImgUrl] = useState('');
+  const [imdbUrl, setImdbUrl] = useState('');
+  const [imdbId, setImdbId] = useState('');
+  const [description, setDescription] = useState('');
+
+  const isFilled = (value: string) => value.trim().length > 0;
+
+  const isFormValid =
+    isFilled(title) &&
+    isFilled(imgUrl) &&
+    isFilled(imdbUrl) &&
+    isFilled(imdbId);
+
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+
+    if (!isFormValid) {
+      return;
+    }
+
+    const newMovie: Movie = {
+      title: title.trim(),
+      imgUrl: imgUrl.trim(),
+      imdbUrl: imdbUrl.trim(),
+      imdbId: imdbId.trim(),
+      description: description.trim(),
+    };
+
+    onAdd(newMovie);
+
+    // ❗ ВАЖНО: НИЧЕГО НЕ СБРАСЫВАЕМ
+    // Сброс формы делает App.tsx через смену key
+  };
 
   return (
-    <form className="NewMovie" key={count}>
-      <h2 className="title">Add a movie</h2>
-
+    <form onSubmit={handleSubmit} data-cy="movie-form">
       <TextField
         name="title"
         label="Title"
-        value=""
-        onChange={() => {}}
+        value={title}
         required
+        onChange={setTitle}
       />
 
-      <TextField name="description" label="Description" value="" />
+      <TextField
+        name="imgUrl"
+        label="Image URL"
+        value={imgUrl}
+        required
+        onChange={setImgUrl}
+      />
 
-      <TextField name="imgUrl" label="Image URL" value="" />
+      <TextField
+        name="imdbUrl"
+        label="IMDB URL"
+        value={imdbUrl}
+        required
+        onChange={setImdbUrl}
+      />
 
-      <TextField name="imdbUrl" label="Imdb URL" value="" />
+      <TextField
+        name="imdbId"
+        label="IMDB ID"
+        value={imdbId}
+        required
+        onChange={setImdbId}
+      />
 
-      <TextField name="imdbId" label="Imdb ID" value="" />
+      <TextField
+        name="description"
+        label="Description"
+        value={description}
+        onChange={setDescription}
+      />
 
-      <div className="field is-grouped">
-        <div className="control">
-          <button
-            type="submit"
-            data-cy="submit-button"
-            className="button is-link"
-          >
-            Add
-          </button>
-        </div>
-      </div>
+      <button
+        type="submit"
+        className="button is-primary"
+        data-cy="submit-button"
+        disabled={!isFormValid}
+      >
+        Add movie
+      </button>
     </form>
   );
 };
