@@ -27,14 +27,19 @@ export const NewMovie = ({ onAdd }: Props) => {
   function handleChange(fieldName: keyof Movie, fieldValue: string) {
     setNewValue(currentValues => ({
       ...currentValues,
-      [fieldName]: fieldValue.trim(),
+      [fieldName]: fieldValue,
     }));
   }
 
   function validate(values: Movie) {
     let isFormValid = true;
 
-    if (!values.title || !values.imgUrl || !values.imdbUrl || !values.imdbId) {
+    if (
+      !values.title.trim() ||
+      !values.imgUrl.trim() ||
+      !values.imdbUrl.trim() ||
+      !values.imdbId.trim()
+    ) {
       isFormValid = false;
     }
 
