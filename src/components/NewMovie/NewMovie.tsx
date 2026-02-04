@@ -38,11 +38,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
     onAdd(newMovie);
 
-    setTitle('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
-    setDescription('');
+    // ❗ ВАЖНО: НИЧЕГО НЕ СБРАСЫВАЕМ
+    // Сброс формы делает App.tsx через смену key
   };
 
   return (

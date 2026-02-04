@@ -7,9 +7,13 @@ import { Movie } from './types/Movie';
 
 export const App = () => {
   const [movies, setMovies] = useState<Movie[]>(moviesFromServer);
+  const [formKey, setFormKey] = useState(0);
 
   const handleAddMovie = (movie: Movie) => {
     setMovies(prev => [...prev, movie]);
+
+    // 🔥 ВАЖНО: обновляем key → форма полностью сбрасывается
+    setFormKey(prev => prev + 1);
   };
 
   return (
@@ -19,7 +23,10 @@ export const App = () => {
       </div>
 
       <div className="sidebar">
-        <NewMovie onAdd={handleAddMovie} />
+        <NewMovie
+          key={formKey} // ← вот это заставляет форму сбрасываться
+          onAdd={handleAddMovie}
+        />
       </div>
     </div>
   );
