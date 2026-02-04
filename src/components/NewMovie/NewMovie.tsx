@@ -6,7 +6,6 @@ type Props = {
   onAdd: (movie: Movie) => void;
 };
 
-// eslint-disable-next-line max-len
 const patternParts = [
   '^((([A-Za-z]{3,9}:(?://)?)(?:[-;:&=+$,\\w]+@)?[A-Za-z0-9.-]+',
   '|',
