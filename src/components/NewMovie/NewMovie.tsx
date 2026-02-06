@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { TextField } from '../TextField';
+import { Movie } from '../../types/Movie';
 type Props = {
   onAdd?: (movie: Movie) => void;
 };
