@@ -42,8 +42,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     );
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
     if (!isFormValid()) {
       return;
     }
@@ -76,7 +76,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Description"
         value={formData.description}
         onChange={val => handleChange('description', val)}
-        required
       />
 
       <TextField
