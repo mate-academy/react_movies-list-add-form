@@ -4,6 +4,8 @@
     "src"
   ],
   "compilerOptions": {
-    "sourceMap": false
+    "sourceMap": false,
+    "esModuleInterop": true,
+   "allowSyntheticDefaultImports": true
   }
 }
