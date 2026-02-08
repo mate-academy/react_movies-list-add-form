@@ -7,14 +7,16 @@ interface Props {
 }
 
 export const NewMovie = ({ onAdd }: Props) => {
-  const [count, setCount] = useState(0);
-  const [movie, setMovie] = useState({
+  const initialMovie = {
     title: '',
     description: '',
     imgUrl: '',
     imdbUrl: '',
     imdbId: '',
-  });
+  };
+
+  const [count, setCount] = useState(0);
+  const [movie, setMovie] = useState(initialMovie);
 
   const handleChange = (name: string) => (newValue: string) => {
     setMovie(prevMovie => ({
@@ -38,13 +40,7 @@ export const NewMovie = ({ onAdd }: Props) => {
 
     onAdd(movie);
 
-    setMovie({
-      title: '',
-      description: '',
-      imgUrl: '',
-      imdbUrl: '',
-      imdbId: '',
-    });
+    setMovie(initialMovie);
 
     setCount(prevCount => prevCount + 1);
   };
