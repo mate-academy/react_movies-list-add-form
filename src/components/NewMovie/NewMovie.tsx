@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, type FC, type FormEvent } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
@@ -6,8 +6,8 @@ type Props = {
   onAdd: (movie: Movie) => void;
 };
 
-export const NewMovie: React.FC<Props> = ({ onAdd }) => {
-  const [count, setCount] = useState(0);
+export const NewMovie: FC<Props> = ({ onAdd }) => {
+  const [formKey, setFormKey] = useState(0);
 
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -15,10 +15,11 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const isFormValid =
-    title.trim() && imgUrl.trim() && imdbUrl.trim() && imdbId.trim();
+  const isFormValid = [title, imgUrl, imdbUrl, imdbId].every(value =>
+    value.trim(),
+  );
 
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
 
     if (!isFormValid) {
@@ -39,11 +40,11 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setImdbUrl('');
     setImdbId('');
 
-    setCount(prev => prev + 1);
+    setFormKey(prev => prev + 1);
   };
 
   return (
-    <form className="NewMovie" key={count} onSubmit={handleSubmit}>
+    <form className="NewMovie" key={formKey} onSubmit={handleSubmit}>
       <h2 className="title">Add a movie</h2>
 
       <TextField
