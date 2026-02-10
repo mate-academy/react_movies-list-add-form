@@ -11,29 +11,29 @@ const pattern =
   /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
-  const [count, setCount] = useState(0);
+  const [formKey, setFormKey] = useState(0);
 
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [imgUrl, setImgUrl] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
+
   const [isSubmitted, setIsSubmitted] = useState(false);
+
   const isValidUrl = (value: string) => pattern.test(value);
-  const isImgUrlValid = isValidUrl(imgUrl);
-  const isImdbUrlValid = isValidUrl(imdbUrl);
 
   const handleAdd = (event: React.FormEvent) => {
     event.preventDefault();
     setIsSubmitted(true);
 
     const isFormValid =
-      title.trim() &&
-      imgUrl.trim() &&
-      imdbUrl.trim() &&
-      imdbId.trim() &&
-      isValidUrl(imgUrl) &&
-      isValidUrl(imdbUrl);
+      title.trim()
+      && imgUrl.trim()
+      && imdbUrl.trim()
+      && imdbId.trim()
+      && isValidUrl(imgUrl)
+      && isValidUrl(imdbUrl);
 
     if (!isFormValid) {
       return;
@@ -49,25 +49,28 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
     onAdd(newMovie);
 
+    // reset fields
     setTitle('');
     setDescription('');
     setImgUrl('');
     setImdbUrl('');
     setImdbId('');
 
-    setCount(prev => prev + 1);
+    // reset validation + remount form
+    setIsSubmitted(false);
+    setFormKey(prev => prev + 1);
   };
 
   const isDisabled =
-    !title.trim() ||
-    !imgUrl.trim() ||
-    !imdbUrl.trim() ||
-    !imdbId.trim() ||
-    !isImgUrlValid ||
-    !isImdbUrlValid;
+    !title.trim()
+    || !imgUrl.trim()
+    || !imdbUrl.trim()
+    || !imdbId.trim()
+    || !isValidUrl(imgUrl)
+    || !isValidUrl(imdbUrl);
 
   return (
-    <form className="NewMovie" key={count} onSubmit={handleAdd}>
+    <form className="NewMovie" key={formKey} onSubmit={handleAdd}>
       <h2 className="title">Add a movie</h2>
 
       <TextField
