@@ -8,29 +8,23 @@ type Props = {
 };
 
 export const NewMovie = ({ movies, setMovies }: Props) => {
-  const [count, setCount] = useState(0);
-  const [movie, setMovie] = useState({
+  const initialMovie: Movie = {
     title: '',
     description: '',
     imgUrl: '',
     imdbUrl: '',
     imdbId: '',
-  });
+  };
+  const [count, setCount] = useState(0);
+  const [movie, setMovie] = useState<Movie>(initialMovie);
   let disabledBtn = true;
 
-  const addMovie = (e: React.FormEvent) => {
-    e.preventDefault();
+  const addMovie = (event: React.FormEvent) => {
+    event.preventDefault();
+
     setCount(prevCount => prevCount + 1);
-
     setMovies([...movies, movie]);
-
-    setMovie({
-      title: '',
-      description: '',
-      imgUrl: '',
-      imdbUrl: '',
-      imdbId: '',
-    });
+    setMovie(initialMovie);
   };
 
   if (
@@ -45,7 +39,7 @@ export const NewMovie = ({ movies, setMovies }: Props) => {
   }
 
   return (
-    <form className="NewMovie" key={count}>
+    <form className="NewMovie" key={count} onSubmit={addMovie}>
       <h2 className="title">Add a movie</h2>
       <TextField
         name="title"
@@ -117,7 +111,6 @@ export const NewMovie = ({ movies, setMovies }: Props) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            onClick={addMovie}
             disabled={disabledBtn}
           >
             Add
