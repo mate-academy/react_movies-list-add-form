@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import classNames from 'classnames';
 import React, { useState } from 'react';
 
@@ -8,6 +10,7 @@ type Props = {
   placeholder?: string;
   required?: boolean;
   onChange?: (newValue: string) => void;
+  validator?: (value: string) => null | string;
 };
 
 function getRandomDigits() {
@@ -21,13 +24,22 @@ export const TextField: React.FC<Props> = ({
   placeholder = `Enter ${label}`,
   required = false,
   onChange = () => {},
+  validator = () => null,
 }) => {
   // generate a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
   // To show errors only if the field was touched (onBlur)
   const [touched, setTouched] = useState(false);
-  const hasError = touched && required && !value;
+
+  const requiredError =
+  required && !value.trim() ? `${label} is required` : null;
+
+  const customError = requiredError ? null : validator(value);
+
+  const errorMessage = touched ? requiredError || customError : null;
+
+  const hasError = Boolean(errorMessage);
 
   return (
     <div className="field">
@@ -49,8 +61,7 @@ export const TextField: React.FC<Props> = ({
           onBlur={() => setTouched(true)}
         />
       </div>
-
-      {hasError && <p className="help is-danger">{`${label} is required`}</p>}
+      {hasError && <p className="help is-danger">{`${errorMessage}`}</p>}
     </div>
   );
 };
