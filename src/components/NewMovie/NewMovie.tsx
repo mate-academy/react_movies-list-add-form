@@ -31,7 +31,13 @@ export const NewMovie = ({ onAdd }: Prop) => {
   const checkFormat = (value: string) => pattern.test(value);
 
   function allFieldsNotEmpty() {
-    return title && checkFormat(imdbUrl) && checkFormat(imgUrl) && imdbId;
+    return Boolean(
+      title.trim() && imdbUrl.trim() && imgUrl.trim() && imdbId.trim(),
+    );
+  }
+
+  function validateFields() {
+    return allFieldsNotEmpty() && checkFormat(imgUrl) && checkFormat(imdbUrl);
   }
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -46,7 +52,7 @@ export const NewMovie = ({ onAdd }: Prop) => {
     };
 
     onAdd(newMovie);
-    setCount(count + 1);
+    setCount(prev => prev + 1);
     reset();
   };
 
@@ -101,7 +107,7 @@ export const NewMovie = ({ onAdd }: Prop) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!allFieldsNotEmpty()}
+            disabled={!validateFields()}
           >
             Add
           </button>

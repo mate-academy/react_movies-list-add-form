@@ -31,7 +31,7 @@ export const TextField: React.FC<Props> = ({
   const [touched, setTouched] = useState(false);
   const hasError = touched && required && !value;
   const hasUrlFormatError =
-    checkUrlFormat !== undefined
+    typeof checkUrlFormat === 'function'
       ? touched && value && !checkUrlFormat(value)
       : false;
 
@@ -47,7 +47,7 @@ export const TextField: React.FC<Props> = ({
           id={id}
           data-cy={`movie-${name}`}
           className={classNames('input', {
-            'is-danger': hasError,
+            'is-danger': hasError || hasUrlFormatError,
           })}
           placeholder={placeholder}
           value={value}

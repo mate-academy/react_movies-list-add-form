@@ -7,14 +7,14 @@ import React from 'react';
 
 type Movie = {
   title: string;
-  description: string;
+  description?: string;
   imgUrl: string;
   imdbUrl: string;
   imdbId: string;
 };
 
 export const App = () => {
-  const [movies, setMovies] = useState(moviesFromServer);
+  const [movies, setMovies] = useState<Movie[]>(moviesFromServer);
 
   return (
     <div className="page">
@@ -24,7 +24,7 @@ export const App = () => {
       <div className="sidebar">
         <NewMovie
           onAdd={(movie: Movie) => {
-            setMovies([...movies, movie]);
+            setMovies(prevMovies => [...prevMovies, movie]);
           }}
         />
       </div>
