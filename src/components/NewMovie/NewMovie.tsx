@@ -37,11 +37,15 @@ export const NewMovie = ({ onAdd }: Prop) => {
   }
 
   function validateFields() {
-    return allFieldsNotEmpty() && checkFormat(imgUrl) && checkFormat(imdbUrl);
+    return checkFormat(imgUrl) && checkFormat(imdbUrl);
   }
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    if (!validateFields()) {
+      return;
+    }
 
     const newMovie = {
       title,
@@ -107,7 +111,7 @@ export const NewMovie = ({ onAdd }: Prop) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!validateFields()}
+            disabled={!allFieldsNotEmpty()}
           >
             Add
           </button>
