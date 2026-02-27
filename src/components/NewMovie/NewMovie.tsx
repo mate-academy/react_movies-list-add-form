@@ -14,7 +14,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const pattern =
     /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.)))/;
 
-  const [disabled, setDisabled] = useState(true);
+  // const [disabled, setDisabled] = useState(true);
 
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -22,18 +22,22 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const disabledCheck = () => {
-    if (title && pattern.test(imgUrl) && pattern.test(imdbUrl) && imdbId) {
-      setDisabled(false);
-    }
-  };
+  const validForms =
+    title.trim() &&
+    pattern.test(imgUrl.trim()) &&
+    pattern.test(imdbUrl.trim()) &&
+    imdbId.trim();
+
+  // const disabledCheck = () => {
+  //   if (validForms) {
+  //     setDisabled(false);
+  //   }
+  // };
 
   function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
 
-    if (title && pattern.test(imgUrl) && pattern.test(imdbUrl) && imdbId) {
-      setDisabled(false);
-
+    if (validForms) {
       const movie = {
         title: title.trim(),
         description: description.trim(),
@@ -49,15 +53,16 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       setImgUrl('');
       setImdbUrl('');
       setImdbId('');
-      setDisabled(true);
-      setCount(c => c + 1);
-
-      return;
-    } else {
-      setDisabled(true);
+      // setDisabled(true);
+      setCount(currentCount => currentCount + 1);
 
       return;
     }
+    // else {
+    //   setDisabled(true);
+
+    //   return;
+    // }
   }
 
   return (
@@ -68,9 +73,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="title"
         label="Title"
         value={title}
-        onChange={e => {
-          setTitle(e);
-          disabledCheck();
+        onChange={value => {
+          setTitle(value);
+          // disabledCheck();
         }}
         required
         // error={hasTitleError}
@@ -80,9 +85,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={description}
-        onChange={e => {
-          setDescription(e);
-          disabledCheck();
+        onChange={value => {
+          setDescription(value);
+          // disabledCheck();
         }}
       />
 
@@ -90,9 +95,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={e => {
-          setImgUrl(e);
-          disabledCheck();
+        onChange={value => {
+          setImgUrl(value);
+          // disabledCheck();
         }}
         required
         // error={hasImgUrlError}
@@ -102,9 +107,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={e => {
-          setImdbUrl(e);
-          disabledCheck();
+        onChange={value => {
+          setImdbUrl(value);
+          // disabledCheck();
         }}
         required
         // error={hasImdbUrlError}
@@ -114,9 +119,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={e => {
-          setImdbId(e);
-          disabledCheck();
+        onChange={value => {
+          setImdbId(value);
+          // disabledCheck();
         }}
         required
         // error={hasImdbIdError}
@@ -128,7 +133,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={disabled}
+            disabled={!validForms}
           >
             Add
           </button>
