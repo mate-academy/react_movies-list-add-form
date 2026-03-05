@@ -8,7 +8,8 @@ type Props = {
   placeholder?: string;
   required?: boolean;
   onChange?: (newValue: string) => void;
-};
+  onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
+} & React.InputHTMLAttributes<HTMLInputElement>;
 
 function getRandomDigits() {
   return Math.random().toFixed(16).slice(2);
@@ -21,6 +22,8 @@ export const TextField: React.FC<Props> = ({
   placeholder = `Enter ${label}`,
   required = false,
   onChange = () => {},
+  onBlur,
+  ...restProps
 }) => {
   // generate a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
@@ -46,7 +49,11 @@ export const TextField: React.FC<Props> = ({
           placeholder={placeholder}
           value={value}
           onChange={event => onChange(event.target.value)}
-          onBlur={() => setTouched(true)}
+          onBlur={event => {
+            setTouched(true);
+            onBlur?.(event);
+          }}
+          {...restProps}
         />
       </div>
 
