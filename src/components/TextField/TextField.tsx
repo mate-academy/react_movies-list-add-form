@@ -36,12 +36,12 @@ export const TextField: React.FC<Props> = ({
   const hasError = touched && required && !value;
   const invalidUrl = !url && isUrl && value.length > 0;
   const pattern = new RegExp(
-  [
-    '^((([A-Za-z]{3,9}:(?:\\/\\/)?)(?:[-;:&=+$,\\w]+@)?[A-Za-z0-9.-]+',
-    '|(?:www\\.|[-;:&=+$,\\w]+@)[A-Za-z0-9.-]+)',
-    '((?:\\/[+~%/.\\w-_]*)?\\??(?:[-+=&;%@,.\\w_]*)#?(?:[,.!/\\\\\\w]*))?)$'
-  ].join('')
-);
+    [
+      '^((([A-Za-z]{3,9}:(?:\\/\\/)?)(?:[-;:&=+$,\\w]+@)?[A-Za-z0-9.-]+',
+      '|(?:www\\.|[-;:&=+$,\\w]+@)[A-Za-z0-9.-]+)',
+      '((?:\\/[+~%/.\\w-_]*)?\\??(?:[-+=&;%@,.\\w_]*)#?(?:[,.!/\\\\\\w]*))?)$',
+    ].join(''),
+  );
 
   function isValidUrl(newUrl: string) {
     return pattern.test(newUrl.trim());
