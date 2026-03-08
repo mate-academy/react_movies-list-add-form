@@ -7,9 +7,9 @@ type Props = {
   label?: string;
   placeholder?: string;
   required?: boolean;
-  url?: boolean;
+  isValid?: boolean;
   onChange?: (newValue: string) => void;
-  setUrl?: (value: boolean) => void;
+  setIsValid?: (value: boolean) => void;
 };
 
 function getRandomDigits() {
@@ -22,9 +22,9 @@ export const TextField: React.FC<Props> = ({
   label = name,
   placeholder = `Enter ${label}`,
   required = false,
-  url,
+  isValid: url,
   onChange = () => {},
-  setUrl = () => {},
+  setIsValid: setUrl = () => {},
 }) => {
   // generate a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);

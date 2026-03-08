@@ -23,7 +23,6 @@ export const NewMovie: React.FC<Props> = ({ onSubmit }) => {
 
   const activeButton =
     title.trim() &&
-    (description.trim() || !description) &&
     imgUrl.trim() &&
     imdbUrl.trim() &&
     imdbId.trim() &&
@@ -76,8 +75,8 @@ export const NewMovie: React.FC<Props> = ({ onSubmit }) => {
         onChange={event => {
           setImgUrl(event);
         }}
-        url={isValidImgUrl}
-        setUrl={setIsValidImgUrl}
+        isValid={isValidImgUrl}
+        setIsValid={setIsValidImgUrl}
         required
       />
 
@@ -88,8 +87,8 @@ export const NewMovie: React.FC<Props> = ({ onSubmit }) => {
         onChange={event => {
           setImdbUrl(event);
         }}
-        url={isValidImdbUrl}
-        setUrl={setIsValidImdbUrl}
+        isValid={isValidImdbUrl}
+        setIsValid={setIsValidImdbUrl}
         required
       />
 
