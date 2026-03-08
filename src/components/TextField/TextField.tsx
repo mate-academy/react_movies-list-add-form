@@ -1,17 +1,13 @@
 import classNames from 'classnames';
 import React, { useState } from 'react';
-
-type Props = {
-  name: string;
-  value: string;
-  label?: string;
-  placeholder?: string;
-  required?: boolean;
-  onChange?: (newValue: string) => void;
-};
+import { Field } from '../../types/Field';
 
 function getRandomDigits() {
   return Math.random().toFixed(16).slice(2);
+}
+
+interface Props extends Field {
+  error?: string;
 }
 
 export const TextField: React.FC<Props> = ({
@@ -19,15 +15,15 @@ export const TextField: React.FC<Props> = ({
   value,
   label = name,
   placeholder = `Enter ${label}`,
-  required = false,
   onChange = () => {},
+  error,
 }) => {
   // generate a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
   // To show errors only if the field was touched (onBlur)
   const [touched, setTouched] = useState(false);
-  const hasError = touched && required && !value;
+  const hasError = touched && error;
 
   return (
     <div className="field">
@@ -50,7 +46,7 @@ export const TextField: React.FC<Props> = ({
         />
       </div>
 
-      {hasError && <p className="help is-danger">{`${label} is required`}</p>}
+      {hasError && <p className="help is-danger">{error}</p>}
     </div>
   );
 };
