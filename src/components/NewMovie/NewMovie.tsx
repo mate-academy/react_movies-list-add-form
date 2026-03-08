@@ -21,9 +21,14 @@ export const NewMovie: React.FC<Props> = ({ onSubmit }) => {
 
   const [imdbId, setImdbId] = useState('');
 
-  const activeButton = true
-    ? title && imgUrl && imdbUrl && imdbId && isValidImgUrl && isValidImdbUrl
-    : false;
+  const activeButton =
+    title.trim() &&
+    (description.trim() || !description) &&
+    imgUrl.trim() &&
+    imdbUrl.trim() &&
+    imdbId.trim() &&
+    isValidImgUrl &&
+    isValidImdbUrl;
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -33,22 +38,16 @@ export const NewMovie: React.FC<Props> = ({ onSubmit }) => {
 
     setCount(count + 1);
     onSubmit({
-      title: title.trim(),
-      description: description.trim(),
-      imgUrl: imgUrl.trim(),
-      imdbUrl: imdbUrl.trim(),
-      imdbId: imdbId.trim(),
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
     });
   }
 
   return (
-    <form
-      className="NewMovie"
-      key={count}
-      onSubmit={event => {
-        handleSubmit(event);
-      }}
-    >
+    <form className="NewMovie" key={count} onSubmit={handleSubmit}>
       <h2 className="title">Add a movie</h2>
 
       <TextField
@@ -107,7 +106,7 @@ export const NewMovie: React.FC<Props> = ({ onSubmit }) => {
       <div className="field is-grouped">
         <div className="control">
           <button
-            disabled={!activeButton ? true : false}
+            disabled={!activeButton}
             type="submit"
             data-cy="submit-button"
             className="button is-link"

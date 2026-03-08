@@ -31,7 +31,7 @@ export const TextField: React.FC<Props> = ({
 
   // To show errors only if the field was touched (onBlur)
   const [touched, setTouched] = useState(false);
-  const isUrl = true ? name === 'imgUrl' || name === 'imdbUrl' : false;
+  const isUrl = name === 'imgUrl' || name === 'imdbUrl';
 
   const hasError = touched && required && !value;
   const invalidUrl = !url && isUrl && value.length > 0;
@@ -48,11 +48,14 @@ export const TextField: React.FC<Props> = ({
   }
 
   const handleClickInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-    onChange(event.target.value);
-    if (isUrl) {
-      if (isValidUrl(event.target.value.trim())) {
-        setUrl(true);
-      }
+    const val = event.target.value;
+
+    onChange(val);
+
+    if (isUrl && setUrl) {
+      const trimmed = val.trim();
+
+      setUrl(isValidUrl(trimmed));
     }
   };
 
