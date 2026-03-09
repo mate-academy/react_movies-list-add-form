@@ -13,12 +13,12 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
   const [movieTitle, setMovieTitle] = useState('');
   const [movieDescription, setMovieDescription] = useState('');
   const [movieImgUrl, setMovieImgUrl] = useState('');
-  const [movieImdbUrl, setMovieImbdUrl] = useState('');
-  const [movieImdbId, setMovieImbdId] = useState('');
+  const [movieImdbUrl, setMovieImdbUrl] = useState('');
+  const [movieImdbId, setMovieImdbId] = useState('');
 
   const isFormValid = () =>
     [movieTitle, movieImgUrl, movieImdbUrl, movieImdbId].every(
-      s => s.trim() !== '',
+      fieldValue => fieldValue.trim() !== '',
     );
 
   return (
@@ -45,9 +45,9 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
         setMovieTitle('');
         setMovieDescription('');
         setMovieImgUrl('');
-        setMovieImbdUrl('');
-        setMovieImbdId('');
-        setCount(c => c + 1);
+        setMovieImdbUrl('');
+        setMovieImdbId('');
+        setCount(currentCount => currentCount + 1);
       }}
     >
       <h2 className="title">Add a movie</h2>
@@ -86,7 +86,7 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
         label="Imdb URL"
         value={movieImdbUrl}
         onChange={eventValue => {
-          setMovieImbdUrl(eventValue);
+          setMovieImdbUrl(eventValue);
         }}
         required
       />
@@ -96,7 +96,7 @@ export const NewMovie: React.FC<NewMovieProps> = ({ onAdd }) => {
         label="Imdb ID"
         value={movieImdbId}
         onChange={eventValue => {
-          setMovieImbdId(eventValue);
+          setMovieImdbId(eventValue);
         }}
         required
       />
