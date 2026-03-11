@@ -19,22 +19,16 @@ export const NewMovie = ({ onAdd }: NewMovieProps) => {
   const isFormInvalid =
     !title.trim() || !imgUrl.trim() || !imdbUrl.trim() || !imdbId.trim();
 
-  const hendelSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!title.trim() || !imgUrl.trim() || !imdbUrl.trim()) {
-      return;
-    }
-
-    const movId: string = imdbUrl.split('/')[imdbUrl.split('/').length - 2];
-
     const newMovie = {
-      // id: ...
+      id: Date.now(),
       title: title,
       description: description,
       imgUrl: imgUrl,
       imdbUrl: imdbUrl,
-      imdbId: movId,
+      imdbId: imdbId,
     };
 
     onAdd(newMovie);
@@ -52,7 +46,7 @@ export const NewMovie = ({ onAdd }: NewMovieProps) => {
   };
 
   return (
-    <form className="NewMovie" key={count} onSubmit={hendelSubmit}>
+    <form className="NewMovie" key={count} onSubmit={handleSubmit}>
       <h2 className="title">Add a movie</h2>
 
       <TextField
