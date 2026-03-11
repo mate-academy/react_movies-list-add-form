@@ -45,27 +45,34 @@ export const NewMovie = ({ onAdd }: NewMovieProps) => {
   );
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
+
     let hasErrors = false;
 
-    if (!title) {
-      hasErrors = true;
-      setIsTitleValid(false);
-    }
+    const fieldsToValidate = [
+      {
+        isValid: Boolean(title.trim()),
+        setIsValid: setIsTitleValid,
+      },
+      {
+        isValid: Boolean(imgUrl.trim()) && pattern.test(imgUrl),
+        setIsValid: setIsImgUrlValid,
+      },
+      {
+        isValid: Boolean(imdbUrl.trim()) && pattern.test(imdbUrl),
+        setIsValid: setIsImdbUrlValid,
+      },
+      {
+        isValid: Boolean(imdbId.trim()),
+        setIsValid: setIsImdbIdValid,
+      },
+    ];
 
-    if (!imgUrl || !pattern.test(imgUrl)) {
-      hasErrors = true;
-      setIsImgUrlValid(false);
-    }
-
-    if (!imdbUrl || !pattern.test(imdbUrl)) {
-      hasErrors = true;
-      setIsImdbUrlValid(false);
-    }
-
-    if (!imdbId) {
-      hasErrors = true;
-      setIsImdbIdValid(false);
-    }
+    fieldsToValidate.forEach(({ isValid, setIsValid }) => {
+      if (!isValid) {
+        hasErrors = true;
+        setIsValid(false);
+      }
+    });
 
     if (hasErrors) {
       return;
@@ -78,10 +85,6 @@ export const NewMovie = ({ onAdd }: NewMovieProps) => {
       imdbUrl,
       imdbId,
     });
-    setIsImgUrlValid(true);
-    setIsImdbUrlValid(true);
-    setIsImdbIdValid(true);
-    setIsTitleValid(true);
 
     setCount(count + 1);
   };
@@ -101,9 +104,7 @@ export const NewMovie = ({ onAdd }: NewMovieProps) => {
         name="title"
         label="Title"
         value={title}
-        onChange={event => {
-          handleValueChange(event);
-        }}
+        onChange={event => handleValueChange(event)}
         required
         isValid={isTitleValid}
       />
