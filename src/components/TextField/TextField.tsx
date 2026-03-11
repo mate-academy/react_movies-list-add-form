@@ -53,7 +53,9 @@ export const TextField: React.FC<Props> = ({
         />
       </div>
 
-      {hasError && <p className="help is-danger">{`${label} is required`}</p>}
+      {hasError && (
+        <p className="help is-danger">{`${value} ? ${label} is incorrect : ${label} is required`}</p>
+      )}
     </div>
   );
 };
