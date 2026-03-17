@@ -1,13 +1,6 @@
 import { useState } from 'react';
 import { TextField } from '../TextField';
-
-type Movie = {
-  title: string;
-  description: string;
-  imgUrl: string;
-  imdbUrl: string;
-  imdbId: string;
-};
+import { Movie } from '../../types/Movie';
 
 type Props = {
   onAdd?: (movie: Movie) => void;
@@ -31,8 +24,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     imdbId.trim()
   );
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
 
     if (!isFormValid) {
       return;
