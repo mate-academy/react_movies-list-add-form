@@ -15,7 +15,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imgUrl, setImgUrl] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
-  const [description, setDescriprion] = useState('');
+  const [description, setDescription] = useState('');
 
   const isFormValid = !!(
     title.trim() &&
@@ -60,7 +60,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={description}
-        onChange={setDescriprion}
+        onChange={setDescription}
       />
 
       <TextField
