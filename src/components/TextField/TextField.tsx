@@ -19,7 +19,7 @@ export const TextField: React.FC<Props> = ({
   value,
   label = name,
   placeholder = `Enter ${label}`,
-  required = false,
+  required = name !== 'description' && true,
   onChange = () => {},
 }) => {
   // generate a unique id once on component load
@@ -46,7 +46,7 @@ export const TextField: React.FC<Props> = ({
           placeholder={placeholder}
           value={value}
           onChange={event => onChange(event.target.value)}
-          onBlur={() => setTouched(true)}
+          onBlur={() => setTouched(!value.trim())}
         />
       </div>
 
