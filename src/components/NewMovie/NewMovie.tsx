@@ -9,7 +9,7 @@ type Props = {
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
-  const [count] = useState(0);
+  const [count, setCount] = useState(0);
 
   const [titleBody, setTitleBody] = useState('');
   const [descriptionBody, setDescriptionBody] = useState('');
@@ -21,11 +21,11 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     event.preventDefault();
 
     if (
-      !titleBody &&
-      !descriptionBody &&
-      !imgUrlBody &&
-      !imdbUrlBody &&
-      !imdbIdBody
+      !titleBody.trim() &&
+      !descriptionBody.trim() &&
+      !imgUrlBody.trim() &&
+      !imdbUrlBody.trim() &&
+      !imdbIdBody.trim()
     ) {
       return;
     }
@@ -43,6 +43,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setImgUrlBody('');
     setImdbUrlBody('');
     setImdbIdBody('');
+
+    setCount(count + 1);
   };
 
   return (
@@ -91,12 +93,11 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             data-cy="submit-button"
             className="button is-link"
             disabled={
-              !(
-                titleBody.trim() &&
-                imgUrlBody.trim() &&
-                imdbUrlBody.trim() &&
-                imdbIdBody.trim()
-              )
+              !titleBody.trim() &&
+              !descriptionBody.trim() &&
+              !imgUrlBody.trim() &&
+              !imdbUrlBody.trim() &&
+              !imdbIdBody.trim()
             }
           >
             Add
