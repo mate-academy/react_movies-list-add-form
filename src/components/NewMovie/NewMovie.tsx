@@ -21,10 +21,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     event.preventDefault();
 
     if (
-      !titleBody.trim() &&
-      !descriptionBody.trim() &&
-      !imgUrlBody.trim() &&
-      !imdbUrlBody.trim() &&
+      !titleBody.trim() ||
+      !imgUrlBody.trim() ||
+      !imdbUrlBody.trim() ||
       !imdbIdBody.trim()
     ) {
       return;
@@ -93,10 +92,9 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             data-cy="submit-button"
             className="button is-link"
             disabled={
-              !titleBody.trim() &&
-              !descriptionBody.trim() &&
-              !imgUrlBody.trim() &&
-              !imdbUrlBody.trim() &&
+              !titleBody.trim() ||
+              !imgUrlBody.trim() ||
+              !imdbUrlBody.trim() ||
               !imdbIdBody.trim()
             }
           >
