@@ -14,6 +14,16 @@ If you want to test your page you can get the first image from a [movie page](ht
 1. Errors should not be shown after clearing the form (change its key to
 reinitialize the form);
 
+Компонент NewMovie повинен перевіряти, чи заповнені поля title, imgUrl, imdbUrl та imdbId при втраті фокусу вхідним полем (onBlur). Якщо будь-яке з цих полів порожнє, він повинен відображати повідомлення про помилку та застосовувати червоний контур, щоб вказати на проблему. Ця функціональність вже реалізована в TextField, тому ви можете звернутися до неї для отримання інформації про те, як вона працює. Не потрібно реалізувати цю частину в цьому завданні;
+
+Поле description є необов'язковим;
+
+Відключити кнопку відправки, поки всі необхідні поля не будуть заповнені (пробіли потрібно видалити);
+
+Очистити форму після додавання нової фільму.
+
+Помилки не повинні відображатися після очищення форми (змінити ключ, щоб перезапустити форму);
+
 ## (Optional) Advanced validation
 Implement the ability to add custom validation callback to the `TextField`.
 Check if `imgUrl` and `imdbUrl` are valid URLs (you can use the next regex)
@@ -27,4 +37,4 @@ const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(
 - Implement a solution following the [React task guideline](https://github.com/mate-academy/react_task-guideline#react-tasks-guideline).
 - Use the [React TypeScript cheat sheet](https://mate-academy.github.io/fe-program/js/extra/react-typescript).
 - Open one more terminal and run tests with `npm test` to ensure your solution is correct.
-- Replace `<your_account>` with your Github username in the [DEMO LINK](https://<your_account>.github.io/react_movies-list-add-form/) and add it to the PR description.
+- Replace `<your_account>` with your Github username in the [DEMO LINK](https://NemH.github.io/react_movies-list-add-form/) and add it to the PR description.
