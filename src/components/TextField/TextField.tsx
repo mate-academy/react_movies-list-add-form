@@ -35,12 +35,12 @@ export const TextField: React.FC<Props> = ({
         {label}
       </label>
 
-      <div className="control">
+      <div className="control has-icons-right">
         <input
           type="text"
           id={id}
           data-cy={`movie-${name}`}
-          className={classNames('input', {
+          className={classNames('input is-primary', {
             'is-danger': hasError,
           })}
           placeholder={placeholder}
@@ -48,6 +48,12 @@ export const TextField: React.FC<Props> = ({
           onChange={event => onChange(event.target.value)}
           onBlur={() => setTouched(true)}
         />
+
+        {hasError && (
+          <span className="icon is-right">
+            <i className="fas fa-exclamation-triangle has-text-danger"></i>
+          </span>
+        )}
       </div>
 
       {hasError && <p className="help is-danger">{`${label} is required`}</p>}
