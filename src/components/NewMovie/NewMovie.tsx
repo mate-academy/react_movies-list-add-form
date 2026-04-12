@@ -28,12 +28,11 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       setImdbId,
     ];
 
-    allSetFields.forEach(el => el(''));
+    allSetFields.forEach(setField => setField(''));
   };
 
   const onSumbit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    reset();
 
     const newMovie: Movie = {
       title: title.trim(),
@@ -44,6 +43,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     };
 
     onAdd(newMovie);
+    reset();
     setCount(prev => prev + 1);
   };
 
