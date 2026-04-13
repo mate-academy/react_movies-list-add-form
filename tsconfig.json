@@ -4,6 +4,9 @@
     "src"
   ],
   "compilerOptions": {
-    "sourceMap": false
+    "sourceMap": false,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true
   }
 }
