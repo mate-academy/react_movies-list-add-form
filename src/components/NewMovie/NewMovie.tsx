@@ -24,10 +24,10 @@ export const NewMovie = ({ onAdd }: NewMovieProps) => {
     values.imgUrl,
     values.imdbUrl,
     values.imdbId,
-  ].every(v => v.trim() !== '');
+  ].every(value => value.trim() !== '');
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
 
     if (!allRequiredFilled) {
       return;
