@@ -4,7 +4,7 @@ import './MoviesList.scss';
 import { MovieCard } from '../MovieCard';
 import { Movie } from '../../types/Movie';
 
-interface Props {
+export interface Props {
   movies: Movie[];
 }
 
