@@ -26,9 +26,7 @@ export const NewMovie = ({ onAdd }: Props) => {
     !data.title.trim() ||
     !data.imgUrl.trim() ||
     !data.imdbUrl.trim() ||
-    !data.imdbId.trim() ||
-    !pattern.test(data.imgUrl) ||
-    !pattern.test(data.imdbUrl);
+    !data.imdbId.trim();
 
   function reset() {
     setData({
@@ -42,7 +40,11 @@ export const NewMovie = ({ onAdd }: Props) => {
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    if (isFormInvalid) {
+    if (
+      isFormInvalid ||
+      !pattern.test(data.imgUrl) ||
+      !pattern.test(data.imdbUrl)
+    ) {
       return;
     }
 
@@ -81,6 +83,7 @@ export const NewMovie = ({ onAdd }: Props) => {
         onChange={value => {
           setData(prev => ({ ...prev, imgUrl: value }));
         }}
+        validate={value => pattern.test(value)}
         required
       />
 
@@ -91,6 +94,7 @@ export const NewMovie = ({ onAdd }: Props) => {
         onChange={value => {
           setData(prev => ({ ...prev, imdbUrl: value }));
         }}
+        validate={value => pattern.test(value)}
         required
       />
 
