@@ -1,6 +1,10 @@
 import { useState, useRef, type FormEvent, useCallback } from 'react';
 import { TextField } from '../TextField';
 
+interface NewMovieProp {
+  onAdd(): void;
+}
+
 type InputTypes = 'title' | 'description' | 'imgUrl' | 'imdbUrl' | 'imdbId';
 
 const trimStr = (value: string) => value.trim();
@@ -12,7 +16,7 @@ const fallbackFormData: Record<InputTypes, string> = {
   imdbId: '',
 };
 
-export const NewMovie = () => {
+export const NewMovie = ({ onAdd }: NewMovieProp) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
   const formRef = useRef<HTMLFormElement>(null);
@@ -29,6 +33,7 @@ export const NewMovie = () => {
   const handleOnSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setCount(preveCount => preveCount + 1);
+    onAdd();
     setFormData(() => ({ ...fallbackFormData }));
   };
 
