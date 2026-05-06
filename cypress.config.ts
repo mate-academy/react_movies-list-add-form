@@ -21,6 +21,14 @@ module.exports = defineConfig({
     devServer: {
       framework: 'react',
       bundler: 'vite',
+      // Reuse the app Vite config so CT does not treat config as "changed" vs the
+      // e2e dev server and re-optimize deps while the browser already loads specs.
+      // That race often surfaces as: Failed to fetch dynamically imported module …/component.ts
+      async viteConfig() {
+        const { default: userConfig } = await import('./vite.config');
+
+        return userConfig;
+      },
     },
   },
 });

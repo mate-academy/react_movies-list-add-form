@@ -7,7 +7,7 @@ interface NewMovieProp {
 
 type InputTypes = 'title' | 'description' | 'imgUrl' | 'imdbUrl' | 'imdbId';
 
-type MovieFormType = Record<InputTypes, string>;
+export type MovieFormType = Record<InputTypes, string>;
 
 const trimStr = (value: string) => value.trim();
 const fallbackFormData: MovieFormType = {
