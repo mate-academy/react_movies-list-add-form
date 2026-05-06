@@ -2,13 +2,15 @@ import { useState, useRef, type FormEvent, useCallback } from 'react';
 import { TextField } from '../TextField';
 
 interface NewMovieProp {
-  onAdd(): void;
+  onAdd(data: MovieFormType): void;
 }
 
 type InputTypes = 'title' | 'description' | 'imgUrl' | 'imdbUrl' | 'imdbId';
 
+type MovieFormType = Record<InputTypes, string>;
+
 const trimStr = (value: string) => value.trim();
-const fallbackFormData: Record<InputTypes, string> = {
+const fallbackFormData: MovieFormType = {
   title: '',
   description: '',
   imgUrl: '',
@@ -21,8 +23,7 @@ export const NewMovie = ({ onAdd }: NewMovieProp) => {
   // to reset touched status of all the `Field`s
   const formRef = useRef<HTMLFormElement>(null);
   const [count, setCount] = useState(0);
-  const [formData, setFormData] =
-    useState<Record<InputTypes, string>>(fallbackFormData);
+  const [formData, setFormData] = useState<MovieFormType>(fallbackFormData);
 
   const isDisabled =
     !trimStr(formData.title) ||
@@ -33,7 +34,7 @@ export const NewMovie = ({ onAdd }: NewMovieProp) => {
   const handleOnSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setCount(preveCount => preveCount + 1);
-    onAdd();
+    onAdd(formData);
     setFormData(() => ({ ...fallbackFormData }));
   };
 
