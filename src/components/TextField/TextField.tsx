@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 type Props = {
   name: string;
@@ -8,26 +8,38 @@ type Props = {
   placeholder?: string;
   required?: boolean;
   onChange?: (newValue: string) => void;
+  validate?: (value: string) => string | null;
 };
 
 function getRandomDigits() {
   return Math.random().toFixed(16).slice(2);
 }
 
-export const TextField: React.FC<Props> = ({
+export const TextField = ({
   name,
   value,
   label = name,
   placeholder = `Enter ${label}`,
   required = false,
   onChange = () => {},
-}) => {
+  validate,
+}: Props) => {
   // generate a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
   // To show errors only if the field was touched (onBlur)
   const [touched, setTouched] = useState(false);
-  const hasError = touched && required && !value;
+  const validationError = validate?.(value);
+
+  let errorMessage = '';
+
+  if (touched) {
+    if (required && !value) {
+      errorMessage = `${label} is required`;
+    } else if (validationError) {
+      errorMessage = `${label} ${validationError}`;
+    }
+  }
 
   return (
     <div className="field">
@@ -41,7 +53,7 @@ export const TextField: React.FC<Props> = ({
           id={id}
           data-cy={`movie-${name}`}
           className={classNames('input', {
-            'is-danger': hasError,
+            'is-danger': Boolean(errorMessage),
           })}
           placeholder={placeholder}
           value={value}
@@ -50,7 +62,9 @@ export const TextField: React.FC<Props> = ({
         />
       </div>
 
-      {hasError && <p className="help is-danger">{`${label} is required`}</p>}
+      {Boolean(errorMessage) && (
+        <p className="help is-danger">{errorMessage}</p>
+      )}
     </div>
   );
 };
