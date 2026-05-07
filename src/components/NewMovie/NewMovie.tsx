@@ -16,10 +16,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const isRequiredFieldsFills: boolean = Boolean(
-    title && imgUrl && imdbUrl && imdbId,
-  );
-
   const reset = () => {
     setTitle('');
     setDescription('');
@@ -44,6 +40,13 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
     reset();
   };
+
+  const isRequiredFieldsFills: boolean = Boolean(
+    handleTrim(title) &&
+      handleTrim(imgUrl) &&
+      handleTrim(imdbUrl) &&
+      handleTrim(imdbId),
+  );
 
   return (
     <form className="NewMovie" key={count} onSubmit={handleSubmit}>
