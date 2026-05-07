@@ -23,7 +23,7 @@ export const NewMovie = ({ onAdd }: Props) => {
   const isFormValid = Boolean(
     movie.title.trim() &&
       movie.imgUrl.trim().match(pattern) &&
-      movie.imdbUrl.trim() &&
+      movie.imdbUrl.trim().match(pattern) &&
       movie.imdbId.trim(),
   );
 
