@@ -2,38 +2,12 @@ import { useState } from 'react';
 import { TextField } from '../TextField';
 
 export const NewMovie = ({ onAdd }) => {
-
   const [title, setTitle] = useState('');
   const [imgUrl, setImgUrl] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
   const [description, setDescription] = useState('');
-
-  const [hasTitleError, setHasTitleError] = useState(false);
-  const [hasImgUrlError, setHasImgUrlError] = useState(false);
-  const [hasImdbUrlError, setHasImdbUrlError] = useState(false);
-  const [hasImdbIdError, setHasImdbIdError] = useState(false);
   const [count, setCount] = useState(0);
-
-  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(event.target.value);
-    setHasTitleError(false);
-  };
-
-  const handleImgUrlChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setImgUrl(event.target.value);
-    setHasImgUrlError(false);
-  };
-
-  const handleImdbUrlChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setImdbUrl(event.target.value);
-    setHasImdbUrlError(false);
-  };
-
-  const handleImdbIdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setImdbId(event.target.value);
-    setHasImdbIdError(false);
-  };
 
   const newMovie = {
     title,
@@ -49,45 +23,20 @@ export const NewMovie = ({ onAdd }) => {
     setImgUrl('');
     setImdbUrl('');
     setImdbId('');
-    setHasTitleError(false);
-    setHasImgUrlError(false);
-    setHasImdbUrlError(false);
-    setHasImdbIdError(false);
     setCount(prev => prev + 1);
   };
+
+  const isFormValid =
+    title.trim() && imgUrl.trim() && imdbUrl.trim() && imdbId.trim();
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (!title) {
-      setHasTitleError(true);
-
-      return;
-    }
-
-    if (!imgUrl) {
-      setHasImgUrlError(true);
-
-      return;
-    }
-
-    if (!imdbUrl) {
-      setHasImdbUrlError(true);
-
-      return;
-    }
-
-    if (!imdbId) {
-      setHasImdbIdError(true);
-
-      return;
-    }
+    if (!isFormValid) return;
 
     onAdd(newMovie);
     resetForm();
   };
-
-  const isFormValid = title && imgUrl && imdbUrl && imdbId;
 
   return (
     <form className="NewMovie" key={count} onSubmit={handleSubmit}>
@@ -97,44 +46,40 @@ export const NewMovie = ({ onAdd }) => {
         name="title"
         label="Title"
         value={title}
-        onChange={handleTitleChange}
+        onChange={setTitle}
         required
       />
-      {hasTitleError && <p className="error">Title is required`</p>}
 
       <TextField
         name="description"
         label="Description"
         value={description}
-        onChange={event => setDescription(event.target.value)}
+        onChange={setDescription}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={handleImgUrlChange}
+        onChange={setImgUrl}
         required
       />
-      {hasImgUrlError && <p className="error">ImgUrl is required`</p>}
 
       <TextField
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={handleImdbUrlChange}
+        onChange={setImdbUrl}
         required
       />
-      {hasImdbUrlError && <p className="error">ImdbUrl is required`</p>}
 
       <TextField
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={handleImdbIdChange}
+        onChange={setImdbId}
         required
       />
-      {hasImdbIdError && <p className="error">ImdbId is required`</p>}
 
       <div className="field is-grouped">
         <div className="control">
