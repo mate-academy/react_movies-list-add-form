@@ -39,8 +39,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     URL_PATTERN.test(form.imgUrl) &&
     URL_PATTERN.test(form.imdbUrl);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
 
     if (!isFormValid) {
       return;
