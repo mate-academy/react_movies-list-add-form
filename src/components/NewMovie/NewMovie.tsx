@@ -42,6 +42,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setTitle('');
     setDescription('');
     setImgUrl('');
+
     setImdbUrl('');
     setImdbId('');
 
