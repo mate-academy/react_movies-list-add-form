@@ -7,9 +7,9 @@ import { useState } from 'react';
 export const App = () => {
   const [movies, setMovies] = useState(moviesFromServer);
 
-  const handleAdd = (movie) => {
-    setMovies([...movies, movie])
-  }
+  const handleAdd = movie => {
+    setMovies([...movies, movie]);
+  };
 
   return (
     <div className="page">

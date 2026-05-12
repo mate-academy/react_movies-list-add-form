@@ -3,7 +3,7 @@ import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
 interface Props {
-  onAdd: (movie: Movie) => void
+  onAdd: (movie: Movie) => void;
 }
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
@@ -14,25 +14,22 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbId, setmdbId] = useState('');
 
   const [count, setCount] = useState(0);
-  const isValid = title.trim() && imgUrl.trim() && imdbUrl.trim() && imdbId.trim();
+  const isValid =
+    title.trim() && imgUrl.trim() && imdbUrl.trim() && imdbId.trim();
 
-  const habdleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    onAdd({ title, imgUrl, description, imdbUrl, imdbId })
-    setCount(count + 1)
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    onAdd({ title, imgUrl, description, imdbUrl, imdbId });
+    setCount(count + 1);
     setTitle('');
-    setImgUrl('')
-    setDescription('')
-    setImdbUrl('')
-    setmdbId('')
-  }
+    setImgUrl('');
+    setDescription('');
+    setImdbUrl('');
+    setmdbId('');
+  };
 
   return (
-    <form
-      className="NewMovie"
-      key={count}
-      onSubmit={habdleSubmit}
-      >
+    <form className="NewMovie" key={count} onSubmit={handleSubmit}>
       <h2 className="title">Add a movie</h2>
 
       <TextField
@@ -48,7 +45,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Description"
         value={description}
         onChange={setDescription}
-        required
       />
 
       <TextField
