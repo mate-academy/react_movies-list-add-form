@@ -42,14 +42,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    setTitle('');
-    setDescription('');
-    setimgURL('');
-    setimdbUrl('');
-    setimdbId('');
-
-    setCount(currentCount => currentCount + 1);
-
     const newMovie = {
       title,
       description,
@@ -59,6 +51,13 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     };
 
     onAdd(newMovie);
+    setTitle('');
+    setDescription('');
+    setimgURL('');
+    setimdbUrl('');
+    setimdbId('');
+
+    setCount(currentCount => currentCount + 1);
   };
 
   return (
