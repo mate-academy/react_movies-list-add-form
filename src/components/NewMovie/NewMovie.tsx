@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { TextField } from '../TextField';
+import { Movie } from '../../types/Movie';
 
 type Props = {
-  onAdd: () => void;
+  onAdd: (movie: Movie) => void;
 };
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
