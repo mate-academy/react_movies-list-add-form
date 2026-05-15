@@ -5,17 +5,29 @@ import { Movie } from '../../types/Movie';
 type NewMovieProps = {
   onAdd: (movie: Movie) => void;
 };
+
+const initialFormData: Movie = {
+  title: '',
+  description: '',
+  imgUrl: '',
+  imdbUrl: '',
+  imdbId: '',
+};
+
+const pattern =
+  // eslint-disable-next-line max-len
+  /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
+
+const createUrlValidator = (label: string) => (value: string) => {
+  return pattern.test(value) ? '' : `${label} is not valid`;
+};
+
 export const NewMovie = ({ onAdd }: NewMovieProps) => {
   const [count, setCount] = useState(0);
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [imdbUrl, setImdbUrl] = useState('');
-  const [imdbId, setImdbId] = useState('');
+  const [formData, setFormData] = useState(initialFormData);
 
-  const pattern =
-    // eslint-disable-next-line max-len
-    /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
+  const { title, description, imgUrl, imdbUrl, imdbId } = formData;
+
   const isImageUrlValid = pattern.test(imgUrl.trim());
   const isImdbUrlValid = pattern.test(imdbUrl.trim());
 
@@ -44,16 +56,15 @@ export const NewMovie = ({ onAdd }: NewMovieProps) => {
 
     onAdd(movie);
 
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
+    setFormData(initialFormData);
     setCount(currentCount => currentCount + 1);
   };
 
-  const validateUrl = (label: string) => (value: string) => {
-    return pattern.test(value) ? '' : `${label} is not valid`;
+  const handleFieldChange = (field: keyof Movie) => (value: string) => {
+    setFormData(currentFormData => ({
+      ...currentFormData,
+      [field]: value,
+    }));
   };
 
   return (
@@ -65,14 +76,14 @@ export const NewMovie = ({ onAdd }: NewMovieProps) => {
         name="title"
         label="Title"
         value={title}
-        onChange={setTitle}
+        onChange={handleFieldChange('title')}
       />
 
       <TextField
         name="description"
         label="Description"
         value={description}
-        onChange={setDescription}
+        onChange={handleFieldChange('description')}
       />
 
       <TextField
@@ -80,8 +91,8 @@ export const NewMovie = ({ onAdd }: NewMovieProps) => {
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={setImgUrl}
-        validate={validateUrl('Image URL')}
+        onChange={handleFieldChange('imgUrl')}
+        validate={createUrlValidator('Image URL')}
       />
 
       <TextField
@@ -89,8 +100,8 @@ export const NewMovie = ({ onAdd }: NewMovieProps) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={setImdbUrl}
-        validate={validateUrl('Imdb URL')}
+        onChange={handleFieldChange('imdbUrl')}
+        validate={createUrlValidator('Imdb URL')}
       />
 
       <TextField
@@ -98,7 +109,7 @@ export const NewMovie = ({ onAdd }: NewMovieProps) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={setImdbId}
+        onChange={handleFieldChange('imdbId')}
       />
 
       <div className="field is-grouped">
