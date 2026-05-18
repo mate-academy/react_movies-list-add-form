@@ -32,10 +32,11 @@ export const TextField: React.FC<Props> = ({
 
   const isRequiredEmpty = required && !value.trim();
   const isCustomInvalid = !!validate && !value.trim() && !validate(value);
+
   const hasError = touched && (isRequiredEmpty || isCustomInvalid);
 
   const errorMessage = isCustomInvalid
-    ? 'Please entre a valid URL'
+    ? 'Please enter a valid URL'
     : `${label} is required`;
 
   return (
