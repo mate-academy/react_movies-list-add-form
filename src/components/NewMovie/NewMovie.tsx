@@ -67,21 +67,21 @@ export const NewMovie = ({ onAdd }: Props) => {
         name="title"
         label="Title"
         value={title}
-        onChange={e => setTitle(e.trimStart())}
+        onChange={event => setTitle(event.trim())}
         required
       />
       <TextField
         name="description"
         label="Description"
         value={description}
-        onChange={e => setDescription(e.trimStart())}
+        onChange={event => setDescription(event.trim())}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={imageUrl}
-        onChange={e => setImageUrl(e.trimStart())}
+        onChange={event => setImageUrl(event.trim())}
         required
       />
 
@@ -89,7 +89,7 @@ export const NewMovie = ({ onAdd }: Props) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={e => setImdbUrl(e.trimStart())}
+        onChange={event => setImdbUrl(event.trim())}
         required
       />
 
@@ -97,9 +97,15 @@ export const NewMovie = ({ onAdd }: Props) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={e => setImdId(e.trimStart())}
+        onChange={event => setImdId(event.trim())}
         required
       />
+
+      <select
+       name=""
+       id="">
+       <option value=""></option> 
+      </select>
 
       <div className="field is-grouped">
         <div className="control">
