@@ -19,11 +19,11 @@ export const NewMovie = ({ onAdd }: Props) => {
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     onAdd({
-      title: title,
-      description: description,
-      imdbId: imdbId,
-      imdbUrl: imdbUrl,
-      imgUrl: imageUrl,
+      title: title.trim(),
+      description: description.trim(),
+      imdbId: imdbId.trim(),
+      imdbUrl: imdbUrl.trim(),
+      imgUrl: imageUrl.trim(),
     });
     setTitle('');
     setDescription('');
@@ -34,19 +34,19 @@ export const NewMovie = ({ onAdd }: Props) => {
   }
 
   const getButtonActive = () => {
-    if (!title) {
+    if (!title.trim()) {
       return false;
     }
 
-    if (!imageUrl) {
+    if (!imageUrl.trim()) {
       return false;
     }
 
-    if (!imdbUrl) {
+    if (!imdbUrl.trim()) {
       return false;
     }
 
-    if (!imdbId) {
+    if (!imdbId.trim()) {
       return false;
     }
 
@@ -67,21 +67,21 @@ export const NewMovie = ({ onAdd }: Props) => {
         name="title"
         label="Title"
         value={title}
-        onChange={event => setTitle(event.trim())}
+        onChange={setTitle}
         required
       />
       <TextField
         name="description"
         label="Description"
         value={description}
-        onChange={event => setDescription(event.trim())}
+        onChange={setDescription}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={imageUrl}
-        onChange={event => setImageUrl(event.trim())}
+        onChange={setImageUrl}
         required
       />
 
@@ -89,7 +89,7 @@ export const NewMovie = ({ onAdd }: Props) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={event => setImdbUrl(event.trim())}
+        onChange={setImdbUrl}
         required
       />
 
@@ -97,14 +97,12 @@ export const NewMovie = ({ onAdd }: Props) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={event => setImdId(event.trim())}
+        onChange={setImdId}
         required
       />
 
-      <select
-       name=""
-       id="">
-       <option value=""></option> 
+      <select name="" id="">
+        <option value=""></option>
       </select>
 
       <div className="field is-grouped">
