@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { FC, useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
@@ -6,7 +6,7 @@ type Props = {
   onAdd: (movie: Movie) => void;
 };
 
-export const NewMovie: React.FC<Props> = ({ onAdd = () => {} }) => {
+export const NewMovie: FC<Props> = ({ onAdd = () => {} }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
@@ -45,14 +45,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd = () => {} }) => {
         label="Title"
         value={title}
         required
-        onChange={event => setTitle(event)}
+        onChange={setTitle}
       />
 
       <TextField
         name="description"
         label="Description"
         value={description}
-        onChange={event => setDescription(event)}
+        onChange={setDescription}
       />
 
       <TextField
@@ -60,7 +60,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd = () => {} }) => {
         label="Image URL"
         value={imgUrl}
         required
-        onChange={event => setImgUrl(event)}
+        onChange={setImgUrl}
       />
 
       <TextField
@@ -68,7 +68,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd = () => {} }) => {
         label="Imdb URL"
         value={imdbUrl}
         required
-        onChange={event => setImdbUrl(event)}
+        onChange={setImdbUrl}
       />
 
       <TextField
@@ -76,7 +76,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd = () => {} }) => {
         label="Imdb ID"
         value={imdbId}
         required
-        onChange={event => setImdbId(event)}
+        onChange={setImdbId}
       />
 
       <div className="field is-grouped">
