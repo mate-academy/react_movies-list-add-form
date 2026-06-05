@@ -3,7 +3,6 @@ import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
 type Props = {
-  movie: Movie;
   onAdd: (movie: Movie) => void;
 };
 
@@ -18,10 +17,27 @@ export const NewMovie: React.FC<Props> = ({ onAdd = () => {} }) => {
   const [imdbId, setImdbId] = useState('');
   const isValid =
     title.trim() && imgUrl.trim() && imdbUrl.trim() && imdbId.trim();
-  const movie: Movie = { title, description, imgUrl, imdbUrl, imdbId };
+  const cleanInput = () => {
+    setTitle('');
+    setDescription('');
+    setImgUrl('');
+    setImdbUrl('');
+    setImdbId('');
+  };
 
   return (
-    <form className="NewMovie" key={count}>
+    <form
+      className="NewMovie"
+      key={count}
+      onSubmit={event => {
+        event.preventDefault();
+        const movie: Movie = { title, description, imgUrl, imdbUrl, imdbId };
+
+        onAdd(movie);
+        setCount(count + 1);
+        cleanInput();
+      }}
+    >
       <h2 className="title">Add a movie</h2>
 
       <TextField
@@ -43,6 +59,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd = () => {} }) => {
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
+        required
         onChange={event => setImgUrl(event)}
       />
 
@@ -50,6 +67,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd = () => {} }) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
+        required
         onChange={event => setImdbUrl(event)}
       />
 
@@ -57,6 +75,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd = () => {} }) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
+        required
         onChange={event => setImdbId(event)}
       />
 
@@ -67,11 +86,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd = () => {} }) => {
             data-cy="submit-button"
             className="button is-link"
             disabled={!isValid}
-            onSubmit={event => {
-              event.preventDefault();
-              onAdd(movie);
-              setCount(count + 1);
-            }}
           >
             Add
           </button>
