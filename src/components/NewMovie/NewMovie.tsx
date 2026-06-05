@@ -67,8 +67,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd = () => {} }) => {
             data-cy="submit-button"
             className="button is-link"
             disabled={!isValid}
-            onClick={e => {
-              e.preventDefault();
+            onSubmit={event => {
+              event.preventDefault();
               onAdd(movie);
               setCount(count + 1);
             }}
