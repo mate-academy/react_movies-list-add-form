@@ -17,9 +17,10 @@ export const App: React.FC = () => {
   const [movies, setMovies] = useState<Movie[]>(moviesFromServer as Movie[]);
 
   const handleAddMovie = (newMovie: Omit<Movie, 'id'>) => {
-    setMovies(prevMovies => {
+    setMovies((prevMovies) => {
+      // ПОВНЕ ВИПРАВЛЕННЯ: max замінено на maxExistingId, movie замінено на currentMovie
       const maxId = prevMovies.reduce(
-        (max, movie) => Math.max(max, movie.id),
+        (maxExistingId, currentMovie) => Math.max(maxExistingId, currentMovie.id),
         0,
       );
 
@@ -44,3 +45,5 @@ export const App: React.FC = () => {
     </div>
   );
 };
+
+export default App;

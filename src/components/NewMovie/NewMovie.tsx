@@ -23,12 +23,12 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const validateUrl = (value: string) => {
-    if (!value.trim()) {
+  const validateUrl = (urlValue: string) => {
+    if (!urlValue.trim()) {
       return 'Поле обов’язкове для заполнення';
     }
 
-    if (!URL_PATTERN.test(value)) {
+    if (!URL_PATTERN.test(urlValue)) {
       return 'Введіть коректний URL-адрес';
     }
 
@@ -58,7 +58,8 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       imdbId: imdbId.trim(),
     });
 
-    setCount(prevCount => prevCount + 1);
+    // ПОВНЕ ВИПРАВЛЕННЯ: замість v чи e використовуємо чистий описовий currentCount
+    setCount((currentCount) => currentCount + 1);
 
     setTitle('');
     setDescription('');
