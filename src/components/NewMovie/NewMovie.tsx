@@ -34,12 +34,7 @@ export const NewMovie = ({ onAdd = () => {} }: Props) => {
   const trimmedImdbId = imdbId.trim();
 
   const isFormValid =
-    trimmedTitle &&
-    trimmedImgUrl &&
-    trimmedImdbUrl &&
-    trimmedImdbId &&
-    validateUrl(trimmedImgUrl) &&
-    validateUrl(trimmedImdbUrl);
+    trimmedTitle && trimmedImgUrl && trimmedImdbUrl && trimmedImdbId;
 
   const handleSubmit = (submitEvent: React.FormEvent) => {
     submitEvent.preventDefault();
