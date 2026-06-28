@@ -15,13 +15,13 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
   const [description, setDescription] = useState('');
   const [imgUrl, setImgUrl] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
-  const [imbdId, setImbdId] = useState('');
+  const [imdbId, setImbdId] = useState('');
 
-  const isFormValid = [title, imgUrl, imdbUrl, imbdId].every(value =>
+  const isFormValid = [title, imgUrl, imdbUrl, imdbId].every(value =>
     value.trim(),
   );
 
-  const handaleSubmit = (event: FormEvent) => {
+  const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
 
     if (!isFormValid) {
@@ -33,7 +33,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
       description: description.trim(),
       imgUrl: imgUrl.trim(),
       imdbUrl: imdbUrl.trim(),
-      imdbId: imbdId.trim(),
+      imdbId: imdbId.trim(),
     });
 
     setTitle('');
@@ -46,7 +46,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
   };
 
   return (
-    <form className="NewMovie" key={formKey} onSubmit={handaleSubmit}>
+    <form className="NewMovie" key={formKey} onSubmit={handleSubmit}>
       <h2 className="title">Add a movie</h2>
 
       <TextField
@@ -83,7 +83,7 @@ export const NewMovie: FC<Props> = ({ onAdd }) => {
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imbdId}
+        value={imdbId}
         onChange={setImbdId}
         required
       />
