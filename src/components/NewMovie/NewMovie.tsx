@@ -35,7 +35,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
     onAdd(newMovie);
 
-    // Очищення форми та скидання стану помилок через оновлення key
     setTitle('');
     setDescription('');
     setImgUrl('');
