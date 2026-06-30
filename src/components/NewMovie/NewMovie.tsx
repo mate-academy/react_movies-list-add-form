@@ -32,11 +32,28 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
     const trimmedDescription = description.trim();
 
+    if (trimmedDescription) {
+      const movie: Movie = {
+        title: title.trim(),
+        imdbId: imdbId.trim(),
+        imdbUrl: imdbUrl.trim(),
+        imgUrl: imgUrl.trim(),
+        description: description.trim(),
+      };
+
+      onAdd(movie);
+      reset();
+      setCount(prev => prev + 1);
+
+      return;
+    }
+
     const movie: Movie = {
       title: title.trim(),
       imdbId: imdbId.trim(),
       imdbUrl: imdbUrl.trim(),
       imgUrl: imgUrl.trim(),
+      description: description.trim(),
       ...(trimmedDescription && { description: trimmedDescription }),
     };
 
