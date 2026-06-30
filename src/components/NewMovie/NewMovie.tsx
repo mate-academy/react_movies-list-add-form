@@ -30,12 +30,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const onSubmitHandler = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
+    const trimmedDescription = description.trim();
+
     const movie: Movie = {
       title: title.trim(),
-      description: description.trim(),
       imdbId: imdbId.trim(),
       imdbUrl: imdbUrl.trim(),
       imgUrl: imgUrl.trim(),
+      ...(trimmedDescription && { description: trimmedDescription }),
     };
 
     onAdd(movie);
