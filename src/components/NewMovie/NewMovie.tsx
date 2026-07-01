@@ -3,10 +3,10 @@ import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
 type Props = {
-  onSubmit: (newMovie: Movie) => void;
+  onAdd: (newMovie: Movie) => void;
 };
 
-export const NewMovie: React.FC<Props> = ({ onSubmit }) => {
+export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
@@ -25,7 +25,7 @@ export const NewMovie: React.FC<Props> = ({ onSubmit }) => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    onSubmit({
+    onAdd({
       title: title.trim(),
       description: description.trim(),
       imgUrl: imgUrl.trim(),
@@ -66,6 +66,7 @@ export const NewMovie: React.FC<Props> = ({ onSubmit }) => {
         label="Image URL"
         value={imgUrl}
         onChange={setImgUrl}
+        required
       />
 
       <TextField
@@ -73,6 +74,7 @@ export const NewMovie: React.FC<Props> = ({ onSubmit }) => {
         label="Imdb URL"
         value={imdbUrl}
         onChange={setImdbUrl}
+        required
       />
 
       <TextField
@@ -80,6 +82,7 @@ export const NewMovie: React.FC<Props> = ({ onSubmit }) => {
         label="Imdb ID"
         value={imdbId}
         onChange={setImdbId}
+        required
       />
 
       <div className="field is-grouped">

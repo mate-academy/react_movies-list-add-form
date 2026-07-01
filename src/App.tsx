@@ -14,8 +14,8 @@ export const App = () => {
       </div>
       <div className="sidebar">
         <NewMovie
-          onSubmit={movie => {
-            setMovies([...movies, movie]);
+          onAdd={newMovie => {
+            setMovies([...movies, newMovie]);
           }}
         />
       </div>
