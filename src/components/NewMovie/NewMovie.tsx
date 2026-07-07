@@ -52,7 +52,7 @@ export const NewMovie = ({ onAdd }: { onAdd: (movie: Movie) => void }) => {
       imdbId: '',
     });
 
-    setCount(prev => prev + 1);
+    setCount(previousCount => previousCount + 1);
   }
 
   return (
