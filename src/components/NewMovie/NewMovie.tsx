@@ -4,9 +4,9 @@ import { Movie } from '../../types/Movie';
 
 type Props = {
   onAdd: (movie: Movie) => void;
-}
+};
 
-export const NewMovie: React.FC<Props> = ({ onAdd } ) => {
+export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
   const [count, setCount] = useState(0);
@@ -33,7 +33,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd } ) => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    onAdd ({
+    onAdd({
       title,
       description,
       imgUrl,
@@ -46,18 +46,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd } ) => {
   };
 
   return (
-    <form
-      className="NewMovie"
-      key={count}
-      onSubmit={handleSubmit}
-    >
+    <form className="NewMovie" key={count} onSubmit={handleSubmit}>
       <h2 className="title">Add a movie</h2>
 
       <TextField
         name="title"
         label="Title"
         value={title}
-        onChange={(newValue) => {
+        onChange={newValue => {
           setTitle(newValue);
         }}
         required
@@ -67,7 +63,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd } ) => {
         name="description"
         label="Description"
         value={description}
-        onChange={(newValue) => {
+        onChange={newValue => {
           setDescription(newValue);
         }}
       />
@@ -76,7 +72,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd } ) => {
         name="imgUrl"
         label="Image URL"
         value={imgUrl}
-        onChange={(newValue) => {
+        onChange={newValue => {
           setImgUrl(newValue);
         }}
         required
@@ -86,7 +82,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd } ) => {
         name="imdbUrl"
         label="Imdb URL"
         value={imdbUrl}
-        onChange={(newValue) => {
+        onChange={newValue => {
           setImdbUrl(newValue);
         }}
         required
@@ -96,7 +92,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd } ) => {
         name="imdbId"
         label="Imdb ID"
         value={imdbId}
-        onChange={(newValue) => {
+        onChange={newValue => {
           setImdbId(newValue);
         }}
         required
