@@ -32,8 +32,8 @@ export const NewMovie = ({
     imdbUrl.trim() !== '' &&
     imdbId.trim() !== '';
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
 
     if (!isFormValid) {
       return;

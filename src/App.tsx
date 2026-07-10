@@ -21,7 +21,7 @@ export const App = () => {
       id: Date.now(),
     };
 
-    setMovies([...movies, movieToAdd]);
+    setMovies(prevMovies => [...prevMovies, movieToAdd]);
   };
 
   return (
