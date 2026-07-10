@@ -41,7 +41,7 @@ export const NewMovie = ({ onAdd }: Props) => {
     movie.imgUrl,
     movie.imdbUrl,
     movie.imdbId,
-  ].every(field => field.trim());
+  ].every(fieldValue => fieldValue.trim());
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
