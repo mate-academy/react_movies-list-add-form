@@ -47,7 +47,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     });
 
     resetForm();
-    setCount(c => c + 1);
+    setCount(prevCount => prevCount + 1);
   };
 
   return (
