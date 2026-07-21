@@ -25,7 +25,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const isFormValid = title && imgUrl && imdbUrl && imdbId;
+  const isFormValid = title.trim() && imgUrl.trim() && imdbUrl.trim() && imdbId.trim();
 
   const validateUrl = (value: string) => {
     if (value && !URL_PATTERN.test(value)) {
