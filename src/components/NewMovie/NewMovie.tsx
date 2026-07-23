@@ -19,15 +19,15 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  const prepraredtitle = title.trim().length > 0;
-  const prepraredimgUrl =
+  const preparedTitle = title.trim().length > 0;
+  const preparedImgUrl =
     imgUrl.trim().length > 0 && pattern.test(imgUrl.trim());
-  const prepraredimdbUrl =
+  const preparedImdbUrl =
     imdbUrl.trim().length > 0 && pattern.test(imdbUrl.trim());
-  const prepraredimdbId = imdbId.trim().length > 0;
+  const preparedImdbId = imdbId.trim().length > 0;
 
   const isValid =
-    prepraredtitle && prepraredimgUrl && prepraredimdbUrl && prepraredimdbId;
+    preparedTitle && preparedImgUrl && preparedImdbUrl && preparedImdbId;
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();

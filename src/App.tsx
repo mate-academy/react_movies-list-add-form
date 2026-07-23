@@ -9,7 +9,7 @@ export const App = () => {
   const [newmovie, setnewMovie] = useState(moviesFromServer);
 
   const fordeveloping = (newMovie: Movie) => {
-    setnewMovie(prevmovies => [...prevmovies, newMovie]);
+    setnewMovie(prevMovies => prevMovies.concat(newMovie));
   };
 
   return (
