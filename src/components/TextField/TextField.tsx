@@ -7,6 +7,7 @@ type Props = {
   label?: string;
   placeholder?: string;
   required?: boolean;
+  'data-cy'?: string;
   onChange?: (newValue: string) => void;
 };
 
@@ -20,14 +21,17 @@ export const TextField: React.FC<Props> = ({
   label = name,
   placeholder = `Enter ${label}`,
   required = false,
+  'data-cy': dataCy,
   onChange = () => {},
 }) => {
-  // generate a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
-
-  // To show errors only if the field was touched (onBlur)
   const [touched, setTouched] = useState(false);
-  const hasError = touched && required && !value;
+
+  // Обов'язкові всі поля, крім description
+  const isRequired = required || name !== 'description';
+
+  // Помилка показується ТІЛЬКИ якщо була подія blur (touched === true)
+  const hasError = touched && isRequired && !value.trim();
 
   return (
     <div className="field">
@@ -39,7 +43,7 @@ export const TextField: React.FC<Props> = ({
         <input
           type="text"
           id={id}
-          data-cy={`movie-${name}`}
+          data-cy={dataCy || `movie-${name}`}
           className={classNames('input', {
             'is-danger': hasError,
           })}
