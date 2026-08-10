@@ -10,33 +10,33 @@ export const NewMovie = ({ onAdd }) => {
   const [imdbUrlValue, setImdbUrlValue] = useState('');
   const [imdbIdValue, setImdbIdValue] = useState('');
 
-  const hasError = !titleValue || !imgUrlValue || !imdbIdValue || !imdbUrlValue;
+  const hasError = !titleValue.trim() || !imgUrlValue.trim() || !imdbIdValue.trim() || !imdbUrlValue.trim();
 
   return (
     <form
       className="NewMovie"
       key={count}
-      onSubmit={
-        (event: React.FormEvent) => {
-          event.preventDefault();
+      onSubmit={(event: React.FormEvent) => {
+        event.preventDefault();
 
-          const newMovie: Movie = {
-            title: titleValue,
-            description: descriptionValue,
-            imgUrl: imgUrlValue,
-            imdbUrl: imdbUrlValue,
-            imdbId: imdbIdValue,
-          }
+        const newMovie: Movie = {
+          title: titleValue.trim(),
+          description: descriptionValue.trim(),
+          imgUrl: imgUrlValue.trim(),
+          imdbUrl: imdbUrlValue.trim(),
+          imdbId: imdbIdValue.trim(),
+        };
 
-          setTitleValue('');
-          setDescriptionValue('');
-          setImgUrlValue('');
-          setImdbUrlValue('');
-          setImdbIdValue('');
+        setTitleValue('');
+        setDescriptionValue('');
+        setImgUrlValue('');
+        setImdbUrlValue('');
+        setImdbIdValue('');
 
-          onAdd(newMovie);
-        }
-      }
+        setCount(count + 1);
+
+        onAdd(newMovie);
+      }}
     >
       <h2 className="title">Add a movie</h2>
 
@@ -85,7 +85,7 @@ export const NewMovie = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled = {hasError}
+            disabled={hasError}
           >
             Add
           </button>
