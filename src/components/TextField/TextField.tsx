@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import classNames from 'classnames';
 import React, { useState } from 'react';
 
@@ -8,6 +9,7 @@ type Props = {
   placeholder?: string;
   required?: boolean;
   onChange?: (newValue: string) => void;
+  isValidUrl?: (url: string) => boolean;
 };
 
 function getRandomDigits() {
@@ -21,13 +23,15 @@ export const TextField: React.FC<Props> = ({
   placeholder = `Enter ${label}`,
   required = false,
   onChange = () => {},
+  isValidUrl,
 }) => {
   // generate a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
   // To show errors only if the field was touched (onBlur)
   const [touched, setTouched] = useState(false);
-  const hasError = touched && required && !value;
+  const hasError =
+    touched && ((required && !value) || (isValidUrl && !isValidUrl(value)));
 
   return (
     <div className="field">
