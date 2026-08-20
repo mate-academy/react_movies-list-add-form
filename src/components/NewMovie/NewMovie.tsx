@@ -26,16 +26,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    setTitleField('');
-    setDescrField('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
-
-    if (!title || !imgUrl || !imdbUrl || !imdbId) {
-      return;
-    }
-
     onAdd({
       title,
       description,
@@ -44,7 +34,13 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       imdbId,
     });
 
-    setCount(count + 1);
+    setTitleField('');
+    setDescrField('');
+    setImgUrl('');
+    setImdbUrl('');
+    setImdbId('');
+
+    setCount(previousCount => previousCount + 1);
   };
 
   return (
