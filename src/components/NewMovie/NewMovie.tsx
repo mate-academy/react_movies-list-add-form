@@ -32,7 +32,7 @@ export const NewMovie = ({ onAdd }: Props) => {
     setImgUrl('');
     setImdbUrl('');
     setImdbId('');
-    setCount(cutterntValue => cutterntValue + 1);
+    setCount(currentValue => currentValue + 1);
   };
 
   return (
