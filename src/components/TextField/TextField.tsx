@@ -3,11 +3,13 @@ import React, { useState } from 'react';
 
 type Props = {
   name: string;
-  value: string;
   label?: string;
+  value: string;
   placeholder?: string;
-  required?: boolean;
   onChange?: (newValue: string) => void;
+  submitAttempted?: boolean;
+  required?: boolean;
+  validate?: (value: string) => boolean;
 };
 
 function getRandomDigits() {
@@ -16,18 +18,24 @@ function getRandomDigits() {
 
 export const TextField: React.FC<Props> = ({
   name,
-  value,
   label = name,
+  value,
   placeholder = `Enter ${label}`,
   required = false,
   onChange = () => {},
+  submitAttempted = false,
+  validate = () => true,
 }) => {
   // generate a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
+  const hasValidationError = !validate(value);
+
   // To show errors only if the field was touched (onBlur)
   const [touched, setTouched] = useState(false);
-  const hasError = touched && required && !value;
+  const hasError =
+    (touched || submitAttempted) &&
+    ((required && !value) || hasValidationError);
 
   return (
     <div className="field">
