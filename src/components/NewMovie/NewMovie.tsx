@@ -72,6 +72,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={imgUrl}
         onChange={setImgUrl}
         required
+        validate={isValidUrl}
       />
 
       <TextField
@@ -89,7 +90,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={imdbId}
         onChange={setImdbId}
         required
-        validate={isValidUrl}
       />
 
       <div className="field is-grouped">

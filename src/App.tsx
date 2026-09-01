@@ -10,8 +10,8 @@ export const App = () => {
   const [formKey, setFormKey] = useState(0);
 
   function handleAddMovie(newMovie: Movie) {
-    setMovies([...movies, newMovie]);
-    setFormKey(formKey + 1);
+    setMovies(prev => [...prev, newMovie]);
+    setFormKey(prev => prev + 1);
   }
 
   return (
