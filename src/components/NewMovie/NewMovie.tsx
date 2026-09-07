@@ -35,6 +35,14 @@ export const NewMovie = ({ onAdd }: NewMovieProps) => {
     setCount(prevCount => prevCount + 1);
   };
 
+  const validateUrl = (value: string): boolean => {
+    const pattern =
+      // eslint-disable-next-line max-len
+      /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
+
+    return pattern.test(value);
+  };
+
   return (
     <form className="NewMovie" key={count} onSubmit={handleSubmit}>
       <h2 className="title">Add a movie</h2>
@@ -61,7 +69,7 @@ export const NewMovie = ({ onAdd }: NewMovieProps) => {
         label="Image URL"
         value={movie.imgUrl}
         onChange={value => setMovie({ ...movie, imgUrl: value })}
-        required
+        validate={validateUrl}
       />
 
       <TextField
@@ -69,7 +77,7 @@ export const NewMovie = ({ onAdd }: NewMovieProps) => {
         label="Imdb URL"
         value={movie.imdbUrl}
         onChange={value => setMovie({ ...movie, imdbUrl: value })}
-        required
+        validate={validateUrl}
       />
 
       <TextField
@@ -77,7 +85,6 @@ export const NewMovie = ({ onAdd }: NewMovieProps) => {
         label="Imdb ID"
         value={movie.imdbId}
         onChange={value => setMovie({ ...movie, imdbId: value })}
-        required
       />
 
       <div className="field is-grouped">
