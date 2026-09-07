@@ -70,6 +70,7 @@ export const NewMovie = ({ onAdd }: NewMovieProps) => {
         value={movie.imgUrl}
         onChange={value => setMovie({ ...movie, imgUrl: value })}
         validate={validateUrl}
+        required
       />
 
       <TextField
@@ -78,6 +79,7 @@ export const NewMovie = ({ onAdd }: NewMovieProps) => {
         value={movie.imdbUrl}
         onChange={value => setMovie({ ...movie, imdbUrl: value })}
         validate={validateUrl}
+        required
       />
 
       <TextField
@@ -85,6 +87,7 @@ export const NewMovie = ({ onAdd }: NewMovieProps) => {
         label="Imdb ID"
         value={movie.imdbId}
         onChange={value => setMovie({ ...movie, imdbId: value })}
+        required
       />
 
       <div className="field is-grouped">
