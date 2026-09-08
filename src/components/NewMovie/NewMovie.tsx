@@ -21,7 +21,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [description, setDescription] = useState(
     FORM_INITIAL_VALUES.DESCRIPTION,
   );
-  const [imgUrl, setImgUrl] = useState(FORM_INITIAL_VALUES.IMDBURL);
+  const [imgUrl, setImgUrl] = useState(FORM_INITIAL_VALUES.IMGURL);
   const [imdbUrl, setImdbUrl] = useState(FORM_INITIAL_VALUES.IMDBURL);
   const [imdbId, setImdbId] = useState(FORM_INITIAL_VALUES.IMDBID);
 
@@ -58,7 +58,11 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   );
 
   return (
-    <form className="NewMovie" key={count}>
+    <form 
+      className="NewMovie" 
+      key={count}
+      onSubmit={handleNewMovie}
+    >
       <h2 className="title">Add a movie</h2>
 
       <TextField
@@ -113,7 +117,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             data-cy="submit-button"
             className="button is-link"
             disabled={validateInputValues()}
-            onClick={handleNewMovie}
           >
             Add
           </button>
