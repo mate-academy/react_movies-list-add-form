@@ -6,13 +6,11 @@ import { useState } from 'react';
 import moviesFromServer from './api/movies.json';
 
 export const App = () => {
-  const [addedMovies, setAddedMovies] = useState<Movie[]>([]);
+  const [movies, setMovies] = useState<Movie[]>(moviesFromServer);
 
   const handleAddMovie = (movie: Movie) => {
-    setAddedMovies(currentMovies => [...currentMovies, movie]);
+    setMovies(currentMovies => [...currentMovies, movie]);
   };
-
-  const movies: Movie[] = [...moviesFromServer, ...addedMovies];
 
   return (
     <div className="page">

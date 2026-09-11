@@ -11,19 +11,23 @@ export const NewMovie = ({ onAdd }: Props) => {
   // to reset touched status of all the `Field`s
   const [count, setCount] = useState<number>(0);
 
-  const [title, setTitle] = useState<string>('');
-  const [description, setDescription] = useState<string>('');
-  const [imgUrl, setImgUrl] = useState<string>('');
-  const [imdbUrl, setImdbUrl] = useState<string>('');
-  const [imdbId, setImdbId] = useState<string>('');
+  const [movie, setMovie] = useState<Movie>({
+    title: '',
+    description: '',
+    imgUrl: '',
+    imdbUrl: '',
+    imdbId: '',
+  });
 
   //#region Handlers
   const clearFormFields = () => {
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
+    setMovie({
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
     setCount(currentCount => currentCount + 1);
   };
 
@@ -31,39 +35,44 @@ export const NewMovie = ({ onAdd }: Props) => {
     event.preventDefault();
 
     onAdd({
-      title: title.trim(),
-      description: description.trim(),
-      imgUrl: imgUrl.trim(),
-      imdbUrl: imdbUrl.trim(),
-      imdbId: imdbId.trim(),
+      title: movie.title.trim(),
+      description: movie.description?.trim() || '',
+      imgUrl: movie.imgUrl.trim(),
+      imdbUrl: movie.imdbUrl.trim(),
+      imdbId: movie.imdbId.trim(),
     });
 
     clearFormFields();
   };
 
   const handleTitleChange = (value: string) => {
-    setTitle(value);
+    setMovie({ ...movie, title: value });
   };
 
   const handleDescriptionChange = (value: string) => {
-    setDescription(value);
+    setMovie({ ...movie, description: value });
   };
 
   const handleImgUrlChange = (value: string) => {
-    setImgUrl(value);
+    setMovie({ ...movie, imgUrl: value });
   };
 
   const handleImdbUrlChange = (value: string) => {
-    setImdbUrl(value);
+    setMovie({ ...movie, imdbUrl: value });
   };
 
   const handleImdbIdChange = (value: string) => {
-    setImdbId(value);
+    setMovie({ ...movie, imdbId: value });
   };
 
   //#endregion
 
-  const isFormValid: boolean = !!(title && imgUrl && imdbUrl && imdbId);
+  const isFormValid: boolean = !!(
+    movie.title &&
+    movie.imgUrl &&
+    movie.imdbUrl &&
+    movie.imdbId
+  );
 
   return (
     <form className="NewMovie" key={count} onSubmit={handleSubmit}>
@@ -72,7 +81,7 @@ export const NewMovie = ({ onAdd }: Props) => {
       <TextField
         name="title"
         label="Title"
-        value={title}
+        value={movie.title}
         onChange={handleTitleChange}
         required
       />
@@ -80,14 +89,14 @@ export const NewMovie = ({ onAdd }: Props) => {
       <TextField
         name="description"
         label="Description"
-        value={description}
+        value={movie.description || ''}
         onChange={handleDescriptionChange}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value={imgUrl}
+        value={movie.imgUrl}
         onChange={handleImgUrlChange}
         required
       />
@@ -95,7 +104,7 @@ export const NewMovie = ({ onAdd }: Props) => {
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value={imdbUrl}
+        value={movie.imdbUrl}
         onChange={handleImdbUrlChange}
         required
       />
@@ -103,7 +112,7 @@ export const NewMovie = ({ onAdd }: Props) => {
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value={imdbId}
+        value={movie.imdbId}
         onChange={handleImdbIdChange}
         required
       />
