@@ -22,16 +22,11 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setMovie(current => ({ ...current, [field]: newValue }));
   };
 
-  let isFormValid = false;
-
-  if (
+  const isFormValid =
     movie.title.trim() !== '' &&
     movie.imgUrl.trim() !== '' &&
     movie.imdbUrl.trim() !== '' &&
-    movie.imdbId.trim() !== ''
-  ) {
-    isFormValid = true;
-  }
+    movie.imdbId.trim() !== '';
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -40,7 +35,13 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       return;
     }
 
-    onAdd(movie);
+    onAdd({
+      title: movie.title.trim(),
+      description: movie.description.trim(),
+      imgUrl: movie.imgUrl.trim(),
+      imdbUrl: movie.imdbUrl.trim(),
+      imdbId: movie.imdbId.trim(),
+    });
     setMovie(emptyMovie);
     setCount(current => current + 1);
   };
