@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 type Props = {
   name: string;
@@ -8,6 +8,7 @@ type Props = {
   placeholder?: string;
   required?: boolean;
   onChange?: (newValue: string) => void;
+  reset?: boolean;
 };
 
 function getRandomDigits() {
@@ -21,12 +22,17 @@ export const TextField: React.FC<Props> = ({
   placeholder = `Enter ${label}`,
   required = false,
   onChange = () => {},
+  reset = false,
 }) => {
-  // generate a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
-
-  // To show errors only if the field was touched (onBlur)
   const [touched, setTouched] = useState(false);
+
+  useEffect(() => {
+    if (reset) {
+      setTouched(false);
+    }
+  }, [reset]);
+
   const hasError = touched && required && !value;
 
   return (
