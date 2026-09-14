@@ -1,32 +1,46 @@
-import { useState } from 'react';
+import { useState, type FormEvent } from 'react';
 import { TextField } from '../TextField';
-import classNames from 'classnames';
-import { Movie } from '../../types/Movie';
+
+type Movie = {
+  title: string;
+  description: string;
+  imgUrl: string;
+  imdbUrl: string;
+  imdbId: string;
+};
 
 type Props = {
   onAdd: (movie: Movie) => void;
 };
 
 export const NewMovie = ({ onAdd }: Props) => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
-  const [count] = useState(0);
-  // const [isNoActiveButton, setIsNoActiveButton] = useState(true);
+  const [count, setCount] = useState(0);
+
   const [titleValue, setTitleValue] = useState('');
   const [description, setDescription] = useState('');
   const [imgUrl, setImgUrl] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
-  const [reset, setReset] = useState(false);
-  const handleSubmit = (event: React.FormEvent) => {
+
+  const isActive = () => {
+    return (
+      !titleValue.trim() || !imgUrl.trim() || !imdbUrl.trim() || !imdbId.trim()
+    );
+  };
+
+  const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
 
+    if (isActive()) {
+      return;
+    }
+
     onAdd({
-      title: titleValue,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
+      title: titleValue.trim(),
+      description: description.trim(),
+      imgUrl: imgUrl.trim(),
+      imdbUrl: imdbUrl.trim(),
+      imdbId: imdbId.trim(),
     });
 
     setTitleValue('');
@@ -35,15 +49,7 @@ export const NewMovie = ({ onAdd }: Props) => {
     setImdbUrl('');
     setImdbId('');
 
-    setReset(true);
-  };
-
-  const isActive = () => {
-    if (titleValue && imgUrl && imdbUrl && imdbId) {
-      return false;
-    } else {
-      return true;
-    }
+    setCount(c => c + 1);
   };
 
   return (
@@ -55,8 +61,7 @@ export const NewMovie = ({ onAdd }: Props) => {
         label="Title"
         value={titleValue}
         onChange={setTitleValue}
-        required={true}
-        reset={reset}
+        required
       />
 
       <TextField
@@ -64,7 +69,6 @@ export const NewMovie = ({ onAdd }: Props) => {
         label="Description"
         value={description}
         onChange={setDescription}
-        reset={reset}
       />
 
       <TextField
@@ -72,17 +76,15 @@ export const NewMovie = ({ onAdd }: Props) => {
         label="Image URL"
         value={imgUrl}
         onChange={setImgUrl}
-        required={true}
-        reset={reset}
+        required
       />
 
       <TextField
         name="imdbUrl"
-        value={imdbUrl}
         label="Imdb URL"
+        value={imdbUrl}
         onChange={setImdbUrl}
-        required={true}
-        reset={reset}
+        required
       />
 
       <TextField
@@ -90,8 +92,7 @@ export const NewMovie = ({ onAdd }: Props) => {
         label="Imdb ID"
         value={imdbId}
         onChange={setImdbId}
-        required={true}
-        reset={reset}
+        required
       />
 
       <div className="field is-grouped">
@@ -99,9 +100,7 @@ export const NewMovie = ({ onAdd }: Props) => {
           <button
             type="submit"
             data-cy="submit-button"
-            className={classNames('button is-link', {
-              isActiveButton: 'disabled',
-            })}
+            className="button is-link"
             disabled={isActive()}
           >
             Add
