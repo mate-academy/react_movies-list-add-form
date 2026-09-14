@@ -63,7 +63,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Description"
         value={description}
         onChange={handleChange('description')}
-        required
       />
 
       <TextField
