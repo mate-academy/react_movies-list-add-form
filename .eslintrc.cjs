@@ -27,6 +27,7 @@ module.exports = {
     },
     ecmaVersion: 12,
     project: './tsconfig.json',
+    tsconfigRootDir: __dirname,
     sourceType: 'module',
   },
   plugins: [
