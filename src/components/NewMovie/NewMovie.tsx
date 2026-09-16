@@ -6,6 +6,12 @@ export const NewMovie = () => {
   // to reset touched status of all the `Field`s
   const [count] = useState(0);
 
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [imgUrl, setImgUrl] = useState('');
+  const [imdbUrl, setImdbUrl] = useState('');
+  const [imdbId, setImdbId] = useState('');
+
   return (
     <form className="NewMovie" key={count}>
       <h2 className="title">Add a movie</h2>
@@ -13,18 +19,41 @@ export const NewMovie = () => {
       <TextField
         name="title"
         label="Title"
-        value=""
-        onChange={() => {}}
+        value={title}
+        onChange={newValue => setTitle(newValue)}
         required
       />
 
-      <TextField name="description" label="Description" value="" />
+      <TextField
+        name="description"
+        label="Description"
+        value={description}
+        onChange={newValue => setDescription(newValue)}
+      />
 
-      <TextField name="imgUrl" label="Image URL" value="" />
+      <TextField
+        name="imgUrl"
+        label="Image URL"
+        value={imgUrl}
+        onChange={newValue => setImgUrl(newValue)}
+        required
+      />
 
-      <TextField name="imdbUrl" label="Imdb URL" value="" />
+      <TextField
+        name="imdbUrl"
+        label="Imdb URL"
+        value={imdbUrl}
+        onChange={newValue => setImdbUrl(newValue)}
+        required
+      />
 
-      <TextField name="imdbId" label="Imdb ID" value="" />
+      <TextField
+        name="imdbId"
+        label="Imdb ID"
+        value={imdbId}
+        onChange={newValue => setImdbId(newValue)}
+        required
+      />
 
       <div className="field is-grouped">
         <div className="control">
