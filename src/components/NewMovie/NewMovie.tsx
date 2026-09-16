@@ -9,7 +9,7 @@ type Props = {
 export const NewMovie = ({ onAdd }: Props) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
-  const [count] = useState(0);
+  const [count, setCount] = useState(0);
 
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -39,6 +39,12 @@ export const NewMovie = ({ onAdd }: Props) => {
         }
 
         onAdd({ title, description, imgUrl, imdbUrl, imdbId });
+        setTitle('');
+        setDescription('');
+        setImgUrl('');
+        setImdbUrl('');
+        setImdbId('');
+        setCount(previousCount => previousCount + 1);
       }}
     >
       <h2 className="title">Add a movie</h2>
