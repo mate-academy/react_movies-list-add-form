@@ -12,6 +12,16 @@ export const NewMovie = () => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
+  const isTitleFilled = title.trim().length > 0;
+  const isImgUrlFilled = imgUrl.trim().length > 0;
+
+  const isImdbUrlFilled = imdbUrl.trim().length > 0;
+
+  const isImdbIdFilled = imdbId.trim().length > 0;
+
+  const isFormValid =
+    isTitleFilled && isImgUrlFilled && isImdbUrlFilled && isImdbIdFilled;
+
   return (
     <form className="NewMovie" key={count}>
       <h2 className="title">Add a movie</h2>
@@ -61,6 +71,7 @@ export const NewMovie = () => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
+            disabled={!isFormValid}
           >
             Add
           </button>
