@@ -6,6 +6,14 @@ type Props = {
   onAdd: (movie: Movie) => void;
 };
 
+const isValidUrl = (value: string): boolean => {
+  const pattern =
+    // eslint-disable-next-line max-len
+    /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
+
+  return pattern.test(value);
+};
+
 export const NewMovie = ({ onAdd }: Props) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
@@ -25,7 +33,12 @@ export const NewMovie = ({ onAdd }: Props) => {
   const isImdbIdFilled = imdbId.trim().length > 0;
 
   const isFormValid =
-    isTitleFilled && isImgUrlFilled && isImdbUrlFilled && isImdbIdFilled;
+    isTitleFilled &&
+    isImgUrlFilled &&
+    isImdbUrlFilled &&
+    isImdbIdFilled &&
+    isValidUrl(imdbUrl) &&
+    isValidUrl(imgUrl);
 
   return (
     <form
@@ -70,6 +83,7 @@ export const NewMovie = ({ onAdd }: Props) => {
         value={imgUrl}
         onChange={newValue => setImgUrl(newValue)}
         required
+        validate={isValidUrl}
       />
 
       <TextField
@@ -78,6 +92,7 @@ export const NewMovie = ({ onAdd }: Props) => {
         value={imdbUrl}
         onChange={newValue => setImdbUrl(newValue)}
         required
+        validate={isValidUrl}
       />
 
       <TextField
