@@ -11,6 +11,12 @@ export const NewMovie = () => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
+  const canSubmit =
+    title.trim() !== '' &&
+    imgUrl.trim() !== '' &&
+    imdbUrl.trim() !== '' &&
+    imdbId.trim() !== '';
+
   return (
     <form className="NewMovie" key={count}>
       <h2 className="title">Add a movie</h2>
@@ -20,6 +26,7 @@ export const NewMovie = () => {
         label="Title"
         value={title}
         onChange={setTitle}
+        onBlur={() => setTitle(current => current.trim())}
         required
       />
 
@@ -35,6 +42,7 @@ export const NewMovie = () => {
         label="Image URL"
         value={imgUrl}
         onChange={setImgUrl}
+        onBlur={() => setImgUrl(current => current.trim())}
         required
       />
 
@@ -43,6 +51,7 @@ export const NewMovie = () => {
         label="Imdb URL"
         value={imdbUrl}
         onChange={setImdbUrl}
+        onBlur={() => setImdbUrl(current => current.trim())}
         required
       />
 
@@ -51,6 +60,7 @@ export const NewMovie = () => {
         label="Imdb ID"
         value={imdbId}
         onChange={setImdbId}
+        onBlur={() => setImdbId(current => current.trim())}
         required
       />
 
@@ -60,6 +70,7 @@ export const NewMovie = () => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
+            disabled={!canSubmit}
           >
             Add
           </button>
