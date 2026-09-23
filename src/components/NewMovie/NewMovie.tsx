@@ -16,10 +16,24 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
+  const isValidUrl = (value: string): string => {
+    if (!value) {
+      return '';
+    }
+
+    const pattern =
+      // eslint-disable-next-line max-len
+      /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
+
+    return pattern.test(value) ? '' : 'Please enter a valid URL';
+  };
+
   const canSubmit =
     title.trim() !== '' &&
     imgUrl.trim() !== '' &&
+    !isValidUrl(imgUrl) &&
     imdbUrl.trim() !== '' &&
+    !isValidUrl(imdbUrl) &&
     imdbId.trim() !== '';
 
   const handleSubmit = (event: React.FormEvent) => {
@@ -61,6 +75,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={imgUrl}
         onChange={setImgUrl}
         onBlur={() => setImgUrl(current => current.trim())}
+        validate={isValidUrl}
         required
       />
 
@@ -70,6 +85,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={imdbUrl}
         onChange={setImdbUrl}
         onBlur={() => setImdbUrl(current => current.trim())}
+        validate={isValidUrl}
         required
       />
 
