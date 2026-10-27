@@ -4,10 +4,11 @@ import React, { useState } from 'react';
 type Props = {
   name: string;
   value: string;
+  onChange: (newValue: string) => void;
   label?: string;
   placeholder?: string;
   required?: boolean;
-  onChange?: (newValue: string) => void;
+  setChangedValue?: (newValue: string) => void;
 };
 
 function getRandomDigits() {
@@ -45,8 +46,13 @@ export const TextField: React.FC<Props> = ({
           })}
           placeholder={placeholder}
           value={value}
-          onChange={event => onChange(event.target.value)}
-          onBlur={() => setTouched(true)}
+          onChange={event => {
+            setTouched(false);
+            onChange(event.target.value);
+          }}
+          onBlur={() => {
+            setTouched(true);
+          }}
         />
       </div>
 
