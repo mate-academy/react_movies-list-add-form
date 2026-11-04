@@ -15,17 +15,20 @@ type NewMovieProps = {
 export const NewMovie = ({ onAdd }: NewMovieProps) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
-  const [newMovieTitle , setNewMovieTitle] = useState('');
+  const [newMovieTitle, setNewMovieTitle] = useState('');
   const [newMovieDescription, setNewMovieDescription] = useState('');
   const [newMovieImgUrl, setNewMovieImgUrl] = useState('');
   const [newMovieImdbUrl, setNewMovieImdbUrl] = useState('');
   const [newMovieImdbId, setNewMovieImdbId] = useState('');
   const [count, setCount] = useState(0);
 
-  const isDisabled = !newMovieTitle.trim() || !newMovieImgUrl.trim() || !newMovieImdbUrl.trim() || !newMovieImdbId.trim();
+  const isDisabled =
+    !newMovieTitle.trim() ||
+    !newMovieImgUrl.trim() ||
+    !newMovieImdbUrl.trim() ||
+    !newMovieImdbId.trim();
 
-
-  const handleAdd: React.MouseEventHandler<HTMLButtonElement> = (event) => {
+  const handleAdd: React.FormEventHandler<HTMLFormElement> = event => {
     event.preventDefault();
 
     if (
@@ -52,10 +55,10 @@ export const NewMovie = ({ onAdd }: NewMovieProps) => {
     setNewMovieImdbId('');
 
     setCount(prev => prev + 1);
-  }
+  };
 
   return (
-    <form className="NewMovie" key={count}>
+    <form onSubmit={handleAdd} className="NewMovie" key={count}>
       <h2 className="title">Add a movie</h2>
 
       <TextField
@@ -103,7 +106,6 @@ export const NewMovie = ({ onAdd }: NewMovieProps) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            onClick={(event) => handleAdd(event)}
             disabled={isDisabled}
           >
             Add

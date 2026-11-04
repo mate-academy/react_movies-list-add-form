@@ -4,14 +4,14 @@ import { MoviesList } from './components/MoviesList';
 import { NewMovie } from './components/NewMovie';
 import moviesFromServer from './api/movies.json';
 
-
 export const App = () => {
-  const [movies , setMovies] = useState<Movie[]>(moviesFromServer);
+  const [movies, setMovies] = useState<Movie[]>(moviesFromServer);
+
   type Movie = (typeof moviesFromServer)[number];
 
   const onAdd = (movie: Movie) => {
     setMovies(currentMovies => [...currentMovies, movie]);
-  }
+  };
 
   return (
     <div className="page">
