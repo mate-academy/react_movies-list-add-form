@@ -15,9 +15,6 @@ type Props = {
 };
 
 export const NewMovie = (props: Props) => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
-  const [count, setCount] = useState(0);
   const [formData, setFormData] = useState<FormData>({
     title: '',
     description: '',
@@ -37,16 +34,6 @@ export const NewMovie = (props: Props) => {
     event.preventDefault();
 
     props.onAdd(formData);
-
-    setFormData({
-      title: '',
-      description: '',
-      imgUrl: '',
-      imdbUrl: '',
-      imdbId: '',
-    });
-
-    setCount((prevCount: number) => prevCount + 1);
   };
 
   const isFormValid =
@@ -56,7 +43,7 @@ export const NewMovie = (props: Props) => {
     formData.imdbId.trim() !== '';
 
   return (
-    <form className="NewMovie" key={count} onSubmit={handleSubmit}>
+    <form className="NewMovie" onSubmit={handleSubmit}>
       <h2 className="title">Add a movie</h2>
 
       <TextField
