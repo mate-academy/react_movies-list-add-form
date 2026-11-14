@@ -27,13 +27,17 @@ export const NewMovie = ({ onAdd }: Props) => {
     newMovie.imdbUrl.trim() !== '' &&
     newMovie.imdbId.trim() !== '';
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
     onAdd(newMovie);
     setNewMovie({
       ...INITIAL_MOVIE,
     });
     setCount(count + 1);
+  };
+
+  const handleFieldChange = (field: keyof Movie) => (value: string) => {
+    setNewMovie(current => ({ ...current, [field]: value }));
   };
 
   return (
@@ -45,14 +49,14 @@ export const NewMovie = ({ onAdd }: Props) => {
         label="Title"
         required
         value={newMovie.title}
-        onChange={value => setNewMovie({ ...newMovie, title: value })}
+        onChange={handleFieldChange('title')}
       />
 
       <TextField
         name="description"
         label="Description"
         value={newMovie.description}
-        onChange={value => setNewMovie({ ...newMovie, description: value })}
+        onChange={handleFieldChange('description')}
       />
 
       <TextField
@@ -60,7 +64,7 @@ export const NewMovie = ({ onAdd }: Props) => {
         label="Image URL"
         required
         value={newMovie.imgUrl}
-        onChange={value => setNewMovie({ ...newMovie, imgUrl: value })}
+        onChange={handleFieldChange('imgUrl')}
       />
 
       <TextField
@@ -68,7 +72,7 @@ export const NewMovie = ({ onAdd }: Props) => {
         label="Imdb URL"
         required
         value={newMovie.imdbUrl}
-        onChange={value => setNewMovie({ ...newMovie, imdbUrl: value })}
+        onChange={handleFieldChange('imdbUrl')}
       />
 
       <TextField
@@ -76,7 +80,7 @@ export const NewMovie = ({ onAdd }: Props) => {
         label="Imdb ID"
         required
         value={newMovie.imdbId}
-        onChange={value => setNewMovie({ ...newMovie, imdbId: value })}
+        onChange={handleFieldChange('imdbId')}
       />
 
       <div className="field is-grouped">
