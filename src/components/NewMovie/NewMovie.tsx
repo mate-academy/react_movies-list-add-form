@@ -63,7 +63,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="title"
         label="Title"
-        value=""
+        value={title}
         onChange={setTitle}
         required
       />
@@ -71,14 +71,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="description"
         label="Description"
-        value=""
+        value={description}
         onChange={setDescription}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
-        value=""
+        value={imgUrl}
         onChange={setImgUrl}
         required
         validate={isValidUrl}
@@ -87,7 +87,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="imdbUrl"
         label="Imdb URL"
-        value=""
+        value={imdbUrl}
         onChange={setImdbUrl}
         required
         validate={isValidUrl}
@@ -96,7 +96,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       <TextField
         name="imdbId"
         label="Imdb ID"
-        value=""
+        value={imdbId}
         onChange={setImdbId}
         required
       />
@@ -107,7 +107,12 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!title || !imgUrl || !imdbUrl || !imdbId}
+            disabled={
+              !title.trim() ||
+              !imgUrl.trim() ||
+              !imdbUrl.trim() ||
+              !imdbId.trim()
+            }
           >
             Add
           </button>
