@@ -1,6 +1,6 @@
 import { FormEvent, useState } from 'react';
 import { TextField } from '../TextField';
-import { Movie } from '../../types/Movie'
+import { Movie } from '../../types/Movie';
 
 const emptyMovie: Movie = {
   title: '',
@@ -11,9 +11,8 @@ const emptyMovie: Movie = {
 };
 
 type Props = {
-  onAdd:
-    (newMovie: Movie) => void;
-}
+  onAdd: (newMovie: Movie) => void;
+};
 
 export const NewMovie = ({ onAdd }: Props) => {
   // Increase the count after successful form submission
@@ -56,8 +55,7 @@ export const NewMovie = ({ onAdd }: Props) => {
         name="title"
         label="Title"
         value={newMovie.title}
-        onChange={(newValue) =>
-          handleFieldChange('title', newValue)}
+        onChange={newValue => handleFieldChange('title', newValue)}
         required
       />
 
@@ -65,16 +63,14 @@ export const NewMovie = ({ onAdd }: Props) => {
         name="description"
         label="Description"
         value={newMovie.description}
-        onChange={(newValue) =>
-          handleFieldChange('description', newValue)}
+        onChange={newValue => handleFieldChange('description', newValue)}
       />
 
       <TextField
         name="imgUrl"
         label="Image URL"
         value={newMovie.imgUrl}
-        onChange={(newValue) =>
-          handleFieldChange('imgUrl', newValue)}
+        onChange={newValue => handleFieldChange('imgUrl', newValue)}
         required
       />
 
@@ -82,8 +78,7 @@ export const NewMovie = ({ onAdd }: Props) => {
         name="imdbUrl"
         label="Imdb URL"
         value={newMovie.imdbUrl}
-        onChange={(newValue) =>
-          handleFieldChange('imdbUrl', newValue)}
+        onChange={newValue => handleFieldChange('imdbUrl', newValue)}
         required
       />
 
@@ -91,8 +86,7 @@ export const NewMovie = ({ onAdd }: Props) => {
         name="imdbId"
         label="Imdb ID"
         value={newMovie.imdbId}
-        onChange={(newValue) =>
-          handleFieldChange('imdbId', newValue)}
+        onChange={newValue => handleFieldChange('imdbId', newValue)}
         required
       />
 
