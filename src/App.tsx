@@ -2,10 +2,9 @@ import './App.scss';
 import { MoviesList } from './components/MoviesList';
 import { NewMovie } from './components/NewMovie';
 import moviesFromServer from './api/movies.json';
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 
 export const App = () => {
-
   const [movies, setMovies] = useState(moviesFromServer);
 
   return (
@@ -14,9 +13,11 @@ export const App = () => {
         <MoviesList movies={movies} />
       </div>
       <div className="sidebar">
-        <NewMovie onAdd={(newMovie) => {
-          setMovies((currentMovies) => [...currentMovies, newMovie]);
-        }} />
+        <NewMovie
+          onAdd={newMovie => {
+            setMovies(currentMovies => [...currentMovies, newMovie]);
+          }}
+        />
       </div>
     </div>
   );
