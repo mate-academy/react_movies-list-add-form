@@ -7,7 +7,7 @@ type Props = {
 };
 
 export const NewMovie = ({ onAdd }: Props) => {
-  const [count] = useState(0);
+  const [count, setCout] = useState(0);
   const [title, setTitle] = useState('');
   const [description, setDesc] = useState('');
   const [imgUrl, setImg] = useState('');
@@ -16,6 +16,15 @@ export const NewMovie = ({ onAdd }: Props) => {
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+
+    const trimmedTitle = title.trim();
+    const trimmedImg = imgUrl.trim();
+    const trimmedUrl = imdbUrl.trim();
+    const trimmedImdbId = imdbId.trim();
+
+    if (!trimmedTitle || !trimmedImg || !trimmedUrl || !trimmedImdbId) {
+      return;
+    }
 
     onAdd({
       title,
@@ -33,6 +42,7 @@ export const NewMovie = ({ onAdd }: Props) => {
     setImg('');
     setUrl('');
     setId('');
+    setCout(e => e + 1);
   }
 
   return (
@@ -52,7 +62,6 @@ export const NewMovie = ({ onAdd }: Props) => {
         label="Description"
         value={description}
         onChange={value => setDesc(value)}
-        required
       />
 
       <TextField
@@ -85,7 +94,12 @@ export const NewMovie = ({ onAdd }: Props) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={!title || !imgUrl || !imdbId || !imdbUrl}
+            disabled={
+              !title.trim() ||
+              !imgUrl.trim() ||
+              !imdbId.trim() ||
+              !imdbUrl.trim()
+            }
           >
             Add
           </button>
