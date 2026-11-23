@@ -25,7 +25,10 @@ export const NewMovie = ({ onAdd }: Props) => {
       imdbId,
     });
 
-    setTitle('');
+    if (title !== '') {
+      setTitle('');
+    }
+
     setDesc('');
     setImg('');
     setUrl('');
@@ -49,6 +52,7 @@ export const NewMovie = ({ onAdd }: Props) => {
         label="Description"
         value={description}
         onChange={value => setDesc(value)}
+        required
       />
 
       <TextField
@@ -56,6 +60,7 @@ export const NewMovie = ({ onAdd }: Props) => {
         label="Image URL"
         value={imgUrl}
         onChange={value => setImg(value)}
+        required
       />
 
       <TextField
@@ -63,6 +68,7 @@ export const NewMovie = ({ onAdd }: Props) => {
         label="Imdb URL"
         value={imdbUrl}
         onChange={value => setUrl(value)}
+        required
       />
 
       <TextField
@@ -70,6 +76,7 @@ export const NewMovie = ({ onAdd }: Props) => {
         label="Imdb ID"
         value={imdbId}
         onChange={value => setId(value)}
+        required
       />
 
       <div className="field is-grouped">
@@ -78,6 +85,7 @@ export const NewMovie = ({ onAdd }: Props) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
+            disabled={!title || !imgUrl || !imdbId || !imdbUrl}
           >
             Add
           </button>
