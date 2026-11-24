@@ -7,17 +7,18 @@ type HandleForm = (event: React.FormEvent<HTMLFormElement>) => void;
 
 type Props = {
   onAdd: (movie: Movie) => void;
-}
+};
 
-export const NewMovie: React.FC<Props> = ({onAdd}) => {
-
-  const [movie, setMovie] = useState<Movie>({
+export const NewMovie: React.FC<Props> = ({ onAdd }) => {
+  const emptyMovie: Movie = {
     title: '',
     description: '',
     imgUrl: '',
     imdbUrl: '',
     imdbId: '',
-  });
+  };
+
+  const [movie, setMovie] = useState<Movie>({...emptyMovie});
 
   const [count, setCount] = useState(0);
 
@@ -25,47 +26,48 @@ export const NewMovie: React.FC<Props> = ({onAdd}) => {
     if (value === '') {
       return true;
     }
-    
-    const pattern = /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
-    
+
+    const pattern = new RegExp(
+      '^((([A-Za-z]{3,9}:(?:\\/\\/)?)(?:[-;:&=+$,\\w]+@)?[A-Za-z0-9.-]+' +
+        '|(?:www\\.|[-;:&=+$,\\w]+@)[A-Za-z0-9.-]+)' +
+        '((?:\\/[+~%/.\\w-_]*)?\\??(?:[-+=&;%@,.\\w_]*)' +
+        '#?(?:[,.!/\\\\\\w]*))?)$',
+    );
+
     return pattern.test(value);
-  }
+  };
 
   const handlInput: HandleInput = (name, value) => {
     setMovie(currentValues => ({
       ...currentValues,
       [name]: value,
-    }))
-  }
+    }));
+  };
 
-  const error: boolean = movie.imdbId.trim() === '' || movie.imdbUrl.trim() === '' || movie.imgUrl.trim() === '' || movie.title.trim() === '' || !isValidUrl(movie.imdbUrl) || !isValidUrl(movie.imgUrl);
+  const error: boolean =
+    movie.imdbId.trim() === '' ||
+    movie.imdbUrl.trim() === '' ||
+    movie.imgUrl.trim() === '' ||
+    movie.title.trim() === '' ||
+    !isValidUrl(movie.imdbUrl) ||
+    !isValidUrl(movie.imgUrl);
 
-  const handleSubmit: HandleForm = (event) => {
+  const handleSubmit: HandleForm = event => {
     event.preventDefault();
 
     if (error) {
-      return; 
+      return;
     }
 
-    setCount(count => count + 1);
+    setCount(currentCount => currentCount + 1);
 
     onAdd(movie);
 
-    setMovie({
-      title: '',
-      description: '',
-      imgUrl: '',
-      imdbUrl: '',
-      imdbId: '',
-    });
-  }
+    setMovie({...emptyMovie});
+  };
 
   return (
-    <form 
-      className="NewMovie" 
-      key={count}
-      onSubmit={handleSubmit}
-    >
+    <form className="NewMovie" key={count} onSubmit={handleSubmit}>
       <h2 className="title">Add a movie</h2>
 
       <TextField
@@ -76,38 +78,38 @@ export const NewMovie: React.FC<Props> = ({onAdd}) => {
         required
       />
 
-      <TextField 
-        name="description" 
-        label="Description" 
+      <TextField
+        name="description"
+        label="Description"
         value={movie.description}
         onChange={(value: string) => handlInput('description', value)}
-        />
+      />
 
-      <TextField 
-        name="imgUrl" 
-        label="Image URL" 
+      <TextField
+        name="imgUrl"
+        label="Image URL"
         value={movie.imgUrl}
         urlValidate={isValidUrl}
         onChange={(value: string) => handlInput('imgUrl', value)}
         required
-        />
+      />
 
-      <TextField 
-        name="imdbUrl" 
-        label="Imdb URL" 
+      <TextField
+        name="imdbUrl"
+        label="Imdb URL"
         value={movie.imdbUrl}
         urlValidate={isValidUrl}
         onChange={(value: string) => handlInput('imdbUrl', value)}
         required
-        />
+      />
 
-      <TextField 
-        name="imdbId" 
-        label="Imdb ID" 
+      <TextField
+        name="imdbId"
+        label="Imdb ID"
         value={movie.imdbId}
         onChange={(value: string) => handlInput('imdbId', value)}
         required
-        />
+      />
 
       <div className="field is-grouped">
         <div className="control">

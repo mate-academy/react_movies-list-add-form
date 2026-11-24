@@ -24,7 +24,6 @@ export const TextField: React.FC<Props> = ({
   onChange = () => {},
   urlValidate = () => true,
 }) => {
-
   const isUrlInvalid = !urlValidate(value);
   // generate a unique id once on component load
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
@@ -54,9 +53,13 @@ export const TextField: React.FC<Props> = ({
         />
       </div>
 
-      {hasError && value && isUrlInvalid && <p className="help is-danger">{'Url is incorrect!'}</p>}
+      {hasError && value && isUrlInvalid && (
+        <p className="help is-danger">{'Url is incorrect!'}</p>
+      )}
 
-      {hasError && !value && <p className="help is-danger">{`${label} is required`}</p>}
+      {hasError && !value && (
+        <p className="help is-danger">{`${label} is required`}</p>
+      )}
     </div>
   );
 };
