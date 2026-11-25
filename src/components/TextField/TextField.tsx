@@ -15,7 +15,11 @@ function getRandomDigits() {
   return Math.random().toFixed(16).slice(2);
 }
 
-function getErrorMessage(value: string, required: boolean, validate?: (value: string) => string | undefined): string | undefined {
+function getErrorMessage(
+  value: string,
+  required: boolean,
+  validate?: (value: string) => string | undefined,
+): string | undefined {
   if (required && !value) {
     return 'This field is required';
   }
@@ -41,7 +45,9 @@ export const TextField: React.FC<Props> = ({
 
   // To show errors only if the field was touched (onBlur)
   const [touched, setTouched] = useState(false);
-  const errorMessage = touched ? getErrorMessage(value, required, validate) : undefined;
+  const errorMessage = touched
+    ? getErrorMessage(value, required, validate)
+    : undefined;
   const hasError = Boolean(errorMessage);
 
   return (
